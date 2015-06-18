@@ -1,0 +1,21 @@
+.djs-properties-panel {
+  border: solid 2px #CCC;
+}
+
+.djs-properties-group {
+  margin: 10px;
+}
+
+.djs-properties-entry {
+  margin-bottom: 15px;
+}
+
+.djs-properties-entry input.invalid,
+.djs-properties-entry textarea.invalid {
+  border-color: red;
+  background: rgb(255, 209, 209);
+}
+
+.djs-properties-entry [data-invalid] {
+  color: red;
+}
