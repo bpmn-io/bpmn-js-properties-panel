@@ -63,7 +63,7 @@ describe('service-task-delegate-properties', function() {
     // if
     delegateRadio.click();
     TestHelper.triggerEvent(delegateRadio, 'click');
-    TestHelper.triggerValue(delegateInput, 'foo', 'change');
+    TestHelper.triggerValue(delegateInput, 'foo');
 
     // then
     var taskBo = getBusinessObject(taskShape);
@@ -87,7 +87,7 @@ describe('service-task-delegate-properties', function() {
     var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(delegateInput, 'foo', 'change');
+    TestHelper.triggerValue(delegateInput, 'foo');
     expressionRadio.click();
     TestHelper.triggerEvent(expressionRadio, 'click');
 
@@ -110,7 +110,7 @@ describe('service-task-delegate-properties', function() {
     var classRadio = domQuery('input[value=class]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(delegateInput, 'foo', 'change');
+    TestHelper.triggerValue(delegateInput, 'foo');
     classRadio.click();
     TestHelper.triggerEvent(classRadio, 'click');
 
@@ -136,7 +136,7 @@ describe('service-task-delegate-properties', function() {
     // if
     expressionRadio.click();
     TestHelper.triggerEvent(expressionRadio, 'click');
-    TestHelper.triggerValue(delegateInput, 'foo', 'change');
+    TestHelper.triggerValue(delegateInput, 'foo');
 
     // then
     var taskBo = getBusinessObject(taskShape);
@@ -162,7 +162,7 @@ describe('service-task-delegate-properties', function() {
     var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(delegateInput, 'foo', 'change');
+    TestHelper.triggerValue(delegateInput, 'foo');
     expressionRadio.click();
     TestHelper.triggerEvent(expressionRadio, 'click');
 
@@ -193,7 +193,7 @@ describe('service-task-delegate-properties', function() {
     // if
     classRadio.click();
     TestHelper.triggerEvent(classRadio, 'click');
-    TestHelper.triggerValue(delegateInput, '', 'change');
+    TestHelper.triggerValue(delegateInput, '');
 
 
     // then

@@ -53,6 +53,16 @@
           "name": "candidateGroups",
           "isAttr": true,
           "type": "String"
+        },
+        {
+          "name": "dueDate",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "followUpDate",
+          "isAttr": true,
+          "type": "String"
         }
       ]
     },

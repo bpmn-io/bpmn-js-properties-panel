@@ -60,7 +60,7 @@ describe('user-task-properties', function() {
     var assigneeInput = domQuery('input[name=assignee]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(assigneeInput, 'foo', 'change');
+    TestHelper.triggerValue(assigneeInput, 'foo');
 
     // then
     var taskBo = getBusinessObject(taskShape);
@@ -80,7 +80,7 @@ describe('user-task-properties', function() {
     var assigneeInput = domQuery('input[name=assignee]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(assigneeInput, '', 'change');
+    TestHelper.triggerValue(assigneeInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("assignee")).toBeUndefined();
@@ -99,7 +99,7 @@ describe('user-task-properties', function() {
     var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(formKeyInput, 'foo/bar', 'change');
+    TestHelper.triggerValue(formKeyInput, 'foo/bar');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("formKey")).toBe('foo/bar');
@@ -118,7 +118,7 @@ describe('user-task-properties', function() {
     var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(formKeyInput, '', 'change');
+    TestHelper.triggerValue(formKeyInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("formKey")).toBeUndefined();
@@ -137,7 +137,7 @@ describe('user-task-properties', function() {
     var candidateUserInput = domQuery('input[name=candidateUsers]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(candidateUserInput, 'Kermit, Piggy', 'change');
+    TestHelper.triggerValue(candidateUserInput, 'Kermit, Piggy');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("candidateUsers")).toBe('Kermit, Piggy');
@@ -156,7 +156,7 @@ describe('user-task-properties', function() {
     var candidateUserInput = domQuery('input[name=candidateUsers]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(candidateUserInput, '', 'change');
+    TestHelper.triggerValue(candidateUserInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("candidateUsers")).toBeUndefined();
@@ -175,7 +175,7 @@ describe('user-task-properties', function() {
     var candidateGroups = domQuery('input[name=candidateGroups]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(candidateGroups, 'Administration, IT', 'change');
+    TestHelper.triggerValue(candidateGroups, 'Administration, IT');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("candidateGroups")).toBe('Administration, IT');
@@ -194,10 +194,86 @@ describe('user-task-properties', function() {
     var candidateGroups = domQuery('input[name=candidateGroups]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(candidateGroups, '', 'change');
+    TestHelper.triggerValue(candidateGroups, '');
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("candidateGroups")).toBeUndefined();
+  }));
+
+  it('should fill a due date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var dueDateInput = domQuery('input[name=dueDate]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(dueDateInput, '2015-06-26T09:57:00');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("dueDate")).toBe('2015-06-26T09:57:00');
+  }));
+
+  it('should not fill an empty due date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var dueDateInput = domQuery('input[name=dueDate]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(dueDateInput, '');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("dueDate")).toBeUndefined();
+  }));
+
+  it('should fill a follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var followUpDateInput = domQuery('input[name=followUpDate]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(followUpDateInput, '2015-06-26T09:57:00');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("followUpDate")).toBe('2015-06-26T09:57:00');
+  }));
+
+  it('should not fill an empty follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var followUpDateInput = domQuery('input[name=followUpDate]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(followUpDateInput, '');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("followUpDate")).toBeUndefined();
   }));
 
 });
