@@ -47,7 +47,7 @@ describe('user-task-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should fill assignee property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill an assignee property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -84,6 +84,44 @@ describe('user-task-properties', function() {
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("assignee")).toBeUndefined();
+  }));
+
+  it('should fill a form key property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(formKeyInput, 'foo/bar', 'change');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("formKey")).toBe('foo/bar');
+  }));
+
+  it('should not fill an empty form key property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(formKeyInput, '', 'change');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("formKey")).toBeUndefined();
   }));
 
 });

@@ -38,6 +38,11 @@
           "name": "assignee",
           "isAttr": true,
           "type": "String"
+        },
+        {
+          "name" : "formKey",
+          "isAttr": true,
+          "type": "String"
         }
       ]
     },
