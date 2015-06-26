@@ -19,3 +19,8 @@
 .djs-properties-entry [data-invalid] {
   color: red;
 }
+
+.djs-properties-hide {
+  display: none;
+}
+
