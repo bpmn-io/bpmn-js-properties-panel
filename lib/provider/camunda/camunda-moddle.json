@@ -63,6 +63,11 @@
           "name": "followUpDate",
           "isAttr": true,
           "type": "String"
+        },
+        {
+          "name": "priority",
+          "isAttr": true,
+          "type": "Integer"
         }
       ]
     },

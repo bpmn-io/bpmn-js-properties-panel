@@ -276,4 +276,42 @@ describe('user-task-properties', function() {
     expect(taskBo.get("followUpDate")).toBeUndefined();
   }));
 
+  it('should fill a priority property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var priority = domQuery('input[name=priority]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(priority, '100');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("priority")).toBe('100');
+  }));
+
+  it('should not fill an empty follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var priority = domQuery('input[name=priority]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(priority, '');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("priority")).toBeUndefined();
+  }));
+
 });
