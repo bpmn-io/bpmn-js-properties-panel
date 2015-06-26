@@ -124,4 +124,42 @@ describe('user-task-properties', function() {
     expect(taskBo.get("formKey")).toBeUndefined();
   }));
 
+  it('should fill a canidate users property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var candidateUserInput = domQuery('input[name=candidateUsers]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(candidateUserInput, 'Kermit, Piggy', 'change');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("candidateUsers")).toBe('Kermit, Piggy');
+  }));
+
+  it('should not fill an empty form key property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var candidateUserInput = domQuery('input[name=candidateUsers]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(candidateUserInput, '', 'change');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("candidateUsers")).toBeUndefined();
+  }));
+
 });

@@ -40,7 +40,12 @@
           "type": "String"
         },
         {
-          "name" : "formKey",
+          "name": "formKey",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "candidateUsers",
           "isAttr": true,
           "type": "String"
         }
