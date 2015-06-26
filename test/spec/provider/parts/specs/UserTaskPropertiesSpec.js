@@ -143,7 +143,7 @@ describe('user-task-properties', function() {
     expect(taskBo.get("candidateUsers")).toBe('Kermit, Piggy');
   }));
 
-  it('should not fill an empty form key property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fill an empty candidate users property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -160,6 +160,44 @@ describe('user-task-properties', function() {
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get("candidateUsers")).toBeUndefined();
+  }));
+
+  it('should fill a canidate groups property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var candidateGroups = domQuery('input[name=candidateGroups]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(candidateGroups, 'Administration, IT', 'change');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("candidateGroups")).toBe('Administration, IT');
+  }));
+
+  it('should not fill an empty candidate groups property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var taskShape = elementRegistry.get('Task_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(taskShape);
+
+    var candidateGroups = domQuery('input[name=candidateGroups]', propertiesPanel._container);
+
+    // if
+    TestHelper.triggerValue(candidateGroups, '', 'change');
+    // then
+    var taskBo = getBusinessObject(taskShape);
+    expect(taskBo.get("candidateGroups")).toBeUndefined();
   }));
 
 });
