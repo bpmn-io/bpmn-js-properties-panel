@@ -13,9 +13,9 @@ var propertiesPanelModule = require('../../../../../lib'),
   camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('user-task-properties', function() {
+describe('prcoess-root-process-properties', function() {
 
-  var diagramXML = require('../diagrams/ProcessPropertyTest.bpmn');
+  var diagramXML = require('../diagrams/ProcessPropertyRootProcessTest.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,
@@ -47,10 +47,10 @@ describe('user-task-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  iit('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
-    var shape = elementRegistry.get('Participant_1');
+    var shape = elementRegistry.get('Process_1');
 
     propertiesPanel.attachTo(container);
 
@@ -58,7 +58,7 @@ describe('user-task-properties', function() {
     selection.select(shape);
 
     var isExecutable = domQuery('input[name=isExecutable]', propertiesPanel._container),
-        taskBo        = getBusinessObject(shape).get('processRef');
+        taskBo        = getBusinessObject(shape);
 
     // if
     expect(taskBo.get("isExecutable")).toBeFalsy();
