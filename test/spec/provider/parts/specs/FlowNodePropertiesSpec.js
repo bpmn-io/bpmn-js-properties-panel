@@ -5,7 +5,7 @@ var TestHelper = require('../../../../TestHelper');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
-  domQuery = domQuery = require('min-dom/lib/query'),
+  domQuery = require('min-dom/lib/query'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),

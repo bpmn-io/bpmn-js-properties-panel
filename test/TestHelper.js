@@ -27,5 +27,12 @@ var triggerValue = function(element, value, eventType) {
   this.triggerEvent(element, eventType);
 };
 
+var triggerInput = function(element, value) {
+  element.value = value;
+  this.triggerEvent(element, 'input');
+  element.focus();
+};
+
 module.exports.triggerEvent = triggerEvent;
 module.exports.triggerValue = triggerValue;
+module.exports.triggerInput = triggerInput;
