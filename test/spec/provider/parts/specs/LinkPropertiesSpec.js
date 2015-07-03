@@ -64,7 +64,7 @@ describe('user-task-properties', function() {
     expect(inputField.value).toBe(linkName);
   }));
 
-  iit('should set the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),

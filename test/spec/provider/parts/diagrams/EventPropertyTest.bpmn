@@ -3,7 +3,7 @@
   <bpmn2:process id="Process_1" isExecutable="false">
 
     <bpmn2:startEvent id="StartEvent_1">
-      <bpmn2:messageEventDefinition id="_MessageEventDefinition_2"/>
+      <bpmn2:signalEventDefinition id="_SignalEventDefinition_2"/>
     </bpmn2:startEvent>
 
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1">

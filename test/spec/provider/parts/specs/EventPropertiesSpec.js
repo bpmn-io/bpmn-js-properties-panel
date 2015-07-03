@@ -15,9 +15,9 @@ var propertiesPanelModule = require('../../../../../lib'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
   forEach = require('lodash/collection/forEach');
 
-describe('message-properties', function() {
+describe('event-properties', function() {
 
-  var diagramXML = require('../diagrams/MessagePropertyTest.bpmn');
+  var diagramXML = require('../diagrams/EventPropertyTest.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,
@@ -49,7 +49,7 @@ describe('message-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should be attached to an element with message def', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should attach a message to an element with message def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
@@ -66,9 +66,8 @@ describe('message-properties', function() {
     expect(inputFields.length).toBeGreaterThan(0);
   }));
 
-  it('should be attached to all compatible events and tasks', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should attach a message to all compatible events and tasks', inject(function(propertiesPanel, selection, elementRegistry) {
     var elements = [
-      'StartEvent_1',
       'IntermediateCatchEvent_1',
       'IntermediateThrowEvent_1',
       'EndEvent_1',
@@ -93,7 +92,7 @@ describe('message-properties', function() {
     });
   }));
 
-  it('should be not attached to an element w/o message def', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not attach a event ref to an element w/o definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('EndEvent_2'),
@@ -110,7 +109,7 @@ describe('message-properties', function() {
     expect(inputFields.length).toBe(0);
   }));
 
-  it('should be able to select an existing message', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should be able to select an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
@@ -169,5 +168,31 @@ describe('message-properties', function() {
     // then
     expect(inputField.value).toBe('');
     expect(messageRef).toBeUndefined();
+  }));
+
+  it('should attach a signal to an element with signal def', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('StartEvent_1'),
+      inputEl = 'input[name=signalRef]';
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var inputField = domQuery(inputEl, propertiesPanel._container);
+
+    TestHelper.triggerValue(inputField, 'Foo', 'change');
+    TestHelper.triggerEvent(inputField, 'click');
+
+    var signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
+
+    var signals = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+
+    // then
+    expect(signals.length).toBeGreaterThan(0);
+    expect(inputField.value).toBe(signals[0].textContent);
+    expect(signalRef).toBe(domAttr(signals[0], 'data-option-id'))
   }));
 });
