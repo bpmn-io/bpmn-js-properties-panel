@@ -195,4 +195,30 @@ describe('event-properties', function() {
     expect(inputField.value).toBe(signals[0].textContent);
     expect(signalRef).toBe(domAttr(signals[0], 'data-option-id'))
   }));
+
+  iit('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('EndEvent_2'),
+      inputEl = 'input[name=errorRef]';
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var inputField = domQuery(inputEl, propertiesPanel._container);
+
+    TestHelper.triggerValue(inputField, 'Foo', 'change');
+    TestHelper.triggerEvent(inputField, 'click');
+
+    var errorRef = getBusinessObject(shape).get('eventDefinitions')[0].errorRef;
+
+    var signals = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+
+    // then
+    expect(signals.length).toBeGreaterThan(0);
+    expect(inputField.value).toBe(signals[1].textContent);
+    expect(errorRef).toBe(domAttr(signals[1], 'data-option-id'))
+  }));
 });
