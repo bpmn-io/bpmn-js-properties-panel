@@ -10,6 +10,8 @@
 
     <bpmn2:serviceTask id="ServiceTask"/>
 
+    <bpmn2:callActivity id="CallActivity" />
+
   </bpmn2:process>
 
   <bpmn2:message id="Message_1" name="asd"/>
@@ -23,10 +25,13 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_UserTask_2" bpmnElement="UserTask">
-        <dc:Bounds height="80.0" width="100.0" x="147.0" y="27.0"/>
+        <dc:Bounds height="80.0" width="100.0" x="148.0" y="26.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_2" bpmnElement="ServiceTask">
         <dc:Bounds height="80.0" width="100.0" x="288.0" y="26.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_2" bpmnElement="CallActivity">
+        <dc:Bounds height="80.0" width="100.0" x="428.0" y="26.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

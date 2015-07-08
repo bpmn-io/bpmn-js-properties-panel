@@ -13,7 +13,7 @@ var propertiesPanelModule = require('../../../../../lib'),
   camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('user-task-properties', function() {
+describe('flow-node-properties', function() {
 
   var diagramXML = require('../diagrams/FlowNodePropertyTest.bpmn');
 

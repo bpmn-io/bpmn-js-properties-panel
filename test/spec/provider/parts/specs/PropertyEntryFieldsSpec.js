@@ -6,6 +6,7 @@ var TestHelper = require('../../../../TestHelper');
 
 var propertiesPanelModule = require('../../../../../lib'),
   domQuery = require('min-dom/lib/query'),
+  domAttr = require('min-dom/lib/attr'),
   domClasses = require('min-dom/lib/classes'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
@@ -247,5 +248,50 @@ describe('properties-entry-fields', function() {
     // then
     expect(optionsChildren.length).toBe(1);
     expect(optionsClasses.length).toBe(0);
+  }));
+
+  it('should create a select field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var options = domQuery.all('select > option', propertiesPanel._container),
+        defaultOption = domQuery('select > option:checked', propertiesPanel._container);
+
+    // then
+    expect(options.length).toBe(4);
+    expect(defaultOption.value).toBe('');
+  }));
+
+  it('should create a conditional visible field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity');
+
+    propertiesPanel.attachTo(container);
+
+    selection.select(shape);
+
+    var conditionField = domQuery('#condition-calledElementVersion', propertiesPanel._container),
+        selectField = domQuery('select[name=calledElementBinding]', propertiesPanel._container),
+        selectOption = domQuery('option[value=version]', propertiesPanel._container),
+        conditionClasses = domClasses(conditionField).array();
+
+    // then
+    expect(conditionClasses.length).toBeGreaterThan(0);
+
+    // and after
+    domAttr(selectOption, 'selected', 'selected');
+    TestHelper.triggerEvent(selectField, 'change');
+
+    conditionClasses = domClasses(conditionField).array();
+
+    // then
+    expect(conditionClasses.length).toBe(0)
   }));
 });
