@@ -3,6 +3,7 @@
   <bpmn2:process id="Process_1" isExecutable="false">
 
     <bpmn2:startEvent id="StartEvent">
+      <bpmn2:documentation>This is a Testdocumentation</bpmn2:documentation>
       <bpmn2:messageEventDefinition id="_MessageEventDefinition_2"/>
     </bpmn2:startEvent>
 

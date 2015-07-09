@@ -63,7 +63,7 @@ describe('properties-entry-fields', function() {
     selection.select(userTaskShape);
 
     var input = domQuery('input[name=assignee]', propertiesPanel._container),
-        clearButton = domQuery('button[data-show=canClear]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=assignee] > button[data-show=canClear]', propertiesPanel._container),
         buttonClassArray = domClasses(clearButton).array();
 
     // starting check to verify that we have the correct text input field
@@ -277,6 +277,7 @@ describe('properties-entry-fields', function() {
 
     selection.select(shape);
 
+    // when
     var conditionField = domQuery('#condition-calledElementVersion', propertiesPanel._container),
         selectField = domQuery('select[name=calledElementBinding]', propertiesPanel._container),
         selectOption = domQuery('option[value=version]', propertiesPanel._container),
@@ -293,5 +294,46 @@ describe('properties-entry-fields', function() {
 
     // then
     expect(conditionClasses.length).toBe(0)
+  }));
+
+  it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var userTaskShape = elementRegistry.get('UserTask'),
+      inputEl = 'textarea[name=documentation]';
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(userTaskShape);
+
+    var input = domQuery(inputEl, propertiesPanel._container),
+      clearButton = domQuery('button[data-show=canClear]', propertiesPanel._container),
+      buttonClassArray = domClasses(clearButton).array();
+
+    // starting check to verify that we have the correct text input field
+    expect(input.value).toBe('');
+    expect(buttonClassArray.length).toBeGreaterThan(0);
+
+    // trigger a change on the text input field
+    TestHelper.triggerValue(input, 'foo', 'change');
+
+    // now the input field should have a new value and the clear button should be visible
+    input = domQuery(inputEl, propertiesPanel._container);
+    buttonClassArray  = domClasses(clearButton).array();
+
+    expect(buttonClassArray.length).toBe(0);
+    expect(input.value).toBe('foo');
+
+    // trigger the clear button
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // the text input field should now be empty and the button should be hidden again
+    input = domQuery(inputEl, propertiesPanel._container);
+    buttonClassArray  = domClasses(clearButton).array();
+
+    expect(buttonClassArray.length).toBeGreaterThan(0);
+    expect(input.value).toBe('');
+
   }));
 });

@@ -135,7 +135,7 @@ describe('event-properties', function() {
     // then
     expect(messages.length).toBeGreaterThan(0);
     expect(inputField.value).toBe(messages[0].textContent);
-    expect(messageRef).toBe(domAttr(messages[0], 'data-option-id'));
+    expect(messageRef.id).toBe(domAttr(messages[0], 'data-option-id'));
   }));
 
   it('should be able to clear an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -150,7 +150,7 @@ describe('event-properties', function() {
     selection.select(shape);
 
     var inputField = domQuery(inputEl, propertiesPanel._container),
-        clearButton = domQuery('button[data-action=clear]', propertiesPanel._container);
+        clearButton = domQuery('[data-entry=selectMessage] button[data-action=clear]', propertiesPanel._container);
 
     TestHelper.triggerEvent(inputField, 'click');
 
@@ -193,7 +193,7 @@ describe('event-properties', function() {
     // then
     expect(signals.length).toBeGreaterThan(0);
     expect(inputField.value).toBe(signals[0].textContent);
-    expect(signalRef).toBe(domAttr(signals[0], 'data-option-id'))
+    expect(signalRef.id).toBe(domAttr(signals[0], 'data-option-id'))
   }));
 
   it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -219,6 +219,6 @@ describe('event-properties', function() {
     // then
     expect(signals.length).toBeGreaterThan(0);
     expect(inputField.value).toBe(signals[1].textContent);
-    expect(errorRef).toBe(domAttr(signals[1], 'data-option-id'))
+    expect(errorRef.id).toBe(domAttr(signals[1], 'data-option-id'))
   }));
 });
