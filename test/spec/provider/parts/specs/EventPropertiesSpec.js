@@ -196,7 +196,7 @@ describe('event-properties', function() {
     expect(signalRef).toBe(domAttr(signals[0], 'data-option-id'))
   }));
 
-  iit('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('EndEvent_2'),
