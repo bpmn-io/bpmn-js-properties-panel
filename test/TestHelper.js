@@ -16,10 +16,23 @@ TestHelper.insertCSS('diagram-js-testing.css',
  * @param eventType type of the event (e.g. click, change, ...)
  */
 var triggerEvent = function(element, eventType) {
-  element.dispatchEvent(new MouseEvent(( eventType || 'change' ), {
-    view: window,
-    bubbles: true
-  }));
+  var evt;
+  if(document.createEvent) {
+    try {
+      // Chrome, Safari, Firefox
+      evt = new MouseEvent(( eventType || 'change' ), { view: window, bubbles: true, cancelable: true });
+    } catch (e) {
+      // PhantomJS (wat!)
+      evt = document.createEvent('MouseEvent');
+      evt.initEvent(( eventType || 'change' ), true, true);
+    }
+    return element.dispatchEvent(evt);
+  } else {
+    // Welcome IE
+    evt = document.createEventObject();
+    return element.fireEvent('on' + eventType, evt);
+  }
+
 };
 
 var triggerValue = function(element, value, eventType) {

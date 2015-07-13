@@ -67,4 +67,40 @@ describe('prcoess-root-process-properties', function() {
     // then
     expect(taskBo.get("isExecutable")).toBeTruthy();
   }));
+
+  it('should get the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('Process_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var name = domQuery('input[name=name]', propertiesPanel._container),
+        shapeBo = getBusinessObject(shape);
+
+    // then
+    expect(shapeBo.get('name')).toBe('Process 1');
+  }));
+
+  it('should set the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('Process_1');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var name = domQuery('input[name=name]', propertiesPanel._container),
+      shapeBo = getBusinessObject(shape);
+
+    TestHelper.triggerValue(name, 'Foo', 'change');
+
+    // then
+    expect(shapeBo.get('name')).toBe('Foo');
+  }));
 });

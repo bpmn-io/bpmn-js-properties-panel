@@ -4,7 +4,7 @@
                    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
                    xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" xmlns:custom="http://custom"
                    xmlns:camunda="http://camunda.org/bpmn" id="_pHDz0KojEeOJhIBv1RySdg" targetNamespace="http://bpmn.io/schema/bpmn">
-  <bpmn2:process id="Process_1" isExecutable="false">
+  <bpmn2:process id="Process_1" name="Process 1" isExecutable="false">
     <bpmn2:startEvent
       id="StartEvent_1"
       custom:foo="BAR">

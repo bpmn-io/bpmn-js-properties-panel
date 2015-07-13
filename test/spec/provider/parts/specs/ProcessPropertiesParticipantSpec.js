@@ -67,4 +67,40 @@ describe('process-participant-properties', function() {
     // then
     expect(taskBo.get("isExecutable")).toBeTruthy();
   }));
+
+  it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('_Participant_2');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var name = domQuery('input[name=name]', propertiesPanel._container),
+        shapeBo = getBusinessObject(shape).get('processRef');
+
+    // then
+    expect(shapeBo.get('name')).toBe('Process 1');
+  }));
+
+  it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('_Participant_2');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var name = domQuery('input[name=name]', propertiesPanel._container),
+      shapeBo = getBusinessObject(shape).get('processRef');
+
+    TestHelper.triggerValue(name, 'Foo', 'change');
+
+    // then
+    expect(shapeBo.get('name')).toBe('Foo');
+  }));
 });
