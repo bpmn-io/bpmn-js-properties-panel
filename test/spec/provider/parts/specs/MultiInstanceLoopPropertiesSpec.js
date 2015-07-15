@@ -232,7 +232,7 @@ describe('multi-instance-loop-properties', function() {
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(input.checked).toBe(businessObject.get('asyncBefore'));
+    expect(input.checked).toBe(!!businessObject.get('asyncBefore'));
     expect(input.checked).toBeTruthy();
   }));
 
@@ -253,7 +253,7 @@ describe('multi-instance-loop-properties', function() {
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(businessObject.get('asyncBefore')).toBeUndefined();
+    expect(businessObject.get('asyncBefore')).toBeFalsy();
     expect(input.checked).toBeFalsy();
   }));
 
@@ -271,7 +271,7 @@ describe('multi-instance-loop-properties', function() {
       businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(input.checked).toBe(businessObject.get('asyncAfter'));
+    expect(input.checked).toBe(!!businessObject.get('asyncAfter'));
     expect(input.checked).toBeFalsy();
   }));
 
@@ -295,4 +295,67 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('asyncBefore')).toBeTruthy();
     expect(input.checked).toBeTruthy()
   }));
+
+  it('should fetch the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('ServiceTask');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var input = domQuery('input[name=loopExclusive]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // then
+    expect(input.checked).toBe(businessObject.get('exclusive'));
+  }));
+
+  it('should set the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('ServiceTask');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var input = domQuery('input[name=loopExclusive]', propertiesPanel._container);
+
+    TestHelper.triggerEvent(input, 'click');
+
+    var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // then
+    expect(input.checked).toBe(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).toBeFalsy();
+  }));
+
+  it('should reset the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('ServiceTask');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var exclusiveInput = domQuery('input[name=loopExclusive]', propertiesPanel._container),
+        asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+
+    TestHelper.triggerEvent(exclusiveInput, 'click'); // change the value of the exclusive field
+
+    TestHelper.triggerEvent(asyncBeforeInput, 'click'); // reset the exclusive field
+
+    var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // then
+    expect(exclusiveInput.checked).toBe(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).toBeTruthy();
+  }));
+
 });

@@ -178,4 +178,68 @@ describe('flow-node-properties', function() {
     taskBo = getBusinessObject(shape);
     expect(taskBo.get("asyncAfter")).toBeTruthy();
   }));
+
+  it('should fetch the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity_2');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var input = domQuery('input[name=exclusive]', propertiesPanel._container),
+      businessObject = getBusinessObject(shape);
+
+    // then
+    expect(input.checked).toBe(businessObject.get('exclusive'));
+  }));
+
+  it('should set the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity_2');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var input = domQuery('input[name=exclusive]', propertiesPanel._container);
+
+    TestHelper.triggerEvent(input, 'click');
+
+    var  businessObject = getBusinessObject(shape);
+
+    // then
+    expect(input.checked).toBe(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).toBeFalsy();
+  }));
+
+  it('should reset the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity_2');
+
+    propertiesPanel.attachTo(container);
+
+    // when
+    selection.select(shape);
+
+    var exclusiveInput = domQuery('input[name=exclusive]', propertiesPanel._container),
+        asyncBeforeInput = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+
+    TestHelper.triggerEvent(asyncBeforeInput, 'click'); // make the exclusive field visible
+
+    TestHelper.triggerEvent(exclusiveInput, 'click'); // change value of the exclusive field
+
+    TestHelper.triggerEvent(asyncBeforeInput, 'click'); // reset the exclusive field
+
+    var  businessObject = getBusinessObject(shape);
+
+    // then
+    expect(exclusiveInput.checked).toBe(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).toBeTruthy();
+  }));
 });

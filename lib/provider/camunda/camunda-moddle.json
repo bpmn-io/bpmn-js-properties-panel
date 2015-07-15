@@ -27,6 +27,12 @@
           "isAttr": true,
           "type": "Boolean",
           "default": false
+        },
+        {
+          "name": "exclusive",
+          "isAttr": true,
+          "type": "Boolean",
+          "default": true
         }
       ]
     },
@@ -251,7 +257,8 @@
     },
     {
       "name": "Collectable",
-      "extends": [ "bpmn:MultiInstanceLoopCharacteristics"],
+      "isAbstract": true,
+      "extends": [ "bpmn:MultiInstanceLoopCharacteristics" ],
       "superClass": [ "camunda:AsyncCapable" ],
       "properties": [
         {
