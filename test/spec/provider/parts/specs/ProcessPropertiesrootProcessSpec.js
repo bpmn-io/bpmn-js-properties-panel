@@ -82,7 +82,7 @@ describe('prcoess-root-process-properties', function() {
         shapeBo = getBusinessObject(shape);
 
     // then
-    expect(shapeBo.get('name')).toBe('Process 1');
+    expect(shapeBo.get('name')).toBe(name.value);
   }));
 
   it('should set the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {

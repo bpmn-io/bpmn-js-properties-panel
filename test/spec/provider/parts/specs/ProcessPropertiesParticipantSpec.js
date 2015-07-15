@@ -82,7 +82,7 @@ describe('process-participant-properties', function() {
         shapeBo = getBusinessObject(shape).get('processRef');
 
     // then
-    expect(shapeBo.get('name')).toBe('Process 1');
+    expect(shapeBo.get('name')).toBe(name.value);
   }));
 
   it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {

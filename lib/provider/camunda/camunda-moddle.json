@@ -248,6 +248,18 @@
     {
       "name": "OutputParameter",
       "superClass": [ "InputOutputParameter" ]
+    },
+    {
+      "name": "Collectable",
+      "extends": [ "bpmn:MultiInstanceLoopCharacteristics"],
+      "superClass": [ "camunda:AsyncCapable" ],
+      "properties": [
+        {
+          "name": "collection",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
     }
   ],
   "emumerations": [ ]
