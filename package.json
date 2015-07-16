@@ -1,5 +1,5 @@
 {
-  "name": "bpmn-js-example-properties",
+  "name": "bpmn-js-properties-panel",
   "version": "0.0.0",
   "description": "A simple properties panel for bpmn-js",
   "scripts": {
