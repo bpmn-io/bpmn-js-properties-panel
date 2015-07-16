@@ -23,7 +23,6 @@
     "grunt": "^0.4.4",
     "grunt-contrib-jshint": "^0.7.2",
     "grunt-karma": "^0.8.0",
-    "inherits": "^2.0.1",
     "jasmine-test-container-support": "^0.1.2",
     "karma": "^0.12.12",
     "karma-browserify": "^4.0.0",
@@ -41,6 +40,7 @@
     "bpmn-js": "^0.10.0",
     "diagram-js": "^0.10.2",
     "lodash": "^3.0.1",
-    "min-dom": "^0.2.0"
+    "min-dom": "^0.2.0",
+    "inherits": "^2.0.1"
   }
 }
