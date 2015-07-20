@@ -68,6 +68,17 @@
   box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
+.label() {
+  font-weight: bolder;
+  display: inline-block;
+  vertical-align: middle;
+  color: @gray;
+
+  &:after {
+    content: ':'
+  }
+}
+
 
 .djs-properties-panel {
   .overlay();
@@ -118,14 +129,7 @@
   }
 
   label {
-    font-weight: bolder;
-    display: inline-block;
-    vertical-align: middle;
-    color: @gray;
-
-    &:after {
-      content: ':'
-    }
+    .label();
   }
 
   button {
@@ -195,6 +199,7 @@
     input {
       margin-left: 0;
     }
+
     label {
       &:after {
         display: none;
@@ -347,8 +352,7 @@
   }
 }
 
-.djs-properties-header,
-.djs-properties-group {
+.djs-properties-header {
   padding: 15px;
 }
 
@@ -360,7 +364,7 @@
 }
 
 .djs-properties-group {
-  padding-bottom: (15px - 9px);
+  padding: 6px 15px 6px 15px;
   position: relative;
   max-height: 2000px;
   overflow: hidden;
@@ -380,19 +384,42 @@
     width: 10px;
     cursor: pointer;
   }
+
+  > .group-label {
+    .label();
+    font-size: 120%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    transition: margin 0.218s linear;
+  }
+
   &:hover {
     > .group-toggle {
       background-color: @toggle-color;
     }
   }
+
   &.group-closed {
     max-height: 20px;
     border-top: none;
     cursor: pointer;
+    background-color: fade(@toggle-color, 20%);
+    padding-top: 0;
+    padding-bottom: 0;
+
     > div {
       visibility: hidden;
     }
-    background-color: fade(@toggle-color, 20%);
+
+    > .group-label {
+      margin-top: 2px;
+      margin-bottom: 2px;
+      color: @gray-light;
+    }
+
+    &:hover > .group-label {
+      color: @brand-primary;
+    }
   }
 }
 
