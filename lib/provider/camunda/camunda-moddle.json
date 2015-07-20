@@ -267,6 +267,17 @@
           "type": "String"
         }
       ]
+    },
+    {
+      "name": "FailedJobRetryTimeCycle",
+      "superClass": [ "Element" ],
+      "properties": [
+        {
+          "name": "body",
+          "isBody": true,
+          "type": "String"
+        }
+      ]
     }
   ],
   "emumerations": [ ]
