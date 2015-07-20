@@ -308,8 +308,8 @@ describe('properties-entry-fields', function() {
     expect(conditionClasses.length).toBe(0)
   }));
 
-  it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
-
+  iit('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
+debugger;
     // given
     var userTaskShape = elementRegistry.get('UserTask'),
       inputEl = 'textarea[name=documentation]';
