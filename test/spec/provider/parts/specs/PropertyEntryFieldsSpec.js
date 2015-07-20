@@ -205,7 +205,7 @@ describe('properties-entry-fields', function() {
   }));
 
   it('should create a new entry for the combobox field', inject(function(propertiesPanel, selection, elementRegistry) {
-    
+
     var inputEl = 'input[name=messageRef]',
       shape = elementRegistry.get('StartEvent');
     propertiesPanel.attachTo(container);
@@ -221,7 +221,7 @@ describe('properties-entry-fields', function() {
 
     // when
     // we set a new value to the input field
-    TestHelper.triggerValue(inputField, 'foo', 'change'); 
+    TestHelper.triggerValue(inputField, 'foo', 'change');
 
     // then
     TestHelper.triggerEvent(inputField, 'click'); // click updates the options
@@ -232,7 +232,7 @@ describe('properties-entry-fields', function() {
   }));
 
   it('should toogle options', inject(function(propertiesPanel, selection, elementRegistry) {
-    
+
     var shape = elementRegistry.get('StartEvent');
     propertiesPanel.attachTo(container);
     selection.select(shape);
