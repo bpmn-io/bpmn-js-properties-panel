@@ -63,7 +63,7 @@ describe('properties-entry-fields', function() {
     selection.select(userTaskShape);
 
     var input = domQuery('input[name=assignee]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=assignee] > button[data-show=canClear]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=assignee] > .field-wrapper > button[data-show=canClear]', propertiesPanel._container),
         buttonClassArray = domClasses(clearButton).array();
 
     // starting check to verify that we have the correct text input field

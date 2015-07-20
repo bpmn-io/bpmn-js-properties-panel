@@ -140,7 +140,7 @@ describe('call-activity-properties', function() {
     var selectField = domQuery(elementSyntax, propertiesPanel._container),
         option = domQuery(elementSyntax + ' > option[value=latest]', propertiesPanel._container);
 
-    domAttr(option, 'selected', 'selected');
+    selectField.options[0].selected  = 'selected';
     TestHelper.triggerEvent(selectField, 'change');
 
     var businessObject = getBusinessObject(shape);
