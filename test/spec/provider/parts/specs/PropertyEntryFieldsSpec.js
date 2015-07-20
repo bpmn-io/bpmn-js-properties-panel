@@ -320,7 +320,7 @@ describe('properties-entry-fields', function() {
     selection.select(userTaskShape);
 
     var input = domQuery(inputEl, propertiesPanel._container),
-      clearButton = domQuery('button[data-show=canClear]', propertiesPanel._container),
+      clearButton = domQuery('button[data-show=canClear]', input.parentElement),
       buttonClassArray = domClasses(clearButton).array();
 
     // starting check to verify that we have the correct text input field
