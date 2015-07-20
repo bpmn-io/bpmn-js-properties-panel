@@ -130,7 +130,7 @@ describe('properties-entry-fields', function() {
     selection.select(shape);
 
     var inputField = domQuery(inputEl, propertiesPanel._container),
-        optionsButton = domQuery('button > span[data-show=canShowOptions]', propertiesPanel._container),
+        optionsButton = domQuery('button[data-action=toggleOptions]', propertiesPanel._container),
         createButton = domQuery('button[data-action=createNew]', propertiesPanel._container),
         clearButton = domQuery('button[data-action=clear]', propertiesPanel._container);
 
@@ -199,55 +199,67 @@ describe('properties-entry-fields', function() {
     // Workaround: I have to simulate a click on the input field to trigger the change
     TestHelper.triggerEvent(inputField, 'click');
 
-    var optionsList = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+    var optionsList = domQuery.all('ul > li', propertiesPanel._container);
 
     expect(optionsList.length).toBe(2);
   }));
 
   it('should create a new entry for the combobox field', inject(function(propertiesPanel, selection, elementRegistry) {
-    // given
+    
     var inputEl = 'input[name=messageRef]',
       shape = elementRegistry.get('StartEvent');
-
     propertiesPanel.attachTo(container);
-
-    // when
     selection.select(shape);
 
     var inputField = domQuery(inputEl, propertiesPanel._container);
+    var options = domQuery('div.options > ul', propertiesPanel._container);
 
-    TestHelper.triggerValue(inputField, 'foo', 'change');
-    // TODO: need to simulate a click on the input field to trigger the update of the options list
-    TestHelper.triggerEvent(inputField, 'click');
-    inputField = domQuery(inputEl, propertiesPanel._container);
+    // given
+    // initially, a single option exisits
+    TestHelper.triggerEvent(inputField, 'click'); // click updates the options
+    expect(domQuery.all('li', options).length).toBe(1);
+
+    // when
+    // we set a new value to the input field
+    TestHelper.triggerValue(inputField, 'foo', 'change'); 
 
     // then
-    var optionsList = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
-
-    expect(optionsList.length).toBe(2);
+    TestHelper.triggerEvent(inputField, 'click'); // click updates the options
+    // two options exist
+    expect(domQuery.all('li', options).length).toBe(2);
+    // and the new option is selected
     expect(inputField.value.substr(0,8)).toBe('foo (id=');
   }));
 
-  it('should show options when clicking on combobox show button', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
+  it('should toogle options', inject(function(propertiesPanel, selection, elementRegistry) {
+    
     var shape = elementRegistry.get('StartEvent');
-
     propertiesPanel.attachTo(container);
-
-    // when
     selection.select(shape);
 
-    var showButton = domQuery('button > span[data-show=canShowOptions]', propertiesPanel._container);
+    var combobox = domQuery("div.combobox", propertiesPanel._container);
+    var toggleButton = domQuery('button[data-action=toggleOptions]', propertiesPanel._container);
 
-    TestHelper.triggerEvent(showButton, 'click');
-    var optionsList = domQuery('ul[data-show=isOptionsAvailable]', propertiesPanel._container),
-        optionsChildren = optionsList.children,
-        optionsClasses = domClasses(optionsList.parentElement).array();
+
+    // given
+    // options are closed
+    expect(domClasses(combobox).has('open')).toBe(false);
+
+    // when
+    // we click the options button
+    TestHelper.triggerEvent(toggleButton, 'click');
 
     // then
-    expect(optionsChildren.length).toBe(1);
-    expect(optionsClasses.length).toBe(0);
+    // options are open
+    expect(domClasses(combobox).has('open')).toBe(true);
+
+    // when
+    // we click the options button again
+    TestHelper.triggerEvent(toggleButton, 'click');
+
+    // then
+    // options are closed again
+    expect(domClasses(combobox).has('open')).toBe(false);
   }));
 
   it('should create a select field', inject(function(propertiesPanel, selection, elementRegistry) {

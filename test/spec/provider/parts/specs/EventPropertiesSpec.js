@@ -124,7 +124,7 @@ describe('event-properties', function() {
 
     TestHelper.triggerEvent(inputField, 'click');
 
-    var messages = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+    var messages = domQuery.all('ul > li', propertiesPanel._container);
 
     TestHelper.triggerEvent(messages[0], 'click');
     TestHelper.triggerEvent(inputField, 'click');
@@ -154,7 +154,7 @@ describe('event-properties', function() {
 
     TestHelper.triggerEvent(inputField, 'click');
 
-    var messages = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+    var messages = domQuery.all('ul > li', propertiesPanel._container);
 
     TestHelper.triggerEvent(messages[0], 'click');
     TestHelper.triggerEvent(inputField, 'click');
@@ -188,7 +188,7 @@ describe('event-properties', function() {
 
     var signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
 
-    var signals = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+    var signals = domQuery.all('ul > li', propertiesPanel._container);
 
     // then
     expect(signals.length).toBeGreaterThan(0);
@@ -214,7 +214,7 @@ describe('event-properties', function() {
 
     var errorRef = getBusinessObject(shape).get('eventDefinitions')[0].errorRef;
 
-    var signals = domQuery.all('ul[data-show=isOptionsAvailable] > li', propertiesPanel._container);
+    var signals = domQuery.all('ul > li', propertiesPanel._container);
 
     // then
     expect(signals.length).toBeGreaterThan(0);
