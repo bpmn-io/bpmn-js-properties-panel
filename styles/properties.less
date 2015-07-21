@@ -108,8 +108,9 @@
   .overlay();
   position: relative;
 
-  max-width: 300px;
+  max-width: 260px;
   max-height: 600px;
+  overflow: auto;
 
   &:empty {
     display: none;
@@ -296,10 +297,6 @@
       &:last-child {
         border-bottom: 1px solid @gray-light;
       }
-
-      &:hover {
-
-      }
     }
 
 
@@ -382,6 +379,10 @@
     bottom: 0;
     width: 10px;
     cursor: pointer;
+    transition: background-color 0.218s linear;
+    &:hover {
+      background-color: @toggle-color;
+    }
   }
 
   > .group-label {
@@ -390,10 +391,12 @@
     margin-top: 5px;
     margin-bottom: 10px;
     transition: margin 0.218s linear;
+    font-style: italic;
   }
 
-  &:hover {
-    > .group-toggle {
+  &:hover > .group-toggle {
+    background-color: @gray-light;
+    &:hover {
       background-color: @toggle-color;
     }
   }
@@ -413,7 +416,6 @@
     > .group-label {
       margin-top: 2px;
       margin-bottom: 2px;
-      color: @gray-light;
     }
 
     &:hover > .group-label {
