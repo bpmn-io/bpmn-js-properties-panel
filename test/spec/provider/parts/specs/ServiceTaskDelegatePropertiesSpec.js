@@ -69,8 +69,8 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('class')).to.be.undefined;
-    expect(taskBo.get('delegateExpression')).to.equal('foo');
+    expect(taskBo.get('camunda:class')).to.be.undefined;
+    expect(taskBo.get('camunda:delegateExpression')).to.equal('foo');
 
 
   }));
@@ -89,13 +89,13 @@ describe('service-task-delegate-properties', function() {
     var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(delegateInput, 'foo');
     expressionRadio.click();
+    TestHelper.triggerValue(delegateInput, 'foo');
     TestHelper.triggerEvent(expressionRadio, 'click');
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("expression")).to.equal("foo");
+    expect(taskBo.get("camunda:expression")).to.equal("foo");
   }));
 
   it('should fill class property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -112,8 +112,8 @@ describe('service-task-delegate-properties', function() {
     var classRadio = domQuery('input[value=class]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(delegateInput, 'foo');
     classRadio.click();
+    TestHelper.triggerValue(delegateInput, 'foo');
     TestHelper.triggerEvent(classRadio, 'click');
 
 
@@ -142,12 +142,12 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('expression')).to.equal('foo');
-    expect(taskBo.get('class')).to.be.undefined;
+    expect(taskBo.get('camunda:expression')).to.equal('foo');
+    expect(taskBo.get('camunda:class')).to.be.undefined;
 
-    expect(domQuery.all('input[name=delegate-resolution]:checked', propertiesPanel._container).length).to.equal(1);
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).to.equal('expression');
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).not.to.equal('class');
+    expect(domQuery.all('input[name=delegateResolution]:checked', propertiesPanel._container).length).to.equal(1);
+    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).to.equal('expression');
+    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
   // FAILING TEST CASE!
@@ -164,19 +164,19 @@ describe('service-task-delegate-properties', function() {
     var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
 
     // if
-    TestHelper.triggerValue(delegateInput, 'foo');
     expressionRadio.click();
+    TestHelper.triggerValue(delegateInput, 'foo');
     TestHelper.triggerEvent(expressionRadio, 'click');
 
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('expression')).to.equal('foo');
-    expect(taskBo.get('class')).to.be.undefined;
+    expect(taskBo.get('camunda:expression')).to.equal('foo');
+    expect(taskBo.get('camunda:class')).to.be.undefined;
 
-    expect(domQuery.all('input[name=delegate-resolution]:checked', propertiesPanel._container).length).to.equal(1);
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).to.equal('expression');
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).not.to.equal('class');
+    expect(domQuery.all('input[name=delegateResolution]:checked', propertiesPanel._container).length).to.equal(1);
+    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).to.equal('expression');
+    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
   it('should not apply an empty string to a property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -200,7 +200,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('class')).to.be.undefined;
+    expect(taskBo.get('camunda:class')).to.be.undefined;
   }));
 
 });
