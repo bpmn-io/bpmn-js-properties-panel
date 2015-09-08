@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -30,7 +32,7 @@ describe('properties-entry-fields', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -67,8 +69,8 @@ describe('properties-entry-fields', function() {
         buttonClassArray = domClasses(clearButton).array();
 
     // starting check to verify that we have the correct text input field
-    expect(input.value).toBe('');
-    expect(buttonClassArray.length).toBeGreaterThan(0);
+    expect(input.value).to.equal('');
+    expect(buttonClassArray.length).to.be.at.least(0);
 
     // trigger a change on the text input field
     TestHelper.triggerValue(input, 'foo', 'change');
@@ -77,8 +79,8 @@ describe('properties-entry-fields', function() {
     input = domQuery('input[name=assignee]', propertiesPanel._container);
     buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).toBe(0);
-    expect(input.value).toBe('foo');
+    expect(buttonClassArray.length).to.equal(0);
+    expect(input.value).to.equal('foo');
 
     // trigger the clear button
     TestHelper.triggerEvent(clearButton, 'click');
@@ -87,8 +89,8 @@ describe('properties-entry-fields', function() {
     input = domQuery('input[name=assignee]', propertiesPanel._container);
     buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).toBeGreaterThan(0);
-    expect(input.value).toBe('');
+    expect(buttonClassArray.length).to.be.at.least(0);
+    expect(input.value).to.equal('');
 
 
   }));
@@ -108,14 +110,14 @@ describe('properties-entry-fields', function() {
         input         = domQuery(inputEl, propertiesPanel._container);
 
     // at the start there should no checkbox be selected
-    expect(checkBoxList.length).toBe(0);
+    expect(checkBoxList.length).to.equal(0);
 
     // trigger click on the checkbox
     TestHelper.triggerEvent(input, 'click');
 
     // the checkbox is now selected and the business object is set to true
     checkBoxList     = domQuery.all(inputEl +':checked', propertiesPanel._container);
-    expect(checkBoxList.length).toBe(1);
+    expect(checkBoxList.length).to.equal(1);
   }));
 
   it('should create a combobox', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -135,10 +137,10 @@ describe('properties-entry-fields', function() {
         clearButton = domQuery('button[data-action=clear]', propertiesPanel._container);
 
     // then
-    expect(inputField).not.toBeNull();
-    expect(optionsButton).not.toBeNull();
-    expect(createButton).not.toBeNull();
-    expect(clearButton).not.toBeNull();
+    expect(inputField).not.to.be.null;
+    expect(optionsButton).not.to.be.null;
+    expect(createButton).not.to.be.null;
+    expect(clearButton).not.to.be.null;
   }));
 
   it('should clear a combobox field with clear button', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -161,13 +163,13 @@ describe('properties-entry-fields', function() {
         clearClasses = domClasses(clearButton).array();
 
     // then
-    expect(inputField.value).toBe('foo');
-    expect(clearClasses.length).toBe(0);
+    expect(inputField.value).to.equal('foo');
+    expect(clearClasses.length).to.equal(0);
 
     // and
     TestHelper.triggerEvent(clearButton, 'click');
     inputField = domQuery(inputEl, propertiesPanel._container);
-    expect(inputField.value).toBe('');
+    expect(inputField.value).to.equal('');
 
   }));
 
@@ -191,7 +193,7 @@ describe('properties-entry-fields', function() {
         createClasses = domClasses(createButton).array();
 
     // then
-    expect(createClasses.length).toBe(0);
+    expect(createClasses.length).to.equal(0);
 
     // and
     TestHelper.triggerEvent(createButton, 'click');
@@ -201,7 +203,7 @@ describe('properties-entry-fields', function() {
 
     var optionsList = domQuery.all('ul > li', propertiesPanel._container);
 
-    expect(optionsList.length).toBe(2);
+    expect(optionsList.length).to.equal(2);
   }));
 
   it('should create a new entry for the combobox field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -217,7 +219,7 @@ describe('properties-entry-fields', function() {
     // given
     // initially, a single option exisits
     TestHelper.triggerEvent(inputField, 'click'); // click updates the options
-    expect(domQuery.all('li', options).length).toBe(1);
+    expect(domQuery.all('li', options).length).to.equal(1);
 
     // when
     // we set a new value to the input field
@@ -226,9 +228,9 @@ describe('properties-entry-fields', function() {
     // then
     TestHelper.triggerEvent(inputField, 'click'); // click updates the options
     // two options exist
-    expect(domQuery.all('li', options).length).toBe(2);
+    expect(domQuery.all('li', options).length).to.equal(2);
     // and the new option is selected
-    expect(inputField.value.substr(0,8)).toBe('foo (id=');
+    expect(inputField.value.substr(0,8)).to.equal('foo (id=');
   }));
 
   it('should toogle options', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -243,7 +245,7 @@ describe('properties-entry-fields', function() {
 
     // given
     // options are closed
-    expect(domClasses(combobox).has('open')).toBe(false);
+    expect(domClasses(combobox).has('open')).to.equal(false);
 
     // when
     // we click the options button
@@ -251,7 +253,7 @@ describe('properties-entry-fields', function() {
 
     // then
     // options are open
-    expect(domClasses(combobox).has('open')).toBe(true);
+    expect(domClasses(combobox).has('open')).to.equal(true);
 
     // when
     // we click the options button again
@@ -259,7 +261,7 @@ describe('properties-entry-fields', function() {
 
     // then
     // options are closed again
-    expect(domClasses(combobox).has('open')).toBe(false);
+    expect(domClasses(combobox).has('open')).to.equal(false);
   }));
 
   it('should create a select field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -276,8 +278,8 @@ describe('properties-entry-fields', function() {
         defaultOption = domQuery('select > option:checked', propertiesPanel._container);
 
     // then
-    expect(options.length).toBe(4);
-    expect(defaultOption.value).toBe('');
+    expect(options.length).to.equal(4);
+    expect(defaultOption.value).to.equal('');
   }));
 
   it('should create a conditional visible field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -296,7 +298,7 @@ describe('properties-entry-fields', function() {
         conditionClasses = domClasses(conditionField).array();
 
     // then
-    expect(conditionClasses.length).toBeGreaterThan(0);
+    expect(conditionClasses.length).to.be.at.least(0);
 
     // and after
     domAttr(selectOption, 'selected', 'selected');
@@ -305,7 +307,7 @@ describe('properties-entry-fields', function() {
     conditionClasses = domClasses(conditionField).array();
 
     // then
-    expect(conditionClasses.length).toBe(0)
+    expect(conditionClasses.length).to.equal(0)
   }));
 
   it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -323,8 +325,8 @@ describe('properties-entry-fields', function() {
       buttonClassArray = domClasses(clearButton).array();
 
     // starting check to verify that we have the correct text input field
-    expect(input.value).toBe('');
-    expect(buttonClassArray.length).toBeGreaterThan(0);
+    expect(input.value).to.equal('');
+    expect(buttonClassArray.length).to.be.at.least(0);
 
     // trigger a change on the text input field
     TestHelper.triggerValue(input, 'foo', 'change');
@@ -333,8 +335,8 @@ describe('properties-entry-fields', function() {
     input = domQuery(inputEl, propertiesPanel._container);
     buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).toBe(0);
-    expect(input.value).toBe('foo');
+    expect(buttonClassArray.length).to.equal(0);
+    expect(input.value).to.equal('foo');
 
     // trigger the clear button
     TestHelper.triggerEvent(clearButton, 'click');
@@ -343,8 +345,8 @@ describe('properties-entry-fields', function() {
     input = domQuery(inputEl, propertiesPanel._container);
     buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).toBeGreaterThan(0);
-    expect(input.value).toBe('');
+    expect(buttonClassArray.length).to.be.at.least(0);
+    expect(input.value).to.equal('');
 
   }));
 });

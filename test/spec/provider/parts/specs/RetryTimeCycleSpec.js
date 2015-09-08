@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -28,7 +30,7 @@ describe('retry-time-cycle', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -65,8 +67,8 @@ describe('retry-time-cycle', function() {
 
     // then
     var retryTimer = bo.get('extensionElements').get('values')[1];
-    expect(retryTimer.get('body')).toBe(inputValue);
-    expect(retryTimer.get('body')).toBe('asd');
+    expect(retryTimer.get('body')).to.equal(inputValue);
+    expect(retryTimer.get('body')).to.equal('asd');
   }));
 
   it('should set a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -92,8 +94,8 @@ describe('retry-time-cycle', function() {
 
     // then
     var retryTimer = bo.get('extensionElements').get('values')[0];
-    expect(retryTimer.get('body')).toBe(inputValue);
-    expect(retryTimer.get('body')).toBe('foo');
+    expect(retryTimer.get('body')).to.equal(inputValue);
+    expect(retryTimer.get('body')).to.equal('foo');
   }));
 
   it('should remove a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -116,8 +118,8 @@ describe('retry-time-cycle', function() {
     var retryTimerArray = getBusinessObject(shape).get('extensionElements').get('values').length;
 
     // then
-    expect(retryTimerArray).toBe(1);
-    expect(retryTimerArrayOld - 1).toBe(retryTimerArray);
-    expect(inputValue.value).toBe('');
+    expect(retryTimerArray).to.equal(1);
+    expect(retryTimerArrayOld - 1).to.equal(retryTimerArray);
+    expect(inputValue.value).to.equal('');
   }));
 });

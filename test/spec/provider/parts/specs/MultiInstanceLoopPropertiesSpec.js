@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('multi-instance-loop-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -61,7 +63,7 @@ describe('multi-instance-loop-properties', function() {
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(textField.value).toBe(businessObject.get('loopCardinality').get('body'));
+    expect(textField.value).to.equal(businessObject.get('loopCardinality').get('body'));
   }));
 
   it('should set the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -80,8 +82,8 @@ describe('multi-instance-loop-properties', function() {
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    expect(textField.value).toBe('foo');
-    expect(businessObject.get('loopCardinality').get('body')).toBe('foo');
+    expect(textField.value).to.equal('foo');
+    expect(businessObject.get('loopCardinality').get('body')).to.equal('foo');
   }));
 
   it('should remove the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -100,8 +102,8 @@ describe('multi-instance-loop-properties', function() {
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    expect(textField.value).toBe('');
-    expect(businessObject.get('loopCardinality')).toBeUndefined();
+    expect(textField.value).to.equal('');
+    expect(businessObject.get('loopCardinality')).to.be.undefined;
   }));
 
   it('should fetch the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -118,7 +120,7 @@ describe('multi-instance-loop-properties', function() {
       businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(textField.value).toBe(businessObject.get('completionCondition').get('body'));
+    expect(textField.value).to.equal(businessObject.get('completionCondition').get('body'));
   }));
 
   it('should set the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -137,8 +139,8 @@ describe('multi-instance-loop-properties', function() {
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    expect(textField.value).toBe('foo');
-    expect(businessObject.get('completionCondition').get('body')).toBe('foo');
+    expect(textField.value).to.equal('foo');
+    expect(businessObject.get('completionCondition').get('body')).to.equal('foo');
   }));
 
   it('should remove the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -157,8 +159,8 @@ describe('multi-instance-loop-properties', function() {
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    expect(textField.value).toBe('');
-    expect(businessObject.get('completionCondition')).toBeUndefined();
+    expect(textField.value).to.equal('');
+    expect(businessObject.get('completionCondition')).to.be.undefined;
   }));
 
   it('should fetch the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -175,7 +177,7 @@ describe('multi-instance-loop-properties', function() {
       businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(textField.value).toBe(businessObject.get('collection'));
+    expect(textField.value).to.equal(businessObject.get('collection'));
   }));
 
   it('should set the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -194,8 +196,8 @@ describe('multi-instance-loop-properties', function() {
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    expect(textField.value).toBe('foo');
-    expect(businessObject.get('collection')).toBe('foo');
+    expect(textField.value).to.equal('foo');
+    expect(businessObject.get('collection')).to.equal('foo');
   }));
 
   it('should remove the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -214,8 +216,8 @@ describe('multi-instance-loop-properties', function() {
 
     var businessObject = getBusinessObject(shape);
 
-    expect(textField.value).toBe('');
-    expect(businessObject.get('collection')).toBeUndefined();
+    expect(textField.value).to.equal('');
+    expect(businessObject.get('collection')).to.be.undefined;
   }));
 
   it('should fetch the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -232,8 +234,8 @@ describe('multi-instance-loop-properties', function() {
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(input.checked).toBe(!!businessObject.get('asyncBefore'));
-    expect(input.checked).toBeTruthy();
+    expect(input.checked).to.equal(!!businessObject.get('asyncBefore'));
+    expect(input.checked).to.be.ok;
   }));
 
   it('should set the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -253,8 +255,8 @@ describe('multi-instance-loop-properties', function() {
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(businessObject.get('asyncBefore')).toBeFalsy();
-    expect(input.checked).toBeFalsy();
+    expect(businessObject.get('asyncBefore')).to.not.be.ok;
+    expect(input.checked).to.not.be.ok;
   }));
 
   it('should fetch the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -271,8 +273,8 @@ describe('multi-instance-loop-properties', function() {
       businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(input.checked).toBe(!!businessObject.get('asyncAfter'));
-    expect(input.checked).toBeFalsy();
+    expect(input.checked).to.equal(!!businessObject.get('asyncAfter'));
+    expect(input.checked).to.not.be.ok;
   }));
 
   it('should set the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -292,8 +294,8 @@ describe('multi-instance-loop-properties', function() {
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(businessObject.get('asyncBefore')).toBeTruthy();
-    expect(input.checked).toBeTruthy()
+    expect(businessObject.get('asyncBefore')).to.be.ok;
+    expect(input.checked).to.be.ok
   }));
 
   it('should fetch the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -310,7 +312,7 @@ describe('multi-instance-loop-properties', function() {
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(input.checked).toBe(businessObject.get('exclusive'));
+    expect(input.checked).to.equal(businessObject.get('exclusive'));
   }));
 
   it('should set the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -330,8 +332,8 @@ describe('multi-instance-loop-properties', function() {
     var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(input.checked).toBe(businessObject.get('exclusive'));
-    expect(businessObject.get('exclusive')).toBeFalsy();
+    expect(input.checked).to.equal(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).to.not.be.ok;
   }));
 
   it('should reset the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -354,8 +356,8 @@ describe('multi-instance-loop-properties', function() {
     var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
-    expect(exclusiveInput.checked).toBe(businessObject.get('exclusive'));
-    expect(businessObject.get('exclusive')).toBeTruthy();
+    expect(exclusiveInput.checked).to.equal(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).to.be.ok;
   }));
 
 });

@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -28,7 +30,7 @@ describe('call-activity-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -63,7 +65,7 @@ describe('call-activity-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // then
-    expect(inputField.value).toBe(businessObject.get('calledElement'));
+    expect(inputField.value).to.equal(businessObject.get('calledElement'));
   }));
 
   it('should fill a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -84,7 +86,7 @@ describe('call-activity-properties', function() {
 
     // then
 
-    expect(businessObject.get('calledElement')).toBe('foo');
+    expect(businessObject.get('calledElement')).to.equal('foo');
   }));
 
   it('should remove a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -104,7 +106,7 @@ describe('call-activity-properties', function() {
 
     // then
 
-    expect(businessObject.get('calledElement')).toBeUndefined();
+    expect(businessObject.get('calledElement')).to.be.undefined;
   }));
 
   it('should fetch a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -122,7 +124,7 @@ describe('call-activity-properties', function() {
     var selectedOption = domQuery(elementSyntax + ' > option:checked', propertiesPanel._container);
 
     // then
-    expect(selectedOption.value).toBe('version');
+    expect(selectedOption.value).to.equal('version');
   }));
 
   it('should fill a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -146,7 +148,7 @@ describe('call-activity-properties', function() {
     var businessObject = getBusinessObject(shape);
 
     // then
-    expect(businessObject.get('calledElementBinding')).toBe('latest');
+    expect(businessObject.get('calledElementBinding')).to.equal('latest');
   }));
 
   it('should remove a calledElementBinding property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -175,7 +177,7 @@ describe('call-activity-properties', function() {
     var businessObject = getBusinessObject(shape);
 
     // then
-    expect(businessObject.get('calledElementBinding')).toBeUndefined();
+    expect(businessObject.get('calledElementBinding')).to.be.undefined;
   }));
 
   it('should fetch a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -194,8 +196,8 @@ describe('call-activity-properties', function() {
     var businessObject = getBusinessObject(shape);
 
     // then
-    expect(businessObject.get('calledElementVersion')).toBe(parseInt(inputField.value));
-    expect(parseInt(inputField.value)).toBe(17);
+    expect(businessObject.get('calledElementVersion')).to.equal(parseInt(inputField.value));
+    expect(parseInt(inputField.value)).to.equal(17);
   }));
 
   it('should fill a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -217,7 +219,7 @@ describe('call-activity-properties', function() {
     var businessObject = getBusinessObject(shape);
 
     // then
-    expect(businessObject.get('calledElementVersion')).toBe('42');
+    expect(businessObject.get('calledElementVersion')).to.equal('42');
   }));
 
   it('should remove a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -239,6 +241,6 @@ describe('call-activity-properties', function() {
     var businessObject = getBusinessObject(shape);
 
     // then
-    expect(businessObject.get('calledElementVersion')).toBeUndefined();
+    expect(businessObject.get('calledElementVersion')).to.be.undefined;
   }));
 });

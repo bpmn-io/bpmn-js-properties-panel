@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('service-task-delegate-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -67,8 +69,8 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('class')).toBeUndefined();
-    expect(taskBo.get('delegateExpression')).toBe('foo');
+    expect(taskBo.get('class')).to.be.undefined;
+    expect(taskBo.get('delegateExpression')).to.equal('foo');
 
 
   }));
@@ -93,7 +95,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("expression")).toBe("foo");
+    expect(taskBo.get("expression")).to.equal("foo");
   }));
 
   it('should fill class property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -117,7 +119,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("class")).toBe("foo");
+    expect(taskBo.get("class")).to.equal("foo");
   }));
 
   it('should remove all other properties in a mutuable choice', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -140,12 +142,12 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('expression')).toBe('foo');
-    expect(taskBo.get('class')).toBeUndefined();
+    expect(taskBo.get('expression')).to.equal('foo');
+    expect(taskBo.get('class')).to.be.undefined;
 
-    expect(domQuery.all('input[name=delegate-resolution]:checked', propertiesPanel._container).length).toBe(1);
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).toBe('expression');
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).not.toBe('class');
+    expect(domQuery.all('input[name=delegate-resolution]:checked', propertiesPanel._container).length).to.equal(1);
+    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).to.equal('expression');
+    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
   // FAILING TEST CASE!
@@ -169,12 +171,12 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('expression')).toBe('foo');
-    expect(taskBo.get('class')).toBeUndefined();
+    expect(taskBo.get('expression')).to.equal('foo');
+    expect(taskBo.get('class')).to.be.undefined;
 
-    expect(domQuery.all('input[name=delegate-resolution]:checked', propertiesPanel._container).length).toBe(1);
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).toBe('expression');
-    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).not.toBe('class');
+    expect(domQuery.all('input[name=delegate-resolution]:checked', propertiesPanel._container).length).to.equal(1);
+    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).to.equal('expression');
+    expect(domQuery('input[name=delegate-resolution]:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
   it('should not apply an empty string to a property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -198,7 +200,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('class')).toBeUndefined();
+    expect(taskBo.get('class')).to.be.undefined;
   }));
 
 });

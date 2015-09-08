@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -28,7 +30,7 @@ describe('event-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -63,7 +65,7 @@ describe('event-properties', function() {
     var inputFields = domQuery.all(inputEl, propertiesPanel._container);
 
     // then
-    expect(inputFields.length).toBeGreaterThan(0);
+    expect(inputFields.length).to.be.at.least(0);
   }));
 
   it('should attach a message to all compatible events and tasks', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -88,7 +90,7 @@ describe('event-properties', function() {
       var inputFields = domQuery.all(inputEl, propertiesPanel._container);
 
       // then
-      expect(inputFields.length).toBeGreaterThan(0);
+      expect(inputFields.length).to.be.at.least(0);
     });
   }));
 
@@ -106,7 +108,7 @@ describe('event-properties', function() {
     var inputFields = domQuery.all(inputEl, propertiesPanel._container);
 
     // then
-    expect(inputFields.length).toBe(0);
+    expect(inputFields.length).to.equal(0);
   }));
 
   it('should be able to select an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -133,9 +135,9 @@ describe('event-properties', function() {
     var messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
 
     // then
-    expect(messages.length).toBeGreaterThan(0);
-    expect(inputField.value).toBe(messages[0].textContent);
-    expect(messageRef.id).toBe(domAttr(messages[0], 'data-option-id'));
+    expect(messages.length).to.be.at.least(0);
+    expect(inputField.value).to.equal(messages[0].textContent);
+    expect(messageRef.id).to.equal(domAttr(messages[0], 'data-option-id'));
   }));
 
   it('should be able to clear an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -166,8 +168,8 @@ describe('event-properties', function() {
     var messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
 
     // then
-    expect(inputField.value).toBe('');
-    expect(messageRef).toBeUndefined();
+    expect(inputField.value).to.equal('');
+    expect(messageRef).to.be.undefined;
   }));
 
   it('should attach a signal to an element with signal def', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -191,9 +193,9 @@ describe('event-properties', function() {
     var signals = domQuery.all('ul > li', propertiesPanel._container);
 
     // then
-    expect(signals.length).toBeGreaterThan(0);
-    expect(inputField.value).toBe(signals[0].textContent);
-    expect(signalRef.id).toBe(domAttr(signals[0], 'data-option-id'))
+    expect(signals.length).to.be.at.least(0);
+    expect(inputField.value).to.equal(signals[0].textContent);
+    expect(signalRef.id).to.equal(domAttr(signals[0], 'data-option-id'))
   }));
 
   it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -217,8 +219,8 @@ describe('event-properties', function() {
     var signals = domQuery.all('ul > li', propertiesPanel._container);
 
     // then
-    expect(signals.length).toBeGreaterThan(0);
-    expect(inputField.value).toBe(signals[1].textContent);
-    expect(errorRef.id).toBe(domAttr(signals[1], 'data-option-id'))
+    expect(signals.length).to.be.at.least(0);
+    expect(inputField.value).to.equal(signals[1].textContent);
+    expect(errorRef.id).to.equal(domAttr(signals[1], 'data-option-id'))
   }));
 });

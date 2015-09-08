@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('documentation-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -61,7 +63,7 @@ describe('documentation-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // then
-    expect(textField.value).toBe(businessObject.get('documentation')[0].text);
+    expect(textField.value).to.equal(businessObject.get('documentation')[0].text);
   }));
 
   it('should set the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -80,9 +82,9 @@ describe('documentation-properties', function() {
 
     var businessObject = getBusinessObject(shape);
 
-    expect(textField.value).toBe('foo');
-    expect(businessObject.get('documentation').length).toBeGreaterThan(0);
-    expect(businessObject.get('documentation')[0].text).toBe('foo');
+    expect(textField.value).to.equal('foo');
+    expect(businessObject.get('documentation').length).to.be.at.least(0);
+    expect(businessObject.get('documentation')[0].text).to.equal('foo');
   }));
 
   it('should remove the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -101,7 +103,7 @@ describe('documentation-properties', function() {
 
     var businessObject = getBusinessObject(shape);
 
-    expect(textField.value).toBe('');
-    expect(businessObject.get('documentation').length).toBe(0);
+    expect(textField.value).to.equal('');
+    expect(businessObject.get('documentation').length).to.equal(0);
   }));
 });

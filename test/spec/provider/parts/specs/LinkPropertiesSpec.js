@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('link-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -61,7 +63,7 @@ describe('link-properties', function() {
     var inputField = domQuery(inputEl, propertiesPanel._container);
 
     // then
-    expect(inputField.value).toBe(linkName);
+    expect(inputField.value).to.equal(linkName);
   }));
 
   it('should set the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -81,7 +83,7 @@ describe('link-properties', function() {
     var linkName = getBusinessObject(shape).get('eventDefinitions')[0].name;
 
     // then
-    expect(inputField.value).toBe(linkName);
-    expect(linkName).toBe('foo');
+    expect(inputField.value).to.equal(linkName);
+    expect(linkName).to.equal('foo');
   }));
 });

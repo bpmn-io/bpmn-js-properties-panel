@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('user-task-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -64,7 +66,7 @@ describe('user-task-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("assignee")).toBe("foo");
+    expect(taskBo.get("assignee")).to.equal("foo");
   }));
 
   it('should not fill an empty assignee property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -83,7 +85,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(assigneeInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("assignee")).toBeUndefined();
+    expect(taskBo.get("assignee")).to.be.undefined;
   }));
 
   it('should fill a form key property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -102,7 +104,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(formKeyInput, 'foo/bar');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("formKey")).toBe('foo/bar');
+    expect(taskBo.get("formKey")).to.equal('foo/bar');
   }));
 
   it('should not fill an empty form key property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -121,7 +123,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(formKeyInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("formKey")).toBeUndefined();
+    expect(taskBo.get("formKey")).to.be.undefined;
   }));
 
   it('should fill a canidate users property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -140,7 +142,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(candidateUserInput, 'Kermit, Piggy');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("candidateUsers")).toBe('Kermit, Piggy');
+    expect(taskBo.get("candidateUsers")).to.equal('Kermit, Piggy');
   }));
 
   it('should not fill an empty candidate users property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -159,7 +161,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(candidateUserInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("candidateUsers")).toBeUndefined();
+    expect(taskBo.get("candidateUsers")).to.be.undefined;
   }));
 
   it('should fill a canidate groups property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -178,7 +180,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(candidateGroups, 'Administration, IT');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("candidateGroups")).toBe('Administration, IT');
+    expect(taskBo.get("candidateGroups")).to.equal('Administration, IT');
   }));
 
   it('should not fill an empty candidate groups property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -197,7 +199,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(candidateGroups, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("candidateGroups")).toBeUndefined();
+    expect(taskBo.get("candidateGroups")).to.be.undefined;
   }));
 
   it('should fill a due date property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -216,7 +218,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(dueDateInput, '2015-06-26T09:57:00');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("dueDate")).toBe('2015-06-26T09:57:00');
+    expect(taskBo.get("dueDate")).to.equal('2015-06-26T09:57:00');
   }));
 
   it('should not fill an empty due date property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -235,7 +237,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(dueDateInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("dueDate")).toBeUndefined();
+    expect(taskBo.get("dueDate")).to.be.undefined;
   }));
 
   it('should fill a follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -254,7 +256,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(followUpDateInput, '2015-06-26T09:57:00');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("followUpDate")).toBe('2015-06-26T09:57:00');
+    expect(taskBo.get("followUpDate")).to.equal('2015-06-26T09:57:00');
   }));
 
   it('should not fill an empty follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -273,7 +275,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(followUpDateInput, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("followUpDate")).toBeUndefined();
+    expect(taskBo.get("followUpDate")).to.be.undefined;
   }));
 
   it('should fill a priority property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -292,7 +294,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(priority, '100');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("priority")).toBe('100');
+    expect(taskBo.get("priority")).to.equal('100');
   }));
 
   it('should not fill an empty follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -311,7 +313,7 @@ describe('user-task-properties', function() {
     TestHelper.triggerValue(priority, '');
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("priority")).toBeUndefined();
+    expect(taskBo.get("priority")).to.be.undefined;
   }));
 
 });

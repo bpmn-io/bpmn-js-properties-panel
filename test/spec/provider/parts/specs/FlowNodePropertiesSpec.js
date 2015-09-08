@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('flow-node-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -61,12 +63,12 @@ describe('flow-node-properties', function() {
         taskBo      = getBusinessObject(shape);
 
     // if
-    expect(taskBo.get("asyncBefore")).toBeFalsy();
+    expect(taskBo.get("asyncBefore")).to.not.be.ok;
     TestHelper.triggerEvent(asyncBefore, 'click');
 
     // then
     taskBo = getBusinessObject(shape);
-    expect(taskBo.get("asyncBefore")).toBeTruthy();
+    expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
   it('should set the asyncBefore property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -83,12 +85,12 @@ describe('flow-node-properties', function() {
         taskBo      = getBusinessObject(shape);
 
     // if
-    expect(taskBo.get("asyncBefore")).toBeFalsy();
+    expect(taskBo.get("asyncBefore")).to.not.be.ok;
     TestHelper.triggerEvent(asyncBefore, 'click');
 
     // then
     taskBo = getBusinessObject(shape);
-    expect(taskBo.get("asyncBefore")).toBeTruthy();
+    expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
   it('should set the asyncBefore property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -105,12 +107,12 @@ describe('flow-node-properties', function() {
       taskBo      = getBusinessObject(shape);
 
     // if
-    expect(taskBo.get("asyncBefore")).toBeFalsy();
+    expect(taskBo.get("asyncBefore")).to.not.be.ok;
     TestHelper.triggerEvent(asyncBefore, 'click');
 
     // then
     taskBo = getBusinessObject(shape);
-    expect(taskBo.get("asyncBefore")).toBeTruthy();
+    expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
   it('should set the asyncAfter property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -127,12 +129,12 @@ describe('flow-node-properties', function() {
         taskBo      = getBusinessObject(shape);
 
     // if
-    expect(taskBo.get("asyncAfter")).toBeFalsy();
+    expect(taskBo.get("asyncAfter")).to.not.be.ok;
     TestHelper.triggerEvent(asyncAfter, 'click');
 
     // then
     taskBo = getBusinessObject(shape);
-    expect(taskBo.get("asyncAfter")).toBeTruthy();
+    expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
   it('should set the asyncAfter property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -149,12 +151,12 @@ describe('flow-node-properties', function() {
         taskBo      = getBusinessObject(shape);
 
     // if
-    expect(taskBo.get("asyncAfter")).toBeFalsy();
+    expect(taskBo.get("asyncAfter")).to.not.be.ok;
     TestHelper.triggerEvent(asyncAfter, 'click');
 
     // then
     taskBo = getBusinessObject(shape);
-    expect(taskBo.get("asyncAfter")).toBeTruthy();
+    expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
   it('should set the asyncAfter property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -171,12 +173,12 @@ describe('flow-node-properties', function() {
         taskBo      = getBusinessObject(shape);
 
     // if
-    expect(taskBo.get("asyncAfter")).toBeFalsy();
+    expect(taskBo.get("asyncAfter")).to.not.be.ok;
     TestHelper.triggerEvent(asyncAfter, 'click');
 
     // then
     taskBo = getBusinessObject(shape);
-    expect(taskBo.get("asyncAfter")).toBeTruthy();
+    expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
   it('should fetch the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -193,7 +195,7 @@ describe('flow-node-properties', function() {
       businessObject = getBusinessObject(shape);
 
     // then
-    expect(input.checked).toBe(businessObject.get('exclusive'));
+    expect(input.checked).to.equal(businessObject.get('exclusive'));
   }));
 
   it('should set the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -213,8 +215,8 @@ describe('flow-node-properties', function() {
     var  businessObject = getBusinessObject(shape);
 
     // then
-    expect(input.checked).toBe(businessObject.get('exclusive'));
-    expect(businessObject.get('exclusive')).toBeFalsy();
+    expect(input.checked).to.equal(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).to.not.be.ok;
   }));
 
   it('should reset the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -239,7 +241,7 @@ describe('flow-node-properties', function() {
     var  businessObject = getBusinessObject(shape);
 
     // then
-    expect(exclusiveInput.checked).toBe(businessObject.get('exclusive'));
-    expect(businessObject.get('exclusive')).toBeTruthy();
+    expect(exclusiveInput.checked).to.equal(businessObject.get('exclusive'));
+    expect(businessObject.get('exclusive')).to.be.ok;
   }));
 });

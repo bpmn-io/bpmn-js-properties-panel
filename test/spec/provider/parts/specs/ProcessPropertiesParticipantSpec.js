@@ -2,6 +2,8 @@
 
 var TestHelper = require('../../../../TestHelper');
 
+var TestContainer = require('mocha-test-container-support');
+
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../lib'),
@@ -26,7 +28,7 @@ describe('process-participant-properties', function() {
   var container;
 
   beforeEach(function() {
-    container = jasmine.getEnv().getTestContainer();
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -61,11 +63,11 @@ describe('process-participant-properties', function() {
         taskBo        = getBusinessObject(shape).get('processRef');
 
     // if
-    expect(taskBo.get("isExecutable")).toBeFalsy();
+    expect(taskBo.get("isExecutable")).to.not.be.ok;
     TestHelper.triggerEvent(isExecutable, 'click');
 
     // then
-    expect(taskBo.get("isExecutable")).toBeTruthy();
+    expect(taskBo.get("isExecutable")).to.be.ok;
   }));
 
   it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -82,7 +84,7 @@ describe('process-participant-properties', function() {
         shapeBo = getBusinessObject(shape).get('processRef');
 
     // then
-    expect(shapeBo.get('name')).toBe(name.value);
+    expect(shapeBo.get('name')).to.equal(name.value);
   }));
 
   it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -101,6 +103,6 @@ describe('process-participant-properties', function() {
     TestHelper.triggerValue(name, 'Foo', 'change');
 
     // then
-    expect(shapeBo.get('name')).toBe('Foo');
+    expect(shapeBo.get('name')).to.equal('Foo');
   }));
 });

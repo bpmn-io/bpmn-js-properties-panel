@@ -5,7 +5,7 @@ module.exports = function(karma) {
 
     basePath: '../../',
 
-    frameworks: [ 'browserify', 'jasmine' ],
+    frameworks: [ 'browserify', 'mocha', 'chai', 'sinon-chai' ],
 
     files: [
       'test/spec/**/*Spec.js'
