@@ -275,7 +275,7 @@ describe('properties-entry-fields', function() {
     selection.select(shape);
 
     var options = domQuery.all('select > option', propertiesPanel._container),
-        defaultOption = domQuery('select > option:checked', propertiesPanel._container);
+        defaultOption = domQuery('select > option[selected=selected]', propertiesPanel._container);
 
     // then
     expect(options.length).to.equal(4);
@@ -298,16 +298,16 @@ describe('properties-entry-fields', function() {
         conditionClasses = domClasses(conditionField).array();
 
     // then
-    expect(conditionClasses.length).to.be.at.least(0);
+    expect(conditionClasses.length).to.be.at.least(1);
 
-    // and after
-    domAttr(selectOption, 'selected', 'selected');
+    TestHelper.selectedByOption(selectField, 'version');
+
     TestHelper.triggerEvent(selectField, 'change');
 
     conditionClasses = domClasses(conditionField).array();
 
     // then
-    expect(conditionClasses.length).to.equal(0)
+    expect(conditionClasses.length).to.equal(0);
   }));
 
   it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {

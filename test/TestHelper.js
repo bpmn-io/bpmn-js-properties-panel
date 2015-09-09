@@ -10,6 +10,9 @@ TestHelper.insertCSS('diagram-js-testing.css',
   '.test-container .result { height: 500px; }' + '.bjs-container { height: 70% !important; }' + '.test-container > div'
 );
 
+var propertiesPanelModule = require('../lib'),
+  domQuery = require('min-dom/lib/query');
+
 /**
  * Triggers an change event
  * @param element on which the change should be triggered
@@ -22,7 +25,7 @@ var triggerEvent = function(element, eventType) {
       // Chrome, Safari, Firefox
       evt = new MouseEvent(( eventType || 'change' ), { view: window, bubbles: true, cancelable: true });
     } catch (e) {
-      // PhantomJS (wat!)
+      // IE 11, PhantomJS (wat!)
       evt = document.createEvent('MouseEvent');
       evt.initEvent(( eventType || 'change' ), true, true);
     }
@@ -46,6 +49,23 @@ var triggerInput = function(element, value) {
   element.focus();
 };
 
+/**
+ *  Select the option with the given value
+ *  @param element contains the options
+ *  @param optionValue value which should be selected
+ */
+var selectedByOption = function(element, optionValue) {
+  var options = domQuery.all('option', element);
+    for(var i = 0; i< options.length; i++) {
+      var option = options[i];
+      if(option.value === optionValue) {
+        element.selectedIndex = i;
+        break;
+      }
+    }
+};
+
 module.exports.triggerEvent = triggerEvent;
 module.exports.triggerValue = triggerValue;
 module.exports.triggerInput = triggerInput;
+module.exports.selectedByOption = selectedByOption;

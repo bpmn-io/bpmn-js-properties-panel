@@ -121,7 +121,7 @@ describe('call-activity-properties', function() {
     // when
     selection.select(shape);
 
-    var selectedOption = domQuery(elementSyntax + ' > option:checked', propertiesPanel._container);
+    var selectedOption = domQuery(elementSyntax, propertiesPanel._container);
 
     // then
     expect(selectedOption.value).to.equal('version');
