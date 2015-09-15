@@ -30,7 +30,11 @@ describe('retry-time-cycle', function() {
   var container;
 
   beforeEach(function() {
-    container = TestContainer.get(this);
+    // <!> HACK: make sure diagram is visible
+    var testContainer = TestContainer.get(this)
+    container = testContainer.parentNode;
+    container.removeChild(testContainer);
+    domAttr(container, 'style', 'height:auto');
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
@@ -50,6 +54,7 @@ describe('retry-time-cycle', function() {
 
     container.appendChild(undoButton);
   }));
+
 
   it('should fetch a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
