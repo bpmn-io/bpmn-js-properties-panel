@@ -30,11 +30,7 @@ describe('retry-time-cycle', function() {
   var container;
 
   beforeEach(function() {
-    // <!> HACK: make sure diagram is visible
-    var testContainer = TestContainer.get(this)
-    container = testContainer.parentNode;
-    container.removeChild(testContainer);
-    domAttr(container, 'style', 'height:auto');
+    container = TestContainer.get(this);
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
