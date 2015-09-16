@@ -7,7 +7,7 @@ TestHelper.insertCSS('bpmn-embedded.css', require('bpmn-js/assets/bpmn-font/css/
 TestHelper.insertCSS('properties.css', require('../assets/properties.css'));
 
 TestHelper.insertCSS('diagram-js-testing.css',
-  '.test-container .result { height: 500px; }' + '.bjs-container { height: 70% !important; }' + '.test-container > div'
+  '.test-container .result { height: auto; }' + '.bjs-container { height: 400px !important; }' + ' div.test-container {height: auto}'
 );
 
 var propertiesPanelModule = require('../lib'),
