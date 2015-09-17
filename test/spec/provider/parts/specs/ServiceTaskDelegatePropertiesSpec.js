@@ -150,7 +150,6 @@ describe('service-task-delegate-properties', function() {
     expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
-  // FAILING TEST CASE!
   it('should remove all other properties in a mutuable choice when first changing the input', inject(function(propertiesPanel, selection, elementRegistry) {
     // given
     var taskShape = elementRegistry.get('Task_1');

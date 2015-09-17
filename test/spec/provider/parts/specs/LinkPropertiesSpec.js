@@ -50,39 +50,39 @@ describe('link-properties', function() {
   }));
 
   it('should get the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
 
-    // given
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
         inputEl = 'input[name=link-name]',
         linkName = getBusinessObject(shape).get('eventDefinitions')[0].name;
 
-    propertiesPanel.attachTo(container);
-
-    // when
     selection.select(shape);
     var inputField = domQuery(inputEl, propertiesPanel._container);
 
-    // then
     expect(inputField.value).to.equal(linkName);
   }));
 
   it('should set the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-      inputEl = 'input[name=link-name]';
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
+        inputEl = 'input[name=link-name]';
     selection.select(shape);
     var inputField = domQuery(inputEl, propertiesPanel._container);
+    var bo = getBusinessObject(shape);
 
+    // given
+    // that the name of the link event definition is set
+    expect(inputField.value).to.exist;
+    expect(bo.get('eventDefinitions')[0].name).to.equal('Come to me ');
+
+    // when
+    // I change the link event definition name
     TestHelper.triggerValue(inputField, 'foo', 'change');
 
-    var linkName = getBusinessObject(shape).get('eventDefinitions')[0].name;
-
+    var linkName = bo.get('eventDefinitions')[0].name;
     // then
+    // the link event definition name is changed
     expect(inputField.value).to.equal(linkName);
     expect(linkName).to.equal('foo');
   }));

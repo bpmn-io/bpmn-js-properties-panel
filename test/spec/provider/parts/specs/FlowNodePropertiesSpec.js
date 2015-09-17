@@ -50,169 +50,161 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the asyncBefore property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('InclusiveGateway_1');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('InclusiveGateway_1');
     selection.select(shape);
-
     var asyncBefore = domQuery('input[name=asyncBefore]', propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // if
+    // given
+    // that the asyncBefore is false
     expect(taskBo.get("asyncBefore")).to.not.be.ok;
+
+    // when
+    // I click on the checkbox
     TestHelper.triggerEvent(asyncBefore, 'click');
 
     // then
-    taskBo = getBusinessObject(shape);
+    // the value is true in the model
     expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
   it('should set the asyncBefore property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('IntermediateThrowEvent_1');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('IntermediateThrowEvent_1');
     selection.select(shape);
-
     var asyncBefore = domQuery('input[name=asyncBefore]', propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // if
+    // given
+    // that the asyncBefore is false
     expect(taskBo.get("asyncBefore")).to.not.be.ok;
+
+    // when
+    // I click on the checkbox
     TestHelper.triggerEvent(asyncBefore, 'click');
 
     // then
-    taskBo = getBusinessObject(shape);
+    // the value is true in the model
     expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
   it('should set the asyncBefore property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
-
     var asyncBefore = domQuery('input[name=asyncBefore]', propertiesPanel._container),
-      taskBo      = getBusinessObject(shape);
+        taskBo      = getBusinessObject(shape);
 
-    // if
+    // given
+    // that the asyncBefore is false
     expect(taskBo.get("asyncBefore")).to.not.be.ok;
+
+    // when
+    // I click on the checkbox
     TestHelper.triggerEvent(asyncBefore, 'click');
 
     // then
-    taskBo = getBusinessObject(shape);
+    // the value is true in the model
     expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
   it('should set the asyncAfter property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('InclusiveGateway_1');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('InclusiveGateway_1');
     selection.select(shape);
-
     var asyncAfter = domQuery('input[name=asyncAfter]', propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // if
+    // given
+    // that the asyncAfter is false
     expect(taskBo.get("asyncAfter")).to.not.be.ok;
+
+    // when
+    // I click on the checkbox
     TestHelper.triggerEvent(asyncAfter, 'click');
 
     // then
-    taskBo = getBusinessObject(shape);
+    // the value is true in the model
     expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
   it('should set the asyncAfter property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('IntermediateThrowEvent_1');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('IntermediateThrowEvent_1');
     selection.select(shape);
+    var checkbox = domQuery('input[name=asyncAfter]', propertiesPanel._container),
+        taskBo   = getBusinessObject(shape);
 
-    var asyncAfter = domQuery('input[name=asyncAfter]', propertiesPanel._container),
-        taskBo      = getBusinessObject(shape);
-
-    // if
+    // given
+    // that the asyncAfter property is false (unset)
     expect(taskBo.get("asyncAfter")).to.not.be.ok;
-    TestHelper.triggerEvent(asyncAfter, 'click');
+    expect(checkbox.selected).to.not.be.true;
+
+    // when
+    // I click on the checkbox
+    TestHelper.triggerEvent(checkbox, 'click');
 
     // then
-    taskBo = getBusinessObject(shape);
+    // the value is true in the model
     expect(taskBo.get("asyncAfter")).to.be.ok;
+
   }));
 
   it('should set the asyncAfter property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
-
     var asyncAfter = domQuery('input[name=asyncAfter]', propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // if
+    // given
+    // that the asyncAfter is false (unset)
     expect(taskBo.get("asyncAfter")).to.not.be.ok;
+
+    // when
+    // I click on the checkbox
     TestHelper.triggerEvent(asyncAfter, 'click');
 
     // then
-    taskBo = getBusinessObject(shape);
+    // the value is true in the model
     expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
   it('should fetch the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
-
     var input = domQuery('input[name=exclusive]', propertiesPanel._container),
-      businessObject = getBusinessObject(shape);
+        asyncBeforeInput = domQuery('input[name=asyncBefore]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
 
-    // then
+    expect(input.checked).to.be.true;
     expect(input.checked).to.equal(businessObject.get('exclusive'));
   }));
 
   it('should set the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
-
     var input = domQuery('input[name=exclusive]', propertiesPanel._container);
-
-    TestHelper.triggerEvent(input, 'click');
-
     var  businessObject = getBusinessObject(shape);
+
+    // given
+    expect(businessObject.get('exclusive')).to.be.ok;
+    expect(input.checked).to.equal(businessObject.get('exclusive'));
+
+    // when
+    // I click on the checkbox
+    TestHelper.triggerEvent(input, 'click');
 
     // then
     expect(input.checked).to.equal(businessObject.get('exclusive'));
@@ -220,25 +212,27 @@ describe('flow-node-properties', function() {
   }));
 
   it('should reset the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
-
     var exclusiveInput = domQuery('input[name=exclusive]', propertiesPanel._container),
         asyncBeforeInput = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+    var  businessObject = getBusinessObject(shape);
 
+    // given
+    expect(businessObject.get('exclusive')).to.be.ok;
+    expect(exclusiveInput.selected).to.not.be.true;
+    expect(asyncBeforeInput.selected).to.not.be.true;
+    expect(businessObject.get('asyncBefore')).to.not.be.ok;
+
+    // when
+    // I click on the checkbox
     TestHelper.triggerEvent(asyncBeforeInput, 'click'); // make the exclusive field visible
 
     TestHelper.triggerEvent(exclusiveInput, 'click'); // change value of the exclusive field
 
     TestHelper.triggerEvent(asyncBeforeInput, 'click'); // reset the exclusive field
-
-    var  businessObject = getBusinessObject(shape);
 
     // then
     expect(exclusiveInput.checked).to.equal(businessObject.get('exclusive'));

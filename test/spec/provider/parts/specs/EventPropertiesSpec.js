@@ -51,24 +51,29 @@ describe('event-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should attach a message to an element with message def', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should exist a message definition field to an element with message def', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
 
     // given
+    // that the intermediate catch event has a message ref input field
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
         inputEl = 'input[name=messageRef]';
 
-    propertiesPanel.attachTo(container);
-
     // when
+    // I select the intermediate catch event
     selection.select(shape);
 
-    var inputFields = domQuery.all(inputEl, propertiesPanel._container);
-
     // then
-    expect(inputFields.length).to.be.at.least(0);
+    var inputField = domQuery(inputEl, propertiesPanel._container);
+    // the message ref input field exists and is empty
+    expect(inputField).to.exists;
+    expect(inputField.value).is.empty;
+    expect(inputField.value).to.have.length.of.at.least(0);
   }));
 
-  it('should attach a message to all compatible events and tasks', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should exists a message definition field to all compatible events and tasks', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
     var elements = [
       'IntermediateCatchEvent_1',
       'IntermediateThrowEvent_1',
@@ -79,51 +84,50 @@ describe('event-properties', function() {
 
     forEach(elements, function(element) {
       // given
+      // that the element has a message ref input field
+      var shape = elementRegistry.get(element);
       var inputEl = 'input[name=messageRef]';
 
-      propertiesPanel.attachTo(container);
-
       // when
-      var shape = elementRegistry.get(element);
+      // I select the current shape
       selection.select(shape);
 
-      var inputFields = domQuery.all(inputEl, propertiesPanel._container);
-
       // then
-      expect(inputFields.length).to.be.at.least(0);
+      var inputField = domQuery(inputEl, propertiesPanel._container);
+      // the message ref input field exists and is empty
+      expect(inputField).to.exists;
+      expect(inputField.value).to.have.length.of.at.least(0);
     });
   }));
 
-  it('should not attach a event ref to an element w/o definition', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not exist a message definition field to an element w/o definition', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
 
     // given
+    // that the element hasn't a message ref input field
     var shape = elementRegistry.get('EndEvent_2'),
-      inputEl = 'input[name=messageRef]';
-
-    propertiesPanel.attachTo(container);
+        inputEl = 'input[name=messageRef]';
 
     // when
     selection.select(shape);
 
-    var inputFields = domQuery.all(inputEl, propertiesPanel._container);
-
     // then
-    expect(inputFields.length).to.equal(0);
+    var inputField = domQuery(inputEl, propertiesPanel._container);
+    // the message ref input field doesn't exist
+    expect(inputField).to.not.exist;
   }));
 
   it('should be able to select an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-      inputEl = 'input[name=messageRef]';
-
     propertiesPanel.attachTo(container);
 
-    // when
-    selection.select(shape);
+    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
+        inputEl = 'input[name=messageRef]';
 
+    // given
+    selection.select(shape);
     var inputField = domQuery(inputEl, propertiesPanel._container);
 
+    // when
     TestHelper.triggerEvent(inputField, 'click');
 
     var messages = domQuery.all('ul > li', propertiesPanel._container);
@@ -141,19 +145,17 @@ describe('event-properties', function() {
   }));
 
   it('should be able to clear an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-      inputEl = 'input[name=messageRef]';
-
     propertiesPanel.attachTo(container);
 
-    // when
-    selection.select(shape);
+    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
+        inputEl = 'input[name=messageRef]';
 
+    // given
+    selection.select(shape);
     var inputField = domQuery(inputEl, propertiesPanel._container),
         clearButton = domQuery('[data-entry=selectMessage] button[data-action=clear]', propertiesPanel._container);
 
+    // when
     TestHelper.triggerEvent(inputField, 'click');
 
     var messages = domQuery.all('ul > li', propertiesPanel._container);
@@ -173,54 +175,50 @@ describe('event-properties', function() {
   }));
 
   it('should attach a signal to an element with signal def', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('StartEvent_1'),
-      inputEl = 'input[name=signalRef]';
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('StartEvent_1'),
+        inputEl = 'input[name=signalRef]';
     selection.select(shape);
-
     var inputField = domQuery(inputEl, propertiesPanel._container);
 
+    // given
+    expect(inputField).is.empty;
+
+    // when
     TestHelper.triggerValue(inputField, 'Foo', 'change');
     TestHelper.triggerEvent(inputField, 'click');
 
     var signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
-
     var signals = domQuery.all('ul > li', propertiesPanel._container);
 
     // then
-    expect(signals.length).to.be.at.least(0);
+    expect(signals.length).to.be.at.least(1);
     expect(inputField.value).to.equal(signals[0].textContent);
     expect(signalRef.id).to.equal(domAttr(signals[0], 'data-option-id'))
   }));
 
   it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('EndEvent_2'),
-      inputEl = 'input[name=errorRef]';
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('EndEvent_2'),
+        inputEl = 'input[name=errorRef]';
     selection.select(shape);
-
     var inputField = domQuery(inputEl, propertiesPanel._container);
 
+    // given
+    expect(inputField.value).is.empty;
+
+    // when
     TestHelper.triggerValue(inputField, 'Foo', 'change');
     TestHelper.triggerEvent(inputField, 'click');
 
     var errorRef = getBusinessObject(shape).get('eventDefinitions')[0].errorRef;
-
-    var signals = domQuery.all('ul > li', propertiesPanel._container);
+    var errors = domQuery.all('ul > li', propertiesPanel._container);
 
     // then
-    expect(signals.length).to.be.at.least(0);
-    expect(inputField.value).to.equal(signals[1].textContent);
-    expect(errorRef.id).to.equal(domAttr(signals[1], 'data-option-id'))
+    expect(errors.length).to.be.at.least(2);
+    expect(inputField.value).to.equal(errors[1].textContent);
+    expect(errorRef.id).to.equal(domAttr(errors[1], 'data-option-id'))
   }));
 });

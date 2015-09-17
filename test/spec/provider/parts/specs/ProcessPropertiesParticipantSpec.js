@@ -50,20 +50,18 @@ describe('process-participant-properties', function() {
   }));
 
   it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('Participant_1');
-
     propertiesPanel.attachTo(container);
 
-    // when
-    selection.select(shape);
+    var shape = elementRegistry.get('Participant_1');
 
+    selection.select(shape);
     var isExecutable = domQuery('input[name=isExecutable]', propertiesPanel._container),
         taskBo        = getBusinessObject(shape).get('processRef');
 
-    // if
+    // given
     expect(taskBo.get("isExecutable")).to.not.be.ok;
+
+    // when
     TestHelper.triggerEvent(isExecutable, 'click');
 
     // then
@@ -71,35 +69,29 @@ describe('process-participant-properties', function() {
   }));
 
   it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('_Participant_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('_Participant_2');
     selection.select(shape);
 
     var name = domQuery('input[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape).get('processRef');
 
-    // then
     expect(shapeBo.get('name')).to.equal(name.value);
   }));
 
   it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('_Participant_2');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('_Participant_2');
     selection.select(shape);
-
     var name = domQuery('input[name=name]', propertiesPanel._container),
-      shapeBo = getBusinessObject(shape).get('processRef');
+        shapeBo = getBusinessObject(shape).get('processRef');
 
+    // given
+    expect(shapeBo.get('name')).to.equal(name.value);
+
+    // when
     TestHelper.triggerValue(name, 'Foo', 'change');
 
     // then

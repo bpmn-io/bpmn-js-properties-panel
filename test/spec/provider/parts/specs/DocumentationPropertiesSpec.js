@@ -50,59 +50,51 @@ describe('documentation-properties', function() {
   }));
 
   it('should fetch the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask_1');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
-
     var textField = domQuery('textarea[name=documentation]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-    // then
-    expect(textField.value).to.equal(businessObject.get('documentation')[0].text);
+    expect(textField.value).to.equal('Task');
   }));
 
   it('should set the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask_1');
-
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('BoundaryEvent_1');
     selection.select(shape);
+    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
 
-    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container);
+    // given
+    expect(textField.value).to.be.empty;
 
+    // when
     TestHelper.triggerValue(textField, 'foo', 'change');
 
-    var businessObject = getBusinessObject(shape);
-
+    // then
     expect(textField.value).to.equal('foo');
     expect(businessObject.get('documentation').length).to.be.at.least(0);
     expect(businessObject.get('documentation')[0].text).to.equal('foo');
   }));
 
   it('should remove the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask_1');
-
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
-
     var textField = domQuery('textarea[name=documentation]', propertiesPanel._container);
-
-    TestHelper.triggerValue(textField, '', 'change');
-
     var businessObject = getBusinessObject(shape);
 
+    // given
+    expect(textField.value).to.equal("Task");
+
+    // when
+    TestHelper.triggerValue(textField, '', 'change');
+
+    // then
     expect(textField.value).to.equal('');
     expect(businessObject.get('documentation').length).to.equal(0);
   }));
