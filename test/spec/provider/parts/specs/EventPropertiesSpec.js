@@ -183,7 +183,7 @@ describe('event-properties', function() {
     var inputField = domQuery(inputEl, propertiesPanel._container);
 
     // given
-    expect(inputField).is.empty;
+    expect(inputField.value).is.empty;
 
     // when
     TestHelper.triggerValue(inputField, 'Foo', 'change');
