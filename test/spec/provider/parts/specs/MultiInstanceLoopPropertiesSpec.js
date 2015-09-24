@@ -17,7 +17,7 @@ var propertiesPanelModule = require('../../../../../lib'),
 
 describe('multi-instance-loop-properties', function() {
 
-  var diagramXML = require('../diagrams/MultiInstanceLoopProperty.bpmn');
+  var diagramXML = require('../diagrams/MultiInstanceLoopPropertyTest.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,
@@ -50,206 +50,196 @@ describe('multi-instance-loop-properties', function() {
   }));
 
   it('should fetch the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var textField = domQuery('input[name=loopCardinality]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
 
-    // then
     expect(textField.value).to.equal(businessObject.get('loopCardinality').get('body'));
+    expect(domQuery('input[value=loopCardinality]:checked', propertiesPanel._container).value).to.equal('loopCardinality');
   }));
 
   it('should set the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var textField = domQuery('input[name=loopCardinality]', propertiesPanel._container);
-
-    TestHelper.triggerValue(textField, 'foo', 'change');
-
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
+    // given
+    expect(textField.value).to.equal('card');
+    expect(domQuery('input[value=loopCardinality]:checked', propertiesPanel._container).value).to.equal('loopCardinality');
+
+    // when
+    TestHelper.triggerValue(textField, 'foo', 'change');
+
+    // then
     expect(textField.value).to.equal('foo');
     expect(businessObject.get('loopCardinality').get('body')).to.equal('foo');
   }));
 
-  it('should remove the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
+  it('should remove the loopCardinality value for an element', inject(function(propertiesPanel, selection, elementRegistry) {
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var textField = domQuery('input[name=loopCardinality]', propertiesPanel._container);
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
+    var loopRadio = domQuery('input[value=loopCardinality]:checked', propertiesPanel._container);
 
+    // given
+    expect(textField.value).to.equal('card');
+    expect(loopRadio.value).to.equal('loopCardinality');
+
+    // when
     TestHelper.triggerValue(textField, '', 'change');
 
+    // then
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(textField.value).to.equal('');
-    expect(businessObject.get('loopCardinality')).to.be.undefined;
+    expect(businessObject.get('loopCardinality')).to.exist;
   }));
 
   it('should fetch the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var textField = domQuery('input[name=completionCondition]', propertiesPanel._container),
-      businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    var textField = domQuery('input[name=completionCondition]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    // then
     expect(textField.value).to.equal(businessObject.get('completionCondition').get('body'));
   }));
 
   it('should set the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
     var textField = domQuery('input[name=completionCondition]', propertiesPanel._container);
 
+    // given
+    expect(businessObject.get('completionCondition').get('body')).to.equal('cond');
+    expect(textField.value).to.equal('cond');
+
+    // when
     TestHelper.triggerValue(textField, 'foo', 'change');
 
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
-
+    // then
     expect(textField.value).to.equal('foo');
     expect(businessObject.get('completionCondition').get('body')).to.equal('foo');
   }));
 
   it('should remove the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
     var textField = domQuery('input[name=completionCondition]', propertiesPanel._container);
-
-    TestHelper.triggerValue(textField, '', 'change');
-
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
+    // given
+    expect(textField.value).to.equal('cond');
+
+    // when
+    TestHelper.triggerValue(textField, '', 'change');
+
+    // then
     expect(textField.value).to.equal('');
     expect(businessObject.get('completionCondition')).to.be.undefined;
   }));
 
   it('should fetch the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
 
-    var textField = domQuery('input[name=collection]', propertiesPanel._container),
-      businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    // then
     expect(textField.value).to.equal(businessObject.get('collection'));
   }));
 
   it('should set the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
 
-    var textField = domQuery('input[name=collection]', propertiesPanel._container);
-
-    TestHelper.triggerValue(textField, 'foo', 'change');
-
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
+    // given
+    expect(textField.value).to.equal('coll');
+    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+
+    // when
+    TestHelper.triggerValue(textField, 'foo', 'change');
+
+    // then
     expect(textField.value).to.equal('foo');
     expect(businessObject.get('collection')).to.equal('foo');
   }));
 
-  it('should remove the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
+  it('should remove the collection value for an element', inject(function(propertiesPanel, selection, elementRegistry) {
     propertiesPanel.attachTo(container);
 
-    // then
+    var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
 
-    var textField = domQuery('input[name=collection]', propertiesPanel._container);
-
-    TestHelper.triggerValue(textField, '', 'change');
-
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
+    var loopRadio = domQuery('input[value=collection]:checked', propertiesPanel._container);
     var businessObject = getBusinessObject(shape);
 
+    // given
+    expect(textField.value).to.equal('coll');
+    expect(loopRadio.value).to.equal('collection');
+
+    // when
+    TestHelper.triggerValue(textField, '', 'change');
+
+    // then
     expect(textField.value).to.equal('');
     expect(businessObject.get('collection')).to.be.undefined;
   }));
 
   it('should fetch the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
     var input = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    // then
     expect(input.checked).to.equal(!!businessObject.get('asyncBefore'));
     expect(input.checked).to.be.ok;
   }));
 
   it('should set the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
 
     // given
     var shape = elementRegistry.get('ServiceTask');
-
-    propertiesPanel.attachTo(container);
-
-    // when
     selection.select(shape);
 
     var input = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
 
+    // given
+    expect(input.checked).to.be.ok;
+
+    // when
     TestHelper.triggerEvent(input, 'click');
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
@@ -260,76 +250,64 @@ describe('multi-instance-loop-properties', function() {
   }));
 
   it('should fetch the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
     var input = domQuery('input[name=loopAsyncAfter]', propertiesPanel._container),
-      businessObject = getBusinessObject(shape).get('loopCharacteristics');
+        businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    // then
     expect(input.checked).to.equal(!!businessObject.get('asyncAfter'));
     expect(input.checked).to.not.be.ok;
   }));
 
   it('should set the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
     var input = domQuery('input[name=loopAsyncAfter]', propertiesPanel._container);
 
-    TestHelper.triggerEvent(input, 'click');
+    // given
+    expect(input.checked).to.not.be.ok;
 
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    // when
+    TestHelper.triggerEvent(input, 'click');
 
     // then
     expect(businessObject.get('asyncBefore')).to.be.ok;
-    expect(input.checked).to.be.ok
+    expect(input.checked).to.be.ok;
   }));
 
   it('should fetch the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
     var input = domQuery('input[name=loopExclusive]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    // then
     expect(input.checked).to.equal(businessObject.get('exclusive'));
   }));
 
   it('should set the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
     var input = domQuery('input[name=loopExclusive]', propertiesPanel._container);
-
-    TestHelper.triggerEvent(input, 'click');
-
     var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // given
+    expect(input.checked).to.be.ok;
+
+    // when
+    TestHelper.triggerEvent(input, 'click');
 
     // then
     expect(input.checked).to.equal(businessObject.get('exclusive'));
@@ -337,23 +315,23 @@ describe('multi-instance-loop-properties', function() {
   }));
 
   it('should reset the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('ServiceTask');
-
     propertiesPanel.attachTo(container);
 
-    // when
+    var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
     var exclusiveInput = domQuery('input[name=loopExclusive]', propertiesPanel._container),
         asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
+    // given
+    expect(exclusiveInput.checked).to.be.ok;
+    expect(asyncBeforeInput.checked).to.be.ok;
+
+    // when
     TestHelper.triggerEvent(exclusiveInput, 'click'); // change the value of the exclusive field
-
     TestHelper.triggerEvent(asyncBeforeInput, 'click'); // reset the exclusive field
 
-    var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // then
     expect(exclusiveInput.checked).to.equal(businessObject.get('exclusive'));

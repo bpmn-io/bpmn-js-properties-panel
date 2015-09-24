@@ -4,7 +4,7 @@
 
     <bpmn2:serviceTask id="ServiceTask">
 
-      <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:asyncBefore="true">
+      <bpmn2:multiInstanceLoopCharacteristics camunda:asyncBefore="true">
         <bpmn2:loopCardinality xsi:type="bpmn2:tFormalExpression">card</bpmn2:loopCardinality>
         <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
       </bpmn2:multiInstanceLoopCharacteristics>
@@ -12,6 +12,14 @@
     </bpmn2:serviceTask>
 
     <bpmn2:serviceTask id="ServiceTask2" />
+
+    <bpmn2:serviceTask id="ServiceTask3">
+
+      <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:asyncBefore="true">
+        <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
+      </bpmn2:multiInstanceLoopCharacteristics>
+
+    </bpmn2:serviceTask>
 
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -21,6 +29,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_Task_3" bpmnElement="ServiceTask2">
         <dc:Bounds height="80.0" width="100.0" x="200.0" y="50.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_4" bpmnElement="ServiceTask3">
+        <dc:Bounds height="80.0" width="100.0" x="350.0" y="50.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
