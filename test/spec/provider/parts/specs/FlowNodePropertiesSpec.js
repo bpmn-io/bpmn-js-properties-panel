@@ -195,20 +195,23 @@ describe('flow-node-properties', function() {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
-    var input = domQuery('input[name=exclusive]', propertiesPanel._container);
-    var  businessObject = getBusinessObject(shape);
+    var asyncBeforeCheckbox = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+    var exclusiveCheckbox = domQuery('input[name=exclusive]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape)
 
     // given
-    expect(businessObject.get('exclusive')).to.be.ok;
-    expect(input.checked).to.equal(businessObject.get('exclusive'));
+    TestHelper.triggerEvent(asyncBeforeCheckbox, 'click');
+    expect(businessObject.get('exclusive')).to.be.true;
+    expect(exclusiveCheckbox.checked).to.be.true;
 
     // when
-    // I click on the checkbox
-    TestHelper.triggerEvent(input, 'click');
+    // I click the checkbox
+    TestHelper.triggerEvent(exclusiveCheckbox, 'click');
 
     // then
-    expect(input.checked).to.equal(businessObject.get('exclusive'));
-    expect(businessObject.get('exclusive')).to.not.be.ok;
+    expect(businessObject.get('exclusive')).to.be.false;
+    expect(exclusiveCheckbox.checked).to.be.false;
+
   }));
 
   it('should reset the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {

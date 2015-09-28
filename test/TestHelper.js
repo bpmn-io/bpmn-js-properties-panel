@@ -20,7 +20,7 @@ var propertiesPanelModule = require('../lib'),
  */
 var triggerEvent = function(element, eventType) {
   var evt;
-  if(document.createEvent) {
+  if(!!document.createEvent) {
     try {
       // Chrome, Safari, Firefox
       evt = new MouseEvent(( eventType || 'change' ), { view: window, bubbles: true, cancelable: true });

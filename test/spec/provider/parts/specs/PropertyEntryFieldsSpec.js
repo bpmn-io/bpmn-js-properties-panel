@@ -282,34 +282,6 @@ describe('properties-entry-fields', function() {
     expect(defaultOption.value).to.equal('');
   }));
 
-  it('should create a conditional visible field', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity');
-
-    propertiesPanel.attachTo(container);
-
-    selection.select(shape);
-
-    // when
-    var conditionField = domQuery('#condition-calledElementVersion', propertiesPanel._container),
-        selectField = domQuery('select[name=calledElementBinding]', propertiesPanel._container),
-        selectOption = domQuery('option[value=version]', propertiesPanel._container),
-        conditionClasses = domClasses(conditionField).array();
-
-    // then
-    expect(conditionClasses.length).to.be.at.least(1);
-
-    TestHelper.selectedByOption(selectField, 'version');
-
-    TestHelper.triggerEvent(selectField, 'change');
-
-    conditionClasses = domClasses(conditionField).array();
-
-    // then
-    expect(conditionClasses.length).to.equal(0);
-  }));
-
   it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
     // given
     var userTaskShape = elementRegistry.get('UserTask'),
