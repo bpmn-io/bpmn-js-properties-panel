@@ -166,8 +166,10 @@ describe('multi-instance-loop-properties', function() {
     selection.select(shape);
 
     var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
+        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
+    expect(elementVarInput.value).to.equal(businessObject.get('camunda:elementVariable'));
     expect(textField.value).to.equal(businessObject.get('collection'));
   }));
 
@@ -212,6 +214,79 @@ describe('multi-instance-loop-properties', function() {
     // then
     expect(textField.value).to.equal('');
     expect(businessObject.get('collection')).to.be.undefined;
+  }));
+
+  it('should set the collection element variable for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask3');
+    selection.select(shape);
+
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
+        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // given
+    expect(textField.value).to.equal('coll');
+    expect(elementVarInput.value).to.equal('collVal');
+    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+
+    // when
+    TestHelper.triggerValue(elementVarInput, 'myVar', 'change');
+
+    // then
+    expect(elementVarInput.value).to.equal('myVar');
+    expect(businessObject.get('camunda:elementVariable')).to.equal('myVar');
+  }));
+
+  it('should remove the collection element variable for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask3');
+    selection.select(shape);
+
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
+        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // given
+    expect(textField.value).to.equal('coll');
+    expect(elementVarInput.value).to.equal('collVal');
+    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+
+    // when
+    TestHelper.triggerValue(elementVarInput, '', 'change');
+
+    // then
+    expect(elementVarInput.value).to.be.empty;
+    expect(businessObject.get('camunda:elementVariable')).to.be.undefined;
+  }));
+
+  it('should change multi instance collection to loop cardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask3');
+    selection.select(shape);
+
+    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
+        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
+        radioButton = domQuery('input[value=loopCardinality]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+
+    // given
+    expect(radioButton.checked).to.be.false;
+    expect(textField.value).to.equal('coll');
+    expect(elementVarInput.value).to.equal('collVal');
+    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+
+    // when
+    TestHelper.triggerEvent(radioButton, 'click');
+
+    expect(radioButton.checked).to.be.true;
+    expect(businessObject.get('camunda:elementVariable')).to.be.undefined;
+    expect(businessObject.get('collection')).to.be.undefined;
+    expect(businessObject.get('loopCardinality')).to.be.ok;
+
   }));
 
   it('should fetch the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {

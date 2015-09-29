@@ -15,7 +15,7 @@
 
     <bpmn2:serviceTask id="ServiceTask3">
 
-      <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:asyncBefore="true">
+      <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:asyncBefore="true" camunda:elementVariable="collVal">
         <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
       </bpmn2:multiInstanceLoopCharacteristics>
 
