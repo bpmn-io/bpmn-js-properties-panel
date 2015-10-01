@@ -6,8 +6,20 @@
       <bpmn2:signalEventDefinition id="_SignalEventDefinition_2"/>
     </bpmn2:startEvent>
 
+    <bpmn2:startEvent id="StartEvent_2">
+      <bpmn2:timerEventDefinition id="_TimerEventDefinition_1">
+          <bpmn2:timeDate xsi:type="bpmn2:tFormalExpression">2011-03-11T12:13:14Z</bpmn2:timeDate>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:startEvent>
+
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1">
       <bpmn2:messageEventDefinition id="_MessageEventDefinition_3"/>
+    </bpmn2:intermediateCatchEvent>
+
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2">
+      <bpmn2:timerEventDefinition id="_TimerEventDefinition_2">
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">P10D</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
     </bpmn2:intermediateCatchEvent>
 
     <bpmn2:receiveTask id="ReceiveTask_1" messageRef="Message_1"/>
@@ -36,9 +48,15 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="40.0" y="40.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="30.0" y="40.0"/>
         <bpmndi:BPMNLabel>
-          <dc:Bounds height="0.0" width="0.0" x="61.0" y="89.0"/>
+          <dc:Bounds height="0.0" width="0.0" x="51.0" y="89.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="80.0" y="40.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="100.0" y="89.0"/>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_IntermediateCatchEvent_2" bpmnElement="IntermediateCatchEvent_1">
@@ -70,6 +88,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_BoundaryEvent_2" bpmnElement="BoundaryEvent_1">
         <dc:Bounds height="36.0" width="36.0" x="270.0" y="86.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_IntermediateCatchEvent_3" bpmnElement="IntermediateCatchEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="630.0" y="40.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="700.0" y="89.0"/>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

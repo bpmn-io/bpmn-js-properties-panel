@@ -221,4 +221,96 @@ describe('event-properties', function() {
     expect(inputField.value).to.equal(errors[1].textContent);
     expect(errorRef.id).to.equal(domAttr(errors[1], 'data-option-id'))
   }));
+
+  it('should fetch a timer event definition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_2');
+    selection.select(shape);
+
+    var timerEventDefinition = getBusinessObject(shape).get('eventDefinitions')[0];
+
+    var textField = domQuery('input[name=timerEventDefinition]', propertiesPanel._container),
+        radioInput = domQuery('input[value=timeDate]:checked', propertiesPanel._container);
+
+    expect(radioInput.checked).to.be.true;
+    expect(textField.value).to.equal(timerEventDefinition.get('timeDate').get('body'));
+
+  }));
+
+  it('should change the value of a timer event definition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_2');
+    selection.select(shape);
+
+    var timerEventDefinition = getBusinessObject(shape).get('eventDefinitions')[0];
+
+    var inputField = domQuery('input[name=timerEventDefinition]', propertiesPanel._container),
+        radioInput = domQuery('input[value=timeDate]:checked', propertiesPanel._container);
+
+    // given
+    expect(radioInput.checked).to.be.true;
+    expect(inputField.value).to.equal(timerEventDefinition.get('timeDate').get('body'));
+
+    // when
+    TestHelper.triggerValue(inputField, '2014-08-03T19:36:00Z', 'change');
+
+    // then
+    expect(inputField.value).to.equal('2014-08-03T19:36:00Z');
+    expect(inputField.value).to.equal(timerEventDefinition.get('timeDate').get('body'));
+
+  }));
+
+  it('should change the type of a timer event definition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_2');
+    selection.select(shape);
+
+    var timerEventDefinition = getBusinessObject(shape).get('eventDefinitions')[0];
+
+    var inputField = domQuery('input[name=timerEventDefinition]', propertiesPanel._container),
+        radioInput = domQuery('input[value=timeDuration]', propertiesPanel._container);
+
+    // given
+    expect(radioInput.checked).to.be.false;
+    expect(inputField.value).to.equal(timerEventDefinition.get('timeDate').get('body'));
+
+    // when
+    TestHelper.triggerEvent(radioInput, 'click');
+
+    // then
+    expect(radioInput.checked).to.be.true;
+    expect(inputField.value).to.equal(timerEventDefinition.get('timeDuration').get('body'));
+
+  }));
+
+  it('should remove type and value of a timer event definition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_2');
+    selection.select(shape);
+
+    var timerEventDefinition = getBusinessObject(shape).get('eventDefinitions')[0];
+
+    var clearButton = domQuery('[data-entry=timer-event-definition] button[data-action=clear]', propertiesPanel._container);
+    var inputField = domQuery('input[name=timerEventDefinition]', propertiesPanel._container),
+        radioInput = domQuery('input[value=timeDate]', propertiesPanel._container);
+
+    // given
+    expect(radioInput.checked).to.be.true;
+    expect(inputField.value).to.equal(timerEventDefinition.get('timeDate').get('body'));
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(radioInput.checked).to.be.false;
+    expect(domQuery.all('input[name=timerEventDefinitionType]:checked', propertiesPanel._container).length).to.equal(0);
+    expect(inputField.value).to.be.empty;
+    expect(timerEventDefinition.get('timeDate')).to.be.undefined;
+
+  }));
+
 });
