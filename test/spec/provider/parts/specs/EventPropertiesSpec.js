@@ -313,4 +313,58 @@ describe('event-properties', function() {
 
   }));
 
+  it('should exists an escalation definition field to all compatible events', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var elements = [
+      'StartEvent_3',
+      'BoundaryEvent_2',
+      'IntermediateThrowEvent_2',
+      'EndEvent_3'
+    ];
+
+    forEach(elements, function(element) {
+      // given
+      // that the element has a message ref input field
+      var shape = elementRegistry.get(element);
+      var inputEl = 'input[name=escalationRef]';
+
+      // when
+      // I select the current shape
+      selection.select(shape);
+
+      // then
+      var inputField = domQuery(inputEl, propertiesPanel._container);
+      // the escalation ref input field exists and is empty
+      expect(inputField).to.exists;
+      expect(inputField.value).to.have.length.of.at.least(0);
+    });
+  }));
+
+  it('should attach an escalation to an element with escalation def', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_3'),
+        inputEl = 'input[name=escalationRef]';
+
+    selection.select(shape);
+
+    var inputField = domQuery(inputEl, propertiesPanel._container);
+
+    // given
+    expect(inputField.value).is.empty;
+
+    // when
+    TestHelper.triggerValue(inputField, 'foo', 'change');
+    TestHelper.triggerEvent(inputField, 'click');
+
+    var escalationRef = getBusinessObject(shape).get('eventDefinitions')[0].escalationRef;
+    var escalations = domQuery.all('ul > li', propertiesPanel._container);
+
+    // then
+    expect(escalations.length).to.be.at.least(1);
+    expect(inputField.value).to.equal(escalations[0].textContent);
+    expect(escalationRef.id).to.equal(domAttr(escalations[0], 'data-option-id'));
+  }));
+
 });
