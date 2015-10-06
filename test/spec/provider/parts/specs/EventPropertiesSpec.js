@@ -66,7 +66,7 @@ describe('event-properties', function() {
     // then
     var inputField = domQuery(inputEl, propertiesPanel._container);
     // the message ref input field exists and is empty
-    expect(inputField).to.exists;
+    expect(inputField).to.exist;
     expect(inputField.value).is.empty;
     expect(inputField.value).to.have.length.of.at.least(0);
   }));
@@ -95,7 +95,7 @@ describe('event-properties', function() {
       // then
       var inputField = domQuery(inputEl, propertiesPanel._container);
       // the message ref input field exists and is empty
-      expect(inputField).to.exists;
+      expect(inputField).to.exist;
       expect(inputField.value).to.have.length.of.at.least(0);
     });
   }));
@@ -195,7 +195,7 @@ describe('event-properties', function() {
     // then
     expect(signals.length).to.be.at.least(1);
     expect(inputField.value).to.equal(signals[0].textContent);
-    expect(signalRef.id).to.equal(domAttr(signals[0], 'data-option-id'))
+    expect(signalRef.id).to.equal(domAttr(signals[0], 'data-option-id'));
   }));
 
   it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -219,7 +219,7 @@ describe('event-properties', function() {
     // then
     expect(errors.length).to.be.at.least(2);
     expect(inputField.value).to.equal(errors[1].textContent);
-    expect(errorRef.id).to.equal(domAttr(errors[1], 'data-option-id'))
+    expect(errorRef.id).to.equal(domAttr(errors[1], 'data-option-id'));
   }));
 
   it('should fetch a timer event definition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -313,7 +313,7 @@ describe('event-properties', function() {
 
   }));
 
-  it('should exists an escalation definition field to all compatible events', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should exist an escalation definition field to all compatible events', inject(function(propertiesPanel, selection, elementRegistry) {
     propertiesPanel.attachTo(container);
 
     var elements = [
@@ -336,8 +336,8 @@ describe('event-properties', function() {
       // then
       var inputField = domQuery(inputEl, propertiesPanel._container);
       // the escalation ref input field exists and is empty
-      expect(inputField).to.exists;
-      expect(inputField.value).to.have.length.of.at.least(0);
+      expect(inputField).to.exist;
+      expect(inputField.value).to.be.empty;
     });
   }));
 
