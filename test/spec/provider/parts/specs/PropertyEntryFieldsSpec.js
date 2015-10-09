@@ -159,7 +159,7 @@ describe('properties-entry-fields', function() {
     TestHelper.triggerInput(inputField, 'foo');
     inputField = domQuery(inputEl, propertiesPanel._container);
 
-    var clearButton = domQuery('button[data-action=clear]', propertiesPanel._container),
+    var clearButton = domQuery('[data-entry=selectMessage] button[data-action=clear]', propertiesPanel._container),
         clearClasses = domClasses(clearButton).array();
 
     // then
