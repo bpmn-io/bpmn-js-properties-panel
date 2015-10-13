@@ -60,19 +60,18 @@ describe('service-task-delegate-properties', function() {
     selection.select(taskShape);
 
     var delegateInput = domQuery('input[name=delegate]', propertiesPanel._container);
-    var delegateRadio = domQuery('input[value=delegateExpression]', propertiesPanel._container);
+    var delegateOption = domQuery('select[name=implType]', propertiesPanel._container);
 
     // if
-    delegateRadio.click();
-    TestHelper.triggerEvent(delegateRadio, 'click');
+    // select 'delegateExpression'
+    delegateOption.options[2].selected  = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
     TestHelper.triggerValue(delegateInput, 'foo');
 
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('camunda:class')).to.be.undefined;
     expect(taskBo.get('camunda:delegateExpression')).to.equal('foo');
-
-
   }));
 
   it('should fill delegate expression property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -86,12 +85,13 @@ describe('service-task-delegate-properties', function() {
     selection.select(taskShape);
 
     var delegateInput = domQuery('input[name=delegate]', propertiesPanel._container);
-    var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
+    var delegateOption = domQuery('select[name=implType]', propertiesPanel._container);
 
     // if
-    expressionRadio.click();
+    // select 'expression'
+    delegateOption.options[1].selected = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
     TestHelper.triggerValue(delegateInput, 'foo');
-    TestHelper.triggerEvent(expressionRadio, 'click');
 
     // then
     var taskBo = getBusinessObject(taskShape);
@@ -109,13 +109,13 @@ describe('service-task-delegate-properties', function() {
     selection.select(taskShape);
 
     var delegateInput = domQuery('input[name=delegate]', propertiesPanel._container);
-    var classRadio = domQuery('input[value=class]', propertiesPanel._container);
+    var delegateOption = domQuery('select[name=implType]', propertiesPanel._container);
 
     // if
-    classRadio.click();
+    // select 'class'
+    delegateOption.options[0].selected = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
     TestHelper.triggerValue(delegateInput, 'foo');
-    TestHelper.triggerEvent(classRadio, 'click');
-
 
     // then
     var taskBo = getBusinessObject(taskShape);
@@ -133,11 +133,12 @@ describe('service-task-delegate-properties', function() {
     selection.select(taskShape);
 
     var delegateInput = domQuery('input[name=delegate]', propertiesPanel._container);
-    var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
+    var delegateOption = domQuery('select[name=implType]', propertiesPanel._container);
 
     // if
-    expressionRadio.click();
-    TestHelper.triggerEvent(expressionRadio, 'click');
+    // select 'expression'
+    delegateOption.options[1].selected = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
     TestHelper.triggerValue(delegateInput, 'foo');
 
     // then
@@ -145,14 +146,14 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get('camunda:expression')).to.equal('foo');
     expect(taskBo.get('camunda:class')).to.be.undefined;
 
-    expect(domQuery.all('input[name=delegateResolution]:checked', propertiesPanel._container).length).to.equal(1);
-    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).to.equal('expression');
-    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).not.to.equal('class');
+    expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
+    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).to.equal('expression');
+    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
   it('should remove all other properties in a mutuable choice when first changing the input', inject(function(propertiesPanel, selection, elementRegistry) {
     // given
-    var taskShape = elementRegistry.get('Task_1');
+    var taskShape = elementRegistry.get('ServiceTask_2');
 
     propertiesPanel.attachTo(container);
 
@@ -160,22 +161,22 @@ describe('service-task-delegate-properties', function() {
     selection.select(taskShape);
 
     var delegateInput = domQuery('input[name=delegate]', propertiesPanel._container);
-    var expressionRadio = domQuery('input[value=expression]', propertiesPanel._container);
+    var delegateOption = domQuery('select[name=implType]', propertiesPanel._container);
 
     // if
-    expressionRadio.click();
     TestHelper.triggerValue(delegateInput, 'foo');
-    TestHelper.triggerEvent(expressionRadio, 'click');
-
+    // select 'expression'
+    delegateOption.options[1].selected = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
 
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('camunda:expression')).to.equal('foo');
     expect(taskBo.get('camunda:class')).to.be.undefined;
 
-    expect(domQuery.all('input[name=delegateResolution]:checked', propertiesPanel._container).length).to.equal(1);
-    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).to.equal('expression');
-    expect(domQuery('input[name=delegateResolution]:checked', propertiesPanel._container).value).not.to.equal('class');
+    expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
+    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).to.equal('expression');
+    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
   it('should not apply an empty string to a property', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -189,13 +190,13 @@ describe('service-task-delegate-properties', function() {
     selection.select(taskShape);
 
     var delegateInput = domQuery('input[name=delegate]', propertiesPanel._container);
-    var classRadio = domQuery('input[value=class]', propertiesPanel._container);
+    var delegateOption = domQuery('select[name=implType]', propertiesPanel._container);
 
     // if
-    classRadio.click();
-    TestHelper.triggerEvent(classRadio, 'click');
+    // select 'class'
+    delegateOption.options[0].selected = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
     TestHelper.triggerValue(delegateInput, '');
-
 
     // then
     var taskBo = getBusinessObject(taskShape);

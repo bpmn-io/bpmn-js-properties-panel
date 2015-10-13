@@ -120,8 +120,7 @@ describe('call-activity-properties', function() {
     selection.select(shape);
 
     var selectField = domQuery(elementSyntax, propertiesPanel._container),
-        option = domQuery(elementSyntax + ' > option[value=latest]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+      businessObject = getBusinessObject(shape);
 
     // given
     expect(businessObject.get('calledElementBinding')).to.equal('version');

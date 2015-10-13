@@ -58,10 +58,10 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateResolution = domQuery('input[name="delegateResolution"]:checked', propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-    expect(delegateResolution.value).to.equal('expression');
+    expect(delegateOption.value).to.equal('expression');
     expect(businessObject.get('camunda:resultVariable')).to.equal('resVar');
     expect(inputField.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
@@ -75,11 +75,11 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateResolution = domQuery('input[name="delegateResolution"]:checked', propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(delegateResolution.value).to.equal('expression');
+    expect(delegateOption.value).to.equal('expression');
     expect(businessObject.get('camunda:resultVariable')).to.equal('resVar');
 
     // when
@@ -99,11 +99,11 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateResolution = domQuery('input[name="delegateResolution"]:checked', propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(delegateResolution.value).to.equal('expression');
+    expect(delegateOption.value).to.equal('expression');
     expect(businessObject.get('camunda:resultVariable')).to.equal('resVar');
 
     // when
@@ -123,21 +123,25 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery('input[name="resultVariable"]', propertiesPanel._container),
-        expressionRadio = domQuery('input[value="expression"]', propertiesPanel._container),
-        classRadio = domQuery('input[value="class"]', propertiesPanel._container);
+        delegateOption = domQuery('select[name="implType"]', propertiesPanel._container),
+        expressionOption = domQuery('select[name=implType] > option[value="expression"]', propertiesPanel._container),
+        classOption = domQuery('select[name="implType"] > option[value="class"]', propertiesPanel._container);
 
 
     // given
     expect(inputField.value).to.equal('resVar');
+    expect(expressionOption.selected).to.be.true;
     expect(businessObject.get('camunda:resultVariable')).to.equal(inputField.value);
-    expect(expressionRadio.checked).to.be.true;
 
     // when
-    TestHelper.triggerEvent(classRadio,'click');
+    delegateOption.options[0].selected = 'selected';
+    TestHelper.triggerEvent(delegateOption, 'change');
 
     // then
-    expect(expressionRadio.checked).to.be.false;
-    expect(classRadio.checked).to.be.true;
+    expect(expressionOption.selected).to.be.false;
+    expect(classOption.selected).to.be.true;
+
+    // testcase fails here
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
@@ -150,10 +154,10 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateResolution = domQuery('input[name="delegateResolution"]:checked', propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
 
-    expect(delegateResolution.value).to.equal('expression');
+    expect(delegateOption.value).to.equal('expression');
     expect(businessObject.get('camunda:resultVariable')).to.equal('EndVar');
     expect(inputField.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
@@ -167,11 +171,11 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateResolution = domQuery('input[name="delegateResolution"]:checked', propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
 
     expect(inputField).to.be.null;
-    expect(delegateResolution).to.be.null;
+    expect(delegateOption).to.be.null;
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
