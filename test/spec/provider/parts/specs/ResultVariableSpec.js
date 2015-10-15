@@ -36,7 +36,6 @@ describe('result-variable', function() {
     moddleExtensions: {camunda: camundaModdlePackage}
   }));
 
-
   beforeEach(inject(function(commandStack) {
 
     var undoButton = document.createElement('button');
@@ -166,6 +165,40 @@ describe('result-variable', function() {
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('StartEvent_1'),
+        elementSyntax = 'input[name=resultVariable]';
+
+    selection.select(shape);
+
+    var inputField = domQuery(elementSyntax, propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
+
+    expect(inputField).to.be.null;
+    expect(delegateOption).to.be.null;
+    expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+  }));
+
+  it('should not fetch a resultVariable field for a non message intermediate throw event', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_Error'),
+        elementSyntax = 'input[name=resultVariable]';
+
+    selection.select(shape);
+
+    var inputField = domQuery(elementSyntax, propertiesPanel._container),
+        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
+
+    expect(inputField).to.be.null;
+    expect(delegateOption).to.be.null;
+    expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+  }));
+
+  it('should not fetch a resultVariable field for a non message end event', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('IntermediateThrowEvent_Signal'),
         elementSyntax = 'input[name=resultVariable]';
 
     selection.select(shape);
