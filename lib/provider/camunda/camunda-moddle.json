@@ -116,6 +116,34 @@
           "name": "delegateExpression",
           "isAttr": true,
           "type": "String"
+        },
+        {
+          "name": "resultVariable",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "DmnCapable",
+      "extends": [
+        "bpmn:BusinessRuleTask"
+      ],
+      "properties": [
+        {
+          "name": "decisionRef",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefBinding",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "decisionRefVersion",
+          "isAttr": true,
+          "type": "String"
         }
       ]
     },

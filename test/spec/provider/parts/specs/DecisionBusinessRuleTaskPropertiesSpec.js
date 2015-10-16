@@ -1,0 +1,343 @@
+'use strict';
+
+var TestHelper = require('../../../../TestHelper');
+
+var TestContainer = require('mocha-test-container-support');
+
+/* global bootstrapModeler, inject */
+
+var propertiesPanelModule = require('../../../../../lib'),
+  domQuery = require('min-dom/lib/query'),
+  coreModule = require('bpmn-js/lib/core'),
+  selectionModule = require('diagram-js/lib/features/selection'),
+  modelingModule = require('bpmn-js/lib/features/modeling'),
+  propertiesProviderModule = require('../../../../../lib/provider/camunda'),
+  camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
+  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+describe('service-task-delegate-properties', function() {
+
+  var diagramXML = require('../diagrams/DecisionBusinessRuleTaskPropertyTest.bpmn');
+
+  var testModules = [
+    coreModule, selectionModule, modelingModule,
+    propertiesPanelModule,
+    propertiesProviderModule
+  ];
+
+  var container;
+
+  beforeEach(function() {
+    container = TestContainer.get(this);
+  });
+
+  beforeEach(bootstrapModeler(diagramXML, {
+    modules: testModules,
+    moddleExtensions: {camunda: camundaModdlePackage}
+  }));
+
+  beforeEach(inject(function(commandStack) {
+
+    var undoButton = document.createElement('button');
+    undoButton.textContent = 'UNDO';
+
+    undoButton.addEventListener('click', function() {
+      commandStack.undo();
+    });
+
+    container.appendChild(undoButton);
+  }));
+
+  it('should fetch properties of decision business rule task', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_1');
+    selection.select(shape);
+
+    var decisionRefField = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
+    	resultVariable = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
+    	implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+    	decisionRefBinding = domQuery('select[name=decisionRefBinding] > option:checked', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefField.value).to.equal('Bar');
+    expect(decisionRefField.value).to.equal(businessObject.get('camunda:decisionRef'));
+    expect(decisionRefBinding.value).to.equal('latest');
+    expect(resultVariable.value).to.equal('resVar');
+    expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
+  }));
+
+  it('should fill decisionRef field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_Empty');
+    selection.select(shape);
+
+    var decisionRefField = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
+    	implType = domQuery('select[name=implType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('');
+    expect(businessObject.get('camunda:decisionRef')).to.be.undefined;
+
+    // when
+    // select option 'dmn'
+    implType.options[3].selected  = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    TestHelper.triggerValue(decisionRefField, 'foo');
+
+    // then
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefField.value).to.equal('foo');
+    expect(decisionRefField.value).to.equal(businessObject.get('camunda:decisionRef'));
+  }));
+
+  it('remove decisionRef field is not necessary for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_1');
+    selection.select(shape);
+
+    var decisionRefField = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
+    	implType = domQuery('select[name=implType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(businessObject.get('camunda:decisionRef')).to.equal('Bar');
+
+    // when
+    TestHelper.triggerValue(decisionRefField, '');
+
+    // then
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefField.value).to.equal('');
+    expect(decisionRefField.className).to.equal('invalid');
+    expect(decisionRefField.value).to.not.equal(businessObject.get('camunda:decisionRef'));
+  }));
+
+  it('should exist default value "latest" for decision ref binding for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_Empty');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+    	decisionRefBinding = domQuery('select[name="decisionRefBinding"]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
+
+    // when
+    // select option 'dmn'
+    implType.options[3].selected  = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    // then
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefBinding.value).to.equal('latest');
+    // 'latest' is the default value for decisionRefBinding
+    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
+  }));
+
+  it('should change decision ref binding for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_Deployment');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+    	decisionRefBinding = domQuery('select[name="decisionRefBinding"]', propertiesPanel._container),
+    	decisionRefVersion = domQuery('input[name=decisionRefVersion]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefBinding.value).to.equal('deployment');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(businessObject.get('camunda:decisionRefVersion')).to.be.undefined;
+
+    // when
+    // select option 'version'
+    decisionRefBinding.options[2].selected  = 'selected';
+    TestHelper.triggerEvent(decisionRefBinding, 'change');
+
+    TestHelper.triggerValue(decisionRefVersion, '14');
+
+    // then
+    expect(decisionRefBinding.value).to.equal('version');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(decisionRefVersion.value).to.equal('14');
+    expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
+  }));
+
+  it('remove decision ref version is not necessary for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_Version');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        decisionRefBinding = domQuery('select[name="decisionRefBinding"]', propertiesPanel._container),
+        decisionRefVersion = domQuery('input[name=decisionRefVersion]', propertiesPanel._container),
+        decisionRefValue = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefBinding.value).to.equal('version');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(decisionRefValue.value).to.equal('Bar');
+    expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefValue.value);
+    expect(decisionRefVersion.value).to.equal('12');
+    expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
+
+    // when
+    TestHelper.triggerValue(decisionRefVersion, '');
+
+    // then
+    expect(decisionRefVersion.className).to.equal('invalid');
+    expect(businessObject.get('camunda:decisionRefVersion')).to.equal('12');
+  }));
+
+  it('should change implementation type from DMN to Java Class for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_Version');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        decisionRefBinding = domQuery('select[name="decisionRefBinding"]', propertiesPanel._container),
+        decisionRefVersion = domQuery('input[name=decisionRefVersion]', propertiesPanel._container),
+        decisionRefValue = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
+        delegateField = domQuery('input[name=delegate]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefBinding.value).to.equal('version');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(decisionRefValue.value).to.equal('Bar');
+    expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefValue.value);
+    expect(decisionRefVersion.value).to.equal('12');
+    expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
+    expect(delegateField).to.be.empty;
+
+    // when
+    // select option 'class'
+    implType.options[0].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+    TestHelper.triggerValue(delegateField,'foo');
+
+    // then
+    expect(implType.value).to.equal('class');
+    expect(businessObject.get('camunda:decisionRef')).to.be.undefined;
+    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
+    expect(businessObject.get('camunda:decisionRefVersion')).to.be.undefined;
+    expect(businessObject.get('camunda:class')).to.be.exist;
+    expect(delegateField.value).to.equal('foo');
+    expect(businessObject.get('camunda:class')).to.equal(delegateField.value);
+  }));
+
+  it('should not fetch decision ref properties for a non decision business rule task element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask_1');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        resultVariable = domQuery('input[name=resultVariable]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    expect(implType.value).to.not.equal('decisionRef');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
+    expect(businessObject.get('camunda:decisionRefVersion')).to.be.undefined;
+    expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
+  }));
+
+  it('should remove result variable value for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_1');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        resultVariable = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=dmn\\.resVarClear]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(resultVariable.value).to.equal('resVar');
+    expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(resultVariable.value).to.be.empty;
+    expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+  }));
+
+  it('should remove decision ref value field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_1');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        decisionRefField = domQuery('input[name="decisionRefValue"]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=dmn\\.clear]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefField.value).to.equal('Bar');
+    expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefField.value);
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(implType.value).to.equal('decisionRef');
+    expect(businessObject.get('camunda:decisionRef')).to.be.defined;
+    expect(decisionRefField.className).to.equal('invalid');
+  }));
+
+  it('should remove decision ref version value field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_Version');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        decisionRefBinding = domQuery('select[name=decisionRefBinding]', propertiesPanel._container),
+        decisionRefField = domQuery('input[name="decisionRefValue"]', propertiesPanel._container),
+        decisionRefVersionField = domQuery('input[name="decisionRefVersion"]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=dmn\\.versionClear]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefField.value).to.equal('Bar');
+    expect(decisionRefBinding.value).to.equal('version');
+    expect(decisionRefVersionField.value).to.equal('12');
+    expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefField.value);
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersionField.value);
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(implType.value).to.equal('decisionRef');
+    expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefField.value);
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(decisionRefVersionField.className).to.equal('invalid');
+  }));
+
+});

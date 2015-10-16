@@ -203,4 +203,59 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get('camunda:class')).to.be.undefined;
   }));
 
+  it('should change implementation type from Expression to Java Class for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask_2');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
+        resVarField = domQuery('input[name=resultVariable]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('expression');
+    expect(delegateField.value).to.equal('BAR');
+    expect(businessObject.get('camunda:expression')).to.equal(delegateField.value);
+    expect(resVarField.value).to.equal('resVar');
+    expect(businessObject.get('camunda:resultVariable')).to.equal(resVarField.value);
+
+    // when
+    // select option 'class'
+    implType.options[0].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    // then
+    expect(implType.value).to.equal('class');
+    expect(businessObject.get('camunda:expression')).to.be.undefined;
+    expect(businessObject.get('camunda:class')).to.be.exist;
+    expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+  }));
+
+  it('should remove delegate value field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask_2');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=delegate\\.clear]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('expression');
+    expect(delegateField.value).to.equal('BAR');
+    expect(businessObject.get('camunda:expression')).to.equal(delegateField.value);
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(implType.value).to.equal('expression');
+    expect(businessObject.get('camunda:expression')).to.be.defined;
+    expect(delegateField.className).to.equal('invalid');
+  }));
+
 });

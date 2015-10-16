@@ -161,6 +161,30 @@ describe('result-variable', function() {
     expect(inputField.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
+  it('should remove result variable value for a throwing message event', inject(function(propertiesPanel, selection, elementRegistry) {
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_1');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        resultVariable = domQuery('input[name=resultVariable]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=delegate\\.resVarClear]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('expression');
+    expect(resultVariable.value).to.equal('EndVar');
+    expect(resultVariable.value).to.equal(businessObject.eventDefinitions[0].get('camunda:resultVariable'));
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(resultVariable.value).to.be.empty;
+    expect(businessObject.eventDefinitions[0].get('camunda:resultVariable')).to.be.undefined;
+  }));
+
   it('should not fetch a resultVariable field for a catching message event', inject(function(propertiesPanel, selection, elementRegistry) {
     propertiesPanel.attachTo(container);
 
