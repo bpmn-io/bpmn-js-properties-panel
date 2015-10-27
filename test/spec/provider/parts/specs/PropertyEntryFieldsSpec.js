@@ -274,8 +274,8 @@ describe('properties-entry-fields', function() {
     // when
     selection.select(shape);
 
-    var options = domQuery.all('select > option', propertiesPanel._container),
-        defaultOption = domQuery('select > option[selected=selected]', propertiesPanel._container);
+    var options = domQuery.all('select[name=calledElementBinding] > option', propertiesPanel._container),
+        defaultOption = domQuery('select[name=calledElementBinding] > option[selected=selected]', propertiesPanel._container);
 
     // then
     expect(options.length).to.equal(4);
