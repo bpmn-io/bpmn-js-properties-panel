@@ -15,7 +15,7 @@ var propertiesPanelModule = require('../../../../../lib'),
   camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('id-properties', function() {
+describe('sequence-flow-properties', function() {
 
   var diagramXML = require('../diagrams/SequenceFlowPropertyTest.bpmn');
 
@@ -55,9 +55,8 @@ describe('id-properties', function() {
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
 
-    var businessObject = getBusinessObject(shape),
-      conditionType = domQuery('select[name=conditionType] > option:checked', propertiesPanel._container),
-      conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+    var conditionType = domQuery('select[name=conditionType] > option:checked', propertiesPanel._container),
+        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     expect(conditionType.value).to.equal('expression');
     expect(conditionInput.value).to.equal('${foo.id()}');
@@ -88,7 +87,9 @@ describe('id-properties', function() {
 
   }));
 
-  it('should remove the condition of a condition expression sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the condition of a condition expression sequence flow',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('SequenceFlow_2');
