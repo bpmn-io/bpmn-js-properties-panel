@@ -59,7 +59,7 @@ describe('multi-instance-loop-properties', function() {
     var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
 
     expect(textField.value).to.equal(businessObject.get('loopCardinality').get('body'));
-    expect(domQuery('input[value=loopCardinality]:checked', propertiesPanel._container).value).to.equal('loopCardinality');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('loopCardinality');
   }));
 
   it('should set the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -73,7 +73,7 @@ describe('multi-instance-loop-properties', function() {
 
     // given
     expect(textField.value).to.equal('card');
-    expect(domQuery('input[value=loopCardinality]:checked', propertiesPanel._container).value).to.equal('loopCardinality');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('loopCardinality');
 
     // when
     TestHelper.triggerValue(textField, 'foo', 'change');
@@ -90,7 +90,7 @@ describe('multi-instance-loop-properties', function() {
     selection.select(shape);
 
     var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
-    var loopRadio = domQuery('input[value=loopCardinality]:checked', propertiesPanel._container);
+    var loopRadio = domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0];
 
     // given
     expect(textField.value).to.equal('card');
@@ -184,7 +184,7 @@ describe('multi-instance-loop-properties', function() {
 
     // given
     expect(textField.value).to.equal('coll');
-    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
 
     // when
     TestHelper.triggerValue(textField, 'foo', 'change');
@@ -201,8 +201,8 @@ describe('multi-instance-loop-properties', function() {
     selection.select(shape);
 
     var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
-    var loopRadio = domQuery('input[value=collection]:checked', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+    var loopRadio = domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0];
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // given
     expect(textField.value).to.equal('coll');
@@ -213,7 +213,7 @@ describe('multi-instance-loop-properties', function() {
 
     // then
     expect(textField.value).to.equal('');
-    expect(businessObject.get('collection')).to.be.undefined;
+    expect(businessObject.get('collection')).to.be.defined;
   }));
 
   it('should set the collection element variable for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -229,7 +229,7 @@ describe('multi-instance-loop-properties', function() {
     // given
     expect(textField.value).to.equal('coll');
     expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
 
     // when
     TestHelper.triggerValue(elementVarInput, 'myVar', 'change');
@@ -252,7 +252,7 @@ describe('multi-instance-loop-properties', function() {
     // given
     expect(textField.value).to.equal('coll');
     expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
 
     // when
     TestHelper.triggerValue(elementVarInput, '', 'change');
@@ -277,7 +277,7 @@ describe('multi-instance-loop-properties', function() {
     expect(radioButton.checked).to.be.false;
     expect(textField.value).to.equal('coll');
     expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery('input[value=collection]:checked', propertiesPanel._container).value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
 
     // when
     TestHelper.triggerEvent(radioButton, 'click');

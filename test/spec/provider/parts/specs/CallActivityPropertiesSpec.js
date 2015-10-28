@@ -87,6 +87,7 @@ describe('call-activity-properties', function() {
 
     var shape = elementRegistry.get('CallActivity_1');
     selection.select(shape);
+
     var inputField = domQuery('input[name=calledElement]', propertiesPanel._container);
     var businessObject = getBusinessObject(shape);
 
@@ -97,8 +98,8 @@ describe('call-activity-properties', function() {
     TestHelper.triggerValue(inputField, '', 'change');
 
     // then
-    expect(inputField.value).is.empty;
-    expect(businessObject.get('calledElement')).to.be.undefined;
+    expect(inputField.className).to.equal('invalid');
+    expect(businessObject.get('calledElement')).to.be.defined;
   }));
 
   it('should fetch a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -146,18 +147,16 @@ describe('call-activity-properties', function() {
 
     // given
     expect(businessObject.get('calledElementBinding')).to.equal('version');
+    expect(selectField.value).to.equal(businessObject.get('calledElementBinding'));
 
     // when
-    forEach(options, function(option) {
-      if(option.value == '') {
-        domAttr(option, 'selected', 'selected');
-      }
-    });
-
+    // select 'latest'
+    selectField.options[0].selected  = 'selected';
     TestHelper.triggerEvent(selectField, 'change');
 
     // then
-    expect(businessObject.get('calledElementBinding')).to.be.undefined;
+    expect(selectField.value).to.equal('latest');
+    expect(businessObject.get('calledElementBinding')).to.equal(selectField.value);
   }));
 
   it('should fetch a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -197,12 +196,11 @@ describe('call-activity-properties', function() {
   it('should remove a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('CallActivity_1'),
-        elementSyntax = 'input[name=calledElementVersion]';
+    var shape = elementRegistry.get('CallActivity_1');
     selection.select(shape);
 
-    var inputField = domQuery(elementSyntax, propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+    var inputField = domQuery('input[name=calledElementVersion]', propertiesPanel._container),
+      businessObject = getBusinessObject(shape);
 
     // given
     expect(businessObject.get('calledElementVersion')).to.equal(17);
@@ -211,6 +209,7 @@ describe('call-activity-properties', function() {
     TestHelper.triggerValue(inputField, '', 'change');
 
     // then
-    expect(businessObject.get('calledElementVersion')).to.be.undefined;
+    expect(inputField.className).to.equal('invalid');
+    expect(businessObject.get('calledElementVersion')).to.be.defined;
   }));
 });
