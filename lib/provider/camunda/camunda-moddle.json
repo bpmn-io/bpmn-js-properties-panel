@@ -148,6 +148,24 @@
       ]
     },
     {
+      "name": "ExternalCapable",
+      "extends": [
+        "bpmn:ServiceTask"
+      ],
+      "properties": [
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "topic",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
       "name": "Connector",
       "superClass": [
         "Element"
