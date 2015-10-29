@@ -114,4 +114,33 @@ describe('sequence-flow-properties', function() {
 
   }));
 
+  it('should change condition type from expression to ""', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('SequenceFlow_2');
+    selection.select(shape);
+
+    var businessObject = getBusinessObject(shape),
+      conditionType = domQuery('select[name=conditionType]', propertiesPanel._container),
+      conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+
+    // given
+    expect(conditionType.value).to.equal('expression');
+    expect(conditionInput.value).to.equal('${foo.id()}');
+    expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
+
+    // when
+    // select ''
+    conditionType.options[1].selected = 'selected';
+    TestHelper.triggerEvent(conditionType, 'change');
+
+    // then
+    expect(conditionType.value).to.equal('');
+    expect(conditionInput.parentElement.className).to.contain('djs-properties-hide');
+    expect(businessObject.conditionExpression).to.be.undefined;
+
+  }));
+
+
 });
