@@ -1,4 +1,1 @@
-module.exports = {
-  __init__: [ 'propertiesPanel' ],
-  propertiesPanel: [ 'type', require('./lib/PropertiesPanel') ]
-};
+module.exports = require('./lib');
