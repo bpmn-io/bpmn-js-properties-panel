@@ -39,7 +39,7 @@ describe('external-service-task-properties', function() {
   beforeEach(inject(function(commandStack) {
 
     var undoButton = document.createElement('button');
-    undoButton.textContent = 'UNDO';
+        undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
       commandStack.undo();
@@ -48,7 +48,9 @@ describe('external-service-task-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should fetch properties of an external service task', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch properties of an external service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_external');
@@ -64,22 +66,25 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('camunda:type')).to.equal('external');
   }));
 
-  it('should not fetch external task properties of a business rule task', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch external task properties of a business rule task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container);
 
     expect(implType.value).to.not.equal('type');
     expect(topicField).to.be.null;
     expect(implType.value).to.equal('decisionRef');
   }));
 
-  it('should fill topic property of an external service task', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill topic property of an external service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_external');
@@ -93,7 +98,7 @@ describe('external-service-task-properties', function() {
     expect(implType.value).to.equal('type');
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
-    
+
     // when
     TestHelper.triggerValue(topicField, 'OrderProcessing');
 
@@ -103,7 +108,9 @@ describe('external-service-task-properties', function() {
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
   }));
 
-  it('should delete topic property of an external service task', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should delete topic property of an external service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_external');
@@ -127,7 +134,9 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('camunda:topic')).to.equal('ShipmentProcessing');
   }));
 
-  it('should change implementation type from external service task to java class', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change implementation type from external service task to java class',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_external');
@@ -159,7 +168,9 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('camunda:topic')).to.be.undefined;
   }));
 
-  it('should change implementation type from expression to external service task', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change implementation type from expression to external service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_1');

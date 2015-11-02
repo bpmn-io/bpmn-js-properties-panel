@@ -114,7 +114,8 @@ describe('sequence-flow-properties', function() {
 
   }));
 
-  it('should change condition type from expression to ""', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change condition type from expression to ""',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     propertiesPanel.attachTo(container);
 
