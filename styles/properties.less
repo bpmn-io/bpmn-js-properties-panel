@@ -211,7 +211,7 @@
 
   .textfield,
   .textarea {
-    [data-action=clear] {
+    [data-action*="clear"] {
       top: -22px;
       right: 0;
       &:before {
@@ -461,7 +461,6 @@
   }
 }
 
-
 .djs-properties-hide,
 label.djs-properties-hide {
   display: none;
@@ -477,6 +476,33 @@ label.djs-properties-hide {
     border-color: @gray-light;
     border-style: solid;
     border-width: 2px 0 2px 2px;
+}
+
+[data-group="listener"] .djs-properties-entry > div > button {
+  margin: 2.5em 0.5em;
+}
+
+[data-list-entry-container] > .djs-listener-area {
+  border: 1px solid @gray-light;
+  padding: 2.5em 1.5em 1em;
+  margin: 1em 1px;
+  > h1 {
+    margin: -3.5em -0.5em -52px;
+    > button {
+      margin: 3.5em -1.5em;
+      position: relative;
+    }
+  }
+}
+
+.djs-properties-static {
+  margin-bottom: 0px;
+  margin-top:0px;
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 1px 0px;
+  font: 13.3333px Arial;
+  width: 14%;
 }
 
 @import "./popup";

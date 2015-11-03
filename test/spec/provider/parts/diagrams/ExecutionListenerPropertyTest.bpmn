@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" xmlns:custom="http://custom"
+                   xmlns:camunda="http://camunda.org/bpmn" id="_pHDz0KojEeOJhIBv1RySdg" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn2:process id="Process_1" isExecutable="false">
+    <bpmn2:startEvent id="StartEvent_1" custom:foo="BAR">
+      <bpmn2:documentation>FOO FOO BAR BAR</bpmn2:documentation>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_1" targetRef="ServiceTask_Execution">
+      <bpmn2:extensionElements> 
+        <camunda:executionListener event="take" delegateExpression="foo"/>
+      </bpmn2:extensionElements>
+    </bpmn2:sequenceFlow>
+    <bpmn2:serviceTask id="ServiceTask_Execution" custom:foo="BAR">
+      <bpmn2:extensionElements> 
+        <camunda:executionListener event="end" expression="executionListenerExpr"/>
+        <camunda:executionListener event="start" expression="abc"/>
+        <camunda:failedJobRetryTimeCycle>asd</camunda:failedJobRetryTimeCycle>
+      </bpmn2:extensionElements>
+    </bpmn2:serviceTask>
+    <bpmn2:serviceTask id="ServiceTask_2" camunda:expression="BAR" camunda:resultVariable="resVar"/>
+    <bpmn2:textAnnotation id="TextAnnotation_1"><bpmn2:text>my comment</bpmn2:text></bpmn2:textAnnotation>
+    <bpmn2:association id="Association_1" sourceRef="ServiceTask_2" targetRef="TextAnnotation_1" />
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="124.0" y="148.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="1.0" width="0.0" x="142.0" y="189.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1_di" bpmnElement="SequenceFlow_1">
+        <di:waypoint xsi:type="dc:Point" x="160" y="165" />
+        <di:waypoint xsi:type="dc:Point" x="260" y="165" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="270" y="304" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_3" bpmnElement="ServiceTask_Execution">
+        <dc:Bounds height="80.0" width="100.0" x="260.0" y="146.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_4" bpmnElement="ServiceTask_2">
+        <dc:Bounds height="80.0" width="100.0" x="400.0" y="146.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1_di" bpmnElement="TextAnnotation_1">
+        <dc:Bounds x="450" y="30" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1_di" bpmnElement="Association_1">
+        <di:waypoint xsi:type="dc:Point" x="449" y="146" />
+        <di:waypoint xsi:type="dc:Point" x="455" y="105" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
