@@ -58,7 +58,7 @@ describe('external-service-task-properties', function() {
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
     	implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.equal('type');
     expect(topicField.value).to.equal('ShipmentProcessing');
@@ -75,11 +75,14 @@ describe('external-service-task-properties', function() {
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container);
+        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.not.equal('type');
     expect(topicField).to.be.null;
     expect(implType.value).to.equal('decisionRef');
+    expect(businessObject).to.not.have.property('topic');
+    expect(businessObject).to.not.have.property('type');
   }));
 
   it('should fill topic property of an external service task',
@@ -164,6 +167,7 @@ describe('external-service-task-properties', function() {
     expect(topicField.parentElement.className).to.contain('djs-properties-hide');
     expect(classField.value).to.equal('myClass');
     expect(businessObject.get('camunda:class')).to.equal(classField.value);
+    expect(businessObject).to.have.property('class');
     expect(businessObject.get('camunda:type')).to.be.undefined;
     expect(businessObject.get('camunda:topic')).to.be.undefined;
   }));

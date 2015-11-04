@@ -80,7 +80,7 @@ describe('service-task-delegate-properties', function() {
 
     // given
     expect(implType.value).to.equal('');
-    expect(businessObject.get('camunda:decisionRef')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:decisionRef');
 
     // when
     // select option 'dmn'
@@ -130,7 +130,7 @@ describe('service-task-delegate-properties', function() {
 
     // given
     expect(implType.value).to.equal('');
-    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
 
     // when
     // select option 'dmn'
@@ -141,7 +141,7 @@ describe('service-task-delegate-properties', function() {
     expect(implType.value).to.equal('decisionRef');
     expect(decisionRefBinding.value).to.equal('latest');
     // 'latest' is the default value for decisionRefBinding
-    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
   }));
 
   it('should change decision ref binding for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -159,7 +159,7 @@ describe('service-task-delegate-properties', function() {
     expect(implType.value).to.equal('decisionRef');
     expect(decisionRefBinding.value).to.equal('deployment');
     expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
-    expect(businessObject.get('camunda:decisionRefVersion')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:decisionRefVersion');
 
     // when
     // select option 'version'
@@ -235,9 +235,9 @@ describe('service-task-delegate-properties', function() {
 
     // then
     expect(implType.value).to.equal('class');
-    expect(businessObject.get('camunda:decisionRef')).to.be.undefined;
-    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
-    expect(businessObject.get('camunda:decisionRefVersion')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:decisionRef');
+    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
+    expect(businessObject).to.not.have.property('camunda:decisionRefVersion');
     expect(businessObject.get('camunda:class')).to.be.exist;
     expect(delegateField.value).to.equal('foo');
     expect(businessObject.get('camunda:class')).to.equal(delegateField.value);
@@ -254,8 +254,8 @@ describe('service-task-delegate-properties', function() {
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.not.equal('decisionRef');
-    expect(businessObject.get('camunda:decisionRefBinding')).to.be.undefined;
-    expect(businessObject.get('camunda:decisionRefVersion')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
+    expect(businessObject).to.not.have.property('camunda:decisionRefVersion');
     expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
@@ -280,7 +280,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     expect(resultVariable.value).to.be.empty;
-    expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+    expect(businessObject).to.not.have.property('camunda:resultVariable');
   }));
 
   it('should remove decision ref value field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -304,7 +304,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     expect(implType.value).to.equal('decisionRef');
-    expect(businessObject.get('camunda:decisionRef')).to.be.defined;
+    expect(businessObject).to.have.property('decisionRef');
     expect(decisionRefField.className).to.equal('invalid');
   }));
 

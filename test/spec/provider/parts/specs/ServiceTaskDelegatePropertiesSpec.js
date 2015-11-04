@@ -49,7 +49,8 @@ describe('service-task-delegate-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should fill expression property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill expression property',
+        inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -70,11 +71,12 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('camunda:class')).to.be.undefined;
+    expect(taskBo.get('class')).to.be.undefined;
     expect(taskBo.get('camunda:delegateExpression')).to.equal('foo');
   }));
 
-  it('should fill delegate expression property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill delegate expression property',
+        inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -98,7 +100,8 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get("camunda:expression")).to.equal("foo");
   }));
 
-  it('should fill class property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill class property',
+        inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -122,7 +125,8 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get("class")).to.equal("foo");
   }));
 
-  it('should remove all other properties in a mutuable choice', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove all other properties in a mutuable choice',
+        inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -145,13 +149,16 @@ describe('service-task-delegate-properties', function() {
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('camunda:expression')).to.equal('foo');
     expect(taskBo.get('camunda:class')).to.be.undefined;
+    expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
 
     expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
     expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).to.equal('expression');
     expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
-  it('should remove all other properties in a mutuable choice when first changing the input', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove all other properties in a mutuable choice when first changing the input',
+        inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var taskShape = elementRegistry.get('ServiceTask_2');
 
@@ -173,13 +180,15 @@ describe('service-task-delegate-properties', function() {
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('camunda:expression')).to.equal('foo');
     expect(taskBo.get('camunda:class')).to.be.undefined;
+    expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
 
     expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
     expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).to.equal('expression');
     expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).not.to.equal('class');
   }));
 
-  it('should not apply an empty string to a property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not apply an empty string to a property',
+        inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
@@ -200,10 +209,14 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get('camunda:class')).to.be.undefined;
+    expect(taskBo).to.not.have.property('class');
+    expect(taskBo).to.not.have.property('expression');
+    expect(taskBo).to.not.have.property('delegateExpression');
   }));
 
-  it('should change implementation type from Expression to Java Class for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change implementation type from Expression to Java Class for an element',
+        inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_2');
@@ -228,12 +241,15 @@ describe('service-task-delegate-properties', function() {
 
     // then
     expect(implType.value).to.equal('class');
+    expect(businessObject).to.have.property('class');
     expect(businessObject.get('camunda:expression')).to.be.undefined;
-    expect(businessObject.get('camunda:class')).to.be.exist;
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+    expect(businessObject.get('camunda:delegateExpression')).to.be.undefined;
   }));
 
-  it('should remove delegate value field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove delegate value field for an element',
+        inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_2');
@@ -241,7 +257,8 @@ describe('service-task-delegate-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=delegate\\.clear]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=delegate\\.clear]', 
+                                propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -254,8 +271,53 @@ describe('service-task-delegate-properties', function() {
 
     // then
     expect(implType.value).to.equal('expression');
-    expect(businessObject.get('camunda:expression')).to.be.defined;
+    expect(businessObject).to.have.property('expression');
     expect(delegateField.className).to.equal('invalid');
+    expect(businessObject).to.not.have.property('delegateExpression');
+    expect(businessObject).to.not.have.property('class');
+  }));
+
+  it('should add service task properties without adding undefined DMN or external properties',
+        inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask_Empty');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('');
+    expect(businessObject.get('camunda:expression')).to.not.exist;
+    expect(businessObject.get('camunda:class')).to.not.exist;
+    expect(businessObject.get('camunda:delegateExpression')).to.not.exist;
+
+    // select 'expression'
+    implType.options[1].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+    TestHelper.triggerValue(delegateField, 'foo');
+
+    expect(implType.value).to.equal('expression');
+    expect(delegateField.value).to.equal('foo');
+    expect(businessObject.get('camunda:topic')).to.be.undefined;
+    expect(businessObject.get('camunda:type')).to.be.undefined;
+    expect(businessObject).to.not.have.property('decisionRef');
+    expect(businessObject).to.not.have.property('decisionRefBinding');
+    expect(businessObject).to.not.have.property('decisionRefVersion');
+
+    businessObject.$model.toXML(businessObject, {format:true}, function(err, xml) {
+        expect(xml).to.contain('camunda:expression="' + delegateField.value + '"');
+        expect(xml).to.not.contain('camunda:class');
+        expect(xml).to.not.contain('camunda:delegateExpression');
+        expect(xml).to.not.contain('camunda:topic');
+        expect(xml).to.not.contain('camunda:type');
+        expect(xml).to.not.contain('camunda:decisionRef');
+        expect(xml).to.not.contain('camunda:decisionRefVersion');
+        expect(xml).to.not.contain('camunda:decisionRefBinding');
+    });
   }));
 
 });

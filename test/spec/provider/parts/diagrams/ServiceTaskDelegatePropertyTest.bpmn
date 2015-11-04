@@ -14,6 +14,7 @@
     </bpmn2:startEvent>
     <bpmn2:serviceTask id="Task_1" custom:foo="BAR" />
     <bpmn2:serviceTask id="ServiceTask_2" camunda:expression="BAR" camunda:resultVariable="resVar"/>
+    <bpmn2:serviceTask id="ServiceTask_Empty" />
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -28,6 +29,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_Task_4" bpmnElement="ServiceTask_2">
         <dc:Bounds height="80.0" width="100.0" x="400.0" y="146.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_Empty" bpmnElement="ServiceTask_Empty">
+        <dc:Bounds height="80.0" width="100.0" x="550.0" y="146.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
