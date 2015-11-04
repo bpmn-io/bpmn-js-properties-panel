@@ -11,8 +11,7 @@ var propertiesPanelModule = require('../../../../../lib'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
+  propertiesProviderModule = require('../../../../../lib/provider/bpmn'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('documentation-properties', function() {
@@ -32,8 +31,7 @@ describe('documentation-properties', function() {
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
-    modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    modules: testModules
   }));
 
 
