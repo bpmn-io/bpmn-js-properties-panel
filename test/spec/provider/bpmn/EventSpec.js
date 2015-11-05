@@ -1,24 +1,24 @@
 'use strict';
 
-var TestHelper = require('../../../../TestHelper');
+var TestHelper = require('../../../TestHelper');
 
 var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../../lib'),
+var propertiesPanelModule = require('../../../../lib'),
   domQuery = require('min-dom/lib/query'),
   domAttr = require('min-dom/lib/attr'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../../lib/provider/bpmn'),
+  propertiesProviderModule = require('../../../../lib/provider/bpmn'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
   forEach = require('lodash/collection/forEach');
 
 describe('event-properties', function() {
 
-  var diagramXML = require('../diagrams/EventPropertyTest.bpmn');
+  var diagramXML = require('./Event.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,

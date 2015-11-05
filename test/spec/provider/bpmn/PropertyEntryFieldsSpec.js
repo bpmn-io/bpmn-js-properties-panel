@@ -1,27 +1,27 @@
 'use strict';
 
-var TestHelper = require('../../../../TestHelper');
+var TestHelper = require('../../../TestHelper');
 
 var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../../lib'),
+var propertiesPanelModule = require('../../../../lib'),
   domQuery = require('min-dom/lib/query'),
   domAttr = require('min-dom/lib/attr'),
   domClasses = require('min-dom/lib/classes'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
+  propertiesProviderModule = require('../../../../lib/provider/camunda'),
+  camundaModdlePackage = require('../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 
 
 describe('properties-entry-fields', function() {
 
-  var diagramXML = require('../diagrams/PropertyEntryFields.bpmn');
+  var diagramXML = require('./PropertyEntryFields.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,

@@ -1,23 +1,23 @@
 'use strict';
 
-var TestHelper = require('../../../../TestHelper');
+var TestHelper = require('../../../TestHelper');
 
 var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../../lib'),
+var propertiesPanelModule = require('../../../../lib'),
   domQuery = require('min-dom/lib/query'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('../../../../../lib/provider/camunda/camunda-moddle'),
+  propertiesProviderModule = require('../../../../lib/provider/camunda'),
+  camundaModdlePackage = require('../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('multi-instance-loop-properties', function() {
 
-  var diagramXML = require('../diagrams/MultiInstanceLoopPropertyTest.bpmn');
+  var diagramXML = require('./MultiInstanceLoop.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,
