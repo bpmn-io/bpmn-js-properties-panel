@@ -2,7 +2,7 @@
 @gray: #666;
 @gray-dark: #333;
 @gray-light: #ccc;
-@gray-lighter: #fafafa;
+@gray-lighter: #f8f8f8;
 @toggle-color: mix(@brand-primary, @gray-light);
 
 // fonts are subset from https://github.com/danielbruce/entypo
@@ -28,8 +28,8 @@
 #js-properties-panel {
   position: absolute;
   z-index: 99;
-  top: 20px;
-  right: 20px;
+  right: 0px;
+  height: 100%;
   overflow: visible;
 }
 
@@ -67,8 +67,7 @@
 
 .overlay() {
   background-color: @gray-lighter;
-  border: solid 1px @gray-light;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  border-left: solid 1px @gray-light;
 }
 
 .action-button() {
@@ -101,18 +100,17 @@
   display: inline-block;
   vertical-align: middle;
   color: @gray;
+}
 
-  &:after {
-    content: ':'
-  }
+.djs-properties-panel.hidden {
+  display: none;
 }
 
 .djs-properties-panel {
   .overlay();
   position: relative;
-
-  max-width: 260px;
-  max-height: 600px;
+  height: 100%;
+  width: 260px;
   overflow: auto;
 
   &:empty {
@@ -469,5 +467,16 @@ label.djs-properties-hide {
   display: none;
 }
 
+.djs-properties-panel-handle {
+    background-color: @gray-lighter;
+    position: relative;
+    width: 20px;
+    height: 40px;
+    top: 45%;
+    float: left;
+    border-color: @gray-light;
+    border-style: solid;
+    border-width: 2px 0 2px 2px;
+}
 
 @import "./popup";
