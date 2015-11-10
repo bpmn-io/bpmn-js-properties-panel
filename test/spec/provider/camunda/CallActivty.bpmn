@@ -14,6 +14,7 @@
   <bpmn2:process id="Process_1" isExecutable="false">
 
     <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17" />
+    <bpmn2:callActivity id="CallActivity_2" calledElement="asd" />
 
   </bpmn2:process>
 
@@ -21,6 +22,9 @@
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_2" bpmnElement="CallActivity_1">
         <dc:Bounds height="80.0" width="100.0" x="24.0" y="24.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_3" bpmnElement="CallActivity_2">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="180.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

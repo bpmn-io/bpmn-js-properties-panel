@@ -51,7 +51,9 @@ describe('call-activity-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should fetch a calledElement field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElement field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1');
@@ -63,7 +65,9 @@ describe('call-activity-properties', function() {
     expect(inputField.value).to.equal(businessObject.get('calledElement'));
   }));
 
-  it('should fill a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a calledElement property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1');
@@ -82,7 +86,9 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('calledElement')).to.equal('foo');
   }));
 
-  it('should remove a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a calledElement property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1');
@@ -102,7 +108,9 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('calledElement')).to.be.defined;
   }));
 
-  it('should fetch a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElementBinding field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1'),
@@ -113,7 +121,9 @@ describe('call-activity-properties', function() {
     expect(selectedOption.value).to.equal('version');
   }));
 
-  it('should fill a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a calledElementBinding field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1'),
@@ -134,7 +144,9 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('calledElementBinding')).to.equal('latest');
   }));
 
-  it('should remove a calledElementBinding property', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a calledElementBinding property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1'),
@@ -159,7 +171,9 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('calledElementBinding')).to.equal(selectField.value);
   }));
 
-  it('should fetch a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElementVersion field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1'),
@@ -173,7 +187,9 @@ describe('call-activity-properties', function() {
     expect(parseInt(inputField.value)).to.equal(17);
   }));
 
-  it('should fill a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a calledElementVersion field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1'),
@@ -193,7 +209,9 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('calledElementVersion')).to.equal('42');
   }));
 
-  it('should remove a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a calledElementVersion field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_1');
@@ -212,4 +230,22 @@ describe('call-activity-properties', function() {
     expect(inputField.className).to.equal('invalid');
     expect(businessObject.get('calledElementVersion')).to.be.defined;
   }));
+
+  it('should fetch a calledElementBinding field with default value "latest"',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('CallActivity_2');
+    selection.select(shape);
+
+    var businessObject = getBusinessObject(shape),
+        elementSyntax = 'select[name=calledElementBinding]';
+
+    var selectedOption = domQuery(elementSyntax, propertiesPanel._container);
+
+    expect(selectedOption.value).to.equal('latest');
+    expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest');
+  }));
+
 });

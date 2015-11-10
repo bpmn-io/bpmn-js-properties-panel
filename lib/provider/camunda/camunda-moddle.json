@@ -84,7 +84,8 @@
         {
           "name": "calledElementBinding",
           "isAttr": true,
-          "type": "String"
+          "type": "String",
+          "default": "latest"
         },
         {
           "name": "calledElementVersion",
@@ -138,7 +139,8 @@
         {
           "name": "decisionRefBinding",
           "isAttr": true,
-          "type": "String"
+          "type": "String",
+          "default": "latest"
         },
         {
           "name": "decisionRefVersion",

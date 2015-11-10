@@ -15,7 +15,7 @@ var propertiesPanelModule = require('../../../../lib'),
   camundaModdlePackage = require('../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('service-task-delegate-properties', function() {
+describe('decision-business-rule-task-properties', function() {
 
   var diagramXML = require('./DecisionBusinessRuleTask.bpmn');
 
@@ -59,13 +59,11 @@ describe('service-task-delegate-properties', function() {
     var decisionRefField = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
     	resultVariable = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
     	implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
-    	decisionRefBinding = domQuery('select[name=decisionRefBinding] > option:checked', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.equal('decisionRef');
     expect(decisionRefField.value).to.equal('Bar');
     expect(decisionRefField.value).to.equal(businessObject.get('camunda:decisionRef'));
-    expect(decisionRefBinding.value).to.equal('latest');
     expect(resultVariable.value).to.equal('resVar');
     expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
@@ -142,7 +140,7 @@ describe('service-task-delegate-properties', function() {
 
     // when
     // select option 'dmn'
-    implType.options[3].selected  = 'selected';
+    implType.options[3].selected  = "selected";
     TestHelper.triggerEvent(implType, 'change');
 
     // then
@@ -403,7 +401,7 @@ describe('service-task-delegate-properties', function() {
 
   }));
 
-  it('should set map decision result when fill result variable',
+  it('should set map decision result with default value "outputList" when fill result variable',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     propertiesPanel.attachTo(container);
@@ -426,7 +424,7 @@ describe('service-task-delegate-properties', function() {
     TestHelper.triggerValue(dmnResultVariableInput, 'myResVar');
 
     // then
-    expect(mapDecisionResult.value).to.equal('singleValue');
+    expect(mapDecisionResult.value).to.equal('outputList');
     expect(dmnResultVariableInput.value).to.equal('myResVar');
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
     expect(businessObject.get('camunda:resultVariable')).to.equal(dmnResultVariableInput.value);
@@ -489,6 +487,5 @@ describe('service-task-delegate-properties', function() {
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
 
   }));
-
 
 });
