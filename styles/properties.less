@@ -24,16 +24,6 @@
 }
 
 
-
-#js-properties-panel {
-  position: absolute;
-  z-index: 99;
-  right: 0px;
-  height: 100%;
-  overflow: visible;
-}
-
-
 .invalid() {
   border-color: red;
   background: rgb(255, 209, 209);
@@ -67,7 +57,6 @@
 
 .overlay() {
   background-color: @gray-lighter;
-  border-left: solid 1px @gray-light;
 }
 
 .action-button() {
@@ -102,16 +91,10 @@
   color: @gray;
 }
 
-.djs-properties-panel.hidden {
-  display: none;
-}
-
 .djs-properties-panel {
   .overlay();
   position: relative;
-  height: 100%;
-  width: 260px;
-  overflow: auto;
+  height:100%;
 
   &:empty {
     display: none;
@@ -464,18 +447,6 @@
 .djs-properties-hide,
 label.djs-properties-hide {
   display: none;
-}
-
-.djs-properties-panel-handle {
-    background-color: @gray-lighter;
-    position: relative;
-    width: 20px;
-    height: 40px;
-    top: 45%;
-    float: left;
-    border-color: @gray-light;
-    border-style: solid;
-    border-width: 2px 0 2px 2px;
 }
 
 [data-group="listener"] .djs-properties-entry > div > button {
