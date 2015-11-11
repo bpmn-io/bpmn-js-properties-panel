@@ -1,6 +1,9 @@
 language: node_js
 node_js: '0.10'
 
+addons:
+  firefox: latest
+
 script:
   - grunt jshint test
 
