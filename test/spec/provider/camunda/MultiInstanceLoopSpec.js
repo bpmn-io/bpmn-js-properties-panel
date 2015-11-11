@@ -15,12 +15,15 @@ var propertiesPanelModule = require('../../../../lib'),
   camundaModdlePackage = require('../../../../lib/provider/camunda/camunda-moddle'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+
 describe('multi-instance-loop-properties', function() {
 
   var diagramXML = require('./MultiInstanceLoop.bpmn');
 
   var testModules = [
-    coreModule, selectionModule, modelingModule,
+    coreModule,
+    selectionModule,
+    modelingModule,
     propertiesPanelModule,
     propertiesProviderModule
   ];
@@ -36,8 +39,7 @@ describe('multi-instance-loop-properties', function() {
     moddleExtensions: {camunda: camundaModdlePackage}
   }));
 
-
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -47,10 +49,13 @@ describe('multi-instance-loop-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
-  it('should fetch the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the loopCardinality for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -59,11 +64,12 @@ describe('multi-instance-loop-properties', function() {
     var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
 
     expect(textField.value).to.equal(businessObject.get('loopCardinality').get('body'));
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('loopCardinality');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
+      .to.equal('loopCardinality');
   }));
 
+
   it('should set the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -73,7 +79,8 @@ describe('multi-instance-loop-properties', function() {
 
     // given
     expect(textField.value).to.equal('card');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('loopCardinality');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
+      .to.equal('loopCardinality');
 
     // when
     TestHelper.triggerValue(textField, 'foo', 'change');
@@ -83,8 +90,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('loopCardinality').get('body')).to.equal('foo');
   }));
 
-  it('should remove the loopCardinality value for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove the loopCardinality value for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -106,8 +114,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('loopCardinality')).to.exist;
   }));
 
-  it('should fetch the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the completionCondition for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -118,8 +127,8 @@ describe('multi-instance-loop-properties', function() {
     expect(textField.value).to.equal(businessObject.get('completionCondition').get('body'));
   }));
 
+
   it('should set the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -139,8 +148,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('completionCondition').get('body')).to.equal('foo');
   }));
 
-  it('should remove the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove the completionCondition for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -159,8 +169,8 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('completionCondition')).to.be.undefined;
   }));
 
+
   it('should fetch the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
@@ -173,8 +183,8 @@ describe('multi-instance-loop-properties', function() {
     expect(textField.value).to.equal(businessObject.get('collection'));
   }));
 
+
   it('should set the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
@@ -184,7 +194,8 @@ describe('multi-instance-loop-properties', function() {
 
     // given
     expect(textField.value).to.equal('coll');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
+      .to.equal('collection');
 
     // when
     TestHelper.triggerValue(textField, 'foo', 'change');
@@ -194,8 +205,8 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('collection')).to.equal('foo');
   }));
 
+
   it('should remove the collection value for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
@@ -216,8 +227,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('collection')).to.be.defined;
   }));
 
-  it('should set the collection element variable for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the collection element variable for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
@@ -229,7 +241,8 @@ describe('multi-instance-loop-properties', function() {
     // given
     expect(textField.value).to.equal('coll');
     expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
+      .to.equal('collection');
 
     // when
     TestHelper.triggerValue(elementVarInput, 'myVar', 'change');
@@ -239,8 +252,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('camunda:elementVariable')).to.equal('myVar');
   }));
 
-  it('should remove the collection element variable for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove the collection element variable for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
@@ -252,7 +266,8 @@ describe('multi-instance-loop-properties', function() {
     // given
     expect(textField.value).to.equal('coll');
     expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
+      .to.equal('collection');
 
     // when
     TestHelper.triggerValue(elementVarInput, '', 'change');
@@ -262,8 +277,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('camunda:elementVariable')).to.be.undefined;
   }));
 
-  it('should change multi instance collection to loop cardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should change multi instance collection to loop cardinality for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask3');
     selection.select(shape);
@@ -277,7 +293,8 @@ describe('multi-instance-loop-properties', function() {
     expect(radioButton.checked).to.be.false;
     expect(textField.value).to.equal('coll');
     expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value).to.equal('collection');
+    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
+      .to.equal('collection');
 
     // when
     TestHelper.triggerEvent(radioButton, 'click');
@@ -289,8 +306,9 @@ describe('multi-instance-loop-properties', function() {
 
   }));
 
-  it('should fetch the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the multi instance async before property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -302,8 +320,9 @@ describe('multi-instance-loop-properties', function() {
     expect(input.checked).to.be.ok;
   }));
 
-  it('should set the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the multi instance async before property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('ServiceTask');
@@ -324,8 +343,9 @@ describe('multi-instance-loop-properties', function() {
     expect(input.checked).to.not.be.ok;
   }));
 
-  it('should fetch the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the multi instance async after property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -337,8 +357,9 @@ describe('multi-instance-loop-properties', function() {
     expect(input.checked).to.not.be.ok;
   }));
 
-  it('should set the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the multi instance async after property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -357,8 +378,9 @@ describe('multi-instance-loop-properties', function() {
     expect(input.checked).to.be.ok;
   }));
 
-  it('should fetch the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the multi instance exclusive property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -369,8 +391,9 @@ describe('multi-instance-loop-properties', function() {
     expect(input.checked).to.equal(businessObject.get('exclusive'));
   }));
 
-  it('should set the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the multi instance exclusive property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -389,8 +412,9 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('exclusive')).to.not.be.ok;
   }));
 
-  it('should reset the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should reset the multi instance exclusive property for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -407,10 +431,29 @@ describe('multi-instance-loop-properties', function() {
     TestHelper.triggerEvent(exclusiveInput, 'click'); // change the value of the exclusive field
     TestHelper.triggerEvent(asyncBeforeInput, 'click'); // reset the exclusive field
 
-
     // then
     expect(exclusiveInput.checked).to.equal(businessObject.get('exclusive'));
     expect(businessObject.get('exclusive')).to.be.ok;
+  }));
+
+
+  it('should update if loop markers are toggled',
+    inject(function(propertiesPanel, elementRegistry, selection, moddle, modeling) {
+
+    // given
+    var shape = elementRegistry.get('ServiceTask2');
+
+    selection.select(shape);
+
+    // when
+    var loopCharacteristics = moddle.create('bpmn:MultiInstanceLoopCharacteristics');
+
+    modeling.updateProperties(shape, { loopCharacteristics: loopCharacteristics });
+
+    var loopType = domQuery('input[id=loop-cardinality]', propertiesPanel._container);
+
+    // then
+    expect(loopType).to.exist;
   }));
 
 });
