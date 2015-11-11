@@ -1,0 +1,104 @@
+{
+  "name": "bpmn-js-properties-panel",
+  "version": "0.1.0",
+  "dependencies": {
+    "bpmn-js": {
+      "version": "bpmn-io/bpmn-js",
+      "dependencies": {
+        "bpmn-moddle": {
+          "version": "bpmn-io/bpmn-moddle",
+          "dependencies": {
+            "moddle": {
+              "version": "bpmn-io/moddle"
+            },
+            "moddle-xml": {
+              "version": "bpmn-io/moddle-xml",
+              "dependencies": {
+                "sax": {
+                  "version": "0.6.1"
+                },
+                "tiny-stack": {
+                  "version": "0.1.0"
+                }
+              }
+            }
+          }
+        },
+        "diagram-js-direct-editing": {
+          "version": "bpmn-io/diagram-js-direct-editing"
+        },
+        "didi": {
+          "version": "0.0.4"
+        },
+        "ids": {
+          "version": "0.1.1",
+          "dependencies": {
+            "hat": {
+              "version": "0.0.3"
+            }
+          }
+        },
+        "object-refs": {
+          "version": "0.1.1"
+        }
+      }
+    },
+    "diagram-js": {
+      "version": "bpmn-io/diagram-js",
+      "dependencies": {
+        "didi": {
+          "version": "0.1.0"
+        },
+        "eve": {
+          "version": "0.4.2"
+        },
+        "hammerjs": {
+          "version": "2.0.4"
+        },
+        "object-refs": {
+          "version": "0.1.1"
+        },
+        "snapsvg": {
+          "version": "https://github.com/Nikku/Snap.svg/archive/v0.3.0-browserify.tar.gz"
+        }
+      }
+    },
+    "inherits": {
+      "version": "2.0.1"
+    },
+    "lodash": {
+      "version": "3.10.1"
+    },
+    "min-dom": {
+      "version": "0.2.0",
+      "dependencies": {
+        "component-classes": {
+          "version": "1.2.4",
+          "dependencies": {
+            "component-indexof": {
+              "version": "0.0.3"
+            }
+          }
+        },
+        "component-closest": {
+          "version": "0.1.4"
+        },
+        "component-delegate": {
+          "version": "0.2.3"
+        },
+        "component-event": {
+          "version": "0.1.4"
+        },
+        "component-matches-selector": {
+          "version": "0.1.5"
+        },
+        "component-query": {
+          "version": "0.0.3"
+        },
+        "domify": {
+          "version": "1.4.0"
+        }
+      }
+    }
+  }
+}
