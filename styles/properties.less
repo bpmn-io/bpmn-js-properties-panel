@@ -23,7 +23,6 @@
   font-style: normal;
 }
 
-
 .invalid() {
   border-color: red;
   background: rgb(255, 209, 209);
@@ -89,12 +88,14 @@
   display: inline-block;
   vertical-align: middle;
   color: @gray;
+  &[for] {
+    cursor: pointer;
+  }
 }
 
 .djs-properties-panel {
   .overlay();
   position: relative;
-  height:100%;
 
   &:empty {
     display: none;
@@ -128,7 +129,8 @@
 
 
   [type=text],
-  textarea {
+  textarea,
+  select {
     width: 100%;
   }
 
@@ -151,6 +153,17 @@
 
   .hidden {
     display: none;
+  }
+
+  .pp-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    &:first-of-type {
+      margin-top: 0;
+    }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 
   .textfield label,
@@ -433,7 +446,7 @@
   }
 }
 
-.djs-properties-group:not(.hidden) + .djs-properties-group {
+.djs-properties-group + .djs-properties-group {
   border-top: 1px dotted @gray-light;
 }
 
@@ -449,29 +462,43 @@ label.djs-properties-hide {
   display: none;
 }
 
-[data-group="listener"] .djs-properties-entry > div > button {
-  margin: 2.5em 0.5em;
-}
-
-[data-list-entry-container] > .djs-listener-area {
-  border: 1px solid @gray-light;
-  padding: 2.5em 1.5em 1em;
-  margin: 1em 1px;
-  > h1 {
-    margin: -3.5em -0.5em -52px;
-    > button {
-      margin: 3.5em -1.5em;
-      position: relative;
+.cam-add-listener {
+  > button {
+    position: relative;
+    margin-left: 10px;
+    &:before {
+      content: '\E803';
     }
   }
 }
 
+[data-list-entry-container] > .djs-listener-area {
+  border: 1px solid @gray-light;
+  margin: 10px 1px;
+  padding: 10px;
+}
+
+.djs-listener-area {
+  position: relative;
+  > button {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    &:before {
+      content: '\E802';
+    }
+  }
+}
+.djs-listener-area + .djs-listener-area {
+  margin-top: 20px;
+}
+
 .djs-properties-static {
-  margin-bottom: 0px;
-  margin-top:0px;
+  margin-bottom: 0;
+  margin-top: 0;
   border: 1px solid #ccc;
   background-color: white;
-  padding: 1px 0px;
+  padding: 1px 0;
   font: 13.3333px Arial;
   width: 14%;
 }
