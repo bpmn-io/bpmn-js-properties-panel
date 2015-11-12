@@ -257,7 +257,7 @@ describe('service-task-delegate-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .field-wrapper > button[data-action=delegate\\.clear]', 
+        clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=delegate\\.clear]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
