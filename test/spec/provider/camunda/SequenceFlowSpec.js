@@ -133,7 +133,7 @@ describe('sequence-flow-properties', function() {
 
     // when
     // select ''
-    conditionType.options[1].selected = 'selected';
+    conditionType.options[2].selected = 'selected';
     TestHelper.triggerEvent(conditionType, 'change');
 
     // then
