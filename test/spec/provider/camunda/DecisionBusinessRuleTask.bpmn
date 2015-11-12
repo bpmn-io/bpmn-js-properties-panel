@@ -7,7 +7,7 @@
   <bpmn2:process id="Process_1" isExecutable="false">
     <bpmn2:startEvent id="StartEvent_1"/>
     <bpmn2:serviceTask id="ServiceTask_1" camunda:expression="BAR" camunda:resultVariable="resVar"/>
-    <bpmn2:businessRuleTask id="BusinessRuleTask_1" camunda:decisionRef="Bar" camunda:resultVariable="resVar" camunda:mapDecisionResult="singleValue"/>
+    <bpmn2:businessRuleTask id="BusinessRuleTask_1" camunda:decisionRef="Bar" camunda:resultVariable="resVar" camunda:mapDecisionResult="singleEntry"/>
     <bpmn2:businessRuleTask id="BusinessRuleTask_Empty"/>
     <bpmn2:businessRuleTask id="BusinessRuleTask_Deployment" camunda:decisionRef="Bar" camunda:decisionRefBinding="deployment" camunda:resultVariable="resVar"/>
     <bpmn2:businessRuleTask id="BusinessRuleTask_Version" camunda:decisionRef="Bar" camunda:decisionRefBinding="version" camunda:decisionRefVersion="12"/>

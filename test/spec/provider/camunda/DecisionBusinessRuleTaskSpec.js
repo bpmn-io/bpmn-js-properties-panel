@@ -394,14 +394,14 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.value).to.equal('singleValue');
+    expect(mapDecisionResult.value).to.equal('singleEntry');
     expect(dmnResultVariableInput.value).to.equal('resVar');
     expect(businessObject.get('mapDecisionResult')).to.equal(mapDecisionResult.value);
     expect(businessObject.get('resultVariable')).to.equal(dmnResultVariableInput.value);
 
   }));
 
-  it('should set map decision result with default value "outputList" when fill result variable',
+  it('should set map decision result with default value "resultList" when fill result variable',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     propertiesPanel.attachTo(container);
@@ -424,7 +424,7 @@ describe('decision-business-rule-task-properties', function() {
     TestHelper.triggerValue(dmnResultVariableInput, 'myResVar');
 
     // then
-    expect(mapDecisionResult.value).to.equal('outputList');
+    expect(mapDecisionResult.value).to.equal('resultList');
     expect(dmnResultVariableInput.value).to.equal('myResVar');
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
     expect(businessObject.get('camunda:resultVariable')).to.equal(dmnResultVariableInput.value);
@@ -446,7 +446,7 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.value).to.equal('singleValue');
+    expect(mapDecisionResult.value).to.equal('singleEntry');
     expect(dmnResultVariableInput.value).to.equal('resVar');
     expect(businessObject.get('mapDecisionResult')).to.equal(mapDecisionResult.value);
     expect(businessObject.get('resultVariable')).to.equal(dmnResultVariableInput.value);
@@ -475,7 +475,7 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.value).to.equal('singleValue');
+    expect(mapDecisionResult.value).to.equal('singleEntry');
     expect(businessObject.get('mapDecisionResult')).to.equal(mapDecisionResult.value);
 
     // when
@@ -483,7 +483,7 @@ describe('decision-business-rule-task-properties', function() {
     TestHelper.triggerEvent(mapDecisionResult, 'change');
 
     // then
-    expect(mapDecisionResult.value).to.equal('collectValues');
+    expect(mapDecisionResult.value).to.equal('collectEntries');
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
 
   }));
