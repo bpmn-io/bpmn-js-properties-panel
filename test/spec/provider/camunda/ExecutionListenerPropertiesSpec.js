@@ -38,8 +38,7 @@ describe('listener-properties', function() {
     moddleExtensions: {camunda: camundaModdlePackage}
   }));
 
-
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -49,6 +48,8 @@ describe('listener-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
   function getExecutionListener(extensionElements) {
@@ -61,12 +62,10 @@ describe('listener-properties', function() {
       });
     }
     return executionListeners;
-  }  
+  }
 
   it('should fetch execution listener properties for a flow element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -97,10 +96,9 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should fetch execution listener properties for a sequence flow',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('SequenceFlow_1');
     selection.select(taskShape);
@@ -124,10 +122,10 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should not fetch execution listener properties for a text annotation',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('TextAnnotation_1');
     selection.select(taskShape);
@@ -142,12 +140,11 @@ describe('listener-properties', function() {
     expect(listenerTypes.length).to.equal(0);
     expect(listenerValues.length).to.equal(0);
 
-  }))
+  }));
+
 
   it('should change properties of the first execution listener',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -197,10 +194,9 @@ describe('listener-properties', function() {
     expect(listenerValues[1].value).to.equal('abc');
   }));
 
+
   it('should add a new execution listener to an existing extension elements',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -238,10 +234,9 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should remove an execution listener from extension elements',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -278,10 +273,9 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should add the first execution listener to an element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_2');
     selection.select(taskShape);
@@ -319,10 +313,9 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should clear execution listener value of the first execution listener',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -361,10 +354,9 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should add a new execution listener for a sequence flow to an existing extension elements',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('SequenceFlow_1');
     selection.select(taskShape);
@@ -402,10 +394,9 @@ describe('listener-properties', function() {
 
   }));
 
+
   it('should add two execution listener to an element at the same time',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var taskShape = elementRegistry.get('ServiceTask_2');
     selection.select(taskShape);
@@ -449,6 +440,127 @@ describe('listener-properties', function() {
     expect(executionListeners[0].get('class')).to.equal(listenerValues[0].value);
     expect(executionListeners[1].get('event')).to.equal(eventTypes[1].value);
     expect(executionListeners[1].get('class')).to.equal(listenerValues[1].value);
+
+  }));
+
+
+  it('should undo adding an execution listener',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    // given
+    var taskShape = elementRegistry.get('ServiceTask_2'),
+        bo = getBusinessObject(taskShape);
+
+    selection.select(taskShape);
+
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
+        addListenerButton = domQuery(query, propertiesPanel._container);
+
+    TestHelper.triggerEvent(addListenerButton, 'click');
+
+    var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+
+    TestHelper.triggerValue(listenerValues[0], 'executionListenerValOne');
+
+    // when
+    commandStack.undo();
+
+    // then
+    var executionListeners = getExecutionListener(bo.extensionElements);
+
+    expect(executionListeners).to.be.empty;
+  }));
+
+
+  it('should redo adding an execution listener',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    // given
+    var taskShape = elementRegistry.get('ServiceTask_2'),
+        bo = getBusinessObject(taskShape);
+
+    selection.select(taskShape);
+
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
+        addListenerButton = domQuery(query, propertiesPanel._container);
+
+    TestHelper.triggerEvent(addListenerButton, 'click');
+
+    var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+
+    TestHelper.triggerValue(listenerValues[0], 'executionListenerValOne');
+
+    // when
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    var executionListeners = getExecutionListener(bo.extensionElements);
+
+    expect(executionListeners).to.have.length.of(1);
+
+  }));
+
+
+  it('should undo adding two execution listeners at once',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    // given
+    var taskShape = elementRegistry.get('ServiceTask_2'),
+        bo = getBusinessObject(taskShape);
+
+    selection.select(taskShape);
+
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
+        addListenerButton = domQuery(query, propertiesPanel._container);
+
+    TestHelper.triggerEvent(addListenerButton, 'click');
+    TestHelper.triggerEvent(addListenerButton, 'click');
+
+    var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+
+    TestHelper.triggerValue(listenerValues[0], 'executionListenerValOne');
+    TestHelper.triggerValue(listenerValues[1], 'executionListenerValTwo');
+
+    // when
+    commandStack.undo();
+
+    // then
+    var executionListeners = getExecutionListener(bo.extensionElements);
+
+    expect(executionListeners).to.be.empty;
+
+  }));
+
+
+  it('should redo adding two execution listeners at once',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    // given
+    var taskShape = elementRegistry.get('ServiceTask_2'),
+        bo = getBusinessObject(taskShape);
+
+    selection.select(taskShape);
+
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
+        addListenerButton = domQuery(query, propertiesPanel._container);
+
+    TestHelper.triggerEvent(addListenerButton, 'click');
+    TestHelper.triggerEvent(addListenerButton, 'click');
+
+    var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+
+    TestHelper.triggerValue(listenerValues[0], 'executionListenerValOne');
+    TestHelper.triggerValue(listenerValues[1], 'executionListenerValTwo');
+
+    // when
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    var executionListeners = getExecutionListener(bo.extensionElements);
+
+    expect(executionListeners).to.have.length.of(2);
 
   }));
 
