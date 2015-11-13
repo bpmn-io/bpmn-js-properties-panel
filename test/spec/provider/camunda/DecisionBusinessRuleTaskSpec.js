@@ -253,6 +253,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject.get('camunda:class')).to.be.exist;
     expect(delegateField.value).to.equal('foo');
     expect(businessObject.get('camunda:class')).to.equal(delegateField.value);
+    expect(businessObject).to.not.have.property('camunda:mapDecisionResult');
   }));
 
   it('should not fetch decision ref properties for a non decision business rule task element',
@@ -486,6 +487,47 @@ describe('decision-business-rule-task-properties', function() {
     expect(mapDecisionResult.value).to.equal('collectEntries');
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
 
+  }));
+
+  it('should hidden map decision result select box when change implementation type from DMN to Expression for an element',
+        inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('BusinessRuleTask_1');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        decisionRefBinding = domQuery('select[name="decisionRefBinding"]', propertiesPanel._container),
+        decisionRefValue = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
+        dmnResultVariable = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
+        mapDecisionResult = domQuery('select[name=mapDecisionResult]', propertiesPanel._container),
+        delegateField = domQuery('input[name=delegate]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('decisionRef');
+    expect(decisionRefValue.value).to.equal('Bar');
+    expect(decisionRefBinding.value).to.equal('latest');
+    expect(dmnResultVariable.value).to.equal('resVar');
+    expect(mapDecisionResult.value).to.equal('singleEntry');
+    expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefValue.value);
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(businessObject.get('camunda:resultVariable')).to.equal(dmnResultVariable.value);
+    expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
+    expect(delegateField).to.be.empty;
+    expect(businessObject).to.not.have.property('camunda:expression');
+
+    // when
+    // select option 'expression'
+    implType.options[1].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    // then
+    expect(implType.value).to.equal('expression');
+    expect(delegateField.className).to.equal('invalid');
+    expect(dmnResultVariable.parentElement.className).to.contain('djs-properties-hide');
+    expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
   }));
 
 });
