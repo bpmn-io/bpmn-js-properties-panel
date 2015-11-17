@@ -34,8 +34,7 @@ describe('process-participant-properties', function() {
     modules: testModules
   }));
 
-
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -45,19 +44,18 @@ describe('process-participant-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
   it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
-
+    // given
     var shape = elementRegistry.get('Participant_1');
 
     selection.select(shape);
+
     var isExecutable = domQuery('input[name=isExecutable]', propertiesPanel._container),
         taskBo        = getBusinessObject(shape).get('processRef');
-
-    // given
-    expect(taskBo.get("isExecutable")).to.not.be.ok;
 
     // when
     TestHelper.triggerEvent(isExecutable, 'click');
@@ -66,28 +64,30 @@ describe('process-participant-properties', function() {
     expect(taskBo.get("isExecutable")).to.be.ok;
   }));
 
-  it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
+  it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+    // given
     var shape = elementRegistry.get('_Participant_2');
+
+    // when
     selection.select(shape);
 
     var name = domQuery('input[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape).get('processRef');
 
+    // then
     expect(shapeBo.get('name')).to.equal(name.value);
   }));
 
-  it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
+  it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+    // given
     var shape = elementRegistry.get('_Participant_2');
+
     selection.select(shape);
+
     var name = domQuery('input[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape).get('processRef');
-
-    // given
-    expect(shapeBo.get('name')).to.equal(name.value);
 
     // when
     TestHelper.triggerValue(name, 'Foo', 'change');
@@ -95,4 +95,37 @@ describe('process-participant-properties', function() {
     // then
     expect(shapeBo.get('name')).to.equal('Foo');
   }));
+
+
+  it('should get the id of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+    // given
+    var shape = elementRegistry.get('_Participant_2');
+
+    // when
+    selection.select(shape);
+
+    var id = domQuery('input[name=processId]', propertiesPanel._container),
+        shapeBo = getBusinessObject(shape).get('processRef');
+
+    // then
+    expect(shapeBo.get('id')).to.equal(id.value);
+  }));
+
+
+  it('should set the id of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+    // given
+    var shape = elementRegistry.get('_Participant_2');
+
+    selection.select(shape);
+
+    var name = domQuery('input[name=processId]', propertiesPanel._container),
+        shapeBo = getBusinessObject(shape).get('processRef');
+
+    // when
+    TestHelper.triggerValue(name, 'Foo', 'change');
+
+    // then
+    expect(shapeBo.get('id')).to.equal('Foo');
+  }));
+
 });
