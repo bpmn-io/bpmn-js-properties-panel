@@ -33,7 +33,7 @@ describe('flow-node-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
