@@ -20,6 +20,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "camunda-bpmn-moddle": "^0.2.0",
     "chai": "~2.2.0",
     "grunt": "^0.4.4",
     "grunt-contrib-jshint": "^0.7.2",

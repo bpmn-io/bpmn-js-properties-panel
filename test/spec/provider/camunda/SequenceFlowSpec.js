@@ -12,7 +12,7 @@ var propertiesPanelModule = require('../../../../lib'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
   propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('../../../../lib/provider/camunda/camunda-moddle'),
+  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('sequence-flow-properties', function() {
