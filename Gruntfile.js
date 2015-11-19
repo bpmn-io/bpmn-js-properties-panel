@@ -36,6 +36,14 @@ module.exports = function(grunt) {
       unit: {
         browsers: TEST_BROWSERS
       }
+    },
+
+    release: {
+      options: {
+        tagName: 'v<%= version %>',
+        commitMessage: 'chore(project): release v<%= version %>',
+        tagMessage: 'chore(project): tag v<%= version %>'
+      }
     }
   });
 
