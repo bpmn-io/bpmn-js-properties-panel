@@ -72,10 +72,13 @@ describe('documentation-properties', function() {
     // when
     TestHelper.triggerValue(textField, 'foo', 'change');
 
+    var documentation = businessObject.get('documentation');
+
     // then
     expect(textField.value).to.equal('foo');
-    expect(businessObject.get('documentation').length).to.be.at.least(0);
-    expect(businessObject.get('documentation')[0].text).to.equal('foo');
+    expect(documentation.length).to.be.at.least(0);
+    expect(documentation[0].text).to.equal('foo');
+    expect(documentation[0].$instanceOf('bpmn:Documentation')).to.be.true;
   }));
 
   it('should remove the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
