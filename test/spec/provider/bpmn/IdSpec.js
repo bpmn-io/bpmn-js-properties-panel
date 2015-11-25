@@ -90,7 +90,6 @@ describe('id-properties', function() {
 
     // given
     expect(textField.value).to.equal('ServiceTask_1');
-    expect(textField.getAttribute('class')).to.be.null;
 
     // when
     TestHelper.triggerValue(textField, '', 'change');
