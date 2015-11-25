@@ -12,6 +12,7 @@
         <bpmn2:messageEventDefinition id="messageEventDefinition_1" camunda:expression="FOO" camunda:resultVariable="ThrowVar"/>
     </bpmn2:intermediateThrowEvent>
     <bpmn2:serviceTask id="ServiceTask_external" camunda:type="external" camunda:topic="ShipmentProcessing"/>
+    <bpmn2:serviceTask id="ServiceTask_2" camunda:type="mail"/>
     <bpmn2:endEvent id="EndEvent_1"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -32,6 +33,9 @@
         <dc:Bounds height="36.0" width="36.0" x="540.0" y="146.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_external" bpmnElement="ServiceTask_external">
+        <dc:Bounds height="80.0" width="100.0" x="820.0" y="146.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_2" bpmnElement="ServiceTask_2">
         <dc:Bounds height="80.0" width="100.0" x="820.0" y="146.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">

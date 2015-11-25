@@ -207,4 +207,21 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
+  it('should not fetch external task properties for a service task with type not equal "external"',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask_2');
+    selection.select(shape);
+
+    var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
+        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    expect(implType.value).to.equal('');
+    expect(topicField.value).to.be.empty;
+    expect(businessObject.get('type')).to.be.equal('mail');
+  }));
+
 });
