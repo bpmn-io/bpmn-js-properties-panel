@@ -4,6 +4,8 @@
 
 This is properties panel extension for [bpmn-js](https://github.com/bpmn-io/bpmn-js).
 
+[![bpmn-js-properties-panel screenshot](https://raw.githubusercontent.com/bpmn-io/bpmn-js-properties-panel/master/docs/screenshot.png "Screenshot of the bpmn-js modeler + properties panel")](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
+
 
 ## Features
 
@@ -99,7 +101,7 @@ var bpmnJS = new BpmnJS({
 
 * [Issue tracker](https://github.com/bpmn-io/bpmn-js-properties-panel)
 * [Forum](https://forum.bpmn.io)
-* [Example Project](https://github.com/bpmn-io/bpmn-js-examples/tree/properties-panel/properties-panel)
+* [Example Project](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
 
 
 ## Development
