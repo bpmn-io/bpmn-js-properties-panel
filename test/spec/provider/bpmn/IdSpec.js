@@ -47,7 +47,9 @@ describe('id-properties', function() {
     container.appendChild(undoButton);
   }));
 
-  it('should fetch the id for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the id for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_1');
@@ -59,7 +61,9 @@ describe('id-properties', function() {
     expect(textField.value).to.equal(businessObject.get('id'));
   }));
 
-  it('should set the id for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the id for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('StartEvent_1');
@@ -79,7 +83,9 @@ describe('id-properties', function() {
     expect(businessObject.get('id')).to.equal('foo');
   }));
 
-  it('should not remove the id for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not remove the id for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_1');
@@ -99,4 +105,28 @@ describe('id-properties', function() {
     expect(textField.getAttribute('class')).to.equal('invalid');
     expect(businessObject.get('id')).to.equal('ServiceTask_1');
   }));
+
+  it('should set the id with a space for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_1');
+    selection.select(shape);
+
+    var textField = domQuery('input[name=id]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(textField.value).to.equal('StartEvent_1');
+
+    // when
+    TestHelper.triggerValue(textField, 'foo bar', 'change');
+
+    // then
+    expect(textField.className).to.equal('invalid');
+    expect(textField.value).to.equal('foo bar');
+    expect(businessObject.get('id')).to.equal('StartEvent_1');
+  }));
+
 });
