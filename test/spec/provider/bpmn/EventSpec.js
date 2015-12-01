@@ -708,4 +708,134 @@ describe('event-properties', function() {
 
   }));
 
+  it('should fetch error code variable of an error event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_7');
+    selection.select(shape);
+
+    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
+        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
+
+    expect(errorCodeVar.value).to.equal('myErrorVariable');
+    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
+
+  }));
+
+  it('should change error code variable of an error event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_7');
+    selection.select(shape);
+
+    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
+        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
+
+    // given
+    expect(errorCodeVar.value).to.equal('myErrorVariable');
+    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
+
+    // when
+    TestHelper.triggerValue(errorCodeVar, 'myNewErrorVar', 'change');
+
+    // then
+    expect(errorCodeVar.value).to.equal('myNewErrorVar');
+    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
+
+  }));
+
+  it('should clear error code variable of an error event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_7');
+    selection.select(shape);
+
+    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=errorCodeVariable] button[data-action=clear]', propertiesPanel._container),
+        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
+
+    // given
+    expect(errorCodeVar.value).to.equal('myErrorVariable');
+    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(errorCodeVar.value).to.be.empty;
+    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.be.undefined;
+
+  }));
+
+  it('should fetch escalation code variable of an escalation event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_8');
+    selection.select(shape);
+
+    var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+        escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+    expect(escalationCodeVar.value).to.equal('myEscalationVariable');
+    expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+  }));
+
+  it('should change escalation code variable of an escalation event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_8');
+    selection.select(shape);
+
+    var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+        escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+    // given
+    expect(escalationCodeVar.value).to.equal('myEscalationVariable');
+    expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+    // when
+    TestHelper.triggerValue(escalationCodeVar, 'myNewEscalationVar', 'change');
+
+    // then
+    expect(escalationCodeVar.value).to.equal('myNewEscalationVar');
+    expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+  }));
+
+  it('should clear escalation code variable of an escalation event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_8');
+    selection.select(shape);
+
+    var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=escalationCodeVariable] button[data-action=clear]', propertiesPanel._container),
+        escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+    // given
+    expect(escalationCodeVar.value).to.equal('myEscalationVariable');
+    expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+    // when
+    TestHelper.triggerEvent(clearButton, 'click');
+
+    // then
+    expect(escalationCodeVar.value).to.be.empty;
+    expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.be.undefined;
+
+  }));
+
 });

@@ -72,6 +72,14 @@
       <bpmn2:signalEventDefinition id="_SignalEventDefinition_3" signalRef="Signal_1"/>
     </bpmn2:startEvent>
 
+    <bpmn2:endEvent id="EndEvent_7">
+        <bpmn2:errorEventDefinition id="_ErrorEventDefinition_9" errorRef="Error_1" camunda:errorCodeVariable="myErrorVariable"/>
+    </bpmn2:endEvent>
+
+    <bpmn2:endEvent id="EndEvent_8">
+        <bpmn2:escalationEventDefinition id="_EscalationEventDefinition_10" escalationRef="Escalation_1" camunda:escalationCodeVariable="myEscalationVariable"/>
+    </bpmn2:endEvent>
+
   </bpmn2:process>
 
   <bpmn2:message id="Message_1" name="asd"/>
@@ -170,6 +178,18 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_5" bpmnElement="StartEvent_4">
         <dc:Bounds height="36.0" width="36.0" x="400.0" y="120.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="51.0" y="169.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_9" bpmnElement="EndEvent_7">
+        <dc:Bounds height="36.0" width="36.0" x="460.0" y="120.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="51.0" y="169.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_10" bpmnElement="EndEvent_8">
+        <dc:Bounds height="36.0" width="36.0" x="520.0" y="120.0"/>
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="51.0" y="169.0"/>
         </bpmndi:BPMNLabel>
