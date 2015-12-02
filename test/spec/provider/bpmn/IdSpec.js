@@ -174,4 +174,5 @@ describe('id-properties', function() {
     expect(textField.value).to.equal('<hello>');
     expect(businessObject.get('id')).to.equal('StartEvent_1');
   }));
+
 });

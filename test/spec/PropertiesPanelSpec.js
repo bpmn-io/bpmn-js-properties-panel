@@ -15,6 +15,8 @@ var propertiesPanelModule = require('../../lib'),
     propertiesProviderModule = require('./properties');
 
 
+var domQuery = require('min-dom/lib/query');
+
 
 describe('properties-panel', function() {
 
@@ -61,5 +63,68 @@ describe('properties-panel', function() {
     selection.select(taskShape);
 
   }));
+
+
+  describe('helpers', function() {
+
+    describe('inject element id into [data-label-id] element', function() {
+
+      function headerText(propertiesPanel) {
+        return domQuery('[data-label-id]', propertiesPanel._container).textContent;
+      }
+
+      var eventShape;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry) {
+        propertiesPanel.attachTo(container);
+
+        eventShape = elementRegistry.get('StartEvent_1');
+      }));
+
+
+      it('should display initially', inject(function(propertiesPanel, selection) {
+
+        // when
+        selection.select(eventShape);
+
+        // then
+        expect(headerText(propertiesPanel)).to.eql(eventShape.id);
+      }));
+
+
+      it('should update on id edit', inject(function(propertiesPanel, selection, modeling) {
+
+        // given
+        var newId = 'BAR';
+
+        selection.select(eventShape);
+
+        // when
+        modeling.updateProperties(eventShape, { id: newId });
+
+        // then
+        expect(headerText(propertiesPanel)).to.eql(newId);
+      }));
+
+
+      it('should update on id undo',
+        inject(function(propertiesPanel, selection, commandStack, modeling) {
+
+        // given
+        var oldId = eventShape.id;
+
+        selection.select(eventShape);
+        modeling.updateProperties(eventShape, { id: 'BAR' });
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(headerText(propertiesPanel)).to.eql(oldId);
+      }));
+
+    });
+
+  });
 
 });
