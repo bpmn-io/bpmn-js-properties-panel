@@ -129,4 +129,49 @@ describe('id-properties', function() {
     expect(businessObject.get('id')).to.equal('StartEvent_1');
   }));
 
+  it('should set invalid QName id for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_1');
+    selection.select(shape);
+
+    var textField = domQuery('input[name=id]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(textField.value).to.equal('StartEvent_1');
+
+    // when
+    TestHelper.triggerValue(textField, '::FOO', 'change');
+
+    // then
+    expect(textField.className).to.equal('invalid');
+    expect(textField.value).to.equal('::FOO');
+    expect(businessObject.get('id')).to.equal('StartEvent_1');
+  }));
+
+  it('should set invalid HTML characters id for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_1');
+    selection.select(shape);
+
+    var textField = domQuery('input[name=id]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(textField.value).to.equal('StartEvent_1');
+
+    // when
+    TestHelper.triggerValue(textField, '<hello>', 'change');
+
+    // then
+    expect(textField.className).to.equal('invalid');
+    expect(textField.value).to.equal('<hello>');
+    expect(businessObject.get('id')).to.equal('StartEvent_1');
+  }));
 });
