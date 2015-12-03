@@ -114,10 +114,10 @@ describe('script-properties', function() {
     expect(scriptType.value).to.equal('script');
     expect(scriptValue.value).is.empty;
     expect(scriptResultVariable.value).is.empty;
-    expect(businessObject).to.not.have.property('scriptFormat');
-    expect(businessObject).to.not.have.property('script');
-    expect(businessObject).to.not.have.property('camunda:resultVariable');
-    expect(businessObject).to.not.have.property('camunda:resource');
+    expect(businessObject).not.to.have.property('scriptFormat');
+    expect(businessObject).not.to.have.property('script');
+    expect(businessObject).not.to.have.property('camunda:resultVariable');
+    expect(businessObject).not.to.have.property('camunda:resource');
 
     // when
     TestHelper.triggerValue(scriptFormat, 'groovy');
@@ -132,7 +132,7 @@ describe('script-properties', function() {
     expect(businessObject.get('scriptFormat')).to.equal(scriptFormat.value);
     expect(businessObject.get('script')).to.equal(scriptValue.value);
     expect(businessObject.get('camunda:resultVariable')).to.equal(scriptResultVariable.value);
-    expect(businessObject).to.not.have.property('camunda:resource');
+    expect(businessObject).not.to.have.property('camunda:resource');
 
   }));
 
@@ -174,7 +174,7 @@ describe('script-properties', function() {
     expect(scriptResourceValue.value).is.empty;
     expect(scriptResultVariable.value).to.equal('decisionResult');
     expect(businessObject.get('scriptFormat')).to.equal(scriptFormat.value);
-    expect(businessObject).to.not.have.property('camunda:resource');
+    expect(businessObject).not.to.have.property('camunda:resource');
     expect(businessObject.get('script')).to.equal(scriptValue.value);
     expect(businessObject.get('camunda:resultVariable')).to.equal(scriptResultVariable.value);
 
@@ -202,7 +202,7 @@ describe('script-properties', function() {
 
     // then
     expect(scriptResultVariable.value).is.empty;
-    expect(businessObject).to.not.have.property('camunda:resultVariable');
+    expect(businessObject).not.to.have.property('camunda:resultVariable');
 
   }));
 
@@ -347,7 +347,7 @@ describe('script-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(businessObject).to.not.have.property('conditionExpression');
+    expect(businessObject).not.to.have.property('conditionExpression');
 
     // when
     // select 'script'
@@ -407,7 +407,7 @@ describe('script-properties', function() {
     // refresh businessObject after changes
     businessObject = getBusinessObject(shape).conditionExpression;
     expect(businessObject.get('language')).to.equal(scriptFormat.value);
-    expect(businessObject).to.not.have.property('camunda:resource');
+    expect(businessObject).not.to.have.property('camunda:resource');
     expect(businessObject.body).to.equal(scriptValue.value);
 
   }));
@@ -479,7 +479,7 @@ describe('script-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(businessObject).to.not.have.property('extensionElements');
+    expect(businessObject).not.to.have.property('extensionElements');
 
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -540,7 +540,7 @@ describe('script-properties', function() {
     expect(businessObject[0].get('event')).to.equal(eventType.value);
     expect(businessObject[0].script.get('scriptFormat')).to.equal(scriptFormat.value);
     expect(businessObject[0].script.value).to.equal(scriptValue.value);
-    expect(businessObject[0].script).to.not.have.property('resource');
+    expect(businessObject[0].script).not.to.have.property('resource');
 
     // when
     // select 'external resource'
@@ -561,7 +561,7 @@ describe('script-properties', function() {
     expect(businessObject[0].get('event')).to.equal(eventType.value);
     expect(businessObject[0].script.get('scriptFormat')).to.equal(scriptFormat.value);
     expect(businessObject[0].script.get('resource')).to.equal(scriptResourceValue.value);
-    expect(businessObject[0]).to.not.have.property('value');
+    expect(businessObject[0]).not.to.have.property('value');
 
   }));
 

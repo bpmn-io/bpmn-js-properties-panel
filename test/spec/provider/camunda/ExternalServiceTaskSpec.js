@@ -81,8 +81,8 @@ describe('external-service-task-properties', function() {
     expect(implType.value).to.not.equal('type');
     expect(topicField).to.be.null;
     expect(implType.value).to.equal('decisionRef');
-    expect(businessObject).to.not.have.property('topic');
-    expect(businessObject).to.not.have.property('type');
+    expect(businessObject).not.to.have.property('topic');
+    expect(businessObject).not.to.have.property('type');
   }));
 
   it('should fill topic property of an external service task',

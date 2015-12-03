@@ -82,7 +82,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // given
     expect(implType.value).to.equal('');
-    expect(businessObject).to.not.have.property('camunda:decisionRef');
+    expect(businessObject).not.to.have.property('camunda:decisionRef');
 
     // when
     // select option 'dmn'
@@ -136,7 +136,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // given
     expect(implType.value).to.equal('');
-    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
+    expect(businessObject).not.to.have.property('camunda:decisionRefBinding');
 
     // when
     // select option 'dmn'
@@ -147,7 +147,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(implType.value).to.equal('decisionRef');
     expect(decisionRefBinding.value).to.equal('latest');
     // 'latest' is the default value for decisionRefBinding
-    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
+    expect(businessObject).not.to.have.property('camunda:decisionRefBinding');
   }));
 
   it('should change decision ref binding for an element',
@@ -167,7 +167,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(implType.value).to.equal('decisionRef');
     expect(decisionRefBinding.value).to.equal('deployment');
     expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
-    expect(businessObject).to.not.have.property('camunda:decisionRefVersion');
+    expect(businessObject).not.to.have.property('camunda:decisionRefVersion');
 
     // when
     // select option 'version'
@@ -247,13 +247,13 @@ describe('decision-business-rule-task-properties', function() {
 
     // then
     expect(implType.value).to.equal('class');
-    expect(businessObject).to.not.have.property('camunda:decisionRef');
-    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
-    expect(businessObject).to.not.have.property('camunda:decisionRefVersion');
+    expect(businessObject).not.to.have.property('camunda:decisionRef');
+    expect(businessObject).not.to.have.property('camunda:decisionRefBinding');
+    expect(businessObject).not.to.have.property('camunda:decisionRefVersion');
     expect(businessObject.get('camunda:class')).to.be.exist;
     expect(delegateField.value).to.equal('foo');
     expect(businessObject.get('camunda:class')).to.equal(delegateField.value);
-    expect(businessObject).to.not.have.property('camunda:mapDecisionResult');
+    expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
   }));
 
   it('should not fetch decision ref properties for a non decision business rule task element',
@@ -269,9 +269,9 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.not.equal('decisionRef');
-    expect(businessObject).to.not.have.property('camunda:decisionRefBinding');
-    expect(businessObject).to.not.have.property('camunda:decisionRefVersion');
-    expect(businessObject).to.not.have.property('camunda:mapDecisionResult');
+    expect(businessObject).not.to.have.property('camunda:decisionRefBinding');
+    expect(businessObject).not.to.have.property('camunda:decisionRefVersion');
+    expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
     expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
@@ -298,7 +298,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // then
     expect(resultVariable.value).to.be.empty;
-    expect(businessObject).to.not.have.property('camunda:resultVariable');
+    expect(businessObject).not.to.have.property('camunda:resultVariable');
   }));
 
   it('should remove decision ref value field for an element',
@@ -376,8 +376,8 @@ describe('decision-business-rule-task-properties', function() {
 
     // given
     expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
-    expect(businessObject).to.not.have.property('mapDecisionResult');
-    expect(businessObject).to.not.have.property('resultVariable');
+    expect(businessObject).not.to.have.property('mapDecisionResult');
+    expect(businessObject).not.to.have.property('resultVariable');
 
   }));
 
@@ -418,8 +418,8 @@ describe('decision-business-rule-task-properties', function() {
     // given
     expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
     expect(dmnResultVariableInput.value).to.be.empty;
-    expect(businessObject).to.not.have.property('camunda:mapDecisionResult');
-    expect(businessObject).to.not.have.property('camunda:resultVariable');
+    expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
+    expect(businessObject).not.to.have.property('camunda:resultVariable');
 
     // when
     TestHelper.triggerValue(dmnResultVariableInput, 'myResVar');
@@ -516,7 +516,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject.get('camunda:resultVariable')).to.equal(dmnResultVariable.value);
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
     expect(delegateField).to.be.empty;
-    expect(businessObject).to.not.have.property('camunda:expression');
+    expect(businessObject).not.to.have.property('camunda:expression');
 
     // when
     // select option 'expression'

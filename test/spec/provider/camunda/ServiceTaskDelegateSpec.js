@@ -209,9 +209,9 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo).to.not.have.property('class');
-    expect(taskBo).to.not.have.property('expression');
-    expect(taskBo).to.not.have.property('delegateExpression');
+    expect(taskBo).not.to.have.property('class');
+    expect(taskBo).not.to.have.property('expression');
+    expect(taskBo).not.to.have.property('delegateExpression');
   }));
 
   it('should change implementation type from Expression to Java Class for an element',
@@ -273,8 +273,8 @@ describe('service-task-delegate-properties', function() {
     expect(implType.value).to.equal('expression');
     expect(businessObject).to.have.property('expression');
     expect(delegateField.className).to.equal('invalid');
-    expect(businessObject).to.not.have.property('delegateExpression');
-    expect(businessObject).to.not.have.property('class');
+    expect(businessObject).not.to.have.property('delegateExpression');
+    expect(businessObject).not.to.have.property('class');
   }));
 
   it('should add service task properties without adding undefined DMN or external properties',
@@ -304,9 +304,9 @@ describe('service-task-delegate-properties', function() {
     expect(delegateField.value).to.equal('foo');
     expect(businessObject.get('camunda:topic')).to.be.undefined;
     expect(businessObject.get('camunda:type')).to.be.undefined;
-    expect(businessObject).to.not.have.property('decisionRef');
-    expect(businessObject).to.not.have.property('decisionRefBinding');
-    expect(businessObject).to.not.have.property('decisionRefVersion');
+    expect(businessObject).not.to.have.property('decisionRef');
+    expect(businessObject).not.to.have.property('decisionRefBinding');
+    expect(businessObject).not.to.have.property('decisionRefVersion');
 
     businessObject.$model.toXML(businessObject, {format:true}, function(err, xml) {
         expect(xml).to.contain('camunda:expression="' + delegateField.value + '"');
