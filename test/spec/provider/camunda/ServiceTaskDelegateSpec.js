@@ -259,17 +259,23 @@ describe('service-task-delegate-properties', function() {
         delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
         clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=delegate\\.clear]',
                                 propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        businessObject = getBusinessObject(shape),
+        errorMessages = domQuery.all('.error-message', propertiesPanel._container);
 
     // given
     expect(implType.value).to.equal('expression');
     expect(delegateField.value).to.equal('BAR');
     expect(businessObject.get('camunda:expression')).to.equal(delegateField.value);
+    expect(errorMessages).to.be.empty;
 
     // when
     TestHelper.triggerEvent(clearButton, 'click');
 
     // then
+    errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+    expect(errorMessages).to.have.length(1);
+    expect(errorMessages[0].textContent).to.equal('Must provide a value');
+
     expect(implType.value).to.equal('expression');
     expect(businessObject).to.have.property('expression');
     expect(delegateField.className).to.equal('invalid');
@@ -310,14 +316,54 @@ describe('service-task-delegate-properties', function() {
 
     businessObject.$model.toXML(businessObject, {format:true}, function(err, xml) {
         expect(xml).to.contain('camunda:expression="' + delegateField.value + '"');
-        expect(xml).to.not.contain('camunda:class');
-        expect(xml).to.not.contain('camunda:delegateExpression');
-        expect(xml).to.not.contain('camunda:topic');
-        expect(xml).to.not.contain('camunda:type');
-        expect(xml).to.not.contain('camunda:decisionRef');
-        expect(xml).to.not.contain('camunda:decisionRefVersion');
-        expect(xml).to.not.contain('camunda:decisionRefBinding');
+        expect(xml).not.to.contain('camunda:class');
+        expect(xml).not.to.contain('camunda:delegateExpression');
+        expect(xml).not.to.contain('camunda:topic');
+        expect(xml).not.to.contain('camunda:type');
+        expect(xml).not.to.contain('camunda:decisionRef');
+        expect(xml).not.to.contain('camunda:decisionRefVersion');
+        expect(xml).not.to.contain('camunda:decisionRefBinding');
     });
+  }));
+
+  it('should have an error message when changing implementation type from Expression to Java Class for an element',
+        inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('ServiceTask_Empty');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
+        errorMessages = domQuery.all('.error-message', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.be.empty;
+
+    // when
+    // select implType 'expression'
+    implType.options[1].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    // then
+    expect(delegateField.value).to.be.empty;
+    expect(delegateField.className).to.equal('invalid');
+
+    errorMessages = domQuery.all('.error-message', propertiesPanel._container),
+    expect(errorMessages).to.have.length(1);
+    expect(errorMessages[0].textContent).to.equal('Must provide a value');
+
+    // when
+    // select implType 'class'
+    implType.options[0].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    // then
+    errorMessages = domQuery.all('.error-message', propertiesPanel._container),
+    expect(errorMessages).to.have.length(1);
+
   }));
 
 });

@@ -101,8 +101,12 @@ describe('id-properties', function() {
     TestHelper.triggerValue(textField, '', 'change');
 
     // then
+    var errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+
     expect(textField.value).to.equal('');
     expect(textField.getAttribute('class')).to.equal('invalid');
+    expect(errorMessages).to.have.length(1);
+    expect(errorMessages[0].textContent).to.equal('Element must have an unique id.');
     expect(businessObject.get('id')).to.equal('ServiceTask_1');
   }));
 

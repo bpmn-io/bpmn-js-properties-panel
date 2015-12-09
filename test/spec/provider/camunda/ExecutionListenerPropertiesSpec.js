@@ -564,4 +564,36 @@ describe('listener-properties', function() {
 
   }));
 
+  it('should fetch two invalid property fields when adding two execution listeners at once',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    // given
+    var taskShape = elementRegistry.get('ServiceTask_2'),
+        bo = getBusinessObject(taskShape);
+
+    selection.select(taskShape);
+
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
+        addListenerButton = domQuery(query, propertiesPanel._container);
+
+    // given
+    var executionListeners = getExecutionListener(bo.extensionElements);
+    expect(executionListeners).to.have.length.of(0);
+
+    // when
+    TestHelper.triggerEvent(addListenerButton, 'click');
+    TestHelper.triggerEvent(addListenerButton, 'click');
+
+    var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container),
+        errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+
+    // then
+    expect(listenerValues[0].className).to.equal('invalid');
+    expect(listenerValues[1].className).to.equal('invalid');
+    expect(errorMessages).to.have.length(2);
+    expect(errorMessages[0].textContent).to.equal('Must provide a value');
+    expect(errorMessages[1].textContent).to.equal('Must provide a value');
+
+  }));
+
 });

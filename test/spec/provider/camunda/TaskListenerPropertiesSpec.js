@@ -341,13 +341,23 @@ describe('task-listener-properties', function() {
 
     var eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
         listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container),
+        errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+
+    expect(listenerValues[0].className).to.equal('invalid');
+    expect(listenerValues[0].className).to.equal('invalid');
+    expect(errorMessages).to.have.length(2);
+    expect(errorMessages[0].textContent).to.equal('Must provide a value');
+    expect(errorMessages[1].textContent).to.equal('Must provide a value');
 
     // set listener value to have a successfully validation
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
     TestHelper.triggerValue(listenerValues[1], 'taskListenerValTwo');
 
     // then
+    errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+    expect(errorMessages).to.have.length(0);
+
     // check html of first task listener
     expect(eventTypes[0].value).to.equal('create');
     expect(listenerTypes[0].value).to.equal('class');
