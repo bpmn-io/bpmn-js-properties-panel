@@ -21,6 +21,14 @@
 
     </bpmn2:serviceTask>
 
+    <bpmn2:serviceTask id="ServiceTask4">
+
+      <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:elementVariable="collVal">
+        <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
+      </bpmn2:multiInstanceLoopCharacteristics>
+
+    </bpmn2:serviceTask>
+
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -32,6 +40,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_Task_4" bpmnElement="ServiceTask3">
         <dc:Bounds height="80.0" width="100.0" x="350.0" y="50.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_5" bpmnElement="ServiceTask4">
+        <dc:Bounds height="80.0" width="100.0" x="500.0" y="50.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

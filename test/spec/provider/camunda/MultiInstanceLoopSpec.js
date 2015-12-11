@@ -8,6 +8,7 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
   domQuery = require('min-dom/lib/query'),
+  domClasses = require('min-dom/lib/classes'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
@@ -436,6 +437,37 @@ describe('multi-instance-loop-properties', function() {
     expect(businessObject.get('exclusive')).to.be.ok;
   }));
 
+  it('should hide the exclusive box when disabled',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+      // given
+      var shape = elementRegistry.get('ServiceTask4');
+
+      // when
+      selection.select(shape);
+      var asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
+        exclusiveEntry = domQuery('[name=loopExclusive]', propertiesPanel._container);
+
+      // then
+      expect(domClasses(exclusiveEntry).has('djs-properties-hide')).to.be.true;
+
+    }));
+
+  it('should show the exclusive box when async before or async after are enabled',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+      var shape = elementRegistry.get('ServiceTask4');
+
+      // given
+      selection.select(shape);
+      var asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
+        exclusiveEntry = domQuery('[name=loopExclusive]', propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(asyncBeforeInput, 'click');
+
+      // then
+      expect(domClasses(exclusiveEntry).has('djs-properties-hide')).to.be.false;
+
+    }));
 
   it('should update if loop markers are toggled',
     inject(function(propertiesPanel, elementRegistry, selection, moddle, modeling) {
