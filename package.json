@@ -47,8 +47,9 @@
   "dependencies": {
     "bpmn-js": "^0.12.1",
     "diagram-js": "^0.12.1",
+    "inherits": "^2.0.1",
     "lodash": "^3.0.1",
     "min-dom": "^0.2.0",
-    "inherits": "^2.0.1"
+    "selection-update": "^0.1.2"
   }
 }

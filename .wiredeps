@@ -2,6 +2,9 @@
   "name": "bpmn-js-properties-panel",
   "version": "0.1.0",
   "dependencies": {
+    "selection-update": {
+      "version": "0.1.2"
+    },
     "camunda-bpmn-moddle": {
       "version": "camunda/camunda-bpmn-moddle"
     },
