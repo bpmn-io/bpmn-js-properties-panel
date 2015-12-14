@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://activiti.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_GcxxcClBEeW1G85egYVLqw" exporter="camunda modeler" exporterVersion="2.7.0" targetNamespace="http://activiti.org/bpmn">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://activiti.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:fox="http://www.camunda.com/fox" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_GcxxcClBEeW1G85egYVLqw" exporter="camunda modeler" exporterVersion="2.7.0" targetNamespace="http://activiti.org/bpmn">
   <bpmn2:process id="Process_1" isExecutable="false">
 
     <bpmn2:serviceTask id="ServiceTask">
@@ -17,6 +17,10 @@
 
       <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:asyncBefore="true" camunda:elementVariable="collVal">
         <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
+        <bpmn2:extensionElements>
+          <fox:failedJobRetryTimeCycle>asd</fox:failedJobRetryTimeCycle>
+          <camunda:failedJobRetryTimeCycle>asd</camunda:failedJobRetryTimeCycle>
+        </bpmn2:extensionElements>
       </bpmn2:multiInstanceLoopCharacteristics>
 
     </bpmn2:serviceTask>
@@ -27,6 +31,15 @@
         <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
       </bpmn2:multiInstanceLoopCharacteristics>
 
+    </bpmn2:serviceTask>
+
+    <bpmn2:serviceTask id="ServiceTask5">
+      <bpmn2:multiInstanceLoopCharacteristics camunda:collection="coll" camunda:asyncBefore="true" camunda:elementVariable="collVal">
+        <bpmn2:completionCondition xsi:type="bpmn2:tFormalExpression">cond</bpmn2:completionCondition>
+        <bpmn2:extensionElements>
+          <camunda:failedJobRetryTimeCycle>asd</camunda:failedJobRetryTimeCycle>
+        </bpmn2:extensionElements>
+      </bpmn2:multiInstanceLoopCharacteristics>
     </bpmn2:serviceTask>
 
   </bpmn2:process>
@@ -43,6 +56,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_Task_5" bpmnElement="ServiceTask4">
         <dc:Bounds height="80.0" width="100.0" x="500.0" y="50.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_6" bpmnElement="ServiceTask5">
+        <dc:Bounds height="80.0" width="100.0" x="650.0" y="50.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

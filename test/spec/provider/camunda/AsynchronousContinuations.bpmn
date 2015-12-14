@@ -15,7 +15,20 @@
     </bpmn2:callActivity>
     <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="IntermediateThrowEvent_1" targetRef="CallActivity_2"/>
 
-    <bpmn2:serviceTask id="ServiceTask" camunda:async="true" />
+    <bpmn2:serviceTask id="ServiceTask" camunda:asyncBefore="true">
+      <bpmn2:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="asd" />
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>asd</camunda:failedJobRetryTimeCycle>
+      </bpmn2:extensionElements>
+    </bpmn2:serviceTask>
+
+    <bpmn2:serviceTask id="ServiceTask2" camunda:asyncBefore="true">
+      <bpmn2:extensionElements>
+        <camunda:failedJobRetryTimeCycle>asd</camunda:failedJobRetryTimeCycle>
+      </bpmn2:extensionElements>
+    </bpmn2:serviceTask>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -41,6 +54,9 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_2" bpmnElement="ServiceTask">
         <dc:Bounds height="80.0" width="100.0" x="515.0" y="189.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_3" bpmnElement="ServiceTask2">
+        <dc:Bounds height="80.0" width="100.0" x="665.0" y="189.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

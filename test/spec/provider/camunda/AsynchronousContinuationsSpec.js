@@ -235,6 +235,49 @@ describe('flow-node-properties', function() {
     expect(businessObject.get('exclusive')).to.be.ok;
   }));
 
+  it('should remove the retryTimeCycle when the element is not async',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      propertiesPanel.attachTo(container);
+
+      var shape = elementRegistry.get('ServiceTask'),
+          bo = getBusinessObject(shape),
+          extensionElementsCount = bo.get('extensionElements')
+            .get('values')
+            .length;
+      // given
+      selection.select(shape);
+      var domElement = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(domElement, 'click');
+      var newCount = bo.get('extensionElements')
+        .get('values')
+        .length;
+
+      // then
+      expect(newCount + 1).to.equal(extensionElementsCount);
+    }));
+
+  it('should remove the retryTimeCycle and extensionElements list when the element is not async',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      propertiesPanel.attachTo(container);
+
+      var shape = elementRegistry.get('ServiceTask2'),
+          bo = getBusinessObject(shape);
+
+      // given
+      selection.select(shape);
+      var domElement = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(domElement, 'click');
+
+      // then
+      expect(bo.get('extensionElements')).to.be.undefined;
+    }));
+
   it('should show camunda:async as asyncBefore in the ui',
     inject(function(propertiesPanel, selection, elementRegistry) {
 

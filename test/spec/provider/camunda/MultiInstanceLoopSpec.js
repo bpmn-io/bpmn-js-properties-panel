@@ -488,4 +488,148 @@ describe('multi-instance-loop-properties', function() {
     expect(loopType).to.exist;
   }));
 
+  it('should fetch a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('ServiceTask3'),
+        inputEl = 'input[name=loopJobRetryTimeCycle]';
+
+    // when
+    selection.select(shape);
+
+    var bo = getBusinessObject(shape).loopCharacteristics,
+        inputValue = domQuery(inputEl, propertiesPanel._container).value,
+        retryTimer = bo.get('extensionElements').get('values')[1];
+
+    // then
+    expect(retryTimer.get('body')).to.equal(inputValue);
+    expect(retryTimer.get('body')).to.equal('asd');
+  }));
+
+  it('should set a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('ServiceTask'),
+        inputEl = 'input[name=loopJobRetryTimeCycle]';
+    var bo = getBusinessObject(shape).loopCharacteristics;
+
+    selection.select(shape);
+
+    var retryField = domQuery(inputEl, propertiesPanel._container);
+
+    // given
+    expect(retryField.value).to.equal('');
+
+    // when
+    TestHelper.triggerValue(retryField, 'foo', 'change');
+
+    var inputValue = domQuery(inputEl, propertiesPanel._container).value,
+        retryTimer = bo.get('extensionElements').get('values')[0];
+
+    // then
+    expect(retryTimer.get('body')).to.equal(inputValue);
+    expect(retryTimer.get('body')).to.equal('foo');
+  }));
+
+  it('should remove a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('ServiceTask3'),
+        inputEl = 'input[name=loopJobRetryTimeCycle]';
+
+    selection.select(shape);
+
+    var inputValue = domQuery(inputEl, propertiesPanel._container),
+        retryTimerArrayOld = getBusinessObject(shape)
+                                .loopCharacteristics
+                                .get('extensionElements')
+                                .get('values')
+                                .length;
+
+    // given
+    expect(inputValue.value).to.equal('asd');
+
+    // when
+    TestHelper.triggerValue(inputValue, '', 'change');
+
+    var retryTimerArray = getBusinessObject(shape)
+                            .loopCharacteristics
+                            .get('extensionElements')
+                            .get('values')
+                            .length;
+
+    // then
+    expect(retryTimerArray).to.equal(1);
+    expect(retryTimerArrayOld - 1).to.equal(retryTimerArray);
+    expect(inputValue.value).to.equal('');
+  }));
+
+  it('should hide the job retry time cycle field when disabled',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+      // given
+      var shape = elementRegistry.get('ServiceTask4');
+
+      // when
+      selection.select(shape);
+      var jobRetryEntry = domQuery('[name=loopJobRetryTimeCycle]', propertiesPanel._container);
+
+      // then
+      expect(domClasses(jobRetryEntry.parentElement).has('djs-properties-hide')).to.be.true;
+
+    }));
+
+  it('should show the job retry time cycle field when async before or async after are enabled',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+      var shape = elementRegistry.get('ServiceTask4');
+
+      // given
+      selection.select(shape);
+      var asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
+          jobRetryEntry = domQuery('[name=loopJobRetryTimeCycle]', propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(asyncBeforeInput, 'click');
+
+      // then
+      expect(domClasses(jobRetryEntry.parentElement).has('djs-properties-hide')).to.be.false;
+
+    }));
+
+  it('should remove the retryTimeCycle when the element is not async',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('ServiceTask3'),
+          bo = getBusinessObject(shape).loopCharacteristics,
+          extensionElementsCount = bo.get('extensionElements')
+            .get('values')
+            .length;
+      // given
+      selection.select(shape);
+      var domElement = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(domElement, 'click');
+      var newCount = bo.get('extensionElements')
+        .get('values')
+        .length;
+
+      // then
+      expect(newCount + 1).to.equal(extensionElementsCount);
+    }));
+
+  it('should remove the retryTimeCycle and extensionElements list when the element is not async',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('ServiceTask5'),
+          bo = getBusinessObject(shape).loopCharacteristics;
+
+      // given
+      selection.select(shape);
+      var domElement = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(domElement, 'click');
+
+      // then
+      expect(bo.get('extensionElements')).to.be.undefined;
+    }));
+
 });
