@@ -74,6 +74,7 @@ describe('call-activity-properties', function() {
 
     var shape = elementRegistry.get('CallActivity_1');
     selection.select(shape);
+
     var inputField = domQuery('input[name=calledElement]', propertiesPanel._container);
     var businessObject = getBusinessObject(shape);
 

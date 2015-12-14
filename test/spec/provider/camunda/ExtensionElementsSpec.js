@@ -16,7 +16,7 @@ var propertiesPanelModule = require('../../../../lib'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     forEach = require('lodash/collection/forEach');
 
-describe('entension-elements', function() {
+describe('extension-elements', function() {
 
   var diagramXML = require('./ExtensionElements.bpmn');
 

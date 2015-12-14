@@ -58,18 +58,18 @@ describe('event-properties', function() {
     // given
     // that the intermediate catch event has a message ref input field
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-        inputEl = 'input[name=messageRef]';
+        selectEl = 'select[name=messages]';
 
     // when
     // I select the intermediate catch event
     selection.select(shape);
 
     // then
-    var inputField = domQuery(inputEl, propertiesPanel._container);
+    var selectField = domQuery(selectEl, propertiesPanel._container);
     // the message ref input field exists and is empty
-    expect(inputField).to.exist;
-    expect(inputField.value).is.empty;
-    expect(inputField.value).to.have.length.of.at.least(0);
+    expect(selectField).to.exist;
+    expect(selectField.value).is.empty;
+    expect(selectField.value).to.have.length.of.at.least(0);
   }));
 
   it('should exists a message definition field to all compatible events and tasks',
@@ -89,17 +89,17 @@ describe('event-properties', function() {
       // given
       // that the element has a message ref input field
       var shape = elementRegistry.get(element);
-      var inputEl = 'input[name=messageRef]';
+      var selectEl = 'select[name=messages]';
 
       // when
       // I select the current shape
       selection.select(shape);
 
       // then
-      var inputField = domQuery(inputEl, propertiesPanel._container);
+      var selectBox = domQuery(selectEl, propertiesPanel._container);
       // the message ref input field exists and is empty
-      expect(inputField).to.exist;
-      expect(inputField.value).to.have.length.of.at.least(0);
+      expect(selectBox).to.exist;
+      expect(selectBox.value).to.have.length.of.at.least(0);
     });
   }));
 
@@ -111,15 +111,15 @@ describe('event-properties', function() {
     // given
     // that the element hasn't a message ref input field
     var shape = elementRegistry.get('EndEvent_2'),
-        inputEl = 'input[name=messageRef]';
+        selectEl = 'select[name=messages]';
 
     // when
     selection.select(shape);
 
     // then
-    var inputField = domQuery(inputEl, propertiesPanel._container);
-    // the message ref input field doesn't exist
-    expect(inputField).to.not.exist;
+    var selectBox = domQuery(selectEl, propertiesPanel._container);
+    // the message ref select box doesn't exist
+    expect(selectBox).to.not.exist;
   }));
 
   it('should be able to select an existing reference',
@@ -128,27 +128,25 @@ describe('event-properties', function() {
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-        inputEl = 'input[name=messageRef]';
+        selectEl = 'select[name=messages]';
 
     // given
     selection.select(shape);
-    var inputField = domQuery(inputEl, propertiesPanel._container);
+    var selectBox = domQuery(selectEl, propertiesPanel._container);
 
     // when
-    TestHelper.triggerEvent(inputField, 'click');
+    // select first message to set message ref
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
 
-    var messages = domQuery.all('.djs-properties-tab.pp-active ul > li', propertiesPanel._container);
+    var messages = domQuery.all('select[name=messages] > option', propertiesPanel._container);
 
-    TestHelper.triggerEvent(messages[0], 'click');
-    TestHelper.triggerEvent(inputField, 'click');
-
-    inputField = domQuery(inputEl, propertiesPanel._container);
+    selectBox = domQuery(selectEl, propertiesPanel._container);
     var messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
 
     // then
     expect(messages.length).to.be.at.least(0);
-    expect(inputField.value).to.equal(messages[0].textContent);
-    expect(messageRef.id).to.equal(domAttr(messages[0], 'data-option-id'));
+    expect(selectBox.value).to.equal(messages[0].value);
   }));
 
   it('should be able to clear an existing reference',
@@ -157,29 +155,24 @@ describe('event-properties', function() {
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-        inputEl = 'input[name=messageRef]';
+        selectEl = 'select[name=messages]';
 
     // given
     selection.select(shape);
-    var inputField = domQuery(inputEl, propertiesPanel._container),
-        clearButton = domQuery('[data-entry=selectMessage] button[data-action=clear]', propertiesPanel._container);
+    var selectBox = domQuery(selectEl, propertiesPanel._container),
+        messages = domQuery.all('select[name=messages] > option', propertiesPanel._container);
 
     // when
-    TestHelper.triggerEvent(inputField, 'click');
+    // select the last message to clear the reference
+    // (because the last one is always an empty message)
+    selectBox.options[messages.length-1].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
 
-    var messages = domQuery.all('ul > li', propertiesPanel._container);
-
-    TestHelper.triggerEvent(messages[0], 'click');
-    TestHelper.triggerEvent(inputField, 'click');
-
-    TestHelper.triggerEvent(clearButton, 'click');
-    TestHelper.triggerEvent(inputField, 'click');
-
-    inputField = domQuery(inputEl, propertiesPanel._container);
+    selectBox = domQuery(selectEl, propertiesPanel._container);
     var messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
 
     // then
-    expect(inputField.value).to.equal('');
+    expect(selectBox.value).to.equal('');
     expect(messageRef).to.be.undefined;
   }));
 
@@ -189,24 +182,26 @@ describe('event-properties', function() {
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('StartEvent_1'),
-        inputEl = 'input[name=signalRef]';
+        selectEl = 'select[name=signals]';
+
     selection.select(shape);
-    var inputField = domQuery(inputEl, propertiesPanel._container);
+    var selectBox = domQuery(selectEl, propertiesPanel._container);
 
     // given
-    expect(inputField.value).is.empty;
+    expect(selectBox.value).is.empty;
 
     // when
-    TestHelper.triggerValue(inputField, 'Foo', 'change');
-    TestHelper.triggerEvent(inputField, 'click');
+    // select first signal
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
 
     var signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
-    var signals = domQuery.all('.djs-properties-tab.pp-active ul > li', propertiesPanel._container);
+    var signals = domQuery.all('select[name=signals] > option', propertiesPanel._container);
 
     // then
     expect(signals.length).to.be.at.least(1);
-    expect(inputField.value).to.equal(signals[1].textContent);
-    expect(signalRef.id).to.equal(domAttr(signals[1], 'data-option-id'));
+    expect(selectBox.value).to.equal(signals[0].value);
+    expect(signalRef.id).to.equal(selectBox.value);
   }));
 
   it('should attach a error to an element with error def',
@@ -215,24 +210,26 @@ describe('event-properties', function() {
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('EndEvent_2'),
-        inputEl = 'input[name=errorRef]';
+        selectEl = 'select[name=errors]';
+
     selection.select(shape);
-    var inputField = domQuery(inputEl, propertiesPanel._container);
+    var selectField = domQuery(selectEl, propertiesPanel._container);
 
     // given
-    expect(inputField.value).is.empty;
+    expect(selectField.value).is.empty;
 
     // when
-    TestHelper.triggerValue(inputField, 'Foo', 'change');
-    TestHelper.triggerEvent(inputField, 'click');
+    // select the first option
+    selectField.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectField, 'change');
 
     var errorRef = getBusinessObject(shape).get('eventDefinitions')[0].errorRef;
-    var errors = domQuery.all('.djs-properties-tab.pp-active ul > li', propertiesPanel._container);
+    var errors = domQuery.all('select[name=errors] > option', propertiesPanel._container);
 
     // then
     expect(errors.length).to.be.at.least(2);
-    expect(inputField.value).to.equal(errors[1].textContent);
-    expect(errorRef.id).to.equal(domAttr(errors[1], 'data-option-id'));
+    expect(selectField.value).to.equal(errors[0].value);
+    expect(errorRef.id).to.equal(selectField.value);
   }));
 
   it('should fetch a timer event definition for an element',
@@ -350,17 +347,17 @@ describe('event-properties', function() {
       // given
       // that the element has a message ref input field
       var shape = elementRegistry.get(element);
-      var inputEl = 'input[name=escalationRef]';
+      var selectEl = 'select[name=escalations]';
 
       // when
       // I select the current shape
       selection.select(shape);
 
       // then
-      var inputField = domQuery(inputEl, propertiesPanel._container);
+      var selectBox = domQuery(selectEl, propertiesPanel._container);
       // the escalation ref input field exists and is empty
-      expect(inputField).to.exist;
-      expect(inputField.value).to.be.empty;
+      expect(selectBox).to.exist;
+      expect(selectBox.value).to.be.empty;
     });
   }));
 
@@ -370,26 +367,27 @@ describe('event-properties', function() {
     propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('EndEvent_3'),
-        inputEl = 'input[name=escalationRef]';
+        selectEl = 'select[name=escalations]';
 
     selection.select(shape);
 
-    var inputField = domQuery(inputEl, propertiesPanel._container);
+    var selectBox = domQuery(selectEl, propertiesPanel._container);
 
     // given
-    expect(inputField.value).is.empty;
+    expect(selectBox.value).is.empty;
 
     // when
-    TestHelper.triggerValue(inputField, 'foo', 'change');
-    TestHelper.triggerEvent(inputField, 'click');
+    // select first escalation option
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
 
     var escalationRef = getBusinessObject(shape).get('eventDefinitions')[0].escalationRef;
-    var escalations = domQuery.all('.djs-properties-tab.pp-active ul > li', propertiesPanel._container);
+    var escalations = domQuery.all(selectEl + '> option', propertiesPanel._container);
 
     // then
     expect(escalations.length).to.be.at.least(2);
-    expect(inputField.value).to.equal(escalations[1].textContent);
-    expect(escalationRef.id).to.equal(domAttr(escalations[1], 'data-option-id'));
+    expect(selectBox.value).to.equal(escalations[0].value);
+    expect(escalationRef.id).to.equal(selectBox.value);
   }));
 
   it('should fetch properties of an error element',
@@ -565,7 +563,7 @@ describe('event-properties', function() {
     expect(escalationEventDefinition.escalationRef.get('name')).to.equal('myEscalation');
   }));
 
-  it('should clear the error code of an escalation element',
+  it('should clear the escalation code of an escalation element',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     propertiesPanel.attachTo(container);
@@ -616,7 +614,7 @@ describe('event-properties', function() {
 
     var inputField = domQuery('input[name=messageName]', propertiesPanel._container),
         messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(shape),
-        clearButton = domQuery('[data-entry=messageName] > .pp-field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=messageDefinition] > .pp-row > .field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container);
 
     // given
@@ -659,7 +657,7 @@ describe('event-properties', function() {
 
     var inputField = domQuery('input[name=signalName]', propertiesPanel._container),
         signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(shape),
-        clearButton = domQuery('[data-entry=signalName] > .pp-field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=signalDefinition] > .pp-row > .field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container);
 
     // given
@@ -685,10 +683,11 @@ describe('event-properties', function() {
     selection.select(shape);
 
     var signalNameField = domQuery('input[name=signalName]', propertiesPanel._container),
-        signalSelectField = domQuery('input[name=signalRef]', propertiesPanel._container);
+        signalSelectField = domQuery('select[name=signals]', propertiesPanel._container),
+        signalNameDiv = domQuery('[data-show=isSignalSelected]', propertiesPanel._container);
 
     expect(signalSelectField.value).to.be.empty;
-    expect(signalNameField.parentElement.className).to.contain('pp-hidden');
+    expect(signalNameDiv.className).to.contain('pp-hidden');
 
   }));
 
@@ -864,6 +863,124 @@ describe('event-properties', function() {
 
     expect(errorCodeVar).to.be.null;
 
+  }));  
+
+  it('should add and attach a new message to a message event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_6');
+    selection.select(shape);
+
+    var syntax = 'input[name=messageName]',
+        inputField = domQuery(syntax, propertiesPanel._container),
+        messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(shape),
+        addButton = domQuery('[data-entry=messageDefinition] button[data-action=addMessage]', propertiesPanel._container);
+
+    // given
+    expect(inputField.value).to.equal('asd');
+    expect(messageEventDefinition.messageRef.get('name')).to.equal(inputField.value);
+
+    // when
+    TestHelper.triggerEvent(addButton, 'click');
+
+    // then
+    expect(inputField.value).not.to.be.empty;
+    expect(inputField.value).not.to.equal('asd');
+    // should change message name of business object
+    expect(messageEventDefinition.messageRef.get('name')).to.equal(inputField.value);
+  }));
+
+  it('should add and attach a new escalation to an escalation event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_5');
+    selection.select(shape);
+
+    var syntax = 'input[name=escalationName]',
+        escalationNameField = domQuery(syntax, propertiesPanel._container),
+        escalationCodeField = domQuery('input[name=escalationCode]', propertiesPanel._container),
+        escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape),
+        addButton = domQuery('[data-entry=escalationDefinition] button[data-action=addEscalation]', propertiesPanel._container);
+
+    // given
+    expect(escalationNameField.value).to.equal('myEscalation');
+    expect(escalationEventDefinition.escalationRef.get('name')).to.equal(escalationNameField.value);
+    expect(escalationCodeField.value).to.equal('123');
+    expect(escalationEventDefinition.escalationRef.get('escalationCode')).to.equal(escalationCodeField.value);
+
+    // when
+    TestHelper.triggerEvent(addButton, 'click');
+
+    // then
+    expect(escalationNameField.value).not.to.be.empty;
+    expect(escalationNameField.value).not.to.equal('myEscalation');
+    expect(escalationCodeField.value).to.be.empty;
+    // should change message name of business object
+    expect(escalationEventDefinition.escalationRef.get('name')).to.equal(escalationNameField.value);
+    expect(escalationEventDefinition.escalationRef.get('escalationCode')).to.be.undefined;
+  }));
+
+  it('should add and attach a new error to an error event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_4');
+    selection.select(shape);
+
+    var syntax = 'input[name=errorName]',
+        errorNameField = domQuery(syntax, propertiesPanel._container),
+        errorCodeField = domQuery('input[name=errorCode]', propertiesPanel._container),
+        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape),
+        addButton = domQuery('[data-entry=errorDefinition] button[data-action=addError]', propertiesPanel._container);
+
+    // given
+    expect(errorNameField.value).to.equal('myError');
+    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
+    expect(errorCodeField.value).to.equal('123');
+    expect(errorEventDefinition.errorRef.get('errorCode')).to.equal(errorCodeField.value);
+
+    // when
+    TestHelper.triggerEvent(addButton, 'click');
+
+    // then
+    expect(errorNameField.value).not.to.be.empty;
+    expect(errorNameField.value).not.to.equal('myError');
+    expect(errorCodeField.value).to.be.empty;
+    // should change message name of business object
+    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
+    expect(errorEventDefinition.errorRef.get('errorCode')).to.be.undefined;
+  }));
+
+  it('should add and attach a new signal to a signal event definition element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('StartEvent_4');
+    selection.select(shape);
+
+    var syntax = 'input[name=signalName]',
+        inputField = domQuery(syntax, propertiesPanel._container),
+        signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(shape),
+        addButton = domQuery('[data-entry=signalDefinition] button[data-action=addSignal]', propertiesPanel._container);
+
+    // given
+    expect(inputField.value).to.equal('mySignal');
+    expect(signalEventDefinition.signalRef.get('name')).to.equal(inputField.value);
+
+    // when
+    TestHelper.triggerEvent(addButton, 'click');
+
+    // then
+    expect(inputField.value).not.to.be.empty;
+    expect(inputField.value).not.to.equal('asd');
+    // should change message name of business object
+    expect(signalEventDefinition.signalRef.get('name')).to.equal(inputField.value);
   }));
 
 });
