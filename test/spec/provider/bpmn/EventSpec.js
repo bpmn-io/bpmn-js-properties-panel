@@ -713,7 +713,7 @@ describe('event-properties', function() {
 
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('EndEvent_7');
+    var shape = elementRegistry.get('StartEvent_5');
     selection.select(shape);
 
     var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
@@ -729,7 +729,7 @@ describe('event-properties', function() {
 
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('EndEvent_7');
+    var shape = elementRegistry.get('StartEvent_5');
     selection.select(shape);
 
     var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
@@ -753,7 +753,7 @@ describe('event-properties', function() {
 
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('EndEvent_7');
+    var shape = elementRegistry.get('StartEvent_5');
     selection.select(shape);
 
     var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
@@ -778,7 +778,7 @@ describe('event-properties', function() {
 
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('EndEvent_8');
+    var shape = elementRegistry.get('StartEvent_6');
     selection.select(shape);
 
     var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
@@ -794,7 +794,7 @@ describe('event-properties', function() {
 
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('EndEvent_8');
+    var shape = elementRegistry.get('StartEvent_6');
     selection.select(shape);
 
     var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
@@ -818,7 +818,7 @@ describe('event-properties', function() {
 
     propertiesPanel.attachTo(container);
 
-    var shape = elementRegistry.get('EndEvent_8');
+    var shape = elementRegistry.get('StartEvent_6');
     selection.select(shape);
 
     var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
@@ -835,6 +835,34 @@ describe('event-properties', function() {
     // then
     expect(escalationCodeVar.value).to.be.empty;
     expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.be.undefined;
+
+  }));
+
+  it('should not have escalation code variable input field for an end event with escalation event definition',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_5');
+    selection.select(shape);
+
+    var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+    expect(escalationCodeVar).to.be.null;
+
+  }));
+
+  it('should not have error code variable input field for an end event with error event definition',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    propertiesPanel.attachTo(container);
+
+    var shape = elementRegistry.get('EndEvent_4');
+    selection.select(shape);
+
+    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container);
+
+    expect(errorCodeVar).to.be.null;
 
   }));
 
