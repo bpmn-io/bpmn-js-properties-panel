@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_GcxxcClBEeW1G85egYVLqw" exporter="camunda modeler" exporterVersion="2.7.0" targetNamespace="http://activiti.org/bpmn">
+  <bpmn2:collaboration id="_Collaboration_2">
+    <bpmn2:participant id="_Participant_2" name="Pool" processRef="Process_1"/>
+    <bpmn2:participant id="Participant_1" name="Pool" processRef="Process_2"/>
+  </bpmn2:collaboration>
+
+  <bpmn2:process id="Process_1" isExecutable="false" camunda:jobPriority="9000">
+
+    <bpmn2:serviceTask id="ServiceTask" camunda:asyncBefore="true" camunda:jobPriority="100" />
+
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent">
+      <bpmn2:timerEventDefinition id="_TimerEventDefinition_2"/>
+    </bpmn2:intermediateCatchEvent>
+
+  </bpmn2:process>
+  <bpmn2:process id="Process_2" isExecutable="false" />
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="_Collaboration_2">
+      <bpmndi:BPMNShape id="_BPMNShape_Participant_2" bpmnElement="_Participant_2" isHorizontal="true">
+        <dc:Bounds height="215.0" width="540.0" x="84.0" y="24.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Participant_3" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds height="181.0" width="540.0" x="84.0" y="276.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_2" bpmnElement="ServiceTask">
+        <dc:Bounds height="36.0" width="36.0" x="184.0" y="119.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_IntermediateCatchEvent_2" bpmnElement="IntermediateCatchEvent">
+        <dc:Bounds height="36.0" width="36.0" x="334.0" y="34.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="334.0" y="75.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
