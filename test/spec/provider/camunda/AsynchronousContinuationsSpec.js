@@ -37,7 +37,7 @@ describe('flow-node-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -47,10 +47,11 @@ describe('flow-node-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
   it('should set the asyncBefore property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('InclusiveGateway_1');
     selection.select(shape);
@@ -71,7 +72,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the asyncBefore property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('IntermediateThrowEvent_1');
     selection.select(shape);
@@ -92,7 +92,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the asyncBefore property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -113,7 +112,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the asyncAfter property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('InclusiveGateway_1');
     selection.select(shape);
@@ -134,7 +132,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the asyncAfter property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('IntermediateThrowEvent_1');
     selection.select(shape);
@@ -157,7 +154,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the asyncAfter property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -178,7 +174,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should fetch the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -191,7 +186,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should set the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -215,7 +209,6 @@ describe('flow-node-properties', function() {
   }));
 
   it('should reset the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -241,4 +234,38 @@ describe('flow-node-properties', function() {
     expect(exclusiveInput.checked).to.equal(businessObject.get('exclusive'));
     expect(businessObject.get('exclusive')).to.be.ok;
   }));
+
+  it('should show camunda:async as asyncBefore in the ui',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('ServiceTask'),
+          inputEl = 'input[name=asyncBefore]';
+
+      // when
+      selection.select(shape);
+      var asyncBeforeField = domQuery(inputEl, propertiesPanel._container);
+
+      // then
+      expect(!!asyncBeforeField.checked).to.be.ok;
+
+    }));
+
+  it('should migrate camunda:async to asyncBefore when asyncBefore is toggled',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('ServiceTask'),
+          inputEl = 'input[name=asyncBefore]';
+
+      // given
+      selection.select(shape);
+      var asyncBeforeField = domQuery(inputEl, propertiesPanel._container);
+
+      // when
+      TestHelper.triggerEvent(asyncBeforeField, 'click');
+      var bo = getBusinessObject(shape);
+
+      // then
+      expect(bo.get('camunda:async')).to.be.not.ok;
+    }));
 });
