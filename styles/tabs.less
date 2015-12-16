@@ -1,0 +1,57 @@
+ul.djs-properties-tabs-links {
+  margin: 0;
+  padding: 4px 4px 0 4px;
+  position: relative;
+  border-bottom: 1px solid @gray-light;
+  background: darken(@gray-lighter, 5%);
+
+  > li {
+    display: inline-block;
+    padding: 0;
+    overflow: hidden;
+    margin: 0 4px 0 0;
+    position: relative;
+    bottom: -1px;
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+
+  a {
+    display: block;
+    float: left;
+    font-size: 14px;
+    padding: 4px;
+    border: 1px solid @gray-light;
+    background-color: @gray-lighter;
+    border-radius: 3px 3px 0 0;
+    color: @gray;
+    background-color: @gray-lighter;
+    &:hover {
+      color: darken(@gray, 10%);
+      background-color: @gray-lighter;
+    }
+  }
+
+  > li.active {
+    a {
+      border-top: 2px solid @brand-primary;
+      padding-top: 2px;
+      padding-bottom: 5px;
+      border-bottom: none;
+      color: @brand-primary;
+      &:hover {
+        color: darken(@brand-primary, 10%);
+      }
+    }
+  }
+}
+
+.djs-properties-tab,
+.djs-properties-tab.hidden {
+  display: none;
+}
+.djs-properties-tab.active {
+  display: block;
+}

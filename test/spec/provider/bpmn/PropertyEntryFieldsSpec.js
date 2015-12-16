@@ -201,7 +201,7 @@ describe('properties-entry-fields', function() {
     // Workaround: I have to simulate a click on the input field to trigger the change
     TestHelper.triggerEvent(inputField, 'click');
 
-    var optionsList = domQuery.all('ul > li', propertiesPanel._container);
+    var optionsList = domQuery.all('.djs-properties-tab.active ul > li', propertiesPanel._container);
 
     expect(optionsList.length).to.equal(2);
   }));

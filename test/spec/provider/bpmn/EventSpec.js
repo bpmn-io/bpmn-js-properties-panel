@@ -137,7 +137,7 @@ describe('event-properties', function() {
     // when
     TestHelper.triggerEvent(inputField, 'click');
 
-    var messages = domQuery.all('ul > li', propertiesPanel._container);
+    var messages = domQuery.all('.djs-properties-tab.active ul > li', propertiesPanel._container);
 
     TestHelper.triggerEvent(messages[0], 'click');
     TestHelper.triggerEvent(inputField, 'click');
@@ -201,7 +201,7 @@ describe('event-properties', function() {
     TestHelper.triggerEvent(inputField, 'click');
 
     var signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
-    var signals = domQuery.all('ul > li', propertiesPanel._container);
+    var signals = domQuery.all('.djs-properties-tab.active ul > li', propertiesPanel._container);
 
     // then
     expect(signals.length).to.be.at.least(1);
@@ -227,7 +227,7 @@ describe('event-properties', function() {
     TestHelper.triggerEvent(inputField, 'click');
 
     var errorRef = getBusinessObject(shape).get('eventDefinitions')[0].errorRef;
-    var errors = domQuery.all('ul > li', propertiesPanel._container);
+    var errors = domQuery.all('.djs-properties-tab.active ul > li', propertiesPanel._container);
 
     // then
     expect(errors.length).to.be.at.least(2);
@@ -384,7 +384,7 @@ describe('event-properties', function() {
     TestHelper.triggerEvent(inputField, 'click');
 
     var escalationRef = getBusinessObject(shape).get('eventDefinitions')[0].escalationRef;
-    var escalations = domQuery.all('ul > li', propertiesPanel._container);
+    var escalations = domQuery.all('.djs-properties-tab.active ul > li', propertiesPanel._container);
 
     // then
     expect(escalations.length).to.be.at.least(2);
