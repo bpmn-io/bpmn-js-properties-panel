@@ -80,7 +80,22 @@ var selectedByOption = function(element, optionValue) {
   }
 };
 
+/**
+ * PhantomJS Speciality
+ * @param element
+ * @returns {*}
+ */
+var selectedByIndex = function(element) {
+  if( !element ) {
+    return null;
+  }
+
+  return element.options[element.selectedIndex];
+};
+
+
 module.exports.triggerEvent = triggerEvent;
 module.exports.triggerValue = triggerValue;
 module.exports.triggerInput = triggerInput;
 module.exports.selectedByOption = selectedByOption;
+module.exports.selectedByIndex = selectedByIndex;

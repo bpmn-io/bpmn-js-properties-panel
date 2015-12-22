@@ -57,7 +57,7 @@ describe('external-service-task-properties', function() {
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-    	implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+    	implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
       businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.equal('type');
@@ -75,7 +75,7 @@ describe('external-service-task-properties', function() {
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.not.equal('type');
@@ -94,7 +94,7 @@ describe('external-service-task-properties', function() {
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -120,7 +120,7 @@ describe('external-service-task-properties', function() {
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -216,7 +216,7 @@ describe('external-service-task-properties', function() {
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.equal('');

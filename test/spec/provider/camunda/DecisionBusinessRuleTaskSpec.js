@@ -58,7 +58,7 @@ describe('decision-business-rule-task-properties', function() {
 
     var decisionRefField = domQuery('input[name=decisionRefValue]', propertiesPanel._container),
     	resultVariable = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
-    	implType = domQuery('select[name=implType] > option:checked', propertiesPanel._container),
+    	implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.equal('decisionRef');
@@ -237,7 +237,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject.get('camunda:decisionRef')).to.equal(decisionRefValue.value);
     expect(decisionRefVersion.value).to.equal('12');
     expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
-    expect(delegateField).to.be.empty;
+    expect(delegateField.value).to.be.empty;
 
     // when
     // select option 'class'
@@ -515,7 +515,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
     expect(businessObject.get('camunda:resultVariable')).to.equal(dmnResultVariable.value);
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal(mapDecisionResult.value);
-    expect(delegateField).to.be.empty;
+    expect(delegateField.value).to.be.empty;
     expect(businessObject).not.to.have.property('camunda:expression');
 
     // when

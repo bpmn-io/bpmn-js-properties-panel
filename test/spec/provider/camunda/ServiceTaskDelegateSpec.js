@@ -152,8 +152,8 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
 
     expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
-    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).to.equal('expression');
-    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).not.to.equal('class');
+    expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).to.equal('expression');
+    expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).not.to.equal('class');
   }));
 
   it('should remove all other properties in a mutuable choice when first changing the input',
@@ -183,8 +183,8 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
 
     expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
-    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).to.equal('expression');
-    expect(domQuery('select[name=implType] > option:checked', propertiesPanel._container).value).not.to.equal('class');
+    expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).to.equal('expression');
+    expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).not.to.equal('class');
   }));
 
   it('should not apply an empty string to a property',
@@ -266,7 +266,7 @@ describe('service-task-delegate-properties', function() {
     expect(implType.value).to.equal('expression');
     expect(delegateField.value).to.equal('BAR');
     expect(businessObject.get('camunda:expression')).to.equal(delegateField.value);
-    expect(errorMessages).to.be.empty;
+    expect(errorMessages).to.have.length(0);
 
     // when
     TestHelper.triggerEvent(clearButton, 'click');

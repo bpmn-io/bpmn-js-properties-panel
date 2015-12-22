@@ -55,7 +55,7 @@ describe('sequence-flow-properties', function() {
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
 
-    var conditionType = domQuery('select[name=conditionType] > option:checked', propertiesPanel._container),
+    var conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
         conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     expect(conditionType.value).to.equal('expression');
@@ -70,7 +70,7 @@ describe('sequence-flow-properties', function() {
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape),
-      conditionType = domQuery('select[name=conditionType] > option:checked', propertiesPanel._container),
+      conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
       conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     // given
@@ -96,7 +96,7 @@ describe('sequence-flow-properties', function() {
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape),
-      conditionType = domQuery('select[name=conditionType] > option:checked', propertiesPanel._container),
+      conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
       conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     // given

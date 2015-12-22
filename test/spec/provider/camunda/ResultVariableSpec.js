@@ -57,7 +57,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     expect(delegateOption.value).to.equal('expression');
@@ -74,7 +74,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -98,7 +98,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -153,7 +153,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
 
     expect(delegateOption.value).to.equal('expression');
@@ -194,7 +194,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
 
     expect(inputField).to.be.null;
@@ -211,7 +211,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
 
     expect(inputField).to.be.null;
@@ -228,7 +228,7 @@ describe('result-variable', function() {
     selection.select(shape);
 
     var inputField = domQuery(elementSyntax, propertiesPanel._container),
-        delegateOption = domQuery('select[name="implType"] > option:checked', propertiesPanel._container),
+        delegateOption = TestHelper.selectedByIndex(domQuery('select[name="implType"]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape).get('eventDefinitions')[0];
 
     expect(inputField).to.be.null;

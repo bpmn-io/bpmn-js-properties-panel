@@ -109,7 +109,7 @@ describe('task-listener-properties', function() {
         taskListenersEntry = domQuery.all('[data-entry=taskListeners]', propertiesPanel._container);
 
     expect(bo.extensionElements.values).to.have.length.of(1);
-    expect(taskListenersEntry).to.be.empty;
+    expect(taskListenersEntry).to.have.length(0);
 
     expect(is(bo.extensionElements.values[0], 'camunda:ExecutionListener')).to.be.true;
     expect(is(bo.extensionElements.values[0], 'camunda:TaskListener')).to.be.false;
