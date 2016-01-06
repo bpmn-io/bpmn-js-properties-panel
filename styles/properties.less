@@ -207,13 +207,21 @@
 
   .textfield,
   .textarea {
+    input {
+      padding-right: 28px;
+    }
     [data-action*="clear"] {
-      top: -22px;
+      background: transparent;
+      border: none;
+      top: 0;
       right: 0;
       &:before {
         content: '\E802';
       }
     }
+  }
+  .textarea [data-action*="clear"] {
+    display: none;
   }
 
   .combobox {
@@ -483,8 +491,10 @@ label.djs-properties-hide {
   position: relative;
   > button {
     position: absolute;
-    top: -12px;
-    right: -12px;
+    right: 0;
+    top: 0;
+    border: none;
+    background: none;
     &:before {
       content: '\E802';
     }
@@ -497,7 +507,7 @@ label.djs-properties-hide {
 .djs-properties-static {
   margin-bottom: 0;
   margin-top: 0;
-  border: 1px solid #ccc;
+  border: 1px solid @gray-light;
   background-color: white;
   padding: 3px 6px;
   font: 13.3333px Arial;
