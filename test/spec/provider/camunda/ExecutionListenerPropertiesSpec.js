@@ -585,7 +585,7 @@ describe('listener-properties', function() {
     TestHelper.triggerEvent(addListenerButton, 'click');
 
     var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container),
-        errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+        errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
 
     // then
     expect(listenerValues[0].className).to.equal('invalid');

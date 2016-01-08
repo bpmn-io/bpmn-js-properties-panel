@@ -260,7 +260,7 @@ describe('service-task-delegate-properties', function() {
         clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=delegate\\.clear]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape),
-        errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+        errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
 
     // given
     expect(implType.value).to.equal('expression');
@@ -272,7 +272,7 @@ describe('service-task-delegate-properties', function() {
     TestHelper.triggerEvent(clearButton, 'click');
 
     // then
-    errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+    errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
     expect(errorMessages).to.have.length(1);
     expect(errorMessages[0].textContent).to.equal('Must provide a value');
 
@@ -336,7 +336,7 @@ describe('service-task-delegate-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
-        errorMessages = domQuery.all('.error-message', propertiesPanel._container),
+        errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -351,7 +351,7 @@ describe('service-task-delegate-properties', function() {
     expect(delegateField.value).to.be.empty;
     expect(delegateField.className).to.equal('invalid');
 
-    errorMessages = domQuery.all('.error-message', propertiesPanel._container),
+    errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container),
     expect(errorMessages).to.have.length(1);
     expect(errorMessages[0].textContent).to.equal('Must provide a value');
 
@@ -361,7 +361,7 @@ describe('service-task-delegate-properties', function() {
     TestHelper.triggerEvent(implType, 'change');
 
     // then
-    errorMessages = domQuery.all('.error-message', propertiesPanel._container),
+    errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container),
     expect(errorMessages).to.have.length(1);
 
   }));

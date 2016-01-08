@@ -101,7 +101,7 @@ describe('id-properties', function() {
     TestHelper.triggerValue(textField, '', 'change');
 
     // then
-    var errorMessages = domQuery.all('.error-message', propertiesPanel._container);
+    var errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
 
     expect(textField.value).to.equal('');
     expect(textField.getAttribute('class')).to.equal('invalid');
