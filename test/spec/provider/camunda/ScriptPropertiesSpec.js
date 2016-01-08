@@ -232,7 +232,8 @@ describe('script-properties', function() {
 
   }));
 
-  it('should not remove the script value of a script task',
+  // the clear button has been removed, this test is therefore not relevant
+  xit('should not remove the script value of a script task',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     propertiesPanel.attachTo(container);

@@ -290,33 +290,17 @@ describe('properties-entry-fields', function() {
     // when
     selection.select(userTaskShape);
 
-    var input = domQuery(inputEl, propertiesPanel._container),
-      clearButton = domQuery('button[data-show=canClear]', input.parentElement),
-      buttonClassArray = domClasses(clearButton).array();
+    var input = domQuery(inputEl, propertiesPanel._container);
 
     // starting check to verify that we have the correct text input field
     expect(input.value).to.equal('');
-    expect(buttonClassArray.length).to.be.at.least(0);
 
     // trigger a change on the text input field
     TestHelper.triggerValue(input, 'foo', 'change');
 
     // now the input field should have a new value and the clear button should be visible
     input = domQuery(inputEl, propertiesPanel._container);
-    buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).to.equal(0);
     expect(input.value).to.equal('foo');
-
-    // trigger the clear button
-    TestHelper.triggerEvent(clearButton, 'click');
-
-    // the text input field should now be empty and the button should be hidden again
-    input = domQuery(inputEl, propertiesPanel._container);
-    buttonClassArray  = domClasses(clearButton).array();
-
-    expect(buttonClassArray.length).to.be.at.least(0);
-    expect(input.value).to.equal('');
-
   }));
 });
