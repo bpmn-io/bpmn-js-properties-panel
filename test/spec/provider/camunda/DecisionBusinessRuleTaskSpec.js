@@ -285,7 +285,7 @@ describe('decision-business-rule-task-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         resultVariable = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=dmn\\.clearResVar]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .pp-row > .pp-field-wrapper > button[data-action=dmn\\.clearResVar]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -311,7 +311,7 @@ describe('decision-business-rule-task-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         decisionRefField = domQuery('input[name="decisionRefValue"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=dmn\\.clear]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .pp-row > .pp-field-wrapper > button[data-action=dmn\\.clear]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -340,7 +340,7 @@ describe('decision-business-rule-task-properties', function() {
         decisionRefBinding = domQuery('select[name=decisionRefBinding]', propertiesPanel._container),
         decisionRefField = domQuery('input[name="decisionRefValue"]', propertiesPanel._container),
         decisionRefVersionField = domQuery('input[name="decisionRefVersion"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=dmn\\.clearVersion]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .pp-row > .pp-field-wrapper > button[data-action=dmn\\.clearVersion]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -443,7 +443,7 @@ describe('decision-business-rule-task-properties', function() {
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         mapDecisionResult = domQuery('select[name=mapDecisionResult]', propertiesPanel._container),
         dmnResultVariableInput = domQuery('input[name=dmnResultVariable]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .pp-row > .field-wrapper > button[data-action=dmn\\.clearResVar]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=implementation] > .pp-row > .pp-field-wrapper > button[data-action=dmn\\.clearResVar]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given

@@ -189,7 +189,7 @@ describe('script-properties', function() {
     selection.select(shape);
 
     var scriptResultVariable = domQuery('input[name="scriptResultVariable"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=scriptResultVariable] > .field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=scriptResultVariable] > .pp-field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
@@ -215,7 +215,7 @@ describe('script-properties', function() {
     selection.select(shape);
 
     var scriptFormat = domQuery('input[name="scriptFormat"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .field-wrapper > button[data-action=script\\\.clearScriptFormat]',
+        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .pp-field-wrapper > button[data-action=script\\\.clearScriptFormat]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
@@ -241,7 +241,7 @@ describe('script-properties', function() {
     selection.select(shape);
 
     var scriptValue = domQuery('textarea[name="scriptValue"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .field-wrapper > button[data-action=script\\\.clearScript]',
+        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .pp-field-wrapper > button[data-action=script\\\.clearScript]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
@@ -268,7 +268,7 @@ describe('script-properties', function() {
     selection.select(shape);
 
     var scriptResourceValue = domQuery('input[name="scriptResourceValue"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .field-wrapper > button[data-action=script\\\.clearScriptResource]',
+        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .pp-field-wrapper > button[data-action=script\\\.clearScriptResource]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 

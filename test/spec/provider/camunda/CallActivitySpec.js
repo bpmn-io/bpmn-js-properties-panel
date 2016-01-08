@@ -353,7 +353,7 @@ describe('call-activity-properties', function() {
         caseBindingSelect = domQuery('select[name=caseBinding]', propertiesPanel._container),
         versionInput = domQuery('input[name=caseVersion]', propertiesPanel._container),
         callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=callActivity] > div > .pp-row > .field-wrapper > button[data-action=caseRef\\.clearVersion]',
+        clearButton = domQuery('[data-entry=callActivity] > div > .pp-row > .pp-field-wrapper > button[data-action=caseRef\\.clearVersion]',
                                 propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 

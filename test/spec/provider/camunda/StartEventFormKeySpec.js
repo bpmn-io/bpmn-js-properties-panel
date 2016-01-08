@@ -94,8 +94,8 @@ describe('start-event-form-key', function() {
     selection.select(taskShape);
 
     var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=formKey] > .field-wrapper > button[data-action=clear]',
-                                propertiesPanel._container),    
+        clearButton = domQuery('[data-entry=formKey] > .pp-field-wrapper > button[data-action=clear]',
+                                propertiesPanel._container),
         bo = getBusinessObject(taskShape);
 
     // given

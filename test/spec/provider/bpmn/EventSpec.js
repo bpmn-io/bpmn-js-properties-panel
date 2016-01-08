@@ -476,7 +476,7 @@ describe('event-properties', function() {
 
     var errorCodeField = domQuery('input[name=errorCode]', propertiesPanel._container),
         errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape),
-        clearButton = domQuery('[data-entry=errorDefinition] > .pp-row > .field-wrapper > button[data-action=clearErrorCode]',
+        clearButton = domQuery('[data-entry=errorDefinition] > .pp-row > .pp-field-wrapper > button[data-action=clearErrorCode]',
                                 propertiesPanel._container);
 
     // given
@@ -575,7 +575,7 @@ describe('event-properties', function() {
 
     var escalationCodeField = domQuery('input[name=escalationCode]', propertiesPanel._container),
         escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape),
-        clearButton = domQuery('[data-entry=escalationDefinition] > .pp-row > .field-wrapper > button[data-action=clearEscalationCode]',
+        clearButton = domQuery('[data-entry=escalationDefinition] > .pp-row > .pp-field-wrapper > button[data-action=clearEscalationCode]',
                                 propertiesPanel._container);
 
     // given
@@ -616,7 +616,7 @@ describe('event-properties', function() {
 
     var inputField = domQuery('input[name=messageName]', propertiesPanel._container),
         messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(shape),
-        clearButton = domQuery('[data-entry=messageName] > .field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=messageName] > .pp-field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container);
 
     // given
@@ -659,7 +659,7 @@ describe('event-properties', function() {
 
     var inputField = domQuery('input[name=signalName]', propertiesPanel._container),
         signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(shape),
-        clearButton = domQuery('[data-entry=signalName] > .field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=signalName] > .pp-field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container);
 
     // given
