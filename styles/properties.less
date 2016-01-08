@@ -1,4 +1,5 @@
 @import "./_variables";
+@import "./_mixins";
 
 @font-face {
   font-family: 'bpmn-io-pp';
@@ -11,75 +12,6 @@
   font-style: normal;
 }
 
-.invalid() {
-  border-color: @error-color;
-  background: @error-color-bg;
-}
-
-.focus() {
-  // outline-color: @brand-primary;
-  outline: none;
-  border-color: @brand-primary;
-  box-shadow: 0 0 1px 2px fade(@brand-primary, 20%);
-}
-
-
-.icon-font() {
-  font-family: "bpmn-io-pp";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.overlay() {
-  background-color: @gray-lighter;
-}
-
-.action-button() {
-  position: absolute;
-  top: 0;
-  height: 23px;
-  width: 24px;
-  overflow: hidden;
-  cursor: pointer;
-  background-color: @gray-lighter;
-  border: 1px solid @gray-light;
-
-  > span {
-    display: none;
-  }
-
-  &:before {
-    .icon-font();
-    position: relative;
-    left: -2px;
-  }
-
-  &:hover {
-    color: @brand-primary;
-  }
-}
-
-.label() {
-  font-weight: bolder;
-  display: inline-block;
-  vertical-align: middle;
-  color: @gray;
-  &[for] {
-    cursor: pointer;
-  }
-}
 
 .djs-properties-panel {
   .overlay();
