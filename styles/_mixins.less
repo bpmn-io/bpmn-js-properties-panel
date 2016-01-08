@@ -19,8 +19,6 @@
 
   display: inline-block;
   text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
   text-align: center;
   font-variant: normal;
   text-transform: none;
@@ -50,7 +48,14 @@
   &:before {
     .icon-font();
     position: relative;
-    left: -2px;
+  }
+
+  &.add:before {
+    content: '\E803';
+  }
+
+  &.clear:before {
+    content: '\E802';
   }
 
   &:hover {

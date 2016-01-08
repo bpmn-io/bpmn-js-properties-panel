@@ -70,7 +70,7 @@ describe('properties-entry-fields', function() {
 
     // starting check to verify that we have the correct text input field
     expect(input.value).to.equal('');
-    expect(buttonClassArray.length).to.be.at.least(0);
+    expect(buttonClassArray.length).to.be.at.least(1);
 
     // trigger a change on the text input field
     TestHelper.triggerValue(input, 'foo', 'change');
@@ -79,7 +79,7 @@ describe('properties-entry-fields', function() {
     input = domQuery('input[name=assignee]', propertiesPanel._container);
     buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).to.equal(0);
+    expect(buttonClassArray.length).to.equal(1);
     expect(input.value).to.equal('foo');
 
     // trigger the clear button
@@ -89,7 +89,7 @@ describe('properties-entry-fields', function() {
     input = domQuery('input[name=assignee]', propertiesPanel._container);
     buttonClassArray  = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).to.be.at.least(0);
+    expect(buttonClassArray.length).to.be.at.least(1);
     expect(input.value).to.equal('');
 
 
