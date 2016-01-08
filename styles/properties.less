@@ -167,8 +167,7 @@
   }
 
   .textfield label,
-  .textarea label,
-  .combobox label {
+  .textarea label {
     margin-bottom: 3px;
   }
 
@@ -222,98 +221,6 @@
   }
   .textarea [data-action*="clear"] {
     display: none;
-  }
-
-  .combobox {
-    > div > div {
-      overflow: visible;
-      position: relative;
-    }
-
-    input {
-      position: relative;
-    }
-
-    [data-action=toggleOptions] {
-      right: 0;
-      &:before {
-        transition: transform 0.218s linear;
-        content: '\E801';
-      }
-    }
-
-    [data-action=clear],
-    [data-action=createNew],
-    [data-action=popUp] {
-      top: -22px;
-    }
-
-    [data-action=popUp] {
-      right: 0;
-      &:before {
-        content: '\E800';
-      }
-    }
-
-    [data-action=clear] {
-      right: 0px; //23px with popUp button
-      &:before {
-        content: '\E802';
-      }
-    }
-
-    [data-action=createNew] {
-      right: 23px; //46px with popUp button
-      &:before {
-        content: '\E803';
-      }
-    }
-
-    .no-options {
-      margin-top: 3px;
-      color: @gray;
-      font-style: italic;
-    }
-
-    input {
-      width: ~"calc(100% - 23px)";
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      background-color: #fff;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.218s linear;
-    }
-
-    li {
-      display: block;
-      padding: 3px 7px;
-      cursor: pointer;
-      border: 1px solid @gray-light;
-      border-top: 0;
-      border-bottom: 1px dotted @gray-light;
-
-      color: @brand-primary;
-
-      &:last-child {
-        border-bottom: 1px solid @gray-light;
-      }
-    }
-
-
-    &.open {
-      [data-action=toggleOptions]:before {
-        transform: rotateX(180deg);
-      }
-      ul {
-        max-height: 200px;
-        overflow: auto;
-      }
-    }
   }
 
   .djs-properties-group:last-child {
