@@ -13,6 +13,10 @@ ul.djs-properties-tabs-links {
     position: relative;
     bottom: -1px;
 
+    &.pp-hidden {
+      .pp-hidden;
+    }
+
     &:last-of-type {
       margin: 0;
     }
@@ -49,9 +53,10 @@ ul.djs-properties-tabs-links {
 }
 
 .djs-properties-tab,
-.djs-properties-tab.hidden {
+.djs-properties-tab.pp-hidden {
   display: none;
 }
+
 .djs-properties-tab.active {
   display: block;
 }

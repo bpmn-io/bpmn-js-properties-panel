@@ -64,7 +64,7 @@ describe('camunda-properties', function() {
     var group = domQuery(selector, propertiesPanel._container);
 
     // then
-    expect(domClasses(group).has('hidden')).to.be.true;
+    expect(domClasses(group).has('pp-hidden')).to.be.true;
   }));
 
   it('should show the job configuration group when there is a non hidden group element',
@@ -83,7 +83,7 @@ describe('camunda-properties', function() {
       var group = domQuery(groupSelector, propertiesPanel._container);
 
       // then
-      expect(domClasses(group).has('hidden')).to.be.false;
+      expect(domClasses(group).has('pp-hidden')).to.be.false;
   }));
 
 });

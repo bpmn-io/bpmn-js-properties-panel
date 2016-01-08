@@ -375,7 +375,7 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
+    expect(mapDecisionResult.parentElement.className).to.contain('pp-hidden');
     expect(businessObject).not.to.have.property('mapDecisionResult');
     expect(businessObject).not.to.have.property('resultVariable');
 
@@ -416,7 +416,7 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
+    expect(mapDecisionResult.parentElement.className).to.contain('pp-hidden');
     expect(dmnResultVariableInput.value).to.be.empty;
     expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
     expect(businessObject).not.to.have.property('camunda:resultVariable');
@@ -456,7 +456,7 @@ describe('decision-business-rule-task-properties', function() {
     TestHelper.triggerEvent(clearButton, 'click');
 
     // then
-    expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
+    expect(mapDecisionResult.parentElement.className).to.contain('pp-hidden');
     expect(dmnResultVariableInput.value).to.be.empty;
     expect(businessObject.get('camunda:mapDecisionResult')).to.be.undefined;
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
@@ -526,8 +526,8 @@ describe('decision-business-rule-task-properties', function() {
     // then
     expect(implType.value).to.equal('expression');
     expect(delegateField.className).to.equal('invalid');
-    expect(dmnResultVariable.parentElement.className).to.contain('djs-properties-hide');
-    expect(mapDecisionResult.parentElement.className).to.contain('djs-properties-hide');
+    expect(dmnResultVariable.parentElement.className).to.contain('pp-hidden');
+    expect(mapDecisionResult.parentElement.className).to.contain('pp-hidden');
   }));
 
 });

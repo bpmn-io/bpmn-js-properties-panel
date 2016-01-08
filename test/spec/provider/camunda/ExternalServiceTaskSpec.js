@@ -154,7 +154,7 @@ describe('external-service-task-properties', function() {
     expect(implType.value).to.equal('type');
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
-    expect(classField.parentElement.className).to.contain('djs-properties-hide');
+    expect(classField.parentElement.className).to.contain('pp-hidden');
 
     // when
     // select 'class'
@@ -164,7 +164,7 @@ describe('external-service-task-properties', function() {
 
     // then
     expect(implType.value).to.equal('class');
-    expect(topicField.parentElement.className).to.contain('djs-properties-hide');
+    expect(topicField.parentElement.className).to.contain('pp-hidden');
     expect(classField.value).to.equal('myClass');
     expect(businessObject.get('camunda:class')).to.equal(classField.value);
     expect(businessObject).to.have.property('class');
@@ -188,7 +188,7 @@ describe('external-service-task-properties', function() {
     // given
     expect(implType.value).to.equal('expression');
     expect(expressionField.value).to.equal('BAR');
-    expect(topicField.parentElement.className).to.contain('djs-properties-hide');
+    expect(topicField.parentElement.className).to.contain('pp-hidden');
     expect(businessObject.get('camunda:expression')).to.equal(expressionField.value);
 
     // when
@@ -199,7 +199,7 @@ describe('external-service-task-properties', function() {
 
     // then
     expect(implType.value).to.equal('type');
-    expect(expressionField.parentElement.className).to.contain('djs-properties-hide');
+    expect(expressionField.parentElement.className).to.contain('pp-hidden');
     expect(topicField.value).to.equal('OrderProcessing');
     expect(businessObject.get('camunda:topic')).to.equal(topicField.value);
     expect(businessObject.get('camunda:type')).to.equal('external');

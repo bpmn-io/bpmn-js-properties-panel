@@ -138,7 +138,7 @@ describe('sequence-flow-properties', function() {
 
     // then
     expect(conditionType.value).to.equal('');
-    expect(conditionInput.parentElement.className).to.contain('djs-properties-hide');
+    expect(conditionInput.parentElement.className).to.contain('pp-hidden');
     expect(businessObject.conditionExpression).to.be.undefined;
 
   }));

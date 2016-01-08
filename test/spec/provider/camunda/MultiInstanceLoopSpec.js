@@ -448,7 +448,7 @@ describe('multi-instance-loop-properties', function() {
         exclusiveEntry = domQuery('[name=loopExclusive]', propertiesPanel._container);
 
       // then
-      expect(domClasses(exclusiveEntry).has('djs-properties-hide')).to.be.true;
+      expect(domClasses(exclusiveEntry).has('pp-hidden')).to.be.true;
 
     }));
 
@@ -465,7 +465,7 @@ describe('multi-instance-loop-properties', function() {
       TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
       // then
-      expect(domClasses(exclusiveEntry).has('djs-properties-hide')).to.be.false;
+      expect(domClasses(exclusiveEntry).has('pp-hidden')).to.be.false;
 
     }));
 
@@ -572,7 +572,7 @@ describe('multi-instance-loop-properties', function() {
       var jobRetryEntry = domQuery('[name=loopJobRetryTimeCycle]', propertiesPanel._container);
 
       // then
-      expect(domClasses(jobRetryEntry.parentElement).has('djs-properties-hide')).to.be.true;
+      expect(domClasses(jobRetryEntry.parentElement).has('pp-hidden')).to.be.true;
 
     }));
 
@@ -589,7 +589,7 @@ describe('multi-instance-loop-properties', function() {
       TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
       // then
-      expect(domClasses(jobRetryEntry.parentElement).has('djs-properties-hide')).to.be.false;
+      expect(domClasses(jobRetryEntry.parentElement).has('pp-hidden')).to.be.false;
 
     }));
 

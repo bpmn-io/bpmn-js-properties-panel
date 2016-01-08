@@ -688,7 +688,7 @@ describe('event-properties', function() {
         signalSelectField = domQuery('input[name=signalRef]', propertiesPanel._container);
 
     expect(signalSelectField.value).to.be.empty;
-    expect(signalNameField.parentElement.className).to.contain('djs-properties-hide');
+    expect(signalNameField.parentElement.className).to.contain('pp-hidden');
 
   }));
 

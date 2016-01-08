@@ -151,10 +151,6 @@
     color: red;
   }
 
-  .hidden {
-    display: none;
-  }
-
   .pp-row {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -258,6 +254,10 @@
       }
     }
   }
+}
+
+.pp-hidden {
+  display: none;
 }
 
 .djs-properties-header {
@@ -373,9 +373,8 @@
   }
 }
 
-.djs-properties-hide,
-label.djs-properties-hide {
-  display: none;
+label.pp-hidden {
+  .pp-hidden;
 }
 
 .cam-add-listener {
@@ -407,6 +406,7 @@ label.djs-properties-hide {
     }
   }
 }
+
 .djs-listener-area + .djs-listener-area {
   margin-top: 20px;
 }

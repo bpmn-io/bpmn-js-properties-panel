@@ -267,7 +267,7 @@ describe('call-activity-properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
     expect(caseRefInput.value).to.equal('checkCreditCase');
     expect(caseBindingSelect.value).to.equal('latest');
-    expect(versionInput.parentElement.parentElement.className).to.contains('djs-properties-hide');
+    expect(versionInput.parentElement.parentElement.className).to.contains('pp-hidden');
     expect(businessObject.get('camunda:caseRef')).to.equal(caseRefInput.value);
     expect(businessObject.get('camunda:caseBinding')).not.to.exist;
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
@@ -422,7 +422,7 @@ describe('call-activity-properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
     expect(caseRefInput.value).to.equal('myCase');
     expect(caseBindingSelect.value).to.equal('latest');
-    expect(caseVersionInput.parentElement.parentElement.className).to.contains('djs-properties-hide');
+    expect(caseVersionInput.parentElement.parentElement.className).to.contains('pp-hidden');
     expect(businessObject.get('camunda:caseRef')).to.equal(caseRefInput.value);
     expect(businessObject.get('camunda:caseBinding')).to.equal(caseBindingSelect.value);
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
@@ -446,8 +446,8 @@ describe('call-activity-properties', function() {
         businessObject = getBusinessObject(shape);
 
     expect(callActivityTypeSelect.value).to.equal('');
-    expect(bpmnArea.className).to.contains('djs-properties-hide');
-    expect(cmmnArea.className).to.contains('djs-properties-hide');
+    expect(bpmnArea.className).to.contains('pp-hidden');
+    expect(cmmnArea.className).to.contains('pp-hidden');
     expect(businessObject.get('calledElement')).not.to.exist;
     expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest'); // default value
     expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
