@@ -1,0 +1,33 @@
+.cam-add-listener {
+  > button {
+    position: relative;
+    margin-left: 10px;
+    &:before {
+      content: '\E803';
+    }
+  }
+}
+
+[data-list-entry-container] > .djs-listener-area {
+  border: 1px solid @gray-light;
+  margin: 10px 1px;
+  padding: 10px;
+}
+
+.djs-listener-area {
+  position: relative;
+  > button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    background: none;
+    &:before {
+      content: '\E802';
+    }
+  }
+}
+
+.djs-listener-area + .djs-listener-area {
+  margin-top: 20px;
+}
