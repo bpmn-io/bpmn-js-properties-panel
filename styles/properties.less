@@ -30,21 +30,19 @@
   input,
   button,
   textarea {
-    &.invalid {
-      .invalid();
-    }
+    padding: 3px 6px;
+    border: 1px solid @gray-light;
 
     &:focus {
       .focus();
     }
-  }
 
-
-  input,
-  button,
-  textarea {
-    padding: 3px 6px;
-    border: 1px solid @gray-light;
+    &.invalid {
+      .invalid();
+      &:focus {
+        box-shadow: 0 0 1px 2px fade(@error-color, 20%);
+      }
+    }
   }
 
 
