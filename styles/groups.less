@@ -1,0 +1,72 @@
+.djs-properties-group {
+  padding: 6px 15px 6px 15px;
+  position: relative;
+  max-height: 2000px;
+  overflow: hidden;
+  transition: max-height 0.218s ease-in-out,
+              padding-top 0.218s ease-in-out,
+              padding-bottom 0.218s ease-in-out;
+
+  &:empty {
+    display: none;
+  }
+
+  > .group-toggle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 10px;
+    cursor: pointer;
+    transition: background-color 0.218s linear;
+    &:hover {
+      background-color: @toggle-color;
+    }
+  }
+
+  > .group-label {
+    .label();
+    font-size: 120%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    transition: margin 0.218s linear;
+    font-style: italic;
+  }
+
+  &:hover > .group-toggle {
+    background-color: @gray-light;
+    &:hover {
+      background-color: @toggle-color;
+    }
+  }
+
+  &.group-closed {
+    max-height: 20px;
+    border-top: none;
+    cursor: pointer;
+    background-color: fade(@toggle-color, 20%);
+    padding-top: 0;
+    padding-bottom: 0;
+
+    > div {
+      visibility: hidden;
+    }
+
+    > .group-label {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    &:hover > .group-label {
+      color: @brand-primary;
+    }
+  }
+
+  + .djs-properties-group {
+    border-top: 1px dotted @gray-light;
+  }
+
+  &:last-child {
+    padding-bottom: 9px;
+  }
+}
