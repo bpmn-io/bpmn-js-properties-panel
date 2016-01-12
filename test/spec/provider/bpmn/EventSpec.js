@@ -614,7 +614,7 @@ describe('event-properties', function() {
 
     var inputField = domQuery('input[name=messageName]', propertiesPanel._container),
         messageEventDefinition = eventDefinitionHelper.getMessageEventDefinition(shape),
-        clearButton = domQuery('[data-entry=messageDefinition] > .pp-row > .field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=messageDefinition] > .pp-row > .pp-field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container);
 
     // given
@@ -657,7 +657,7 @@ describe('event-properties', function() {
 
     var inputField = domQuery('input[name=signalName]', propertiesPanel._container),
         signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(shape),
-        clearButton = domQuery('[data-entry=signalDefinition] > .pp-row > .field-wrapper > button[data-action=clear]',
+        clearButton = domQuery('[data-entry=signalDefinition] > .pp-row > .pp-field-wrapper > button[data-action=clear]',
                                 propertiesPanel._container);
 
     // given
