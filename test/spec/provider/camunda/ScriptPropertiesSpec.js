@@ -232,34 +232,6 @@ describe('script-properties', function() {
 
   }));
 
-  // the clear button has been removed, this test is therefore not relevant
-  xit('should not remove the script value of a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
-
-    var shape = elementRegistry.get('ScriptTask_1');
-    selection.select(shape);
-
-    var scriptValue = domQuery('textarea[name="scriptValue"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=script-implementation] > .pp-row > .pp-field-wrapper > button[data-action=script\\\.clearScript]',
-                                propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(scriptValue.value).to.equal('printf(\'hello world\')');
-    expect(businessObject.get('script')).to.equal(scriptValue.value);
-
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
-
-    // then
-    expect(scriptValue.value).is.empty;
-    expect(scriptValue.className).to.equal('invalid');
-    expect(businessObject.get('script')).to.equal('printf(\'hello world\')');
-
-  }));
-
   it('should not remove the script resource value of a script task',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
