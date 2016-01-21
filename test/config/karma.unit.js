@@ -27,7 +27,7 @@ module.exports = function(karma) {
     // browserify configuration
     browserify: {
       debug: true,
-      transform: [ [ 'stringify', { global: true, extensions: [ '.bpmn', '.xml', '.css' ] } ] ]
+      transform: [ [ 'lessify', {relativeUrls: true} ], [ 'stringify', { global: true, extensions: [ '.bpmn', '.xml', '.css' ] } ] ]
     }
   });
 };
