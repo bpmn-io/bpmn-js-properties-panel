@@ -75,6 +75,9 @@
     "lodash": {
       "version": "3.10.1"
     },
+    "lessify": {
+      "version": "1.0.1"
+    },
     "min-dom": {
       "version": "0.2.0",
       "dependencies": {
