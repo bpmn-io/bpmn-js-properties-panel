@@ -2,6 +2,9 @@
   "name": "bpmn-js-properties-panel",
   "version": "0.5.0",
   "description": "A simple properties panel for bpmn-js",
+  "browserify": {
+    "transform": [ "lessify" ]
+   },
   "scripts": {
     "test": "grunt test"
   },

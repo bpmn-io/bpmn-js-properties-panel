@@ -92,7 +92,15 @@ module.exports = function(grunt) {
     var browserifyOptions = {
       standalone: standaloneName,
       debug: true,
-      builtins: false
+      builtins: false,
+      insertGlobalVars: {
+        process: function () {
+            return 'undefined';
+        },
+        Buffer: function () {
+            return 'undefined';
+        }
+      }
     };
 
     var timer = new Timer();
@@ -105,7 +113,7 @@ module.exports = function(grunt) {
     browserify(browserifyOptions)
       .plugin(derequire)
       .plugin(collapse)
-      .transform({relativeUrls: true}, lessify)
+      .transform(lessify)
       .add(src)
       .bundle(function(err, result) {
 
