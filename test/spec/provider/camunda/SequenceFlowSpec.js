@@ -37,7 +37,7 @@ describe('sequence-flow-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -47,10 +47,13 @@ describe('sequence-flow-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
-  it('should fetch the condition of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the condition of a sequence flow',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
@@ -63,8 +66,9 @@ describe('sequence-flow-properties', function() {
 
   }));
 
-  it('should change the condition of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should change the condition of a sequence flow',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
@@ -87,10 +91,10 @@ describe('sequence-flow-properties', function() {
 
   }));
 
+
   it('should remove the condition of a condition expression sequence flow',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
@@ -110,14 +114,14 @@ describe('sequence-flow-properties', function() {
     // then
     expect(conditionInput.value).to.be.empty;
     expect(conditionInput.className).to.equal('invalid');
-    expect(businessObject.conditionExpression.get('body')).to.equal('${foo.id()}');
+    expect(businessObject.conditionExpression.get('body')).to.equal('');
 
   }));
+
 
   it('should change condition type from expression to ""',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);

@@ -37,7 +37,7 @@ describe('service-task-delegate-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -47,15 +47,16 @@ describe('service-task-delegate-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
+
 
   it('should fill expression property',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -75,13 +76,12 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get('camunda:delegateExpression')).to.equal('foo');
   }));
 
+
   it('should fill delegate expression property',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -100,13 +100,12 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get("camunda:expression")).to.equal("foo");
   }));
 
+
   it('should fill class property',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -125,13 +124,12 @@ describe('service-task-delegate-properties', function() {
     expect(taskBo.get("class")).to.equal("foo");
   }));
 
+
   it('should remove all other properties in a mutuable choice',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -155,6 +153,7 @@ describe('service-task-delegate-properties', function() {
     expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).to.equal('expression');
     expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).not.to.equal('class');
   }));
+
 
   it('should remove all other properties in a mutuable choice when first changing the input',
         inject(function(propertiesPanel, selection, elementRegistry) {
@@ -162,8 +161,6 @@ describe('service-task-delegate-properties', function() {
     // given
     var taskShape = elementRegistry.get('ServiceTask_2');
 
-    propertiesPanel.attachTo(container);
-
     // when
     selection.select(taskShape);
 
@@ -187,13 +184,12 @@ describe('service-task-delegate-properties', function() {
     expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).not.to.equal('class');
   }));
 
-  it('should not apply an empty string to a property',
+
+  it('should apply an empty string to a property',
         inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -209,15 +205,14 @@ describe('service-task-delegate-properties', function() {
 
     // then
     var taskBo = getBusinessObject(taskShape);
-    expect(taskBo).not.to.have.property('class');
-    expect(taskBo).not.to.have.property('expression');
-    expect(taskBo).not.to.have.property('delegateExpression');
+    expect(taskBo.get('camunda:class')).to.equal('');
+    expect(taskBo.get('camunda:expression')).to.be.undefined;
+    expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
   }));
+
 
   it('should change implementation type from Expression to Java Class for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_2');
     selection.select(shape);
@@ -247,10 +242,9 @@ describe('service-task-delegate-properties', function() {
     expect(businessObject.get('camunda:delegateExpression')).to.be.undefined;
   }));
 
+
   it('should remove delegate value field for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_2');
     selection.select(shape);
@@ -279,14 +273,13 @@ describe('service-task-delegate-properties', function() {
     expect(implType.value).to.equal('expression');
     expect(businessObject).to.have.property('expression');
     expect(delegateField.className).to.equal('invalid');
-    expect(businessObject).not.to.have.property('delegateExpression');
-    expect(businessObject).not.to.have.property('class');
+    expect(businessObject.get('camunda:delegateExpression')).to.be.undefined;
+    expect(businessObject.get('camunda:class')).to.be.undefined;
   }));
+
 
   it('should add service task properties without adding undefined DMN or external properties',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_Empty');
     selection.select(shape);
@@ -326,10 +319,9 @@ describe('service-task-delegate-properties', function() {
     });
   }));
 
+
   it('should have an error message when changing implementation type from Expression to Java Class for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_Empty');
     selection.select(shape);

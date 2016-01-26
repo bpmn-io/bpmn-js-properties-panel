@@ -40,7 +40,7 @@ describe('properties-entry-fields', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -50,15 +50,16 @@ describe('properties-entry-fields', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
 
-  it('should create a text input field with a clear button', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should create a text input field with a clear button',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var userTaskShape = elementRegistry.get('UserTask');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(userTaskShape);
@@ -94,13 +95,13 @@ describe('properties-entry-fields', function() {
 
   }));
 
-  it('should create a checkbox field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should create a checkbox field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var inputEl = 'input[name=asyncBefore]';
     var userTaskShape = elementRegistry.get('UserTask');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(userTaskShape);
@@ -119,12 +120,12 @@ describe('properties-entry-fields', function() {
     expect(checkBoxList.length).to.equal(1);
   }));
 
-  it('should create a select field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should create a select field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('CallActivity');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(shape);
@@ -135,12 +136,13 @@ describe('properties-entry-fields', function() {
     expect(options.length).to.equal(3);
   }));
 
-  it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should create a textarea field',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var userTaskShape = elementRegistry.get('UserTask'),
       inputEl = 'textarea[name=documentation]';
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(userTaskShape);

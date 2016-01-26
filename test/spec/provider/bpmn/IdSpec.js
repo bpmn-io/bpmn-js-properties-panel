@@ -35,7 +35,7 @@ describe('id-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -45,12 +45,13 @@ describe('id-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
+
 
   it('should fetch the id for an element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -61,10 +62,9 @@ describe('id-properties', function() {
     expect(textField.value).to.equal(businessObject.get('id'));
   }));
 
+
   it('should set the id for an element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
@@ -83,10 +83,9 @@ describe('id-properties', function() {
     expect(businessObject.get('id')).to.equal('foo');
   }));
 
+
   it('should not remove the id for an element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -110,10 +109,9 @@ describe('id-properties', function() {
     expect(businessObject.get('id')).to.equal('ServiceTask_1');
   }));
 
-  it('should set the id with a space for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
 
-    propertiesPanel.attachTo(container);
+  it('should not set the id with a space for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
@@ -133,10 +131,8 @@ describe('id-properties', function() {
     expect(businessObject.get('id')).to.equal('StartEvent_1');
   }));
 
-  it('should set invalid QName id for an element',
+  it('should not set invalid QName id for an element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
@@ -156,10 +152,8 @@ describe('id-properties', function() {
     expect(businessObject.get('id')).to.equal('StartEvent_1');
   }));
 
-  it('should set invalid HTML characters id for an element',
+  it('should not set invalid HTML characters id for an element',
       inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);

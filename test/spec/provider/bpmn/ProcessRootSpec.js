@@ -35,7 +35,7 @@ describe('prcoess-root-process-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -45,10 +45,13 @@ describe('prcoess-root-process-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
-  it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the isExecutable property of a process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('Process_1');
 
@@ -66,8 +69,9 @@ describe('prcoess-root-process-properties', function() {
     expect(taskBo.get("isExecutable")).to.be.ok;
   }));
 
-  it('should get the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should get the name of a process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('Process_1');
 
@@ -78,8 +82,9 @@ describe('prcoess-root-process-properties', function() {
     expect(shapeBo.get('name')).to.equal(name.value);
   }));
 
-  it('should set the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the name of a process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('Process_1');
     selection.select(shape);

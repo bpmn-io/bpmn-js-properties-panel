@@ -36,7 +36,7 @@ describe('decision-business-rule-task-properties', function() {
     moddleExtensions: {camunda: camundaModdlePackage}
   }));
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -46,12 +46,13 @@ describe('decision-business-rule-task-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
+
 
   it('should fetch properties of decision business rule task',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -68,10 +69,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
+
   it('should fill decisionRef field for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Empty');
     selection.select(shape);
@@ -97,10 +97,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(decisionRefField.value).to.equal(businessObject.get('camunda:decisionRef'));
   }));
 
+
   it('remove decisionRef field is not necessary for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -119,13 +118,12 @@ describe('decision-business-rule-task-properties', function() {
     expect(implType.value).to.equal('decisionRef');
     expect(decisionRefField.value).to.equal('');
     expect(decisionRefField.className).to.equal('invalid');
-    expect(decisionRefField.value).to.not.equal(businessObject.get('camunda:decisionRef'));
+    expect(businessObject.get('camunda:decisionRef')).to.equal('');
   }));
+
 
   it('should exist default value "latest" for decision ref binding for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Empty');
     selection.select(shape);
@@ -150,10 +148,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject).not.to.have.property('camunda:decisionRefBinding');
   }));
 
+
   it('should change decision ref binding for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Deployment');
     selection.select(shape);
@@ -183,10 +180,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
   }));
 
+
   it('remove decision ref version is not necessary for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Version');
     selection.select(shape);
@@ -211,13 +207,12 @@ describe('decision-business-rule-task-properties', function() {
 
     // then
     expect(decisionRefVersion.className).to.equal('invalid');
-    expect(businessObject.get('camunda:decisionRefVersion')).to.equal('12');
+    expect(businessObject.get('camunda:decisionRefVersion')).to.equal('');
   }));
+
 
   it('should change implementation type from DMN to Java Class for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Version');
     selection.select(shape);
@@ -256,10 +251,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
   }));
 
+
   it('should not fetch decision ref properties for a non decision business rule task element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -275,10 +269,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(resultVariable.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
+
   it('should remove result variable value for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -301,10 +294,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject).not.to.have.property('camunda:resultVariable');
   }));
 
+
   it('should remove decision ref value field for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -328,10 +320,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(decisionRefField.className).to.equal('invalid');
   }));
 
+
   it('should remove decision ref version value field for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Version');
     selection.select(shape);
@@ -362,10 +353,9 @@ describe('decision-business-rule-task-properties', function() {
     expect(decisionRefVersionField.className).to.equal('invalid');
   }));
 
+
   it('should not fetch map decision result for a business rule task without a result variable',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Version');
     selection.select(shape);
@@ -381,10 +371,9 @@ describe('decision-business-rule-task-properties', function() {
 
   }));
 
+
   it('should fetch map decision result for a business rule task with setting result variable',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -402,10 +391,9 @@ describe('decision-business-rule-task-properties', function() {
 
   }));
 
+
   it('should set map decision result with default value "resultList" when fill result variable',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_Version');
     selection.select(shape);
@@ -432,10 +420,9 @@ describe('decision-business-rule-task-properties', function() {
 
   }));
 
+
   it('should remove map decision result when remove result variable',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -463,10 +450,9 @@ describe('decision-business-rule-task-properties', function() {
 
   }));
 
+
   it('should change map decision result value for a business rule task',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);
@@ -489,10 +475,9 @@ describe('decision-business-rule-task-properties', function() {
 
   }));
 
+
   it('should hidden map decision result select box when change implementation type from DMN to Expression for an element',
         inject(function(propertiesPanel, selection, elementRegistry) {
-
-    propertiesPanel.attachTo(container);
 
     var shape = elementRegistry.get('BusinessRuleTask_1');
     selection.select(shape);

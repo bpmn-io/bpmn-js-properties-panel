@@ -35,7 +35,7 @@ describe('documentation-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -45,10 +45,13 @@ describe('documentation-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
-  it('should fetch the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch the documentation for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -58,8 +61,9 @@ describe('documentation-properties', function() {
     expect(textField.value).to.equal('Task');
   }));
 
-  it('should set the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the documentation for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent_1');
     selection.select(shape);
@@ -81,8 +85,9 @@ describe('documentation-properties', function() {
     expect(documentation[0].$instanceOf('bpmn:Documentation')).to.be.true;
   }));
 
-  it('should remove the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove the documentation for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);

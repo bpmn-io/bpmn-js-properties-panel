@@ -51,7 +51,9 @@ describe('flow-node-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
-  it('should set the asyncBefore property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the asyncBefore property of a gateway flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('InclusiveGateway_1');
     selection.select(shape);
@@ -71,7 +73,9 @@ describe('flow-node-properties', function() {
     expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
-  it('should set the asyncBefore property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the asyncBefore property of a event flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateThrowEvent_1');
     selection.select(shape);
@@ -91,7 +95,9 @@ describe('flow-node-properties', function() {
     expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
-  it('should set the asyncBefore property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the asyncBefore property of a activity flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -111,7 +117,9 @@ describe('flow-node-properties', function() {
     expect(taskBo.get("asyncBefore")).to.be.ok;
   }));
 
-  it('should set the asyncAfter property of a gateway flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the asyncAfter property of a gateway flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('InclusiveGateway_1');
     selection.select(shape);
@@ -131,7 +139,9 @@ describe('flow-node-properties', function() {
     expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
-  it('should set the asyncAfter property of a event flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the asyncAfter property of a event flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateThrowEvent_1');
     selection.select(shape);
@@ -153,7 +163,9 @@ describe('flow-node-properties', function() {
 
   }));
 
-  it('should set the asyncAfter property of a activity flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the asyncAfter property of a activity flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -173,7 +185,9 @@ describe('flow-node-properties', function() {
     expect(taskBo.get("asyncAfter")).to.be.ok;
   }));
 
-  it('should fetch the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fetch the exclusive property for a flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -185,7 +199,9 @@ describe('flow-node-properties', function() {
     expect(input.checked).to.equal(businessObject.get('exclusive'));
   }));
 
-  it('should set the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the exclusive property for a flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -208,7 +224,9 @@ describe('flow-node-properties', function() {
 
   }));
 
-  it('should reset the exclusive property for a flow node', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should reset the exclusive property for a flow node',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -235,6 +253,7 @@ describe('flow-node-properties', function() {
     expect(businessObject.get('exclusive')).to.be.ok;
   }));
 
+
   it('should remove the retryTimeCycle when the element is not async',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -259,6 +278,7 @@ describe('flow-node-properties', function() {
       expect(newCount + 1).to.equal(extensionElementsCount);
     }));
 
+
   it('should remove the retryTimeCycle and extensionElements list when the element is not async',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -278,6 +298,7 @@ describe('flow-node-properties', function() {
       expect(bo.get('extensionElements')).to.be.undefined;
     }));
 
+
   it('should show camunda:async as asyncBefore in the ui',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -293,6 +314,7 @@ describe('flow-node-properties', function() {
       expect(!!asyncBeforeField.checked).to.be.ok;
 
     }));
+
 
   it('should migrate camunda:async to asyncBefore when asyncBefore is toggled',
     inject(function(propertiesPanel, selection, elementRegistry) {

@@ -35,7 +35,7 @@ describe('link-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -45,10 +45,13 @@ describe('link-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
-  it('should get the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should get the name of a link event',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
         inputEl = 'input[name=link-name]',
@@ -60,8 +63,9 @@ describe('link-properties', function() {
     expect(inputField.value).to.equal(linkName);
   }));
 
-  it('should set the name of a link event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set the name of a link event',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
         inputEl = 'input[name=link-name]';

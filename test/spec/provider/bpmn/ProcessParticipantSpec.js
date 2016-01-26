@@ -48,7 +48,10 @@ describe('process-participant-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
-  it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the isExecutable property of a process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('Participant_1');
 
@@ -65,7 +68,9 @@ describe('process-participant-properties', function() {
   }));
 
 
-  it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the name of a process in a participant',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('_Participant_2');
 
@@ -80,7 +85,9 @@ describe('process-participant-properties', function() {
   }));
 
 
-  it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the name of a process in a participant',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('_Participant_2');
 
@@ -97,7 +104,9 @@ describe('process-participant-properties', function() {
   }));
 
 
-  it('should get the id of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the id of a process in a participant',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('_Participant_2');
 
@@ -112,7 +121,9 @@ describe('process-participant-properties', function() {
   }));
 
 
-  it('should set the id of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the id of a process in a participant',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('_Participant_2');
 

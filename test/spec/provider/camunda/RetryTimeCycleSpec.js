@@ -39,7 +39,7 @@ describe('retry-time-cycle', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -49,11 +49,13 @@ describe('retry-time-cycle', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
 
-  it('should fetch a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+  it('should fetch a retry time cycle for an element with timer def',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
         inputEl = 'input[name=jobRetryTimeCycle]';
@@ -69,8 +71,9 @@ describe('retry-time-cycle', function() {
     expect(retryTimer.get('body')).to.equal('asd');
   }));
 
-  it('should set a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should set a retry time cycle for an element with timer def',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask'),
         inputEl = 'input[name=jobRetryTimeCycle]';
@@ -98,8 +101,9 @@ describe('retry-time-cycle', function() {
     expect(retryTimer.get('body')).to.equal('foo');
   }));
 
-  it('should remove a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove a retry time cycle for an element with timer def',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
         inputEl = 'input[name=jobRetryTimeCycle]';

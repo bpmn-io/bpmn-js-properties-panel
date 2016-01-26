@@ -64,6 +64,7 @@ describe('task-listener-properties', function() {
     return taskListeners;
   }
 
+
   it('should fetch task listener properties for an user task',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -309,13 +310,12 @@ describe('task-listener-properties', function() {
     // check html
     expect(eventTypes[0].value).to.equal('assignment');
     expect(listenerTypes[0].value).to.equal('expression');
-    expect(listenerValues[0].className).to.equal('invalid');
 
     // check business object
     taskListeners = getTaskListener(bo.extensionElements);
     expect(taskListeners).to.have.length.of(1);
     expect(taskListeners[0].get('event')).to.equal(eventTypes[0].value);
-    expect(taskListeners[0].get('expression')).to.equal('abc');
+    expect(taskListeners[0].get('expression')).to.equal('');
 
   }));
 
@@ -395,15 +395,21 @@ describe('task-listener-properties', function() {
 
     var listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
+    // add task listener value to the task listener
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
 
     // when
+    // undo adding the task listener value
     commandStack.undo();
 
     // then
     var taskListeners = getTaskListener(bo.extensionElements);
 
-    expect(taskListeners).to.be.empty;
+    // task listener exist with an invalid input field
+    expect(taskListeners).to.have.length.of(1);
+
+    expect(listenerValues[0].value).to.be.empty;
+    expect(listenerValues[0].className).to.equal('invalid');
   }));
 
 
@@ -454,16 +460,23 @@ describe('task-listener-properties', function() {
 
     var listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
+    // add task listener value to both the task listeners
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
     TestHelper.triggerValue(listenerValues[1], 'taskListenerValTwo');
 
     // when
+    // undo adding the last execution listener value
     commandStack.undo();
 
     // then
     var taskListeners = getTaskListener(bo.extensionElements);
 
-    expect(taskListeners).to.be.empty;
+    // second execution listener exist with an invalid input field
+    expect(taskListeners).to.have.length.of(2);
+
+    expect(listenerValues[0].value).to.equal('taskListenerValOne');
+    expect(listenerValues[1].value).to.be.empty;
+    expect(listenerValues[1].className).to.equal('invalid');
 
   }));
 
@@ -543,10 +556,9 @@ describe('task-listener-properties', function() {
     expect(listenerValues[0].value).to.equal('executionListenerVal');
 
     // check business object
-    // only taskListener exists because after setting the taskListener value
-    // the whole properties panel refreshed and the invalid execution listener
-    // is removed
-    expect(bo.extensionElements.values).to.have.length.of(1);
+    // taskListener and executionListener exists with invalid input fields because
+    // every state is saved
+    expect(bo.extensionElements.values).to.have.length.of(2);
 
   }));
 });

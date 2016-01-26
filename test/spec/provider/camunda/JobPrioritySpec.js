@@ -51,7 +51,10 @@ describe('job-priority', function() {
     propertiesPanel.attachTo(container);
   }));
 
-  it('should fetch a job priority for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fetch a job priority for an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('ServiceTask'),
         inputEl = 'input[name=jobPriority]';
@@ -66,7 +69,9 @@ describe('job-priority', function() {
   }));
 
 
-  it('should set a job priority on an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set a job priority on an element',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     var shape = elementRegistry.get('IntermediateCatchEvent'),
         inputEl = 'input[name=jobPriority]';
 
@@ -83,7 +88,10 @@ describe('job-priority', function() {
     expect(bo.get('jobPriority')).to.equal('100');
   }));
 
-  it('should get the job priority of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should get the job priority of a process in a participant',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('_Participant_2'),
         inputEl = 'input[name=jobPriority]';
@@ -99,7 +107,9 @@ describe('job-priority', function() {
   }));
 
 
-  it('should set the job priority of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the job priority of a process in a participant',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('_Participant_2'),
         inputEl = 'input[name=jobPriority]';

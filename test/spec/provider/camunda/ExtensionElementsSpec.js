@@ -38,7 +38,7 @@ describe('extension-elements', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -48,13 +48,13 @@ describe('extension-elements', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
 
   it('should remove list when there is no child element left',
     inject(function(propertiesPanel, selection, elementRegistry) {
-
-      propertiesPanel.attachTo(container);
 
       var shape   = elementRegistry.get('BoundaryEvent'),
           inputEl = 'input[name=jobRetryTimeCycle]';
@@ -72,10 +72,9 @@ describe('extension-elements', function() {
       expect(bo.get('extensionElements')).to.be.undefined;
     }));
 
+
   it('should add list when the remove is undone',
     inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-      propertiesPanel.attachTo(container);
 
       var shape   = elementRegistry.get('BoundaryEvent'),
           inputEl = 'input[name=jobRetryTimeCycle]';

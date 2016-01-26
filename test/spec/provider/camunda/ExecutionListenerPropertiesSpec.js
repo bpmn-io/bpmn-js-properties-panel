@@ -64,6 +64,7 @@ describe('listener-properties', function() {
     return executionListeners;
   }
 
+
   it('should fetch execution listener properties for a flow element',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -350,7 +351,7 @@ describe('listener-properties', function() {
     executionListeners = getExecutionListener(bo.extensionElements);
     expect(executionListeners.length).to.equal(2);
     expect(executionListeners[0].get('event')).to.equal(eventTypes[0].value);
-    expect(executionListeners[0].get('expression')).to.equal('executionListenerExpr');
+    expect(executionListeners[0].get('expression')).to.equal('');
 
   }));
 
@@ -460,15 +461,21 @@ describe('listener-properties', function() {
 
     var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
 
+    // add execution listener value to first execution listener
     TestHelper.triggerValue(listenerValues[0], 'executionListenerValOne');
 
     // when
+    // undo adding the execution listener value
     commandStack.undo();
 
     // then
     var executionListeners = getExecutionListener(bo.extensionElements);
 
-    expect(executionListeners).to.be.empty;
+    // execution listener exist with an invalid input field
+    expect(executionListeners).to.have.length.of(1);
+
+    expect(listenerValues[0].value).to.be.empty;
+    expect(listenerValues[0].className).to.equal('invalid');
   }));
 
 
@@ -519,16 +526,23 @@ describe('listener-properties', function() {
 
     var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
 
+    // add execution listener value to both execution listeners
     TestHelper.triggerValue(listenerValues[0], 'executionListenerValOne');
     TestHelper.triggerValue(listenerValues[1], 'executionListenerValTwo');
 
     // when
+    // undo adding the last execution listener value
     commandStack.undo();
 
     // then
     var executionListeners = getExecutionListener(bo.extensionElements);
 
-    expect(executionListeners).to.be.empty;
+    // second execution listener exist with an invalid input field
+    expect(executionListeners).to.have.length.of(2);
+
+    expect(listenerValues[0].value).to.equal('executionListenerValOne');
+    expect(listenerValues[1].value).to.be.empty;
+    expect(listenerValues[1].className).to.equal('invalid');
 
   }));
 
@@ -563,6 +577,7 @@ describe('listener-properties', function() {
     expect(executionListeners).to.have.length.of(2);
 
   }));
+
 
   it('should fetch two invalid property fields when adding two execution listeners at once',
       inject(function(propertiesPanel, selection, elementRegistry, commandStack) {

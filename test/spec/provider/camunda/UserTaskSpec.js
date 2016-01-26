@@ -37,7 +37,7 @@ describe('user-task-properties', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -47,14 +47,16 @@ describe('user-task-properties', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);   
   }));
 
-  it('should fill an assignee property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fill an assignee property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -69,12 +71,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("assignee")).to.equal("foo");
   }));
 
-  it('should not fill an empty assignee property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should not fill an empty assignee property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -88,50 +90,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("assignee")).to.be.undefined;
   }));
 
-  it('should fill a form key property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fill a canidate users property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
-
-    // when
-    selection.select(taskShape);
-
-    var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container);
-
-    // if
-    TestHelper.triggerValue(formKeyInput, 'foo/bar');
-    // then
-    var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("formKey")).to.equal('foo/bar');
-  }));
-
-  it('should not fill an empty form key property', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
-
-    // when
-    selection.select(taskShape);
-
-    var formKeyInput = domQuery('input[name=formKey]', propertiesPanel._container);
-
-    // if
-    TestHelper.triggerValue(formKeyInput, '');
-    // then
-    var taskBo = getBusinessObject(taskShape);
-    expect(taskBo.get("formKey")).to.be.undefined;
-  }));
-
-  it('should fill a canidate users property', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -145,12 +109,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("candidateUsers")).to.equal('Kermit, Piggy');
   }));
 
-  it('should not fill an empty candidate users property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should not fill an empty candidate users property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -164,12 +128,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("candidateUsers")).to.be.undefined;
   }));
 
-  it('should fill a canidate groups property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fill a canidate groups property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -183,12 +147,11 @@ describe('user-task-properties', function() {
     expect(taskBo.get("candidateGroups")).to.equal('Administration, IT');
   }));
 
+
   it('should not fill an empty candidate groups property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -202,12 +165,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("candidateGroups")).to.be.undefined;
   }));
 
-  it('should fill a due date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fill a due date property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -221,12 +184,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("dueDate")).to.equal('2015-06-26T09:57:00');
   }));
 
-  it('should not fill an empty due date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should not fill an empty due date property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -240,12 +203,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("dueDate")).to.be.undefined;
   }));
 
-  it('should fill a follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fill a follow up date property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -259,12 +222,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("followUpDate")).to.equal('2015-06-26T09:57:00');
   }));
 
-  it('should not fill an empty follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should not fill an empty follow up date property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -278,12 +241,11 @@ describe('user-task-properties', function() {
     expect(taskBo.get("followUpDate")).to.be.undefined;
   }));
 
+
   it('should fill a priority property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);
@@ -297,12 +259,12 @@ describe('user-task-properties', function() {
     expect(taskBo.get("priority")).to.equal('100');
   }));
 
-  it('should not fill an empty follow up date property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should not fill an empty follow up date property',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var taskShape = elementRegistry.get('Task_1');
-
-    propertiesPanel.attachTo(container);
 
     // when
     selection.select(taskShape);

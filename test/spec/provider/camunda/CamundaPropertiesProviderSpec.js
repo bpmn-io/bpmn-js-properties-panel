@@ -52,6 +52,7 @@ describe('camunda-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
+
   it('should hide the job configuration group when all items are hidden or empty',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -66,6 +67,7 @@ describe('camunda-properties', function() {
     // then
     expect(domClasses(group).has('pp-hidden')).to.be.true;
   }));
+
 
   it('should show the job configuration group when there is a non hidden group element',
     inject(function(propertiesPanel, selection, elementRegistry) {

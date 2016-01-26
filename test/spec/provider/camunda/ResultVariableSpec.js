@@ -36,7 +36,7 @@ describe('result-variable', function() {
     moddleExtensions: {camunda: camundaModdlePackage}
   }));
 
-  beforeEach(inject(function(commandStack) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
@@ -46,10 +46,13 @@ describe('result-variable', function() {
     });
 
     container.appendChild(undoButton);
+
+    propertiesPanel.attachTo(container);
   }));
 
-  it('should fetch a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch a resultVariable field for a service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -65,8 +68,9 @@ describe('result-variable', function() {
     expect(inputField.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
-  it('should fill a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fill a resultVariable field for a service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -89,8 +93,9 @@ describe('result-variable', function() {
     expect(businessObject.get('camunda:resultVariable')).to.equal('foo');
   }));
 
-  it('should remove a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove a resultVariable field for a service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -113,8 +118,9 @@ describe('result-variable', function() {
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
-  it('should do not exist a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should do not exist a resultVariable field for a service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         businessObject = getBusinessObject(shape);
@@ -144,8 +150,9 @@ describe('result-variable', function() {
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
-  it('should fetch a resultVariable field for a throwing message event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should fetch a resultVariable field for a throwing message event',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -161,8 +168,9 @@ describe('result-variable', function() {
     expect(inputField.value).to.equal(businessObject.get('camunda:resultVariable'));
   }));
 
-  it('should remove result variable value for a throwing message event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should remove result variable value for a throwing message event',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_1');
     selection.select(shape);
@@ -185,8 +193,9 @@ describe('result-variable', function() {
     expect(businessObject.eventDefinitions[0].get('camunda:resultVariable')).to.be.undefined;
   }));
 
-  it('should not fetch a resultVariable field for a catching message event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should not fetch a resultVariable field for a catching message event',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -202,8 +211,9 @@ describe('result-variable', function() {
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
-  it('should not fetch a resultVariable field for a non message intermediate throw event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should not fetch a resultVariable field for a non message intermediate throw event',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_Error'),
         elementSyntax = 'input[name=resultVariable]';
@@ -219,8 +229,9 @@ describe('result-variable', function() {
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
 
-  it('should not fetch a resultVariable field for a non message end event', inject(function(propertiesPanel, selection, elementRegistry) {
-    propertiesPanel.attachTo(container);
+
+  it('should not fetch a resultVariable field for a non message end event',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateThrowEvent_Signal'),
         elementSyntax = 'input[name=resultVariable]';

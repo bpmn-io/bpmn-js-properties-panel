@@ -51,7 +51,10 @@ describe('start-event-inititator', function() {
     propertiesPanel.attachTo(container);
   }));
 
-  it('should fetch the initiator attribute', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should fetch the initiator attribute',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var startEvenShape = elementRegistry.get('StartEvent');
 
@@ -66,7 +69,9 @@ describe('start-event-inititator', function() {
     expect(bo.get('camunda:initiator')).to.equal(initiatorField.value);
   }));
 
-  it('should set the initiator attribute', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should set the initiator attribute',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var startEvenShape = elementRegistry.get('StartEvent');
 
@@ -75,14 +80,16 @@ describe('start-event-inititator', function() {
     var initiatorField = domQuery('input[name=initiator]', propertiesPanel._container);
 
     // when
-    TestHelper.triggerValue(initiatorField, "asd", "change");
+    TestHelper.triggerValue(initiatorField, 'asd', 'change');
     var bo = getBusinessObject(startEvenShape);
 
     // then
-    expect(bo.get('camunda:initiator')).to.equal("asd");
+    expect(bo.get('camunda:initiator')).to.equal('asd');
   }));
 
-  it('should not show the initiator field on sub process', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should not show the initiator field on sub process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
     var startEvenShape = elementRegistry.get('StartEvent');
 
@@ -91,14 +98,16 @@ describe('start-event-inititator', function() {
     var initiatorField = domQuery('input[name=initiator]', propertiesPanel._container);
 
     // when
-    TestHelper.triggerValue(initiatorField, "", "change");
+    TestHelper.triggerValue(initiatorField, '', 'change');
     var bo = getBusinessObject(startEvenShape);
 
     // then
     expect(bo.get('camunda:initiator')).to.be.undefined;
   }));
 
-  it('should remove the empty initiator field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should remove the empty initiator field',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var startEvenShape = elementRegistry.get('SubStartEvent');
