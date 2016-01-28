@@ -219,4 +219,38 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('type')).to.be.equal('mail');
   }));
 
+  it('should exist a camunda:topic element in the business object when changing expression to external service task',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('ServiceTask_1');
+    selection.select(shape);
+
+    var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
+        implType = domQuery('select[name=implType]', propertiesPanel._container),
+        expressionField = domQuery('input[name=delegate]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('expression');
+    expect(topicField.parentElement.className).to.contain('pp-hidden');
+    expect(businessObject.get('camunda:expression')).to.equal(expressionField.value);
+
+    // when
+    // select 'external'
+    implType.options[3].selected = 'selected';
+    TestHelper.triggerEvent(implType, 'change');
+
+    // then
+    expect(implType.value).to.equal('type');
+    expect(expressionField.parentElement.className).to.contain('pp-hidden');
+
+    expect(topicField.value).to.be.empty;
+    expect(topicField.className).to.equal('invalid');
+
+    expect(businessObject.get('camunda:topic')).to.equal('');
+    expect(businessObject.get('camunda:type')).to.equal('external');
+    expect(businessObject.get('camunda:expression')).to.be.undefined;
+    expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
+  }));
+
 });

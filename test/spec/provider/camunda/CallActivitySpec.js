@@ -457,4 +457,121 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
   }));
 
+  it('should not show version field when changing callActivityType from BPMN to CMMN and back for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_2');
+
+    selection.select(shape);
+
+    var caseBindingSelect = domQuery('select[name=caseBinding]', propertiesPanel._container),
+        caseVersionInput = domQuery('input[name=caseVersion]', propertiesPanel._container),
+        calledElementBindingSelect = domQuery('select[name=calledElementBinding]', propertiesPanel._container),
+        calledElementVersionInput = domQuery('input[name=calledElementVersion]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+
+    expect(calledElementBindingSelect.value).to.equal('latest');
+
+    expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest'); // default value in camunda-moddle
+
+    expect(businessObject.get('camunda:caseRef')).not.to.exist;
+    expect(businessObject.get('camunda:caseBinding')).not.to.exist;
+    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+
+    // when change called element binding to 'version'
+    calledElementBindingSelect.options[2].selected = 'selected';
+    TestHelper.triggerEvent(calledElementBindingSelect, 'change');
+
+    // and when change call activity type to 'cmmn'
+    callActivityTypeSelect.options[1].selected = 'selected';
+    TestHelper.triggerEvent(callActivityTypeSelect, 'change');
+
+    // then
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+
+    expect(caseBindingSelect.value).to.equal('latest');
+    expect(caseVersionInput.parentElement.parentElement.className).to.contains('pp-hidden');
+
+    // when change back to 'bpmn'
+    callActivityTypeSelect.options[0].selected = 'selected';
+    TestHelper.triggerEvent(callActivityTypeSelect, 'change');
+
+    // then
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+
+    expect(calledElementBindingSelect.value).to.equal('latest');
+    expect(calledElementVersionInput.parentElement.parentElement.className).to.contains('pp-hidden');
+
+    // property 'camunda:calledElementBinding' should not exist in the business object,
+    // because there is the default value 'latest'
+    expect(businessObject.get('camunda:calledElementBinding')).not.to.exist;
+    expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
+
+    expect(businessObject.get('camunda:caseBinding')).not.to.exist;
+    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+
+  }));
+
+  it('should not show version field when changing callActivityType from CMMN to BPMN and back for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_3');
+
+    selection.select(shape);
+
+    var caseBindingSelect = domQuery('select[name=caseBinding]', propertiesPanel._container),
+        caseVersionInput = domQuery('input[name=caseVersion]', propertiesPanel._container),
+        calledElementBindingSelect = domQuery('select[name=calledElementBinding]', propertiesPanel._container),
+        calledElementVersionInput = domQuery('input[name=calledElementVersion]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+
+    expect(caseBindingSelect.value).to.equal('latest');
+
+    expect(businessObject.get('camunda:caseBinding')).to.not.exist;
+
+    expect(businessObject.get('camunda:calledElement')).not.to.exist;
+    expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest'); // default value in the camunda-moddle
+    expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
+
+    // when change case binding to 'version'
+    caseBindingSelect.options[2].selected = 'selected';
+    TestHelper.triggerEvent(caseBindingSelect, 'change');
+
+    // and when change call activity type to 'bpmn'
+    callActivityTypeSelect.options[0].selected = 'selected';
+    TestHelper.triggerEvent(callActivityTypeSelect, 'change');
+
+    // then
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+
+    expect(calledElementBindingSelect.value).to.equal('latest');
+    expect(calledElementVersionInput.parentElement.parentElement.className).to.contains('pp-hidden');
+
+    // when change back to 'cmmn'
+    callActivityTypeSelect.options[1].selected = 'selected';
+    TestHelper.triggerEvent(callActivityTypeSelect, 'change');
+
+    // then
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+
+    expect(caseBindingSelect.value).to.equal('latest');
+    expect(caseVersionInput.parentElement.parentElement.className).to.contains('pp-hidden');
+
+    expect(businessObject.get('camunda:calledElementBinding')).not.to.exist;
+    expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
+
+    expect(businessObject.get('camunda:caseRef')).to.be.empty;
+    expect(businessObject.get('camunda:caseBinding')).not.to.exist;
+    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+
+  }));
+
 });
