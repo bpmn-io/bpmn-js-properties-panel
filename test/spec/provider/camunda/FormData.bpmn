@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:custom="http://custom" id="_pHDz0KojEeOJhIBv1RySdg" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process_1" isExecutable="false">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="firstname" label="Firstname" type="string">
+            <camunda:validation>
+              <camunda:constraint name="maxlength" config="25" />
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="lastname" label="Lastname" type="string">
+            <camunda:validation>
+              <camunda:constraint name="maxlength" config="25" />
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="dateOfBirth" label="Date of Birth" type="date" />
+        </camunda:formData>
+      </bpmn2:extensionElements>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="UserTask_1" camunda:formKey="myForm.html" camunda:assignee="bar" />
+    <bpmn2:userTask id="UserTask_2">
+      <bpmn2:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="blabbla" label="Foo" type="string">
+            <camunda:validation>
+              <camunda:constraint name="maxlength" config="25" />
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+        <camunda:taskListener expression="abc" event="assignment" />
+      </bpmn2:extensionElements>
+    </bpmn2:userTask>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="StartEvent_1">
+        <dc:Bounds x="124" y="148" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="142" y="189" width="0" height="1" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_3" bpmnElement="UserTask_1">
+        <dc:Bounds x="260" y="146" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Task_4" bpmnElement="UserTask_2">
+        <dc:Bounds x="400" y="146" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
