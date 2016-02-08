@@ -13,7 +13,8 @@ var propertiesPanelModule = require('../../../../lib'),
     coreModule = require('bpmn-js/lib/core');
 
 var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes');
+    domClasses = require('min-dom/lib/classes'),
+    find = require('lodash/collection/find');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     is = require('bpmn-js/lib/util/ModelUtil').is;
@@ -266,6 +267,125 @@ describe('form-data', function() {
         // then
         // should not set an invalid id on the business object
         expect(formFields[0].id).to.equal('firstname');
+      }));
+
+    });
+
+  });
+
+
+  describe('delete form field', function() {
+
+    beforeEach(inject(function(propertiesPanel) {
+
+      // select the third form field 'dateOfBirth'
+      triggerFormFieldSelection(2);
+
+      var removeButton = domQuery('#cam-extension-elements-remove-form-fields', propertiesPanel._container);
+
+      TestHelper.triggerEvent(removeButton, 'click');
+    }));
+
+
+    describe('on the business object', function() {
+
+      var getFormFields;
+
+      var isContainedIn = function(fields, value) {
+        return find(fields, function(field) {
+          return field.id === value;
+        });
+      };
+
+      beforeEach(function() {
+        getFormFields = function() {
+          return getBusinessObject(shape).extensionElements.values[0].fields;
+        };
+      });
+
+
+      it('should execute', function() {
+        // after removing 'dateOfBirth' form field
+
+        // then
+        expect(isContainedIn(getFormFields(), 'firstname')).to.be.ok;
+        expect(isContainedIn(getFormFields(), 'lastname')).to.be.ok;
+        expect(isContainedIn(getFormFields(), 'dateOfBirth')).not.to.be.ok;
+
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        expect(isContainedIn(getFormFields(), 'firstname')).to.be.ok;
+        expect(isContainedIn(getFormFields(), 'lastname')).to.be.ok;
+        expect(isContainedIn(getFormFields(), 'dateOfBirth')).to.be.ok;
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(isContainedIn(getFormFields(), 'firstname')).to.be.ok;
+        expect(isContainedIn(getFormFields(), 'lastname')).to.be.ok;
+        expect(isContainedIn(getFormFields(), 'dateOfBirth')).not.to.be.ok;
+      }));
+
+    });
+
+
+    describe('in the DOM', function() {
+
+      var formFieldSelectBox;
+
+      var isContainedIn = function(selectBox, value) {
+        return find(selectBox, function(node) {
+          return node.value === value;
+        });
+      };
+
+      beforeEach(inject(function(propertiesPanel) {
+        formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', propertiesPanel._container);
+      }));
+
+
+      it('should execute', function() {
+        // after removing 'dateOfBirth' form field
+
+        // then
+        expect(isContainedIn(formFieldSelectBox, 'firstname')).to.be.ok;
+        expect(isContainedIn(formFieldSelectBox, 'lastname')).to.be.ok;
+        expect(isContainedIn(formFieldSelectBox, 'dateOfBirth')).not.to.be.ok;
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        expect(isContainedIn(formFieldSelectBox, 'firstname')).to.be.ok;
+        expect(isContainedIn(formFieldSelectBox, 'lastname')).to.be.ok;
+        expect(isContainedIn(formFieldSelectBox, 'dateOfBirth')).to.be.ok;
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(isContainedIn(formFieldSelectBox, 'firstname')).to.be.ok;
+        expect(isContainedIn(formFieldSelectBox, 'lastname')).to.be.ok;
+        expect(isContainedIn(formFieldSelectBox, 'dateOfBirth')).not.to.be.ok;
       }));
 
     });
