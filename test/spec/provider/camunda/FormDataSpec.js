@@ -452,6 +452,325 @@ describe('form-data', function() {
   });
 
 
+  describe('camunda:validation', function() {
+
+    var getConstraintNodes,
+        constraintsList;
+
+    var getConstraints = function(shape, idx) {
+      return getBusinessObject(shape).extensionElements.values[0].fields[0].validation.constraints;
+    };
+
+    beforeEach(function() {
+      // select first form field
+      triggerFormFieldSelection(0);
+
+      constraintsList = domQuery('[data-entry="constraints-list"]', container);
+
+      // get all constraints from the DOM
+      getConstraintNodes = function() {
+        return domQuery('[data-list-entry-container]', constraintsList).childNodes;
+      };
+    });
+
+    it('should show constraints', function() {
+
+      // when selecting first form field
+      // then
+      var constraintNodes = getConstraintNodes();
+
+      expect(constraintNodes).to.have.length(2);
+
+      expect(constraintNodes[0].childNodes[0].value).to.equal('maxlength');
+      expect(constraintNodes[0].childNodes[1].value).to.equal('25');
+
+      expect(constraintNodes[1].childNodes[0].value).to.equal('required');
+    });
+
+
+    describe('add constraint', function() {
+
+      beforeEach(inject(function(propertiesPanel) {
+        var addButton = domQuery('[data-action="addElement"]', constraintsList);
+
+        TestHelper.triggerEvent(addButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // when selecting first form field
+          // then
+          var constraintNodes = getConstraintNodes();
+
+          expect(constraintNodes).to.have.length(3);
+          expect(constraintNodes[2].childNodes[0].value).to.equal('');
+          expect(constraintNodes[2].childNodes[1].value).to.equal('');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          var constraintNodes = getConstraintNodes();
+
+          expect(constraintNodes).to.have.length(2);
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          var constraintNodes = getConstraintNodes();
+
+          expect(constraintNodes).to.have.length(3);
+          expect(constraintNodes[2].childNodes[0].value).to.equal('');
+          expect(constraintNodes[2].childNodes[1].value).to.equal('');
+        }));
+
+      });
+
+
+      describe('on the business Object', function() {
+
+        it('should execute', function() {
+
+          // when selecting first form field
+          // then
+          var constraints = getConstraints(shape, 0),
+              lastConstraint = constraints[constraints.length-1];
+
+          expect(constraints).to.have.length(3);
+          expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
+          expect(lastConstraint.name).to.be.undefined;
+          expect(lastConstraint.config).to.be.undefined;
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          var constraints = getConstraints(shape, 0),
+              lastConstraint = constraints[constraints.length-1];
+
+          expect(constraints).to.have.length(2);
+          expect(lastConstraint.name).to.equal('required');
+          expect(lastConstraint.config).to.be.undefined;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          var constraints = getConstraints(shape, 0),
+              lastConstraint = constraints[constraints.length-1];
+
+          expect(constraints).to.have.length(3);
+          expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
+          expect(lastConstraint.name).to.be.undefined;
+          expect(lastConstraint.config).to.be.undefined;
+        }));
+
+      });
+
+    });
+
+
+    describe('update constraint', function() {
+
+      var textField;
+
+      beforeEach(function() {
+        textField = domQuery('[data-entry="constraints-list"] [data-index="1"] .pp-table-row-columns-2', container);
+
+        TestHelper.triggerValue(textField, 'minlength', 'change');
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(textField.value).to.equal('minlength');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(textField.value).to.equal('required');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(textField.value).to.equal('minlength');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints[1].name).to.equal('minlength');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints[1].name).to.equal('required');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints[1].name).to.equal('minlength');
+        }));
+
+      });
+
+    });
+
+
+    describe('remove constraint', function() {
+
+      beforeEach(inject(function(propertiesPanel) {
+        var query = '[data-entry="constraints-list"] [data-index="0"] [data-action="deleteElement"]',
+            deleteButton = domQuery(query, container);
+
+        // remove the first constraint
+        TestHelper.triggerEvent(deleteButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          // when deleting the first constraint
+          // then
+          var constraintNodes = getConstraintNodes();
+
+          expect(constraintNodes).to.have.length(1);
+          expect(constraintNodes[0].childNodes[0].value).to.equal('required');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          var constraintNodes = getConstraintNodes();
+
+          expect(constraintNodes).to.have.length(2);
+          expect(constraintNodes[0].childNodes[0].value).to.equal('maxlength');
+          expect(constraintNodes[1].childNodes[0].value).to.equal('required');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          var constraintNodes = getConstraintNodes();
+
+          expect(constraintNodes).to.have.length(1);
+          expect(constraintNodes[0].childNodes[0].value).to.equal('required');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints).to.have.length(1);
+          expect(constraints[0].name).to.equal('required');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints).to.have.length(2);
+          expect(constraints[0].name).to.equal('maxlength');
+          expect(constraints[1].name).to.equal('required');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints).to.have.length(1);
+          expect(constraints[0].name).to.equal('required');
+        }));
+
+      });
+
+    });
+
+  });
+
+
   it('should retain other extension elements when switching to formKey',
     inject(function(propertiesPanel, elementRegistry, selection) {
 
