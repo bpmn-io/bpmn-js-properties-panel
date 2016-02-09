@@ -125,7 +125,7 @@ describe('input-output-parameter-properties', function() {
 
     var bo = getBusinessObject(shape);
 
-    var addInputParameterButton = domQuery('div[id=cam-extension-elements-wrapper-inputs] button[id=newElementAction]', propertiesPanel._container);
+    var addInputParameterButton = domQuery('button[id=cam-extension-elements-create-inputs]', propertiesPanel._container);
 
     // when
     TestHelper.triggerEvent(addInputParameterButton, 'click');
@@ -134,7 +134,7 @@ describe('input-output-parameter-properties', function() {
     var inputsSelection     = domQuery('select[id=cam-extension-elements-inputs]', propertiesPanel._container),
         parameterNameInput  = domQuery('input[id=camunda-parameter-name]', propertiesPanel._container),
         parameterTypeSelect = domQuery('select[id=camunda-parameter-type]', propertiesPanel._container),
-        parameterTextValue  = domQuery('textarea[id=camunda-parameter-value]', propertiesPanel._container);
+        parameterTextValue  = domQuery('textarea[id=camunda-parameter-type-text]', propertiesPanel._container);
 
     expect(inputsSelection.options.length).to.equal(1);
     expect(inputsSelection.options[0].selected).to.equal(true);
@@ -154,7 +154,7 @@ describe('input-output-parameter-properties', function() {
     var shape = elementRegistry.get('Without_Input_Output');
     selection.select(shape);
 
-    var addInputParameterButton = domQuery('div[id=cam-extension-elements-wrapper-inputs] button[id=newElementAction]', propertiesPanel._container);
+    var addInputParameterButton = domQuery('button[id=cam-extension-elements-create-inputs]', propertiesPanel._container);
     TestHelper.triggerEvent(addInputParameterButton, 'click');
 
     var bo = getBusinessObject(shape);
@@ -185,7 +185,7 @@ describe('input-output-parameter-properties', function() {
 
     var bo = getBusinessObject(shape);
 
-    var addOutputParameterButton = domQuery('div[id=cam-extension-elements-wrapper-outputs] button[id=newElementAction]', propertiesPanel._container);
+    var addOutputParameterButton = domQuery('button[id=cam-extension-elements-create-outputs]', propertiesPanel._container);
 
     // when
     TestHelper.triggerEvent(addOutputParameterButton, 'click');
@@ -194,7 +194,7 @@ describe('input-output-parameter-properties', function() {
     var outputsSelection    = domQuery('select[id=cam-extension-elements-outputs]', propertiesPanel._container),
         parameterNameInput  = domQuery('input[id=camunda-parameter-name]', propertiesPanel._container),
         parameterTypeSelect = domQuery('select[id=camunda-parameter-type]', propertiesPanel._container),
-        parameterTextValue  = domQuery('textarea[id=camunda-parameter-value]', propertiesPanel._container);
+        parameterTextValue  = domQuery('textarea[id=camunda-parameter-type-text]', propertiesPanel._container);
 
     expect(outputsSelection.options.length).to.equal(1);
     expect(outputsSelection.options[0].selected).to.equal(true);
@@ -214,7 +214,7 @@ describe('input-output-parameter-properties', function() {
     var shape = elementRegistry.get('Without_Input_Output');
     selection.select(shape);
 
-    var addOutputParameterButton = domQuery('div[id=cam-extension-elements-wrapper-outputs] button[id=newElementAction]', propertiesPanel._container);
+    var addOutputParameterButton = domQuery('button[id=cam-extension-elements-create-outputs]', propertiesPanel._container);
     TestHelper.triggerEvent(addOutputParameterButton, 'click');
 
     var bo = getBusinessObject(shape);

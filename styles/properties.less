@@ -61,6 +61,15 @@
     .label();
   }
 
+  .entry-label {
+    .label();
+    font-size: 120%;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    transition: margin 0.218s linear;
+    font-style: italic;
+  }
+
   button {
     .action-button();
   }
@@ -142,6 +151,26 @@
   }
 }
 
+.pp-select,
+.pp-element-list {
+
+  button {
+    &.add,
+    &.clear {
+      top: -23px;
+      border-bottom: none;
+    }
+  }
+
+  button.add {
+    right: 0px;
+  }
+
+  button.clear {
+    right: 23px;
+  }
+}
+
 .djs-properties-entry {
   margin-bottom: 9px;
   .pp-field-wrapper {
@@ -156,7 +185,6 @@
 label.pp-hidden {
   .pp-hidden;
 }
-
 
 .djs-properties-static {
   margin-bottom: 0;
