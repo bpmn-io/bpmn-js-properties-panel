@@ -17,9 +17,18 @@ var domQuery = require('min-dom/lib/query'),
     find = require('lodash/collection/find');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is;
+    is = require('bpmn-js/lib/util/ModelUtil').is,
+    getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements;
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+
+function deleteConstraint(idx, container) {
+  var query = '[data-entry="constraints-list"] [data-index="'+idx+'"] [data-action="deleteElement"]',
+      deleteButton = domQuery(query, container);
+
+  // remove the first constraint
+  TestHelper.triggerEvent(deleteButton, 'click');
+}
 
 describe('form-data', function() {
 
@@ -550,8 +559,8 @@ describe('form-data', function() {
 
           expect(constraints).to.have.length(3);
           expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
-          expect(lastConstraint.name).to.be.undefined;
-          expect(lastConstraint.config).to.be.undefined;
+          expect(lastConstraint.name).to.equal('');
+          expect(lastConstraint.config).to.equal('');
         });
 
 
@@ -582,8 +591,8 @@ describe('form-data', function() {
 
           expect(constraints).to.have.length(3);
           expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
-          expect(lastConstraint.name).to.be.undefined;
-          expect(lastConstraint.config).to.be.undefined;
+          expect(lastConstraint.name).to.equal('');
+          expect(lastConstraint.config).to.equal('');
         }));
 
       });
@@ -768,6 +777,103 @@ describe('form-data', function() {
 
     });
 
+
+    describe('remove all constraints', function() {
+
+      beforeEach(inject(function(propertiesPanel) {
+        deleteConstraint(0, propertiesPanel._container);
+        deleteConstraint(0, propertiesPanel._container);
+      }));
+
+      describe('on the business object', function() {
+
+        it('should remove camunda:validation', function() {
+
+          // then
+          var formData = getExtensionElements(getBusinessObject(shape), 'camunda:FormData'),
+              formField = formData[0].fields[0];
+
+          expect(formField.validation).to.be.undefined;
+        });
+
+
+        it('should remove camunda:validation - undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          var constraints = getConstraints(shape, 0);
+
+          expect(constraints).to.have.length(1);
+          expect(constraints[0].name).to.equal('required');
+        }));
+
+
+        it('should remove camunda:validation - redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          var formData = getExtensionElements(getBusinessObject(shape), 'camunda:FormData'),
+              formField = formData[0].fields[0];
+
+          expect(formField.validation).to.be.undefined;
+        }));
+
+      });
+
+    });
+
+  });
+
+
+  describe('integration', function() {
+
+    it('should add constraint on bo without existing extension elements',
+      inject(function(elementRegistry, selection) {
+
+      var shape = elementRegistry.get('UserTask_1');
+
+      // when
+      // select user task with form key
+      selection.select(shape);
+
+      // change to form data
+      var selectBox = domQuery('select[name=formType]', container);
+
+      selectBox.options[1].selected = 'selected';
+
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      // add form field
+      var createFormFieldButton = domQuery('[data-entry="form-fields"] [data-action="createElement"]', container);
+
+      TestHelper.triggerEvent(createFormFieldButton, 'click');
+
+      // add constraint
+      var addConstraintButton = domQuery('[data-entry="constraints-list"] [data-action="addElement"]', container);
+
+      TestHelper.triggerEvent(addConstraintButton, 'click');
+
+      var formData = getExtensionElements(getBusinessObject(shape), 'camunda:FormData');
+
+      var formField = formData[0].fields[0];
+
+      // then
+      expect(is(formField.validation, 'camunda:Validation')).to.be.true;
+
+      var constraints = formField.validation.constraints;
+
+      expect(constraints).to.have.length(1);
+      expect(is(constraints[0], 'camunda:Constraint'));
+      expect(constraints[0].name).to.equal('');
+      expect(constraints[0].config).to.equal('');
+
+
+    }));
   });
 
 
