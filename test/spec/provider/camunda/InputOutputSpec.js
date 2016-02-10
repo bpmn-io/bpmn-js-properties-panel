@@ -113,31 +113,31 @@ function selectOutputParameter(idx, container) {
 // property controls
 
 function getParameterLabel(container) {
-  return domQuery('label[data-value=label]', container);
+  return domQuery('label[data-value="label"]', container);
 }
 
 function getParameterNameInput(container) {
-  return domQuery('input[id=camunda-parameter-name]', container);
+  return domQuery('input[id="camunda-parameter-name"]', container);
 }
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id=camunda-parameter-type]', container);
+  return domQuery('select[id="camunda-parameter-type"]', container);
 }
 
 function getParameterTextValue(container) {
-  return domQuery('textarea[id=camunda-parameter-type-text]', container);
+  return domQuery('textarea[id="camunda-parameter-type-text"]', container);
 }
 
 function getScriptEntry(container) {
-  return domQuery('div[data-entry=parameter-type-script] > div', container);
+  return domQuery('div[data-entry="parameter-type-script"] > div', container);
 }
 
 function getListAddRowDiv(container) {
-  return domQuery('div[data-entry=parameter-type-list] > div.pp-table-add-row', container);
+  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table-add-row', container);
 }
 
 function getListTable(container) {
-  return domQuery('div[data-entry=parameter-type-list] > div.pp-table', container);
+  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table', container);
 }
 
 function getListRows(container) {
@@ -151,11 +151,11 @@ function getListInput(idx, container) {
 }
 
 function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry=parameter-type-map] > div', container);
+  return domQuery('div[data-entry="parameter-type-map"] > div', container);
 }
 
 function getMapTable(container) {
-  return domQuery('div[data-entry=parameter-type-map] > div.pp-table', container);
+  return domQuery('div[data-entry="parameter-type-map"] > div.pp-table', container);
 }
 
 function getMapRows(container) {
@@ -171,15 +171,15 @@ function getMapInput(idx, column, container) {
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extension-elements-' + suffix + ']', container);
+  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', container);
 }
 
 function getAddButton(suffix, container) {
-  return domQuery('button[id=cam-extension-elements-create-' + suffix + ']', container);
+  return domQuery('button[id="cam-extension-elements-create-' + suffix + '"]', container);
 }
 
 function getRemoveButton(suffix, container) {
-  return domQuery('button[id=cam-extension-elements-remove-' + suffix + ']', container);
+  return domQuery('button[id="cam-extension-elements-remove-' + suffix + '"]', container);
 }
 
 function isParameterContainedIn(params, value) {

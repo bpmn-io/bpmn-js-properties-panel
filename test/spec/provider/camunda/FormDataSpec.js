@@ -97,7 +97,7 @@ describe('form-data', function() {
     expect(getInputField('form-field-id').value).to.equal('firstname');
     expect(getInputField('form-field-label').value).to.equal('Firstname');
     expect(getInputField('form-field-type').value).to.equal('string');
-    expect(getInputField('form-field-defaultValue')).is.empty;
+    expect(getInputField('form-field-defaultValue').value).is.empty;
     expect(domClasses(getInputField('form-field-id')).has('invalid')).to.be.false;
   }));
 
@@ -111,7 +111,7 @@ describe('form-data', function() {
     expect(getInputField('form-field-id').value).to.equal('dateOfBirth');
     expect(getInputField('form-field-label').value).to.equal('Date of Birth');
     expect(getInputField('form-field-type').value).to.equal('date');
-    expect(getInputField('form-field-defaultValue')).is.empty;
+    expect(getInputField('form-field-defaultValue').value).is.empty;
   }));
 
 

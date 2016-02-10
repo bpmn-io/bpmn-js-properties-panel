@@ -58,17 +58,17 @@ function selectInputParameter(idx, container) {
 
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id=camunda-parameter-type]', container);
+  return domQuery('select[id="camunda-parameter-type"]', container);
 }
 
 function getParameterTextValue(container) {
-  return domQuery('textarea[id=camunda-parameter-type-text]', container);
+  return domQuery('textarea[id="camunda-parameter-type-text"]', container);
 }
 
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extension-elements-' + suffix + ']', container);
+  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', container);
 }
 
 

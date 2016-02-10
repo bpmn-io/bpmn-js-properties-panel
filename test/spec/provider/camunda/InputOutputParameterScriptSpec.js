@@ -44,7 +44,7 @@ function getParameters(bo, prop) {
 // DOM HELPER
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id=camunda-parameter-type]', container);
+  return domQuery('select[id="camunda-parameter-type"]', container);
 }
 
 // input parameter
