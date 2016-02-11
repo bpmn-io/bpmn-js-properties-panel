@@ -226,7 +226,7 @@ describe('form-key', function() {
       // when
       TestHelper.triggerEvent(selectBox, 'change');
 
-      var formFieldSelectBox = domQuery('#cam-extension-elements-form-fields', propertiesPanel._container);
+      var formFieldSelectBox = domQuery('select[id=cam-extension-elements-form-fields]', propertiesPanel._container);
 
       // then
       expect(isHiddenRow('#camunda-form-field-id'), propertiesPanel._container).to.be.true;

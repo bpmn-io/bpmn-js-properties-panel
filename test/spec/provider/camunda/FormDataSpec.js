@@ -64,13 +64,14 @@ describe('form-data', function() {
     selection.select(shape);
 
     getInputField = function(id) {
-      return domQuery('#camunda-'+id+'', propertiesPanel._container);
+      return domQuery('input[id=camunda-'+id+']', propertiesPanel._container);
     };
 
     triggerFormFieldSelection = function(index) {
       var formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', propertiesPanel._container);
       formFieldSelectBox.options[index].selected = 'selected';
       TestHelper.triggerEvent(formFieldSelectBox, 'change');
+
     };
 
   }));
@@ -281,7 +282,7 @@ describe('form-data', function() {
       // select the third form field 'dateOfBirth'
       triggerFormFieldSelection(2);
 
-      var removeButton = domQuery('#cam-extension-elements-remove-form-fields', propertiesPanel._container);
+      var removeButton = domQuery('button[id=cam-extension-elements-remove-form-fields]', propertiesPanel._container);
 
       TestHelper.triggerEvent(removeButton, 'click');
     }));
