@@ -80,6 +80,28 @@
         <bpmn2:escalationEventDefinition id="_EscalationEventDefinition_10" escalationRef="Escalation_1" camunda:escalationCodeVariable="myEscalationVariable"/>
     </bpmn2:startEvent>
 
+    <bpmn2:intermediateThrowEvent id="CompensationIntermediateThrowEvent_1">
+        <bpmn2:compensateEventDefinition id="_CompensationEventDefinition_1" activityRef="ReceiveTask_1" waitForCompletion="true" />
+    </bpmn2:intermediateThrowEvent>
+
+    <bpmn2:endEvent id="CompensationEndEvent_1">
+        <bpmn2:compensateEventDefinition id="_CompensationEventDefinition_2" />
+    </bpmn2:endEvent>
+
+    <bpmn2:intermediateCatchEvent id="CompensationIntermediateCatchEvent_1">
+        <bpmn2:compensateEventDefinition id="_CompensationEventDefinition_3" />
+    </bpmn2:intermediateCatchEvent>
+
+    <bpmn2:boundaryEvent id="CompensationBoundaryEvent_1" attachedToRef="UserTask_1" >
+      <bpmn2:compensateEventDefinition />
+    </bpmn2:boundaryEvent>
+
+    <bpmn2:boundaryEvent id="CompensationBoundaryEvent_2" attachedToRef="ReceiveTask_1" >
+      <bpmn2:compensateEventDefinition />
+    </bpmn2:boundaryEvent>
+
+    <bpmn2:userTask id="UserTask_1" name="myUserTask"/>
+
   </bpmn2:process>
 
   <bpmn2:message id="Message_1" name="asd"/>
@@ -129,10 +151,10 @@
         <dc:Bounds height="80.0" width="100.0" x="220.0" y="20.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_BoundaryEvent_2" bpmnElement="BoundaryEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="270.0" y="86.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="250.0" y="86.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_BoundaryEvent_3" bpmnElement="BoundaryEvent_2">
-        <dc:Bounds height="36.0" width="36.0" x="220.0" y="86.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="210.0" y="86.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_IntermediateCatchEvent_3" bpmnElement="IntermediateCatchEvent_2">
         <dc:Bounds height="36.0" width="36.0" x="630.0" y="40.0"/>
@@ -193,6 +215,24 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds height="0.0" width="0.0" x="51.0" y="169.0"/>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CompensationIntermediateThrowEvent_1" bpmnElement="CompensationIntermediateThrowEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="30.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CompensationEndEvent_1" bpmnElement="CompensationEndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="80.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CompensationIntermediateCatchEvent_1" bpmnElement="CompensationIntermediateCatchEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="130.0" y="200.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CompensationBoundaryEvent_1" bpmnElement="CompensationBoundaryEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="390.0" y="260.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CompensationBoundaryEvent_2" bpmnElement="CompensationBoundaryEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="290.0" y="86.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_1" bpmnElement="UserTask_1">
+        <dc:Bounds height="80.0" width="100.0" x="340.0" y="200.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

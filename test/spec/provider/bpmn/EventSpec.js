@@ -947,4 +947,294 @@ describe('event-properties', function() {
     expect(signalEventDefinition.signalRef.get('name')).to.equal(inputField.value);
   }));
 
+
+  it('should fetch compensation event properties of an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
+        selectBox = domQuery('select[name=activityRef]', propertiesPanel._container);
+
+    expect(checkBox.checked).to.be.true;
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+
+  }));
+
+
+  it('should set wait for completion property for a compensation end event',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_1');
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(checkBox.checked).to.be.false;
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.true;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.true;
+
+  }));
+
+
+  it('should undo to set wait for completion property for a compensation end event',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_1');
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(checkBox.checked).to.be.false;
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.true;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.true;
+
+    // undo
+    commandStack.undo();
+
+    // then
+    expect(checkBox.checked).to.be.false;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.undefined;
+  }));
+
+
+  it('should redo to set wait for completion property for a compensation end event',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_1');
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(checkBox.checked).to.be.false;
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.true;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.true;
+
+    // redo
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    expect(checkBox.checked).to.be.true;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.true;
+  }));
+
+
+  it('should remove wait for completion property of a compensation throw event',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(checkBox.checked).to.be.true;
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.false;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.undefined;
+
+  }));
+
+
+  it('should not show wait for completion property of a compensation non throwing event',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationIntermediateCatchEvent_1');
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
+        selectBox = domQuery('select[name=activityRef]', propertiesPanel._container);
+
+    expect(checkBox).to.be.null;
+    expect(selectBox).to.be.null;
+
+  }));
+
+
+  it('should fetch activityRef property of an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container);
+
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+
+  }));
+
+
+  it('should remove activityRef property of a compensate event definition',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+    // when
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    // then
+    expect(bo.eventDefinitions[0].activityRef).to.be.undefined;
+
+  }));
+
+
+  it('should set activityRef property to a compensate event definition',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_1');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.value).to.equal('');
+    expect(bo.eventDefinitions[0].activityRef).to.be.undefined;
+
+    // when
+    selectBox.options[1].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    // then
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+  }));
+
+
+  it('should change activityRef property to a compensate event definition',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+    // when
+    selectBox.options[2].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    // then
+    expect(selectBox.value).to.equal('UserTask_1');
+
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+  }));
+
+
+  it('should undo to set activityRef property to a compensate event definition',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_1');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.value).to.equal('');
+    expect(bo.eventDefinitions[0].activityRef).to.be.undefined;
+
+    // when
+    selectBox.options[1].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    // then
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+    // undo
+    commandStack.undo();
+
+    // then
+    expect(selectBox.value).to.equal('');
+    expect(bo.eventDefinitions[0].activityRef).to.be.undefined;
+
+  }));
+
+
+  it('should redo to set activityRef property to a compensate event definition',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_1');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container),
+        bo = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.value).to.equal('');
+    expect(bo.eventDefinitions[0].activityRef).to.be.undefined;
+
+    // when
+    selectBox.options[1].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    // then
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+    // redo
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    expect(selectBox.value).to.equal('ReceiveTask_1');
+
+    expect(bo.eventDefinitions[0].activityRef).not.to.be.undefined;
+    expect(bo.eventDefinitions[0].activityRef.id).to.equal(selectBox.value);
+
+  }));
+
 });
