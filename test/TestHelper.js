@@ -60,6 +60,19 @@ var triggerInput = function(element, value) {
 };
 
 /**
+ * Select a form field with the specified index in the DOM
+ *
+ * @param  {number} index
+ * @param  {DOMElement} container
+ */
+var triggerFormFieldSelection = function(index, container) {
+  var formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', container);
+
+  formFieldSelectBox.options[index].selected = 'selected';
+  TestHelper.triggerEvent(formFieldSelectBox, 'change');
+};
+
+/**
  *  Select the option with the given value
  *
  *  @param element contains the options
@@ -97,5 +110,6 @@ var selectedByIndex = function(element) {
 module.exports.triggerEvent = triggerEvent;
 module.exports.triggerValue = triggerValue;
 module.exports.triggerInput = triggerInput;
+module.exports.triggerFormFieldSelection = triggerFormFieldSelection;
 module.exports.selectedByOption = selectedByOption;
 module.exports.selectedByIndex = selectedByIndex;

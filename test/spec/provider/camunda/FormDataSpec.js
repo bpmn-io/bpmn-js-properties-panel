@@ -52,8 +52,7 @@ describe('form-data', function() {
   }));
 
   var shape,
-      getInputField,
-      triggerFormFieldSelection;
+      getInputField;
 
   beforeEach(inject(function(commandStack, propertiesPanel, elementRegistry, selection) {
 
@@ -76,13 +75,6 @@ describe('form-data', function() {
       return domQuery('input[id=camunda-'+id+']', propertiesPanel._container);
     };
 
-    triggerFormFieldSelection = function(index) {
-      var formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', propertiesPanel._container);
-      formFieldSelectBox.options[index].selected = 'selected';
-      TestHelper.triggerEvent(formFieldSelectBox, 'change');
-
-    };
-
   }));
 
   it('should fetch form fields of an element', inject(function(propertiesPanel) {
@@ -101,7 +93,7 @@ describe('form-data', function() {
   it('should fetch the properties of the first form field of an element', inject(function(propertiesPanel) {
 
     // when selecting the first form field
-    triggerFormFieldSelection(0);
+    TestHelper.triggerFormFieldSelection(0, propertiesPanel._container);
 
     // then
     expect(getInputField('form-field-id').value).to.equal('firstname');
@@ -115,7 +107,7 @@ describe('form-data', function() {
   it('should fetch the properties of the third form field of an element', inject(function(propertiesPanel) {
 
     // when selecting the first form field
-    triggerFormFieldSelection(2);
+    TestHelper.triggerFormFieldSelection(2, propertiesPanel._container);
 
     // then
     expect(getInputField('form-field-id').value).to.equal('dateOfBirth');
@@ -132,7 +124,7 @@ describe('form-data', function() {
 
     beforeEach(function(){
       // select first form field
-      triggerFormFieldSelection(0);
+      TestHelper.triggerFormFieldSelection(0, container);
 
       label = getInputField('form-field-label');
       formFields = getBusinessObject(shape).extensionElements.values[0].fields;
@@ -197,14 +189,14 @@ describe('form-data', function() {
   });
 
 
-  describe('set the invalid form field id', function(propertiesPanel) {
+  describe('set the invalid form field id', function() {
 
     var id,
         formFields;
 
     beforeEach(function() {
       // select first form field
-      triggerFormFieldSelection(0);
+      TestHelper.triggerFormFieldSelection(0, container);
 
       id = getInputField('form-field-id');
       formFields = getBusinessObject(shape).extensionElements.values[0].fields;
@@ -286,12 +278,12 @@ describe('form-data', function() {
 
   describe('delete form field', function() {
 
-    beforeEach(inject(function(propertiesPanel) {
+    beforeEach(inject(function() {
 
       // select the third form field 'dateOfBirth'
-      triggerFormFieldSelection(2);
+      TestHelper.triggerFormFieldSelection(2, container);
 
-      var removeButton = domQuery('button[id=cam-extension-elements-remove-form-fields]', propertiesPanel._container);
+      var removeButton = domQuery('button[id=cam-extension-elements-remove-form-fields]', container);
 
       TestHelper.triggerEvent(removeButton, 'click');
     }));
@@ -361,8 +353,8 @@ describe('form-data', function() {
         });
       };
 
-      beforeEach(inject(function(propertiesPanel) {
-        formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', propertiesPanel._container);
+      beforeEach(inject(function() {
+        formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', container);
       }));
 
 
@@ -472,7 +464,7 @@ describe('form-data', function() {
 
     beforeEach(function() {
       // select first form field
-      triggerFormFieldSelection(0);
+      TestHelper.triggerFormFieldSelection(0, container);
 
       constraintsList = domQuery('[data-entry="constraints-list"]', container);
 
@@ -592,7 +584,7 @@ describe('form-data', function() {
           expect(constraints).to.have.length(3);
           expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
           expect(lastConstraint.name).to.be.undefined;
-          expect(lastConstraint.config).to.undefined;
+          expect(lastConstraint.config).to.be.undefined;
         }));
 
       });
@@ -871,9 +863,8 @@ describe('form-data', function() {
       expect(is(constraints[0], 'camunda:Constraint'));
       expect(constraints[0].name).to.be.undefined;
       expect(constraints[0].config).to.be.undefined;
-
-
     }));
+
   });
 
 
