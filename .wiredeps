@@ -36,14 +36,6 @@
         "didi": {
           "version": "0.0.4"
         },
-        "ids": {
-          "version": "0.1.1",
-          "dependencies": {
-            "hat": {
-              "version": "0.0.3"
-            }
-          }
-        },
         "object-refs": {
           "version": "0.1.1"
         }
@@ -74,6 +66,14 @@
     },
     "lodash": {
       "version": "3.10.1"
+    },
+    "ids": {
+      "version": "0.1.1",
+      "dependencies": {
+        "hat": {
+          "version": "0.0.3"
+        }
+      }
     },
     "min-dom": {
       "version": "0.2.0",
