@@ -2,6 +2,9 @@
   "name": "bpmn-js-properties-panel",
   "version": "0.5.0",
   "description": "A simple properties panel for bpmn-js",
+  "browserify": {
+    "transform": [ "lessify" ]
+   },
   "scripts": {
     "test": "grunt test"
   },
@@ -20,6 +23,9 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "browserify": "^13.0.0",
+    "browserify-derequire": "^0.9.4",
+    "bundle-collapser": "^1.2.1",
     "camunda-bpmn-moddle": "^0.2.5",
     "chai": "~2.2.0",
     "grunt": "^0.4.4",
@@ -41,14 +47,17 @@
     "mocha-test-container-support": "0.2.0",
     "sinon": "~1.14.1",
     "sinon-chai": "~2.7.0",
+    "source-map-concat": "^1.0.0",
     "stringify": "^3.1.0",
-    "time-grunt": "^0.3.2"
+    "time-grunt": "^0.3.2",
+    "uglify-js": "^2.6.1"
   },
   "dependencies": {
     "bpmn-js": "^0.12.1",
     "diagram-js": "^0.12.1",
     "ids": "^0.1.2",
     "inherits": "^2.0.1",
+    "lessify": "^1.0.1",
     "lodash": "^3.0.1",
     "min-dom": "^0.2.0",
     "selection-update": "^0.1.2"

@@ -16,8 +16,14 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    config: {
+      sources: 'lib',
+      tests: 'test',
+      dist: 'dist'
+    },
+
     jshint: {
-      src: [ 'lib' ],
+      src: ['<%=config.sources %>'],
       options: {
         jshintrc: true
       }
@@ -25,7 +31,7 @@ module.exports = function(grunt) {
 
     karma: {
       options: {
-        configFile: 'test/config/karma.unit.js'
+        configFile: '<%= config.tests %>/config/karma.unit.js'
       },
       single: {
         singleRun: true,
@@ -44,16 +50,38 @@ module.exports = function(grunt) {
         commitMessage: 'chore(project): release v<%= version %>',
         tagMessage: 'chore(project): tag v<%= version %>'
       }
+    },
+
+    bundle: {
+      properties_panel: {
+        modName: 'BpmnJSPropertiesPanel',
+        name: 'bpmn-js-properties-panel',
+        src: '<%= config.sources %>/index.js',
+        dest: '<%= config.dist %>'
+      },
+      bpmn_provider: {
+        modName: 'BpmnJSPropPanel_BPMNProvider',
+        name: 'bpmn-provider',
+        src: '<%= config.sources %>/provider/bpmn/index.js',
+        dest: '<%= config.dist %>/providers'
+      },
+      camunda_provider: {
+        modName: 'BpmnJSPropPanel_CamundaProvider',
+        name: 'camunda-provider',
+        src: '<%= config.sources %>/provider/camunda/index.js',
+        dest: '<%= config.dist %>/providers'
+      }
     }
+
   });
 
-
   // tasks
+  grunt.loadTasks('tasks');
 
   grunt.registerTask('test', [ 'karma:single' ]);
 
   grunt.registerTask('auto-test', [ 'karma:unit' ]);
 
-  grunt.registerTask('default', [ 'jshint', 'test' ]);
+  grunt.registerTask('default', [ 'jshint', 'test', 'bundle' ]);
 
 };
