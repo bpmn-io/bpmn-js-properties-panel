@@ -51,7 +51,7 @@ describe('compensation-event-process', function() {
   }));
 
 
-  it('should check activityRef property list of an element',
+  it('should check activityRef property list of a throwing compensation event',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateThrowEvent_1f51k5d');
@@ -64,6 +64,24 @@ describe('compensation-event-process', function() {
     expect(selectBox.options[1].value).to.equal('subProcessNotTriggeredByEvent');
     expect(selectBox.options[2].value).to.equal('withCompensationBoundaryEvent');
     expect(selectBox.options[3].value).to.equal('callActivity');
+
+  }));
+
+
+  it('should check activityRef property list of a throwing compensation event in a event sub process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CompensationEndEvent_19qhaq3');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container);
+
+    expect(selectBox.options).to.have.length.of(5);
+    expect(selectBox.options[0].value).to.equal('');
+    expect(selectBox.options[1].value).to.equal('subProcessNotTriggeredByEvent');
+    expect(selectBox.options[2].value).to.equal('withCompensationBoundaryEvent');
+    expect(selectBox.options[3].value).to.equal('callActivity');
+    expect(selectBox.options[4].value).to.equal('eventSubProcessTask');
 
   }));
 

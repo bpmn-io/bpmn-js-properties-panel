@@ -66,14 +66,23 @@
         <bpmn:outgoing>SequenceFlow_18y39dy</bpmn:outgoing>
       </bpmn:startEvent>
       <bpmn:sequenceFlow id="SequenceFlow_18y39dy" sourceRef="StartEvent_0lyaazm" targetRef="nothingToDo" />
-      <bpmn:endEvent id="EndEvent_0c6g88r">
-        <bpmn:incoming>SequenceFlow_1devkxq</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:sequenceFlow id="SequenceFlow_1devkxq" sourceRef="nothingToDo" targetRef="EndEvent_0c6g88r" />
+      <bpmn:sequenceFlow id="SequenceFlow_1devkxq" sourceRef="nothingToDo" targetRef="eventSubProcessTask" />
       <bpmn:userTask id="nothingToDo" name="nothing to do" camunda:assignee="admin">
         <bpmn:incoming>SequenceFlow_18y39dy</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1devkxq</bpmn:outgoing>
       </bpmn:userTask>
+      <bpmn:endEvent id="CompensationEndEvent_19qhaq3">
+        <bpmn:incoming>SequenceFlow_1bakda1</bpmn:incoming>
+        <bpmn:compensateEventDefinition />
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_1bakda1" sourceRef="eventSubProcessTask" targetRef="CompensationEndEvent_19qhaq3" />
+      <bpmn:serviceTask id="eventSubProcessTask" name="event subprocess task" camunda:expression="#{foo}">
+        <bpmn:incoming>SequenceFlow_1devkxq</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1bakda1</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:boundaryEvent id="BoundaryEvent_1064z3r" attachedToRef="eventSubProcessTask">
+        <bpmn:compensateEventDefinition />
+      </bpmn:boundaryEvent>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlow_17f1mxx" sourceRef="ParallelGateway_11v0zvf" targetRef="subProcessTriggeredByEvent" />
     <bpmn:sequenceFlow id="SequenceFlow_07du4ul" sourceRef="withCompensationBoundaryEvent" targetRef="chargeCreditCard" />
@@ -250,26 +259,20 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_18y39dy_di" bpmnElement="SequenceFlow_18y39dy">
         <di:waypoint xsi:type="dc:Point" x="342" y="265" />
-        <di:waypoint xsi:type="dc:Point" x="426" y="265" />
+        <di:waypoint xsi:type="dc:Point" x="370" y="265" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="315" y="255" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="EndEvent_0c6g88r_di" bpmnElement="EndEvent_0c6g88r">
-        <dc:Bounds x="643" y="247" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="616" y="283" width="90" height="20" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1devkxq_di" bpmnElement="SequenceFlow_1devkxq">
-        <di:waypoint xsi:type="dc:Point" x="526" y="265" />
-        <di:waypoint xsi:type="dc:Point" x="643" y="265" />
+        <di:waypoint xsi:type="dc:Point" x="470" y="265" />
+        <di:waypoint xsi:type="dc:Point" x="506" y="265" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="451" y="255" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="UserTask_1c11bvn_di" bpmnElement="nothingToDo">
-        <dc:Bounds x="426" y="225" width="100" height="80" />
+        <dc:Bounds x="370" y="225" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_07du4ul_di" bpmnElement="SequenceFlow_07du4ul">
         <di:waypoint xsi:type="dc:Point" x="351" y="456" />
@@ -296,6 +299,28 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="CallActivity_1ap56ew_di" bpmnElement="callActivity">
         <dc:Bounds x="561" y="416" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_19qhaq3_di" bpmnElement="CompensationEndEvent_19qhaq3">
+        <dc:Bounds x="643" y="247" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="616" y="283" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bakda1_di" bpmnElement="SequenceFlow_1bakda1">
+        <di:waypoint xsi:type="dc:Point" x="606" y="265" />
+        <di:waypoint xsi:type="dc:Point" x="643" y="265" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="579.5" y="255" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1xm9789_di" bpmnElement="eventSubProcessTask">
+        <dc:Bounds x="506.2285429141716" y="225" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_1064z3r_di" bpmnElement="BoundaryEvent_1064z3r">
+        <dc:Bounds x="556.2285429141716" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="529.2285429141716" y="323" width="90" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
