@@ -18,6 +18,20 @@
     <bpmn2:callActivity id="CallActivity_3" camunda:caseRef="checkCreditCase" />
     <bpmn2:callActivity id="CallActivity_4" camunda:caseRef="checkCreditCase" camunda:caseBinding="version" camunda:caseVersion="17" />
     <bpmn2:callActivity id="CallActivity_5" />
+    <bpmn2:callActivity id="CallActivity_6" calledElement="mySubProcess">
+      <bpmn2:extensionElements>
+          <camunda:in businessKey="#{execution.processBusinessKey}" />
+          <camunda:in variables="all" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_7" camunda:caseRef="myCase">
+      <bpmn2:extensionElements>
+          <camunda:in businessKey="#{execution.processBusinessKey}" />
+          <camunda:in businessKey="foo" />
+          <camunda:in variables="all" />
+          <camunda:in businessKey="abc" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
 
   </bpmn2:process>
 
@@ -37,6 +51,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_6" bpmnElement="CallActivity_5">
         <dc:Bounds height="80.0" width="100.0" x="280.0" y="24.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_7" bpmnElement="CallActivity_6">
+        <dc:Bounds height="80.0" width="100.0" x="280.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_8" bpmnElement="CallActivity_7">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="270.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

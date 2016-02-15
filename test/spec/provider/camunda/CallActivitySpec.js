@@ -8,6 +8,8 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
   domQuery = require('min-dom/lib/query'),
+  is = require('bpmn-js/lib/util/ModelUtil').is,
+  forEach = require('lodash/collection/forEach'),
   coreModule = require('bpmn-js/lib/core'),
   selectionModule = require('diagram-js/lib/features/selection'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
@@ -50,6 +52,18 @@ describe('call-activity-properties', function() {
 
     propertiesPanel.attachTo(container);
   }));
+
+  function getCamundaInWithBusinessKey(extensionElements) {
+    var camundaIn = [];
+    if (extensionElements && extensionElements.values) {
+      forEach(extensionElements.values, function(value) {
+        if (is(value, 'camunda:In') && value.businessKey) {
+          camundaIn.push(value);
+        }
+      });
+    }
+    return camundaIn;
+  }
 
 
   it('should fetch a calledElement field',
@@ -569,6 +583,206 @@ describe('call-activity-properties', function() {
     expect(businessObject.get('camunda:caseRef')).to.be.empty;
     expect(businessObject.get('camunda:caseBinding')).to.equal('latest');;
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+
+  }));
+
+
+  it('should fetch the business key for a bpmn call activity',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_6');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+    expect(checkBox.checked).to.be.true;
+  }));
+
+
+  it('should set the business key for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_2');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+    expect(checkBox.checked).to.be.false;
+    expect(businessObject.extensionElements).to.be.undefined;
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.true;
+
+    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+  }));
+
+
+  it('should remove the business key for an element',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_6');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+    expect(checkBox.checked).to.be.true;
+
+    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.false;
+
+    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(0);
+
+  }));
+
+
+  it('should fetch the business key for a CMMN call activity',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_7');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+    expect(checkBox.checked).to.be.true;
+  }));
+
+
+  it('should remove the business key for a CMMN call activity',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_7');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+    expect(checkBox.checked).to.be.true;
+
+    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(3);
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.false;
+
+    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(0);
+
+  }));
+
+
+  it('should undo to remove the business key for a CMMN call activity',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CallActivity_7');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+    expect(checkBox.checked).to.be.true;
+
+    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(3);
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.false;
+
+    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(0);
+
+    // undo
+    commandStack.undo();
+
+    // then 
+    expect(checkBox.checked).to.be.true;
+
+    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(3);
+
+  }));
+
+
+  it('should redo to remove the business key for a CMMN call activity',
+      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CallActivity_7');
+
+    selection.select(shape);
+
+    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+    expect(checkBox.checked).to.be.true;
+
+    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(3);
+
+    // when
+    TestHelper.triggerEvent(checkBox, 'click');
+
+    // then
+    expect(checkBox.checked).to.be.false;
+
+    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(0);
+
+    // undo
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    expect(checkBox.checked).to.be.false;
+
+    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    expect(camundaIn).to.have.length.of(0);
 
   }));
 
