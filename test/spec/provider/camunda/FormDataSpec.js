@@ -559,8 +559,8 @@ describe('form-data', function() {
 
           expect(constraints).to.have.length(3);
           expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
-          expect(lastConstraint.name).to.equal('');
-          expect(lastConstraint.config).to.equal('');
+          expect(lastConstraint.name).to.be.undefined;
+          expect(lastConstraint.config).to.be.undefined;
         });
 
 
@@ -591,8 +591,8 @@ describe('form-data', function() {
 
           expect(constraints).to.have.length(3);
           expect(is(lastConstraint, 'camunda:Constraint')).to.be.true;
-          expect(lastConstraint.name).to.equal('');
-          expect(lastConstraint.config).to.equal('');
+          expect(lastConstraint.name).to.be.undefined;
+          expect(lastConstraint.config).to.undefined;
         }));
 
       });
@@ -869,8 +869,8 @@ describe('form-data', function() {
 
       expect(constraints).to.have.length(1);
       expect(is(constraints[0], 'camunda:Constraint'));
-      expect(constraints[0].name).to.equal('');
-      expect(constraints[0].config).to.equal('');
+      expect(constraints[0].name).to.be.undefined;
+      expect(constraints[0].config).to.be.undefined;
 
 
     }));
