@@ -177,7 +177,7 @@ describe('result-variable', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         resultVariable = domQuery('input[name=resultVariable]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=implementation] > .pp-row > .pp-field-wrapper > button[data-action=delegate\\.clearResVar]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=result-variable] button[data-action=clear]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given

@@ -61,7 +61,7 @@ describe('external-service-task-properties', function() {
     	implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
       businessObject = getBusinessObject(shape);
 
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
     expect(businessObject.get('camunda:type')).to.equal('external');
@@ -78,9 +78,9 @@ describe('external-service-task-properties', function() {
         implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
-    expect(implType.value).to.not.equal('type');
+    expect(implType.value).to.not.equal('external');
     expect(topicField).to.be.null;
-    expect(implType.value).to.equal('decisionRef');
+    expect(implType.value).to.equal('dmn');
     expect(businessObject).not.to.have.property('topic');
     expect(businessObject).not.to.have.property('type');
   }));
@@ -97,7 +97,7 @@ describe('external-service-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
 
@@ -105,7 +105,7 @@ describe('external-service-task-properties', function() {
     TestHelper.triggerValue(topicField, 'OrderProcessing');
 
     // then
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(topicField.value).to.equal('OrderProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
   }));
@@ -122,7 +122,7 @@ describe('external-service-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
 
@@ -130,7 +130,7 @@ describe('external-service-task-properties', function() {
     TestHelper.triggerValue(topicField, '');
 
     // then
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(topicField.className).to.equal('invalid');
     expect(businessObject.get('camunda:topic')).to.equal('');
   }));
@@ -148,7 +148,7 @@ describe('external-service-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
     expect(classField.parentElement.className).to.contain('pp-hidden');
@@ -194,7 +194,7 @@ describe('external-service-task-properties', function() {
     TestHelper.triggerValue(topicField, 'OrderProcessing');
 
     // then
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(expressionField.parentElement.className).to.contain('pp-hidden');
     expect(topicField.value).to.equal('OrderProcessing');
     expect(businessObject.get('camunda:topic')).to.equal(topicField.value);
@@ -241,7 +241,7 @@ describe('external-service-task-properties', function() {
     TestHelper.triggerEvent(implType, 'change');
 
     // then
-    expect(implType.value).to.equal('type');
+    expect(implType.value).to.equal('external');
     expect(expressionField.parentElement.className).to.contain('pp-hidden');
 
     expect(topicField.value).to.be.empty;
