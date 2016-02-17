@@ -112,32 +112,36 @@ function selectOutputParameter(idx, container) {
 
 // property controls
 
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
 function getParameterGroupLabel(container) {
-  return domQuery('div[data-group="input-output-parameter"] .group-label', container);
+  return domQuery('div[data-group="input-output-parameter"] .group-label', getInputOutputTab(container));
 }
 
 function getParameterNameInput(container) {
-  return domQuery('input[id="camunda-parameter-name"]', container);
+  return domQuery('input[id="camunda-parameter-name"]', getInputOutputTab(container));
 }
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameter-type"]', container);
+  return domQuery('select[id="camunda-parameter-type-select"]', getInputOutputTab(container));
 }
 
 function getParameterTextValue(container) {
-  return domQuery('textarea[id="camunda-parameter-type-text"]', container);
+  return domQuery('textarea[id="camunda-parameter-type-text"]', getInputOutputTab(container));
 }
 
 function getScriptEntry(container) {
-  return domQuery('div[data-entry="parameter-type-script"] > div', container);
+  return domQuery('div[data-entry="parameter-type-script"] > div', getInputOutputTab(container));
 }
 
 function getListAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table-add-row', container);
+  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table-add-row', getInputOutputTab(container));
 }
 
 function getListTable(container) {
-  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table', container);
+  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table', getInputOutputTab(container));
 }
 
 function getListRows(container) {
@@ -151,11 +155,11 @@ function getListInput(idx, container) {
 }
 
 function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div', container);
+  return domQuery('div[data-entry="parameter-type-map"] > div', getInputOutputTab(container));
 }
 
 function getMapTable(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div.pp-table', container);
+  return domQuery('div[data-entry="parameter-type-map"] > div.pp-table', getInputOutputTab(container));
 }
 
 function getMapRows(container) {
@@ -171,15 +175,15 @@ function getMapInput(idx, column, container) {
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', container);
+  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', getInputOutputTab(container));
 }
 
 function getAddButton(suffix, container) {
-  return domQuery('button[id="cam-extension-elements-create-' + suffix + '"]', container);
+  return domQuery('button[id="cam-extension-elements-create-' + suffix + '"]', getInputOutputTab(container));
 }
 
 function getRemoveButton(suffix, container) {
-  return domQuery('button[id="cam-extension-elements-remove-' + suffix + '"]', container);
+  return domQuery('button[id="cam-extension-elements-remove-' + suffix + '"]', getInputOutputTab(container));
 }
 
 function isParameterContainedIn(params, value) {
@@ -396,9 +400,9 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterNameInput(container).value).to.equal('input2');
         expect(getParameterTypeSelect(container).value).to.equal('script');
 
-        var scriptFormat = domQuery('input[name=scriptFormat]', container),
-            scriptType   = domQuery('select[name="scriptType"]', container),
-            scriptValue  = domQuery('textarea[name="scriptValue"]', container);
+        var scriptFormat = domQuery('div[data-tab="input-output"] input[name=scriptFormat]', container),
+            scriptType   = domQuery('div[data-tab="input-output"] select[name="scriptType"]', container),
+            scriptValue  = domQuery('div[data-tab="input-output"] textarea[name="scriptValue"]', container);
 
         expect(scriptFormat.value).to.equal('javascript');
         expect(scriptType.value).to.equal('script');
@@ -519,9 +523,9 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterNameInput(container).value).to.equal('output2');
         expect(getParameterTypeSelect(container).value).to.equal('script');
 
-        var scriptFormat = domQuery('input[name=scriptFormat]', container),
-            scriptType   = domQuery('select[name="scriptType"]', container),
-            scriptValue  = domQuery('textarea[name="scriptValue"]', container);
+        var scriptFormat = domQuery('div[data-tab="input-output"] input[name=scriptFormat]', container),
+            scriptType   = domQuery('div[data-tab="input-output"] select[name="scriptType"]', container),
+            scriptValue  = domQuery('div[data-tab="input-output"] textarea[name="scriptValue"]', container);
 
         expect(scriptFormat.value).to.equal('javascript');
         expect(scriptType.value).to.equal('script');

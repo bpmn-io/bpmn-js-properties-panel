@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:serviceTask id="CLASS" name="Class" camunda:class="foo" />
+    <bpmn:serviceTask id="EXPRESSION" name="Expression" camunda:expression="foo" />
+    <bpmn:serviceTask id="DELEGATE_EXPRESSION" name="Delegate Expression" camunda:delegateExpression="foo" />
+    <bpmn:serviceTask id="EXTERNAL" name="External" camunda:type="external" camunda:topic="foo" />
+    <bpmn:serviceTask id="CONNECTOR" name="Connector">
+      <bpmn:extensionElements>
+        <camunda:connector>        <camunda:connectorId>foo</camunda:connectorId>
+</camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="DMN" name="DMN" camunda:decisionRef="foo" />
+    <bpmn:businessRuleTask id="BRT_CLASS" name="Class" camunda:class="foo" />
+    <bpmn:businessRuleTask id="BRT_EXPRESSION" name="Expression" camunda:expression="foo" />
+    <bpmn:businessRuleTask id="BRT_DELEGATE_EXPRESSION" name="Delegate Expression" camunda:delegateExpression="foo" />
+    <bpmn:businessRuleTask id="BRT_CONNECTOR" name="Connector">
+      <bpmn:extensionElements>
+        <camunda:connector>        <camunda:connectorId>foo</camunda:connectorId>
+</camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="WITH_LISTENER_AND_CONNECTOR" name="With Listener and Connector">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="foo" event="start" />
+        <camunda:connector>        <camunda:connectorId>foo</camunda:connectorId>
+</camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WITH_LISTENER" name="With Listener">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="foo" event="start" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="ServiceTask_05myv93_di" bpmnElement="CLASS">
+        <dc:Bounds x="268" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1umdg9t_di" bpmnElement="EXPRESSION">
+        <dc:Bounds x="420" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0f5revy_di" bpmnElement="DELEGATE_EXPRESSION">
+        <dc:Bounds x="560" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_19csnox_di" bpmnElement="EXTERNAL">
+        <dc:Bounds x="700" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0bvt4w3_di" bpmnElement="CONNECTOR">
+        <dc:Bounds x="839" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_139j051_di" bpmnElement="DMN">
+        <dc:Bounds x="975" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0jyqff8_di" bpmnElement="BRT_CLASS">
+        <dc:Bounds x="268" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_1szdz9t_di" bpmnElement="BRT_EXPRESSION">
+        <dc:Bounds x="420" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0cqjf24_di" bpmnElement="BRT_DELEGATE_EXPRESSION">
+        <dc:Bounds x="560" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_11woi3e_di" bpmnElement="BRT_CONNECTOR">
+        <dc:Bounds x="839" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0rsul8r_di" bpmnElement="WITH_LISTENER_AND_CONNECTOR">
+        <dc:Bounds x="268" y="329" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_178a7b4_di" bpmnElement="WITH_LISTENER">
+        <dc:Bounds x="420" y="329" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

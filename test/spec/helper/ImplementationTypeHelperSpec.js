@@ -83,7 +83,43 @@ describe('implementation type', function() {
     });
 
 
+    it('should return connector as implementation type', function() {
+
+      // given
+      var extensionElements = moddle.create('bpmn:ExtensionElements');
+      var connector = moddle.create('camunda:Connector');
+      extensionElements.set('values', [ connector ]);
+      serviceTask.set('extensionElements', extensionElements);
+
+      // when
+      var type = ImplementationTypeHelper.getImplementationType(serviceTask);
+
+      // then
+      expect(type).to.equal('connector');
+    });
+
+
     describe('with multiple implementation types', function() {
+
+
+      it('should return connector as implementation type', function() {
+
+        // given
+        var extensionElements = moddle.create('bpmn:ExtensionElements');
+        var connector = moddle.create('camunda:Connector');
+        extensionElements.set('values', [ connector ]);
+        serviceTask.set('extensionElements', extensionElements);
+        serviceTask.set('camunda:type', 'external');
+        serviceTask.set('camunda:class', 'foo');
+        serviceTask.set('camunda:delegateExpression', 'foo');
+        serviceTask.set('camunda:expression', 'foo');
+
+        // when
+        var type = ImplementationTypeHelper.getImplementationType(serviceTask);
+
+        // then
+        expect(type).to.equals('connector');
+      });
 
 
       it('should return external as implementation type', function() {
@@ -193,6 +229,22 @@ describe('implementation type', function() {
     });
 
 
+    it('should return connector as implementation type', function() {
+
+      // given
+      var extensionElements = moddle.create('bpmn:ExtensionElements');
+      var connector = moddle.create('camunda:Connector');
+      extensionElements.set('values', [ connector ]);
+      businessRuleTask.set('extensionElements', extensionElements);
+
+      // when
+      var type = ImplementationTypeHelper.getImplementationType(businessRuleTask);
+
+      // then
+      expect(type).to.equal('connector');
+    });
+
+
     it('should return dmn as implementation type', function() {
 
       // given
@@ -213,6 +265,10 @@ describe('implementation type', function() {
 
         // given
         businessRuleTask.set('camunda:decisionRef', 'foo');
+        var extensionElements = moddle.create('bpmn:ExtensionElements');
+        var connector = moddle.create('camunda:Connector');
+        extensionElements.set('values', [ connector ]);
+        businessRuleTask.set('extensionElements', extensionElements);
         businessRuleTask.set('camunda:class', 'foo');
         businessRuleTask.set('camunda:delegateExpression', 'foo');
         businessRuleTask.set('camunda:expression', 'foo');
@@ -222,6 +278,25 @@ describe('implementation type', function() {
 
         // then
         expect(type).to.equals('dmn');
+      });
+
+
+      it('should return connector as implementation type', function() {
+
+        // given
+        var extensionElements = moddle.create('bpmn:ExtensionElements');
+        var connector = moddle.create('camunda:Connector');
+        extensionElements.set('values', [ connector ]);
+        businessRuleTask.set('extensionElements', extensionElements);
+        businessRuleTask.set('camunda:class', 'foo');
+        businessRuleTask.set('camunda:delegateExpression', 'foo');
+        businessRuleTask.set('camunda:expression', 'foo');
+
+        // when
+        var type = ImplementationTypeHelper.getImplementationType(businessRuleTask);
+
+        // then
+        expect(type).to.equals('connector');
       });
 
 
@@ -456,7 +531,42 @@ describe('implementation type', function() {
     });
 
 
+    it('should return connector as implementation type', function() {
+
+      // given
+      var extensionElements = moddle.create('bpmn:ExtensionElements');
+      var connector = moddle.create('camunda:Connector');
+      extensionElements.set('values', [ connector ]);
+      messageEventDefinition.set('extensionElements', extensionElements);
+
+      // when
+      var type = ImplementationTypeHelper.getImplementationType(messageEvent);
+
+      // then
+      expect(type).to.equal('connector');
+    });
+
+
     describe('with multiple implementation types', function() {
+
+
+      it('should return connector as implementation type', function() {
+
+        // given
+        var extensionElements = moddle.create('bpmn:ExtensionElements');
+        var connector = moddle.create('camunda:Connector');
+        extensionElements.set('values', [ connector ]);
+        messageEventDefinition.set('extensionElements', extensionElements);
+        messageEventDefinition.set('camunda:class', 'foo');
+        messageEventDefinition.set('camunda:delegateExpression', 'foo');
+        messageEventDefinition.set('camunda:expression', 'foo');
+
+        // when
+        var type = ImplementationTypeHelper.getImplementationType(messageEvent);
+
+        // then
+        expect(type).to.equals('connector');
+      });
 
 
       it('should return class as implementation type', function() {

@@ -19,11 +19,8 @@ var ModelUtil         = require('bpmn-js/lib/util/ModelUtil'),
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 
-var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes');
+var domQuery = require('min-dom/lib/query');
 
-var find    = require('lodash/collection/find'),
-    forEach = require('lodash/collection/forEach');
 
 // MODEL HELPER
 
@@ -43,8 +40,12 @@ function getParameters(bo, prop) {
 
 // DOM HELPER
 
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
 function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameter-type"]', container);
+  return domQuery('select[id="camunda-parameter-type-select"]', getInputOutputTab(container));
 }
 
 // input parameter
@@ -62,7 +63,7 @@ function selectInputParameter(idx, container) {
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extension-elements-' + suffix + ']', container);
+  return domQuery('select[id=cam-extension-elements-' + suffix + ']', getInputOutputTab(container));
 }
 
 
@@ -177,7 +178,7 @@ describe('input-output-parameter-type-script', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -188,7 +189,7 @@ describe('input-output-parameter-type-script', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -254,7 +255,7 @@ describe('input-output-parameter-type-script', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -265,7 +266,7 @@ describe('input-output-parameter-type-script', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -331,7 +332,7 @@ describe('input-output-parameter-type-script', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -342,7 +343,7 @@ describe('input-output-parameter-type-script', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();

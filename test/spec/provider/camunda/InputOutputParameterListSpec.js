@@ -21,8 +21,6 @@ var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsH
 
 var domQuery = require('min-dom/lib/query');
 
-var find    = require('lodash/collection/find'),
-    forEach = require('lodash/collection/forEach');
 
 // MODEL HELPER
 
@@ -31,16 +29,8 @@ function getElements(bo, type, prop) {
   return !prop ? elems : (elems[0] || {})[prop] || [];
 }
 
-function getInputOutput(bo) {
-  return getElements(bo, 'camunda:InputOutput')[0];
-}
-
 function getInputParameters(bo) {
   return getParameters(bo, 'inputParameters');
-}
-
-function getOutputParameters(bo) {
-  return getParameters(bo, 'outputParameters');
 }
 
 function getParameters(bo, prop) {
@@ -55,88 +45,28 @@ function getInputParameterSelect(container) {
   return getSelect('inputs', container);
 }
 
-function getAddInputParameterButton(container) {
-  return getAddButton('inputs', container);
-}
-
-function clickAddInputParameterButton(container) {
-  var addButton = getAddInputParameterButton(container);
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function getRemoveInputParameterButton(container) {
-  return getRemoveButton('inputs', container);
-}
-
-function clickRemoveInputParameterButton(container) {
-  var removeButton = getRemoveInputParameterButton(container);
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
 function selectInputParameter(idx, container) {
   var selectBox = getInputParameterSelect(container);
   selectBox.options[idx].selected = 'selected';
   TestHelper.triggerEvent(selectBox, 'change');
 }
 
-// output parameter
-
-function getOutputParameterSelect(container) {
-  return getSelect('outputs', container);
-}
-
-function getAddOutputParameterButton(container) {
-  return getAddButton('outputs', container);
-}
-
-function clickAddOutputParameterButton(container) {
-  var addButton = getAddOutputParameterButton(container);
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function getRemoveOutputParameterButton(container) {
-  return getRemoveButton('outputs', container);
-}
-
-function clickRemoveOutputParameterButton(container) {
-  var removeButton = getRemoveOutputParameterButton(container);
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
-function selectOutputParameter(idx, container) {
-  var selectBox = getOutputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
 // property controls
 
-function getParameterLabel(container) {
-  return domQuery('label[data-value="label"]', container);
-}
-
-function getParameterNameInput(container) {
-  return domQuery('input[id="camunda-parameter-name"]', container);
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
 }
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameter-type"]', container);
-}
-
-function getParameterTextValue(container) {
-  return domQuery('textarea[id="camunda-parameter-type-text"]', container);
-}
-
-function getScriptEntry(container) {
-  return domQuery('div[data-entry="parameter-type-script"] > div', container);
+  return domQuery('select[id="camunda-parameter-type-select"]', getInputOutputTab(container));
 }
 
 function getListAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table-add-row', container);
+  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table-add-row', getInputOutputTab(container));
 }
 
 function getListTable(container) {
-  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table', container);
+  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table', getInputOutputTab(container));
 }
 
 function getListRows(container) {
@@ -159,58 +89,10 @@ function clickRemoveValueButton(idx, container) {
   TestHelper.triggerEvent(removeButton, 'click');
 }
 
-function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div', container);
-}
-
-function getMapTable(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div.pp-table', container);
-}
-
-function getMapRows(container) {
-  var table = getMapTable(container);
-  return domQuery.all('div[data-list-entry-container] > div', table);
-}
-
-function getMapInput(idx, column, container) {
-  var table = getMapTable(container);
-  return domQuery('div[data-index="' + idx + '"] > input[name="' + column + '"]', table);
-}
-
-function clickAddEntryButton(container) {
-  var addButton = domQuery('button', getMapAddRowDiv(container));
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function clickRemoveEntryButton(idx, container) {
-  var removeButton = domQuery('div[data-index="' + idx + '"] > button', getMapTable(container));
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', container);
-}
-
-function getAddButton(suffix, container) {
-  return domQuery('button[id="cam-extension-elements-create-' + suffix + '"]', container);
-}
-
-function getRemoveButton(suffix, container) {
-  return domQuery('button[id="cam-extension-elements-remove-' + suffix + '"]', container);
-}
-
-function isParameterContainedIn(params, value) {
-  return find(params, function(param) {
-    return param.name === value;
-  });
-}
-
-function isOptionContainedIn(selectBox, value) {
-  return find(selectBox, function(node) {
-    return node.value === value;
-  });
+  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', getInputOutputTab(container));
 }
 
 describe('input-output-parameter-type-list', function() {
@@ -324,7 +206,7 @@ describe('input-output-parameter-type-list', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -335,7 +217,7 @@ describe('input-output-parameter-type-list', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -401,7 +283,7 @@ describe('input-output-parameter-type-list', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -412,7 +294,7 @@ describe('input-output-parameter-type-list', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -478,7 +360,7 @@ describe('input-output-parameter-type-list', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -489,7 +371,7 @@ describe('input-output-parameter-type-list', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:serviceTask id="WITHOUT_INPUT_OUTPUT" name="Without Input/Output">
+      <bpmn:extensionElements>
+        <camunda:connector>        <camunda:connectorId>foo</camunda:connectorId>
+</camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WITH_INPUT_OUTPUT" name="With Input/Output">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput />
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WITH_INPUT_PARAMS" name="With Input Parameters">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="bar">hello world!</camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WITH_OUTPUT_PARAMS" name="With Output Parameters">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:outputParameter name="bar">hello world!</camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WITH_INPUT_OUTPUT_PARAMS" name="With Input and Output Parameters">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="bar1">hello world!</camunda:inputParameter>
+            <camunda:inputParameter name="bar2" />
+            <camunda:outputParameter name="bar1">hello world!</camunda:outputParameter>
+            <camunda:outputParameter name="bar2" />
+          </camunda:inputOutput>
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WITHOUT_CONNECTOR_ID" name="Without Connector Id">
+      <bpmn:extensionElements>
+        <camunda:connector />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="ServiceTask_12a2i8c_di" bpmnElement="WITHOUT_INPUT_OUTPUT">
+        <dc:Bounds x="265" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_01iun0p_di" bpmnElement="WITH_INPUT_OUTPUT">
+        <dc:Bounds x="421" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1xjx7m7_di" bpmnElement="WITH_INPUT_PARAMS">
+        <dc:Bounds x="570" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1ywtvmw_di" bpmnElement="WITH_OUTPUT_PARAMS">
+        <dc:Bounds x="715" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0a69ylu_di" bpmnElement="WITH_INPUT_OUTPUT_PARAMS">
+        <dc:Bounds x="861" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0woow5d_di" bpmnElement="WITHOUT_CONNECTOR_ID">
+        <dc:Bounds x="123" y="119" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
