@@ -61,10 +61,12 @@ describe('form-data-enum', function() {
 
       selection.select(startEvent_2);
 
-      var type = domQuery('input[id=camunda-form-field-type]', container);
-
       TestHelper.triggerFormFieldSelection(0, container);
-      TestHelper.triggerValue(type, 'enum', 'change');
+
+      var selectBox = domQuery('[data-entry="form-field-type"] select', container);
+
+      TestHelper.selectedByOption(selectBox, 'enum');
+      TestHelper.triggerEvent(selectBox, 'change');
     }));
 
 
@@ -605,11 +607,12 @@ describe('form-data-enum', function() {
 
       beforeEach(function(){
 
-        var input = domQuery('[data-entry="form-field-type"] input', container);
-
         values = domQuery('[data-entry="form-field-enum-values"]', container);
 
-        TestHelper.triggerValue(input, '', 'change');
+        var selectBox = domQuery('[data-entry="form-field-type"] select', container);
+
+        TestHelper.selectedByOption(selectBox, 'string');
+        TestHelper.triggerEvent(selectBox, 'change');
       });
 
       describe('in the DOM', function() {
