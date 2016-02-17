@@ -17,9 +17,12 @@ var propertiesPanelModule = require('../../../../lib'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 
-function isHiddenRow(selector, container) {
-  var row = domQuery(selector, container).parentNode;
-  return domClasses(row).has('pp-hidden');
+function isHiddenRow(id, container) {
+  var entry = domQuery('[data-entry="' + id + '"]', container);
+
+  var input = domQuery('select', entry) || domQuery('input', entry).parentNode;
+
+  return domClasses(input).has('pp-hidden');
 }
 
 describe('form-key', function() {
@@ -229,10 +232,10 @@ describe('form-key', function() {
       var formFieldSelectBox = domQuery('select[id=cam-extension-elements-form-fields]', propertiesPanel._container);
 
       // then
-      expect(isHiddenRow('#camunda-form-field-id'), propertiesPanel._container).to.be.true;
-      expect(isHiddenRow('#camunda-form-field-label'), propertiesPanel._container).to.be.true;
-      expect(isHiddenRow('#camunda-form-field-type'), propertiesPanel._container).to.be.true;
-      expect(isHiddenRow('#camunda-form-field-defaultValue'), propertiesPanel._container).to.be.true;
+      expect(isHiddenRow('form-field-id'), propertiesPanel._container).to.be.true;
+      expect(isHiddenRow('form-field-label'), propertiesPanel._container).to.be.true;
+      expect(isHiddenRow('form-field-type'), propertiesPanel._container).to.be.true;
+      expect(isHiddenRow('form-field-defaultValue'), propertiesPanel._container).to.be.true;
 
       expect(formFieldSelectBox.options).to.have.length.of(0);
 

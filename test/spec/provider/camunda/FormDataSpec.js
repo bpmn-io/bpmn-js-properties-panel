@@ -52,7 +52,8 @@ describe('form-data', function() {
   }));
 
   var shape,
-      getInputField;
+      getInputField,
+      getSelectBox;
 
   beforeEach(inject(function(commandStack, propertiesPanel, elementRegistry, selection) {
 
@@ -73,6 +74,10 @@ describe('form-data', function() {
 
     getInputField = function(id) {
       return domQuery('input[id=camunda-'+id+']', propertiesPanel._container);
+    };
+
+    getSelectBox = function(id) {
+      return domQuery('[data-entry="form-field-type"] select', propertiesPanel._container);
     };
 
   }));
@@ -98,7 +103,7 @@ describe('form-data', function() {
     // then
     expect(getInputField('form-field-id').value).to.equal('firstname');
     expect(getInputField('form-field-label').value).to.equal('Firstname');
-    expect(getInputField('form-field-type').value).to.equal('string');
+    expect(getSelectBox('form-field-type').value).to.equal('string');
     expect(getInputField('form-field-defaultValue').value).is.empty;
     expect(domClasses(getInputField('form-field-id')).has('invalid')).to.be.false;
   }));
@@ -112,7 +117,7 @@ describe('form-data', function() {
     // then
     expect(getInputField('form-field-id').value).to.equal('dateOfBirth');
     expect(getInputField('form-field-label').value).to.equal('Date of Birth');
-    expect(getInputField('form-field-type').value).to.equal('date');
+    expect(getSelectBox('form-field-type').value).to.equal('date');
     expect(getInputField('form-field-defaultValue').value).is.empty;
   }));
 
