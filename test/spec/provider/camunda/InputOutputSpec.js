@@ -112,8 +112,8 @@ function selectOutputParameter(idx, container) {
 
 // property controls
 
-function getParameterLabel(container) {
-  return domQuery('label[data-value="label"]', container);
+function getParameterGroupLabel(container) {
+  return domQuery('div[data-group="input-output-parameter"] .group-label', container);
 }
 
 function getParameterNameInput(container) {
@@ -359,7 +359,7 @@ describe('input-output-parameter-properties', function() {
         selectInputParameter(0, container);
 
         // then
-        expect(getParameterLabel(container).textContent).to.equal('Input Parameter');
+        expect(getParameterGroupLabel(container).textContent).to.equal('Input Parameter');
 
       });
 
@@ -482,7 +482,7 @@ describe('input-output-parameter-properties', function() {
         selectOutputParameter(0, container);
 
         // then
-        expect(getParameterLabel(container).textContent).to.equal('Output Parameter');
+        expect(getParameterGroupLabel(container).textContent).to.equal('Output Parameter');
 
       });
 
