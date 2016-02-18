@@ -61,7 +61,7 @@ describe('form-data-enum', function() {
 
       selection.select(startEvent_2);
 
-      var type = domQuery('#camunda-form-field-type', container);
+      var type = domQuery('input[id=camunda-form-field-type]', container);
 
       TestHelper.triggerFormFieldSelection(0, container);
       TestHelper.triggerValue(type, 'enum', 'change');
@@ -108,7 +108,7 @@ describe('form-data-enum', function() {
           commandStack.undo();
 
           // then
-          expect(valueTable.childNodes).to.be.empty;
+          expect(valueTable.childNodes).to.have.length.of(0);
         }));
 
 
