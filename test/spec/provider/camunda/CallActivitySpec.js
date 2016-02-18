@@ -19,7 +19,7 @@ var propertiesPanelModule = require('../../../../lib'),
 
 describe('call-activity-properties', function() {
 
-  var diagramXML = require('./CallActivty.bpmn');
+  var diagramXML = require('./CallActivity.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,
