@@ -1,10 +1,42 @@
-ul.djs-properties-tabs-links {
-  margin: 0;
-  padding: 4px 4px 0 4px;
-  position: relative;
+.tabs-scroll-left,
+.tabs-scroll-right {
+  height: 31px;
+  width: 14px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 7px 4px 0 4px;
+  border-bottom: 1px solid @gray-light;
+  background-color: @gray-lighter;
+  color: @gray;
+  background-color: @gray-lighter;
+  &:hover {
+    color: darken(@gray, 10%);
+    background-color: @gray-lighter;
+  }
+}
+
+.tabs-scroll-left {
+  border-right: 1px solid @gray-light;
+  float: left;
+}
+
+.tabs-scroll-right {
+  border-left: 1px solid @gray-light;
+  float: right;
+}
+
+.djs-properties-tab-bar {
   border-bottom: 1px solid @gray-light;
   background: darken(@gray-lighter, 5%);
+}
+
+ul.djs-properties-tabs-links {
+  margin: 0;
+  margin-bottom: -1px;
+  padding: 4px 4px 0 4px;
   height: 31px;
+  overflow: hidden;
+  white-space: nowrap;
 
   > li {
     display: inline-block;
