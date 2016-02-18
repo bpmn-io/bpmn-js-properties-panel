@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                   xmlns:camunda="http://camunda.org/bpmn"
+                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+                   id="_3ENCQCCrEeWkp5kiupH8Fw"
+                   exporter="camunda modeler"
+                   exporterVersion="2.7.0"
+                   targetNamespace="http://activiti.org/bpmn">
+
+  <bpmn2:process id="Process_1" isExecutable="false">
+
+    <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17">
+      <bpmn2:extensionElements>
+          <camunda:in businessKey="#{execution.processBusinessKey}" />
+          <camunda:in variables="all" />
+          <camunda:out variables="all" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_2" calledElement="asd">
+      <bpmn2:extensionElements>
+          <camunda:in source="myVar" target="myVar" />
+          <camunda:in source="foo" target="foo" />
+          <camunda:in source="mySource" target="myTarget" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_5">
+      <bpmn2:extensionElements>
+          <camunda:in source="myVar" target="myVar" />
+          <camunda:in sourceExpression="#{foo}" target="#{foo}" />
+          <camunda:in variables="all" />
+          <camunda:in businessKey="abc" />
+          <camunda:out source="myVar" target="myVar" />
+          <camunda:out sourceExpression="#{foo}" target="#{foo}" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_6" calledElement="mySubProcess">
+      <bpmn2:extensionElements>
+          <camunda:out source="myVar" target="myVar" />
+          <camunda:out source="foo" target="foo" />
+          <camunda:out source="mySource" target="myTarget" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_7" camunda:caseRef="myCase">
+      <bpmn2:extensionElements>
+          <camunda:in businessKey="#{execution.processBusinessKey}" />
+          <camunda:in businessKey="foo" />
+          <camunda:in variables="all" />
+          <camunda:in businessKey="abc" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+
+  </bpmn2:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_2" bpmnElement="CallActivity_1">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="24.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_3" bpmnElement="CallActivity_2">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_6" bpmnElement="CallActivity_5">
+        <dc:Bounds height="80.0" width="100.0" x="280.0" y="24.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_7" bpmnElement="CallActivity_6">
+        <dc:Bounds height="80.0" width="100.0" x="280.0" y="180.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_8" bpmnElement="CallActivity_7">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="270.0"/>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
