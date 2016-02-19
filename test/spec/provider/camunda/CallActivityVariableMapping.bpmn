@@ -27,10 +27,23 @@
           <camunda:in source="mySource" target="myTarget" />
       </bpmn2:extensionElements>
     </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_3" calledElement="asd">
+      <bpmn2:extensionElements>
+          <camunda:in source=""/>
+          <camunda:out source="mySource" target="" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_4" calledElement="asd">
+      <bpmn2:extensionElements>
+          <camunda:in sourceExpression=""/>
+          <camunda:out sourceExpression="mySource" target="myTarget" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
     <bpmn2:callActivity id="CallActivity_5">
       <bpmn2:extensionElements>
           <camunda:in source="myVar" target="myVar" />
           <camunda:in sourceExpression="#{foo}" target="#{foo}" />
+          <camunda:in source="" />
           <camunda:in variables="all" />
           <camunda:in businessKey="abc" />
           <camunda:out source="myVar" target="myVar" />
@@ -63,6 +76,12 @@
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_3" bpmnElement="CallActivity_2">
         <dc:Bounds height="80.0" width="100.0" x="24.0" y="180.0"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_4" bpmnElement="CallActivity_3">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="270.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_5" bpmnElement="CallActivity_4">
+        <dc:Bounds height="80.0" width="100.0" x="24.0" y="360.0"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_6" bpmnElement="CallActivity_5">
         <dc:Bounds height="80.0" width="100.0" x="280.0" y="24.0"/>
       </bpmndi:BPMNShape>
@@ -70,7 +89,7 @@
         <dc:Bounds height="80.0" width="100.0" x="280.0" y="180.0"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_8" bpmnElement="CallActivity_7">
-        <dc:Bounds height="80.0" width="100.0" x="24.0" y="270.0"/>
+        <dc:Bounds height="80.0" width="100.0" x="280.0" y="270.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
