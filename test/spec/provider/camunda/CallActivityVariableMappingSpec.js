@@ -145,7 +145,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should delete camunda:in mapping of a call activity',
+  it('should remove camunda:in mapping of a call activity',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
@@ -181,262 +181,143 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should delete camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  describe('should remove camunda:out mapping of a call activity', function() {
 
-    var shape = elementRegistry.get('CallActivity_5');
-    selection.select(shape);
+    var outSelectBox,
+        businessObject,
+        outVariableMappings;
 
-    var outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        removeButton = domQuery('button[id=cam-extension-elements-remove-out-mapping]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      var shape = elementRegistry.get('CallActivity_5');
+      selection.select(shape);
 
-    // given
-    expect(outSelectBox.options).to.have.length.of(2);
+      outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container);
+      businessObject = getBusinessObject(shape);
+      var removeButton = domQuery('button[id=cam-extension-elements-remove-out-mapping]', propertiesPanel._container);
 
-    outSelectBox.options[1].selected = 'selected';
-    TestHelper.triggerEvent(outSelectBox, 'change');
+      // given
+      expect(outSelectBox.options).to.have.length.of(2);
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+      outSelectBox.options[1].selected = 'selected';
+      TestHelper.triggerEvent(outSelectBox, 'change');
 
-    var outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(2);
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    // when
-    TestHelper.triggerEvent(removeButton, 'click');
+      outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(outVariableMappings).to.have.length.of(2);
 
-    // then
-    expect(outSelectBox.options).to.have.length.of(1);
-    expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
+      // when
+      TestHelper.triggerEvent(removeButton, 'click');
+    }));
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+    it('should execute', inject(function() {
 
-    outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(1);
+      expect(outSelectBox.options).to.have.length.of(1);
+      expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
 
-  }));
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
+      outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(outVariableMappings).to.have.length.of(1);
+    }));
 
-  it('should undo to delete camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+    it('should undo', inject(function(commandStack) {
 
-    var shape = elementRegistry.get('CallActivity_5');
-    selection.select(shape);
+      commandStack.undo();
 
-    var outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        removeButton = domQuery('button[id=cam-extension-elements-remove-out-mapping]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      expect(outSelectBox.options).to.have.length.of(2);
 
-    // given
-    expect(outSelectBox.options).to.have.length.of(2);
+      outSelectBox.options[1].selected = 'selected';
+      TestHelper.triggerEvent(outSelectBox, 'change');
 
-    outSelectBox.options[1].selected = 'selected';
-    TestHelper.triggerEvent(outSelectBox, 'change');
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+      outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(outVariableMappings).to.have.length.of(2);
 
-    var outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(2);
+    }));
 
-    // when
-    TestHelper.triggerEvent(removeButton, 'click');
+    it('should redo', inject(function(commandStack) {
 
-    // then
-    expect(outSelectBox.options).to.have.length.of(1);
-    expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
+      commandStack.undo();
+      commandStack.redo();
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+      expect(outSelectBox.options).to.have.length.of(1);
+      expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
 
-    outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(1);
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    // when undo
-    commandStack.undo();
+      outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(outVariableMappings).to.have.length.of(1);
 
-    // then
-    expect(outSelectBox.options).to.have.length.of(2);
+    }));
+  });
 
-    outSelectBox.options[1].selected = 'selected';
-    TestHelper.triggerEvent(outSelectBox, 'change');
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+  describe('should add camunda:in mapping to a call activity', function() {
 
-    var outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(2);
+    var inSelectBox,
+        businessObject,
+        inVariableMappings;
 
-  }));
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      var shape = elementRegistry.get('CallActivity_5');
+      selection.select(shape);
 
+      inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container);
+      businessObject = getBusinessObject(shape);
+      var addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container);
 
-  it('should redo to delete camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+      expect(inSelectBox.options).to.have.length.of(4);
 
-    var shape = elementRegistry.get('CallActivity_5');
-    selection.select(shape);
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    var outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        removeButton = domQuery('button[id=cam-extension-elements-remove-out-mapping]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(inVariableMappings).to.have.length.of(4);
 
-    // given
-    expect(outSelectBox.options).to.have.length.of(2);
+      TestHelper.triggerEvent(addButton, 'click');
+    }));
 
-    outSelectBox.options[1].selected = 'selected';
-    TestHelper.triggerEvent(outSelectBox, 'change');
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+    it('should execute', inject(function() {
 
-    var outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(2);
+      expect(inSelectBox.options).to.have.length.of(5);
+      expect(inSelectBox.textContent).to.contain('4 : <empty>');
 
-    // when
-    TestHelper.triggerEvent(removeButton, 'click');
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    // then
-    expect(outSelectBox.options).to.have.length.of(1);
-    expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
+      inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(inVariableMappings).to.have.length.of(5);
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+    }));
 
-    outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(1);
+    it('should undo', inject(function(commandStack) {
 
-    // when redo
-    commandStack.undo();
-    commandStack.redo();
+      commandStack.undo();
 
-    // then
-    expect(outSelectBox.options).to.have.length.of(1);
-    expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
+      expect(inSelectBox.options).to.have.length.of(4);
 
-    expect(businessObject.extensionElements).not.to.be.undefined;
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(1);
+      inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(inVariableMappings).to.have.length.of(4);
+    }));
 
-  }));
+    it('should redo', inject(function(commandStack) {
 
+      commandStack.undo();
+      commandStack.redo();
 
-  it('should add camunda:in mapping to call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+      expect(inSelectBox.options).to.have.length.of(5);
+      expect(inSelectBox.textContent).to.contain('4 : <empty>');
 
-    var shape = elementRegistry.get('CallActivity_5');
-    selection.select(shape);
+      expect(businessObject.extensionElements).not.to.be.undefined;
 
-    var inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(inVariableMappings).to.have.length.of(5);
 
-    // given
-    expect(inSelectBox.options).to.have.length.of(4);
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    var invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(4);
-
-    // when
-    TestHelper.triggerEvent(addButton, 'click');
-
-    // then
-    expect(inSelectBox.options).to.have.length.of(5);
-    expect(inSelectBox.textContent).to.contain('4 : <empty>');
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(5);
-
-  }));
-
-
-  it('should undo to add camunda:in mapping to call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_5');
-    selection.select(shape);
-
-    var inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inSelectBox.options).to.have.length.of(4);
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    var invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(4);
-
-    // when
-    TestHelper.triggerEvent(addButton, 'click');
-
-    // then
-    expect(inSelectBox.options).to.have.length.of(5);
-    expect(inSelectBox.textContent).to.contain('4 : <empty>');
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(5);
-
-    // when undo
-    commandStack.undo();
-
-    // then
-    expect(inSelectBox.options).to.have.length.of(4);
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(4);
-
-  }));
-
-
-  it('should redo to add camunda:in mapping to call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_5');
-    selection.select(shape);
-
-    var inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inSelectBox.options).to.have.length.of(4);
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    var invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(4);
-
-    // when
-    TestHelper.triggerEvent(addButton, 'click');
-
-    // then
-    expect(inSelectBox.options).to.have.length.of(5);
-    expect(inSelectBox.textContent).to.contain('4 : <empty>');
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(5);
-
-    // when undo
-    commandStack.undo();
-    commandStack.redo();
-
-    // then
-    expect(inSelectBox.options).to.have.length.of(5);
-    expect(inSelectBox.textContent).to.contain('4 : <empty>');
-
-    expect(businessObject.extensionElements).not.to.be.undefined;
-
-    invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(5);
-
-  }));
+    }));
+  });
 
 
   it('should add camunda:out mapping to call activity',
@@ -638,140 +519,79 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should clear target field of a camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  describe('should clear target field of a camunda:out mapping of a call activity', function () {
 
-    var shape = elementRegistry.get('CallActivity_4');
-    selection.select(shape);
+    var targetInput,
+        selectBox,
+        typeSelectBox,
+        sourceInput,
+        businessObject;
 
-    var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=target] [data-action=clear]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      var shape = elementRegistry.get('CallActivity_4');
+      selection.select(shape);
 
-    // given
-    expect(selectBox.options).to.have.length.of(1);
+      selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container);
+      typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container);
+      sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container);
+      targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container);
+      businessObject = getBusinessObject(shape);
+      var clearButton = domQuery('[data-entry=target] [data-action=clear]', propertiesPanel._container);
 
-    selectBox.options[0].selected = 'selected';
-    TestHelper.triggerEvent(selectBox, 'change');
+      expect(selectBox.options).to.have.length.of(1);
 
-    expect(typeSelectBox.value).to.equal('sourceExpression');
-    expect(sourceInput.value).to.equal('mySource');
-    expect(targetInput.value).to.equal('myTarget');
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
 
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
+      expect(typeSelectBox.value).to.equal('sourceExpression');
+      expect(sourceInput.value).to.equal('mySource');
+      expect(targetInput.value).to.equal('myTarget');
 
-    // then
-    expect(targetInput.value).to.be.empty;
-    expect(targetInput.className).to.equal('invalid');
+      TestHelper.triggerEvent(clearButton, 'click');
+    }));
 
-    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
-    expect(variableMappings[0].target).to.be.undefined;
+    it('should execute', inject(function() {
 
-  }));
+      expect(targetInput.value).to.be.empty;
+      expect(targetInput.className).to.equal('invalid');
 
+      var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(variableMappings).to.have.length.of(1);
+      expect(variableMappings[0].target).to.be.undefined;
 
-  it('should undo to clear target field of a camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+    }));
 
-    var shape = elementRegistry.get('CallActivity_4');
-    selection.select(shape);
+    it('should undo', inject(function(commandStack) {
 
-    var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=target] [data-action=clear]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      commandStack.undo();
 
-    // given
-    expect(selectBox.options).to.have.length.of(1);
+      expect(selectBox.options).to.have.length.of(1);
 
-    selectBox.options[0].selected = 'selected';
-    TestHelper.triggerEvent(selectBox, 'change');
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
 
-    expect(typeSelectBox.value).to.equal('sourceExpression');
-    expect(sourceInput.value).to.equal('mySource');
-    expect(targetInput.value).to.equal('myTarget');
+      expect(typeSelectBox.value).to.equal('sourceExpression');
+      expect(sourceInput.value).to.equal('mySource');
+      expect(targetInput.value).to.equal('myTarget');
 
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
+      var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(variableMappings[0].target).to.equal('myTarget');
 
-    // then
-    expect(targetInput.value).to.be.empty;
-    expect(targetInput.className).to.equal('invalid');
+    }));
 
-    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
-    expect(variableMappings[0].target).to.be.undefined;
+    it('should redo', inject(function(commandStack) {
 
-    // when undo
-    commandStack.undo();
+      commandStack.undo();
+      commandStack.redo();
 
-    // then
-    expect(selectBox.options).to.have.length.of(1);
+      expect(targetInput.value).to.be.empty;
+      expect(targetInput.className).to.equal('invalid');
 
-    selectBox.options[0].selected = 'selected';
-    TestHelper.triggerEvent(selectBox, 'change');
+      var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(variableMappings[0].target).to.be.undefined;
 
-    expect(typeSelectBox.value).to.equal('sourceExpression');
-    expect(sourceInput.value).to.equal('mySource');
-    expect(targetInput.value).to.equal('myTarget');
-
-  }));
-
-
-  it('should redo to clear target field of a camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_4');
-    selection.select(shape);
-
-    var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=target] [data-action=clear]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(selectBox.options).to.have.length.of(1);
-
-    selectBox.options[0].selected = 'selected';
-    TestHelper.triggerEvent(selectBox, 'change');
-
-    expect(typeSelectBox.value).to.equal('sourceExpression');
-    expect(sourceInput.value).to.equal('mySource');
-    expect(targetInput.value).to.equal('myTarget');
-
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
-
-    // then
-    expect(targetInput.value).to.be.empty;
-    expect(targetInput.className).to.equal('invalid');
-
-    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
-    expect(variableMappings[0].target).to.be.undefined;
-
-    // when undo
-    commandStack.undo();
-    commandStack.redo();
-
-    // then
-    expect(targetInput.value).to.be.empty;
-    expect(targetInput.className).to.equal('invalid');
-
-    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
-    expect(variableMappings[0].target).to.be.undefined;
-
-  }));
+    }));
+  });
 
 
   it('should switch from sourceExpression to source for a camunda:out mapping of a call activity',
