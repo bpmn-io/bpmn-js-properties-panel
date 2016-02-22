@@ -360,7 +360,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -387,7 +387,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -419,7 +419,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -455,7 +455,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -491,7 +491,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -532,7 +532,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       selection.select(shape);
 
       selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container);
-      typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container);
+      typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container);
       sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container);
       targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container);
       businessObject = getBusinessObject(shape);
@@ -601,7 +601,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -646,7 +646,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container);
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container);
 
     expect(selectBox.options).to.have.length.of(4);
 
@@ -664,7 +664,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
@@ -689,7 +689,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         removeButton = domQuery('button[id=cam-extension-elements-remove-in-mapping]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
@@ -720,7 +720,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     selection.select(shape);
 
     var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
         addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
