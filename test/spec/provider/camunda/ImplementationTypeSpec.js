@@ -60,11 +60,6 @@ function getExternalTopicInput(container) {
   return getInputField(container, 'external-topic');
 }
 
-function getConnectorIdErrorNode(container) {
-  var entry = getEntry('connector-id-error', container)
-  return domQuery('div', entry);
-}
-
 function getConfigureConnectorLink(container) {
   var entry = getEntry('configure-connector-link', container)
   return domQuery('a', entry);
@@ -97,6 +92,10 @@ function isHidden(node) {
 
 function isInputHidden(node) {
   return isHidden(node.parentNode);
+}
+
+function hasErrorMessage(node) {
+  return domClasses(node).has('pp-error-message');
 }
 
 describe('implementation type', function() {
@@ -179,12 +178,6 @@ describe('implementation type', function() {
       });
 
 
-      it('should hide connector id error', function() {
-        // then
-        expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
-      });
-
-
       it('should hide configure connector link', function() {
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
@@ -225,12 +218,6 @@ describe('implementation type', function() {
       it('should hide external topic property', function() {
         // then
         expect(isInputHidden(getExternalTopicInput(container))).to.be.true;
-      });
-
-
-      it('should hide connector id error', function() {
-        // then
-        expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
       });
 
 
@@ -277,12 +264,6 @@ describe('implementation type', function() {
       });
 
 
-      it('should hide connector id error', function() {
-        // then
-        expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
-      });
-
-
       it('should hide configure connector link', function() {
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
@@ -326,12 +307,6 @@ describe('implementation type', function() {
       });
 
 
-      it('should hide connector id error', function() {
-        // then
-        expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
-      });
-
-
       it('should hide configure connector link', function() {
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
@@ -352,12 +327,6 @@ describe('implementation type', function() {
       it('should show connector implementation type', function() {
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('connector');
-      });
-
-
-      it('should hide connector id error', function() {
-        // then
-        expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
       });
 
 
@@ -431,12 +400,6 @@ describe('implementation type', function() {
       it('should hide result variable property', function() {
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.true;
-      });
-
-
-      it('should hide connector id error', function() {
-        // then
-        expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
       });
 
 
@@ -697,7 +660,8 @@ describe('implementation type', function() {
 
           it('should execute', function() {
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           });
 
@@ -708,8 +672,8 @@ describe('implementation type', function() {
             commandStack.undo();
 
             // then
-
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.false;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('class');
           }));
 
@@ -721,7 +685,8 @@ describe('implementation type', function() {
             commandStack.redo();
 
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           }));
 
@@ -1093,7 +1058,8 @@ describe('implementation type', function() {
 
           it('should execute', function() {
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           });
 
@@ -1104,8 +1070,8 @@ describe('implementation type', function() {
             commandStack.undo();
 
             // then
-
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.false;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('expression');
           }));
 
@@ -1117,7 +1083,8 @@ describe('implementation type', function() {
             commandStack.redo();
 
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           }));
 
@@ -1488,7 +1455,8 @@ describe('implementation type', function() {
 
           it('should execute', function() {
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           });
 
@@ -1499,8 +1467,8 @@ describe('implementation type', function() {
             commandStack.undo();
 
             // then
-
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.false;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('delegateExpression');
           }));
 
@@ -1512,7 +1480,7 @@ describe('implementation type', function() {
             commandStack.redo();
 
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           }));
 
@@ -1889,7 +1857,8 @@ describe('implementation type', function() {
 
           it('should execute', function() {
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           });
 
@@ -1900,8 +1869,8 @@ describe('implementation type', function() {
             commandStack.undo();
 
             // then
-
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.false;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('external');
           }));
 
@@ -1913,7 +1882,8 @@ describe('implementation type', function() {
             commandStack.redo();
 
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.false;
+            expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           }));
 
@@ -2215,7 +2185,7 @@ describe('implementation type', function() {
 
           it('should execute', function() {
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('external');
           });
 
@@ -2227,7 +2197,7 @@ describe('implementation type', function() {
 
             // then
 
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
             expect(implementationTypeSelect.value).to.equal('connector');
           }));
 
@@ -2239,7 +2209,7 @@ describe('implementation type', function() {
             commandStack.redo();
 
             // then
-            expect(isHidden(getConnectorIdErrorNode(container))).to.be.true;
+            expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('external');
           }));
 

@@ -82,7 +82,8 @@
   }
 }
 
-.pp-error-message {
+.pp-error-message,
+.pp-error-message.pp-entry-link {
   color: @error-color;
 }
 
@@ -261,6 +262,11 @@ label.pp-hidden {
 .pp-entry-link {
   cursor: pointer;
   color: @brand-primary;
+}
+
+.pp-icon-warning:before {
+  .icon-font();
+  content: '\E806';
 }
 
 @import "./header";
