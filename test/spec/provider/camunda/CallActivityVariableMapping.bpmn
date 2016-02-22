@@ -16,7 +16,7 @@
     <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17">
       <bpmn2:extensionElements>
           <camunda:in businessKey="#{execution.processBusinessKey}" />
-          <camunda:in variables="all" />
+          <camunda:in variables="all" local="true"/>
           <camunda:out variables="all" />
       </bpmn2:extensionElements>
     </bpmn2:callActivity>

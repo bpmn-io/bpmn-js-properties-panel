@@ -747,4 +747,161 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     expect(variablesMappings).to.have.length.of(1);
   }));
 
+
+  it('should fetch local variable attribute of camunda:in mapping',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
+
+      var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
+          checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container);
+
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      expect(checkBox.checked).to.be.true;
+  }));
+
+
+  it('should add local attribute to camunda:in source mapping',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      var shape = elementRegistry.get('CallActivity_2');
+      selection.select(shape);
+
+      var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
+          checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+
+      // given
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      expect(checkBox.checked).to.be.false;
+
+      // when
+      TestHelper.triggerEvent(checkBox, 'click');
+
+      // then
+      expect(checkBox.checked).to.be.true;
+
+      var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(variableMappings).to.have.length.of(3);
+      expect(variableMappings[0].local).to.be.true;
+  }));
+
+
+  describe('remove local variable attribute of camunda:in mapping', function() {
+
+    var checkBox,
+        variablesMappings;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
+
+      var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+      checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container);
+
+      // select mapping
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      // remove local attribute
+      TestHelper.triggerEvent(checkBox, 'click');
+
+      variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+
+    }));
+
+    it('should execute', inject(function() {
+
+      expect(checkBox.checked).to.be.false;
+
+      expect(variablesMappings[0].local).to.be.false;
+
+    }));
+
+    it('should undo', inject(function(commandStack) {
+
+      commandStack.undo();
+
+      expect(checkBox.checked).to.be.true;
+
+      expect(variablesMappings[0].local).to.be.true;
+
+    }));
+
+    it('should redo', inject(function(commandStack) {
+
+      commandStack.undo();
+      commandStack.redo();
+
+      expect(checkBox.checked).to.be.false;
+
+      expect(variablesMappings[0].local).to.be.false;
+
+    }));
+  });
+
+
+  describe('set local variable attribute of camunda:out mapping', function() {
+
+    var checkBox,
+        variablesMappings;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
+
+      var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+      checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container);
+
+      // select mapping
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      // set local attribute
+      TestHelper.triggerEvent(checkBox, 'click');
+
+      variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(variablesMappings).to.have.length.of(1);
+
+    }));
+
+    it('should execute', inject(function() {
+
+      expect(checkBox.checked).to.be.true;
+      
+      expect(variablesMappings[0].local).to.be.true;
+
+    }));
+
+    it('should undo', inject(function(commandStack) {
+
+      commandStack.undo();
+
+      expect(checkBox.checked).to.be.false;
+
+      expect(variablesMappings[0].local).to.be.false;
+
+    }));
+
+    it('should redo', inject(function(commandStack) {
+
+      commandStack.undo();
+      commandStack.redo();
+
+      expect(checkBox.checked).to.be.true;
+
+      expect(variablesMappings[0].local).to.be.true;
+
+    }));
+  });
+
 });
