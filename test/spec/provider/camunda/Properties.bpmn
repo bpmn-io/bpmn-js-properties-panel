@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:task id="WITHOUT_PROPS" name="Without Properties" />
+    <bpmn:task id="WITH_MULTIPLE_PROPS" name="With multiple Properties">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="prop1" value="value1" />
+          <camunda:property name="prop2" value="value2" />
+          <camunda:property name="prop3" value="value3" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="WITH_LISTENER" name="With Listener">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="foo" event="start" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="WITH_LISTENER_AND_PROP" name="With Listener and Property">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="foo" value="bar" />
+        </camunda:properties>
+        <camunda:executionListener class="abc" event="start" />
+      </bpmn:extensionElements>
+    </bpmn:task>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Task_022ortk_di" bpmnElement="WITHOUT_PROPS">
+        <dc:Bounds x="208" y="136" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0rc2zbx_di" bpmnElement="WITH_MULTIPLE_PROPS">
+        <dc:Bounds x="479" y="136" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1mwg0x8_di" bpmnElement="WITH_LISTENER">
+        <dc:Bounds x="208" y="257" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_06ljl5k_di" bpmnElement="WITH_LISTENER_AND_PROP">
+        <dc:Bounds x="346" y="257" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
