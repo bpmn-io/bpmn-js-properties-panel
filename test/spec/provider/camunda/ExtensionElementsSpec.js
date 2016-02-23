@@ -57,7 +57,7 @@ describe('extension-elements', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
       var shape   = elementRegistry.get('BoundaryEvent'),
-          inputEl = 'input[name=jobRetryTimeCycle]';
+          inputEl = 'input[name=cycle]';
 
       // given
       selection.select(shape);
@@ -77,7 +77,7 @@ describe('extension-elements', function() {
     inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
       var shape   = elementRegistry.get('BoundaryEvent'),
-          inputEl = 'input[name=jobRetryTimeCycle]';
+          inputEl = 'input[name=cycle]';
 
 
       selection.select(shape);

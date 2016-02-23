@@ -314,7 +314,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
+    var input = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(input.checked).to.equal(!!businessObject.get('asyncBefore'));
@@ -329,7 +329,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+    var input = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
 
     // given
     expect(input.checked).to.be.ok;
@@ -351,7 +351,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('input[name=loopAsyncAfter]', propertiesPanel._container),
+    var input = domQuery('div[data-entry=multi-instance-async-after] input[name=asyncAfter]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(input.checked).to.equal(!!businessObject.get('asyncAfter'));
@@ -366,7 +366,7 @@ describe('multi-instance-loop-properties', function() {
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
-    var input = domQuery('input[name=loopAsyncAfter]', propertiesPanel._container);
+    var input = domQuery('div[data-entry=multi-instance-async-after] input[name=asyncAfter]', propertiesPanel._container);
 
     // given
     expect(input.checked).to.not.be.ok;
@@ -386,7 +386,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('input[name=loopExclusive]', propertiesPanel._container),
+    var input = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(input.checked).to.equal(businessObject.get('exclusive'));
@@ -399,7 +399,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('input[name=loopExclusive]', propertiesPanel._container);
+    var input = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container);
     var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // given
@@ -420,8 +420,8 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var exclusiveInput = domQuery('input[name=loopExclusive]', propertiesPanel._container),
-        asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+    var exclusiveInput = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container),
+        asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // given
@@ -445,8 +445,8 @@ describe('multi-instance-loop-properties', function() {
 
       // when
       selection.select(shape);
-      var asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
-        exclusiveEntry = domQuery('[name=loopExclusive]', propertiesPanel._container);
+      var asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
+        exclusiveEntry = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container);
 
       // then
       expect(domClasses(exclusiveEntry).has('pp-hidden')).to.be.true;
@@ -460,8 +460,8 @@ describe('multi-instance-loop-properties', function() {
 
       // given
       selection.select(shape);
-      var asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
-        exclusiveEntry = domQuery('[name=loopExclusive]', propertiesPanel._container);
+      var asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
+        exclusiveEntry = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(asyncBeforeInput, 'click');
@@ -497,7 +497,7 @@ describe('multi-instance-loop-properties', function() {
 
     // given
     var shape = elementRegistry.get('ServiceTask3'),
-        inputEl = 'input[name=loopJobRetryTimeCycle]';
+        inputEl = 'div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]';
 
     // when
     selection.select(shape);
@@ -516,7 +516,7 @@ describe('multi-instance-loop-properties', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask'),
-        inputEl = 'input[name=loopJobRetryTimeCycle]';
+        inputEl = 'div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]';
     var bo = getBusinessObject(shape).loopCharacteristics;
 
     selection.select(shape);
@@ -542,7 +542,7 @@ describe('multi-instance-loop-properties', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask3'),
-        inputEl = 'input[name=loopJobRetryTimeCycle]';
+        inputEl = 'div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]';
 
     selection.select(shape);
 
@@ -579,7 +579,7 @@ describe('multi-instance-loop-properties', function() {
 
       // when
       selection.select(shape);
-      var jobRetryEntry = domQuery('[name=loopJobRetryTimeCycle]', propertiesPanel._container);
+      var jobRetryEntry = domQuery('div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]', propertiesPanel._container);
 
       // then
       expect(domClasses(jobRetryEntry.parentElement).has('pp-hidden')).to.be.true;
@@ -593,8 +593,8 @@ describe('multi-instance-loop-properties', function() {
 
       // given
       selection.select(shape);
-      var asyncBeforeInput = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container),
-          jobRetryEntry = domQuery('[name=loopJobRetryTimeCycle]', propertiesPanel._container);
+      var asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
+          jobRetryEntry = domQuery('div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]', propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(asyncBeforeInput, 'click');
@@ -615,7 +615,7 @@ describe('multi-instance-loop-properties', function() {
             .length;
       // given
       selection.select(shape);
-      var domElement = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+      var domElement = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(domElement, 'click');
@@ -636,7 +636,7 @@ describe('multi-instance-loop-properties', function() {
 
       // given
       selection.select(shape);
-      var domElement = domQuery('input[name=loopAsyncBefore]', propertiesPanel._container);
+      var domElement = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(domElement, 'click');

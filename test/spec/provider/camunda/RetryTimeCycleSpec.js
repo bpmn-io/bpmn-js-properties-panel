@@ -17,6 +17,9 @@ var propertiesPanelModule = require('../../../../lib'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
   forEach = require('lodash/collection/forEach');
 
+var asyncCapableHelper = require('../../../../lib/helper/AsyncCapableHelper');
+var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
+
 describe('retry-time-cycle', function() {
 
   var diagramXML = require('./RetryTimeCycle.bpmn');
@@ -58,7 +61,7 @@ describe('retry-time-cycle', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
-        inputEl = 'input[name=jobRetryTimeCycle]';
+        inputEl = 'div[data-entry=retry-time-cycle] input[name=cycle]';
 
     selection.select(shape);
 
@@ -76,7 +79,7 @@ describe('retry-time-cycle', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask'),
-        inputEl = 'input[name=jobRetryTimeCycle]';
+        inputEl = 'div[data-entry=retry-time-cycle] input[name=cycle]';
     var bo = getBusinessObject(shape);
 
     selection.select(shape);
@@ -106,7 +109,7 @@ describe('retry-time-cycle', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
-        inputEl = 'input[name=jobRetryTimeCycle]';
+        inputEl = 'div[data-entry=retry-time-cycle] input[name=cycle]';
 
     selection.select(shape);
 
@@ -126,4 +129,387 @@ describe('retry-time-cycle', function() {
     expect(retryTimerArrayOld - 1).to.equal(retryTimerArray);
     expect(inputValue.value).to.equal('');
   }));
+
+  describe('add retry time cycle', function() {
+
+    var bo, input;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+
+      var shape = elementRegistry.get('WITH_LISTENER');
+      selection.select(shape);
+
+      bo = getBusinessObject(shape);
+
+      input = domQuery('div[data-entry=retry-time-cycle] input[name=cycle]', container);
+
+      // when
+      TestHelper.triggerValue(input, 'foo', 'change');
+    }));
+
+    describe('retain existing extension elements', function() {
+
+      it('should execute', function() {
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).to.have.length(1);
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).not.to.ok;
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).to.have.length(1);
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      }));
+
+    });
+
+
+    describe('on the business object', function() {
+
+      it('should execute', function() {
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).to.be.ok;
+        expect(cycle.body).to.equal('foo');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).not.to.be.ok;
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).to.be.ok;
+        expect(cycle.body).to.equal('foo');
+      }));
+
+    });
+
+
+    describe('in the DOM', function() {
+
+      it('should execute', function() {
+        // then
+        expect(input.value).to.equal('foo');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        expect(input.value).to.equal('');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(input.value).to.equal('foo');
+      }));
+
+    });
+
+  });
+
+  describe('change retry time cycle', function() {
+
+    var bo, input;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+
+      var shape = elementRegistry.get('WITH_LISTENER_AND_CYCLE');
+      selection.select(shape);
+
+      bo = getBusinessObject(shape);
+
+      input = domQuery('div[data-entry=retry-time-cycle] input[name=cycle]', container);
+
+      // when
+      TestHelper.triggerValue(input, 'bar', 'change');
+    }));
+
+    describe('retain existing extension elements', function() {
+
+      it('should execute', function() {
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).to.have.length(1);
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).to.have.length(1);
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).to.have.length(1);
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      }));
+
+    });
+
+
+    describe('on the business object', function() {
+
+      it('should execute', function() {
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).to.be.ok;
+        expect(cycle.body).to.equal('bar');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).to.be.ok;
+        expect(cycle.body).to.equal('foo');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).to.be.ok;
+        expect(cycle.body).to.equal('bar');
+      }));
+
+    });
+
+
+    describe('in the DOM', function() {
+
+      it('should execute', function() {
+        // then
+        expect(input.value).to.equal('bar');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        expect(input.value).to.equal('foo');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(input.value).to.equal('bar');
+      }));
+
+    });
+
+  });
+
+
+  describe('remove retry time cycle', function() {
+
+    var bo, input;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+
+      var shape = elementRegistry.get('WITH_LISTENER_AND_CYCLE');
+      selection.select(shape);
+
+      bo = getBusinessObject(shape);
+
+      input = domQuery('div[data-entry=retry-time-cycle] input[name=cycle]', container);
+
+      // when
+      TestHelper.triggerValue(input, '', 'change');
+    }));
+
+    describe('retain existing extension elements', function() {
+
+      it('should execute', function() {
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).not.to.ok;
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).to.have.length(1);
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
+        expect(timeCycles).not.to.ok;
+
+        var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
+        expect(listeners).to.have.length(1);
+      }));
+
+    });
+
+
+    describe('on the business object', function() {
+
+      it('should execute', function() {
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).not.to.be.ok;
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).to.be.ok;
+        expect(cycle.body).to.equal('foo');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
+        expect(cycle).not.to.be.ok;
+      }));
+
+    });
+
+
+    describe('in the DOM', function() {
+
+      it('should execute', function() {
+        // then
+        expect(input.value).to.equal('');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+
+        // then
+        expect(input.value).to.equal('foo');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(input.value).to.equal('');
+      }));
+
+    });
+
+  });
+
 });

@@ -74,7 +74,7 @@ describe('camunda-properties', function() {
 
       var shape = elementRegistry.get('ServiceTask_1'),
         groupSelector = '[data-group=jobConfigurationGroup]',
-        inputSelector = 'input[name=asyncBefore]';
+        inputSelector = 'div[data-entry=async-before] input[name=asyncBefore]';
 
       // given
       selection.select(shape);

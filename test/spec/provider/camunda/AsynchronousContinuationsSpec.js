@@ -7,23 +7,31 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
+function getAsyncBefore(container) {
+  return domQuery('div[data-entry=async-before] input[name=asyncBefore]', container);
+}
+
+function getAsyncAfter(container) {
+  return domQuery('div[data-entry=async-after] input[name=asyncAfter]', container);
+}
+
+function getExclusive(container) {
+  return domQuery('div[data-entry=exclusive] input[name=exclusive]', container);
+}
 
 describe('flow-node-properties', function() {
 
   var diagramXML = require('./AsynchronousContinuations.bpmn');
 
-  var testModules = [
-    coreModule, selectionModule, modelingModule,
-    propertiesPanelModule,
-    propertiesProviderModule
-  ];
+  var testModules = [ coreModule, selectionModule, modelingModule, propertiesPanelModule, propertiesProviderModule ];
 
   var container;
 
@@ -55,12 +63,15 @@ describe('flow-node-properties', function() {
   it('should set the asyncBefore property of a gateway flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('InclusiveGateway_1');
+
     selection.select(shape);
-    var asyncBefore = domQuery('input[name=asyncBefore]', propertiesPanel._container),
+
+    var asyncBefore = getAsyncBefore(propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // given
+    // assume
     // that the asyncBefore is false
     expect(taskBo.get("asyncBefore")).to.not.be.ok;
 
@@ -77,12 +88,15 @@ describe('flow-node-properties', function() {
   it('should set the asyncBefore property of a event flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('IntermediateThrowEvent_1');
+
     selection.select(shape);
-    var asyncBefore = domQuery('input[name=asyncBefore]', propertiesPanel._container),
+
+    var asyncBefore = getAsyncBefore(propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // given
+    // assume
     // that the asyncBefore is false
     expect(taskBo.get("asyncBefore")).to.not.be.ok;
 
@@ -99,12 +113,15 @@ describe('flow-node-properties', function() {
   it('should set the asyncBefore property of a activity flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('CallActivity_2');
+
     selection.select(shape);
-    var asyncBefore = domQuery('input[name=asyncBefore]', propertiesPanel._container),
+
+    var asyncBefore = getAsyncBefore(propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // given
+    // assume
     // that the asyncBefore is false
     expect(taskBo.get("asyncBefore")).to.not.be.ok;
 
@@ -121,12 +138,15 @@ describe('flow-node-properties', function() {
   it('should set the asyncAfter property of a gateway flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('InclusiveGateway_1');
+
     selection.select(shape);
-    var asyncAfter = domQuery('input[name=asyncAfter]', propertiesPanel._container),
+
+    var asyncAfter = getAsyncAfter(propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // given
+    // assume
     // that the asyncAfter is false
     expect(taskBo.get("asyncAfter")).to.not.be.ok;
 
@@ -143,12 +163,15 @@ describe('flow-node-properties', function() {
   it('should set the asyncAfter property of a event flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('IntermediateThrowEvent_1');
+
     selection.select(shape);
-    var checkbox = domQuery('input[name=asyncAfter]', propertiesPanel._container),
+
+    var checkbox = getAsyncAfter(propertiesPanel._container),
         taskBo   = getBusinessObject(shape);
 
-    // given
+    // assume
     // that the asyncAfter property is false (unset)
     expect(taskBo.get("asyncAfter")).to.not.be.ok;
     expect(checkbox.selected).to.not.be.true;
@@ -167,12 +190,15 @@ describe('flow-node-properties', function() {
   it('should set the asyncAfter property of a activity flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('CallActivity_2');
+
     selection.select(shape);
-    var asyncAfter = domQuery('input[name=asyncAfter]', propertiesPanel._container),
+
+    var asyncAfter = getAsyncAfter(propertiesPanel._container),
         taskBo      = getBusinessObject(shape);
 
-    // given
+    // assume
     // that the asyncAfter is false (unset)
     expect(taskBo.get("asyncAfter")).to.not.be.ok;
 
@@ -189,10 +215,14 @@ describe('flow-node-properties', function() {
   it('should fetch the exclusive property for a flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
+    // given
     var shape = elementRegistry.get('CallActivity_2');
+
+    // when
     selection.select(shape);
-    var input = domQuery('input[name=exclusive]', propertiesPanel._container),
-        asyncBeforeInput = domQuery('input[name=asyncBefore]', propertiesPanel._container),
+
+    // then
+    var input = getExclusive(propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(input.checked).to.be.true;
@@ -203,14 +233,18 @@ describe('flow-node-properties', function() {
   it('should set the exclusive property for a flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('CallActivity_2');
-    selection.select(shape);
-    var asyncBeforeCheckbox = domQuery('input[name=asyncBefore]', propertiesPanel._container);
-    var exclusiveCheckbox = domQuery('input[name=exclusive]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape)
-
     // given
+    var shape = elementRegistry.get('CallActivity_2');
+
+    selection.select(shape);
+
+    var asyncBeforeCheckbox = getAsyncBefore(propertiesPanel._container),
+        exclusiveCheckbox = domQuery('div[data-entry=exclusive] input[name=exclusive]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
     TestHelper.triggerEvent(asyncBeforeCheckbox, 'click');
+
+    // assume
     expect(businessObject.get('exclusive')).to.be.true;
     expect(exclusiveCheckbox.checked).to.be.true;
 
@@ -228,13 +262,16 @@ describe('flow-node-properties', function() {
   it('should reset the exclusive property for a flow node',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('CallActivity_2');
-    selection.select(shape);
-    var exclusiveInput = domQuery('input[name=exclusive]', propertiesPanel._container),
-        asyncBeforeInput = domQuery('input[name=asyncBefore]', propertiesPanel._container);
-    var  businessObject = getBusinessObject(shape);
-
     // given
+    var shape = elementRegistry.get('CallActivity_2');
+
+    selection.select(shape);
+
+    var exclusiveInput = getExclusive(propertiesPanel._container),
+        asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // assume
     expect(businessObject.get('exclusive')).to.be.ok;
     expect(exclusiveInput.selected).to.not.be.true;
     expect(asyncBeforeInput.selected).to.not.be.true;
@@ -257,24 +294,21 @@ describe('flow-node-properties', function() {
   it('should remove the retryTimeCycle when the element is not async',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-      propertiesPanel.attachTo(container);
-
+      // given
       var shape = elementRegistry.get('ServiceTask'),
           bo = getBusinessObject(shape),
-          extensionElementsCount = bo.get('extensionElements')
-            .get('values')
-            .length;
-      // given
+          extensionElementsCount = bo.get('extensionElements').get('values').length;
+
       selection.select(shape);
-      var domElement = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+
+      var domElement = getAsyncBefore(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(domElement, 'click');
-      var newCount = bo.get('extensionElements')
-        .get('values')
-        .length;
 
       // then
+      var newCount = bo.get('extensionElements').get('values').length;
+
       expect(newCount + 1).to.equal(extensionElementsCount);
     }));
 
@@ -282,14 +316,13 @@ describe('flow-node-properties', function() {
   it('should remove the retryTimeCycle and extensionElements list when the element is not async',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-      propertiesPanel.attachTo(container);
-
+      // given
       var shape = elementRegistry.get('ServiceTask2'),
           bo = getBusinessObject(shape);
 
-      // given
       selection.select(shape);
-      var domElement = domQuery('input[name=asyncBefore]', propertiesPanel._container);
+
+      var domElement = getAsyncBefore(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(domElement, 'click');
@@ -303,14 +336,14 @@ describe('flow-node-properties', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
-      var shape = elementRegistry.get('ServiceTask'),
-          inputEl = 'input[name=asyncBefore]';
+      var shape = elementRegistry.get('ServiceTask');
 
       // when
       selection.select(shape);
-      var asyncBeforeField = domQuery(inputEl, propertiesPanel._container);
 
       // then
+      var asyncBeforeField = getAsyncBefore(propertiesPanel._container);
+
       expect(!!asyncBeforeField.checked).to.be.ok;
 
     }));
@@ -319,18 +352,19 @@ describe('flow-node-properties', function() {
   it('should migrate camunda:async to asyncBefore when asyncBefore is toggled',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-      var shape = elementRegistry.get('ServiceTask'),
-          inputEl = 'input[name=asyncBefore]';
-
       // given
+      var shape = elementRegistry.get('ServiceTask');
+
       selection.select(shape);
-      var asyncBeforeField = domQuery(inputEl, propertiesPanel._container);
+
+      var asyncBeforeField = getAsyncBefore(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(asyncBeforeField, 'click');
-      var bo = getBusinessObject(shape);
 
       // then
+      var bo = getBusinessObject(shape);
+
       expect(bo.get('camunda:async')).to.be.not.ok;
     }));
 });
