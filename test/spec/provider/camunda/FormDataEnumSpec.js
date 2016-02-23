@@ -547,15 +547,16 @@ describe('form-data-enum', function() {
         }));
 
 
-        it.skip('should redo', inject(function(commandStack) {
+        it('should redo', inject(function(commandStack) {
 
           // when
           commandStack.undo();
           commandStack.redo();
 
           // then
-          expect(input.value).to.equal('invalid id');
-          expect(domClasses(input).has('invalid')).to.be.true;
+          // cannot redo to invalid state
+          expect(input.value).to.equal('mee');
+          expect(domClasses(input).has('invalid')).to.be.false;
         }));
 
       });

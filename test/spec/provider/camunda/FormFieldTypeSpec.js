@@ -155,7 +155,7 @@ describe('form-field-type', function() {
         }));
 
 
-        it.skip('should redo', inject(function(commandStack) {
+        it('should redo', inject(function(commandStack) {
 
           // when
           commandStack.undo();

@@ -1261,12 +1261,9 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-
-        // should show the invalid id in the text field
-        expect(parameterNameInput.value).to.equal('invalid id');
-
-        // should show a validation error
-        expect(domClasses(parameterNameInput).has('invalid')).to.be.true;
+        // cannot redo to invalid state
+        expect(parameterNameInput.value).to.equal('input1');
+        expect(domClasses(parameterNameInput).has('invalid')).to.be.false;
       }));
 
     });

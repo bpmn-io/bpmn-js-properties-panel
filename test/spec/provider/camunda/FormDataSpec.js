@@ -233,17 +233,17 @@ describe('form-data', function() {
       }));
 
 
-      it.skip('should redo', inject(function(commandStack) {
+      it('should redo', inject(function(commandStack) {
         // when
         commandStack.undo();
         commandStack.redo();
 
         // then
-        // should show the invalid id in the text field
-        expect(id.value).to.equal('invalid id');
-        // should show a validation error
-        expect(domClasses(id).has('invalid')).to.be.true;
+        // cannot redo to invalid state
+        expect(id.value).to.equal('firstname');
+        expect(domClasses(id).has('invalid')).to.be.false;
       }));
+
     });
 
     describe('on the business object', function() {
