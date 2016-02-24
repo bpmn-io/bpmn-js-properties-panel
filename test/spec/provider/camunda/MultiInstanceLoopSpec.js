@@ -16,6 +16,57 @@ var propertiesPanelModule = require('../../../../lib'),
   camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
   getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+var HIDE_CLASS = 'pp-hidden';
+
+function getMultiInstanceGroup(container) {
+  return domQuery('div[data-group=multiInstance]', container);
+}
+
+function getEntry(container, entryId) {
+  return domQuery('div[data-entry="' + entryId + '"]', getMultiInstanceGroup(container));
+}
+
+function getInputField(container, entryId, inputName) {
+  var selector = 'input' + (inputName ? '[name="' + inputName + '"]' : '');
+  return domQuery(selector, getEntry(container, entryId));
+}
+
+function getLoopCardinalityInput(container) {
+  return getInputField(container, 'multi-instance-loop-cardinality', 'loopCardinality');
+}
+
+function getCollectionInput(container) {
+  return getInputField(container, 'multi-instance-collection', 'collection');
+}
+
+function getElementVariableInput(container) {
+  return getInputField(container, 'multi-instance-element-variable', 'elementVariable');
+}
+
+function getCompletionConditionInput(container) {
+  return getInputField(container, 'multi-instance-completion-condition', 'completionCondition');
+}
+
+function getErrorMessageEntry(container) {
+  return getEntry(container, 'multi-instance-error-message');
+}
+
+function getAsyncBefore(container) {
+  return getInputField(container, 'multi-instance-async-before', 'asyncBefore');
+}
+
+function getAsyncAfter(container) {
+  return getInputField(container, 'multi-instance-async-after', 'asyncAfter');
+}
+
+function getExclusive(container) {
+  return getInputField(container, 'multi-instance-exclusive', 'exclusive');
+}
+
+function getCycle(container) {
+  return getInputField(container, 'multi-instance-retry-time-cycle', 'cycle');
+}
+
 
 describe('multi-instance-loop-properties', function() {
 
@@ -54,258 +105,1059 @@ describe('multi-instance-loop-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
+  describe('property controls', function() {
 
-  it('should fetch the loopCardinality for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+    var container, task, loopCharacteristics;
 
-    var shape = elementRegistry.get('ServiceTask');
-    selection.select(shape);
+    beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
+      // given
+      container = propertiesPanel._container;
+      var shape = elementRegistry.get('ALL_PROPS_SET');
+      task = getBusinessObject(shape);
+      loopCharacteristics = task.get('loopCharacteristics');
 
-    expect(textField.value).to.equal(businessObject.get('loopCardinality').get('body'));
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
-      .to.equal('loopCardinality');
-  }));
+      // when
+      selection.select(shape);
+    }));
 
 
-  it('should set the loopCardinality for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should fetch the loop cardinality', function() {
+      // then
+      var loopCardinality = loopCharacteristics.get('loopCardinality').get('body');
 
-    var shape = elementRegistry.get('ServiceTask');
-    selection.select(shape);
+      expect(getLoopCardinalityInput(container).value).to.equal(loopCardinality);
+    });
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    // given
-    expect(textField.value).to.equal('card');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
-      .to.equal('loopCardinality');
+    it('should fetch the collection', function() {
+      // then
+      var collection = loopCharacteristics.get('camunda:collection');
 
-    // when
-    TestHelper.triggerValue(textField, 'foo', 'change');
+      expect(getCollectionInput(container).value).to.equal(collection);
+    });
 
-    // then
-    expect(textField.value).to.equal('foo');
-    expect(businessObject.get('loopCardinality').get('body')).to.equal('foo');
-  }));
 
+    it('should fetch the element variable', function() {
+      // then
+      var elementVariable = loopCharacteristics.get('camunda:elementVariable');
 
-  it('should remove the loopCardinality value for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+      expect(getElementVariableInput(container).value).to.equal(elementVariable);
+    });
 
-    var shape = elementRegistry.get('ServiceTask');
-    selection.select(shape);
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
-    var loopRadio = domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0];
+    it('should fetch the completionCondition', function() {
+      // then
+      var completionCondition = loopCharacteristics.get('completionCondition').get('body');
 
-    // given
-    expect(textField.value).to.equal('card');
-    expect(loopRadio.value).to.equal('loopCardinality');
+      expect(getCompletionConditionInput(container).value).to.equal(completionCondition);
+    });
 
-    // when
-    TestHelper.triggerValue(textField, '', 'change');
+  });
 
-    // then
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
-    expect(textField.value).to.equal('');
-    expect(businessObject.get('loopCardinality')).to.exist;
-  }));
+  describe('validation', function() {
 
+    var container;
 
-  it('should fetch the completionCondition for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
 
-    var shape = elementRegistry.get('ServiceTask');
-    selection.select(shape);
+      // given
+      container = propertiesPanel._container;
 
-    var textField = domQuery('input[name=completionCondition]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+      var shape = elementRegistry.get('WITHOUT_COMPLETION_CONDITION');
 
-    expect(textField.value).to.equal(businessObject.get('completionCondition').get('body'));
-  }));
+      // when
+      selection.select(shape);
 
 
-  it('should set the completionCondition for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    }));
 
-    var shape = elementRegistry.get('ServiceTask');
-    selection.select(shape);
+    it('should show validation error', function() {
 
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
-    var textField = domQuery('input[name=completionCondition]', propertiesPanel._container);
+      // then
+      expect(getErrorMessageEntry(container).className).not.to.contain(HIDE_CLASS);
+    });
 
-    // given
-    expect(businessObject.get('completionCondition').get('body')).to.equal('cond');
-    expect(textField.value).to.equal('cond');
 
-    // when
-    TestHelper.triggerValue(textField, 'foo', 'change');
+    it('should hide validation error when adding a loop cardinality', function() {
 
-    // then
-    expect(textField.value).to.equal('foo');
-    expect(businessObject.get('completionCondition').get('body')).to.equal('foo');
-  }));
+      // when
+      TestHelper.triggerValue(getLoopCardinalityInput(container), '111', 'change');
 
+      // then
+      expect(getErrorMessageEntry(container).className).to.contain(HIDE_CLASS);
+    });
 
-  it('should remove the completionCondition for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('ServiceTask');
-    selection.select(shape);
+    it('should hide validation error when adding a collection', function() {
 
-    var textField = domQuery('input[name=completionCondition]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+      // when
+      TestHelper.triggerValue(getCollectionInput(container), '111', 'change');
 
-    // given
-    expect(textField.value).to.equal('cond');
+      // then
+      expect(getErrorMessageEntry(container).className).to.contain(HIDE_CLASS);
+    });
 
-    // when
-    TestHelper.triggerValue(textField, '', 'change');
 
-    // then
-    expect(textField.value).to.equal('');
-    expect(businessObject.get('completionCondition')).to.be.undefined;
-  }));
+    it('should show validation on collection property when adding an element variable', function() {
 
+      // when
+      TestHelper.triggerValue(getElementVariableInput(container), '111', 'change');
 
-  it('should fetch the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+      // then
+      expect(getCollectionInput(container).className).to.contain('invalid');
+      expect(getErrorMessageEntry(container).className).not.to.contain(HIDE_CLASS);
+    });
 
-    var shape = elementRegistry.get('ServiceTask3');
-    selection.select(shape);
+  });
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
-        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+  describe('loop cardinality', function() {
 
-    expect(elementVarInput.value).to.equal(businessObject.get('camunda:elementVariable'));
-    expect(textField.value).to.equal(businessObject.get('collection'));
-  }));
+    var container, task, loopCharacteristics, input;
 
+    describe('change loop cardinality', function() {
 
-  it('should set the collection for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+      var loopCardinality;
 
-    var shape = elementRegistry.get('ServiceTask3');
-    selection.select(shape);
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+        loopCardinality = loopCharacteristics.get('loopCardinality');
 
-    // given
-    expect(textField.value).to.equal('coll');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
-      .to.equal('collection');
+        selection.select(shape);
 
-    // when
-    TestHelper.triggerValue(textField, 'foo', 'change');
+        input = getLoopCardinalityInput(container);
 
-    // then
-    expect(textField.value).to.equal('foo');
-    expect(businessObject.get('collection')).to.equal('foo');
-  }));
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
 
+      describe('in the DOM', function() {
 
-  it('should remove the collection value for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
 
-    var shape = elementRegistry.get('ServiceTask3');
-    selection.select(shape);
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container);
-    var loopRadio = domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0];
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+          // then
+          expect(input.value).to.equal('10');
+        }));
 
-    // given
-    expect(textField.value).to.equal('coll');
-    expect(loopRadio.value).to.equal('collection');
 
-    // when
-    TestHelper.triggerValue(textField, '', 'change');
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
 
-    // then
-    expect(textField.value).to.equal('');
-    expect(businessObject.get('collection')).to.be.defined;
-  }));
+          // then
+          expect(input.value).to.equal('999');
+        }));
 
+      });
 
-  it('should set the collection element variable for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('ServiceTask3');
-    selection.select(shape);
+      describe('on the business object', function() {
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
-        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+        it('should execute', function() {
+          expect(loopCardinality.get('body')).to.equal('999');
+        });
 
-    // given
-    expect(textField.value).to.equal('coll');
-    expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
-      .to.equal('collection');
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
 
-    // when
-    TestHelper.triggerValue(elementVarInput, 'myVar', 'change');
+          // then
+          expect(loopCardinality.get('body')).to.equal('10');
+        }));
 
-    // then
-    expect(elementVarInput.value).to.equal('myVar');
-    expect(businessObject.get('camunda:elementVariable')).to.equal('myVar');
-  }));
 
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
 
-  it('should remove the collection element variable for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+          // then
+          expect(loopCardinality.get('body')).to.equal('999');
+        }));
 
-    var shape = elementRegistry.get('ServiceTask3');
-    selection.select(shape);
+      });
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
-        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    });
 
-    // given
-    expect(textField.value).to.equal('coll');
-    expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
-      .to.equal('collection');
 
-    // when
-    TestHelper.triggerValue(elementVarInput, '', 'change');
+    describe('add loop cardinality', function() {
 
-    // then
-    expect(elementVarInput.value).to.be.empty;
-    expect(businessObject.get('camunda:elementVariable')).to.be.undefined;
-  }));
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
 
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ServiceTask3');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
 
-  it('should change multi instance collection to loop cardinality for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+        selection.select(shape);
 
-    var shape = elementRegistry.get('ServiceTask3');
-    selection.select(shape);
+        input = getLoopCardinalityInput(container);
 
-    var textField = domQuery('input[name=multiInstance]', propertiesPanel._container),
-        elementVarInput = domQuery('input[name=elementVariable]', propertiesPanel._container),
-        radioButton = domQuery('input[value=loopCardinality]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
+        // assume
+        expect(loopCharacteristics.get('loopCardinality')).not.to.be.ok;
 
-    // given
-    expect(radioButton.checked).to.be.false;
-    expect(textField.value).to.equal('coll');
-    expect(elementVarInput.value).to.equal('collVal');
-    expect(domQuery.all('input[name=multiInstanceLoopType]:checked', propertiesPanel._container)[0].value)
-      .to.equal('collection');
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
 
-    // when
-    TestHelper.triggerEvent(radioButton, 'click');
+      describe('in the DOM', function() {
 
-    expect(radioButton.checked).to.be.true;
-    expect(businessObject.get('camunda:elementVariable')).to.be.undefined;
-    expect(businessObject.get('collection')).to.be.undefined;
-    expect(businessObject.get('loopCardinality')).to.be.ok;
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
 
-  }));
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('loopCardinality')).to.be.ok;
+          expect(loopCharacteristics.get('loopCardinality').get('body')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('loopCardinality')).not.to.be.ok;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('loopCardinality')).to.be.ok;
+          expect(loopCharacteristics.get('loopCardinality').get('body')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('remove loop cardinality', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getLoopCardinalityInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('loopCardinality')).to.be.ok;
+
+        // when
+        TestHelper.triggerValue(input, '', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('10');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('loopCardinality')).not.to.be.ok;
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('loopCardinality')).to.be.ok;
+          expect(loopCharacteristics.get('loopCardinality').get('body')).to.equal('10');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('loopCardinality')).not.to.be.ok;
+        }));
+
+      });
+
+    });
+
+  });
+
+
+  describe('collection', function() {
+
+    var container, task, loopCharacteristics, input;
+
+    describe('change collection', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getCollectionInput(container);
+
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('camunda:collection')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:collection')).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:collection')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('add collection', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ServiceTask');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getCollectionInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('camunda:collection')).not.to.be.ok;
+
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('camunda:collection')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:collection')).not.to.be.ok;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:collection')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('remove collection', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getCollectionInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('camunda:collection')).to.equal('foo');
+
+        // when
+        TestHelper.triggerValue(input, '', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('camunda:collection')).not.to.be.ok;
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:collection')).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:collection')).not.to.be.ok;
+        }));
+
+      });
+
+    });
+
+  });
+
+
+  describe('element variable', function() {
+
+    var container, task, loopCharacteristics, input;
+
+    describe('change collection', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getElementVariableInput(container);
+
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('add element variable', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ServiceTask');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getElementVariableInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('camunda:elementVariable')).not.to.be.ok;
+
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:elementVariable')).not.to.be.ok;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('remove element variable', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getElementVariableInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('bar');
+
+        // when
+        TestHelper.triggerValue(input, '', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('camunda:elementVariable')).not.to.be.ok;
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:elementVariable')).to.equal('bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('camunda:elementVariable')).not.to.be.ok;
+        }));
+
+      });
+
+    });
+
+  });
+
+
+  describe('completion condition', function() {
+
+    var container, task, loopCharacteristics, input;
+
+    describe('change completion condition', function() {
+
+      var completionCondition;
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+        completionCondition = loopCharacteristics.get('completionCondition');
+
+        selection.select(shape);
+
+        input = getCompletionConditionInput(container);
+
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('foo=bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(completionCondition.get('body')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(completionCondition.get('body')).to.equal('foo=bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(completionCondition.get('body')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('add completion condition', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('WITHOUT_COMPLETION_CONDITION');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getCompletionConditionInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('completionCondition')).not.to.be.ok;
+
+        // when
+        TestHelper.triggerValue(input, '999', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('999');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('completionCondition')).to.be.ok;
+          expect(loopCharacteristics.get('completionCondition').get('body')).to.equal('999');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('completionCondition')).not.to.be.ok;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('completionCondition')).to.be.ok;
+          expect(loopCharacteristics.get('completionCondition').get('body')).to.equal('999');
+        }));
+
+      });
+
+    });
+
+
+    describe('remove completion condition', function() {
+
+      beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        container = propertiesPanel._container;
+        var shape = elementRegistry.get('ALL_PROPS_SET');
+        task = getBusinessObject(shape);
+        loopCharacteristics = task.get('loopCharacteristics');
+
+        selection.select(shape);
+
+        input = getCompletionConditionInput(container);
+
+        // assume
+        expect(loopCharacteristics.get('completionCondition')).to.be.ok;
+
+        // when
+        TestHelper.triggerValue(input, '', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(input.value).to.equal('foo=bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(input.value).to.equal('');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(loopCharacteristics.get('completionCondition')).not.to.be.ok;
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(loopCharacteristics.get('completionCondition')).to.be.ok;
+          expect(loopCharacteristics.get('completionCondition').get('body')).to.equal('foo=bar');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(loopCharacteristics.get('completionCondition')).not.to.be.ok;
+        }));
+
+      });
+
+    });
+
+  });
 
 
   it('should fetch the multi instance async before property for an element',
@@ -314,7 +1166,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
+    var input = getAsyncBefore(propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(input.checked).to.equal(!!businessObject.get('asyncBefore'));
@@ -329,7 +1181,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
+    var input = getAsyncBefore(propertiesPanel._container);
 
     // given
     expect(input.checked).to.be.ok;
@@ -351,7 +1203,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('div[data-entry=multi-instance-async-after] input[name=asyncAfter]', propertiesPanel._container),
+    var input = getAsyncAfter(propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(input.checked).to.equal(!!businessObject.get('asyncAfter'));
@@ -366,7 +1218,7 @@ describe('multi-instance-loop-properties', function() {
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
-    var input = domQuery('div[data-entry=multi-instance-async-after] input[name=asyncAfter]', propertiesPanel._container);
+    var input = getAsyncAfter(propertiesPanel._container);
 
     // given
     expect(input.checked).to.not.be.ok;
@@ -386,7 +1238,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container),
+    var input = getExclusive(propertiesPanel._container),
         businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     expect(input.checked).to.equal(businessObject.get('exclusive'));
@@ -399,7 +1251,7 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var input = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container);
+    var input = getExclusive(propertiesPanel._container);
     var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // given
@@ -420,8 +1272,8 @@ describe('multi-instance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
 
-    var exclusiveInput = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container),
-        asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
+    var exclusiveInput = getExclusive(propertiesPanel._container),
+        asyncBeforeInput = getAsyncBefore(propertiesPanel._container);
     var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // given
@@ -445,11 +1297,11 @@ describe('multi-instance-loop-properties', function() {
 
       // when
       selection.select(shape);
-      var asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
-        exclusiveEntry = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container);
+
+      var exclusiveEntry = getExclusive(propertiesPanel._container);
 
       // then
-      expect(domClasses(exclusiveEntry).has('pp-hidden')).to.be.true;
+      expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.true;
 
     }));
 
@@ -460,14 +1312,14 @@ describe('multi-instance-loop-properties', function() {
 
       // given
       selection.select(shape);
-      var asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
-        exclusiveEntry = domQuery('div[data-entry=multi-instance-exclusive] input[name=exclusive]', propertiesPanel._container);
+      var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
+        exclusiveEntry = getExclusive(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
       // then
-      expect(domClasses(exclusiveEntry).has('pp-hidden')).to.be.false;
+      expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.false;
 
     }));
 
@@ -477,18 +1329,17 @@ describe('multi-instance-loop-properties', function() {
 
     // given
     var shape = elementRegistry.get('ServiceTask2');
-
     selection.select(shape);
+
+    // assume
+    expect(getMultiInstanceGroup(propertiesPanel._container).className).to.contain(HIDE_CLASS);
 
     // when
     var loopCharacteristics = moddle.create('bpmn:MultiInstanceLoopCharacteristics');
-
     modeling.updateProperties(shape, { loopCharacteristics: loopCharacteristics });
 
-    var loopType = domQuery('input[id=loop-cardinality]', propertiesPanel._container);
-
     // then
-    expect(loopType).to.exist;
+    expect(getMultiInstanceGroup(propertiesPanel._container).className).not.to.contain(HIDE_CLASS);
   }));
 
 
@@ -496,14 +1347,13 @@ describe('multi-instance-loop-properties', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
-    var shape = elementRegistry.get('ServiceTask3'),
-        inputEl = 'div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]';
+    var shape = elementRegistry.get('ServiceTask3');
 
     // when
     selection.select(shape);
 
     var bo = getBusinessObject(shape).loopCharacteristics,
-        inputValue = domQuery(inputEl, propertiesPanel._container).value,
+        inputValue = getCycle(propertiesPanel._container).value,
         retryTimer = bo.get('extensionElements').get('values')[1];
 
     // then
@@ -515,13 +1365,12 @@ describe('multi-instance-loop-properties', function() {
   it('should set a retry time cycle for an element with timer def',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('ServiceTask'),
-        inputEl = 'div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]';
+    var shape = elementRegistry.get('ServiceTask');
     var bo = getBusinessObject(shape).loopCharacteristics;
 
     selection.select(shape);
 
-    var retryField = domQuery(inputEl, propertiesPanel._container);
+    var retryField = getCycle(propertiesPanel._container);
 
     // given
     expect(retryField.value).to.equal('');
@@ -529,7 +1378,7 @@ describe('multi-instance-loop-properties', function() {
     // when
     TestHelper.triggerValue(retryField, 'foo', 'change');
 
-    var inputValue = domQuery(inputEl, propertiesPanel._container).value,
+    var inputValue = getCycle(propertiesPanel._container).value,
         retryTimer = bo.get('extensionElements').get('values')[0];
 
     // then
@@ -541,17 +1390,12 @@ describe('multi-instance-loop-properties', function() {
   it('should remove a retry time cycle for an element with timer def',
     inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('ServiceTask3'),
-        inputEl = 'div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]';
+    var shape = elementRegistry.get('ServiceTask3');
 
     selection.select(shape);
 
-    var inputValue = domQuery(inputEl, propertiesPanel._container),
-        retryTimerArrayOld = getBusinessObject(shape)
-                                .loopCharacteristics
-                                .get('extensionElements')
-                                .get('values')
-                                .length;
+    var inputValue = getCycle(propertiesPanel._container),
+        retryTimerArrayOld = getBusinessObject(shape).loopCharacteristics.get('extensionElements').get('values').length;
 
     // given
     expect(inputValue.value).to.equal('asd');
@@ -559,11 +1403,7 @@ describe('multi-instance-loop-properties', function() {
     // when
     TestHelper.triggerValue(inputValue, '', 'change');
 
-    var retryTimerArray = getBusinessObject(shape)
-                            .loopCharacteristics
-                            .get('extensionElements')
-                            .get('values')
-                            .length;
+    var retryTimerArray = getBusinessObject(shape).loopCharacteristics.get('extensionElements').get('values').length;
 
     // then
     expect(retryTimerArray).to.equal(1);
@@ -579,10 +1419,10 @@ describe('multi-instance-loop-properties', function() {
 
       // when
       selection.select(shape);
-      var jobRetryEntry = domQuery('div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]', propertiesPanel._container);
+      var jobRetryEntry = getCycle(propertiesPanel._container);
 
       // then
-      expect(domClasses(jobRetryEntry.parentElement).has('pp-hidden')).to.be.true;
+      expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.true;
 
     }));
 
@@ -593,14 +1433,14 @@ describe('multi-instance-loop-properties', function() {
 
       // given
       selection.select(shape);
-      var asyncBeforeInput = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container),
-          jobRetryEntry = domQuery('div[data-entry=multi-instance-retry-time-cycle] input[name=cycle]', propertiesPanel._container);
+      var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
+          jobRetryEntry = getCycle(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
       // then
-      expect(domClasses(jobRetryEntry.parentElement).has('pp-hidden')).to.be.false;
+      expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.false;
 
     }));
 
@@ -610,18 +1450,15 @@ describe('multi-instance-loop-properties', function() {
 
       var shape = elementRegistry.get('ServiceTask3'),
           bo = getBusinessObject(shape).loopCharacteristics,
-          extensionElementsCount = bo.get('extensionElements')
-            .get('values')
-            .length;
+          extensionElementsCount = bo.get('extensionElements').get('values').length;
+
       // given
       selection.select(shape);
-      var domElement = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
+      var domElement = getAsyncBefore(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(domElement, 'click');
-      var newCount = bo.get('extensionElements')
-        .get('values')
-        .length;
+      var newCount = bo.get('extensionElements').get('values').length;
 
       // then
       expect(newCount + 1).to.equal(extensionElementsCount);
@@ -636,7 +1473,7 @@ describe('multi-instance-loop-properties', function() {
 
       // given
       selection.select(shape);
-      var domElement = domQuery('div[data-entry=multi-instance-async-before] input[name=asyncBefore]', propertiesPanel._container);
+      var domElement = getAsyncBefore(propertiesPanel._container);
 
       // when
       TestHelper.triggerEvent(domElement, 'click');
