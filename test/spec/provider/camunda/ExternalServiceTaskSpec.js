@@ -13,7 +13,10 @@ var propertiesPanelModule = require('../../../../lib'),
   modelingModule = require('bpmn-js/lib/features/modeling'),
   propertiesProviderModule = require('../../../../lib/provider/camunda'),
   camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+  eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
+
+var find = require('lodash/collection/find');
 
 describe('external-service-task-properties', function() {
 
@@ -65,24 +68,6 @@ describe('external-service-task-properties', function() {
     expect(topicField.value).to.equal('ShipmentProcessing');
     expect(topicField.value).to.equal(businessObject.get('camunda:topic'));
     expect(businessObject.get('camunda:type')).to.equal('external');
-  }));
-
-
-  it('should not fetch external task properties of a business rule task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('BusinessRuleTask_1');
-    selection.select(shape);
-
-    var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
-        businessObject = getBusinessObject(shape);
-
-    expect(implType.value).to.not.equal('external');
-    expect(topicField).to.be.null;
-    expect(implType.value).to.equal('dmn');
-    expect(businessObject).not.to.have.property('topic');
-    expect(businessObject).not.to.have.property('type');
   }));
 
 
@@ -252,5 +237,104 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('camunda:expression')).to.be.undefined;
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
   }));
+
+
+  describe('support', function() {
+
+    var isContainedIn = function(selectBox, value) {
+      return !!find(selectBox, function(node) {
+        return node.value === value;
+      });
+    };
+
+    function getImplementionTypeSelect(container) {
+      return domQuery('div[data-entry="implementation"] select[name="implType"]', container);
+    }
+
+    function getTopicInput(container) {
+      return domQuery('div[data-entry="external-topic"] input[name="externalTopic"]', container);
+    }
+
+    it('should offer external as implementation type for an intermediate message event',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+      var shape = elementRegistry.get('INTERMEDIATE_MESSAGE');
+
+      // when
+      selection.select(shape);
+
+      // then
+      expect(isContainedIn(getImplementionTypeSelect(container), 'external')).to.be.true;
+    }));
+
+
+    it('should offer external as implementation type for an end message event',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+      var shape = elementRegistry.get('END_MESSAGE');
+
+      // when
+      selection.select(shape);
+
+      // then
+      expect(isContainedIn(getImplementionTypeSelect(container), 'external')).to.be.true;
+    }));
+
+
+    it('should set topic on message event definition',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+      var shape = elementRegistry.get('END_MESSAGE');
+      selection.select(shape);
+
+      var bo = getBusinessObject(shape);
+      var messageDefinition = eventDefinitionHelper.getMessageEventDefinition(bo);
+
+      var input = getTopicInput(container);
+
+      // when
+      TestHelper.triggerValue(input, 'foo', 'change');
+
+      // then
+      expect(messageDefinition.get('camunda:topic')).to.equal('foo');
+    }));
+
+
+    it('should offer external as implementation type for a business rule task',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+      var shape = elementRegistry.get('BUSINESS_RULE_TASK');
+
+      // when
+      selection.select(shape);
+
+      // then
+      expect(isContainedIn(getImplementionTypeSelect(container), 'external')).to.be.true;
+    }));
+
+
+    it('should offer external as implementation type for a service task',
+      inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+      var shape = elementRegistry.get('ServiceTask_external');
+
+      // when
+      selection.select(shape);
+
+      // then
+      expect(isContainedIn(getImplementionTypeSelect(container), 'external')).to.be.true;
+    }));
+
+  })
 
 });
