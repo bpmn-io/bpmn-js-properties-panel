@@ -25,7 +25,7 @@ var find = require('lodash/collection/find');
 
 
 function getConnectorTab(container) {
-  return domQuery('div[data-tab="connector"', container);
+  return domQuery('div[data-tab="connector"]', container);
 }
 
 function getGroup(container, groupId) {

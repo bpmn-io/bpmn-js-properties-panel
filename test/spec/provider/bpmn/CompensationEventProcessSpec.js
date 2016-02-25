@@ -18,7 +18,7 @@ var propertiesPanelModule = require('../../../../lib'),
 
 
 function getGeneralTab(container) {
-  return domQuery('div[data-tab="general"', container);
+  return domQuery('div[data-tab="general"]', container);
 }
 
 function getGroup(container, groupId) {

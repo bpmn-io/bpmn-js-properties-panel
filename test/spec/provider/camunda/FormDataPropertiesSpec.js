@@ -109,7 +109,7 @@ describe('form-data-properties', function() {
           commandStack.undo();
 
           // then
-          expect(propertiesTable.childNodes).to.be.empty;
+          expect(propertiesTable.childNodes).to.have.length(0);
         }));
 
 

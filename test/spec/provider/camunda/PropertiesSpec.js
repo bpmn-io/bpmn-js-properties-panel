@@ -20,7 +20,7 @@ var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 var domQuery = require('min-dom/lib/query');
 
 function getExtensionsTab(container) {
-  return domQuery('div[data-tab="extension-elements"', container);
+  return domQuery('div[data-tab="extension-elements"]', container);
 }
 
 function getPropertiesGroup(container) {
@@ -132,7 +132,7 @@ describe('extension-elements-properties', function() {
           commandStack.undo();
 
           // then
-          expect(propertiesTable.childNodes).to.be.empty;
+          expect(propertiesTable.childNodes).to.have.length(0);
         }));
 
 
