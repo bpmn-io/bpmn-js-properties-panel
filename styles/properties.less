@@ -7,7 +7,7 @@
   src: url(@font-eot) format('embedded-opentype'),
        url(@font-woff) format('woff'),
        url(@font-ttf) format('truetype'),
-       url(@font-svg) format('svg');
+       url(@pp-font-svg) format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -31,7 +31,7 @@
   button,
   textarea {
     padding: 3px 6px;
-    border: 1px solid @gray-light;
+    border: 1px solid @pp-color-gray-light;
 
     &:focus {
       .focus();
@@ -40,7 +40,7 @@
     &.invalid {
       .invalid();
       &:focus {
-        box-shadow: 0 0 1px 2px fade(@error-color, 20%);
+        box-shadow: 0 0 1px 2px fade(@pp-color-error, 20%);
       }
     }
   }
@@ -84,7 +84,7 @@
 
 .pp-error-message,
 .pp-error-message.pp-entry-link {
-  color: @error-color;
+  color: @pp-color-error;
 }
 
 .pp-row {
@@ -252,7 +252,7 @@ label.pp-hidden {
 .djs-properties-static {
   margin-bottom: 0;
   margin-top: 0;
-  border: 1px solid @gray-light;
+  border: 1px solid @pp-color-gray-light;
   background-color: white;
   padding: 3px 6px;
   font: 13.3333px Arial;
@@ -261,7 +261,7 @@ label.pp-hidden {
 
 .pp-entry-link {
   cursor: pointer;
-  color: @brand-primary;
+  color: @pp-color-primary;
 }
 
 .pp-icon-warning:before {

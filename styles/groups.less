@@ -20,7 +20,7 @@
     cursor: pointer;
     transition: background-color 0.218s linear;
     &:hover {
-      background-color: @toggle-color;
+      background-color: @pp-color-toggle;
     }
   }
 
@@ -34,9 +34,9 @@
   }
 
   &:hover > .group-toggle {
-    background-color: @gray-light;
+    background-color: @pp-color-gray-light;
     &:hover {
-      background-color: @toggle-color;
+      background-color: @pp-color-toggle;
     }
   }
 
@@ -44,7 +44,7 @@
     max-height: 20px;
     border-top: none;
     cursor: pointer;
-    background-color: fade(@toggle-color, 20%);
+    background-color: fade(@pp-color-toggle, 20%);
     padding-top: 0;
     padding-bottom: 0;
 
@@ -58,12 +58,12 @@
     }
 
     &:hover > .group-label {
-      color: @brand-primary;
+      color: @pp-color-primary;
     }
   }
 
   + .djs-properties-group {
-    border-top: 1px dotted @gray-light;
+    border-top: 1px dotted @pp-color-gray-light;
   }
 
   &:last-child {
