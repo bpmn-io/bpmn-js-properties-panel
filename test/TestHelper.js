@@ -12,6 +12,34 @@ TestHelper.insertCSS('diagram-js-testing.css',
   ' div.test-container {height: auto}'
 );
 
+
+var bootstrapModeler = TestHelper.bootstrapModeler;
+
+/**
+ * Bootstrap a modeler instance.
+ *
+ * Before a modeler instance is bootstrapped an previous
+ * existing modeler instance is destroyed, if it exists.
+ *
+ * Due to the fact that (almost) each test case bootstrap a new
+ * modeler instance, destroying of an previous modeler instance
+ * is necessary to speed the test execution up.
+ */
+TestHelper.bootstrapModeler = function(diagram, options, locals) {
+  return function(done) {
+    var previousInstance = TestHelper.getBpmnJS();
+    if (previousInstance) {
+      previousInstance.destroy();
+    }
+    return bootstrapModeler(diagram, options, locals)(done);
+  }
+};
+
+/**
+ * Overwrites the existing global bootstrapModeler().
+ */
+global.bootstrapModeler = TestHelper.bootstrapModeler
+
 var domQuery = require('min-dom/lib/query');
 
 /**
