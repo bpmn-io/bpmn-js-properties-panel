@@ -22,7 +22,7 @@
   "devDependencies": {
     "bpmn-js": "^0.13.2",
     "bpmn-moddle": "^0.10.0",
-    "camunda-bpmn-moddle": "^0.2.5",
+    "camunda-bpmn-moddle": "^0.3.0",
     "chai": "~2.2.0",
     "diagram-js": "^0.13.2",
     "grunt": "^0.4.4",
