@@ -314,7 +314,7 @@ describe('event-properties', function() {
       // given
       // that the element has a message ref input field
       var shape = elementRegistry.get(element);
-      var selectEl = 'select[name=escalations]';
+      var selectEl = 'select[name=escalation]';
 
       // when
       // I select the current shape
@@ -333,7 +333,7 @@ describe('event-properties', function() {
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_3'),
-        selectEl = 'select[name=escalations]';
+        selectEl = 'select[name=escalation]';
 
     selection.select(shape);
 
@@ -518,7 +518,7 @@ describe('event-properties', function() {
     // then
     expect(inputField.value).to.be.empty;
     expect(inputField.className).to.equal('invalid');
-    expect(escalationEventDefinition.escalationRef.get('name')).to.equal('');
+    expect(escalationEventDefinition.escalationRef.get('name')).not.to.be.ok;
   }));
 
 
@@ -531,7 +531,7 @@ describe('event-properties', function() {
     var escalationCodeField = domQuery('input[name=escalationCode]', propertiesPanel._container),
         escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape),
         clearButton = domQuery(
-          '[data-entry=escalationDefinition] > .pp-row > .pp-field-wrapper > button[data-action=clearEscalationCode]',
+          '[data-entry=escalation-definition-code] button[data-action=clear]',
           propertiesPanel._container);
 
     // given
@@ -847,7 +847,7 @@ describe('event-properties', function() {
         escalationNameField = domQuery(syntax, propertiesPanel._container),
         escalationCodeField = domQuery('input[name=escalationCode]', propertiesPanel._container),
         escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape),
-        addButton = domQuery('[data-entry=escalationDefinition] button[data-action=addEscalation]',
+        addButton = domQuery('[data-entry=escalation-definitions] button[data-action=addEscalation]',
           propertiesPanel._container);
 
     // given
