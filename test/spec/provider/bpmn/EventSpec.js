@@ -146,16 +146,22 @@ describe('event-properties', function() {
   }));
 
 
-  it('should be able to clear an existing reference',
+  it('should be able to clear an existing message reference',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('IntermediateCatchEvent_1'),
-        selectEl = 'select[name=messages]';
+    var shape = elementRegistry.get('EndEvent_6'),
+        selectEl = 'select[name=messages]',
+        messageRef;
 
     // given
     selection.select(shape);
+
     var selectBox = domQuery(selectEl, propertiesPanel._container),
         messages = domQuery.all('select[name=messages] > option', propertiesPanel._container);
+
+    // assume
+    messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
+    expect(messageRef.id).to.equal('Message_1');
 
     // when
     // select the last message to clear the reference
@@ -164,9 +170,10 @@ describe('event-properties', function() {
     TestHelper.triggerEvent(selectBox, 'change');
 
     selectBox = domQuery(selectEl, propertiesPanel._container);
-    var messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
 
     // then
+    messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
+
     expect(selectBox.value).to.equal('');
     expect(messageRef).to.be.undefined;
   }));
@@ -197,6 +204,40 @@ describe('event-properties', function() {
     expect(selectBox.value).to.equal(signals[0].value);
     expect(signalRef.id).to.equal(selectBox.value);
   }));
+
+
+  it('should be able to clear an existing signal reference',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('StartEvent_4'),
+        selectEl = 'select[name=signals]',
+        signalRef;
+
+    // given
+    selection.select(shape);
+
+    var selectBox = domQuery(selectEl, propertiesPanel._container),
+        signals = domQuery.all('select[name=signals] > option', propertiesPanel._container);
+
+    // assume
+    signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
+    expect(signalRef.id).to.equal('Signal_1');
+
+    // when
+    // select the last signal to clear the reference
+    // (because the last one is always an empty signal)
+    selectBox.options[signals.length-1].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    selectBox = domQuery(selectEl, propertiesPanel._container);
+
+    // then
+    signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
+
+    expect(selectBox.value).to.equal('');
+    expect(signalRef).to.be.undefined;
+  }));
+
 
 
   it('should attach a error to an element with error def',
