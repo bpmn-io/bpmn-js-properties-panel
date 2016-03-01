@@ -179,6 +179,39 @@ describe('event-properties', function() {
   }));
 
 
+  it('should be able to clear an existing message reference on a receive task',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('ReceiveTask_1'),
+        selectEl = 'select[name=messages]',
+        messageRef;
+
+    // given
+    selection.select(shape);
+
+    var selectBox = domQuery(selectEl, propertiesPanel._container),
+        messages = domQuery.all('select[name=messages] > option', propertiesPanel._container);
+
+    // assume
+    messageRef = getBusinessObject(shape).messageRef;
+    expect(messageRef.id).to.equal('Message_1');
+
+    // when
+    // select the last message to clear the reference
+    // (because the last one is always an empty message)
+    selectBox.options[messages.length-1].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    selectBox = domQuery(selectEl, propertiesPanel._container);
+
+    // then
+    messageRef = getBusinessObject(shape).messageRef;
+
+    expect(selectBox.value).to.equal('');
+    expect(messageRef).to.be.undefined;
+  }));
+
+
   it('should attach a signal to an element with signal def',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
