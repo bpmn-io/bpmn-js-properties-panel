@@ -8,6 +8,9 @@
     "camunda-bpmn-moddle": {
       "version": "camunda/camunda-bpmn-moddle"
     },
+    "scroll-tabs": {
+      "version": "0.2.0"
+    },
     "bpmn-js": {
       "version": "bpmn-io/bpmn-js",
       "dependencies": {

@@ -1,86 +1,81 @@
-.tabs-scroll-left,
-.tabs-scroll-right {
-  height: 31px;
-  width: 14px;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 7px 4px 0 4px;
+.djs-properties-tab-bar {
   border-bottom: 1px solid @pp-color-gray-light;
-  background-color: @pp-color-gray-lighter;
-  color: @pp-color-gray;
-  background-color: @pp-color-gray-lighter;
-  &:hover {
-    color: darken(@pp-color-gray, 10%);
-    background-color: @pp-color-gray-lighter;
+  padding: 0 15px;
+
+  .scroll-tabs-button {
+    cursor: pointer;
+    font-size: 16px;
+    padding: 3px 4px 3px 4px;
+    color: @pp-color-gray;
+
+    &:hover {
+      font-weight: bold;
+    }
+
+    &.scroll-tabs-left {
+      float: left;
+      margin-left: -15px;
+    }
+
+    &.scroll-tabs-right {
+      float: right;
+      margin-right: -15px;
+    }
+  }
+
+  &:not(.scroll-tabs-overflow) {
+    .scroll-tabs-button {
+      display: none;
+    }
   }
 }
 
-.tabs-scroll-left {
-  border-right: 1px solid @pp-color-gray-light;
-  float: left;
-}
-
-.tabs-scroll-right {
-  border-left: 1px solid @pp-color-gray-light;
-  float: right;
-}
-
-.djs-properties-tab-bar {
-  border-bottom: 1px solid @pp-color-gray-light;
-  background: darken(@pp-color-gray-lighter, 5%);
-}
-
 ul.djs-properties-tabs-links {
-  margin: 0;
-  margin-bottom: -1px;
-  padding: 4px 4px 0 4px;
-  height: 31px;
-  overflow: hidden;
+  margin: 5px 0 -1px 0;
+  padding: 0;
   white-space: nowrap;
+  overflow: hidden;
 
   > li {
     display: inline-block;
-    padding: 0;
-    overflow: hidden;
-    margin: 0 4px 0 0;
-    position: relative;
-    bottom: -1px;
+    margin: 0;
 
     &.pp-hidden {
       .pp-hidden;
     }
 
-    &:last-of-type {
-      margin: 0;
+    > a {
+      display: inline-block;
+
+      font-size: 12px;
+      padding: 4px 7px;
+
+      border: 1px solid @pp-color-gray-light;
+      border-radius: 3px 3px 0 0;
+      border-bottom: transparent;
+
+      background-color: @pp-color-gray-lighter;
+      color: @pp-color-gray;
+
+      text-decoration: none;
+
+      &:hover {
+        color: darken(@pp-color-gray, 10%);
+      }
     }
   }
 
-  a {
-    display: block;
-    float: left;
-    font-size: 14px;
-    padding: 4px;
-    border: 1px solid @pp-color-gray-light;
-    background-color: @pp-color-gray-lighter;
-    border-radius: 3px 3px 0 0;
-    color: @pp-color-gray;
-    background-color: @pp-color-gray-lighter;
-    &:hover {
-      color: darken(@pp-color-gray, 10%);
-      background-color: @pp-color-gray-lighter;
-    }
+  > li + li {
+    margin-left: 4px;
   }
 
   > li.pp-active {
+
     a {
-      border-top: 2px solid @pp-color-primary;
-      padding-top: 3px;
       padding-bottom: 5px;
+
+      border-top: 2px solid @pp-color-primary;
       border-bottom: none;
-      color: @pp-color-primary;
-      &:hover {
-        color: darken(@pp-color-primary, 10%);
-      }
     }
   }
 }
