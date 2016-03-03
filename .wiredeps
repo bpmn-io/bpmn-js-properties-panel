@@ -9,7 +9,7 @@
       "version": "camunda/camunda-bpmn-moddle"
     },
     "scroll-tabs": {
-      "version": "0.2.0"
+      "version": "0.2.1"
     },
     "bpmn-js": {
       "version": "bpmn-io/bpmn-js",
