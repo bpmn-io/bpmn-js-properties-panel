@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:startEvent id="START_WITHOUT_NAME">
+      <bpmn:outgoing>FLOW_WITHOUT_NAME_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="TASK_WITHOUT_NAME">
+      <bpmn:incoming>FLOW_WITHOUT_NAME_1</bpmn:incoming>
+      <bpmn:outgoing>FLOW_WITHOUT_NAME_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="FLOW_WITHOUT_NAME_1" sourceRef="START_WITHOUT_NAME" targetRef="TASK_WITHOUT_NAME" />
+    <bpmn:endEvent id="END_WITHOUT_NAME">
+      <bpmn:incoming>FLOW_WITHOUT_NAME_2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="FLOW_WITHOUT_NAME_2" sourceRef="TASK_WITHOUT_NAME" targetRef="END_WITHOUT_NAME" />
+    <bpmn:task id="FOUR_LINES" name="a&#10;b&#10;c&#10;d" />
+    <bpmn:task id="ONE_LINE" name="a" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="START_WITHOUT_NAME">
+        <dc:Bounds x="250" y="235" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="223" y="271" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1828j4a_di" bpmnElement="TASK_WITHOUT_NAME">
+        <dc:Bounds x="414" y="213" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0mcv1oc_di" bpmnElement="FLOW_WITHOUT_NAME_1">
+        <di:waypoint xsi:type="dc:Point" x="286" y="253" />
+        <di:waypoint xsi:type="dc:Point" x="414" y="253" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="305" y="243" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1fsfi46_di" bpmnElement="END_WITHOUT_NAME">
+        <dc:Bounds x="624" y="235" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="597" y="271" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_015zhlp_di" bpmnElement="FLOW_WITHOUT_NAME_2">
+        <di:waypoint xsi:type="dc:Point" x="514" y="253" />
+        <di:waypoint xsi:type="dc:Point" x="624" y="253" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="524" y="243" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_0on81x7_di" bpmnElement="FOUR_LINES">
+        <dc:Bounds x="482" y="353" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_01x8s2k_di" bpmnElement="ONE_LINE">
+        <dc:Bounds x="354" y="353" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

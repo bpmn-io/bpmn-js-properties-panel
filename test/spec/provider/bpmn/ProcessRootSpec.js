@@ -7,12 +7,12 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/bpmn'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/bpmn'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('prcoess-root-process-properties', function() {
 
@@ -76,7 +76,7 @@ describe('prcoess-root-process-properties', function() {
     var shape = elementRegistry.get('Process_1');
 
     selection.select(shape);
-    var name = domQuery('input[name=name]', propertiesPanel._container),
+    var name = domQuery('textarea[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape);
 
     expect(shapeBo.get('name')).to.equal(name.value);
@@ -88,7 +88,7 @@ describe('prcoess-root-process-properties', function() {
 
     var shape = elementRegistry.get('Process_1');
     selection.select(shape);
-    var name = domQuery('input[name=name]', propertiesPanel._container),
+    var name = domQuery('textarea[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape);
 
     // given
