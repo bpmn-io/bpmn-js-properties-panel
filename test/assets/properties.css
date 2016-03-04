@@ -1,0 +1,52 @@
+.djs-properties-panel {
+  border: solid 2px #CCC;
+}
+
+.djs-properties-group {
+  margin: 10px;
+}
+
+.djs-properties-entry {
+  margin-bottom: 15px;
+}
+
+.djs-properties-entry input.invalid,
+.djs-properties-entry textarea.invalid {
+  border-color: red;
+  background: rgb(255, 209, 209);
+}
+
+.djs-properties-entry [data-invalid] {
+  color: red;
+}
+
+.pp-hidden {
+  display: none;
+}
+
+.djs-properties-combo-options {
+
+}
+
+.djs-properties-combo-options-empty {
+}
+
+.djs-listener-area {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    margin: 1em 2px;
+}
+
+.djs-listener-area > h1 {
+    margin: -1em -0.5em 0;
+}
+
+.djs-properties-static {
+  margin-bottom: 0px;
+  margin-top:0px;
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 1px 0px;
+  font: 13.3333px Arial;
+  width: 14%;
+}
