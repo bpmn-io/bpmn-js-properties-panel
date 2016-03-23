@@ -194,7 +194,7 @@ describe('form-data', function() {
   });
 
 
-  describe('set the invalid form field id', function() {
+  describe('set spaces as form field id', function() {
 
     var id,
         formFields;
@@ -206,7 +206,7 @@ describe('form-data', function() {
       id = getInputField('form-field-id');
       formFields = getBusinessObject(shape).extensionElements.values[0].fields;
 
-      TestHelper.triggerValue(id, 'invalid id', 'change');
+      TestHelper.triggerValue(id, '  ', 'change');
     });
 
     describe('in the DOM', function() {
@@ -215,7 +215,7 @@ describe('form-data', function() {
 
         // then
         // should show the invalid id in the text field
-        expect(id.value).to.equal('invalid id');
+        expect(id.value).to.equal('  ');
         // should show an invalid error
         expect(domClasses(id).has('invalid')).to.be.true;
       });
@@ -280,6 +280,89 @@ describe('form-data', function() {
 
   });
 
+  describe('set a non unique form field id (globally)', function() {
+
+    var id,
+        formFields;
+
+    beforeEach(inject(function(elementRegistry, selection) {
+
+      shape = elementRegistry.get('UserTask_2');
+
+      selection.select(shape);
+
+      // select first form field
+
+      var formFieldContainer = domQuery('[data-entry="form-fields"]');
+
+      TestHelper.triggerFormFieldSelection(0, formFieldContainer);
+
+      id = getInputField('form-field-id');
+      formFields = getBusinessObject(shape).extensionElements.values[0].fields;
+
+      // set an id used in another scope (StartEvent_1)
+      TestHelper.triggerValue(id, 'firstname', 'change');
+    }));
+
+    describe('on the business object', function() {
+
+      it('should execute', function() {
+        expect(formFields[0].id).to.equal('firstname');
+      });
+
+    });
+
+    describe('in the DOM', function() {
+
+      it('should execute', function() {
+        expect(id.value).to.equal('firstname');
+        expect(domClasses(id).has('invalid')).to.be.false;
+      });
+
+    });
+
+  });
+
+  describe('set a non unique form field id (in the start event scope)', function() {
+
+    var id,
+        formFields;
+
+    beforeEach(inject(function(elementRegistry, selection) {
+
+      // select first form field
+
+      var formFieldContainer = domQuery('[data-entry="form-fields"]');
+
+      TestHelper.triggerFormFieldSelection(1, formFieldContainer);
+
+      id = getInputField('form-field-id');
+
+      formFields = getBusinessObject(shape).extensionElements.values[0].fields;
+
+      // set an id used in another scope (StartEvent_1)
+      TestHelper.triggerValue(id, 'firstname', 'change');
+    }));
+
+
+    describe('on the business object', function() {
+
+      it('should not execute', function() {
+        expect(formFields[1].id).to.equal('lastname');
+      });
+
+    });
+
+    describe('in the DOM', function() {
+
+      it('should not execute', function() {
+        expect(id.value).to.equal('firstname');
+        expect(domClasses(id).has('invalid')).to.be.true;
+      });
+
+    });
+
+  });
 
   describe('delete form field', function() {
 
