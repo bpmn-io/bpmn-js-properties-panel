@@ -79,7 +79,7 @@ describe('call-activity-properties', function() {
         callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-    // when
+    // then
     expect(callActivityTypeSelect.value).to.equal('bpmn');
     expect(inputField.value).to.equal('asd');
     expect(inputField.value).to.equal(businessObject.get('calledElement'));
