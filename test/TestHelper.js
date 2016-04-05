@@ -146,3 +146,6 @@ module.exports.triggerInput = triggerInput;
 module.exports.triggerFormFieldSelection = triggerFormFieldSelection;
 module.exports.selectedByOption = selectedByOption;
 module.exports.selectedByIndex = selectedByIndex;
+
+
+chai.use(require('./matchers'));
