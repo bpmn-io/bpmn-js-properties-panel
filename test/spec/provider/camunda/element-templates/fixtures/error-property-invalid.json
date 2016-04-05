@@ -1,0 +1,20 @@
+[
+  {
+    "label": "Invalid",
+    "id": "foo",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Label",
+        "type": "InvalidType",
+        "value": "YEY YEA!",
+        "binding": {
+          "type": "alsoInvalid",
+          "target": "label"
+        }
+      }
+    ]
+  }
+]

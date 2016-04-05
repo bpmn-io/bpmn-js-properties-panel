@@ -1,0 +1,19 @@
+{
+  "label": "AwesomeTask",
+  "id": "my.awesome.Task",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "properties": [
+    {
+      "id": "1",
+      "label": "Are you awesome?",
+      "type": "Boolean",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "target": "camunda:asyncBefore"
+      }
+    }
+  ]
+}

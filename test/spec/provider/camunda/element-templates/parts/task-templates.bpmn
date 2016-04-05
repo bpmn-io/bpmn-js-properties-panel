@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:serviceTask id="Task_A" name="A" camunda:modelerTemplate="a.task" camunda:async="true" />
+    <bpmn:serviceTask id="Task_B" name="B" camunda:modelerTemplate="b.task" camunda:javaDelegate="foo.Bar" />
+    <bpmn:userTask id="Task_C" name="C" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Task_A_di" bpmnElement="Task_A">
+        <dc:Bounds x="43" y="39" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_B_di" bpmnElement="Task_B">
+        <dc:Bounds x="196" y="39" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_C_di" bpmnElement="Task_C">
+        <dc:Bounds x="351" y="39" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

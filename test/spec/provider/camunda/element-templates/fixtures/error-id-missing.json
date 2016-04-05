@@ -1,0 +1,9 @@
+[
+  {
+    "label": "Invalid",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": []
+  }
+]

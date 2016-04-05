@@ -1,0 +1,28 @@
+{
+  "label": "VIP-Order Path",
+  "id": "e.com.merce.FastPath",
+  "appliesTo": [
+    "bpmn:SequenceFlow"
+  ],
+  "properties": [
+    {
+      "label": "VIP-Ordering",
+      "type": "String",
+      "editable": false,
+      "value": "${ customer.vip }",
+      "binding": {
+        "type": "property",
+        "target": "conditionExpression"
+      }
+    },
+    {
+      "label": "Label",
+      "type": "Text",
+      "value": "YEY YEA!",
+      "binding": {
+        "type": "property",
+        "target": "name"
+      }
+    }
+  ]
+}

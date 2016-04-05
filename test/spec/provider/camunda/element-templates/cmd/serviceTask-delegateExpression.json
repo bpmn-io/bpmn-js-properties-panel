@@ -1,0 +1,19 @@
+{
+  "label": "Custom ServiceTask",
+  "id": "my.custom.ServiceTask",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "STUFF TO CALL",
+      "type": "Text",
+      "editable": false,
+      "value": "com.my.custom.Foo",
+      "binding": {
+        "type": "property",
+        "target": "camunda:delegateExpression"
+      }
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "label": "MailTask",
+  "id": "my.mail.Task",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Empfänger",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "recipient"
+      }
+    },
+    {
+      "label": "Template",
+      "type": "Text",
+      "description": "Übrigens, hier kannst du freemarke templates ${...} benutzen",
+      "value": "Hello ${firstName}!",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "messageBody",
+        "scriptFormat": "freemarker"
+      }
+    },
+    {
+      "label": "Ergebnisvariable",
+      "type": "Text",
+      "value": "mailResult",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${mailResult}",
+        "scriptFormat": "freemarker"
+      },
+      "constraints": {
+        "not-empty": true
+      }
+    }
+  ]
+},
+
+{
+  "label": "mailtask",
+  "id": "my.mail.Task",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "connector": "com.my.connector.MailConnector",
+  "properties": [
+    {
+      "label": "Empfänger",
+      "type": "String",
+      "binding": {
+        "type": "camunda:connectorInputParameter",
+        "target": "FOO"
+      }
+    },
+    {
+      "label": "Template",
+      "type": "Text",
+      "description": "Übrigens, hier kannst du freemarke templates ${...} benutzen",
+      "value": "Hello ${firstName}!",
+      "binding": {
+        "type": "camunda:connectorInputParameter",
+        "target": "messageBody",
+        "scriptFormat": "freemarker"
+      }
+    },
+    {
+      "label": "VOLL KRASS",
+      "type": "Boolean",
+      "value": true,
+      "binding": {
+        "type": "property",
+        "target": "camunda:async"
+      }
+    }
+
+    ...
+  ]
+},
+
+{
+  "label": "Custom Whatever",
+  "id": "com.mycompany.whateverdomain.ShoeTask",
+  "appliesTo": [
+    "bpmn:UserTask"
+  ],
+  "properties": [
+    {
+      "label": "Schuhgröße",
+      "type": "Number",
+      "value": "45",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "shoeSize"
+      },
+      "constraints": {
+        "mandatory": true,
+        "minLength": 10,
+        "maxLength": 20,
+        "pattern": {
+          "message": "Muss eine valide Mail-Adresse sein",
+          "value": "/[2-4][0-9]/"
+        }
+      }
+    },
+    {
+      "label": "Prüfungsergebnis (aus Script)",
+      "type": "String",
+      "visible": false,
+      "editable": true,
+      "value": "shoeResult",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "scriptFormat": "freemarker",
+        "source": "${shoeSizeResult}"
+      }
+    },
+    {
+      "label": "Prüfungsergebnis (aus Variable / EL-Expression)",
+      "type": "String",
+      "visible": false,
+      "editable": true,
+      "value": "shoeResult",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "shoeSizeResult"
+      }
+    },
+    {
+      "label": "Email Template",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "template"
+      }
+    },
+    {
+      "label": "Label",
+      "description": "Add a nice (we love you <3) name for people to admire",
+      "type": "Text",
+      "binding": {
+        "type": "property",
+        "target": "name"
+      }
+    },
+    {
+      "label": "Web Service URL",
+      "description": "Specify the url of the web service to talk to",
+      "type": "String",
+      "binding": {
+        "type": "camunda:property",
+        "name": "webServiceUrl"
+      }
+    },
+    {
+      "label": "Web Service URL",
+      "description": "Specify the url of the web service to talk to",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "webServiceUrl"
+      }
+    },
+    {
+      "label": "Custom Delivery Condition",
+      "description": "FOO BAR",
+      "type": "Text",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "customDelivery"
+      }
+    },
+    {
+      "label": "Krass",
+      "description": "ALTER WILLST DU DAS TUN?",
+      "type": "Boolean",
+      "binding": {
+        "type": "property",
+        "target": "camunda:async"
+      }
+    },
+    {
+      "label": "Java Delegate",
+      "type": "String",
+      "value": "com.foo.bar.XXXDelegate",
+      "editable": false,
+      "binding": {
+        "type": "property",
+        "target": "camunda:javaDelegate"
+      }
+    },
+    "listeners": [
+      {
+        "eventType": "end",
+        "listenerType": "",
+        ""
+      }
+    ]
+  ]
+}
+
+
+
+{
+  "label": "VIP-Bestellungspfad",
+  "appliesTo": [
+    "bpmn:SequenceFlow",
+  ],
+  "properties": [
+    {
+      "label": "VIP-Bestellung",
+      "type": "Expression",
+      "editable": false,
+      "value": "${ customer.vip }",
+      "binding": {
+        "type": "property",
+        "target": "condition"
+      }
+    },
+    {
+      "label": "Label",
+      "type": "Text",
+      "value": "YEY YEA!",
+      "binding": {
+        "type": "property",
+        "target": "label"
+      }
+    }
+  ]
+}

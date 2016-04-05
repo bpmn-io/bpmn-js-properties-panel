@@ -1,0 +1,21 @@
+{
+  "label": "Custom Whatever",
+  "id": "com.mycompany.WsCaller",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "label": "Web Service URL",
+      "description": "Specify the url of the web service to talk to",
+      "type": "String",
+      "binding": {
+        "type": "camunda:property",
+        "name": "webServiceUrl"
+      },
+      "constraints": {
+        "not-empty": true
+      }
+    }
+  ]
+}

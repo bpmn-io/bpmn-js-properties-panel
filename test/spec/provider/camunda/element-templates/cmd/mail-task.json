@@ -1,0 +1,41 @@
+{
+  "label": "MailTask",
+  "id": "my.mail.Task",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "properties": [
+    {
+      "label": "Recipient",
+      "type": "String",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "recipient"
+      }
+    },
+    {
+      "label": "Template",
+      "type": "Text",
+      "description": "By the way, you can use freemarker templates ${...} here",
+      "value": "Hello ${firstName}!",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "target": "messageBody",
+        "scriptFormat": "freemarker"
+      }
+    },
+    {
+      "label": "Ergebnisvariable",
+      "type": "String",
+      "value": "mailResult",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${mailResult}",
+        "scriptFormat": "freemarker"
+      },
+      "constraints": {
+        "not-empty": true
+      }
+    }
+  ]
+}
