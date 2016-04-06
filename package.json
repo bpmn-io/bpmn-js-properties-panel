@@ -50,6 +50,7 @@
     "time-grunt": "^0.3.2"
   },
   "dependencies": {
+    "camunda-bpmn-moddle": "^0.4.0",
     "ids": "^0.2.0",
     "inherits": "^2.0.1",
     "lodash": "^3.0.1",
