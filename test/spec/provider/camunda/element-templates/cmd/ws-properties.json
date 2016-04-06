@@ -2,7 +2,7 @@
   "label": "Custom Whatever",
   "id": "com.mycompany.WsCaller",
   "appliesTo": [
-    "bpmn:ServiceTask"
+    "bpmn:Task"
   ],
   "properties": [
     {
@@ -14,7 +14,7 @@
         "name": "webServiceUrl"
       },
       "constraints": {
-        "not-empty": true
+        "notEmpty": true
       }
     }
   ]

@@ -227,7 +227,67 @@ describe('element-templates - cmd', function() {
     });
 
 
-    // describe('setting camunda:properties');
+    describe('setting camunda:properties', function() {
+
+      var diagramXML = require('./task-clean.bpmn');
+
+      var newTemplate = require('./ws-properties');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+
+        // when
+        applyTemplate(taskShape, newTemplate);
+
+        var properties = findExtension(taskShape, 'camunda:Properties');
+
+        // then
+        expect(properties).to.exist;
+
+        expect(properties.values).to.jsonEqual([
+          {
+            $type: 'camunda:Property',
+            name: 'webServiceUrl',
+            value: ''
+          }
+        ]);
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+
+        applyTemplate(taskShape, newTemplate);
+
+
+        // when
+        commandStack.undo();
+
+        var properties = findExtension(taskShape, 'camunda:Properties');
+
+        // then
+        expect(properties).not.to.exist;
+      }));
+
+    });
 
 
     // describe('setting camunda:connector');
@@ -596,6 +656,83 @@ describe('element-templates - cmd', function() {
 
         // then
         expect(currentMappings).to.eql(oldMappings);
+      }));
+
+    });
+
+
+    describe('setting camunda:properties', function() {
+
+      var diagramXML = require('./task-custom-properties.bpmn');
+
+      var newTemplate = require('./ws-properties');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+
+        // when
+        applyTemplate(taskShape, newTemplate);
+
+        var properties = findExtension(taskShape, 'camunda:Properties');
+
+        // then
+        expect(properties).to.exist;
+
+        expect(properties.values).to.jsonEqual([
+          {
+            $type: 'camunda:Property',
+            name: 'webServiceUrl',
+            value: ''
+          }
+        ]);
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+
+        applyTemplate(taskShape, newTemplate);
+
+
+        // when
+        commandStack.undo();
+
+        var properties = findExtension(taskShape, 'camunda:Properties');
+
+        // then
+        expect(properties).to.exist;
+
+
+        expect(properties.values).to.jsonEqual([
+          {
+            $type: 'camunda:Property',
+            name: 'foo',
+            value: 'FOO'
+          },
+          {
+            $type: 'camunda:Property',
+            name: 'bar',
+            value: 'BAR'
+          }
+        ]);
       }));
 
     });
