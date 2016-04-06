@@ -21,7 +21,9 @@ describe('camunda-properties', function() {
   var diagramXML = require('./CamundaPropertiesProvider-JobConfiguration.bpmn');
 
   var testModules = [
-    coreModule, selectionModule, modelingModule,
+    coreModule,
+    selectionModule,
+    modelingModule,
     propertiesPanelModule,
     propertiesProviderModule
   ];
@@ -34,7 +36,9 @@ describe('camunda-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: {
+      camunda: camundaModdlePackage
+    }
   }));
 
 
@@ -58,10 +62,11 @@ describe('camunda-properties', function() {
 
     // given
     var shape = elementRegistry.get('ServiceTask_1'),
-        selector = '[data-group=jobConfigurationGroup]';
+        selector = '[data-group=job-configuration]';
 
     // when
     selection.select(shape);
+
     var group = domQuery(selector, propertiesPanel._container);
 
     // then
@@ -73,11 +78,12 @@ describe('camunda-properties', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
       var shape = elementRegistry.get('ServiceTask_1'),
-        groupSelector = '[data-group=jobConfigurationGroup]',
-        inputSelector = 'div[data-entry=async-before] input[name=asyncBefore]';
+          groupSelector = '[data-group=job-configuration]',
+          inputSelector = 'div[data-entry=async-before] input[name=asyncBefore]';
 
       // given
       selection.select(shape);
+
       var asyncBeforeCheckbox = domQuery(inputSelector, propertiesPanel._container);
 
       // when

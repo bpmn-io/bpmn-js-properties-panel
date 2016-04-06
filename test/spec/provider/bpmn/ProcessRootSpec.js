@@ -60,13 +60,13 @@ describe('prcoess-root-process-properties', function() {
         taskBo        = getBusinessObject(shape);
 
     // given
-    expect(taskBo.get("isExecutable")).to.not.be.ok;
+    expect(taskBo.get('isExecutable')).to.not.be.ok;
 
     // when
     TestHelper.triggerEvent(isExecutable, 'click');
 
     // then
-    expect(taskBo.get("isExecutable")).to.be.ok;
+    expect(taskBo.get('isExecutable')).to.be.ok;
   }));
 
 

@@ -19,7 +19,7 @@ var propertiesPanelModule = require('../../../../lib'),
 var HIDE_CLASS = 'pp-hidden';
 
 function getMultiInstanceGroup(container) {
-  return domQuery('div[data-group=multiInstance]', container);
+  return domQuery('div[data-group=multi-instance]', container);
 }
 
 function getEntry(container, entryId) {
