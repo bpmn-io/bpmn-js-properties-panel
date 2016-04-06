@@ -11,6 +11,9 @@
       "binding": {
         "type": "camunda:inputParameter",
         "target": "recipient"
+      },
+      "constraints": {
+        "notEmpty": true
       }
     },
     {
@@ -22,6 +25,9 @@
         "type": "camunda:inputParameter",
         "target": "messageBody",
         "scriptFormat": "freemarker"
+      },
+      "constraints": {
+        "notEmpty": true
       }
     },
     {
@@ -34,7 +40,7 @@
         "scriptFormat": "freemarker"
       },
       "constraints": {
-        "not-empty": true
+        "notEmpty": true
       }
     }
   ]

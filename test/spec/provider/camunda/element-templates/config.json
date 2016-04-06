@@ -34,7 +34,7 @@
         "scriptFormat": "freemarker"
       },
       "constraints": {
-        "not-empty": true
+        "notEmpty": true
       }
     }
   ]
@@ -97,12 +97,12 @@
         "target": "shoeSize"
       },
       "constraints": {
-        "mandatory": true,
+        "notEmpty": true,
         "minLength": 10,
         "maxLength": 20,
         "pattern": {
-          "message": "Muss eine valide Mail-Adresse sein",
-          "value": "/[2-4][0-9]/"
+          "message": "Must be valid shoe size (>20 && <49)",
+          "match": "/[2-4][0-9]/"
         }
       }
     },
