@@ -5,7 +5,7 @@
     <bpmn2:participant id="Participant_2" name="Pool" processRef="Process_2"/>
   </bpmn2:collaboration>
 
-  <bpmn2:process id="Process_1" isExecutable="false" camunda:semanticVersion="1.0.0"/>
+  <bpmn2:process id="Process_1" isExecutable="false" camunda:versionTag="1.0.0"/>
   <bpmn2:process id="Process_2" isExecutable="false" />
 
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
