@@ -14,7 +14,9 @@ var propertiesPanelModule = require('../../../../lib'),
     propertiesProviderModule = require('../../../../lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('process-participant-properties', function() {
+var PARTICIPANT_ID = 'Participant_collapsed';
+
+describe('process-participant-collapsed-properties', function() {
 
   var diagramXML = require('./ProcessParticipant.bpmn');
 
@@ -49,102 +51,11 @@ describe('process-participant-properties', function() {
   }));
 
 
-  it('should set the isExecutable property of a process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('Participant_1');
-
-    selection.select(shape);
-
-    var isExecutable = domQuery('input[name=isExecutable]', propertiesPanel._container),
-        taskBo        = getBusinessObject(shape).get('processRef');
-
-    // when
-    TestHelper.triggerEvent(isExecutable, 'click');
-
-    // then
-    expect(taskBo.get("isExecutable")).to.be.ok;
-  }));
-
-
-  it('should get the name of a process in a participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('_Participant_2');
-
-    // when
-    selection.select(shape);
-
-    var name = domQuery('div[data-entry=process-name] textarea[name=name]', propertiesPanel._container),
-        shapeBo = getBusinessObject(shape).get('processRef');
-
-    // then
-    expect(shapeBo.get('name')).to.equal(name.value);
-  }));
-
-
-  it('should set the name of a process in a participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('_Participant_2');
-
-    selection.select(shape);
-
-    var name = domQuery('div[data-entry=process-name] textarea[name=name]', propertiesPanel._container),
-        shapeBo = getBusinessObject(shape).get('processRef');
-
-    // when
-    TestHelper.triggerValue(name, 'Foo', 'change');
-
-    // then
-    expect(shapeBo.get('name')).to.equal('Foo');
-  }));
-
-
-  it('should get the id of a process in a participant',
-    inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('_Participant_2');
-
-    // when
-    selection.select(shape);
-
-    var id = domQuery('input[name=processId]', propertiesPanel._container),
-        shapeBo = getBusinessObject(shape).get('processRef');
-
-    // then
-    expect(shapeBo.get('id')).to.equal(id.value);
-  }));
-
-
-  it('should set the id of a process in a participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('_Participant_2');
-
-    selection.select(shape);
-
-    var name = domQuery('input[name=processId]', propertiesPanel._container),
-        shapeBo = getBusinessObject(shape).get('processRef');
-
-    // when
-    TestHelper.triggerValue(name, 'Foo', 'change');
-
-    // then
-    expect(shapeBo.get('id')).to.equal('Foo');
-  }));
-
-
   it('should get the id of the participant',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
-    var shape = elementRegistry.get('_Participant_2');
+    var shape = elementRegistry.get(PARTICIPANT_ID);
     var participant = getBusinessObject(shape);
 
     // when
@@ -161,7 +72,7 @@ describe('process-participant-properties', function() {
       inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
-    var shape = elementRegistry.get('_Participant_2');
+    var shape = elementRegistry.get(PARTICIPANT_ID);
     var participant = getBusinessObject(shape);
 
     // when
@@ -176,12 +87,12 @@ describe('process-participant-properties', function() {
 
   describe('change name of participant', function() {
 
-    var container, participant, textarea;
+    var participant, textarea;
 
     beforeEach(inject(function(elementRegistry, selection, propertiesPanel){
 
       // given
-      var shape = elementRegistry.get('_Participant_2');
+      var shape = elementRegistry.get(PARTICIPANT_ID);
       selection.select(shape);
 
       participant = getBusinessObject(shape);
@@ -204,7 +115,7 @@ describe('process-participant-properties', function() {
         commandStack.undo();
 
         // then
-        expect(textarea.value).to.equal('Pool');
+        expect(textarea.value).to.equal('Collapsed Pool');
       }));
 
 
@@ -232,7 +143,7 @@ describe('process-participant-properties', function() {
         commandStack.undo();
 
         // then
-        expect(participant.get('name')).to.equal('Pool');
+        expect(participant.get('name')).to.equal('Collapsed Pool');
       }));
 
 

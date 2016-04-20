@@ -14,7 +14,7 @@ var propertiesPanelModule = require('../../../../lib'),
     propertiesProviderModule = require('../../../../lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('process-participant-properties', function() {
+describe('process-participant-expanded-properties', function() {
 
   var diagramXML = require('./ProcessParticipant.bpmn');
 
