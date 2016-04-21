@@ -22,7 +22,7 @@
   "devDependencies": {
     "bpmn-js": "^0.14.0",
     "bpmn-moddle": "^0.11.0",
-    "camunda-bpmn-moddle": "^0.3.0",
+    "camunda-bpmn-moddle": "^0.5.0",
     "chai": "~2.2.0",
     "diagram-js": "^0.14.0",
     "grunt": "^0.4.4",
@@ -50,7 +50,7 @@
     "time-grunt": "^0.3.2"
   },
   "dependencies": {
-    "camunda-bpmn-moddle": "^0.4.0",
+    "camunda-bpmn-moddle": "^0.5.0",
     "ids": "^0.2.0",
     "inherits": "^2.0.1",
     "lodash": "^3.0.1",
