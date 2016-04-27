@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:serviceTask id="Task_A" name="A" camunda:modelerTemplate="a.task" camunda:async="true" />
+    <bpmn:serviceTask id="Task_A" name="A" camunda:async="true" camunda:modelerTemplate="a.task" />
     <bpmn:serviceTask id="Task_B" name="B" camunda:modelerTemplate="b.task" camunda:javaDelegate="foo.Bar" />
     <bpmn:userTask id="Task_C" name="C" />
+    <bpmn:parallelGateway id="Gateway" />
+    <bpmn:exclusiveGateway id="Gateway_MissingTemplate" camunda:modelerTemplate="some.gateway" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -15,6 +17,18 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_C_di" bpmnElement="Task_C">
         <dc:Bounds x="351" y="39" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParallelGateway_1303ef9_di" bpmnElement="Gateway">
+        <dc:Bounds x="513" y="54" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="493" y="104" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0cqbpp0_di" bpmnElement="Gateway_MissingTemplate" isMarkerVisible="true">
+        <dc:Bounds x="621" y="54" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="601" y="104" width="90" height="20" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

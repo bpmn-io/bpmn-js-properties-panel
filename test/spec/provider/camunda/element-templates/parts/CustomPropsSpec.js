@@ -7,21 +7,19 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../../../lib'),
-    domQuery = require('min-dom/lib/query'),
-    is = require('bpmn-js/lib/util/ModelUtil').is,
-    forEach = require('lodash/collection/forEach'),
     coreModule = require('bpmn-js/lib/core'),
     selectionModule = require('diagram-js/lib/features/selection'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
     propertiesProviderModule = require('../../../../../../lib/provider/camunda'),
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
 var findExtension = require('../../../../../../lib/provider/camunda/element-templates/Helper').findExtension,
     findInputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findInputParameter,
     findOutputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findOutputParameter,
     findCamundaProperty = require('../../../../../../lib/provider/camunda/element-templates/Helper').findCamundaProperty;
 
+var entrySelect = require('./Helper').entrySelect,
+    selectAndGet = require('./Helper').selectAndGet;
 
 var testModules = [
   coreModule,
@@ -468,38 +466,3 @@ describe('element-templates/parts - Custom Properties', function() {
   });
 
 });
-
-
-function entrySelect(entryId, childSelector) {
-
-  return TestHelper.getBpmnJS().invoke(function(propertiesPanel) {
-
-    var container = propertiesPanel._container;
-
-    var entry = container.querySelector('[data-entry="' + entryId + '"]');
-
-    if (!entry) {
-      return null;
-    }
-
-    if (childSelector) {
-      return entry.querySelector(childSelector);
-    } else {
-      return entry;
-    }
-  });
-}
-
-function selectAndGet(elementId) {
-
-  return TestHelper.getBpmnJS().invoke(function(selection, elementRegistry) {
-
-    var element = elementRegistry.get(elementId);
-
-    expect(element).to.exist;
-
-    selection.select(element);
-
-    return getBusinessObject(element);
-  });
-}
