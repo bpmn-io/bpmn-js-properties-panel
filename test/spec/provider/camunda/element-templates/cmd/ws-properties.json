@@ -1,5 +1,5 @@
 {
-  "label": "Custom Whatever",
+  "label": "WS Caller Task",
   "id": "com.mycompany.WsCaller",
   "appliesTo": [
     "bpmn:Task"
@@ -14,7 +14,11 @@
         "name": "webServiceUrl"
       },
       "constraints": {
-        "notEmpty": true
+        "notEmpty": true,
+        "pattern": {
+          "value": "https://.*",
+          "message": "Must be https URL"
+        }
       }
     }
   ]

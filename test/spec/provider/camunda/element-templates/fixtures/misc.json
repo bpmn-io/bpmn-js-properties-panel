@@ -8,7 +8,7 @@
     "properties": [
       {
         "label": "Schuhgröße",
-        "type": "Number",
+        "type": "String",
         "value": "45",
         "binding": {
           "type": "camunda:inputParameter",

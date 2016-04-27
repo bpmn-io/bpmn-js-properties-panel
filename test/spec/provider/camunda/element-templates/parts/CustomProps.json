@@ -1,0 +1,228 @@
+[
+  {
+    "label": "MailTask",
+    "id": "my.mail.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Recipient",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "target": "recipient"
+        }
+      },
+      {
+        "label": "Template",
+        "type": "Text",
+        "description": "By the way, you can use freemarker templates ${...} here",
+        "value": "Hello ${firstName}!",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "target": "messageBody",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "label": "Ergebnisvariable",
+        "type": "String",
+        "value": "mailResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${mailResult}",
+          "scriptFormat": "freemarker"
+        }
+      }
+    ]
+  },
+  {
+    "label": "AsyncAwesomeTask",
+    "id": "my.awesome.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "id": "1",
+        "label": "Are you awesome?",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "target": "camunda:asyncBefore"
+        }
+      }
+    ],
+    "entriesVisible": {
+      "_all": false,
+      "id": true,
+      "name": true,
+      "async-before": true,
+      "async-after": true,
+      "execution-listeners": true,
+      "documentation": true
+    }
+  },
+  {
+    "label": "Custom ServiceTask",
+    "id": "my.custom.ServiceTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "STUFF TO CALL",
+        "type": "String",
+        "editable": false,
+        "value": "com.my.custom.Foo",
+        "binding": {
+          "type": "property",
+          "target": "camunda:delegateExpression"
+        }
+      }
+    ],
+    "entriesVisible": true
+  },
+  {
+    "label": "VIP-Order Path",
+    "id": "e.com.merce.FastPath",
+    "appliesTo": [
+      "bpmn:SequenceFlow"
+    ],
+    "properties": [
+      {
+        "label": "VIP-Ordering",
+        "type": "String",
+        "editable": false,
+        "value": "${ customer.vip }",
+        "binding": {
+          "type": "property",
+          "target": "conditionExpression"
+        }
+      },
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "YEY YEA!",
+        "binding": {
+          "type": "property",
+          "target": "name"
+        }
+      }
+    ]
+  },
+  {
+    "label": "WS Caller Task",
+    "id": "com.mycompany.WsCaller",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "webServiceUrl"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "https://.*",
+            "message": "Must be https URL"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "label": "Validated Inputs Task",
+    "id": "com.validated-inputs.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "NotEmpty",
+        "description": "Must not be empty",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "MinLength",
+        "description": "Must have min length 5",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "minLength": 5
+        }
+      },
+      {
+        "label": "MaxLength",
+        "description": "Must have max length 5",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "maxLength": 5
+        }
+      },
+      {
+        "label": "Pattern (String)",
+        "description": "Must match /A+B/",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "pattern": "A+B"
+        }
+      },
+      {
+        "label": "Pattern (String + Message)",
+        "description": "Must be https url",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must start with https://",
+            "value": "https://.*"
+          }
+        }
+      },
+      {
+        "label": "Pattern (Integer)",
+        "description": "Must be integer",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must be positive integer",
+            "value": "\\d+"
+          }
+        }
+      },
+    ]
+  }
+]

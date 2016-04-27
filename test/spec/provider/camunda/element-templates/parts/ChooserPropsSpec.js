@@ -44,12 +44,12 @@ function bootstrap(diagramXML, elementTemplates) {
 }
 
 
-describe('element-templates/props - TemplateProps', function() {
+describe('element-templates/parts - Chooser', function() {
 
   describe('activation', function() {
 
-    var diagramXML = require('./task-templates.bpmn'),
-        elementTemplates = require('./task-templates.json');
+    var diagramXML = require('./ChooserProps.bpmn'),
+        elementTemplates = require('./ChooserProps.json');
 
     beforeEach(bootstrap(diagramXML, elementTemplates));
 
@@ -63,7 +63,7 @@ describe('element-templates/props - TemplateProps', function() {
 
   describe('task handling', function() {
 
-    var diagramXML = require('./task-templates.bpmn'),
+    var diagramXML = require('./ChooserProps.bpmn'),
         elementTemplates = [
           require('../cmd/mail-task'),
           require('../cmd/vip-path'),
@@ -77,5 +77,7 @@ describe('element-templates/props - TemplateProps', function() {
     it('should boostrap with bpmn-js', inject(function() {
 
     }));
+
   });
+
 });
