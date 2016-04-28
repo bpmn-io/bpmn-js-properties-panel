@@ -29,7 +29,7 @@ function getDetailsGroup(container) {
 
 function getEntry(entryId, container) {
   var group = getDetailsGroup(container);
-  return domQuery('div[data-entry="' + entryId + '"]', container);  
+  return domQuery('div[data-entry="' + entryId + '"]', container);
 }
 
 function getInputField(container, entryId, inputName) {
@@ -53,15 +53,15 @@ function getDelegateInput(container) {
 }
 
 function getResultVariableInput(container) {
-  return getInputField(container, 'result-variable');
+  return getInputField(container, 'resultVariable');
 }
 
 function getExternalTopicInput(container) {
-  return getInputField(container, 'external-topic');
+  return getInputField(container, 'externalTopic');
 }
 
 function getConfigureConnectorLink(container) {
-  var entry = getEntry('configure-connector-link', container)
+  var entry = getEntry('configureConnectorLink', container)
   return domQuery('a', entry);
 }
 
@@ -74,7 +74,7 @@ function getCallableBindingSelect(container) {
 }
 
 function getDmnResultVariableInput(container) {
-  return getInputField(container, 'dmn-result-variable');
+  return getInputField(container, 'dmn-resultVariable');
 }
 
 function selectImplementationType(type, container) {
@@ -149,7 +149,7 @@ describe('implementation type', function() {
         // given
         var shape = elementRegistry.get('CLASS');
         // when
-        selection.select(shape);  
+        selection.select(shape);
       }));
 
 
@@ -192,7 +192,7 @@ describe('implementation type', function() {
         // given
         var shape = elementRegistry.get('EXPRESSION');
         // when
-        selection.select(shape);  
+        selection.select(shape);
       }));
 
 
@@ -235,7 +235,7 @@ describe('implementation type', function() {
         // given
         var shape = elementRegistry.get('DELEGATE_EXPRESSION');
         // when
-        selection.select(shape);  
+        selection.select(shape);
       }));
 
 
@@ -278,7 +278,7 @@ describe('implementation type', function() {
         // given
         var shape = elementRegistry.get('EXTERNAL');
         // when
-        selection.select(shape);  
+        selection.select(shape);
       }));
 
 
@@ -321,7 +321,7 @@ describe('implementation type', function() {
         // given
         var shape = elementRegistry.get('CONNECTOR');
         // when
-        selection.select(shape);  
+        selection.select(shape);
       }));
 
       it('should show connector implementation type', function() {
@@ -362,7 +362,7 @@ describe('implementation type', function() {
         // given
         var shape = elementRegistry.get('DMN');
         // when
-        selection.select(shape);  
+        selection.select(shape);
       }));
 
       it('should show dmn implementation type', function() {
@@ -414,7 +414,7 @@ describe('implementation type', function() {
 
   describe('change implementation type', function() {
 
-    var container, implementationTypeSelect, bo; 
+    var container, implementationTypeSelect, bo;
 
     describe('from class', function() {
 
@@ -1605,7 +1605,7 @@ describe('implementation type', function() {
       });
 
     });
-  
+
 
     describe('from external', function() {
 

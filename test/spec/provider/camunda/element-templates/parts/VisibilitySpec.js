@@ -28,12 +28,12 @@ describe('element-templates/parts - Visibility', function() {
     expectShown([
       'id',
       'name',
-      'element-template-chooser'
+      'elementTemplate-chooser'
     ]);
 
     expectHidden([
-      'async-before',
-      'execution-listeners'
+      'asyncBefore',
+      'executionListeners'
     ]);
   }));
 
@@ -49,10 +49,10 @@ describe('element-templates/parts - Visibility', function() {
       expectShown([
         'id',
         'name',
-        'element-template-chooser',
+        'elementTemplate-chooser',
         'documentation',
-        'async-before',
-        'execution-listeners',
+        'asyncBefore',
+        'executionListeners',
         'properties'
       ]);
     }));
@@ -67,16 +67,16 @@ describe('element-templates/parts - Visibility', function() {
       expectShown([
         'id',
         'properties',
-        'parameter-name',
-        'element-template-chooser'
+        'parameterName',
+        'elementTemplate-chooser'
       ]);
 
       expectHidden([
         'name',
-        'async-before',
-        'async-after',
+        'asyncBefore',
+        'asyncAfter',
         'documentation',
-        'execution-listeners'
+        'executionListeners'
       ]);
     }));
 
@@ -88,10 +88,10 @@ describe('element-templates/parts - Visibility', function() {
 
       // then
       expectShown([
-        'element-template-chooser',
-        'async-before',
-        'async-after',
-        'execution-listeners',
+        'elementTemplate-chooser',
+        'asyncBefore',
+        'asyncAfter',
+        'executionListeners',
         'documentation'
       ]);
 
@@ -99,7 +99,7 @@ describe('element-templates/parts - Visibility', function() {
         'id',
         'name',
         'properties',
-        'parameter-name',
+        'parameterName',
       ]);
     }));
 

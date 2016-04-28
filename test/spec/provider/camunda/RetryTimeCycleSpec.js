@@ -20,7 +20,7 @@ var propertiesPanelModule = require('../../../../lib'),
 var asyncCapableHelper = require('../../../../lib/helper/AsyncCapableHelper');
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 
-describe('retry-time-cycle', function() {
+describe('retryTimeCycle', function() {
 
   var diagramXML = require('./RetryTimeCycle.bpmn');
 
@@ -61,7 +61,7 @@ describe('retry-time-cycle', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
-        inputEl = 'div[data-entry=retry-time-cycle] input[name=cycle]';
+        inputEl = 'div[data-entry=retryTimeCycle] input[name=cycle]';
 
     selection.select(shape);
 
@@ -79,7 +79,7 @@ describe('retry-time-cycle', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask'),
-        inputEl = 'div[data-entry=retry-time-cycle] input[name=cycle]';
+        inputEl = 'div[data-entry=retryTimeCycle] input[name=cycle]';
     var bo = getBusinessObject(shape);
 
     selection.select(shape);
@@ -109,7 +109,7 @@ describe('retry-time-cycle', function() {
     inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
-        inputEl = 'div[data-entry=retry-time-cycle] input[name=cycle]';
+        inputEl = 'div[data-entry=retryTimeCycle] input[name=cycle]';
 
     selection.select(shape);
 
@@ -144,7 +144,7 @@ describe('retry-time-cycle', function() {
 
       bo = getBusinessObject(shape);
 
-      input = domQuery('div[data-entry=retry-time-cycle] input[name=cycle]', container);
+      input = domQuery('div[data-entry=retryTimeCycle] input[name=cycle]', container);
 
       // when
       TestHelper.triggerValue(input, 'foo', 'change');
@@ -271,7 +271,7 @@ describe('retry-time-cycle', function() {
 
       bo = getBusinessObject(shape);
 
-      input = domQuery('div[data-entry=retry-time-cycle] input[name=cycle]', container);
+      input = domQuery('div[data-entry=retryTimeCycle] input[name=cycle]', container);
 
       // when
       TestHelper.triggerValue(input, 'bar', 'change');
@@ -400,7 +400,7 @@ describe('retry-time-cycle', function() {
 
       bo = getBusinessObject(shape);
 
-      input = domQuery('div[data-entry=retry-time-cycle] input[name=cycle]', container);
+      input = domQuery('div[data-entry=retryTimeCycle] input[name=cycle]', container);
 
       // when
       TestHelper.triggerValue(input, '', 'change');

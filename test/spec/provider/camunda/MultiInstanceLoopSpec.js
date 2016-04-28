@@ -7,19 +7,19 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  domClasses = require('min-dom/lib/classes'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 var HIDE_CLASS = 'pp-hidden';
 
 function getMultiInstanceGroup(container) {
-  return domQuery('div[data-group=multi-instance]', container);
+  return domQuery('div[data-group=multiInstance]', container);
 }
 
 function getEntry(container, entryId) {
@@ -32,43 +32,43 @@ function getInputField(container, entryId, inputName) {
 }
 
 function getLoopCardinalityInput(container) {
-  return getInputField(container, 'multi-instance-loop-cardinality', 'loopCardinality');
+  return getInputField(container, 'multiInstance-loopCardinality', 'loopCardinality');
 }
 
 function getCollectionInput(container) {
-  return getInputField(container, 'multi-instance-collection', 'collection');
+  return getInputField(container, 'multiInstance-collection', 'collection');
 }
 
 function getElementVariableInput(container) {
-  return getInputField(container, 'multi-instance-element-variable', 'elementVariable');
+  return getInputField(container, 'multiInstance-elementVariable', 'elementVariable');
 }
 
 function getCompletionConditionInput(container) {
-  return getInputField(container, 'multi-instance-completion-condition', 'completionCondition');
+  return getInputField(container, 'multiInstance-completionCondition', 'completionCondition');
 }
 
 function getErrorMessageEntry(container) {
-  return getEntry(container, 'multi-instance-error-message');
+  return getEntry(container, 'multiInstance-errorMessage');
 }
 
 function getAsyncBefore(container) {
-  return getInputField(container, 'multi-instance-async-before', 'asyncBefore');
+  return getInputField(container, 'multiInstance-asyncBefore', 'asyncBefore');
 }
 
 function getAsyncAfter(container) {
-  return getInputField(container, 'multi-instance-async-after', 'asyncAfter');
+  return getInputField(container, 'multiInstance-asyncAfter', 'asyncAfter');
 }
 
 function getExclusive(container) {
-  return getInputField(container, 'multi-instance-exclusive', 'exclusive');
+  return getInputField(container, 'multiInstance-exclusive', 'exclusive');
 }
 
 function getCycle(container) {
-  return getInputField(container, 'multi-instance-retry-time-cycle', 'cycle');
+  return getInputField(container, 'multiInstance-retryTimeCycle', 'cycle');
 }
 
 
-describe('multi-instance-loop-properties', function() {
+describe('multiInstance-loop-properties', function() {
 
   var diagramXML = require('./MultiInstanceLoop.bpmn');
 

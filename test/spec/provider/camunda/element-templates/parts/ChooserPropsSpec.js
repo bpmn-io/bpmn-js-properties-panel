@@ -35,7 +35,7 @@ describe('element-templates/parts - Chooser', function() {
       selectAndGet('Gateway');
 
       // when
-      var chooser = entrySelect('element-template-chooser');
+      var chooser = entrySelect('elementTemplate-chooser');
 
       // then
       expect(chooser).not.to.exist;
@@ -166,7 +166,7 @@ describe('element-templates/parts - Chooser', function() {
 
 
 function getElementTemplates() {
-  var options = entrySelect.all('element-template-chooser', 'select option');
+  var options = entrySelect.all('elementTemplate-chooser', 'select option');
 
   return options.map(function(o) {
     return {
@@ -179,8 +179,8 @@ function getElementTemplates() {
 
 function switchTemplate(templateId) {
 
-  var templateSelect = entrySelect('element-template-chooser', 'select'),
-      option = entrySelect('element-template-chooser', 'option[value="' + templateId + '"]');
+  var templateSelect = entrySelect('elementTemplate-chooser', 'select'),
+      option = entrySelect('elementTemplate-chooser', 'option[value="' + templateId + '"]');
 
   option.selected = 'selected';
 

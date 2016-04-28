@@ -28,9 +28,9 @@
     "entriesVisible": {
       "_all": true,
       "name": false,
-      "async-before": false,
-      "async-after": false,
-      "execution-listeners": false,
+      "asyncBefore": false,
+      "asyncAfter": false,
+      "executionListeners": false,
       "documentation": false
     }
   },
@@ -42,9 +42,9 @@
     ],
     "properties": [],
     "entriesVisible": {
-      "async-before": true,
-      "async-after": true,
-      "execution-listeners": true,
+      "asyncBefore": true,
+      "asyncAfter": true,
+      "executionListeners": true,
       "documentation": true
     }
   }

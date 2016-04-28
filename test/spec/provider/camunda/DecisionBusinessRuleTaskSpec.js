@@ -58,7 +58,7 @@ describe('decision-business-rule-task-properties', function() {
     selection.select(shape);
 
     var decisionRefField = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-    	resultVariable = domQuery('div[data-entry=dmn-result-variable] input[name=resultVariable]', propertiesPanel._container),
+    	resultVariable = domQuery('div[data-entry=dmn-resultVariable] input[name=resultVariable]', propertiesPanel._container),
     	implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
         businessObject = getBusinessObject(shape);
 
@@ -259,7 +259,7 @@ describe('decision-business-rule-task-properties', function() {
     selection.select(shape);
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
-        resultVariable = domQuery('div[data-entry=result-variable] input[name=resultVariable]', propertiesPanel._container),
+        resultVariable = domQuery('div[data-entry=resultVariable] input[name=resultVariable]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.not.equal('decisionRef');
@@ -277,8 +277,8 @@ describe('decision-business-rule-task-properties', function() {
     selection.select(shape);
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
-        resultVariable = domQuery('div[data-entry=dmn-result-variable] input[name=resultVariable]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=dmn-result-variable] button[data-action=clear]', propertiesPanel._container),
+        resultVariable = domQuery('div[data-entry=dmn-resultVariable] input[name=resultVariable]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=dmn-resultVariable] button[data-action=clear]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -380,7 +380,7 @@ describe('decision-business-rule-task-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         mapDecisionResult = domQuery('select[name=mapDecisionResult]', propertiesPanel._container),
-        dmnResultVariableInput = domQuery('div[data-entry=dmn-result-variable] input[name=resultVariable]', propertiesPanel._container),
+        dmnResultVariableInput = domQuery('div[data-entry=dmn-resultVariable] input[name=resultVariable]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -400,7 +400,7 @@ describe('decision-business-rule-task-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         mapDecisionResult = domQuery('select[name=mapDecisionResult]', propertiesPanel._container),
-        dmnResultVariableInput = domQuery('div[data-entry=dmn-result-variable] input[name=resultVariable]', propertiesPanel._container),
+        dmnResultVariableInput = domQuery('div[data-entry=dmn-resultVariable] input[name=resultVariable]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -429,8 +429,8 @@ describe('decision-business-rule-task-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         mapDecisionResult = domQuery('select[name=mapDecisionResult]', propertiesPanel._container),
-        dmnResultVariableInput = domQuery('div[data-entry=dmn-result-variable] input[name=resultVariable]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=dmn-result-variable] button[data-action=clear]', propertiesPanel._container),
+        dmnResultVariableInput = domQuery('div[data-entry=dmn-resultVariable] input[name=resultVariable]', propertiesPanel._container),
+        clearButton = domQuery('[data-entry=dmn-resultVariable] button[data-action=clear]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -485,7 +485,7 @@ describe('decision-business-rule-task-properties', function() {
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         decisionRefBinding = domQuery('select[name="callableBinding"]', propertiesPanel._container),
         decisionRefValue = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        dmnResultVariable = domQuery('div[data-entry=dmn-result-variable] input[name=resultVariable]', propertiesPanel._container),
+        dmnResultVariable = domQuery('div[data-entry=dmn-resultVariable] input[name=resultVariable]', propertiesPanel._container),
         mapDecisionResult = domQuery('select[name=mapDecisionResult]', propertiesPanel._container),
         delegateField = domQuery('input[name=delegate]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);

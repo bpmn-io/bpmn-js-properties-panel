@@ -54,7 +54,7 @@ function getButton(container, groupId, entryId, buttonAction) {
 }
 
 function getConnectorIdInput(container) {
-  return getInputField(container, 'connector-details', 'connector-id');
+  return getInputField(container, 'connector-details', 'connectorId');
 }
 
 function getConnectorInputParameterSelect(container) {
@@ -103,7 +103,7 @@ function getParameterGroupLabel(container) {
 }
 
 function getParameterNameInput(container) {
-  return getInputField(container, 'connector-input-output-parameter', 'connector-parameter-name');
+  return getInputField(container, 'connector-input-output-parameter', 'connector-parameterName');
 }
 
 function getConnector(element) {
@@ -535,7 +535,7 @@ describe('connector', function() {
 
   });
 
-  
+
   describe('add input parameter', function() {
 
     var bo;

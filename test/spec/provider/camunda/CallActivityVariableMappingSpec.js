@@ -7,17 +7,17 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  is = require('bpmn-js/lib/util/ModelUtil').is,
-  forEach = require('lodash/collection/forEach'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    is = require('bpmn-js/lib/util/ModelUtil').is,
+    forEach = require('lodash/collection/forEach'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('call-activity-variable-mapping', function() {
+describe('CallActivity - variable mapping', function() {
 
   var diagramXML = require('./CallActivityVariableMapping.bpmn');
 
@@ -35,7 +35,7 @@ describe('call-activity-variable-mapping', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -92,11 +92,11 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(selectBox.options).to.have.length.of(3);
-    
+
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
@@ -110,11 +110,11 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_6');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(selectBox.options).to.have.length.of(3);
-    
+
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
@@ -128,8 +128,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
 
-    var inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
+    var inSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        outSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(inSelectBox.options).to.have.length.of(4);
@@ -151,8 +151,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
 
-    var inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        removeButton = domQuery('button[id=cam-extension-elements-remove-in-mapping]', propertiesPanel._container),
+    var inSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        removeButton = domQuery('button[id=cam-extensionElements-remove-variableMapping-in]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -191,9 +191,9 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_5');
       selection.select(shape);
 
-      outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container);
+      outSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container);
       businessObject = getBusinessObject(shape);
-      var removeButton = domQuery('button[id=cam-extension-elements-remove-out-mapping]', propertiesPanel._container);
+      var removeButton = domQuery('button[id=cam-extensionElements-remove-variableMapping-out]', propertiesPanel._container);
 
       // given
       expect(outSelectBox.options).to.have.length.of(2);
@@ -264,9 +264,9 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_5');
       selection.select(shape);
 
-      inSelectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container);
+      inSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container);
       businessObject = getBusinessObject(shape);
-      var addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container);
+      var addButton = domQuery('button[id=cam-extensionElements-create-variableMapping-in]', propertiesPanel._container);
 
       expect(inSelectBox.options).to.have.length.of(4);
 
@@ -326,8 +326,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
 
-    var outSelectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        addButton = domQuery('button[id=cam-extension-elements-create-out-mapping]', propertiesPanel._container),
+    var outSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
+        addButton = domQuery('button[id=cam-extensionElements-create-variableMapping-out]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -359,10 +359,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id=camunda-variableMapping-target]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -386,10 +386,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -418,10 +418,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -454,10 +454,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_4');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -490,10 +490,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -531,12 +531,12 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_4');
       selection.select(shape);
 
-      selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container);
-      typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container);
-      sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container);
-      targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container);
+      selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container);
+      typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container);
+      sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container);
+      targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container);
       businessObject = getBusinessObject(shape);
-      var clearButton = domQuery('[data-entry=target] [data-action=clear]', propertiesPanel._container);
+      var clearButton = domQuery('[data-entry=variableMapping-target] [data-action=clear]', propertiesPanel._container);
 
       expect(selectBox.options).to.have.length.of(1);
 
@@ -600,10 +600,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_4');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -645,8 +645,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container);
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container);
 
     expect(selectBox.options).to.have.length.of(4);
 
@@ -663,10 +663,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        sourceInput = domQuery('input[id=camunda-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-target"]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     expect(selectBox.options).to.have.length.of(4);
@@ -688,9 +688,9 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
 
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        removeButton = domQuery('button[id=cam-extension-elements-remove-in-mapping]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        removeButton = domQuery('button[id=cam-extensionElements-remove-variableMapping-in]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -719,9 +719,9 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
 
     selection.select(shape);
 
-    var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-        typeSelectBox = domQuery('select[id=camunda-in-out-type-select]', propertiesPanel._container),
-        addButton = domQuery('button[id=cam-extension-elements-create-in-mapping]', propertiesPanel._container),
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        addButton = domQuery('button[id=cam-extensionElements-create-variableMapping-in]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -754,8 +754,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_1');
       selection.select(shape);
 
-      var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-          checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container);
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+          checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container);
 
       selectBox.options[0].selected = 'selected';
       TestHelper.triggerEvent(selectBox, 'change');
@@ -770,8 +770,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_2');
       selection.select(shape);
 
-      var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
-          checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container),
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+          checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container),
           businessObject = getBusinessObject(shape);
 
       // given
@@ -802,9 +802,9 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_1');
       selection.select(shape);
 
-      var selectBox = domQuery('select[id=cam-extension-elements-in-mapping]', propertiesPanel._container),
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
           businessObject = getBusinessObject(shape);
-      checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container);
+      checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container);
 
       // select mapping
       selectBox.options[0].selected = 'selected';
@@ -858,9 +858,9 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       var shape = elementRegistry.get('CallActivity_1');
       selection.select(shape);
 
-      var selectBox = domQuery('select[id=cam-extension-elements-out-mapping]', propertiesPanel._container),
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
           businessObject = getBusinessObject(shape);
-      checkBox = domQuery('input[id=camunda-local]', propertiesPanel._container);
+      checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container);
 
       // select mapping
       selectBox.options[0].selected = 'selected';
@@ -877,7 +877,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     it('should execute', inject(function() {
 
       expect(checkBox.checked).to.be.true;
-      
+
       expect(variablesMappings[0].local).to.be.true;
 
     }));
