@@ -40,6 +40,7 @@ describe('Task Priority', function() {
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
+
     undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
@@ -60,6 +61,7 @@ describe('Task Priority', function() {
 
       // given
       selection.select(shape);
+
       var bo = getBusinessObject(shape).get('processRef'),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
@@ -80,6 +82,7 @@ describe('Task Priority', function() {
 
       // when
       selection.select(shape);
+
       var bo = getBusinessObject(shape).get('processRef');
 
       // then
@@ -89,11 +92,12 @@ describe('Task Priority', function() {
 
     it('should modify the value of the attribute', inject(function(propertiesPanel, selection, elementRegistry) {
 
+      // given
       var shape = elementRegistry.get('Participant_1'),
           inputEl = 'input[name=taskPriority]';
 
-      // given
       selection.select(shape);
+
       var bo = getBusinessObject(shape).get('processRef'),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
@@ -107,10 +111,10 @@ describe('Task Priority', function() {
 
     it('should remove attribute when value is empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
+      // given
       var shape   = elementRegistry.get('Participant_1'),
           inputEl = 'input[name=taskPriority]';
 
-      // given
       selection.select(shape);
 
       var bo         = getBusinessObject(shape).get('processRef'),
@@ -127,25 +131,49 @@ describe('Task Priority', function() {
     it('should add attribute when the remove is undone',
       inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
+      // given
       var shape   = elementRegistry.get('Participant_1'),
           inputEl = 'input[name=taskPriority]';
 
 
       selection.select(shape);
 
-      var bo         = getBusinessObject(shape).get('processRef'),
+      var bo = getBusinessObject(shape).get('processRef'),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // given
       TestHelper.triggerValue(inputElement, '', 'change');
 
       // when
       commandStack.undo();
-      var taskPriority = bo.get('camunda:taskPriority');
 
       // then
+      var taskPriority = bo.get('camunda:taskPriority');
+
       expect(taskPriority).not.to.be.undefined;
       expect(taskPriority).to.equal("100");
+    }));
+
+  });
+
+
+  describe('Participant (Collapsed Pool)', function() {
+
+    it('should not show input field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('Participant_3'),
+          inputEl = 'input[name=taskPriority]';
+
+      // when
+      selection.select(shape);
+
+      // then
+      var bo = getBusinessObject(shape).get('processRef'),
+          inputElement = domQuery(inputEl, propertiesPanel._container);
+
+      expect(bo).to.be.undefined;
+      expect(inputElement).to.be.null;
+
     }));
 
   });
