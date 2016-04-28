@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:task id="Task_Default" name="Default" camunda:modelerTemplate="visible.default" />
+    <bpmn:task id="Task_AllButSome" name="All but Some" camunda:modelerTemplate="visible.allBut" />
+    <bpmn:task id="Task_Some" name="Some" camunda:modelerTemplate="visible.some" />
+    <bpmn:task id="Task_All" name="All" camunda:modelerTemplate="visible.all" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Task_1v989pg_di" bpmnElement="Task_Default">
+        <dc:Bounds x="202" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_193svxt_di" bpmnElement="Task_AllButSome">
+        <dc:Bounds x="489" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0o8tuj4_di" bpmnElement="Task_Some">
+        <dc:Bounds x="635" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1egtihi_di" bpmnElement="Task_All">
+        <dc:Bounds x="346" y="81" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

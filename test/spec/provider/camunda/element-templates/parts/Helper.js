@@ -53,3 +53,38 @@ function selectAndGet(elementId) {
 }
 
 module.exports.selectAndGet = selectAndGet;
+
+
+var propertiesPanelModule = require('../../../../../../lib'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../../../lib/provider/camunda');
+
+var testModules = [
+  coreModule,
+  selectionModule,
+  modelingModule,
+  propertiesPanelModule,
+  propertiesProviderModule
+];
+
+var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+
+function bootstrap(diagramXML, elementTemplates) {
+
+  return function(done) {
+    bootstrapModeler(diagramXML, {
+      modules: testModules,
+      elementTemplates: elementTemplates,
+      moddleExtensions: {
+        camunda: camundaModdlePackage
+      },
+      propertiesPanel: {
+        parent: document.querySelector('body')
+      }
+    })(done);
+  };
+}
+
+module.exports.bootstrap = bootstrap;

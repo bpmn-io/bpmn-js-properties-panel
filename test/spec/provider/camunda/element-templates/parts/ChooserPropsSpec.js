@@ -2,44 +2,11 @@
 
 var TestHelper = require('../../../../../TestHelper');
 
-var TestContainer = require('mocha-test-container-support');
-
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../../../lib'),
-    coreModule = require('bpmn-js/lib/core'),
-    selectionModule = require('diagram-js/lib/features/selection'),
-    modelingModule = require('bpmn-js/lib/features/modeling'),
-    propertiesProviderModule = require('../../../../../../lib/provider/camunda'),
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
-
 var entrySelect = require('./Helper').entrySelect,
-    selectAndGet = require('./Helper').selectAndGet;
-
-var testModules = [
-  coreModule,
-  selectionModule,
-  modelingModule,
-  propertiesPanelModule,
-  propertiesProviderModule
-];
-
-
-function bootstrap(diagramXML, elementTemplates) {
-
-  return function(done) {
-    bootstrapModeler(diagramXML, {
-      modules: testModules,
-      elementTemplates: elementTemplates,
-      moddleExtensions: {
-        camunda: camundaModdlePackage
-      },
-      propertiesPanel: {
-        parent: document.querySelector('body')
-      }
-    })(done);
-  };
-}
+    selectAndGet = require('./Helper').selectAndGet,
+    bootstrap = require('./Helper').bootstrap;
 
 
 describe('element-templates/parts - Chooser', function() {
