@@ -58,15 +58,15 @@ function getInputOutputTab(container) {
 }
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameter-type-select"]', getInputOutputTab(container));
+  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
 }
 
 function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-map"] > div', getInputOutputTab(container));
 }
 
 function getMapTable(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-map"] > div.pp-table', getInputOutputTab(container));
 }
 
 function getMapRows(container) {
@@ -92,10 +92,10 @@ function clickRemoveEntryButton(idx, container) {
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extension-elements-' + suffix + ']', getInputOutputTab(container));
+  return domQuery('select[id=cam-extensionElements-' + suffix + ']', getInputOutputTab(container));
 }
 
-describe('input-output-parameter-type-map', function() {
+describe('input-output-parameterType-map', function() {
 
   var diagramXML = require('./InputOutput.bpmn');
 

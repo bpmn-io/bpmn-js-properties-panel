@@ -20,12 +20,12 @@ var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 var domQuery = require('min-dom/lib/query');
 
 function getExtensionsTab(container) {
-  return domQuery('div[data-tab="extension-elements"]', container);
+  return domQuery('div[data-tab="extensionElements"]', container);
 }
 
 function getPropertiesGroup(container) {
   var extensions = getExtensionsTab(container);
-  return domQuery('div[data-group="extension-elements-properties"]', extensions);
+  return domQuery('div[data-group="extensionElements-properties"]', extensions);
 }
 
 function getPropertiesEntry(container) {
@@ -52,7 +52,7 @@ var getPropertyValues = function(element) {
   }
 };
 
-describe('extension-elements-properties', function() {
+describe('extensionElements-properties', function() {
 
   var diagramXML = require('./Properties.bpmn');
 
@@ -633,14 +633,14 @@ describe('extension-elements-properties', function() {
 
     it('should retain other extension elements when removing last property value',
       inject(function(elementRegistry, selection, propertiesPanel) {
-      
+
       // given
       var shape = elementRegistry.get('WITH_LISTENER_AND_PROP');
       selection.select(shape);
       var bo = getBusinessObject(shape);
 
       var propertiesTable = getPropertiesTable(propertiesPanel._container);
-      var removeButton = domQuery('[data-index="0"] [data-action="deleteElement"]', propertiesTable);     
+      var removeButton = domQuery('[data-index="0"] [data-action="deleteElement"]', propertiesTable);
 
       // when
       TestHelper.triggerEvent(removeButton, 'click');
@@ -656,7 +656,7 @@ describe('extension-elements-properties', function() {
 
     it('should retain other extension elements when adding property value',
       inject(function(elementRegistry, selection, propertiesPanel) {
-      
+
       // given
       var shape = elementRegistry.get('WITH_LISTENER');
       selection.select(shape);
