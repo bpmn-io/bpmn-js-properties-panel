@@ -2,7 +2,7 @@
 
 var TestHelper = require('../../../../../TestHelper');
 
-/* global bootstrapModeler, inject */
+/* global inject */
 
 var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,
@@ -11,15 +11,13 @@ var entrySelect = require('./Helper').entrySelect,
 
 describe('element-templates/parts - Chooser', function() {
 
-  describe('activation', function() {
-
+  it('should boostrap with bpmn-js', function() {
+    // given
     var diagramXML = require('./ChooserProps.bpmn'),
         elementTemplates = require('./ChooserProps.json');
 
-    beforeEach(bootstrap(diagramXML, elementTemplates));
-
-    it('should boostrap with bpmn-js', inject(function() {}));
-
+    // then
+    bootstrap(diagramXML, elementTemplates)();
   });
 
 
@@ -34,7 +32,7 @@ describe('element-templates/parts - Chooser', function() {
     it('should hide with no templates', inject(function() {
 
       // given
-      var task = selectAndGet('Gateway');
+      selectAndGet('Gateway');
 
       // when
       var chooser = entrySelect('element-template-chooser');
@@ -47,7 +45,7 @@ describe('element-templates/parts - Chooser', function() {
     it('should show with existing templates', inject(function() {
 
       // given
-      var task = selectAndGet('Task_C');
+      selectAndGet('Task_C');
 
       // when
       var options = getElementTemplates();
@@ -57,14 +55,14 @@ describe('element-templates/parts - Chooser', function() {
         { value: '', selected: true },
         { value: 'user.task', selected: false },
         { value: 'other.user.task', selected: false }
-      ])
+      ]);
     }));
 
 
     it('should indicate choosen template', inject(function() {
 
       // given
-      var task = selectAndGet('Task_A');
+      selectAndGet('Task_A');
 
       // when
       var options = getElementTemplates();
@@ -74,14 +72,14 @@ describe('element-templates/parts - Chooser', function() {
         { value: '', selected: false },
         { value: 'a.task', selected: true },
         { value: 'other.task', selected: false }
-      ])
+      ]);
     }));
 
 
     it('should indicate <Unknown Template> option', inject(function() {
 
       // given
-      var task = selectAndGet('Task_B');
+      selectAndGet('Task_B');
 
       // when
       var options = getElementTemplates();
@@ -99,7 +97,7 @@ describe('element-templates/parts - Chooser', function() {
     it('should indicate <Unknown Template> option / no templates', inject(function() {
 
       // given
-      var task = selectAndGet('Gateway_MissingTemplate');
+      selectAndGet('Gateway_MissingTemplate');
 
       // when
       var options = getElementTemplates();
@@ -165,9 +163,6 @@ describe('element-templates/parts - Chooser', function() {
   });
 
 });
-
-
-var domQuery = require('min-dom/lib/query');
 
 
 function getElementTemplates() {

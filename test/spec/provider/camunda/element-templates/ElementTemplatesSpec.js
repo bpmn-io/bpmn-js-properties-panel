@@ -20,7 +20,7 @@ describe('element-templates - ElementTemplates', function() {
 
   describe('add', function() {
 
-    it('should accept vip-ordering', function() {
+    it('should accept vip-ordering example template', function() {
 
       // given
       var templates = new ElementTemplates();
@@ -37,7 +37,7 @@ describe('element-templates - ElementTemplates', function() {
     });
 
 
-    it('should accept misc', function() {
+    it('should accept misc example template', function() {
 
       // given
       var templates = new ElementTemplates();
@@ -170,6 +170,8 @@ describe('element-templates - ElementTemplates', function() {
 
       // given
       var templates = new ElementTemplates();
+
+      templates._all = {};
 
       // when
       var allTemplates = templates.getAll();

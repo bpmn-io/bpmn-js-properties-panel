@@ -1,6 +1,6 @@
 'use strict';
 
-var TestHelper = require('../../../../TestHelper');
+require('../../../../TestHelper');
 
 /* global bootstrapModeler, inject */
 
@@ -46,7 +46,7 @@ describe('element-templates - CreateHelper', function() {
       // given
       var binding = {
         target: 'foo'
-      }
+      };
 
       // when
       var inputParameter = createInputParameter(binding, '${ source }', bpmnFactory);
@@ -66,7 +66,7 @@ describe('element-templates - CreateHelper', function() {
       var binding = {
         target: 'bar',
         scriptFormat: 'freemarker'
-      }
+      };
 
       // when
       var inputParameter = createInputParameter(binding, '${ source }', bpmnFactory);
@@ -93,7 +93,7 @@ describe('element-templates - CreateHelper', function() {
       // given
       var binding = {
         source: '${ source }'
-      }
+      };
 
       // when
       var outputParameter = createOutputParameter(binding, 'bar', bpmnFactory);
@@ -113,7 +113,7 @@ describe('element-templates - CreateHelper', function() {
       var binding = {
         source: '${ source }',
         scriptFormat: 'freemarker'
-      }
+      };
 
       // when
       var outputParameter = createOutputParameter(binding, 'foo', bpmnFactory);
