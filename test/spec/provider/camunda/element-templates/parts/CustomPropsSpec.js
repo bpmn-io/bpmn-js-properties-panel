@@ -16,7 +16,7 @@ var entrySelect = require('./Helper').entrySelect,
 
 describe('element-templates/parts - Custom Properties', function() {
 
-  describe('types', function() {
+  describe('bindings', function() {
 
     var diagramXML = require('./CustomProps.bpmn'),
         elementTemplates = require('./CustomProps.json');
@@ -293,6 +293,69 @@ describe('element-templates/parts - Custom Properties', function() {
       }));
 
     });
+
+  });
+
+
+  describe('types', function() {
+
+    var diagramXML = require('./CustomProps.dropdown.bpmn'),
+        elementTemplates = require('./CustomProps.json');
+
+    beforeEach(bootstrap(diagramXML, elementTemplates));
+
+
+    function getDropdownOptions(selector) {
+
+      var options = entrySelect.all(selector, 'select option');
+
+      return options.map(function(o) {
+        return {
+          value: o.value,
+          selected: o.selected
+        };
+      });
+    }
+
+    function changeDropdown(selector, newValue) {
+
+      var templateSelect = entrySelect(selector, 'select'),
+          option = entrySelect(selector, 'option[value="' + newValue + '"]');
+
+      option.selected = 'selected';
+
+      TestHelper.triggerEvent(templateSelect, 'change');
+    }
+
+
+    it('should display options', inject(function() {
+
+      // given
+      var task = selectAndGet('PriorityTask');
+
+      // when
+      var options = getDropdownOptions('custom-my.priority.Task-0');
+
+      // then
+      expect(options).to.eql([
+        { value: '50', selected: true },
+        { value: '100', selected: false },
+        { value: '150', selected: false }
+      ]);
+    }));
+
+
+    it('should change, updating binding', inject(function() {
+
+      // given
+      var task = selectAndGet('PriorityTask');
+
+      // when
+      changeDropdown('custom-my.priority.Task-0', '100');
+
+      // then
+      expect(task.get('camunda:priority')).to.eql('100');
+    }));
 
   });
 

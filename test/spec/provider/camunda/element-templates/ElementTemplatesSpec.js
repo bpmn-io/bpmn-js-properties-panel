@@ -54,6 +54,23 @@ describe('element-templates - ElementTemplates', function() {
     });
 
 
+    it('should accept dropdown example template', function() {
+
+      // given
+      var templates = new ElementTemplates();
+
+      var templateDescriptors = require('./fixtures/dropdown');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(parsed(templates)).to.have.length(1);
+    });
+
+
     it('should reject missing id', function() {
 
       // given
@@ -122,6 +139,44 @@ describe('element-templates - ElementTemplates', function() {
     });
 
 
+    it('should reject missing dropdown choices', function() {
+
+      // given
+      var templates = new ElementTemplates();
+
+      var templateDescriptors = require('./fixtures/error-dropdown-choices-missing');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.eql([
+        'must provide choices=[] with Dropdown type'
+      ]);
+
+      expect(parsed(templates)).to.be.empty;
+    });
+
+
+    it('should reject invalid dropdown choices', function() {
+
+      // given
+      var templates = new ElementTemplates();
+
+      var templateDescriptors = require('./fixtures/error-dropdown-choices-invalid');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.eql([
+        '{ name, value } must be specified for Dropdown choices'
+      ]);
+
+      expect(parsed(templates)).to.be.empty;
+    });
+
+
     it('should reject invalid property', function() {
 
       // given
@@ -134,7 +189,7 @@ describe('element-templates - ElementTemplates', function() {
 
       // then
       expect(errors(templates)).to.contain(
-        'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Number }'
+        'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Dropdown }'
       );
 
       expect(errors(templates)).to.contain(

@@ -139,6 +139,30 @@
     ]
   },
   {
+    "label": "Priority Task",
+    "id": "my.priority.Task",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Priority",
+        "description": "The priority assigned to this task",
+        "type": "Dropdown",
+        "choices": [
+          { "name": "low", "value": "50" },
+          { "name": "medium", "value": "100" },
+          { "name": "high", "value": "150" }
+        ],
+        "value": "50",
+        "binding": {
+          "type": "property",
+          "target": "camunda:priority"
+        }
+      }
+    ]
+  },
+  {
     "label": "Validated Inputs Task",
     "id": "com.validated-inputs.Task",
     "appliesTo": [
