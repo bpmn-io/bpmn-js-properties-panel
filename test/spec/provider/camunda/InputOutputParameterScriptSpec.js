@@ -45,7 +45,7 @@ function getInputOutputTab(container) {
 }
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameter-type-select"]', getInputOutputTab(container));
+  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
 }
 
 // input parameter
@@ -63,11 +63,11 @@ function selectInputParameter(idx, container) {
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extension-elements-' + suffix + ']', getInputOutputTab(container));
+  return domQuery('select[id=cam-extensionElements-' + suffix + ']', getInputOutputTab(container));
 }
 
 
-describe('input-output-parameter-type-script', function() {
+describe('input-output-parameterType-script', function() {
 
   var diagramXML = require('./InputOutput.bpmn');
 

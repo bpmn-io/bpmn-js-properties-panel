@@ -17,7 +17,7 @@ var propertiesPanelModule = require('../../../../lib'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('call-activity-properties', function() {
+describe('callActivity - properties', function() {
 
   var diagramXML = require('./CallActivity.bpmn');
 

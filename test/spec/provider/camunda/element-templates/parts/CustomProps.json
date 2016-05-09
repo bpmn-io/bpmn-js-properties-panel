@@ -59,9 +59,9 @@
       "_all": false,
       "id": true,
       "name": true,
-      "async-before": true,
-      "async-after": true,
-      "execution-listeners": true,
+      "asyncBefore": true,
+      "asyncAfter": true,
+      "executionListeners": true,
       "documentation": true
     }
   },

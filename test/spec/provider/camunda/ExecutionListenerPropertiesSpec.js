@@ -204,7 +204,7 @@ describe('listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         executionListeners = getExecutionListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=execution-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements.values.length).to.equal(3);
@@ -244,7 +244,7 @@ describe('listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         executionListeners = getExecutionListener(bo.extensionElements),
-        removeListenerButtons = domQuery.all('[data-entry=execution-listeners] button[data-action=removeListener]', propertiesPanel._container);
+        removeListenerButtons = domQuery.all('[data-entry=executionListeners] button[data-action=removeListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements.values.length).to.equal(3);
@@ -283,7 +283,7 @@ describe('listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         executionListeners = getExecutionListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=execution-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -326,7 +326,7 @@ describe('listener-properties', function() {
         eventTypes = domQuery.all('select[name=eventType]', propertiesPanel._container),
         listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
         listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container),
-        clearButtons = domQuery.all('[data-entry=execution-listeners] button[data-action=clearListenerValue]', propertiesPanel._container);
+        clearButtons = domQuery.all('[data-entry=executionListeners] button[data-action=clearListenerValue]', propertiesPanel._container);
 
     // given
     expect(clearButtons.length).to.equal(2);
@@ -364,7 +364,7 @@ describe('listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         executionListeners = getExecutionListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=execution-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements.values.length).to.equal(1);
@@ -404,7 +404,7 @@ describe('listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         executionListeners = getExecutionListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=execution-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -454,7 +454,7 @@ describe('listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=execution-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -488,7 +488,7 @@ describe('listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=execution-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -518,7 +518,7 @@ describe('listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=execution-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -556,7 +556,7 @@ describe('listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=execution-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -588,7 +588,7 @@ describe('listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=execution-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=executionListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     // given

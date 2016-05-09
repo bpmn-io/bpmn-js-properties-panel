@@ -16,7 +16,7 @@ var propertiesPanelModule = require('../../../../lib'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     forEach = require('lodash/collection/forEach');
 
-describe('job-priority', function() {
+describe('jobPriority', function() {
   var diagramXML = require('./JobPriority.bpmn');
 
   var testModules = [

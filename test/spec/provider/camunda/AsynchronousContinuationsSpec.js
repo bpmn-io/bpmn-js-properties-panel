@@ -16,11 +16,11 @@ var propertiesPanelModule = require('../../../../lib'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 function getAsyncBefore(container) {
-  return domQuery('div[data-entry=async-before] input[name=asyncBefore]', container);
+  return domQuery('div[data-entry=asyncBefore] input[name=asyncBefore]', container);
 }
 
 function getAsyncAfter(container) {
-  return domQuery('div[data-entry=async-after] input[name=asyncAfter]', container);
+  return domQuery('div[data-entry=asyncAfter] input[name=asyncAfter]', container);
 }
 
 function getExclusive(container) {
@@ -73,7 +73,7 @@ describe('flow-node-properties', function() {
 
     // assume
     // that the asyncBefore is false
-    expect(taskBo.get("asyncBefore")).to.not.be.ok;
+    expect(taskBo.get('asyncBefore')).to.not.be.ok;
 
     // when
     // I click on the checkbox
@@ -81,7 +81,7 @@ describe('flow-node-properties', function() {
 
     // then
     // the value is true in the model
-    expect(taskBo.get("asyncBefore")).to.be.ok;
+    expect(taskBo.get('asyncBefore')).to.be.ok;
   }));
 
 
@@ -98,7 +98,7 @@ describe('flow-node-properties', function() {
 
     // assume
     // that the asyncBefore is false
-    expect(taskBo.get("asyncBefore")).to.not.be.ok;
+    expect(taskBo.get('asyncBefore')).to.not.be.ok;
 
     // when
     // I click on the checkbox
@@ -106,7 +106,7 @@ describe('flow-node-properties', function() {
 
     // then
     // the value is true in the model
-    expect(taskBo.get("asyncBefore")).to.be.ok;
+    expect(taskBo.get('asyncBefore')).to.be.ok;
   }));
 
 
@@ -123,7 +123,7 @@ describe('flow-node-properties', function() {
 
     // assume
     // that the asyncBefore is false
-    expect(taskBo.get("asyncBefore")).to.not.be.ok;
+    expect(taskBo.get('asyncBefore')).to.not.be.ok;
 
     // when
     // I click on the checkbox
@@ -131,7 +131,7 @@ describe('flow-node-properties', function() {
 
     // then
     // the value is true in the model
-    expect(taskBo.get("asyncBefore")).to.be.ok;
+    expect(taskBo.get('asyncBefore')).to.be.ok;
   }));
 
 
@@ -148,7 +148,7 @@ describe('flow-node-properties', function() {
 
     // assume
     // that the asyncAfter is false
-    expect(taskBo.get("asyncAfter")).to.not.be.ok;
+    expect(taskBo.get('asyncAfter')).to.not.be.ok;
 
     // when
     // I click on the checkbox
@@ -156,7 +156,7 @@ describe('flow-node-properties', function() {
 
     // then
     // the value is true in the model
-    expect(taskBo.get("asyncAfter")).to.be.ok;
+    expect(taskBo.get('asyncAfter')).to.be.ok;
   }));
 
 
@@ -173,7 +173,7 @@ describe('flow-node-properties', function() {
 
     // assume
     // that the asyncAfter property is false (unset)
-    expect(taskBo.get("asyncAfter")).to.not.be.ok;
+    expect(taskBo.get('asyncAfter')).to.not.be.ok;
     expect(checkbox.selected).to.not.be.true;
 
     // when
@@ -182,7 +182,7 @@ describe('flow-node-properties', function() {
 
     // then
     // the value is true in the model
-    expect(taskBo.get("asyncAfter")).to.be.ok;
+    expect(taskBo.get('asyncAfter')).to.be.ok;
 
   }));
 
@@ -200,7 +200,7 @@ describe('flow-node-properties', function() {
 
     // assume
     // that the asyncAfter is false (unset)
-    expect(taskBo.get("asyncAfter")).to.not.be.ok;
+    expect(taskBo.get('asyncAfter')).to.not.be.ok;
 
     // when
     // I click on the checkbox
@@ -208,7 +208,7 @@ describe('flow-node-properties', function() {
 
     // then
     // the value is true in the model
-    expect(taskBo.get("asyncAfter")).to.be.ok;
+    expect(taskBo.get('asyncAfter')).to.be.ok;
   }));
 
 

@@ -252,7 +252,7 @@ describe('external-service-task-properties', function() {
     }
 
     function getTopicInput(container) {
-      return domQuery('div[data-entry="external-topic"] input[name="externalTopic"]', container);
+      return domQuery('div[data-entry="externalTopic"] input[name="externalTopic"]', container);
     }
 
     it('should offer external as implementation type for an intermediate message event',

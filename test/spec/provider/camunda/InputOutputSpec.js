@@ -121,27 +121,27 @@ function getParameterGroupLabel(container) {
 }
 
 function getParameterNameInput(container) {
-  return domQuery('input[id="camunda-parameter-name"]', getInputOutputTab(container));
+  return domQuery('input[id="camunda-parameterName"]', getInputOutputTab(container));
 }
 
 function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameter-type-select"]', getInputOutputTab(container));
+  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
 }
 
 function getParameterTextValue(container) {
-  return domQuery('textarea[id="camunda-parameter-type-text"]', getInputOutputTab(container));
+  return domQuery('textarea[id="camunda-parameterType-text"]', getInputOutputTab(container));
 }
 
 function getScriptEntry(container) {
-  return domQuery('div[data-entry="parameter-type-script"] > div', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-script"] > div', getInputOutputTab(container));
 }
 
 function getListAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table-add-row', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-list"] > div.pp-table-add-row', getInputOutputTab(container));
 }
 
 function getListTable(container) {
-  return domQuery('div[data-entry="parameter-type-list"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-list"] > div.pp-table', getInputOutputTab(container));
 }
 
 function getListRows(container) {
@@ -155,11 +155,11 @@ function getListInput(idx, container) {
 }
 
 function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-map"] > div', getInputOutputTab(container));
 }
 
 function getMapTable(container) {
-  return domQuery('div[data-entry="parameter-type-map"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-map"] > div.pp-table', getInputOutputTab(container));
 }
 
 function getMapRows(container) {
@@ -175,15 +175,15 @@ function getMapInput(idx, column, container) {
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id="cam-extension-elements-' + suffix + '"]', getInputOutputTab(container));
+  return domQuery('select[id="cam-extensionElements-' + suffix + '"]', getInputOutputTab(container));
 }
 
 function getAddButton(suffix, container) {
-  return domQuery('button[id="cam-extension-elements-create-' + suffix + '"]', getInputOutputTab(container));
+  return domQuery('button[id="cam-extensionElements-create-' + suffix + '"]', getInputOutputTab(container));
 }
 
 function getRemoveButton(suffix, container) {
-  return domQuery('button[id="cam-extension-elements-remove-' + suffix + '"]', getInputOutputTab(container));
+  return domQuery('button[id="cam-extensionElements-remove-' + suffix + '"]', getInputOutputTab(container));
 }
 
 function isParameterContainedIn(params, value) {

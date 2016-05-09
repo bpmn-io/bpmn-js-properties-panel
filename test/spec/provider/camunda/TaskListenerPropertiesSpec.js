@@ -107,7 +107,7 @@ describe('task-listener-properties', function() {
     selection.select(taskShape);
 
     var bo = getBusinessObject(taskShape),
-        taskListenersEntry = domQuery.all('[data-entry=task-listeners]', propertiesPanel._container);
+        taskListenersEntry = domQuery.all('[data-entry=taskListeners]', propertiesPanel._container);
 
     expect(bo.extensionElements.values).to.have.length.of(1);
     expect(taskListenersEntry).to.have.length(0);
@@ -126,9 +126,9 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        eventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+        eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements.values).to.have.length.of(2);
@@ -171,7 +171,7 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=task-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=taskListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements.values).to.have.length.of(2);
@@ -180,9 +180,9 @@ describe('task-listener-properties', function() {
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var eventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // set listener value to have a successfully validation
     TestHelper.triggerValue(listenerValues[1], 'newTaskListenerVal');
@@ -211,7 +211,7 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        removeListenerButtons = domQuery.all('[data-entry=task-listeners] button[data-action=removeListener]', propertiesPanel._container);
+        removeListenerButtons = domQuery.all('[data-entry=taskListeners] button[data-action=removeListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements.values).to.have.length.of(2);
@@ -223,9 +223,9 @@ describe('task-listener-properties', function() {
     TestHelper.triggerEvent(removeListenerButtons[0], 'click');
 
     // then
-    var eventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // check html
     expect(eventTypes[0]).to.be.undefined;
@@ -248,7 +248,7 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=task-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=taskListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -257,9 +257,9 @@ describe('task-listener-properties', function() {
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var eventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // set listener value to have a successfully validation
     TestHelper.triggerValue(listenerValues[0], 'newTaskListenerVal');
@@ -288,10 +288,10 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        eventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container),
-        clearButtons = domQuery.all('[data-entry=task-listeners] button[data-action=clearListenerValue]', propertiesPanel._container);
+        eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container),
+        clearButtons = domQuery.all('[data-entry=taskListeners] button[data-action=clearListenerValue]', propertiesPanel._container);
 
     // given
     expect(clearButtons).to.have.length.of(1);
@@ -328,7 +328,7 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        addListenerButton = domQuery('[data-entry=task-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addListenerButton = domQuery('[data-entry=taskListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -339,9 +339,9 @@ describe('task-listener-properties', function() {
     TestHelper.triggerEvent(addListenerButton, 'click');
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var eventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container),
+    var eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container),
         errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
 
     expect(listenerValues[0].className).to.equal('invalid');
@@ -388,12 +388,12 @@ describe('task-listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=task-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=taskListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // add task listener value to the task listener
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
@@ -422,12 +422,12 @@ describe('task-listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=task-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=taskListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
 
@@ -452,13 +452,13 @@ describe('task-listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=task-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=taskListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // add task listener value to both the task listeners
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
@@ -490,13 +490,13 @@ describe('task-listener-properties', function() {
 
     selection.select(taskShape);
 
-    var query = '[data-entry=task-listeners] > div > button[data-action=addListener]',
+    var query = '[data-entry=taskListeners] > div > button[data-action=addListener]',
         addListenerButton = domQuery(query, propertiesPanel._container);
 
     TestHelper.triggerEvent(addListenerButton, 'click');
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var listenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
     TestHelper.triggerValue(listenerValues[0], 'taskListenerValOne');
     TestHelper.triggerValue(listenerValues[1], 'taskListenerValTwo');
@@ -521,8 +521,8 @@ describe('task-listener-properties', function() {
 
     var bo = getBusinessObject(taskShape),
         taskListeners = getTaskListener(bo.extensionElements),
-        addExecutionListenerButton = domQuery('[data-entry=execution-listeners] > div > button[data-action=addListener]', propertiesPanel._container),
-        addTaskListenerButton = domQuery('[data-entry=task-listeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        addExecutionListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container),
+        addTaskListenerButton = domQuery('[data-entry=taskListeners] > div > button[data-action=addListener]', propertiesPanel._container);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -533,13 +533,13 @@ describe('task-listener-properties', function() {
     TestHelper.triggerEvent(addExecutionListenerButton, 'click');
     TestHelper.triggerEvent(addTaskListenerButton, 'click');
 
-    var taskEventTypes = domQuery.all('[data-entry=task-listeners] select[name=eventType]', propertiesPanel._container),
-        taskListenerTypes = domQuery.all('[data-entry=task-listeners] select[name=listenerType]', propertiesPanel._container),
-        taskListenerValues = domQuery.all('[data-entry=task-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var taskEventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
+        taskListenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
+        taskListenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container);
 
-    var eventTypes = domQuery.all('[data-entry=execution-listeners] select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('[data-entry=execution-listeners] select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('[data-entry=execution-listeners] input[name=listenerValue]', propertiesPanel._container);
+    var eventTypes = domQuery.all('[data-entry=executionListeners] select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('[data-entry=executionListeners] select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('[data-entry=executionListeners] input[name=listenerValue]', propertiesPanel._container);
 
     // set listener value to have a successfully validation
     TestHelper.triggerValue(taskListenerValues[0], 'taskListenerVal');

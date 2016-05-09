@@ -371,7 +371,7 @@ describe('form-data', function() {
       // select the third form field 'dateOfBirth'
       TestHelper.triggerFormFieldSelection(2, container);
 
-      var removeButton = domQuery('button[id=cam-extension-elements-remove-form-fields]', container);
+      var removeButton = domQuery('button[id=cam-extensionElements-remove-form-fields]', container);
 
       TestHelper.triggerEvent(removeButton, 'click');
     }));
