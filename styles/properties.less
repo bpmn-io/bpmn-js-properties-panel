@@ -184,8 +184,13 @@
 
 .djs-properties-entry {
   margin-bottom: 9px;
+
   .pp-field-wrapper {
     position: relative;
+
+    input[readonly] + .clear {
+      display: none;
+    }
   }
 }
 
