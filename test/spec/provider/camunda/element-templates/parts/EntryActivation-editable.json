@@ -1,0 +1,62 @@
+[
+  {
+    "label": "EditableTask",
+    "id": "task.editable",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Editable Checkbox",
+        "type": "Boolean",
+        "binding": {
+          "type": "property",
+          "target": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Readonly Checkbox",
+        "type": "Boolean",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "target": "camunda:asyncBefore"
+        }
+      },
+      {
+        "label": "Editable Input",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "target": "camunda:javaDelegate"
+        }
+      },
+      {
+        "label": "Readonly Input",
+        "type": "String",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "target": "camunda:javaDelegate"
+        }
+      },
+      {
+        "label": "Editable Text",
+        "type": "Text",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "target": "template"
+        }
+      },
+      {
+        "label": "Readonly Text",
+        "type": "Text",
+        "editable": false,
+        "binding": {
+          "type": "camunda:inputParameter",
+          "target": "template"
+        }
+      }
+    ]
+  }
+]
