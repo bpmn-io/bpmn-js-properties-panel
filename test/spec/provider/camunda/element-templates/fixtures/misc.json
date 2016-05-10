@@ -1,6 +1,6 @@
 [
   {
-    "label": "Custom Whatever",
+    "name": "Custom Whatever",
     "id": "com.mycompany.whateverdomain.ShoeTask",
     "appliesTo": [
       "bpmn:ServiceTask"

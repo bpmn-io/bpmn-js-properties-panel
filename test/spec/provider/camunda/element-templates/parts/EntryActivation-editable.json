@@ -1,6 +1,6 @@
 [
   {
-    "label": "EditableTask",
+    "name": "EditableTask",
     "id": "task.editable",
     "appliesTo": [
       "bpmn:Task"

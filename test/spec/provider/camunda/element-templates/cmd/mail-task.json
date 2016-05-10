@@ -1,5 +1,5 @@
 {
-  "label": "MailTask",
+  "name": "MailTask",
   "id": "my.mail.Task",
   "appliesTo": [
     "bpmn:Task"

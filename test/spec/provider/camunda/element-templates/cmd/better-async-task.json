@@ -1,5 +1,5 @@
 {
-  "label": "AwesomeTask",
+  "name": "AwesomeTask",
   "id": "my.awesome.Task",
   "appliesTo": [
     "bpmn:Task"

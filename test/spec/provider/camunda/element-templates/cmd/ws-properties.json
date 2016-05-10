@@ -1,5 +1,5 @@
 {
-  "label": "WS Caller Task",
+  "name": "WS Caller Task",
   "id": "com.mycompany.WsCaller",
   "appliesTo": [
     "bpmn:Task"

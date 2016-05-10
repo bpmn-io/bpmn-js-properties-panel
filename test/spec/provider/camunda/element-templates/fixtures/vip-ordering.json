@@ -1,6 +1,6 @@
 [
   {
-    "label": "VIP-Bestellungspfad",
+    "name": "VIP-Bestellungspfad",
     "id": "e.com.merce.FastPath",
     "appliesTo": [
       "bpmn:SequenceFlow"

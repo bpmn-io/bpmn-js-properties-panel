@@ -1,6 +1,6 @@
 [
   {
-    "label": "Priority Task",
+    "name": "Priority Task",
     "id": "com.mycompany.whateverdomain.PriorityTask",
     "appliesTo": [
       "bpmn:UserTask"

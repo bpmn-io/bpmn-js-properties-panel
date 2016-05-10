@@ -1,6 +1,6 @@
 [
   {
-    "label": "MailTask",
+    "name": "MailTask",
     "id": "my.mail.Task",
     "appliesTo": [
       "bpmn:Task"
@@ -38,7 +38,7 @@
     ]
   },
   {
-    "label": "AsyncAwesomeTask",
+    "name": "AsyncAwesomeTask",
     "id": "my.awesome.Task",
     "appliesTo": [
       "bpmn:Task"
@@ -66,7 +66,7 @@
     }
   },
   {
-    "label": "Custom ServiceTask",
+    "name": "Custom ServiceTask",
     "id": "my.custom.ServiceTask",
     "appliesTo": [
       "bpmn:ServiceTask"
@@ -86,7 +86,7 @@
     "entriesVisible": true
   },
   {
-    "label": "VIP-Order Path",
+    "name": "VIP-Order Path",
     "id": "e.com.merce.FastPath",
     "appliesTo": [
       "bpmn:SequenceFlow"
@@ -114,7 +114,7 @@
     ]
   },
   {
-    "label": "WS Caller Task",
+    "name": "WS Caller Task",
     "id": "com.mycompany.WsCaller",
     "appliesTo": [
       "bpmn:Task"
@@ -139,7 +139,7 @@
     ]
   },
   {
-    "label": "Priority Task",
+    "name": "Priority Task",
     "id": "my.priority.Task",
     "appliesTo": [
       "bpmn:UserTask"
@@ -163,7 +163,7 @@
     ]
   },
   {
-    "label": "Validated Inputs Task",
+    "name": "Validated Inputs Task",
     "id": "com.validated-inputs.Task",
     "appliesTo": [
       "bpmn:Task"

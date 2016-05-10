@@ -1,6 +1,6 @@
 [
   {
-    "label": "Default Visible",
+    "name": "Default Visible",
     "id": "visible.default",
     "appliesTo": [
       "bpmn:Task"
@@ -8,7 +8,7 @@
     "properties": []
   },
   {
-    "label": "All Visible",
+    "name": "All Visible",
     "id": "visible.all",
     "appliesTo": [
       "bpmn:Task"
@@ -19,7 +19,7 @@
     }
   },
   {
-    "label": "All But Some Visible",
+    "name": "All But Some Visible",
     "id": "visible.allBut",
     "appliesTo": [
       "bpmn:Task"
@@ -35,7 +35,7 @@
     }
   },
   {
-    "label": "Some Visible",
+    "name": "Some Visible",
     "id": "visible.some",
     "appliesTo": [
       "bpmn:Task"

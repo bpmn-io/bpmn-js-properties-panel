@@ -1,6 +1,6 @@
 [
   {
-    "label": "Task",
+    "name": "Task",
     "id": "bar",
     "appliesTo": [
       "bpmn:UserTask"

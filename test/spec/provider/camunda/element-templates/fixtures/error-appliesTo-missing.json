@@ -1,6 +1,6 @@
 [
   {
-    "label": "Invalid",
+    "name": "Invalid",
     "id": "foo",
     "properties": []
   }

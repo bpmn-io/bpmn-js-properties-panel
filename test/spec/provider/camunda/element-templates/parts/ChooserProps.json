@@ -1,6 +1,6 @@
 [
   {
-    "label": "A Task",
+    "name": "A Task",
     "id": "a.task",
     "appliesTo": [
       "bpmn:ServiceTask"
@@ -8,7 +8,7 @@
     "properties": []
   },
   {
-    "label": "Other Task",
+    "name": "Other Task",
     "id": "other.task",
     "appliesTo": [
       "bpmn:ServiceTask"
@@ -16,7 +16,7 @@
     "properties": []
   },
   {
-    "label": "User Task",
+    "name": "User Task",
     "id": "user.task",
     "appliesTo": [
       "bpmn:UserTask"
@@ -24,7 +24,7 @@
     "properties": []
   },
   {
-    "label": "Other User Task",
+    "name": "Other User Task",
     "id": "other.user.task",
     "appliesTo": [
       "bpmn:UserTask"

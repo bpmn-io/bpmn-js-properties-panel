@@ -1,6 +1,6 @@
 [
   {
-    "label": "FOO 1",
+    "name": "FOO 1",
     "id": "foo",
     "appliesTo": [
       "bpmn:UserTask"
@@ -8,7 +8,7 @@
     "properties": []
   },
   {
-    "label": "Foo 2",
+    "name": "Foo 2",
     "id": "foo",
     "appliesTo": [
       "bpmn:UserTask"

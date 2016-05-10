@@ -1,5 +1,5 @@
 {
-  "label": "Custom ServiceTask",
+  "name": "Custom ServiceTask",
   "id": "my.custom.ServiceTask",
   "appliesTo": [
     "bpmn:ServiceTask"
