@@ -1,0 +1,39 @@
+[
+  {
+    "name": "Invalid",
+    "id": "foo",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Missing Name (1)",
+        "type": "String",
+        "binding": {
+          "type": "property"
+        }
+      },
+      {
+        "label": "Missing Name (2)",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property"
+        }
+      },
+      {
+        "label": "Missing Name (3)",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter"
+        }
+      },
+      {
+        "label": "Missing Source",
+        "type": "String",
+        "binding": {
+          "type": "camunda:outputParameter"
+        }
+      }
+    ]
+  }
+]

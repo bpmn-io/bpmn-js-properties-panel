@@ -188,13 +188,32 @@ describe('element-templates - ElementTemplates', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain(
-        'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Dropdown }'
-      );
+      expect(errors(templates)).to.eql([
+        'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Dropdown }',
+        'invalid property.binding type <alsoInvalid>; must be any of { property, camunda:property, camunda:inputParameter, camunda:outputParameter }'
+      ]);
 
-      expect(errors(templates)).to.contain(
-        'invalid property.binding type <alsoInvalid>; must be any of { property, camunda:inputParameter, camunda:outputParameter, camunda:property }'
-      );
+      expect(parsed(templates)).to.be.empty;
+    });
+
+
+    it('should reject invalid bindings', function() {
+
+      // given
+      var templates = new ElementTemplates();
+
+      var templateDescriptors = require('./fixtures/error-bindings-invalid');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.eql([
+        'property.binding <property> requires name',
+        'property.binding <camunda:property> requires name',
+        'property.binding <camunda:inputParameter> requires name',
+        'property.binding <camunda:outputParameter> requires source'
+      ]);
 
       expect(parsed(templates)).to.be.empty;
     });
