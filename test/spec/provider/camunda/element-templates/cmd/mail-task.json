@@ -10,7 +10,7 @@
       "type": "String",
       "binding": {
         "type": "camunda:inputParameter",
-        "target": "recipient"
+        "name": "recipient"
       },
       "constraints": {
         "notEmpty": true
@@ -23,7 +23,7 @@
       "value": "Hello ${firstName}!",
       "binding": {
         "type": "camunda:inputParameter",
-        "target": "messageBody",
+        "name": "messageBody",
         "scriptFormat": "freemarker"
       },
       "constraints": {

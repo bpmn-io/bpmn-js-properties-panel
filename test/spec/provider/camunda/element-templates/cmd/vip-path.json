@@ -12,7 +12,7 @@
       "value": "${ customer.vip }",
       "binding": {
         "type": "property",
-        "target": "conditionExpression"
+        "name": "conditionExpression"
       }
     },
     {
@@ -21,7 +21,7 @@
       "value": "YEY YEA!",
       "binding": {
         "type": "property",
-        "target": "name"
+        "name": "name"
       }
     }
   ]

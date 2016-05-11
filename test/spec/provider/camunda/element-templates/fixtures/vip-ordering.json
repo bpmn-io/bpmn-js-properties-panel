@@ -13,7 +13,7 @@
         "value": "${ customer.vip }",
         "binding": {
           "type": "property",
-          "target": "bpmn:conditionExpression"
+          "name": "bpmn:conditionExpression"
         }
       },
       {
@@ -22,7 +22,7 @@
         "value": "YEY YEA!",
         "binding": {
           "type": "property",
-          "target": "bpmn:name"
+          "name": "bpmn:name"
         }
       }
     ]

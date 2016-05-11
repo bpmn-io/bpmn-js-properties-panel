@@ -148,7 +148,7 @@ describe('element-templates/parts - Custom Properties', function() {
         TestHelper.triggerValue(recipientField, 'foo@bar', 'change');
 
         var inputOutput = findExtension(task, 'camunda:InputOutput'),
-            recipientMapping = findInputParameter(inputOutput, { target: 'recipient' });
+            recipientMapping = findInputParameter(inputOutput, { name: 'recipient' });
 
         // then
         expect(recipientMapping).to.exist;
@@ -171,7 +171,7 @@ describe('element-templates/parts - Custom Properties', function() {
         TestHelper.triggerValue(templateField, 'Hello ${foo}', 'change');
 
         var inputOutput = findExtension(task, 'camunda:InputOutput'),
-            recipientMapping = findInputParameter(inputOutput, { target: 'messageBody' });
+            recipientMapping = findInputParameter(inputOutput, { name: 'messageBody' });
 
         // then
         expect(recipientMapping).to.exist;
@@ -199,7 +199,7 @@ describe('element-templates/parts - Custom Properties', function() {
         TestHelper.triggerValue(recipientField, 'foo@bar', 'change');
 
         var inputOutput = findExtension(task, 'camunda:InputOutput'),
-            recipientMapping = findInputParameter(inputOutput, { target: 'recipient' });
+            recipientMapping = findInputParameter(inputOutput, { name: 'recipient' });
 
         // then
         expect(recipientMapping).to.exist;

@@ -12,7 +12,7 @@
       "value": "com.my.custom.Foo",
       "binding": {
         "type": "property",
-        "target": "camunda:delegateExpression"
+        "name": "camunda:delegateExpression"
       }
     }
   ]

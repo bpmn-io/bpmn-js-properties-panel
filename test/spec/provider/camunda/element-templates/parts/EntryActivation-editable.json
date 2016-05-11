@@ -11,7 +11,7 @@
         "type": "Boolean",
         "binding": {
           "type": "property",
-          "target": "camunda:asyncBefore"
+          "name": "camunda:asyncBefore"
         }
       },
       {
@@ -20,7 +20,7 @@
         "editable": false,
         "binding": {
           "type": "property",
-          "target": "camunda:asyncBefore"
+          "name": "camunda:asyncBefore"
         }
       },
       {
@@ -28,7 +28,7 @@
         "type": "String",
         "binding": {
           "type": "property",
-          "target": "camunda:javaDelegate"
+          "name": "camunda:javaDelegate"
         }
       },
       {
@@ -37,7 +37,7 @@
         "editable": false,
         "binding": {
           "type": "property",
-          "target": "camunda:javaDelegate"
+          "name": "camunda:javaDelegate"
         }
       },
       {
@@ -45,7 +45,7 @@
         "type": "Text",
         "binding": {
           "type": "camunda:inputParameter",
-          "target": "template"
+          "name": "template"
         }
       },
       {
@@ -54,7 +54,7 @@
         "editable": false,
         "binding": {
           "type": "camunda:inputParameter",
-          "target": "template"
+          "name": "template"
         }
       }
     ]

@@ -45,7 +45,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
-        target: 'foo'
+        name: 'foo'
       };
 
       // when
@@ -64,7 +64,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
-        target: 'bar',
+        name: 'bar',
         scriptFormat: 'freemarker'
       };
 

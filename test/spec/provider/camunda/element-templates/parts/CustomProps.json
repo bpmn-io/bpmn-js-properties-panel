@@ -11,7 +11,7 @@
         "type": "String",
         "binding": {
           "type": "camunda:inputParameter",
-          "target": "recipient"
+          "name": "recipient"
         }
       },
       {
@@ -21,7 +21,7 @@
         "value": "Hello ${firstName}!",
         "binding": {
           "type": "camunda:inputParameter",
-          "target": "messageBody",
+          "name": "messageBody",
           "scriptFormat": "freemarker"
         }
       },
@@ -51,7 +51,7 @@
         "value": true,
         "binding": {
           "type": "property",
-          "target": "camunda:asyncBefore"
+          "name": "camunda:asyncBefore"
         }
       }
     ],
@@ -79,7 +79,7 @@
         "value": "com.my.custom.Foo",
         "binding": {
           "type": "property",
-          "target": "camunda:delegateExpression"
+          "name": "camunda:delegateExpression"
         }
       }
     ],
@@ -99,7 +99,7 @@
         "value": "${ customer.vip }",
         "binding": {
           "type": "property",
-          "target": "conditionExpression"
+          "name": "conditionExpression"
         }
       },
       {
@@ -108,7 +108,7 @@
         "value": "YEY YEA!",
         "binding": {
           "type": "property",
-          "target": "name"
+          "name": "name"
         }
       }
     ]
@@ -157,7 +157,7 @@
         "value": "50",
         "binding": {
           "type": "property",
-          "target": "camunda:priority"
+          "name": "camunda:priority"
         }
       }
     ]

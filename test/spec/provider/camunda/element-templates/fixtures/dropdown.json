@@ -18,7 +18,7 @@
         "value": "50",
         "binding": {
           "type": "property",
-          "target": "camunda:priority"
+          "name": "camunda:priority"
         }
       }
     ]

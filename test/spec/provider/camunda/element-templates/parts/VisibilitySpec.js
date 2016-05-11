@@ -14,7 +14,7 @@ var domClasses = require('min-dom/lib/classes');
 describe('element-templates/parts - Visibility', function() {
 
   var diagramXML = require('./Visibility.bpmn'),
-      elementTemplates = require('./Visibility.json');
+      elementTemplates = require('./Visibility');
 
   beforeEach(bootstrap(diagramXML, elementTemplates));
 

@@ -12,7 +12,7 @@
         "type": "String",
         "binding": {
           "type": "camunda:connectorInputParameter",
-          "target": "FOO"
+          "name": "FOO"
         }
       },
       {
@@ -22,7 +22,7 @@
         "value": "Hello ${firstName}!",
         "binding": {
           "type": "camunda:connectorInputParameter",
-          "target": "messageBody",
+          "name": "messageBody",
           "scriptFormat": "freemarker"
         }
       },
@@ -32,7 +32,7 @@
         "value": true,
         "binding": {
           "type": "property",
-          "target": "camunda:async"
+          "name": "camunda:async"
         }
       }
     ]
