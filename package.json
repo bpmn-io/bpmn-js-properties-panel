@@ -60,7 +60,7 @@
     "selection-update": "^0.1.2"
   },
   "peerDependencies": {
-    "bpmn-js": ">=0.12 <0.15",
-    "diagram-js": ">=0.12 <0.15"
+    "bpmn-js": ">=0.12 <0.16",
+    "diagram-js": ">=0.12 <0.16"
   }
 }
