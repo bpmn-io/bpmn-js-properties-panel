@@ -15,6 +15,7 @@ var propertiesPanelModule = require('../../../../lib'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+
 describe('sequence-flow-properties', function() {
 
   var diagramXML = require('./SequenceFlow.bpmn');
@@ -52,96 +53,160 @@ describe('sequence-flow-properties', function() {
   }));
 
 
-  it('should fetch the condition of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the condition of a sequence flow',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('SequenceFlow_2');
-    selection.select(shape);
+      // given
+      var shape = elementRegistry.get('SequenceFlow_2');
+      selection.select(shape);
 
-    var conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
-        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+      var conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
+          conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
-    expect(conditionType.value).to.equal('expression');
-    expect(conditionInput.value).to.equal('${foo.id()}');
-
-  }));
-
-
-  it('should change the condition of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('SequenceFlow_2');
-    selection.select(shape);
-
-    var businessObject = getBusinessObject(shape),
-        conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
-        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
-
-    // given
-    expect(conditionType.value).to.equal('expression');
-    expect(conditionInput.value).to.equal('${foo.id()}');
-    expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
-
-    // when
-    TestHelper.triggerValue(conditionInput, 'test');
-
-    // then
-    expect(conditionInput.value).to.equal('test');
-    expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
-
-  }));
+      // assume
+      expect(conditionType.value).to.equal('expression');
+      expect(conditionInput.value).to.equal('${foo.id()}');
+    })
+  );
 
 
-  it('should remove the condition of a condition expression sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change the condition of a sequence flow',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('SequenceFlow_2');
+      selection.select(shape);
+
+      var businessObject = getBusinessObject(shape),
+          conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
+          conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+
+      // assume
+      expect(conditionType.value).to.equal('expression');
+      expect(conditionInput.value).to.equal('${foo.id()}');
+      expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
+
+      // when
+      TestHelper.triggerValue(conditionInput, 'test');
+
+      // then
+      expect(conditionInput.value).to.equal('test');
+      expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
+    })
+  );
 
 
-    var shape = elementRegistry.get('SequenceFlow_2');
-    selection.select(shape);
+  it('should remove the condition of a condition expression sequence flow',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var businessObject = getBusinessObject(shape),
-        conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
-        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+      // given
+      var shape = elementRegistry.get('SequenceFlow_2');
+      selection.select(shape);
 
-    // given
-    expect(conditionType.value).to.equal('expression');
-    expect(conditionInput.value).to.equal('${foo.id()}');
-    expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
+      var businessObject = getBusinessObject(shape),
+          conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
+          conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
-    // when
-    TestHelper.triggerValue(conditionInput, '');
+      // assume
+      expect(conditionType.value).to.equal('expression');
+      expect(conditionInput.value).to.equal('${foo.id()}');
+      expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
 
-    // then
-    expect(conditionInput.value).to.be.empty;
-    expect(conditionInput.className).to.equal('invalid');
-    expect(businessObject.conditionExpression.get('body')).to.equal('');
+      // when
+      TestHelper.triggerValue(conditionInput, '');
 
-  }));
+      // then
+      expect(conditionInput.value).to.be.empty;
+      expect(conditionInput.className).to.equal('invalid');
+      expect(businessObject.conditionExpression.get('body')).to.equal('');
+    })
+  );
 
 
-  it('should change condition type from expression to ""', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change condition type from expression to <>',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('SequenceFlow_2');
+      selection.select(shape);
+
+      var businessObject = getBusinessObject(shape),
+          conditionType = domQuery('select[name=conditionType]', propertiesPanel._container),
+          conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+
+      // assume
+      expect(conditionType.value).to.equal('expression');
+      expect(conditionInput.value).to.equal('${foo.id()}');
+      expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
+
+      // when
+      // select <>
+      conditionType.options[2].selected = 'selected';
+      TestHelper.triggerEvent(conditionType, 'change');
+
+      // then
+      expect(conditionType.value).to.equal('');
+      expect(conditionInput.parentElement.className).to.contain('pp-hidden');
+      expect(businessObject.conditionExpression).to.be.undefined;
+    })
+  );
 
 
-    var shape = elementRegistry.get('SequenceFlow_2');
-    selection.select(shape);
+  it('should unset default flow property when setting condition',
+    inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var businessObject = getBusinessObject(shape),
-        conditionType = domQuery('select[name=conditionType]', propertiesPanel._container),
-        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+      // given
+      var shape = elementRegistry.get('SequenceFlow_6');
+      selection.select(shape);
 
-    // given
-    expect(conditionType.value).to.equal('expression');
-    expect(conditionInput.value).to.equal('${foo.id()}');
-    expect(businessObject.conditionExpression.get('body')).to.equal(conditionInput.value);
+      var businessObject = getBusinessObject(shape),
+          source = getBusinessObject(shape.source),
+          conditionType = domQuery('select[name=conditionType]', propertiesPanel._container);
 
-    // when
-    // select ''
-    conditionType.options[2].selected = 'selected';
-    TestHelper.triggerEvent(conditionType, 'change');
+      // assume
+      expect(conditionType.value).to.be.equal('');
+      expect(businessObject.conditionExpression).to.be.undefined;
+      expect(source.default).to.equal(businessObject);
 
-    // then
-    expect(conditionType.value).to.equal('');
-    expect(conditionInput.parentElement.className).to.contain('pp-hidden');
-    expect(businessObject.conditionExpression).to.be.undefined;
+      // when
+      // select condition
+      conditionType.options[0].selected = 'selected';
+      TestHelper.triggerEvent(conditionType, 'change');
 
-  }));
+      // then
+      expect(conditionType.value).to.equal('expression');
+      expect(source.default).to.be.undefined;
+    })
+  );
 
+
+  it('should keep default flow property, if a condition is set on non-default flow',
+    inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('SequenceFlow_7');
+      selection.select(shape);
+
+      var businessObject = getBusinessObject(shape),
+          source = getBusinessObject(shape.source),
+          defaultFlow = getBusinessObject(source.default),
+          conditionType = domQuery('select[name=conditionType]', propertiesPanel._container);
+
+      // assume
+      expect(conditionType.value).to.be.equal('');
+      expect(businessObject.conditionExpression).to.be.undefined;
+      expect(source.default).to.be.equal(defaultFlow);
+
+      // when
+      // select condition
+      conditionType.options[0].selected = 'selected';
+      TestHelper.triggerEvent(conditionType, 'change');
+
+      // then
+      // default flow has to remain
+      expect(conditionType.value).to.equal('expression');
+      expect(source.default).to.be.equal(defaultFlow);
+    })
+  );
 
 });
