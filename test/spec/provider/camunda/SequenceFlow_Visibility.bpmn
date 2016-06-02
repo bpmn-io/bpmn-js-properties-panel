@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="Definitions_1" exporter="Camunda Modeler" exporterVersion="2.6.0" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:inclusiveGateway id="InclusiveGateway_1">
+      <bpmn:outgoing>Flow_InclusiveGateway</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1">
+      <bpmn:outgoing>Flow_ExclusiveGateway</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="ParallelGateway_1">
+      <bpmn:outgoing>Flow_ParallelGateway</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:eventBasedGateway id="EventBasedGateway_1">
+      <bpmn:outgoing>Flow_EventBasedGateway</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:complexGateway id="ComplexGateway_1">
+      <bpmn:outgoing>Flow_ComplexGateway</bpmn:outgoing>
+    </bpmn:complexGateway>
+    <bpmn:startEvent id="StartEvent_2">
+      <bpmn:outgoing>Flow_StartEvent</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:transaction id="Transaction_1">
+      <bpmn:outgoing>Flow_Transaction</bpmn:outgoing>
+    </bpmn:transaction>
+    <bpmn:userTask id="UserTask_1">
+      <bpmn:outgoing>Flow_UserTask</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1">
+      <bpmn:incoming>Flow_StartEvent</bpmn:incoming>
+      <bpmn:incoming>Flow_InclusiveGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_ExclusiveGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_ParallelGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_EventBasedGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_ComplexGateway</bpmn:incoming>
+      <bpmn:incoming>Flow_Transaction</bpmn:incoming>
+      <bpmn:incoming>Flow_UserTask</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_StartEvent" name="" sourceRef="StartEvent_2" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_InclusiveGateway" name="" sourceRef="InclusiveGateway_1" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_ExclusiveGateway" name="" sourceRef="ExclusiveGateway_1" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_ParallelGateway" name="" sourceRef="ParallelGateway_1" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_EventBasedGateway" name="" sourceRef="EventBasedGateway_1" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_ComplexGateway" name="" sourceRef="ComplexGateway_1" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_Transaction" name="" sourceRef="Transaction_1" targetRef="IntermediateThrowEvent_1"/>
+    <bpmn:sequenceFlow id="Flow_UserTask" name="" sourceRef="UserTask_1" targetRef="IntermediateThrowEvent_1"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_InclusiveGateway_2" bpmnElement="InclusiveGateway_1">
+        <dc:Bounds height="50.0" width="50.0" x="60.0" y="60.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="85.0" y="115.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ExclusiveGateway_2" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds height="50.0" width="50.0" x="60.0" y="115.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="85.0" y="170.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ParallelGateway_2" bpmnElement="ParallelGateway_1">
+        <dc:Bounds height="50.0" width="50.0" x="60.0" y="170.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="85.0" y="225.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EventBasedGateway_2" bpmnElement="EventBasedGateway_1">
+        <dc:Bounds height="50.0" width="50.0" x="60.0" y="224.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="85.0" y="279.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ComplexGateway_2" bpmnElement="ComplexGateway_1">
+        <dc:Bounds height="50.0" width="50.0" x="60.0" y="279.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="85.0" y="334.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_UserTask_2" bpmnElement="UserTask_1">
+        <dc:Bounds height="80.0" width="100.0" x="37.0" y="492.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_Transaction_2" bpmnElement="Transaction_1" isExpanded="true">
+        <dc:Bounds height="150.0" width="200.0" x="24.0" y="334.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_6" bpmnElement="StartEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="68.0" y="19.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="0.0" width="0.0" x="86.0" y="60.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_IntermediateThrowEvent_2" bpmnElement="IntermediateThrowEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="472.0" y="293.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="Flow_StartEvent" sourceElement="_BPMNShape_StartEvent_6" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="104.0" y="37.0"/>
+        <di:waypoint xsi:type="dc:Point" x="288.0" y="37.0"/>
+        <di:waypoint xsi:type="dc:Point" x="288.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="Flow_InclusiveGateway" sourceElement="_BPMNShape_InclusiveGateway_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="110.0" y="85.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="85.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="Flow_ExclusiveGateway" sourceElement="_BPMNShape_ExclusiveGateway_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="110.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="140.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="Flow_ParallelGateway" sourceElement="_BPMNShape_ParallelGateway_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="110.0" y="195.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="195.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="Flow_EventBasedGateway" sourceElement="_BPMNShape_EventBasedGateway_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="110.0" y="249.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="249.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="Flow_ComplexGateway" sourceElement="_BPMNShape_ComplexGateway_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="110.0" y="304.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="304.0"/>
+        <di:waypoint xsi:type="dc:Point" x="291.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="Flow_Transaction" sourceElement="_BPMNShape_Transaction_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="224.0" y="409.0"/>
+        <di:waypoint xsi:type="dc:Point" x="348.0" y="409.0"/>
+        <di:waypoint xsi:type="dc:Point" x="348.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="348.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="Flow_UserTask" sourceElement="_BPMNShape_UserTask_2" targetElement="_BPMNShape_IntermediateThrowEvent_2">
+        <di:waypoint xsi:type="dc:Point" x="137.0" y="532.0"/>
+        <di:waypoint xsi:type="dc:Point" x="304.0" y="532.0"/>
+        <di:waypoint xsi:type="dc:Point" x="304.0" y="311.0"/>
+        <di:waypoint xsi:type="dc:Point" x="472.0" y="311.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

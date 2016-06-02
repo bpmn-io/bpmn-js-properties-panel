@@ -292,7 +292,7 @@ describe('script-properties', function() {
 
   it('should add inline script properties for a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('SequenceFlow_1');
+    var shape = elementRegistry.get('SequenceFlow_3');
     selection.select(shape);
 
     var conditionType = domQuery('div[data-entry="condition"] select[name=conditionType]', propertiesPanel._container),
