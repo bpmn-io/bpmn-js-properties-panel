@@ -16,10 +16,19 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    jshint: {
-      src: [ 'lib' ],
-      options: {
-        jshintrc: true
+    eslint: {
+      check: {
+        src: [
+          '{lib,test}/**/*.js'
+        ]
+      },
+      fix: {
+        src: [
+          '{lib,test}/**/*.js'
+        ],
+        options: {
+          fix: true
+        }
       }
     },
 
@@ -54,6 +63,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('auto-test', [ 'karma:unit' ]);
 
-  grunt.registerTask('default', [ 'jshint', 'test' ]);
+  grunt.registerTask('default', [ 'eslint:check', 'test' ]);
 
 };
