@@ -115,11 +115,11 @@ var selectedByOption = function(element, optionValue) {
 
   var options = domQuery.all('option', element);
 
-  for(var i = 0; i< options.length; i++) {
+  for (var i = 0; i< options.length; i++) {
 
     var option = options[i];
 
-    if(option.value === optionValue) {
+    if (option.value === optionValue) {
       element.selectedIndex = i;
       break;
     }
@@ -132,7 +132,7 @@ var selectedByOption = function(element, optionValue) {
  * @returns {*}
  */
 var selectedByIndex = function(element) {
-  if( !element ) {
+  if (!element) {
     return null;
   }
 
