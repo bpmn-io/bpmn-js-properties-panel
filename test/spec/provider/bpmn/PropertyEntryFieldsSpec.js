@@ -7,15 +7,13 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  domAttr = require('min-dom/lib/attr'),
-  domClasses = require('min-dom/lib/classes'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
 
 describe('properties-entry-fields', function() {
@@ -36,7 +34,7 @@ describe('properties-entry-fields', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -55,8 +53,7 @@ describe('properties-entry-fields', function() {
   }));
 
 
-  it('should create a text input field with a clear button',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should create a text input field with a clear button', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var userTaskShape = elementRegistry.get('UserTask');
@@ -91,13 +88,10 @@ describe('properties-entry-fields', function() {
 
     expect(buttonClassArray.length).to.be.at.least(1);
     expect(input.value).to.equal('');
-
-
   }));
 
 
-  it('should create a checkbox field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should create a checkbox field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var inputEl = 'input[name=asyncBefore]';
@@ -121,8 +115,7 @@ describe('properties-entry-fields', function() {
   }));
 
 
-  it('should create a select field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should create a select field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('CallActivity');
@@ -137,12 +130,11 @@ describe('properties-entry-fields', function() {
   }));
 
 
-  it('should create a textarea field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var userTaskShape = elementRegistry.get('UserTask'),
-      inputEl = 'textarea[name=documentation]';
+        inputEl = 'textarea[name=documentation]';
 
     // when
     selection.select(userTaskShape);

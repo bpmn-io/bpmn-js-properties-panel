@@ -7,15 +7,14 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule  = require('../../../../lib'),
-  coreModule               = require('bpmn-js/lib/core'),
-  selectionModule          = require('diagram-js/lib/features/selection'),
-  modelingModule           = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
+    coreModule               = require('bpmn-js/lib/core'),
+    selectionModule          = require('diagram-js/lib/features/selection'),
+    modelingModule           = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 var inputOutputHelper = require('../../../../lib/helper/InputOutputHelper');
 
 var domQuery = require('min-dom/lib/query'),
@@ -152,14 +151,14 @@ describe('connector', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
-        undoButton.textContent = 'UNDO';
+    undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
       commandStack.undo();
@@ -177,7 +176,9 @@ describe('connector', function() {
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
       // given
       container = propertiesPanel._container;
+
       var shape = elementRegistry.get('WITHOUT_CONNECTOR_ID');
+
       selection.select(shape);
       connector = getConnector(shape);
       connectorIdInput = getConnectorIdInput(container);
@@ -224,6 +225,7 @@ describe('connector', function() {
 
     });
 
+
     describe('on the business object', function() {
 
       it('should not execute', function() {
@@ -253,9 +255,10 @@ describe('connector', function() {
 
   });
 
+
   describe('add input/output', function() {
 
-    var container, connectorIdInput, connector;
+    var container, connector;
 
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
       // given
@@ -360,7 +363,7 @@ describe('connector', function() {
 
   describe('keep input/output', function() {
 
-    var container, connectorIdInput, connector;
+    var container, connector;
 
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
       // given
@@ -426,7 +429,7 @@ describe('connector', function() {
 
   describe('remove input/output', function() {
 
-    var container, connectorIdInput, connector;
+    var container, connector;
 
     describe('when removing an input parameter', function() {
 

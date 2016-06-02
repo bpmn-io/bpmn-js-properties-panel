@@ -51,8 +51,7 @@ describe('process-participant-collapsed-properties', function() {
   }));
 
 
-  it('should get the id of the participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the id of the participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get(PARTICIPANT_ID);
@@ -68,8 +67,7 @@ describe('process-participant-collapsed-properties', function() {
   }));
 
 
-  it('should get the name of the participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the name of the participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get(PARTICIPANT_ID);
@@ -89,7 +87,7 @@ describe('process-participant-collapsed-properties', function() {
 
     var participant, textarea;
 
-    beforeEach(inject(function(elementRegistry, selection, propertiesPanel){
+    beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get(PARTICIPANT_ID);

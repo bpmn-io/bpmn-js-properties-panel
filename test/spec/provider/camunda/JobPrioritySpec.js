@@ -13,8 +13,7 @@ var propertiesPanelModule = require('../../../../lib'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    forEach = require('lodash/collection/forEach');
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('jobPriority', function() {
   var diagramXML = require('./JobPriority.bpmn');
@@ -33,7 +32,7 @@ describe('jobPriority', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -52,8 +51,7 @@ describe('jobPriority', function() {
   }));
 
 
-  it('should fetch a job priority for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a job priority for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('ServiceTask'),
@@ -69,8 +67,7 @@ describe('jobPriority', function() {
   }));
 
 
-  it('should set a job priority on an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set a job priority on an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateCatchEvent'),
         inputEl = 'input[name=jobPriority]';
@@ -89,8 +86,7 @@ describe('jobPriority', function() {
   }));
 
 
-  it('should get the job priority of a process in a participant',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the job priority of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2'),
@@ -107,8 +103,7 @@ describe('jobPriority', function() {
   }));
 
 
-  it('should set the job priority of a process in a participant',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the job priority of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2'),

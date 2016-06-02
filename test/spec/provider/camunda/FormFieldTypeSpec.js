@@ -70,7 +70,7 @@ describe('form-field-type', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(propertiesPanel) {

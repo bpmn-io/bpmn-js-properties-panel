@@ -7,11 +7,11 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule  = require('../../../../lib'),
-  coreModule               = require('bpmn-js/lib/core'),
-  selectionModule          = require('diagram-js/lib/features/selection'),
-  modelingModule           = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
+    coreModule               = require('bpmn-js/lib/core'),
+    selectionModule          = require('diagram-js/lib/features/selection'),
+    modelingModule           = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
 
 var ModelUtil         = require('bpmn-js/lib/util/ModelUtil'),
     is                = ModelUtil.is,
@@ -113,14 +113,14 @@ describe('input-output-parameterType-list', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
-        undoButton.textContent = 'UNDO';
+    undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
       commandStack.undo();

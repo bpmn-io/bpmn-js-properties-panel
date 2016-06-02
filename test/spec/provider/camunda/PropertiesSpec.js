@@ -70,7 +70,7 @@ describe('extensionElements-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(propertiesPanel) {
@@ -105,7 +105,7 @@ describe('extensionElements-properties', function() {
         var propertiesTable;
 
         beforeEach(function() {
-           propertiesTable = getPropertiesTable(container);
+          propertiesTable = getPropertiesTable(container);
         });
 
         it('should execute', function() {
@@ -237,7 +237,7 @@ describe('extensionElements-properties', function() {
         var propertiesTable;
 
         beforeEach(function() {
-           propertiesTable = getPropertiesTable(container);
+          propertiesTable = getPropertiesTable(container);
         });
 
         it('should execute', function() {
@@ -631,8 +631,7 @@ describe('extensionElements-properties', function() {
 
   describe('other extension elements', function() {
 
-    it('should retain other extension elements when removing last property value',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should retain other extension elements when removing last property value', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('WITH_LISTENER_AND_PROP');
@@ -654,8 +653,7 @@ describe('extensionElements-properties', function() {
     }));
 
 
-    it('should retain other extension elements when adding property value',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should retain other extension elements when adding property value', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('WITH_LISTENER');

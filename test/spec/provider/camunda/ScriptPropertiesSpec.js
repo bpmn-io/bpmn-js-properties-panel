@@ -7,13 +7,13 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('script-properties', function() {
 
@@ -33,7 +33,7 @@ describe('script-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -52,8 +52,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should fetch the inline script properties of a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the inline script properties of a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_1');
     selection.select(shape);
@@ -72,8 +71,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should fetch the external resource script properties of a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the external resource script properties of a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_Resource');
     selection.select(shape);
@@ -95,8 +93,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should fill script properties to an empty script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill script properties to an empty script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_Empty');
     selection.select(shape);
@@ -136,8 +133,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should change the script type from external resource to inline script for a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change the script type from external resource to inline script for a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_Resource');
     selection.select(shape);
@@ -179,8 +175,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should remove the result variable value of a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the result variable value of a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_Resource');
     selection.select(shape);
@@ -204,8 +199,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should remove the script format value of a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the script format value of a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_1');
     selection.select(shape);
@@ -229,8 +223,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should remove the script resource value of a script task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the script resource value of a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ScriptTask_Resource');
     selection.select(shape);
@@ -255,8 +248,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should fetch the external resource script properties of a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the external resource script properties of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_5');
     selection.select(shape);
@@ -277,8 +269,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should fetch the inline script properties of a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the inline script properties of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_4');
     selection.select(shape);
@@ -299,8 +290,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should add inline script properties for a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add inline script properties for a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_1');
     selection.select(shape);
@@ -335,8 +325,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should change the script type from external resource to inline script for a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change the script type from external resource to inline script for a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_5');
     selection.select(shape);
@@ -378,8 +367,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should remove the script format value of a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the script format value of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_4');
     selection.select(shape);
@@ -406,8 +394,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should fetch the inline script properties of an execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the inline script properties of an execution listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
@@ -433,8 +420,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should add inline script properties for an execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add inline script properties for an execution listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -455,7 +441,7 @@ describe('script-properties', function() {
         scriptValue = domQuery('div[data-entry="executionListeners"] textarea[name="scriptValue"]', propertiesPanel._container);
 
     // select 'script'
-    listenerType.options[3].selected = "selected";
+    listenerType.options[3].selected = 'selected';
     TestHelper.triggerEvent(listenerType, 'change');
     TestHelper.triggerValue(scriptFormat, 'groovy');
     TestHelper.triggerValue(scriptValue, '${sourceCode}');
@@ -478,8 +464,7 @@ describe('script-properties', function() {
   }));
 
 
-  it('should change the script type from inline script to external resource for an execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change the script type from inline script to external resource for an execution listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);

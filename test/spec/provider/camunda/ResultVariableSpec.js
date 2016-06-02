@@ -7,13 +7,13 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('resultVariable', function() {
 
@@ -33,7 +33,7 @@ describe('resultVariable', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
@@ -51,8 +51,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should fetch a resultVariable field for a service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -69,8 +68,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should fill a resultVariable field for a service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -94,8 +92,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should remove a resultVariable field for a service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -119,8 +116,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should do not exist a resultVariable field for a service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should do not exist a resultVariable field for a service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1'),
         businessObject = getBusinessObject(shape);
@@ -151,8 +147,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should fetch a resultVariable field for a throwing message event',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a resultVariable field for a throwing message event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -169,8 +164,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should remove result variable value for a throwing message event',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove result variable value for a throwing message event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_1');
     selection.select(shape);
@@ -194,8 +188,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should not fetch a resultVariable field for a catching message event',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch a resultVariable field for a catching message event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1'),
         elementSyntax = 'input[name=resultVariable]';
@@ -212,8 +205,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should not fetch a resultVariable field for a non message intermediate throw event',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch a resultVariable field for a non message intermediate throw event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_Error'),
         elementSyntax = 'input[name=resultVariable]';
@@ -230,8 +222,7 @@ describe('resultVariable', function() {
   }));
 
 
-  it('should not fetch a resultVariable field for a non message end event',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch a resultVariable field for a non message end event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateThrowEvent_Signal'),
         elementSyntax = 'input[name=resultVariable]';

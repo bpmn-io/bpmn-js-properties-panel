@@ -2,8 +2,7 @@
 
 var TestHelper = require('../../../../../TestHelper');
 
-var domQuery = require('min-dom/lib/query'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 var slice = Array.prototype.slice;
 
@@ -33,7 +32,7 @@ function entrySelect(entryId, childSelector, all) {
 
 entrySelect.all = function(entryId, childSelector) {
   return entrySelect(entryId, childSelector, true);
-}
+};
 
 module.exports.entrySelect = entrySelect;
 
@@ -74,7 +73,7 @@ var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 function bootstrap(diagramXML, elementTemplates) {
 
   return function(done) {
-    bootstrapModeler(diagramXML, {
+    TestHelper.bootstrapModeler(diagramXML, {
       modules: testModules,
       elementTemplates: elementTemplates,
       moddleExtensions: {

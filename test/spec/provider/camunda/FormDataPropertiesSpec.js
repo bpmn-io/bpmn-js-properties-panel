@@ -46,7 +46,7 @@ describe('form-data-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(propertiesPanel) {
@@ -82,7 +82,7 @@ describe('form-data-properties', function() {
         var propertiesTable;
 
         beforeEach(function() {
-           propertiesTable = domQuery('[data-entry="form-field-properties"] [data-list-entry-container]', container);
+          propertiesTable = domQuery('[data-entry="form-field-properties"] [data-list-entry-container]', container);
         });
 
         it('should execute', function() {
@@ -139,15 +139,6 @@ describe('form-data-properties', function() {
 
 
       describe('on the business object', function() {
-
-        var getValues;
-
-        beforeEach(function() {
-
-          getValues = function() {
-            return getExtensionElements(getBusinessObject(startEvent_2), 'camunda:FormData')[0].fields[0].values;
-          };
-        });
 
         it('should execute', function() {
 
@@ -220,7 +211,7 @@ describe('form-data-properties', function() {
         var propertiesTable;
 
         beforeEach(function() {
-           propertiesTable = domQuery('[data-entry="form-field-properties"] [data-list-entry-container]', container);
+          propertiesTable = domQuery('[data-entry="form-field-properties"] [data-list-entry-container]', container);
         });
 
         it('should execute', function() {
@@ -332,7 +323,7 @@ describe('form-data-properties', function() {
 
       var input;
 
-      beforeEach(function(){
+      beforeEach(function() {
 
         input = domQuery('[data-entry="form-field-properties"] [data-index="1"] [name="id"]', container);
 
@@ -518,7 +509,7 @@ describe('form-data-properties', function() {
 
       var input;
 
-      beforeEach(function(){
+      beforeEach(function() {
 
         input = domQuery('[data-entry="form-field-properties"] [data-index="1"] [name="id"]', container);
 

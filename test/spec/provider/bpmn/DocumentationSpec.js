@@ -7,12 +7,12 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/bpmn'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/bpmn'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('documentation-properties', function() {
 
@@ -50,20 +50,17 @@ describe('documentation-properties', function() {
   }));
 
 
-  it('should fetch the documentation for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
-    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container);
 
     expect(textField.value).to.equal('Task');
   }));
 
 
-  it('should set the documentation for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent_1');
     selection.select(shape);
@@ -86,8 +83,7 @@ describe('documentation-properties', function() {
   }));
 
 
-  it('should remove the documentation for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -95,7 +91,7 @@ describe('documentation-properties', function() {
     var businessObject = getBusinessObject(shape);
 
     // given
-    expect(textField.value).to.equal("Task");
+    expect(textField.value).to.equal('Task');
 
     // when
     TestHelper.triggerValue(textField, '', 'change');

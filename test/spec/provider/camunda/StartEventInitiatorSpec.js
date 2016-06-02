@@ -52,8 +52,7 @@ describe('start-event-inititator', function() {
   }));
 
 
-  it('should fetch the initiator attribute',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the initiator attribute', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var startEvenShape = elementRegistry.get('StartEvent');
@@ -70,8 +69,7 @@ describe('start-event-inititator', function() {
   }));
 
 
-  it('should set the initiator attribute',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the initiator attribute', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var startEvenShape = elementRegistry.get('StartEvent');
 
@@ -88,8 +86,7 @@ describe('start-event-inititator', function() {
   }));
 
 
-  it('should not show the initiator field on sub process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not show the initiator field on sub process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var startEvenShape = elementRegistry.get('StartEvent');
 
@@ -106,8 +103,7 @@ describe('start-event-inititator', function() {
   }));
 
 
-  it('should remove the empty initiator field',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the empty initiator field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var startEvenShape = elementRegistry.get('SubStartEvent');

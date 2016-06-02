@@ -35,7 +35,7 @@ describe('callActivity - properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -66,8 +66,7 @@ describe('callActivity - properties', function() {
   }
 
 
-  it('should fetch a calledElement field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElement field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('CallActivity_1');
@@ -86,8 +85,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fill a calledElement property',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1');
     selection.select(shape);
@@ -107,8 +105,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should remove a calledElement property',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1');
     selection.select(shape);
@@ -128,8 +125,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fetch a calledElementBinding field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1'),
         elementSyntax = 'select[name=callableBinding]';
@@ -141,8 +137,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fill a calledElementBinding field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1'),
         elementSyntax = 'select[name=callableBinding]';
@@ -150,7 +145,7 @@ describe('callActivity - properties', function() {
     selection.select(shape);
 
     var selectField = domQuery(elementSyntax, propertiesPanel._container),
-      businessObject = getBusinessObject(shape);
+        businessObject = getBusinessObject(shape);
 
     // given
     expect(businessObject.get('calledElementBinding')).to.equal('version');
@@ -164,8 +159,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should remove a calledElementBinding property',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a calledElementBinding property', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1'),
         elementSyntax = 'select[name=callableBinding]';
@@ -190,8 +184,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fetch a calledElementVersion field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1'),
         elementSyntax = 'input[name=callableVersion]';
@@ -206,8 +199,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fill a calledElementVersion field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1'),
         elementSyntax = 'input[name=callableVersion]';
@@ -228,15 +220,14 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should remove a calledElementVersion field',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1');
 
     selection.select(shape);
 
     var inputField = domQuery('input[name=callableVersion]', propertiesPanel._container),
-      businessObject = getBusinessObject(shape);
+        businessObject = getBusinessObject(shape);
 
     // given
     expect(businessObject.get('calledElementVersion')).to.equal(17);
@@ -250,8 +241,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fetch a calledElementBinding field with default value "latest"',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a calledElementBinding field with default value "latest"', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('CallActivity_2');
@@ -270,8 +260,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fetch CMMN call activity property fields',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch CMMN call activity property fields', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('CallActivity_3');
@@ -297,8 +286,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should change caseRef property field for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change caseRef property field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
@@ -324,8 +312,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should set caseVersion property field for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set caseVersion property field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
@@ -340,7 +327,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
     expect(callableElementRefInput.value).to.equal('checkCreditCase');
     expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');;
+    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
 
     // when
@@ -362,8 +349,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should clear caseVersion property field for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear caseVersion property field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_4');
 
@@ -400,8 +386,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should change callActivityType from BPMN to CMMN for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change callActivityType from BPMN to CMMN for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_1');
 
@@ -422,7 +407,7 @@ describe('callActivity - properties', function() {
     expect(businessObject.get('camunda:calledElementBinding')).to.equal(callableBindingSelect.value);
     expect(businessObject.get('camunda:calledElementVersion')).to.equal(parseInt(callableVersionInput.value));
     expect(businessObject.get('camunda:caseRef')).not.to.exist;
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');;
+    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
 
     // when
@@ -438,7 +423,7 @@ describe('callActivity - properties', function() {
     expect(callableBindingSelect.value).to.equal('latest');
     expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
     expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');;
+    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
     expect(businessObject.get('calledElement')).not.to.exist;
     expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest');
@@ -447,8 +432,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should not fetch something for an empty call activity element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch something for an empty call activity element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
 
@@ -472,8 +456,7 @@ describe('callActivity - properties', function() {
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
   }));
 
-  it('should not show version field when changing callActivityType from BPMN to CMMN and back for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not show version field when changing callActivityType from BPMN to CMMN and back for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
 
@@ -481,7 +464,6 @@ describe('callActivity - properties', function() {
 
     var callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container),
         callableVersionInput = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        callableElementRefInput = domQuery('select[name=callableElementRefInput]', propertiesPanel._container),
         callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
@@ -530,8 +512,7 @@ describe('callActivity - properties', function() {
 
   }));
 
-  it('should not show version field when changing callActivityType from CMMN to BPMN and back for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not show version field when changing callActivityType from CMMN to BPMN and back for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
 
@@ -547,7 +528,7 @@ describe('callActivity - properties', function() {
 
     expect(callableBindingSelect.value).to.equal('latest');
 
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');;
+    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
 
     expect(businessObject.get('camunda:calledElement')).not.to.exist;
     expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest'); // default value in the camunda-moddle
@@ -581,22 +562,20 @@ describe('callActivity - properties', function() {
     expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
 
     expect(businessObject.get('camunda:caseRef')).to.be.empty;
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');;
+    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
 
   }));
 
 
-  it('should fetch the business key for a bpmn call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the business key for a bpmn call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_6');
 
     selection.select(shape);
 
     var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container);
 
     // given
     expect(callActivityTypeSelect.value).to.equal('bpmn');
@@ -604,8 +583,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should set the business key for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the business key for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
 
@@ -631,8 +609,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should remove the business key for an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the business key for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_6');
 
@@ -661,16 +638,14 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should fetch the business key for a CMMN call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_7');
 
     selection.select(shape);
 
     var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container);
 
     // given
     expect(callActivityTypeSelect.value).to.equal('cmmn');
@@ -678,8 +653,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should remove the business key for a CMMN call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_7');
 
@@ -708,8 +682,7 @@ describe('callActivity - properties', function() {
   }));
 
 
-  it('should undo to remove the business key for a CMMN call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo to remove the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     var shape = elementRegistry.get('CallActivity_7');
 
@@ -741,14 +714,12 @@ describe('callActivity - properties', function() {
     // then
     expect(checkBox.checked).to.be.true;
 
-    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
     expect(camundaIn).to.have.length.of(3);
-
   }));
 
 
-  it('should redo to remove the business key for a CMMN call activity',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo to remove the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     var shape = elementRegistry.get('CallActivity_7');
 
@@ -783,7 +754,6 @@ describe('callActivity - properties', function() {
 
     camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
     expect(camundaIn).to.have.length.of(0);
-
   }));
 
 });

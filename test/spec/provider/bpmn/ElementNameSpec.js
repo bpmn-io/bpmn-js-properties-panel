@@ -289,8 +289,7 @@ describe('element-name-properties', function() {
 
   describe('textarea rows', function() {
 
-    it('should initialize textarea with one rows',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should initialize textarea with one rows', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('ONE_LINE');
@@ -304,8 +303,7 @@ describe('element-name-properties', function() {
     }));
 
 
-    it('should initialize textarea with three rows',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should initialize textarea with three rows', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('FOUR_LINES');
@@ -319,8 +317,7 @@ describe('element-name-properties', function() {
     }));
 
 
-    it('should grow',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should grow', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('ONE_LINE');
@@ -336,8 +333,7 @@ describe('element-name-properties', function() {
     }));
 
 
-    it('should reduce',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should reduce', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('FOUR_LINES');
@@ -353,8 +349,7 @@ describe('element-name-properties', function() {
     }));
 
 
-    it('should set textarea rows to maximum value of three',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should set textarea rows to maximum value of three', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('ONE_LINE');
@@ -370,8 +365,7 @@ describe('element-name-properties', function() {
     }));
 
 
-    it('should set textarea rows to minimum value of one',
-      inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should set textarea rows to minimum value of one', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('FOUR_LINES');

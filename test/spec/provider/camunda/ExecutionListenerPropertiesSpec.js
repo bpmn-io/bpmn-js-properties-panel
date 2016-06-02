@@ -7,15 +7,15 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  forEach = require('lodash/collection/forEach'),
-  is = require('bpmn-js/lib/util/ModelUtil').is,
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    forEach = require('lodash/collection/forEach'),
+    is = require('bpmn-js/lib/util/ModelUtil').is,
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('listener-properties', function() {
 
@@ -35,7 +35,7 @@ describe('listener-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
@@ -65,8 +65,7 @@ describe('listener-properties', function() {
   }
 
 
-  it('should fetch execution listener properties for a flow element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch execution listener properties for a flow element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -98,8 +97,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should fetch execution listener properties for a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch execution listener properties for a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('SequenceFlow_1');
     selection.select(taskShape);
@@ -124,8 +122,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should not fetch execution listener properties for a text annotation',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch execution listener properties for a text annotation', inject(function(propertiesPanel, selection, elementRegistry) {
 
 
     var taskShape = elementRegistry.get('TextAnnotation_1');
@@ -144,8 +141,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should change properties of the first execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change properties of the first execution listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -196,8 +192,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should add a new execution listener to an existing extension elements',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add a new execution listener to an existing extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -236,8 +231,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should remove an execution listener from extension elements',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove an execution listener from extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -275,8 +269,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should add the first execution listener to an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add the first execution listener to an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_2');
     selection.select(taskShape);
@@ -315,8 +308,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should clear execution listener value of the first execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear execution listener value of the first execution listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_Execution');
     selection.select(taskShape);
@@ -356,8 +348,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should add a new execution listener for a sequence flow to an existing extension elements',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add a new execution listener for a sequence flow to an existing extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('SequenceFlow_1');
     selection.select(taskShape);
@@ -396,8 +387,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should add two execution listener to an element at the same time',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add two execution listener to an element at the same time', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('ServiceTask_2');
     selection.select(taskShape);
@@ -445,8 +435,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should undo adding an execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo adding an execution listener', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('ServiceTask_2'),
@@ -479,8 +468,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should redo adding an execution listener',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo adding an execution listener', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('ServiceTask_2'),
@@ -509,8 +497,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should undo adding two execution listeners at once',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo adding two execution listeners at once', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('ServiceTask_2'),
@@ -547,8 +534,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should redo adding two execution listeners at once',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo adding two execution listeners at once', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('ServiceTask_2'),
@@ -579,8 +565,7 @@ describe('listener-properties', function() {
   }));
 
 
-  it('should fetch two invalid property fields when adding two execution listeners at once',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should fetch two invalid property fields when adding two execution listeners at once', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('ServiceTask_2'),

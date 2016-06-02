@@ -86,7 +86,7 @@ describe('Task Priority', function() {
       var bo = getBusinessObject(shape).get('processRef');
 
       // then
-      expect(bo.get('camunda:taskPriority')).to.equal("100");
+      expect(bo.get('camunda:taskPriority')).to.equal('100');
     }));
 
 
@@ -105,7 +105,7 @@ describe('Task Priority', function() {
       TestHelper.triggerValue(inputElement, '300', 'change');
 
       // then
-      expect(bo.get('camunda:taskPriority')).to.equal("300");
+      expect(bo.get('camunda:taskPriority')).to.equal('300');
     }));
 
 
@@ -128,8 +128,7 @@ describe('Task Priority', function() {
     }));
 
 
-    it('should add attribute when the remove is undone',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+    it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
       // given
       var shape   = elementRegistry.get('Participant_1'),
@@ -150,7 +149,7 @@ describe('Task Priority', function() {
       var taskPriority = bo.get('camunda:taskPriority');
 
       expect(taskPriority).not.to.be.undefined;
-      expect(taskPriority).to.equal("100");
+      expect(taskPriority).to.equal('100');
     }));
 
   });

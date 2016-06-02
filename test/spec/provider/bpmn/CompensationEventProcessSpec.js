@@ -98,8 +98,7 @@ describe('compensation-event-process', function() {
   }));
 
 
-  it('should check activityRef property list of a throwing compensation event',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should check activityRef property list of a throwing compensation event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('IntermediateThrowEvent_1f51k5d');
@@ -118,8 +117,7 @@ describe('compensation-event-process', function() {
     expect(isContainedIn(selectBox.options, '')).to.be.ok;
   }));
 
-  it('should check activityRef property list of a throwing compensation event in a sub process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should check activityRef property list of a throwing compensation event in a sub process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('EndEvent_0eh4ei9');
@@ -135,8 +133,7 @@ describe('compensation-event-process', function() {
   }));
 
 
-  it('should check activityRef property list of a throwing compensation event in a event sub process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should check activityRef property list of a throwing compensation event in a event sub process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('CompensationEndEvent_19qhaq3');
@@ -156,8 +153,7 @@ describe('compensation-event-process', function() {
     expect(isContainedIn(selectBox.options, '')).to.be.ok;
   }));
 
-  it('should check activityRef property list of a throwing compensation event in a nested event sub process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should check activityRef property list of a throwing compensation event in a nested event sub process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('Z');
@@ -213,7 +209,7 @@ describe('compensation-event-process', function() {
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_0jzdpvk');
         bo = getBusinessObject(shape);
-        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo)
+        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo);
 
         selection.select(shape);
 
@@ -286,7 +282,7 @@ describe('compensation-event-process', function() {
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_1f51k5d');
         bo = getBusinessObject(shape);
-        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo)
+        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo);
 
         selection.select(shape);
 
@@ -366,7 +362,7 @@ describe('compensation-event-process', function() {
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_1f51k5d');
         bo = getBusinessObject(shape);
-        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo)
+        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo);
 
         selection.select(shape);
 
@@ -441,7 +437,7 @@ describe('compensation-event-process', function() {
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_0jzdpvk');
         bo = getBusinessObject(shape);
-        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo)
+        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo);
 
         selection.select(shape);
 
@@ -518,7 +514,7 @@ describe('compensation-event-process', function() {
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_0jzdpvk');
         bo = getBusinessObject(shape);
-        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo)
+        compensateEventDefinition = eventDefinitionHelper.getCompensateEventDefinition(bo);
 
         selection.select(shape);
 

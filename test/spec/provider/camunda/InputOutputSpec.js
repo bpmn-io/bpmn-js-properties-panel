@@ -7,11 +7,11 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule  = require('../../../../lib'),
-  coreModule               = require('bpmn-js/lib/core'),
-  selectionModule          = require('diagram-js/lib/features/selection'),
-  modelingModule           = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
+    coreModule               = require('bpmn-js/lib/core'),
+    selectionModule          = require('diagram-js/lib/features/selection'),
+    modelingModule           = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
 
 var ModelUtil         = require('bpmn-js/lib/util/ModelUtil'),
     is                = ModelUtil.is,
@@ -22,8 +22,7 @@ var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsH
 var domQuery = require('min-dom/lib/query'),
     domClasses = require('min-dom/lib/classes');
 
-var find    = require('lodash/collection/find'),
-    forEach = require('lodash/collection/forEach');
+var find    = require('lodash/collection/find');
 
 // MODEL HELPER
 
@@ -216,14 +215,14 @@ describe('input-output-parameter-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
-        undoButton.textContent = 'UNDO';
+    undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
       commandStack.undo();
@@ -235,8 +234,7 @@ describe('input-output-parameter-properties', function() {
   }));
 
 
-  it('should fetch empty list of input and output parameters',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch empty list of input and output parameters', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('WITHOUT_INPUT_OUTPUT');
@@ -258,8 +256,7 @@ describe('input-output-parameter-properties', function() {
   }));
 
 
-  it('should fetch list of input parameters',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch list of input parameters', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('WITH_INPUT_PARAMS');
@@ -277,8 +274,7 @@ describe('input-output-parameter-properties', function() {
   }));
 
 
-  it('should fetch list of output parameters',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch list of output parameters', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('WITH_OUTPUT_PARAMS');
@@ -296,8 +292,7 @@ describe('input-output-parameter-properties', function() {
   }));
 
 
-  it('should fetch list of input and output parameters',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch list of input and output parameters', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
@@ -319,8 +314,7 @@ describe('input-output-parameter-properties', function() {
   }));
 
 
-  it('should display type info in select box',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should display type info in select box', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
@@ -613,16 +607,16 @@ describe('input-output-parameter-properties', function() {
 
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
       selection.select(shape);
-
     }));
+
 
     it('should nothing be selected', function() {
 
       // then
       expect(getInputParameterSelect(container).selectedIndex).to.equal(-1);
       expect(getOutputParameterSelect(container).selectedIndex).to.equal(-1);
-
     });
+
 
     describe('input parameter', function() {
 
@@ -633,8 +627,8 @@ describe('input-output-parameter-properties', function() {
 
         // assume
         expect(getInputParameterSelect(container).selectedIndex).to.equal(2);
-
       });
+
 
       it('should deselect input parameter', function() {
 
@@ -644,8 +638,8 @@ describe('input-output-parameter-properties', function() {
         // then
         expect(getInputParameterSelect(container).selectedIndex).to.equal(-1);
         expect(getOutputParameterSelect(container).selectedIndex).to.equal(2);
-
       });
+
 
       it('should deselect input parameter when adding an output parameter', function() {
 
@@ -655,7 +649,6 @@ describe('input-output-parameter-properties', function() {
         // then
         expect(getInputParameterSelect(container).selectedIndex).to.equal(-1);
         expect(getOutputParameterSelect(container).selectedIndex).to.equal(4);
-
       });
 
     });
@@ -670,8 +663,8 @@ describe('input-output-parameter-properties', function() {
 
         // assume
         expect(getOutputParameterSelect(container).selectedIndex).to.equal(2);
-
       });
+
 
       it('should deselect output parameter', function() {
 
@@ -681,8 +674,8 @@ describe('input-output-parameter-properties', function() {
         // then
         expect(getInputParameterSelect(container).selectedIndex).to.equal(2);
         expect(getOutputParameterSelect(container).selectedIndex).to.equal(-1);
-
       });
+
 
       it('should deselect output parameter when adding an input parameter', function() {
 
@@ -692,12 +685,12 @@ describe('input-output-parameter-properties', function() {
         // then
         expect(getInputParameterSelect(container).selectedIndex).to.equal(4);
         expect(getOutputParameterSelect(container).selectedIndex).to.equal(-1);
-
       });
 
     });
 
   });
+
 
   describe('add input parameter', function() {
 
@@ -738,7 +731,6 @@ describe('input-output-parameter-properties', function() {
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).to.be.ok;
-
       });
 
 
@@ -758,7 +750,6 @@ describe('input-output-parameter-properties', function() {
 
       it('should redo', inject(function(commandStack) {
         // when
-
         commandStack.undo();
         commandStack.redo();
 
@@ -847,7 +838,6 @@ describe('input-output-parameter-properties', function() {
 
       // when
       clickAddOutputParameterButton(container);
-
     }));
 
 
@@ -996,7 +986,6 @@ describe('input-output-parameter-properties', function() {
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).not.to.be.ok;
-
       });
 
 
@@ -1115,7 +1104,6 @@ describe('input-output-parameter-properties', function() {
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).not.to.be.ok;
-
       });
 
 
@@ -1225,6 +1213,7 @@ describe('input-output-parameter-properties', function() {
 
     }));
 
+
     describe('in the DOM', function() {
 
       it('should execute', function() {
@@ -1267,6 +1256,7 @@ describe('input-output-parameter-properties', function() {
       }));
 
     });
+
 
     describe('on the business object', function() {
 
@@ -1324,8 +1314,8 @@ describe('input-output-parameter-properties', function() {
 
       // when
       TestHelper.triggerValue(parameterNameInput, 'foo', 'change');
-
     }));
+
 
     describe('in the DOM', function() {
 
@@ -1399,8 +1389,6 @@ describe('input-output-parameter-properties', function() {
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
 
         // given
-        var container = propertiesPanel._container;
-
         var shape = elementRegistry.get('WITHOUT_INPUT_OUTPUT');
         selection.select(shape);
 
@@ -1457,8 +1445,6 @@ describe('input-output-parameter-properties', function() {
         selection.select(shape);
 
         bo = getBusinessObject(shape);
-
-        var container = propertiesPanel._container;
 
         // assume
         expect(getInputOutput(bo)).to.exist;

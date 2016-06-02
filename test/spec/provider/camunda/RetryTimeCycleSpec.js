@@ -7,15 +7,13 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  domAttr = require('min-dom/lib/attr'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-  forEach = require('lodash/collection/forEach');
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 var asyncCapableHelper = require('../../../../lib/helper/AsyncCapableHelper');
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
@@ -38,7 +36,7 @@ describe('retryTimeCycle', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -57,8 +55,7 @@ describe('retryTimeCycle', function() {
   }));
 
 
-  it('should fetch a retry time cycle for an element with timer def',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
         inputEl = 'div[data-entry=retryTimeCycle] input[name=cycle]';
@@ -75,8 +72,7 @@ describe('retryTimeCycle', function() {
   }));
 
 
-  it('should set a retry time cycle for an element with timer def',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask'),
         inputEl = 'div[data-entry=retryTimeCycle] input[name=cycle]';
@@ -105,8 +101,7 @@ describe('retryTimeCycle', function() {
   }));
 
 
-  it('should remove a retry time cycle for an element with timer def',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BoundaryEvent'),
         inputEl = 'div[data-entry=retryTimeCycle] input[name=cycle]';

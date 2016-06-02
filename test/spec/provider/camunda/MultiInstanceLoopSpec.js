@@ -88,7 +88,7 @@ describe('multiInstance-loop-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
@@ -1160,8 +1160,7 @@ describe('multiInstance-loop-properties', function() {
   });
 
 
-  it('should fetch the multi instance async before property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -1174,8 +1173,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should set the multi instance async before property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the multi instance async before property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('ServiceTask');
@@ -1197,8 +1195,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should fetch the multi instance async after property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -1211,8 +1208,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should set the multi instance async after property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the multi instance async after property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -1232,8 +1228,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should fetch the multi instance exclusive property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -1245,8 +1240,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should set the multi instance exclusive property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -1266,8 +1260,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should reset the multi instance exclusive property for an element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should reset the multi instance exclusive property for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     selection.select(shape);
@@ -1290,42 +1283,39 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should hide the exclusive box when disabled',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should hide the exclusive box when disabled', inject(function(propertiesPanel, selection, elementRegistry) {
       // given
-      var shape = elementRegistry.get('ServiceTask4');
+    var shape = elementRegistry.get('ServiceTask4');
 
       // when
-      selection.select(shape);
+    selection.select(shape);
 
-      var exclusiveEntry = getExclusive(propertiesPanel._container);
+    var exclusiveEntry = getExclusive(propertiesPanel._container);
 
       // then
-      expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.true;
+    expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.true;
 
-    }));
+  }));
 
 
-  it('should show the exclusive box when async before or async after are enabled',
-    inject(function(propertiesPanel, selection, elementRegistry) {
-      var shape = elementRegistry.get('ServiceTask4');
+  it('should show the exclusive box when async before or async after are enabled', inject(function(propertiesPanel, selection, elementRegistry) {
+    var shape = elementRegistry.get('ServiceTask4');
 
       // given
-      selection.select(shape);
-      var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
+    selection.select(shape);
+    var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
         exclusiveEntry = getExclusive(propertiesPanel._container);
 
       // when
-      TestHelper.triggerEvent(asyncBeforeInput, 'click');
+    TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
       // then
-      expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.false;
+    expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.false;
 
-    }));
+  }));
 
 
-  it('should update if loop markers are toggled',
-    inject(function(propertiesPanel, elementRegistry, selection, moddle, modeling) {
+  it('should update if loop markers are toggled', inject(function(propertiesPanel, elementRegistry, selection, moddle, modeling) {
 
     // given
     var shape = elementRegistry.get('ServiceTask2');
@@ -1343,8 +1333,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should fetch a retry time cycle for an element with timer def',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('ServiceTask3');
@@ -1362,8 +1351,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should set a retry time cycle for an element with timer def',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask');
     var bo = getBusinessObject(shape).loopCharacteristics;
@@ -1387,8 +1375,7 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should remove a retry time cycle for an element with timer def',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a retry time cycle for an element with timer def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask3');
 
@@ -1412,74 +1399,70 @@ describe('multiInstance-loop-properties', function() {
   }));
 
 
-  it('should hide the job retry time cycle field when disabled',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should hide the job retry time cycle field when disabled', inject(function(propertiesPanel, selection, elementRegistry) {
       // given
-      var shape = elementRegistry.get('ServiceTask4');
+    var shape = elementRegistry.get('ServiceTask4');
 
       // when
-      selection.select(shape);
-      var jobRetryEntry = getCycle(propertiesPanel._container);
+    selection.select(shape);
+    var jobRetryEntry = getCycle(propertiesPanel._container);
 
       // then
-      expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.true;
+    expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.true;
 
-    }));
+  }));
 
 
-  it('should show the job retry time cycle field when async before or async after are enabled',
-    inject(function(propertiesPanel, selection, elementRegistry) {
-      var shape = elementRegistry.get('ServiceTask4');
+  it('should show the job retry time cycle field when async before or async after are enabled', inject(function(propertiesPanel, selection, elementRegistry) {
+    var shape = elementRegistry.get('ServiceTask4');
 
       // given
-      selection.select(shape);
-      var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
-          jobRetryEntry = getCycle(propertiesPanel._container);
+    selection.select(shape);
+    var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
+        jobRetryEntry = getCycle(propertiesPanel._container);
 
       // when
-      TestHelper.triggerEvent(asyncBeforeInput, 'click');
+    TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
       // then
-      expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.false;
+    expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.false;
 
-    }));
+  }));
 
 
-  it('should remove the retryTimeCycle when the element is not async',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the retryTimeCycle when the element is not async', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      var shape = elementRegistry.get('ServiceTask3'),
-          bo = getBusinessObject(shape).loopCharacteristics,
-          extensionElementsCount = bo.get('extensionElements').get('values').length;
+    var shape = elementRegistry.get('ServiceTask3'),
+        bo = getBusinessObject(shape).loopCharacteristics,
+        extensionElementsCount = bo.get('extensionElements').get('values').length;
 
       // given
-      selection.select(shape);
-      var domElement = getAsyncBefore(propertiesPanel._container);
+    selection.select(shape);
+    var domElement = getAsyncBefore(propertiesPanel._container);
 
       // when
-      TestHelper.triggerEvent(domElement, 'click');
-      var newCount = bo.get('extensionElements').get('values').length;
+    TestHelper.triggerEvent(domElement, 'click');
+    var newCount = bo.get('extensionElements').get('values').length;
 
       // then
-      expect(newCount + 1).to.equal(extensionElementsCount);
-    }));
+    expect(newCount + 1).to.equal(extensionElementsCount);
+  }));
 
 
-  it('should remove the retryTimeCycle and extensionElements list when the element is not async',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the retryTimeCycle and extensionElements list when the element is not async', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      var shape = elementRegistry.get('ServiceTask5'),
-          bo = getBusinessObject(shape).loopCharacteristics;
+    var shape = elementRegistry.get('ServiceTask5'),
+        bo = getBusinessObject(shape).loopCharacteristics;
 
       // given
-      selection.select(shape);
-      var domElement = getAsyncBefore(propertiesPanel._container);
+    selection.select(shape);
+    var domElement = getAsyncBefore(propertiesPanel._container);
 
       // when
-      TestHelper.triggerEvent(domElement, 'click');
+    TestHelper.triggerEvent(domElement, 'click');
 
       // then
-      expect(bo.get('extensionElements')).to.be.undefined;
-    }));
+    expect(bo.get('extensionElements')).to.be.undefined;
+  }));
 
 });

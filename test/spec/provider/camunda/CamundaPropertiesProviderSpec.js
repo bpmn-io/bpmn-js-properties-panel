@@ -30,7 +30,7 @@ describe('camunda-properties', function() {
 
   var container;
 
-  beforeEach(function () {
+  beforeEach(function() {
     container = TestContainer.get(this);
   });
 
@@ -42,12 +42,12 @@ describe('camunda-properties', function() {
   }));
 
 
-  beforeEach(inject(function (commandStack, propertiesPanel) {
+  beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
     undoButton.textContent = 'UNDO';
 
-    undoButton.addEventListener('click', function () {
+    undoButton.addEventListener('click', function() {
       commandStack.undo();
     });
 
@@ -57,8 +57,7 @@ describe('camunda-properties', function() {
   }));
 
 
-  it('should hide the job configuration group when all items are hidden or empty',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should hide the job configuration group when all items are hidden or empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('ServiceTask_1'),
@@ -74,24 +73,23 @@ describe('camunda-properties', function() {
   }));
 
 
-  it('should show the job configuration group when there is a non hidden group element',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should show the job configuration group when there is a non hidden group element', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      var shape = elementRegistry.get('ServiceTask_1'),
-          groupSelector = '[data-group=jobConfiguration]',
-          inputSelector = 'div[data-entry=asyncBefore] input[name=asyncBefore]';
+    var shape = elementRegistry.get('ServiceTask_1'),
+        groupSelector = '[data-group=jobConfiguration]',
+        inputSelector = 'div[data-entry=asyncBefore] input[name=asyncBefore]';
 
       // given
-      selection.select(shape);
+    selection.select(shape);
 
-      var asyncBeforeCheckbox = domQuery(inputSelector, propertiesPanel._container);
+    var asyncBeforeCheckbox = domQuery(inputSelector, propertiesPanel._container);
 
       // when
-      TestHelper.triggerEvent(asyncBeforeCheckbox, 'click');
-      var group = domQuery(groupSelector, propertiesPanel._container);
+    TestHelper.triggerEvent(asyncBeforeCheckbox, 'click');
+    var group = domQuery(groupSelector, propertiesPanel._container);
 
       // then
-      expect(domClasses(group).has('pp-hidden')).to.be.false;
+    expect(domClasses(group).has('pp-hidden')).to.be.false;
   }));
 
 });

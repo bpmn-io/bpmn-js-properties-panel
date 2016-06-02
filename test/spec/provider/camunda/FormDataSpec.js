@@ -48,7 +48,7 @@ describe('form-data', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   var shape,
@@ -127,7 +127,7 @@ describe('form-data', function() {
     var label,
         formFields;
 
-    beforeEach(function(){
+    beforeEach(function() {
       // select first form field
       TestHelper.triggerFormFieldSelection(0, container);
 
@@ -912,8 +912,7 @@ describe('form-data', function() {
 
   describe('integration', function() {
 
-    it('should add constraint on bo without existing extension elements',
-      inject(function(elementRegistry, selection) {
+    it('should add constraint on bo without existing extension elements', inject(function(elementRegistry, selection) {
 
       var shape = elementRegistry.get('UserTask_1');
 
@@ -956,8 +955,7 @@ describe('form-data', function() {
   });
 
 
-  it('should retain other extension elements when switching to formKey',
-    inject(function(propertiesPanel, elementRegistry, selection) {
+  it('should retain other extension elements when switching to formKey', inject(function(propertiesPanel, elementRegistry, selection) {
 
     shape = elementRegistry.get('UserTask_2');
 

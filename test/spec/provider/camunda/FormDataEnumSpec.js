@@ -42,7 +42,7 @@ describe('form-data-enum', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(propertiesPanel) {
@@ -83,7 +83,7 @@ describe('form-data-enum', function() {
         var valueTable;
 
         beforeEach(function() {
-           valueTable = domQuery('[data-entry="form-field-enum-values"] [data-list-entry-container]', container);
+          valueTable = domQuery('[data-entry="form-field-enum-values"] [data-list-entry-container]', container);
         });
 
         it('should execute', function() {
@@ -221,7 +221,7 @@ describe('form-data-enum', function() {
         var valueTable;
 
         beforeEach(function() {
-           valueTable = domQuery('[data-entry="form-field-enum-values"] [data-list-entry-container]', container);
+          valueTable = domQuery('[data-entry="form-field-enum-values"] [data-list-entry-container]', container);
         });
 
         it('should execute', function() {
@@ -333,7 +333,7 @@ describe('form-data-enum', function() {
 
       var input;
 
-      beforeEach(function(){
+      beforeEach(function() {
 
         input = domQuery('[data-entry="form-field-enum-values"] [data-index="1"] [name="id"]', container);
 
@@ -519,7 +519,7 @@ describe('form-data-enum', function() {
 
       var input;
 
-      beforeEach(function(){
+      beforeEach(function() {
 
         input = domQuery('[data-entry="form-field-enum-values"] [data-index="1"] [name="id"]', container);
 
@@ -606,7 +606,7 @@ describe('form-data-enum', function() {
 
       var values;
 
-      beforeEach(function(){
+      beforeEach(function() {
 
         values = domQuery('[data-entry="form-field-enum-values"]', container);
 

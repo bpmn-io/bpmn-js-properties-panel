@@ -7,14 +7,13 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule  = require('../../../../lib'),
-  coreModule               = require('bpmn-js/lib/core'),
-  selectionModule          = require('diagram-js/lib/features/selection'),
-  modelingModule           = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
+    coreModule               = require('bpmn-js/lib/core'),
+    selectionModule          = require('diagram-js/lib/features/selection'),
+    modelingModule           = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
-var is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 
@@ -23,12 +22,7 @@ var domQuery = require('min-dom/lib/query'),
 
 var find = require('lodash/collection/find');
 
-function getDetailsGroup(container) {
-  return domQuery('div[data-group="details"]', container);
-}
-
 function getEntry(entryId, container) {
-  var group = getDetailsGroup(container);
   return domQuery('div[data-entry="' + entryId + '"]', container);
 }
 
@@ -61,7 +55,7 @@ function getExternalTopicInput(container) {
 }
 
 function getConfigureConnectorLink(container) {
-  var entry = getEntry('configureConnectorLink', container)
+  var entry = getEntry('configureConnectorLink', container);
   return domQuery('a', entry);
 }
 
@@ -116,14 +110,14 @@ describe('implementation type', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
-        undoButton.textContent = 'UNDO';
+    undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
       commandStack.undo();

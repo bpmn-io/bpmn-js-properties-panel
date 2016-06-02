@@ -50,8 +50,7 @@ describe('prcoess-root-process-properties', function() {
   }));
 
 
-  it('should set the isExecutable property of a process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('Process_1');
 
@@ -70,8 +69,7 @@ describe('prcoess-root-process-properties', function() {
   }));
 
 
-  it('should get the name of a process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('Process_1');
 
@@ -83,8 +81,7 @@ describe('prcoess-root-process-properties', function() {
   }));
 
 
-  it('should set the name of a process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the name of a process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('Process_1');
     selection.select(shape);

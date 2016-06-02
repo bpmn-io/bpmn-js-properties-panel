@@ -82,12 +82,11 @@ describe('CallActivity - variable mapping', function() {
     return mappings;
   }
 
-var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
-    CAMUNDA_OUT_EXTENSION_ELEMENT = 'camunda:Out';
+  var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
+      CAMUNDA_OUT_EXTENSION_ELEMENT = 'camunda:Out';
 
 
-  it('should fetch camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
     selection.select(shape);
@@ -104,8 +103,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should fetch camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch camunda:out mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_6');
     selection.select(shape);
@@ -122,8 +120,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should fetch camunda:in/camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch camunda:in/camunda:out mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
@@ -145,8 +142,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should remove camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
@@ -320,8 +316,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   });
 
 
-  it('should add camunda:out mapping to call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add camunda:out mapping to call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
@@ -353,8 +348,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should hide camunda:in details',
-     inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should hide camunda:in details', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
@@ -380,8 +374,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should fetch invalid source field of a camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch invalid source field of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
@@ -389,7 +382,6 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
         typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -412,8 +404,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should change source field of a camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change source field of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
@@ -444,12 +435,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
     expect(variableMappings).to.have.length.of(1);
     expect(variableMappings[0].source).to.equal('mySourceVal');
-
   }));
 
 
-  it('should change sourceExpression field of a camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change sourceExpression field of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_4');
     selection.select(shape);
@@ -480,12 +469,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
     expect(variableMappings).to.have.length.of(1);
     expect(variableMappings[0].sourceExpression).to.equal('mySourceExpressionVal');
-
   }));
 
 
-  it('should change target field of a camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change target field of a camunda:out mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
     selection.select(shape);
@@ -519,7 +506,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  describe('should clear target field of a camunda:out mapping of a call activity', function () {
+  describe('should clear target field of a camunda:out mapping of a call activity', function() {
 
     var targetInput,
         selectBox,
@@ -594,8 +581,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   });
 
 
-  it('should switch from sourceExpression to source for a camunda:out mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should switch from sourceExpression to source for a camunda:out mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_4');
     selection.select(shape);
@@ -630,17 +616,15 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     expect(sourceInput.className).to.equal('invalid');
     expect(targetInput.value).to.equal('myTarget');
 
-    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
-    expect(variableMappings[0].source).to.be.empty;
-    expect(variableMappings[0].sourceExpression).to.be.undefined;
-    expect(variableMappings[0].target).to.equal(targetInput.value);
-
+    var updatedVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+    expect(updatedVariableMappings).to.have.length.of(1);
+    expect(updatedVariableMappings[0].source).to.be.empty;
+    expect(updatedVariableMappings[0].sourceExpression).to.be.undefined;
+    expect(updatedVariableMappings[0].target).to.equal(targetInput.value);
   }));
 
 
-  it('should fetch the variables attr of a camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the variables attr of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
@@ -657,8 +641,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should hide camunda:in details when inOutType have value "All"',
-     inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should hide camunda:in details when inOutType have value "All"', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
     selection.select(shape);
@@ -666,8 +649,7 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
         typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
         sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
-        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container);
 
     expect(selectBox.options).to.have.length.of(4);
 
@@ -677,12 +659,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     expect(typeSelectBox.value).to.equal('variables');
     expect(sourceInput.parentElement.className).to.contain('pp-hidden');
     expect(targetInput.parentElement.className).to.contain('pp-hidden');
-
   }));
 
 
-  it('should remove the variables attr of a camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the variables attr of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_5');
 
@@ -708,12 +688,10 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
     // then
     variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
     expect(variablesMappings).to.have.length.of(0);
-
   }));
 
 
-  it('should set the variables attr of a camunda:in mapping of a call activity',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the variables attr of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');
 
@@ -748,47 +726,45 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
   }));
 
 
-  it('should fetch local variable attribute of camunda:in mapping',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+  it('should fetch local variable attribute of camunda:in mapping', inject(function(propertiesPanel, elementRegistry, selection) {
 
-      var shape = elementRegistry.get('CallActivity_1');
-      selection.select(shape);
+    var shape = elementRegistry.get('CallActivity_1');
+    selection.select(shape);
 
-      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
-          checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container);
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container);
 
-      selectBox.options[0].selected = 'selected';
-      TestHelper.triggerEvent(selectBox, 'change');
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
 
-      expect(checkBox.checked).to.be.true;
+    expect(checkBox.checked).to.be.true;
   }));
 
 
-  it('should add local attribute to camunda:in source mapping',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+  it('should add local attribute to camunda:in source mapping', inject(function(propertiesPanel, elementRegistry, selection) {
 
-      var shape = elementRegistry.get('CallActivity_2');
-      selection.select(shape);
+    var shape = elementRegistry.get('CallActivity_2');
+    selection.select(shape);
 
-      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
-          checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container),
-          businessObject = getBusinessObject(shape);
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
 
       // given
-      selectBox.options[0].selected = 'selected';
-      TestHelper.triggerEvent(selectBox, 'change');
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
 
-      expect(checkBox.checked).to.be.false;
+    expect(checkBox.checked).to.be.false;
 
       // when
-      TestHelper.triggerEvent(checkBox, 'click');
+    TestHelper.triggerEvent(checkBox, 'click');
 
       // then
-      expect(checkBox.checked).to.be.true;
+    expect(checkBox.checked).to.be.true;
 
-      var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-      expect(variableMappings).to.have.length.of(3);
-      expect(variableMappings[0].local).to.be.true;
+    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+    expect(variableMappings).to.have.length.of(3);
+    expect(variableMappings[0].local).to.be.true;
   }));
 
 
@@ -814,16 +790,16 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       TestHelper.triggerEvent(checkBox, 'click');
 
       variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-
     }));
+
 
     it('should execute', inject(function() {
 
       expect(checkBox.checked).to.be.false;
 
       expect(variablesMappings[0].local).to.be.false;
-
     }));
+
 
     it('should undo', inject(function(commandStack) {
 
@@ -832,8 +808,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       expect(checkBox.checked).to.be.true;
 
       expect(variablesMappings[0].local).to.be.true;
-
     }));
+
 
     it('should redo', inject(function(commandStack) {
 
@@ -843,8 +819,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       expect(checkBox.checked).to.be.false;
 
       expect(variablesMappings[0].local).to.be.false;
-
     }));
+
   });
 
 
@@ -871,16 +847,16 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
 
       variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
       expect(variablesMappings).to.have.length.of(1);
-
     }));
+
 
     it('should execute', inject(function() {
 
       expect(checkBox.checked).to.be.true;
 
       expect(variablesMappings[0].local).to.be.true;
-
     }));
+
 
     it('should undo', inject(function(commandStack) {
 
@@ -889,8 +865,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       expect(checkBox.checked).to.be.false;
 
       expect(variablesMappings[0].local).to.be.false;
-
     }));
+
 
     it('should redo', inject(function(commandStack) {
 
@@ -900,8 +876,8 @@ var CAMUNDA_IN_EXTENSION_ELEMENT = 'camunda:In',
       expect(checkBox.checked).to.be.true;
 
       expect(variablesMappings[0].local).to.be.true;
-
     }));
+
   });
 
 });

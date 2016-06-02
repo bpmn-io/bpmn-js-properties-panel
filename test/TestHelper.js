@@ -59,7 +59,7 @@ var triggerEvent = function(element, eventType) {
 
   eventType = eventType || 'change';
 
-  if (!!document.createEvent) {
+  if (document.createEvent) {
     try {
       // Chrome, Safari, Firefox
       evt = new MouseEvent((eventType), { view: window, bubbles: true, cancelable: true });
@@ -148,4 +148,4 @@ module.exports.selectedByOption = selectedByOption;
 module.exports.selectedByIndex = selectedByIndex;
 
 
-chai.use(require('./matchers'));
+global.chai.use(require('./matchers'));

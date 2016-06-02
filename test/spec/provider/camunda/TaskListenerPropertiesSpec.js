@@ -7,15 +7,15 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  forEach = require('lodash/collection/forEach'),
-  is = require('bpmn-js/lib/util/ModelUtil').is,
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    forEach = require('lodash/collection/forEach'),
+    is = require('bpmn-js/lib/util/ModelUtil').is,
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('task-listener-properties', function() {
 
@@ -35,7 +35,7 @@ describe('task-listener-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
@@ -65,8 +65,7 @@ describe('task-listener-properties', function() {
   }
 
 
-  it('should fetch task listener properties for an user task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch task listener properties for an user task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_1');
     selection.select(taskShape);
@@ -100,8 +99,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should not fetch task listener properties for a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch task listener properties for a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('SequenceFlow_1');
     selection.select(taskShape);
@@ -118,8 +116,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should change properties of a task listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change properties of a task listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_1');
     selection.select(taskShape);
@@ -163,8 +160,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should add a new task listener to an existing extension elements',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add a new task listener to an existing extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_1');
     selection.select(taskShape);
@@ -203,8 +199,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should remove a task listener from extension elements',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove a task listener from extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_1');
     selection.select(taskShape);
@@ -240,8 +235,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should add the first task listener to an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add the first task listener to an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_2');
     selection.select(taskShape);
@@ -280,8 +274,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should clear task listener value of the task listener',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear task listener value of the task listener', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_1');
     selection.select(taskShape);
@@ -320,8 +313,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should add two task listener to an element at the same time',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add two task listener to an element at the same time', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_2');
     selection.select(taskShape);
@@ -379,8 +371,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should undo adding a task listener',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo adding a task listener', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('UserTask_2'),
@@ -413,8 +404,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should redo adding a task listener',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo adding a task listener', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('UserTask_2'),
@@ -443,8 +433,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should undo adding two task listeners at once',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo adding two task listeners at once', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('UserTask_2'),
@@ -481,8 +470,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should redo adding two task listeners at once',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo adding two task listeners at once', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     // given
     var taskShape = elementRegistry.get('UserTask_2'),
@@ -513,8 +501,7 @@ describe('task-listener-properties', function() {
   }));
 
 
-  it('should add task listener and execution listener to an element at the same time',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add task listener and execution listener to an element at the same time', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var taskShape = elementRegistry.get('UserTask_2');
     selection.select(taskShape);

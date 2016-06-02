@@ -7,13 +7,13 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
 describe('sequence-flow-properties', function() {
 
@@ -33,7 +33,7 @@ describe('sequence-flow-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
 
@@ -52,8 +52,7 @@ describe('sequence-flow-properties', function() {
   }));
 
 
-  it('should fetch the condition of a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch the condition of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
@@ -67,15 +66,14 @@ describe('sequence-flow-properties', function() {
   }));
 
 
-  it('should change the condition of a sequence flow',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change the condition of a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape),
-      conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
-      conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+        conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
+        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     // given
     expect(conditionType.value).to.equal('expression');
@@ -92,16 +90,15 @@ describe('sequence-flow-properties', function() {
   }));
 
 
-  it('should remove the condition of a condition expression sequence flow',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the condition of a condition expression sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
 
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape),
-      conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
-      conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+        conditionType = TestHelper.selectedByIndex(domQuery('select[name=conditionType]', propertiesPanel._container)),
+        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     // given
     expect(conditionType.value).to.equal('expression');
@@ -119,16 +116,15 @@ describe('sequence-flow-properties', function() {
   }));
 
 
-  it('should change condition type from expression to ""',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change condition type from expression to ""', inject(function(propertiesPanel, selection, elementRegistry) {
 
 
     var shape = elementRegistry.get('SequenceFlow_2');
     selection.select(shape);
 
     var businessObject = getBusinessObject(shape),
-      conditionType = domQuery('select[name=conditionType]', propertiesPanel._container),
-      conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
+        conditionType = domQuery('select[name=conditionType]', propertiesPanel._container),
+        conditionInput = domQuery('input[name="condition"]', propertiesPanel._container);
 
     // given
     expect(conditionType.value).to.equal('expression');

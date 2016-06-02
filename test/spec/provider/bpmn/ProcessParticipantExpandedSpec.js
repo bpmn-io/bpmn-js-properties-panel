@@ -49,8 +49,7 @@ describe('process-participant-expanded-properties', function() {
   }));
 
 
-  it('should set the isExecutable property of a process',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the isExecutable property of a process', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('Participant_1');
@@ -64,12 +63,11 @@ describe('process-participant-expanded-properties', function() {
     TestHelper.triggerEvent(isExecutable, 'click');
 
     // then
-    expect(taskBo.get("isExecutable")).to.be.ok;
+    expect(taskBo.get('isExecutable')).to.be.ok;
   }));
 
 
-  it('should get the name of a process in a participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2');
@@ -85,8 +83,7 @@ describe('process-participant-expanded-properties', function() {
   }));
 
 
-  it('should set the name of a process in a participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the name of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2');
@@ -104,8 +101,7 @@ describe('process-participant-expanded-properties', function() {
   }));
 
 
-  it('should get the id of a process in a participant',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the id of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2');
@@ -121,8 +117,7 @@ describe('process-participant-expanded-properties', function() {
   }));
 
 
-  it('should set the id of a process in a participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set the id of a process in a participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2');
@@ -140,8 +135,7 @@ describe('process-participant-expanded-properties', function() {
   }));
 
 
-  it('should get the id of the participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the id of the participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2');
@@ -157,8 +151,7 @@ describe('process-participant-expanded-properties', function() {
   }));
 
 
-  it('should get the name of the participant',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should get the name of the participant', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var shape = elementRegistry.get('_Participant_2');
@@ -176,9 +169,9 @@ describe('process-participant-expanded-properties', function() {
 
   describe('change name of participant', function() {
 
-    var container, participant, textarea;
+    var participant, textarea;
 
-    beforeEach(inject(function(elementRegistry, selection, propertiesPanel){
+    beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('_Participant_2');

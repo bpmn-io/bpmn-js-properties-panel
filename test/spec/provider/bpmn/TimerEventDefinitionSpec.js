@@ -7,15 +7,15 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  domClasses = require('min-dom/lib/classes'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/bpmn'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-  find = require('lodash/collection/find'),
-  eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
+    domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/bpmn'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    find = require('lodash/collection/find'),
+    eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
 
 function getGeneralTab(container) {
   return domQuery('div[data-tab="general"]', container);
@@ -609,7 +609,7 @@ describe('timer-event-properties', function() {
           it('should execute', function() {
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
-            expect(timerDefinition.timeDuration.body).to.equal('date')
+            expect(timerDefinition.timeDuration.body).to.equal('date');
             expect(timerDefinition.timeDate).not.to.be.ok;
           });
 
@@ -621,7 +621,7 @@ describe('timer-event-properties', function() {
             // then
             expect(timerDefinition.timeDuration).not.to.be.ok;
             expect(timerDefinition.timeDate).to.be.ok;
-            expect(timerDefinition.timeDate.body).to.equal('date')
+            expect(timerDefinition.timeDate.body).to.equal('date');
           }));
 
 
@@ -632,7 +632,7 @@ describe('timer-event-properties', function() {
 
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
-            expect(timerDefinition.timeDuration.body).to.equal('date')
+            expect(timerDefinition.timeDuration.body).to.equal('date');
             expect(timerDefinition.timeDate).not.to.be.ok;
           }));
 
@@ -850,7 +850,7 @@ describe('timer-event-properties', function() {
           it('should execute', function() {
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
-            expect(timerDefinition.timeDuration.body).to.equal('cycle')
+            expect(timerDefinition.timeDuration.body).to.equal('cycle');
             expect(timerDefinition.timeCycle).not.to.be.ok;
           });
 
@@ -862,7 +862,7 @@ describe('timer-event-properties', function() {
             // then
             expect(timerDefinition.timeDuration).not.to.be.ok;
             expect(timerDefinition.timeCycle).to.be.ok;
-            expect(timerDefinition.timeCycle.body).to.equal('cycle')
+            expect(timerDefinition.timeCycle.body).to.equal('cycle');
           }));
 
 
@@ -873,7 +873,7 @@ describe('timer-event-properties', function() {
 
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
-            expect(timerDefinition.timeDuration.body).to.equal('cycle')
+            expect(timerDefinition.timeDuration.body).to.equal('cycle');
             expect(timerDefinition.timeCycle).not.to.be.ok;
           }));
 
@@ -1091,7 +1091,7 @@ describe('timer-event-properties', function() {
           it('should execute', function() {
             // then
             expect(timerDefinition.timeCycle).to.be.ok;
-            expect(timerDefinition.timeCycle.body).to.equal('duration')
+            expect(timerDefinition.timeCycle.body).to.equal('duration');
             expect(timerDefinition.timeDuration).not.to.be.ok;
           });
 
@@ -1103,7 +1103,7 @@ describe('timer-event-properties', function() {
             // then
             expect(timerDefinition.timeCycle).not.to.be.ok;
             expect(timerDefinition.timeDuration).to.be.ok;
-            expect(timerDefinition.timeDuration.body).to.equal('duration')
+            expect(timerDefinition.timeDuration.body).to.equal('duration');
           }));
 
 
@@ -1114,7 +1114,7 @@ describe('timer-event-properties', function() {
 
             // then
             expect(timerDefinition.timeCycle).to.be.ok;
-            expect(timerDefinition.timeCycle.body).to.equal('duration')
+            expect(timerDefinition.timeCycle.body).to.equal('duration');
             expect(timerDefinition.timeDuration).not.to.be.ok;
           }));
 
@@ -1141,7 +1141,7 @@ describe('timer-event-properties', function() {
       beforeEach(inject(function(elementRegistry, selection) {
 
         // given
-        var shape = elementRegistry.get('TIME_DATE')
+        var shape = elementRegistry.get('TIME_DATE');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
@@ -1220,7 +1220,7 @@ describe('timer-event-properties', function() {
       beforeEach(inject(function(elementRegistry, selection) {
 
         // given
-        var shape = elementRegistry.get('TIME_DURATION')
+        var shape = elementRegistry.get('TIME_DURATION');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
@@ -1299,7 +1299,7 @@ describe('timer-event-properties', function() {
       beforeEach(inject(function(elementRegistry, selection) {
 
         // given
-        var shape = elementRegistry.get('TIME_CYCLE')
+        var shape = elementRegistry.get('TIME_CYCLE');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);

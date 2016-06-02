@@ -105,7 +105,7 @@ function createGroups(element, bpmnFactory) {
                 text: '!11111'
               };
             }
-          },
+          }
         ]
       },
       {

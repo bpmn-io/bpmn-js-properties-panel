@@ -1,8 +1,8 @@
 'use strict';
 
-var TestHelper = require('../../../../../TestHelper');
+require('../../../../../TestHelper');
 
-/* global bootstrapModeler, inject */
+/* global inject */
 
 var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,

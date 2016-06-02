@@ -1,6 +1,6 @@
 'use strict';
 
-var TestHelper = require('../TestHelper');
+require('../TestHelper');
 
 var TestContainer = require('mocha-test-container-support');
 
@@ -92,23 +92,24 @@ describe('properties-panel', function() {
       }));
 
 
-      it('should update on id edit', inject(function(propertiesPanel, selection, modeling) {
+      it('should update on id edit',
+        inject(function(propertiesPanel, selection, modeling) {
 
-        // given
-        var newId = 'BAR';
+          // given
+          var newId = 'BAR';
 
-        selection.select(eventShape);
+          selection.select(eventShape);
 
-        // when
-        modeling.updateProperties(eventShape, { id: newId });
+          // when
+          modeling.updateProperties(eventShape, { id: newId });
 
-        // then
-        expect(headerText(propertiesPanel)).to.eql(newId);
-      }));
+          // then
+          expect(headerText(propertiesPanel)).to.eql(newId);
+        })
+      );
 
 
-      it('should update on id undo',
-        inject(function(propertiesPanel, selection, commandStack, modeling) {
+      it('should update on id undo', inject(function(propertiesPanel, selection, commandStack, modeling) {
 
         // given
         var oldId = eventShape.id;

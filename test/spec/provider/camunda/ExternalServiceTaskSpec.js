@@ -7,14 +7,14 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/camunda'),
-  camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-  eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
 
 var find = require('lodash/collection/find');
 
@@ -36,13 +36,13 @@ describe('external-service-task-properties', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     modules: testModules,
-    moddleExtensions: {camunda: camundaModdlePackage}
+    moddleExtensions: { camunda: camundaModdlePackage }
   }));
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
     var undoButton = document.createElement('button');
-        undoButton.textContent = 'UNDO';
+    undoButton.textContent = 'UNDO';
 
     undoButton.addEventListener('click', function() {
       commandStack.undo();
@@ -54,15 +54,14 @@ describe('external-service-task-properties', function() {
   }));
 
 
-  it('should fetch properties of an external service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch properties of an external service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_external');
     selection.select(shape);
 
     var topicField = domQuery('input[name=externalTopic]', propertiesPanel._container),
-    	implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
-      businessObject = getBusinessObject(shape);
+        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
+        businessObject = getBusinessObject(shape);
 
     expect(implType.value).to.equal('external');
     expect(topicField.value).to.equal('ShipmentProcessing');
@@ -71,8 +70,7 @@ describe('external-service-task-properties', function() {
   }));
 
 
-  it('should fill topic property of an external service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fill topic property of an external service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_external');
     selection.select(shape);
@@ -96,8 +94,7 @@ describe('external-service-task-properties', function() {
   }));
 
 
-  it('should delete topic property of an external service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should delete topic property of an external service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_external');
     selection.select(shape);
@@ -121,8 +118,7 @@ describe('external-service-task-properties', function() {
   }));
 
 
-  it('should change implementation type from external service task to java class',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change implementation type from external service task to java class', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_external');
     selection.select(shape);
@@ -155,8 +151,7 @@ describe('external-service-task-properties', function() {
   }));
 
 
-  it('should change implementation type from expression to external service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change implementation type from expression to external service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -189,8 +184,7 @@ describe('external-service-task-properties', function() {
   }));
 
 
-  it('should not fetch external task properties for a service task with type not equal "external"',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not fetch external task properties for a service task with type not equal "external"', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_2');
     selection.select(shape);
@@ -204,8 +198,8 @@ describe('external-service-task-properties', function() {
     expect(businessObject.get('type')).to.be.equal('mail');
   }));
 
-  it('should exist a camunda:topic element in the business object when changing expression to external service task',
-    inject(function(propertiesPanel, selection, elementRegistry) {
+
+  it('should exist a camunda:topic element in the business object when changing expression to external service task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
@@ -255,8 +249,7 @@ describe('external-service-task-properties', function() {
       return domQuery('div[data-entry="externalTopic"] input[name="externalTopic"]', container);
     }
 
-    it('should offer external as implementation type for an intermediate message event',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+    it('should offer external as implementation type for an intermediate message event', inject(function(propertiesPanel, elementRegistry, selection) {
 
       // given
       var container = propertiesPanel._container;
@@ -270,8 +263,7 @@ describe('external-service-task-properties', function() {
     }));
 
 
-    it('should offer external as implementation type for an end message event',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+    it('should offer external as implementation type for an end message event', inject(function(propertiesPanel, elementRegistry, selection) {
 
       // given
       var container = propertiesPanel._container;
@@ -285,8 +277,7 @@ describe('external-service-task-properties', function() {
     }));
 
 
-    it('should set topic on message event definition',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+    it('should set topic on message event definition', inject(function(propertiesPanel, elementRegistry, selection) {
 
       // given
       var container = propertiesPanel._container;
@@ -306,8 +297,7 @@ describe('external-service-task-properties', function() {
     }));
 
 
-    it('should offer external as implementation type for a business rule task',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+    it('should offer external as implementation type for a business rule task', inject(function(propertiesPanel, elementRegistry, selection) {
 
       // given
       var container = propertiesPanel._container;
@@ -321,8 +311,7 @@ describe('external-service-task-properties', function() {
     }));
 
 
-    it('should offer external as implementation type for a service task',
-      inject(function(propertiesPanel, elementRegistry, selection) {
+    it('should offer external as implementation type for a service task', inject(function(propertiesPanel, elementRegistry, selection) {
 
       // given
       var container = propertiesPanel._container;
@@ -335,6 +324,6 @@ describe('external-service-task-properties', function() {
       expect(isContainedIn(getImplementionTypeSelect(container), 'external')).to.be.true;
     }));
 
-  })
+  });
 
 });

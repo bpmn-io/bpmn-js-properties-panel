@@ -7,14 +7,14 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-  domQuery = require('min-dom/lib/query'),
-  coreModule = require('bpmn-js/lib/core'),
-  selectionModule = require('diagram-js/lib/features/selection'),
-  modelingModule = require('bpmn-js/lib/features/modeling'),
-  propertiesProviderModule = require('../../../../lib/provider/bpmn'),
-  getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-  forEach = require('lodash/collection/forEach'),
-  eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
+    domQuery = require('min-dom/lib/query'),
+    coreModule = require('bpmn-js/lib/core'),
+    selectionModule = require('diagram-js/lib/features/selection'),
+    modelingModule = require('bpmn-js/lib/features/modeling'),
+    propertiesProviderModule = require('../../../../lib/provider/bpmn'),
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    forEach = require('lodash/collection/forEach'),
+    eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
 
 describe('event-properties', function() {
 
@@ -52,8 +52,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should exist a message definition field to an element with message def',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should exist a message definition field to an element with message def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     // that the intermediate catch event has a message ref input field
@@ -73,8 +72,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should exists a message definition field to all compatible events and tasks',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should exists a message definition field to all compatible events and tasks', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var elements = [
       'IntermediateCatchEvent_1',
@@ -103,8 +101,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should not exist a message definition field to an element w/o definition',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not exist a message definition field to an element w/o definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     // that the element hasn't a message ref input field
@@ -121,8 +118,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should be able to select an existing reference',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should be able to select an existing reference', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('IntermediateCatchEvent_1'),
         selectEl = 'div[data-entry=event-definitions-message] select[name=selectedElement]';
@@ -146,8 +142,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should be able to clear an existing message reference',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should be able to clear an existing message reference', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_6'),
         selectEl = 'div[data-entry=event-definitions-message] select[name=selectedElement]',
@@ -179,8 +174,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should be able to clear an existing message reference on a receive task',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should be able to clear an existing message reference on a receive task', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ReceiveTask_1'),
         selectEl = 'div[data-entry=event-definitions-message] select[name=selectedElement]',
@@ -212,8 +206,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should attach a signal to an element with signal def',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should attach a signal to an element with signal def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1'),
         selectEl = 'div[data-entry=event-definitions-signal] select[name=selectedElement]';
@@ -239,8 +232,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should be able to clear an existing signal reference',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should be able to clear an existing signal reference', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_4'),
         selectEl = 'div[data-entry=event-definitions-signal] select[name=selectedElement]',
@@ -273,8 +265,7 @@ describe('event-properties', function() {
 
 
 
-  it('should attach a error to an element with error def',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_2'),
         selectEl = 'div[data-entry=event-definitions-error] select[name=selectedElement]';
@@ -300,8 +291,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should exist an escalation definition field to all compatible events',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should exist an escalation definition field to all compatible events', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var elements = [
       'StartEvent_3',
@@ -329,8 +319,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should attach an escalation to an element with escalation def',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should attach an escalation to an element with escalation def', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_3'),
         selectEl = 'div[data-entry=event-definitions-escalation] select[name=selectedElement]';
@@ -357,8 +346,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch properties of an error element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch properties of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_4');
     selection.select(shape);
@@ -375,8 +363,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should change an error code and name of an error element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change an error code and name of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_4');
     selection.select(shape);
@@ -403,8 +390,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should remove the error name of an error element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the error name of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_4');
     selection.select(shape);
@@ -427,8 +413,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should clear the error code of an error element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear the error code of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_4');
     selection.select(shape);
@@ -452,8 +437,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch properties of an escalation element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch properties of an escalation element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_5');
     selection.select(shape);
@@ -470,8 +454,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should change an escalation code and name of an escalation element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change an escalation code and name of an escalation element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_5');
     selection.select(shape);
@@ -498,8 +481,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should remove the escalation name of an escalation element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove the escalation name of an escalation element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_5');
     selection.select(shape);
@@ -522,8 +504,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should clear the escalation code of an escalation element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear the escalation code of an escalation element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_5');
     selection.select(shape);
@@ -547,8 +528,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch name property of a message element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch name property of a message element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_6');
     selection.select(shape);
@@ -562,8 +542,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should clear the message name of a message element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear the message name of a message element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_6');
     selection.select(shape);
@@ -588,8 +567,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch name property of a signal element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch name property of a signal element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_4');
     selection.select(shape);
@@ -603,8 +581,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should clear the signal name of a signal element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear the signal name of a signal element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_4');
     selection.select(shape);
@@ -629,8 +606,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should not show signal name field when no signal is selected',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not show signal name field when no signal is selected', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
@@ -644,8 +620,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch name property of a receive task element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch name property of a receive task element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('ReceiveTask_1');
     selection.select(shape);
@@ -659,8 +634,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch error code variable of an error event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch error code variable of an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_5');
     selection.select(shape);
@@ -674,8 +648,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should change error code variable of an error event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change error code variable of an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_5');
     selection.select(shape);
@@ -697,8 +670,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should clear error code variable of an error event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear error code variable of an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_5');
     selection.select(shape);
@@ -721,8 +693,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch escalation code variable of an escalation event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch escalation code variable of an escalation event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_6');
     selection.select(shape);
@@ -736,8 +707,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should change escalation code variable of an escalation event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change escalation code variable of an escalation event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_6');
     selection.select(shape);
@@ -759,8 +729,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should clear escalation code variable of an escalation event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should clear escalation code variable of an escalation event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_6');
     selection.select(shape);
@@ -784,8 +753,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should not have escalation code variable input field for an end event with escalation event definition',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not have escalation code variable input field for an end event with escalation event definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_5');
     selection.select(shape);
@@ -797,8 +765,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should not have error code variable input field for an end event with error event definition',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not have error code variable input field for an end event with error event definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_4');
     selection.select(shape);
@@ -810,8 +777,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should add and attach a new message to a message event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add and attach a new message to a message event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_6');
     selection.select(shape);
@@ -837,8 +803,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should add and attach a new escalation to an escalation event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add and attach a new escalation to an escalation event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_5');
     selection.select(shape);
@@ -869,8 +834,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should add and attach a new error to an error event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add and attach a new error to an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_4');
     selection.select(shape);
@@ -900,8 +864,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should add and attach a new signal to a signal event definition element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should add and attach a new signal to a signal event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_4');
     selection.select(shape);
@@ -926,8 +889,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch compensation event properties of an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch compensation event properties of an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
     selection.select(shape);
@@ -941,8 +903,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should set wait for completion property for a compensation end event',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set wait for completion property for a compensation end event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationEndEvent_1');
     selection.select(shape);
@@ -963,8 +924,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should undo to set wait for completion property for a compensation end event',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo to set wait for completion property for a compensation end event', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     var shape = elementRegistry.get('CompensationEndEvent_1');
     selection.select(shape);
@@ -991,8 +951,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should redo to set wait for completion property for a compensation end event',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo to set wait for completion property for a compensation end event', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     var shape = elementRegistry.get('CompensationEndEvent_1');
     selection.select(shape);
@@ -1020,8 +979,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should remove wait for completion property of a compensation throw event',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove wait for completion property of a compensation throw event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
     selection.select(shape);
@@ -1042,8 +1000,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should not show wait for completion property of a compensation non throwing event',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should not show wait for completion property of a compensation non throwing event', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationIntermediateCatchEvent_1');
     selection.select(shape);
@@ -1057,8 +1014,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch activityRef property of an element',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should fetch activityRef property of an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
     selection.select(shape);
@@ -1070,8 +1026,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should remove activityRef property of a compensate event definition',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should remove activityRef property of a compensate event definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
     selection.select(shape);
@@ -1094,8 +1049,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should set activityRef property to a compensate event definition',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should set activityRef property to a compensate event definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationEndEvent_1');
     selection.select(shape);
@@ -1120,8 +1074,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should change activityRef property to a compensate event definition',
-      inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change activityRef property to a compensate event definition', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CompensationIntermediateThrowEvent_1');
     selection.select(shape);
@@ -1147,8 +1100,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should undo to set activityRef property to a compensate event definition',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should undo to set activityRef property to a compensate event definition', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     var shape = elementRegistry.get('CompensationEndEvent_1');
     selection.select(shape);
@@ -1180,8 +1132,7 @@ describe('event-properties', function() {
   }));
 
 
-  it('should redo to set activityRef property to a compensate event definition',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should redo to set activityRef property to a compensate event definition', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
     var shape = elementRegistry.get('CompensationEndEvent_1');
     selection.select(shape);

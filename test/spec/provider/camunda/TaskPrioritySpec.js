@@ -83,7 +83,7 @@ describe('Task Priority', function() {
       var bo = getBusinessObject(shape);
 
       // then
-      expect(bo.get('camunda:taskPriority')).to.equal("100");
+      expect(bo.get('camunda:taskPriority')).to.equal('100');
     }));
 
 
@@ -101,7 +101,7 @@ describe('Task Priority', function() {
       TestHelper.triggerValue(inputElement, '300', 'change');
 
       // then
-      expect(bo.get('camunda:taskPriority')).to.equal("300");
+      expect(bo.get('camunda:taskPriority')).to.equal('300');
     }));
 
 
@@ -124,8 +124,7 @@ describe('Task Priority', function() {
     }));
 
 
-    it('should add attribute when the remove is undone',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+    it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
       var shape   = elementRegistry.get('Process_1'),
           inputEl = 'input[name=taskPriority]';
@@ -145,7 +144,7 @@ describe('Task Priority', function() {
 
       // then
       expect(taskPriority).not.to.be.undefined;
-      expect(taskPriority).to.equal("100");
+      expect(taskPriority).to.equal('100');
     }));
 
   });
@@ -183,7 +182,7 @@ describe('Task Priority', function() {
       var bo = getBusinessObject(shape);
 
       // then
-      expect(bo.get('camunda:taskPriority')).to.equal("100");
+      expect(bo.get('camunda:taskPriority')).to.equal('100');
     }));
 
 
@@ -201,7 +200,7 @@ describe('Task Priority', function() {
       TestHelper.triggerValue(inputElement, '300', 'change');
 
       // then
-      expect(bo.get('camunda:taskPriority')).to.equal("300");
+      expect(bo.get('camunda:taskPriority')).to.equal('300');
     }));
 
 
@@ -224,8 +223,7 @@ describe('Task Priority', function() {
     }));
 
 
-    it('should add attribute when the remove is undone',
-      inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+    it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
       var shape   = elementRegistry.get('serviceTask'),
           inputEl = 'input[name=taskPriority]';
@@ -245,7 +243,7 @@ describe('Task Priority', function() {
 
       // then
       expect(taskPriority).not.to.be.undefined;
-      expect(taskPriority).to.equal("100");
+      expect(taskPriority).to.equal('100');
     }));
 
   });
