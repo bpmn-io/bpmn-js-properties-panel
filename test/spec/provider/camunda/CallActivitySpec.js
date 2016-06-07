@@ -456,6 +456,7 @@ describe('callActivity - properties', function() {
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
   }));
 
+
   it('should not show version field when changing callActivityType from BPMN to CMMN and back for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_2');
@@ -511,6 +512,7 @@ describe('callActivity - properties', function() {
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
 
   }));
+
 
   it('should not show version field when changing callActivityType from CMMN to BPMN and back for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -756,4 +758,176 @@ describe('callActivity - properties', function() {
     expect(camundaIn).to.have.length.of(0);
   }));
 
+
+  it('should fetch a calledElementTenantId field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity_9');
+
+    // when
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // then
+    expect(callActivityTypeSelect.value).to.equal('bpmn');
+    expect(inputField.value).to.equal('tenant1');
+    expect(inputField.value).to.equal(businessObject.get('camunda:calledElementTenantId'));
+  }));
+
+
+  it('should fill a calledElementTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_9');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape);
+
+    // given
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(businessObject.get('camunda:calledElementTenantId')).to.equal('tenant2');
+  }));
+
+
+  it('should remove a calledElementTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_9');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape);
+
+    // given
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, '', 'change');
+
+    // then
+    expect(inputField.value).to.equal('');
+    expect(businessObject.get('camunda:calledElementTenantId')).to.be.undefined;
+  }));
+
+
+  it('should fetch a caseTenantId field', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    // given
+    var shape = elementRegistry.get('CallActivity_8');
+
+    // when
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // then
+    expect(callActivityTypeSelect.value).to.equal('cmmn');
+    expect(inputField.value).to.equal('tenant1');
+    expect(inputField.value).to.equal(businessObject.get('camunda:caseTenantId'));
+  }));
+
+
+  it('should fill a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_8');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape);
+
+    // given
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
+  }));
+
+
+  it('should remove a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_9');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape);
+
+    // given
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, '', 'change');
+
+    // then
+    expect(inputField.value).to.equal('');
+    expect(businessObject.get('camunda:caseTenantId')).to.be.undefined;
+  }));
+
+
+  it('should undo to change a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CallActivity_8');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape);
+
+    // given
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
+
+    // undo
+    commandStack.undo();
+
+    // then
+    expect(inputField.value).to.equal('tenant1');
+    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant1');
+  }));
+
+
+  it('should redo to change a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('CallActivity_8');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
+    var businessObject = getBusinessObject(shape);
+
+    // given
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
+
+    // redo
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
+  }));
 });

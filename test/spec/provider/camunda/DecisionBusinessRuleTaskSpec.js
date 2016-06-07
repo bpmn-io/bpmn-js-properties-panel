@@ -216,6 +216,7 @@ describe('decision-business-rule-task-properties', function() {
         decisionRefVersion = domQuery('input[name=callableVersion]', propertiesPanel._container),
         decisionRefValue = domQuery('input[name=callableElementRef]', propertiesPanel._container),
         delegateField = domQuery('input[name=delegate]', propertiesPanel._container),
+        tenantField = domQuery('input[name=tenantId]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -227,6 +228,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(decisionRefVersion.value).to.equal('12');
     expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
     expect(delegateField.value).to.be.empty;
+    expect(tenantField.value).to.be.empty;
 
     // when
     // select option 'class'
@@ -243,6 +245,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(delegateField.value).to.equal('foo');
     expect(businessObject.get('camunda:class')).to.equal(delegateField.value);
     expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
+    expect(tenantField.parentElement.className).to.be.contain('pp-hidden');
   }));
 
 
@@ -489,4 +492,121 @@ describe('decision-business-rule-task-properties', function() {
     expect(mapDecisionResult.className).to.contain('pp-hidden');
   }));
 
+
+  it('should fetch decisionRefTenantId for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('BusinessRuleTask_TenantId');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        implType = TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)),
+        businessObject = getBusinessObject(shape);
+
+    expect(implType.value).to.equal('dmn');
+    expect(inputField.value).to.equal('tenant1');
+    expect(inputField.value).to.equal(businessObject.get('camunda:decisionRefTenantId'));
+  }));
+
+
+  it('should fill decisionRefTenantId field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('BusinessRuleTask_TenantId');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        implType = domQuery('select[name=implType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('dmn');
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(inputField.value).to.equal(businessObject.get('camunda:decisionRefTenantId'));
+  }));
+
+
+  it('should remove decisionRefTenantId field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('BusinessRuleTask_TenantId');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        implType = domQuery('select[name=implType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('dmn');
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, '', 'change');
+
+    // then
+    expect(inputField.value).to.equal('');
+    expect(businessObject.get('camunda:decisionRefTenantId')).to.be.undefined;
+  }));
+
+
+  it('should undo to change decisionRefTenantId field for an element', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('BusinessRuleTask_TenantId');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        implType = domQuery('select[name=implType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('dmn');
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(inputField.value).to.equal(businessObject.get('camunda:decisionRefTenantId'));
+
+    // undo
+    commandStack.undo();
+
+    // then
+    expect(inputField.value).to.equal('tenant1');
+    expect(inputField.value).to.equal(businessObject.get('camunda:decisionRefTenantId'));
+  }));
+
+
+  it('should redo to change decisionRefTenantId field for an element', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+
+    var shape = elementRegistry.get('BusinessRuleTask_TenantId');
+    selection.select(shape);
+
+    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
+        implType = domQuery('select[name=implType]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('dmn');
+    expect(inputField.value).to.equal('tenant1');
+
+    // when
+    TestHelper.triggerValue(inputField, 'tenant2', 'change');
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(inputField.value).to.equal(businessObject.get('camunda:decisionRefTenantId'));
+
+    // redo
+    commandStack.undo();
+    commandStack.redo();
+
+    // then
+    expect(inputField.value).to.equal('tenant2');
+    expect(inputField.value).to.equal(businessObject.get('camunda:decisionRefTenantId'));
+  }));
 });

@@ -32,6 +32,8 @@
           <camunda:in businessKey="abc" />
       </bpmn2:extensionElements>
     </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_8" camunda:caseRef="checkCreditCase" camunda:caseTenantId="tenant1" />
+    <bpmn2:callActivity id="CallActivity_9" calledElement="asd" camunda:calledElementTenantId="tenant1" />
 
   </bpmn2:process>
 
@@ -58,6 +60,13 @@
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_8" bpmnElement="CallActivity_7">
         <dc:Bounds height="80.0" width="100.0" x="24.0" y="270.0"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_9" bpmnElement="CallActivity_8">
+        <dc:Bounds height="80.0" width="100.0" x="150.0" y="270.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_CallActivity_10" bpmnElement="CallActivity_9">
+        <dc:Bounds height="80.0" width="100.0" x="280.0" y="270.0"/>
+      </bpmndi:BPMNShape>
+
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn2:definitions>

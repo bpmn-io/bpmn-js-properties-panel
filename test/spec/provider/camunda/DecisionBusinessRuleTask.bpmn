@@ -11,6 +11,7 @@
     <bpmn2:businessRuleTask id="BusinessRuleTask_Empty"/>
     <bpmn2:businessRuleTask id="BusinessRuleTask_Deployment" camunda:decisionRef="Bar" camunda:decisionRefBinding="deployment" camunda:resultVariable="resVar"/>
     <bpmn2:businessRuleTask id="BusinessRuleTask_Version" camunda:decisionRef="Bar" camunda:decisionRefBinding="version" camunda:decisionRefVersion="12"/>
+    <bpmn2:businessRuleTask id="BusinessRuleTask_TenantId" camunda:decisionRef="Bar" camunda:decisionRefTenantId="tenant1" />
     <bpmn2:endEvent id="EndEvent_1"/>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -36,8 +37,11 @@
       <bpmndi:BPMNShape id="_BPMNShape_BusinessRuleTask_Version" bpmnElement="BusinessRuleTask_Version">
         <dc:Bounds height="80.0" width="100.0" x="820.0" y="146.0"/>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_BusinessRuleTask_TenantId" bpmnElement="BusinessRuleTask_TenantId">
+        <dc:Bounds height="80.0" width="100.0" x="940.0" y="146.0"/>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_EndEvent_1" bpmnElement="EndEvent_1">
-        <dc:Bounds height="36.0" width="36.0" x="980.0" y="146.0"/>
+        <dc:Bounds height="36.0" width="36.0" x="1080.0" y="146.0"/>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
