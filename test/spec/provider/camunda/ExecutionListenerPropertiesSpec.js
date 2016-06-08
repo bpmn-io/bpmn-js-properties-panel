@@ -596,4 +596,30 @@ describe('listener-properties', function() {
 
   }));
 
+
+  it('should fetch execution listener properties for a process element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var taskShape = elementRegistry.get('Process_1');
+    selection.select(taskShape);
+
+    var bo = getBusinessObject(taskShape),
+        eventTypes = domQuery.all('select[name=eventType]', propertiesPanel._container),
+        listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
+        listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+
+    expect(bo.extensionElements.values.length).to.equal(1);
+    expect(eventTypes.length).to.equal(1);
+    expect(listenerTypes.length).to.equal(1);
+    expect(listenerValues.length).to.equal(1);
+
+    var extensionElementsValues = bo.extensionElements.values;
+
+    expect(eventTypes[0].value).to.equal('start');
+    expect(listenerTypes[0].value).to.equal('expression');
+    expect(listenerValues[0].value).to.equal('abc');
+    expect(extensionElementsValues[0].get('event')).to.equal(eventTypes[0].value);
+    expect(extensionElementsValues[0].get('expression')).to.equal(listenerValues[0].value);
+
+  }));
+
 });

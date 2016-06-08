@@ -5,6 +5,9 @@
                    xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" xmlns:custom="http://custom"
                    xmlns:camunda="http://camunda.org/bpmn" id="_pHDz0KojEeOJhIBv1RySdg" targetNamespace="http://bpmn.io/schema/bpmn">
   <bpmn2:process id="Process_1" isExecutable="false">
+    <bpmn2:extensionElements>
+      <camunda:executionListener event="start" expression="abc"/>
+    </bpmn2:extensionElements>
     <bpmn2:startEvent id="StartEvent_1" custom:foo="BAR">
       <bpmn2:documentation>FOO FOO BAR BAR</bpmn2:documentation>
     </bpmn2:startEvent>
