@@ -285,7 +285,84 @@ describe('element-name-properties', function() {
 
     });
 
+    describe('of a text annotation', function() {
+
+      beforeEach(inject(function(elementRegistry, selection) {
+        // given
+        var shape = elementRegistry.get('TEXTANNOTATION_WITH_NAME');
+        selection.select(shape);
+
+        element = getBusinessObject(shape);
+
+        nameField = domQuery('textarea[name=text]', getEntry(container, 'name'));
+
+        expect(element.text).to.equal('text for name');
+        expect(nameField.value).to.equal('text for name');
+
+        // when
+        TestHelper.triggerValue(nameField, 'foo', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          // then
+          expect(nameField.value).to.equal('foo');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(nameField.value).to.equal('text for name');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(nameField.value).to.equal('foo');
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          // then
+          expect(element.text).to.equal('foo');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(element.text).to.equal('text for name');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(element.text).to.equal('foo');
+        }));
+
+      });
+
+    });
+
   });
+
 
   describe('textarea rows', function() {
 

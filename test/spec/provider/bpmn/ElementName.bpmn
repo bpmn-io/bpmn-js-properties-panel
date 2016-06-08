@@ -15,6 +15,9 @@
     <bpmn:sequenceFlow id="FLOW_WITHOUT_NAME_2" sourceRef="TASK_WITHOUT_NAME" targetRef="END_WITHOUT_NAME" />
     <bpmn:task id="FOUR_LINES" name="a&#10;b&#10;c&#10;d" />
     <bpmn:task id="ONE_LINE" name="a" />
+    <bpmn:textAnnotation id="TEXTANNOTATION_WITH_NAME">    <bpmn:text>text for name</bpmn:text>
+</bpmn:textAnnotation>
+    <bpmn:association id="Association_10y192l" sourceRef="TASK_WITHOUT_NAME" targetRef="TEXTANNOTATION_WITH_NAME" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -53,6 +56,13 @@
       <bpmndi:BPMNShape id="Task_01x8s2k_di" bpmnElement="ONE_LINE">
         <dc:Bounds x="354" y="353" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_11kvt4v_di" bpmnElement="TEXTANNOTATION_WITH_NAME">
+        <dc:Bounds x="539" y="101" width="100" height="38" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_10y192l_di" bpmnElement="Association_10y192l">
+        <di:waypoint xsi:type="dc:Point" x="502" y="213" />
+        <di:waypoint xsi:type="dc:Point" x="571" y="139" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
