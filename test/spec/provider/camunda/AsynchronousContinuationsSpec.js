@@ -354,4 +354,33 @@ describe('flow-node-properties', function() {
 
     expect(bo.get('camunda:async')).to.be.not.ok;
   }));
+
+
+  it('should not remove the retryTimeCycle when the element is a timer event and is not async', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+    var shape = elementRegistry.get('StartEvent_Timer'),
+        bo = getBusinessObject(shape),
+        extensionElements = bo.get('extensionElements').get('values'),
+        extensionElementsCount = extensionElements.length;
+
+    selection.select(shape);
+
+    var domElement = getAsyncBefore(propertiesPanel._container);
+
+    expect(domElement.checked).to.be.true;
+    expect(extensionElements[0].$type).to.equal('camunda:FailedJobRetryTimeCycle');
+
+      // when
+    TestHelper.triggerEvent(domElement, 'click');
+
+      // then
+    expect(domElement.checked).to.be.false;
+
+    var newExtensionElements = bo.get('extensionElements').get('values');
+    var newCount = newExtensionElements.length;
+
+    expect(newCount).to.equal(extensionElementsCount);
+    expect(extensionElements[0].$type).to.equal(newExtensionElements[0].$type);
+  }));
 });
