@@ -22,9 +22,6 @@
     <bpmn:sequenceFlow id="SequenceFlow_1x9hchv" sourceRef="UserTask_1dwxsil" targetRef="EndEvent_0wik1yj" />
   </bpmn:process>
   <bpmn:process id="Process_2" isExecutable="false">
-    <bpmn:extensionElements>
-      <camunda:executionListener expression="userTwo" event="start" />
-    </bpmn:extensionElements>
     <bpmn:startEvent id="StartEvent_182olac">
       <bpmn:outgoing>SequenceFlow_1jh1yj2</bpmn:outgoing>
     </bpmn:startEvent>
