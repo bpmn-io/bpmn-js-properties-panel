@@ -476,6 +476,7 @@ describe('documentation-participant-properties', function() {
       });
     }
 
+
     describe('should show', function() {
 
       it('Collaboration', expectVisible('Collaboration_1', true, 'documentation'));
@@ -484,7 +485,7 @@ describe('documentation-participant-properties', function() {
       it('Participant', expectVisible('Participant_Process', true, 'process-documentation'));
 
       it('Collapsed Participant', expectVisible('Participant_Collapsed', true, 'documentation'));
-      it('Collapsed Participant', expectVisible('Participant_Collapsed', true, 'process-documentation'));
+      it('Collapsed Participant', expectVisible('Participant_Collapsed', false, 'process-documentation'));
 
     });
 
