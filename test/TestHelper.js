@@ -10,7 +10,7 @@ TestHelper.insertCSS('properties.css', require('./assets/properties.css'));
 
 TestHelper.insertCSS('diagram-js-testing.css',
   '.test-container .result { height: auto; }' +
-  '.bjs-container { height: 400px !important; }' +
+  '.bpp-container { height: 400px !important; }' +
   ' div.test-container {height: auto}'
 );
 

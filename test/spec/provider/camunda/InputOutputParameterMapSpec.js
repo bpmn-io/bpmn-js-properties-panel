@@ -66,7 +66,7 @@ function getMapAddRowDiv(container) {
 }
 
 function getMapTable(container) {
-  return domQuery('div[data-entry="parameterType-map"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-map"] > div.bpp-table', getInputOutputTab(container));
 }
 
 function getMapRows(container) {

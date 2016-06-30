@@ -69,7 +69,7 @@ describe('camunda-properties', function() {
     var group = domQuery(selector, propertiesPanel._container);
 
     // then
-    expect(domClasses(group).has('pp-hidden')).to.be.true;
+    expect(domClasses(group).has('bpp-hidden')).to.be.true;
   }));
 
 
@@ -89,7 +89,7 @@ describe('camunda-properties', function() {
     var group = domQuery(groupSelector, propertiesPanel._container);
 
       // then
-    expect(domClasses(group).has('pp-hidden')).to.be.false;
+    expect(domClasses(group).has('bpp-hidden')).to.be.false;
   }));
 
 });

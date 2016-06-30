@@ -1,12 +1,12 @@
-.djs-properties-tab-bar {
-  border-bottom: 1px solid @pp-color-gray-light;
+.bpp-properties-tab-bar {
+  border-bottom: 1px solid @bpp-color-gray-light;
   padding: 0 15px;
 
   .scroll-tabs-button {
     cursor: pointer;
     font-size: 16px;
     padding: 3px 4px 3px 4px;
-    color: @pp-color-gray;
+    color: @bpp-color-gray;
 
     &:hover {
       font-weight: bold;
@@ -30,7 +30,7 @@
   }
 }
 
-ul.djs-properties-tabs-links {
+ul.bpp-properties-tabs-links {
   margin: 5px 0 -1px 0;
   padding: 0;
   white-space: nowrap;
@@ -40,8 +40,8 @@ ul.djs-properties-tabs-links {
     display: inline-block;
     margin: 0;
 
-    &.pp-hidden {
-      .pp-hidden;
+    &.bpp-hidden {
+      .bpp-hidden;
     }
 
     > a {
@@ -50,17 +50,17 @@ ul.djs-properties-tabs-links {
       font-size: 12px;
       padding: 4px 7px;
 
-      border: 1px solid @pp-color-gray-light;
+      border: 1px solid @bpp-color-gray-light;
       border-radius: 3px 3px 0 0;
       border-bottom: transparent;
 
-      background-color: @pp-color-gray-lighter;
-      color: @pp-color-gray;
+      background-color: @bpp-color-gray-lighter;
+      color: @bpp-color-gray;
 
       text-decoration: none;
 
       &:hover {
-        color: darken(@pp-color-gray, 10%);
+        color: darken(@bpp-color-gray, 10%);
       }
     }
   }
@@ -69,22 +69,22 @@ ul.djs-properties-tabs-links {
     margin-left: 4px;
   }
 
-  > li.pp-active {
+  > li.bpp-active {
 
     a {
       padding-bottom: 5px;
 
-      border-top: 2px solid @pp-color-primary;
+      border-top: 2px solid @bpp-color-primary;
       border-bottom: none;
     }
   }
 }
 
-.djs-properties-tab,
-.djs-properties-tab.pp-hidden {
+.bpp-properties-tab,
+.bpp-properties-tab.bpp-hidden {
   display: none;
 }
 
-.djs-properties-tab.pp-active {
+.bpp-properties-tab.bpp-active {
   display: block;
 }

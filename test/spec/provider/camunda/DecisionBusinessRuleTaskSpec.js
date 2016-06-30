@@ -245,7 +245,7 @@ describe('decision-business-rule-task-properties', function() {
     expect(delegateField.value).to.equal('foo');
     expect(businessObject.get('camunda:class')).to.equal(delegateField.value);
     expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
-    expect(tenantField.parentElement.className).to.be.contain('pp-hidden');
+    expect(tenantField.parentElement.className).to.be.contain('bpp-hidden');
   }));
 
 
@@ -356,7 +356,7 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.className).to.contain('pp-hidden');
+    expect(mapDecisionResult.className).to.contain('bpp-hidden');
     expect(businessObject).to.have.property('mapDecisionResult');
     expect(businessObject).not.to.have.property('resultVariable');
   }));
@@ -389,7 +389,7 @@ describe('decision-business-rule-task-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(mapDecisionResult.className).to.contain('pp-hidden');
+    expect(mapDecisionResult.className).to.contain('bpp-hidden');
     expect(dmnResultVariableInput.value).to.be.empty;
     expect(businessObject).not.to.have.property('camunda:mapDecisionResult');
     expect(businessObject).not.to.have.property('camunda:resultVariable');
@@ -425,7 +425,7 @@ describe('decision-business-rule-task-properties', function() {
     TestHelper.triggerEvent(clearButton, 'click');
 
     // then
-    expect(mapDecisionResult.className).to.contain('pp-hidden');
+    expect(mapDecisionResult.className).to.contain('bpp-hidden');
     expect(dmnResultVariableInput.value).to.be.empty;
     expect(businessObject.get('camunda:mapDecisionResult')).to.equal('resultList');
     expect(businessObject.get('camunda:resultVariable')).to.be.undefined;
@@ -488,8 +488,8 @@ describe('decision-business-rule-task-properties', function() {
     // then
     expect(implType.value).to.equal('expression');
     expect(delegateField.className).to.equal('invalid');
-    expect(dmnResultVariable.parentElement.className).to.contain('pp-hidden');
-    expect(mapDecisionResult.className).to.contain('pp-hidden');
+    expect(dmnResultVariable.parentElement.className).to.contain('bpp-hidden');
+    expect(mapDecisionResult.className).to.contain('bpp-hidden');
   }));
 
 

@@ -367,9 +367,9 @@ describe('CallActivity - variable mapping', function() {
     expect(variableMappings[0].source).to.equal('');
 
     expect(selectBox.options).to.have.length.of(1);
-    expect(typeSelectBox.className).to.contain('pp-hidden');
-    expect(sourceInput.parentElement.className).to.contain('pp-hidden');
-    expect(targetInput.parentElement.className).to.contain('pp-hidden');
+    expect(typeSelectBox.className).to.contain('bpp-hidden');
+    expect(sourceInput.parentElement.className).to.contain('bpp-hidden');
+    expect(targetInput.parentElement.className).to.contain('bpp-hidden');
 
   }));
 
@@ -657,8 +657,8 @@ describe('CallActivity - variable mapping', function() {
     TestHelper.triggerEvent(selectBox, 'change');
 
     expect(typeSelectBox.value).to.equal('variables');
-    expect(sourceInput.parentElement.className).to.contain('pp-hidden');
-    expect(targetInput.parentElement.className).to.contain('pp-hidden');
+    expect(sourceInput.parentElement.className).to.contain('bpp-hidden');
+    expect(targetInput.parentElement.className).to.contain('bpp-hidden');
   }));
 
 

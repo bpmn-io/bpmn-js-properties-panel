@@ -141,7 +141,7 @@ describe('sequence-flow-properties', function() {
 
         // then
         expect(conditionType.value).to.equal('');
-        expect(conditionInput.parentElement.className).to.contain('pp-hidden');
+        expect(conditionInput.parentElement.className).to.contain('bpp-hidden');
         expect(businessObject.conditionExpression).to.be.undefined;
       })
     );

@@ -62,7 +62,7 @@ function getEscalationCodeField(container) {
 }
 
 function isHidden(node) {
-  return domClasses(node).has('pp-hidden');
+  return domClasses(node).has('bpp-hidden');
 }
 
 function isInputHidden(node) {

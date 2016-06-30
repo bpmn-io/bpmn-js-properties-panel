@@ -108,7 +108,7 @@ describe('element-templates/parts - Visibility', function() {
 });
 
 
-var HIDDEN_CLS = 'pp-hidden';
+var HIDDEN_CLS = 'bpp-hidden';
 
 function expectShown(entryIds) {
   expectVisibility(entryIds, true);

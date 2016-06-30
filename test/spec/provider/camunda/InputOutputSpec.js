@@ -136,11 +136,11 @@ function getScriptEntry(container) {
 }
 
 function getListAddRowDiv(container) {
-  return domQuery('div[data-entry="parameterType-list"] > div.pp-table-add-row', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-list"] > div.bpp-table-add-row', getInputOutputTab(container));
 }
 
 function getListTable(container) {
-  return domQuery('div[data-entry="parameterType-list"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-list"] > div.bpp-table', getInputOutputTab(container));
 }
 
 function getListRows(container) {
@@ -158,7 +158,7 @@ function getMapAddRowDiv(container) {
 }
 
 function getMapTable(container) {
-  return domQuery('div[data-entry="parameterType-map"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-map"] > div.bpp-table', getInputOutputTab(container));
 }
 
 function getMapRows(container) {
@@ -374,13 +374,13 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getScriptEntry(container).className).to.contains('pp-hidden');
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
-        expect(getListAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getListTable(container).className).to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
 
-        expect(getMapAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getMapTable(container).className).to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -404,13 +404,13 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('pp-hidden');
+        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
 
-        expect(getListAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getListTable(container).className).to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
 
-        expect(getMapAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getMapTable(container).className).to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -424,20 +424,20 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterNameInput(container).value).to.equal('input3');
         expect(getParameterTypeSelect(container).value).to.equal('list');
 
-        expect(getListAddRowDiv(container).className).not.to.contains('pp-hidden');
-        expect(getListTable(container).className).not.to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).not.to.contains('bpp-hidden');
+        expect(getListTable(container).className).not.to.contains('bpp-hidden');
 
         expect(getListRows(container).length).to.equal(1);
         expect(getListInput(0, container).value).to.equal('item1');
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('pp-hidden');
+        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
 
-        expect(getScriptEntry(container).className).to.contains('pp-hidden');
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
-        expect(getMapAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getMapTable(container).className).to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -451,8 +451,8 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterNameInput(container).value).to.equal('input4');
         expect(getParameterTypeSelect(container).value).to.equal('map');
 
-        expect(getMapAddRowDiv(container).className).not.to.contains('pp-hidden');
-        expect(getMapTable(container).className).not.to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).not.to.contains('bpp-hidden');
+        expect(getMapTable(container).className).not.to.contains('bpp-hidden');
 
         expect(getMapRows(container).length).to.equal(1);
         expect(getMapInput(0, 'key', container).value).to.equal('entryKey1');
@@ -460,12 +460,12 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('pp-hidden');
+        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
 
-        expect(getScriptEntry(container).className).to.contains('pp-hidden');
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
-        expect(getListAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getListTable(container).className).to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -497,13 +497,13 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getScriptEntry(container).className).to.contains('pp-hidden');
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
-        expect(getListAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getListTable(container).className).to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
 
-        expect(getMapAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getMapTable(container).className).to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -527,13 +527,13 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('pp-hidden');
+        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
 
-        expect(getListAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getListTable(container).className).to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
 
-        expect(getMapAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getMapTable(container).className).to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -547,20 +547,20 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterNameInput(container).value).to.equal('output3');
         expect(getParameterTypeSelect(container).value).to.equal('list');
 
-        expect(getListAddRowDiv(container).className).not.to.contains('pp-hidden');
-        expect(getListTable(container).className).not.to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).not.to.contains('bpp-hidden');
+        expect(getListTable(container).className).not.to.contains('bpp-hidden');
 
         expect(getListRows(container).length).to.equal(1);
         expect(getListInput(0, container).value).to.equal('item1');
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('pp-hidden');
+        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
 
-        expect(getScriptEntry(container).className).to.contains('pp-hidden');
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
-        expect(getMapAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getMapTable(container).className).to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -574,8 +574,8 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterNameInput(container).value).to.equal('output4');
         expect(getParameterTypeSelect(container).value).to.equal('map');
 
-        expect(getMapAddRowDiv(container).className).not.to.contains('pp-hidden');
-        expect(getMapTable(container).className).not.to.contains('pp-hidden');
+        expect(getMapAddRowDiv(container).className).not.to.contains('bpp-hidden');
+        expect(getMapTable(container).className).not.to.contains('bpp-hidden');
 
         expect(getMapRows(container).length).to.equal(1);
         expect(getMapInput(0, 'key', container).value).to.equal('entryKey1');
@@ -583,12 +583,12 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('pp-hidden');
+        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
 
-        expect(getScriptEntry(container).className).to.contains('pp-hidden');
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
-        expect(getListAddRowDiv(container).className).to.contains('pp-hidden');
-        expect(getListTable(container).className).to.contains('pp-hidden');
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
 
       });
 

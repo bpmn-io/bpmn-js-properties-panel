@@ -62,11 +62,11 @@ function getParameterTypeSelect(container) {
 }
 
 function getListAddRowDiv(container) {
-  return domQuery('div[data-entry="parameterType-list"] > div.pp-table-add-row', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-list"] > div.bpp-table-add-row', getInputOutputTab(container));
 }
 
 function getListTable(container) {
-  return domQuery('div[data-entry="parameterType-list"] > div.pp-table', getInputOutputTab(container));
+  return domQuery('div[data-entry="parameterType-list"] > div.bpp-table', getInputOutputTab(container));
 }
 
 function getListRows(container) {

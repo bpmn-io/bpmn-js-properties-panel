@@ -621,8 +621,8 @@ describe('form-data-enum', function() {
         it('should hide values', inject(function() {
 
           // then
-          expect(domClasses(values.childNodes[0]).has('pp-hidden')).to.be.true;
-          expect(domClasses(values.childNodes[1]).has('pp-hidden')).to.be.true;
+          expect(domClasses(values.childNodes[0]).has('bpp-hidden')).to.be.true;
+          expect(domClasses(values.childNodes[1]).has('bpp-hidden')).to.be.true;
         }));
 
         it('should hide values - undo', inject(function(commandStack) {
@@ -631,8 +631,8 @@ describe('form-data-enum', function() {
           commandStack.undo();
 
           // then
-          expect(domClasses(values.childNodes[0]).has('pp-hidden')).to.be.false;
-          expect(domClasses(values.childNodes[1]).has('pp-hidden')).to.be.false;
+          expect(domClasses(values.childNodes[0]).has('bpp-hidden')).to.be.false;
+          expect(domClasses(values.childNodes[1]).has('bpp-hidden')).to.be.false;
         }));
 
 
@@ -643,8 +643,8 @@ describe('form-data-enum', function() {
           commandStack.redo();
 
           // then
-          expect(domClasses(values.childNodes[0]).has('pp-hidden')).to.be.true;
-          expect(domClasses(values.childNodes[1]).has('pp-hidden')).to.be.true;
+          expect(domClasses(values.childNodes[0]).has('bpp-hidden')).to.be.true;
+          expect(domClasses(values.childNodes[1]).has('bpp-hidden')).to.be.true;
         }));
 
       });

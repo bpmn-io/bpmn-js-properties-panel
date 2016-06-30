@@ -49,7 +49,7 @@ var getSelectedType = function(container) {
 };
 
 var isCustomInputHidden = function(container) {
-  return domClasses(getInputField(container).parentNode).has('pp-hidden');
+  return domClasses(getInputField(container).parentNode).has('bpp-hidden');
 };
 
 describe('form-field-type', function() {

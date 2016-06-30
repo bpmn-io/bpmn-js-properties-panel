@@ -367,7 +367,7 @@ describe('element-templates/parts - Custom Properties', function() {
     beforeEach(bootstrap(diagramXML, elementTemplates));
 
     function expectError(entry, message) {
-      var errorElement = entrySelect(entry, '.pp-error-message');
+      var errorElement = entrySelect(entry, '.bpp-error-message');
 
       var error = errorElement && errorElement.textContent;
 

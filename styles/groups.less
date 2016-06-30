@@ -1,4 +1,4 @@
-.djs-properties-group {
+.bpp-properties-group {
   padding: 6px 15px 6px 15px;
   position: relative;
   max-height: 2000px;
@@ -20,7 +20,7 @@
     cursor: pointer;
     transition: background-color 0.218s linear;
     &:hover {
-      background-color: @pp-color-toggle;
+      background-color: @bpp-color-toggle;
     }
   }
 
@@ -34,9 +34,9 @@
   }
 
   &:hover > .group-toggle {
-    background-color: @pp-color-gray-light;
+    background-color: @bpp-color-gray-light;
     &:hover {
-      background-color: @pp-color-toggle;
+      background-color: @bpp-color-toggle;
     }
   }
 
@@ -44,7 +44,7 @@
     max-height: 20px;
     border-top: none;
     cursor: pointer;
-    background-color: fade(@pp-color-toggle, 20%);
+    background-color: fade(@bpp-color-toggle, 20%);
     padding-top: 0;
     padding-bottom: 0;
 
@@ -58,12 +58,12 @@
     }
 
     &:hover > .group-label {
-      color: @pp-color-primary;
+      color: @bpp-color-primary;
     }
   }
 
-  + .djs-properties-group {
-    border-top: 1px dotted @pp-color-gray-light;
+  + .bpp-properties-group {
+    border-top: 1px dotted @bpp-color-gray-light;
   }
 
   &:last-child {

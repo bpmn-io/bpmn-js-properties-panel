@@ -7,13 +7,13 @@
   src: url(@font-eot) format('embedded-opentype'),
        url(@font-woff) format('woff'),
        url(@font-ttf) format('truetype'),
-       url(@pp-font-svg) format('svg');
+       url(@bpp-font-svg) format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 
-.djs-properties-panel {
+.bpp-properties-panel {
   .overlay();
   position: relative;
 
@@ -31,7 +31,7 @@
   button,
   textarea {
     padding: 3px 6px;
-    border: 1px solid @pp-color-gray-light;
+    border: 1px solid @bpp-color-gray-light;
 
     &:focus {
       .focus();
@@ -40,7 +40,7 @@
     &.invalid {
       .invalid();
       &:focus {
-        box-shadow: 0 0 1px 2px fade(@pp-color-error, 20%);
+        box-shadow: 0 0 1px 2px fade(@bpp-color-error, 20%);
       }
     }
   }
@@ -81,12 +81,12 @@
   }
 }
 
-.pp-error-message,
-.pp-error-message.pp-entry-link {
-  color: @pp-color-error;
+.bpp-error-message,
+.bpp-error-message.bpp-entry-link {
+  color: @bpp-color-error;
 }
 
-.pp-row {
+.bpp-row {
   margin-top: 10px;
   margin-bottom: 10px;
   &:first-of-type {
@@ -97,17 +97,17 @@
   }
 }
 
-.pp-textfield,
-.pp-textarea {
+.bpp-textfield,
+.bpp-textarea {
   margin-bottom: 3px;
 }
 
-.pp-radios-group {
+.bpp-radios-group {
   list-style: none;
   padding: 0;
   margin: 0 0 9px 0;
 
-  .pp-radio-wrapper {
+  .bpp-radio-wrapper {
     margin: 6px 0;
   }
 
@@ -122,8 +122,8 @@
   }
 }
 
-.pp-radios-group,
-.pp-checkbox {
+.bpp-radios-group,
+.bpp-checkbox {
   input {
     margin-left: 0;
   }
@@ -135,7 +135,7 @@
   }
 }
 
-.pp-textfield {
+.bpp-textfield {
   input {
     padding-right: 28px;
   }
@@ -148,11 +148,11 @@
   }
 }
 
-.pp-combo-input {
+.bpp-combo-input {
   margin-top: 7px;
 }
 
-.pp-select {
+.bpp-select {
   select {
     height: 23px;
   }
@@ -162,8 +162,8 @@
   }
 }
 
-.pp-select,
-.pp-element-list {
+.bpp-select,
+.bpp-element-list {
 
   button {
     &.add,
@@ -182,10 +182,10 @@
   }
 }
 
-.djs-properties-entry {
+.bpp-properties-entry {
   margin-bottom: 9px;
 
-  .pp-field-wrapper {
+  .bpp-field-wrapper {
     position: relative;
 
     input[readonly] + .clear {
@@ -194,26 +194,26 @@
   }
 }
 
-.pp-hidden {
+.bpp-hidden {
   display: none;
 }
 
-label.pp-hidden {
-  .pp-hidden;
+label.bpp-hidden {
+  .bpp-hidden;
 }
 
-.pp-table-add-row {
+.bpp-table-add-row {
   > button {
     position: relative;
     margin-left: 10px;
   }
 }
 
-.pp-table {
+.bpp-table {
   margin-top: 10px;
 }
 
-.pp-table-row {
+.bpp-table-row {
   margin-bottom: 2px;
   overflow: hidden;
 
@@ -229,16 +229,16 @@ label.pp-hidden {
   > label,
   > input {
 
-    &.pp-table-row-columns-1 {
+    &.bpp-table-row-columns-1 {
       width: 100%;
-      &.pp-table-row-removable {
+      &.bpp-table-row-removable {
         width: ~"calc(100% - 24px)";
       }
     }
 
-    &.pp-table-row-columns-2 {
+    &.bpp-table-row-columns-2 {
       width: 50%;
-      &.pp-table-row-removable {
+      &.bpp-table-row-removable {
         width: ~"calc(50% - 12px)";
       }
       &:nth-child(2) {
@@ -253,22 +253,22 @@ label.pp-hidden {
   }
 }
 
-.djs-properties-static {
+.bpp-properties-static {
   margin-bottom: 0;
   margin-top: 0;
-  border: 1px solid @pp-color-gray-light;
+  border: 1px solid @bpp-color-gray-light;
   background-color: white;
   padding: 3px 6px;
   font: 13.3333px Arial;
   width: 100%;
 }
 
-.pp-entry-link {
+.bpp-entry-link {
   cursor: pointer;
-  color: @pp-color-primary;
+  color: @bpp-color-primary;
 }
 
-.pp-icon-warning:before {
+.bpp-icon-warning:before {
   .icon-font();
   content: '\E806';
 }

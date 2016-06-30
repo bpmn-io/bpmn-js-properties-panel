@@ -685,7 +685,7 @@ describe('form-data', function() {
       var textField;
 
       beforeEach(function() {
-        textField = domQuery('[data-entry="constraints-list"] [data-index="1"] .pp-table-row-columns-2', container);
+        textField = domQuery('[data-entry="constraints-list"] [data-index="1"] .bpp-table-row-columns-2', container);
 
         TestHelper.triggerValue(textField, 'minlength', 'change');
       });

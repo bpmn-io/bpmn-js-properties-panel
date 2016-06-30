@@ -81,7 +81,7 @@ function selectImplementationType(type, container) {
 }
 
 function isHidden(node) {
-  return domClasses(node).has('pp-hidden');
+  return domClasses(node).has('bpp-hidden');
 }
 
 function isInputHidden(node) {
@@ -89,7 +89,7 @@ function isInputHidden(node) {
 }
 
 function hasErrorMessage(node) {
-  return domClasses(node).has('pp-error-message');
+  return domClasses(node).has('bpp-error-message');
 }
 
 describe('implementation type', function() {

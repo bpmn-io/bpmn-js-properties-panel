@@ -22,7 +22,7 @@ function isHiddenRow(id, container) {
 
   var input = domQuery('select', entry) || domQuery('input', entry).parentNode;
 
-  return domClasses(input).has('pp-hidden');
+  return domClasses(input).has('bpp-hidden');
 }
 
 describe('form-key', function() {

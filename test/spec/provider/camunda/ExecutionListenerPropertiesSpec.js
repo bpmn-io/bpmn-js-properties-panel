@@ -103,7 +103,7 @@ describe('listener-properties', function() {
     selection.select(taskShape);
 
     var bo = getBusinessObject(taskShape),
-        eventTypes = domQuery.all('.djs-properties-static', propertiesPanel._container),
+        eventTypes = domQuery.all('.bpp-properties-static', propertiesPanel._container),
         listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
         listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
 
@@ -364,7 +364,7 @@ describe('listener-properties', function() {
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
 
-    var eventTypes = domQuery.all('.djs-properties-static', propertiesPanel._container),
+    var eventTypes = domQuery.all('.bpp-properties-static', propertiesPanel._container),
         listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
         listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
 
@@ -585,7 +585,7 @@ describe('listener-properties', function() {
     TestHelper.triggerEvent(addListenerButton, 'click');
 
     var listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container),
-        errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
+        errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
 
     // then
     expect(listenerValues[0].className).to.equal('invalid');

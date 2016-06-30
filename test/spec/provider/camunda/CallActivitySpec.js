@@ -278,7 +278,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
     expect(callabledElementRefInput.value).to.equal('checkCreditCase');
     expect(callableBindingSelect.value).to.equal('latest');
-    expect(versionInput.parentElement.className).to.contains('pp-hidden');
+    expect(versionInput.parentElement.className).to.contains('bpp-hidden');
     expect(businessObject.get('camunda:caseRef')).to.equal(callabledElementRefInput.value);
     expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
@@ -421,7 +421,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
     expect(callableElementRefInput.value).to.equal('myCase');
     expect(callableBindingSelect.value).to.equal('latest');
-    expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
+    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
     expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
     expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
@@ -445,9 +445,9 @@ describe('callActivity - properties', function() {
         businessObject = getBusinessObject(shape);
 
     expect(callActivityTypeSelect.value).to.equal('');
-    expect(callableElementRefInput.parentElement.className).to.contains('pp-hidden');
-    expect(callableBindingSelect.className).to.contains('pp-hidden');
-    expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
+    expect(callableElementRefInput.parentElement.className).to.contains('bpp-hidden');
+    expect(callableBindingSelect.className).to.contains('bpp-hidden');
+    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
     expect(businessObject.get('calledElement')).not.to.exist;
     expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest'); // default value
     expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
@@ -491,7 +491,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
 
     expect(callableBindingSelect.value).to.equal('latest');
-    expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
+    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
 
     // when change back to 'bpmn'
     callActivityTypeSelect.options[0].selected = 'selected';
@@ -501,7 +501,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('bpmn');
 
     expect(callableBindingSelect.value).to.equal('latest');
-    expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
+    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
 
     // property 'camunda:calledElementBinding' should not exist in the business object,
     // because there is the default value 'latest'
@@ -548,7 +548,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('bpmn');
 
     expect(callableBindingSelect.value).to.equal('latest');
-    expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
+    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
 
     // when change back to 'cmmn'
     callActivityTypeSelect.options[1].selected = 'selected';
@@ -558,7 +558,7 @@ describe('callActivity - properties', function() {
     expect(callActivityTypeSelect.value).to.equal('cmmn');
 
     expect(callableBindingSelect.value).to.equal('latest');
-    expect(callableVersionInput.parentElement.className).to.contains('pp-hidden');
+    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
 
     expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest');
     expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;

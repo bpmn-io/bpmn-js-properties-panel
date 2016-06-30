@@ -334,7 +334,7 @@ describe('task-listener-properties', function() {
     var eventTypes = domQuery.all('[data-entry=taskListeners] select[name=eventType]', propertiesPanel._container),
         listenerTypes = domQuery.all('[data-entry=taskListeners] select[name=listenerType]', propertiesPanel._container),
         listenerValues = domQuery.all('[data-entry=taskListeners] input[name=listenerValue]', propertiesPanel._container),
-        errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
+        errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
 
     expect(listenerValues[0].className).to.equal('invalid');
     expect(listenerValues[0].className).to.equal('invalid');
@@ -347,7 +347,7 @@ describe('task-listener-properties', function() {
     TestHelper.triggerValue(listenerValues[1], 'taskListenerValTwo');
 
     // then
-    errorMessages = domQuery.all('.pp-error-message', propertiesPanel._container);
+    errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
     expect(errorMessages).to.have.length(0);
 
     // check html of first task listener

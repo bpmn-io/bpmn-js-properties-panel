@@ -1,13 +1,13 @@
 .invalid() {
-  border-color: @pp-color-error;
-  background: @pp-color-error-bg;
+  border-color: @bpp-color-error;
+  background: @bpp-color-error-bg;
 }
 
 .focus() {
-  // outline-color: @pp-color-primary;
+  // outline-color: @bpp-color-primary;
   outline: none;
-  border-color: @pp-color-primary;
-  box-shadow: 0 0 1px 2px fade(@pp-color-primary, 20%);
+  border-color: @bpp-color-primary;
+  box-shadow: 0 0 1px 2px fade(@bpp-color-primary, 20%);
 }
 
 
@@ -28,7 +28,7 @@
 }
 
 .overlay() {
-  background-color: @pp-color-gray-lighter;
+  background-color: @bpp-color-gray-lighter;
 }
 
 .action-button() {
@@ -38,8 +38,8 @@
   width: 24px;
   overflow: hidden;
   cursor: pointer;
-  background-color: @pp-color-gray-lighter;
-  border: 1px solid @pp-color-gray-light;
+  background-color: @bpp-color-gray-lighter;
+  border: 1px solid @bpp-color-gray-light;
 
   > span {
     display: none;
@@ -59,7 +59,7 @@
   }
 
   &:hover {
-    color: @pp-color-primary;
+    color: @bpp-color-primary;
   }
 }
 
@@ -67,9 +67,9 @@
   font-weight: bolder;
   display: inline-block;
   vertical-align: middle;
-  color: @pp-color-gray;
+  color: @bpp-color-gray;
   &[for] {
     cursor: pointer;
   }
-  &.pp-hidden { display: none; }
+  &.bpp-hidden { display: none; }
 }

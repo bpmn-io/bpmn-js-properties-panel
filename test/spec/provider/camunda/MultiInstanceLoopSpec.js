@@ -16,7 +16,7 @@ var propertiesPanelModule = require('../../../../lib'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var HIDE_CLASS = 'pp-hidden';
+var HIDE_CLASS = 'bpp-hidden';
 
 function getMultiInstanceGroup(container) {
   return domQuery('div[data-group=multiInstance]', container);

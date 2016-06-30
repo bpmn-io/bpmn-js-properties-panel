@@ -615,7 +615,7 @@ describe('event-properties', function() {
         signalNameDiv = domQuery('div[data-entry=signal-element-name] input[name=name]', propertiesPanel._container);
 
     expect(signalSelectField.value).to.be.empty;
-    expect(signalNameDiv.parentElement.className).to.contain('pp-hidden');
+    expect(signalNameDiv.parentElement.className).to.contain('bpp-hidden');
 
   }));
 
