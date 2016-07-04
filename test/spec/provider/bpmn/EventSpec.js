@@ -264,33 +264,6 @@ describe('event-properties', function() {
   }));
 
 
-
-  it('should attach a error to an element with error def', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_2'),
-        selectEl = 'div[data-entry=event-definitions-error] select[name=selectedElement]';
-
-    selection.select(shape);
-    var selectField = domQuery(selectEl, propertiesPanel._container);
-
-    // given
-    expect(selectField.value).is.empty;
-
-    // when
-    // select the first option
-    selectField.options[0].selected = 'selected';
-    TestHelper.triggerEvent(selectField, 'change');
-
-    var errorRef = getBusinessObject(shape).get('eventDefinitions')[0].errorRef;
-    var errors = domQuery.all('div[data-entry=event-definitions-error] select[name=selectedElement] > option', propertiesPanel._container);
-
-    // then
-    expect(errors.length).to.be.at.least(2);
-    expect(selectField.value).to.equal(errors[0].value);
-    expect(errorRef.id).to.equal(selectField.value);
-  }));
-
-
   it('should exist an escalation definition field to all compatible events', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var elements = [
@@ -343,97 +316,6 @@ describe('event-properties', function() {
     expect(escalations.length).to.be.at.least(2);
     expect(selectBox.value).to.equal(escalations[0].value);
     expect(escalationRef.id).to.equal(selectBox.value);
-  }));
-
-
-  it('should fetch properties of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_4');
-    selection.select(shape);
-
-    var errorCodeField = domQuery('div[data-entry=error-element-code] input[name=errorCode]', propertiesPanel._container),
-        errorNameField = domQuery('div[data-entry=error-element-name] input[name=name]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
-
-    expect(errorCodeField.value).to.equal('123');
-    expect(errorNameField.value).to.equal('myError');
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.equal(errorCodeField.value);
-    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
-
-  }));
-
-
-  it('should change an error code and name of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_4');
-    selection.select(shape);
-
-    var errorCodeField = domQuery('div[data-entry=error-element-code] input[name=errorCode]', propertiesPanel._container),
-        errorNameField = domQuery('div[data-entry=error-element-name] input[name=name]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
-
-    // given
-    expect(errorCodeField.value).to.equal('123');
-    expect(errorNameField.value).to.equal('myError');
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.equal(errorCodeField.value);
-    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
-
-    // when
-    TestHelper.triggerValue(errorCodeField, 'myErrorCode', 'change');
-    TestHelper.triggerValue(errorNameField, 'myErrorNew', 'change');
-
-    // then
-    expect(errorCodeField.value).to.equal('myErrorCode');
-    expect(errorNameField.value).to.equal('myErrorNew');
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.equal(errorCodeField.value);
-    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
-  }));
-
-
-  it('should remove the error name of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_4');
-    selection.select(shape);
-
-    var syntax = 'div[data-entry=error-element-name] input[name=name]',
-        inputField = domQuery(syntax, propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
-
-    // given
-    expect(inputField.value).to.equal('myError');
-    expect(errorEventDefinition.errorRef.get('name')).to.equal(inputField.value);
-
-    // when
-    TestHelper.triggerValue(inputField, '', 'change');
-
-    // then
-    expect(inputField.value).to.be.empty;
-    expect(inputField.className).to.equal('invalid');
-    expect(errorEventDefinition.errorRef.get('name')).to.be.undefined;
-  }));
-
-
-  it('should clear the error code of an error element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_4');
-    selection.select(shape);
-
-    var errorCodeField = domQuery('div[data-entry=error-element-code] input[name=errorCode]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape),
-        clearButton = domQuery(
-          '[data-entry=error-element-code] button[data-action=clear]',
-          propertiesPanel._container);
-
-    // given
-    expect(errorCodeField.value).to.equal('123');
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.equal(errorCodeField.value);
-
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
-
-    // then
-    expect(errorCodeField.value).to.be.empty;
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.be.undefined;
   }));
 
 
@@ -634,65 +516,6 @@ describe('event-properties', function() {
   }));
 
 
-  it('should fetch error code variable of an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('StartEvent_5');
-    selection.select(shape);
-
-    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
-
-    expect(errorCodeVar.value).to.equal('myErrorVariable');
-    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
-
-  }));
-
-
-  it('should change error code variable of an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('StartEvent_5');
-    selection.select(shape);
-
-    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
-
-    // given
-    expect(errorCodeVar.value).to.equal('myErrorVariable');
-    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
-
-    // when
-    TestHelper.triggerValue(errorCodeVar, 'myNewErrorVar', 'change');
-
-    // then
-    expect(errorCodeVar.value).to.equal('myNewErrorVar');
-    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
-
-  }));
-
-
-  it('should clear error code variable of an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('StartEvent_5');
-    selection.select(shape);
-
-    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=errorCodeVariable] button[data-action=clear]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape);
-
-    // given
-    expect(errorCodeVar.value).to.equal('myErrorVariable');
-    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.equal(errorCodeVar.value);
-
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
-
-    // then
-    expect(errorCodeVar.value).to.be.empty;
-    expect(errorEventDefinition.get('camunda:errorCodeVariable')).to.be.undefined;
-
-  }));
-
-
   it('should fetch escalation code variable of an escalation event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('StartEvent_6');
@@ -765,18 +588,6 @@ describe('event-properties', function() {
   }));
 
 
-  it('should not have error code variable input field for an end event with error event definition', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_4');
-    selection.select(shape);
-
-    var errorCodeVar = domQuery('input[name=errorCodeVariable]', propertiesPanel._container);
-
-    expect(errorCodeVar).to.be.null;
-
-  }));
-
-
   it('should add and attach a new message to a message event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('EndEvent_6');
@@ -831,36 +642,6 @@ describe('event-properties', function() {
     // should change message name of business object
     expect(escalationEventDefinition.escalationRef.get('name')).to.equal(escalationNameField.value);
     expect(escalationEventDefinition.escalationRef.get('escalationCode')).to.be.undefined;
-  }));
-
-
-  it('should add and attach a new error to an error event definition element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('EndEvent_4');
-    selection.select(shape);
-
-    var syntax = 'div[data-entry=error-element-name] input[name=name]',
-        errorNameField = domQuery(syntax, propertiesPanel._container),
-        errorCodeField = domQuery('div[data-entry=error-element-code] input[name=errorCode]', propertiesPanel._container),
-        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(shape),
-        addButton = domQuery('[data-entry=event-definitions-error] button[data-action=addElement]', propertiesPanel._container);
-
-    // given
-    expect(errorNameField.value).to.equal('myError');
-    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
-    expect(errorCodeField.value).to.equal('123');
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.equal(errorCodeField.value);
-
-    // when
-    TestHelper.triggerEvent(addButton, 'click');
-
-    // then
-    expect(errorNameField.value).not.to.be.empty;
-    expect(errorNameField.value).not.to.equal('myError');
-    expect(errorCodeField.value).to.be.empty;
-    // should change message name of business object
-    expect(errorEventDefinition.errorRef.get('name')).to.equal(errorNameField.value);
-    expect(errorEventDefinition.errorRef.get('errorCode')).to.be.undefined;
   }));
 
 
