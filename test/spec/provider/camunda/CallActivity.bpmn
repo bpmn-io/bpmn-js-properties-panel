@@ -1,72 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
-                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-                   xmlns:camunda="http://camunda.org/bpmn"
-                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-                   xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
-                   id="_3ENCQCCrEeWkp5kiupH8Fw"
-                   exporter="camunda modeler"
-                   exporterVersion="2.7.0"
-                   targetNamespace="http://activiti.org/bpmn">
-
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="_3ENCQCCrEeWkp5kiupH8Fw" targetNamespace="http://activiti.org/bpmn" exporter="Camunda Modeler" exporterVersion="1.2.0-nightly" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <bpmn2:process id="Process_1" isExecutable="false">
-
-    <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17" />
+    <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17" camunda:variableMappingClass="test"/>
     <bpmn2:callActivity id="CallActivity_2" calledElement="asd" />
     <bpmn2:callActivity id="CallActivity_3" camunda:caseRef="checkCreditCase" />
     <bpmn2:callActivity id="CallActivity_4" camunda:caseRef="checkCreditCase" camunda:caseBinding="version" camunda:caseVersion="17" />
     <bpmn2:callActivity id="CallActivity_5" />
     <bpmn2:callActivity id="CallActivity_6" calledElement="mySubProcess">
       <bpmn2:extensionElements>
-          <camunda:in businessKey="#{execution.processBusinessKey}" />
-          <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in variables="all" />
       </bpmn2:extensionElements>
     </bpmn2:callActivity>
     <bpmn2:callActivity id="CallActivity_7" camunda:caseRef="myCase">
       <bpmn2:extensionElements>
-          <camunda:in businessKey="#{execution.processBusinessKey}" />
-          <camunda:in businessKey="foo" />
-          <camunda:in variables="all" />
-          <camunda:in businessKey="abc" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in businessKey="foo" />
+        <camunda:in variables="all" />
+        <camunda:in businessKey="abc" />
       </bpmn2:extensionElements>
     </bpmn2:callActivity>
     <bpmn2:callActivity id="CallActivity_8" camunda:caseRef="checkCreditCase" camunda:caseTenantId="tenant1" />
     <bpmn2:callActivity id="CallActivity_9" calledElement="asd" camunda:calledElementTenantId="tenant1" />
-
+    <bpmn2:callActivity id="CallActivity_10" calledElement="myProcess" camunda:variableMappingClass="test" />
+    <bpmn2:callActivity id="CallActivity_11" calledElement="myProcess" camunda:variableMappingDelegateExpression="${test}" />
+    <bpmn2:callActivity id="CallActivity_12" calledElement="" camunda:calledElementBinding="version" camunda:variableMappingClass="" />
   </bpmn2:process>
-
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_2" bpmnElement="CallActivity_1">
-        <dc:Bounds height="80.0" width="100.0" x="24.0" y="24.0"/>
+        <dc:Bounds x="24" y="24" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_3" bpmnElement="CallActivity_2">
-        <dc:Bounds height="80.0" width="100.0" x="24.0" y="180.0"/>
+        <dc:Bounds x="24" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_4" bpmnElement="CallActivity_3">
-        <dc:Bounds height="80.0" width="100.0" x="150.0" y="24.0"/>
+        <dc:Bounds x="150" y="24" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_5" bpmnElement="CallActivity_4">
-        <dc:Bounds height="80.0" width="100.0" x="150.0" y="180.0"/>
+        <dc:Bounds x="150" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_6" bpmnElement="CallActivity_5">
-        <dc:Bounds height="80.0" width="100.0" x="280.0" y="24.0"/>
+        <dc:Bounds x="280" y="24" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_7" bpmnElement="CallActivity_6">
-        <dc:Bounds height="80.0" width="100.0" x="280.0" y="180.0"/>
+        <dc:Bounds x="280" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_8" bpmnElement="CallActivity_7">
-        <dc:Bounds height="80.0" width="100.0" x="24.0" y="270.0"/>
+        <dc:Bounds x="24" y="270" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_9" bpmnElement="CallActivity_8">
-        <dc:Bounds height="80.0" width="100.0" x="150.0" y="270.0"/>
+        <dc:Bounds x="150" y="270" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_CallActivity_10" bpmnElement="CallActivity_9">
-        <dc:Bounds height="80.0" width="100.0" x="280.0" y="270.0"/>
+        <dc:Bounds x="280" y="270" width="100" height="80" />
       </bpmndi:BPMNShape>
-
+      <bpmndi:BPMNShape id="CallActivity_0b3n56v_di" bpmnElement="CallActivity_10">
+        <dc:Bounds x="453" y="97" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_0u82cx5_di" bpmnElement="CallActivity_11">
+        <dc:Bounds x="453" y="211" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_1y7ms67_di" bpmnElement="CallActivity_12">
+        <dc:Bounds x="600" y="97" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn2:definitions>

@@ -8,6 +8,7 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes'),
     is = require('bpmn-js/lib/util/ModelUtil').is,
     forEach = require('lodash/collection/forEach'),
     coreModule = require('bpmn-js/lib/core'),
@@ -65,396 +66,1843 @@ describe('callActivity - properties', function() {
     return camundaIn;
   }
 
+  function getSelect(container, selector) {
+    return domQuery('select[name=' + selector + ']', container);
+  }
 
-  it('should fetch a calledElement field', inject(function(propertiesPanel, selection, elementRegistry) {
+  function getInput(container, selector) {
+    return domQuery('input[name=' + selector + ']', container);
+  }
 
-    // given
-    var shape = elementRegistry.get('CallActivity_1');
+  function getClearButton(container, selector) {
+    return domQuery('div[data-entry=' + selector + '] button[data-action=clear]', container);
+  }
 
-    // when
-    selection.select(shape);
 
-    var inputField = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+  describe('get', function() {
 
-    // then
-    expect(callActivityTypeSelect.value).to.equal('bpmn');
-    expect(inputField.value).to.equal('asd');
-    expect(inputField.value).to.equal(businessObject.get('calledElement'));
-  }));
+    it('#callActivityType', inject(function(propertiesPanel, elementRegistry, selection) {
 
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
 
-  it('should fill a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
+      var callActivityTypeSelect = getSelect(propertiesPanel._container, 'callActivityType');
 
-    var shape = elementRegistry.get('CallActivity_1');
-    selection.select(shape);
+      expect(callActivityTypeSelect.value).to.equal('bpmn');
 
-    var inputField = domQuery('input[name=callableElementRef]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+    }));
 
-    // given
-    expect(inputField.value).to.equal('asd');
 
-    // when
-    TestHelper.triggerValue(inputField, 'foo', 'change');
+    it('#calledElement', inject(function(propertiesPanel, elementRegistry, selection) {
 
-    // then
-    expect(inputField.value).to.equal('foo');
-    expect(businessObject.get('calledElement')).to.equal('foo');
-  }));
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
 
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'callableElementRef');
 
-  it('should remove a calledElement property', inject(function(propertiesPanel, selection, elementRegistry) {
+      expect(field.value).to.equal(businessObject.get('calledElement'));
 
-    var shape = elementRegistry.get('CallActivity_1');
-    selection.select(shape);
+    }));
 
-    var inputField = domQuery('input[name=callableElementRef]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
 
-    // given
-    expect(inputField.value).to.equal('asd');
+    it('#calledElementBinding', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    // when
-    TestHelper.triggerValue(inputField, '', 'change');
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
 
-    // then
-    expect(inputField.className).to.equal('invalid');
-    expect(businessObject.get('calledElement')).to.be.empty;
-  }));
+      var bo = getBusinessObject(shape);
+      var selectedOption = getSelect(propertiesPanel._container, 'callableBinding');
 
+      expect(selectedOption.value).to.equal(bo.get('camunda:calledElementBinding'));
 
-  it('should fetch a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
+    }));
 
-    var shape = elementRegistry.get('CallActivity_1'),
-        elementSyntax = 'select[name=callableBinding]';
 
-    selection.select(shape);
-    var selectedOption = domQuery(elementSyntax, propertiesPanel._container);
+    it('#calledElementVersion', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    expect(selectedOption.value).to.equal('version');
-  }));
+      var shape = elementRegistry.get('CallActivity_1');
+      selection.select(shape);
 
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'callableVersion');
 
-  it('should fill a calledElementBinding field', inject(function(propertiesPanel, selection, elementRegistry) {
+      expect(parseInt(field.value)).to.equal(businessObject.get('calledElementVersion'));
 
-    var shape = elementRegistry.get('CallActivity_1'),
-        elementSyntax = 'select[name=callableBinding]';
+    }));
 
-    selection.select(shape);
 
-    var selectField = domQuery(elementSyntax, propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+    it('#businessKey for a BPMN call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    // given
-    expect(businessObject.get('calledElementBinding')).to.equal('version');
+      var shape = elementRegistry.get('CallActivity_6');
+      selection.select(shape);
 
-    // when
-    selectField.options[0].selected  = 'selected';
-    TestHelper.triggerEvent(selectField, 'change');
+      var bo = getBusinessObject(shape);
+      var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
 
-    // then
-    expect(businessObject.get('calledElementBinding')).to.equal('latest');
-  }));
+      var checkBox = getInput(propertiesPanel._container, 'callableBusinessKey');
 
+      expect(checkBox.checked).to.be.true;
+      expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
 
-  it('should remove a calledElementBinding property', inject(function(propertiesPanel, selection, elementRegistry) {
+    }));
 
-    var shape = elementRegistry.get('CallActivity_1'),
-        elementSyntax = 'select[name=callableBinding]';
 
-    selection.select(shape);
+    it('#businessKey for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var selectField = domQuery(elementSyntax, propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+      var shape = elementRegistry.get('CallActivity_7');
+      selection.select(shape);
 
-    // given
-    expect(businessObject.get('calledElementBinding')).to.equal('version');
-    expect(selectField.value).to.equal(businessObject.get('calledElementBinding'));
+      var bo = getBusinessObject(shape);
+      var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
 
-    // when
-    // select 'latest'
-    selectField.options[0].selected  = 'selected';
-    TestHelper.triggerEvent(selectField, 'change');
+      var checkBox = getInput(propertiesPanel._container, 'callableBusinessKey');
 
-    // then
-    expect(selectField.value).to.equal('latest');
-    expect(businessObject.get('calledElementBinding')).to.equal(selectField.value);
-  }));
+      expect(checkBox.checked).to.be.true;
+      expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
 
+    }));
 
-  it('should fetch a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('CallActivity_1'),
-        elementSyntax = 'input[name=callableVersion]';
+    it('#calledElementTenantId', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    selection.select(shape);
+      var shape = elementRegistry.get('CallActivity_9');
+      selection.select(shape);
 
-    var inputField = domQuery(elementSyntax, propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'tenantId');
 
-    expect(businessObject.get('calledElementVersion')).to.equal(parseInt(inputField.value));
-    expect(parseInt(inputField.value)).to.equal(17);
-  }));
+      expect(field.value).to.equal(businessObject.get('camunda:calledElementTenantId'));
 
+    }));
 
-  it('should fill a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('CallActivity_1'),
-        elementSyntax = 'input[name=callableVersion]';
+    it('#caseTenantId', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    selection.select(shape);
+      var shape = elementRegistry.get('CallActivity_8');
+      selection.select(shape);
 
-    var inputField = domQuery(elementSyntax, propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'tenantId');
 
-    // given
-    expect(businessObject.get('calledElementVersion')).to.equal(17);
+      expect(field.value).to.equal(businessObject.get('camunda:caseTenantId'));
 
-    // when
-    TestHelper.triggerValue(inputField, 42, 'change');
+    }));
 
-    // then
-    expect(businessObject.get('calledElementVersion')).to.equal('42');
-  }));
 
+    it('#caseRef', inject(function(propertiesPanel, selection, elementRegistry) {
 
-  it('should remove a calledElementVersion field', inject(function(propertiesPanel, selection, elementRegistry) {
+      var shape = elementRegistry.get('CallActivity_4');
+      selection.select(shape);
 
-    var shape = elementRegistry.get('CallActivity_1');
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'callableElementRef');
 
-    selection.select(shape);
+      expect(field.value).to.equal(businessObject.get('camunda:caseRef'));
 
-    var inputField = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+    }));
 
-    // given
-    expect(businessObject.get('calledElementVersion')).to.equal(17);
 
-    // when
-    TestHelper.triggerValue(inputField, '', 'change');
+    it('#caseBinding', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    // then
-    expect(inputField.className).to.equal('invalid');
-    expect(businessObject.get('calledElementVersion')).to.be.empty;
-  }));
+      var shape = elementRegistry.get('CallActivity_4');
+      selection.select(shape);
 
+      var businessObject = getBusinessObject(shape);
+      var field = getSelect(propertiesPanel._container, 'callableBinding');
 
-  it('should fetch a calledElementBinding field with default value "latest"', inject(function(propertiesPanel, selection, elementRegistry) {
+      expect(field.value).to.equal(businessObject.get('camunda:caseBinding'));
 
-    // given
-    var shape = elementRegistry.get('CallActivity_2');
+    }));
 
-    // when
-    selection.select(shape);
 
-    var businessObject = getBusinessObject(shape),
-        elementSyntax = 'select[name=callableBinding]';
+    it('#caseVersion', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var selectedOption = domQuery(elementSyntax, propertiesPanel._container);
+      var shape = elementRegistry.get('CallActivity_4');
+      selection.select(shape);
 
-    // then
-    expect(selectedOption.value).to.equal('latest');
-    expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest');
-  }));
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'callableVersion');
 
+      expect(parseInt(field.value)).to.equal(businessObject.get('camunda:caseVersion'));
 
-  it('should fetch CMMN call activity property fields', inject(function(propertiesPanel, selection, elementRegistry) {
+    }));
 
-    // given
-    var shape = elementRegistry.get('CallActivity_3');
 
-    // when
-    selection.select(shape);
+    it('#variableMappingClass', inject(function(propertiesPanel, elementRegistry, selection) {
 
-    // then
-    var callabledElementRefInput = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container),
-        versionInput = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      var shape = elementRegistry.get('CallActivity_10');
+      selection.select(shape);
 
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(callabledElementRefInput.value).to.equal('checkCreditCase');
-    expect(callableBindingSelect.value).to.equal('latest');
-    expect(versionInput.parentElement.className).to.contains('bpp-hidden');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callabledElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'delegateVariableMapping');
 
-  }));
+      expect(field.value).to.equal(businessObject.get('camunda:variableMappingClass'));
 
+    }));
 
-  it('should change caseRef property field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('CallActivity_3');
-    selection.select(shape);
+    it('#variableMappingDelegateExpression', inject(function(propertiesPanel, elementRegistry, selection) {
 
-    var callableElementRefInput = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      var shape = elementRegistry.get('CallActivity_11');
+      selection.select(shape);
 
-    // given
-    expect(callableElementRefInput.value).to.equal('checkCreditCase');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+      var businessObject = getBusinessObject(shape);
+      var field = getInput(propertiesPanel._container, 'delegateVariableMapping');
 
-    // when
-    TestHelper.triggerValue(callableElementRefInput, 'myCase', 'change');
+      expect(field.value).to.equal(businessObject.get('camunda:variableMappingDelegateExpression'));
 
-    // then
-    expect(callableElementRefInput.value).to.equal('myCase');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest'); // default value
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+    }));
 
-  }));
+  });
 
+  describe('set', function() {
 
-  it('should set caseVersion property field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    describe('#calledElement', function() {
 
-    var shape = elementRegistry.get('CallActivity_3');
-    selection.select(shape);
+      var field, bo;
 
-    var callableElementRefInput = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container),
-        versionInput = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_1');
+        selection.select(shape);
 
-    // given
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(callableElementRefInput.value).to.equal('checkCreditCase');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'callableElementRef');
 
-    // when
-    // select 'version'
-    callableBindingSelect.options[2].selected = 'selected';
-    TestHelper.triggerEvent(callableBindingSelect, 'change');
+        TestHelper.triggerValue(field, 'FOO');
+      }));
 
-    TestHelper.triggerValue(versionInput, '24', 'change');
+      describe('in the DOM', function() {
 
-    // then
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(callableElementRefInput.value).to.equal('checkCreditCase');
-    expect(callableBindingSelect.value).to.equal('version');
-    expect(versionInput.value).to.equal('24');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal(callableBindingSelect.value);
-    expect(businessObject.get('camunda:caseVersion')).to.equal(versionInput.value);
+        it('should execute', function() {
+          expect(field.value).to.equal('FOO');
+        });
 
-  }));
+        it('should undo', inject(function(commandStack) {
 
+          commandStack.undo();
 
-  it('should clear caseVersion property field for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+          expect(field.value).to.equal('asd');
+        }));
 
-    var shape = elementRegistry.get('CallActivity_4');
+        it('should redo', inject(function(commandStack) {
 
-    selection.select(shape);
+          commandStack.undo();
+          commandStack.redo();
 
-    var callableElementRefInput = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container),
-        versionInput = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=callable-version] button[data-action=clear]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+          expect(field.value).to.equal('FOO');
 
-    // given
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(callableElementRefInput.value).to.equal('checkCreditCase');
-    expect(callableBindingSelect.value).to.equal('version');
-    expect(versionInput.value).to.equal('17');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal(callableBindingSelect.value);
-    expect(businessObject.get('camunda:caseVersion')).to.equal(parseInt(versionInput.value));
+        }));
 
-    // when
-    TestHelper.triggerEvent(clearButton, 'click');
+      });
 
-    // then
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(callableElementRefInput.value).to.equal('checkCreditCase');
-    expect(callableBindingSelect.value).to.equal('version');
-    expect(versionInput.value).to.be.empty;
-    expect(versionInput.className).to.equal('invalid');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal(callableBindingSelect.value);
-    expect(businessObject.get('camunda:caseVersion')).to.be.empty;
-  }));
+      describe('on the business object', function() {
 
+        it('should execute', function() {
+          expect(bo.get('calledElement')).to.equal('FOO');
+        });
 
-  it('should change callActivityType from BPMN to CMMN for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+        it('should undo', inject(function(commandStack) {
 
-    var shape = elementRegistry.get('CallActivity_1');
+          commandStack.undo();
 
-    selection.select(shape);
+          expect(bo.get('calledElement')).to.equal('asd');
+        }));
 
-    var callableElementRefInput = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container),
-        callableVersionInput = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        it('should redo', inject(function(commandStack) {
 
-    // given
-    expect(callActivityTypeSelect.value).to.equal('bpmn');
-    expect(callableElementRefInput.value).to.equal('asd');
-    expect(callableBindingSelect.value).to.equal('version');
-    expect(callableVersionInput.value).to.equal('17');
-    expect(businessObject.get('calledElement')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:calledElementBinding')).to.equal(callableBindingSelect.value);
-    expect(businessObject.get('camunda:calledElementVersion')).to.equal(parseInt(callableVersionInput.value));
-    expect(businessObject.get('camunda:caseRef')).not.to.exist;
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
+          commandStack.undo();
+          commandStack.redo();
 
-    // when
-    // select 'cmmn'
-    callActivityTypeSelect.options[1].selected = 'selected';
-    TestHelper.triggerEvent(callActivityTypeSelect, 'change');
+          expect(bo.get('calledElement')).to.equal('FOO');
 
-    TestHelper.triggerValue(callableElementRefInput, 'myCase', 'change');
+        }));
 
-    // then
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(callableElementRefInput.value).to.equal('myCase');
-    expect(callableBindingSelect.value).to.equal('latest');
-    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
-    expect(businessObject.get('camunda:caseRef')).to.equal(callableElementRefInput.value);
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
-    expect(businessObject.get('calledElement')).not.to.exist;
-    expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
+      });
 
-  }));
+    });
 
 
-  it('should not fetch something for an empty call activity element', inject(function(propertiesPanel, selection, elementRegistry) {
+    describe('#calledElementBinding', function() {
 
-    var shape = elementRegistry.get('CallActivity_5');
+      var field, bo;
 
-    selection.select(shape);
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_1');
+        selection.select(shape);
 
-    var callableElementRefInput = domQuery('input[name=callableElementRef]', propertiesPanel._container),
-        callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container),
-        callableVersionInput = domQuery('input[name=callableVersion]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
+        bo = getBusinessObject(shape);
+        field = getSelect(propertiesPanel._container, 'callableBinding');
 
-    expect(callActivityTypeSelect.value).to.equal('');
-    expect(callableElementRefInput.parentElement.className).to.contains('bpp-hidden');
-    expect(callableBindingSelect.className).to.contains('bpp-hidden');
-    expect(callableVersionInput.parentElement.className).to.contains('bpp-hidden');
-    expect(businessObject.get('calledElement')).not.to.exist;
-    expect(businessObject.get('camunda:calledElementBinding')).to.equal('latest'); // default value
-    expect(businessObject.get('camunda:calledElementVersion')).not.to.exist;
-    expect(businessObject.get('camunda:caseRef')).not.to.exist;
-    expect(businessObject.get('camunda:caseBinding')).to.equal('latest');
-    expect(businessObject.get('camunda:caseVersion')).not.to.exist;
-  }));
+        // select 'latest'
+        field.options[0].selected  = 'selected';
+        TestHelper.triggerEvent(field, 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('latest');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('version');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('latest');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:calledElementBinding')).to.equal('latest');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:calledElementBinding')).to.equal('version');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:calledElementBinding')).to.equal('latest');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#calledElementVersion', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_1');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'callableVersion');
+
+        TestHelper.triggerValue(field, 42, 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(parseInt(field.value)).to.equal(42);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(parseInt(field.value)).to.equal(17);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(parseInt(field.value)).to.equal(42);
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(parseInt(bo.get('camunda:calledElementVersion'))).to.equal(42);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(parseInt(bo.get('camunda:calledElementVersion'))).to.equal(17);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(parseInt(bo.get('camunda:calledElementVersion'))).to.equal(42);
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#caseRef', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_4');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'callableElementRef');
+
+        TestHelper.triggerValue(field, 'myCase', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('myCase');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('checkCreditCase');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('myCase');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:caseRef')).to.equal('myCase');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:caseRef')).to.equal('checkCreditCase');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:caseRef')).to.equal('myCase');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#caseVersion', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_4');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'callableVersion');
+
+        TestHelper.triggerValue(field, '24', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('24');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('17');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('24');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:caseVersion')).to.equal('24');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:caseVersion')).to.equal(parseInt('17'));
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:caseVersion')).to.equal('24');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#businessKey', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_2');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        field = getInput(propertiesPanel._container, 'callableBusinessKey');
+
+        TestHelper.triggerEvent(field, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.checked).to.be.true;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.checked).to.be.false;
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.checked).to.be.true;
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn).to.have.length.of(0);
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#calledElementTenantId', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_9');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'tenantId');
+
+        TestHelper.triggerValue(field, 'tenant2', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('tenant2');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('tenant1');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('tenant2');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:calledElementTenantId')).to.equal('tenant2');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:calledElementTenantId')).to.equal('tenant1');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:calledElementTenantId')).to.equal('tenant2');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#caseTenantId', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_8');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'tenantId');
+
+        TestHelper.triggerValue(field, 'tenant2', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('tenant2');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('tenant1');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('tenant2');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:caseTenantId')).to.equal('tenant2');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:caseTenantId')).to.equal('tenant1');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:caseTenantId')).to.equal('tenant2');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#variableMappingClass', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_10');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'delegateVariableMapping');
+
+        TestHelper.triggerValue(field, 'FOO', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('FOO');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('test');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('FOO');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:variableMappingClass')).to.equal('FOO');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:variableMappingClass')).to.equal('test');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:variableMappingClass')).to.equal('FOO');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#variableMappingDelegateExpression', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_11');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'delegateVariableMapping');
+
+        TestHelper.triggerValue(field, 'FOO', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('FOO');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('${test}');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('FOO');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:variableMappingDelegateExpression')).to.equal('FOO');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:variableMappingDelegateExpression')).to.equal('${test}');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:variableMappingDelegateExpression')).to.equal('FOO');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#callActivityType', function() {
+
+      describe('change to #CMMN', function() {
+
+        var field, bo;
+
+        beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+          var shape = elementRegistry.get('CallActivity_1');
+          selection.select(shape);
+
+          bo = getBusinessObject(shape);
+          field = getSelect(propertiesPanel._container, 'callActivityType');
+
+          // select 'CMMN'
+          field.options[1].selected = 'selected';
+
+          TestHelper.triggerEvent(field, 'change');
+        }));
+
+        describe('in the DOM', function() {
+
+          it('should execute', function() {
+
+            expect(field.value).to.equal('cmmn');
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(field.value).to.equal('bpmn');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(field.value).to.equal('cmmn');
+
+          }));
+
+        });
+
+        describe('on the business object', function() {
+
+          it('should execute', function() {
+
+            expect(bo.get('calledElement')).to.be.undefined;
+            expect(bo.get('camunda:calledElementVersion')).to.be.undefined;
+            expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+            expect(bo.get('camunda:caseRef')).to.be.defined;
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(bo.get('calledElement')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.be.undefined;
+
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(bo.get('calledElement')).to.be.undefined;
+            expect(bo.get('camunda:calledElementVersion')).to.be.undefined;
+            expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+            expect(bo.get('camunda:caseRef')).to.be.defined;
+
+          }));
+
+        });
+
+      });
+
+
+      describe('change to undefined', function() {
+
+        var field, bo;
+
+        beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+          var shape = elementRegistry.get('CallActivity_1');
+          selection.select(shape);
+
+          bo = getBusinessObject(shape);
+          field = getSelect(propertiesPanel._container, 'callActivityType');
+
+          // select ''
+          field.options[2].selected = 'selected';
+
+          TestHelper.triggerEvent(field, 'change');
+        }));
+
+        describe('in the DOM', function() {
+
+          it('should execute', function() {
+
+            expect(field.value).to.equal('');
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(field.value).to.equal('bpmn');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(field.value).to.equal('');
+
+          }));
+
+        });
+
+        describe('on the business object', function() {
+
+          it('should execute', function() {
+
+            expect(bo.get('calledElement')).to.be.undefined;
+            expect(bo.get('camunda:calledElementVersion')).to.be.undefined;
+            expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+            expect(bo.get('camunda:caseRef')).to.be.undefined;
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(bo.get('calledElement')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.be.undefined;
+
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(bo.get('calledElement')).to.be.undefined;
+            expect(bo.get('camunda:calledElementVersion')).to.be.undefined;
+            expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+            expect(bo.get('camunda:caseRef')).to.be.undefined;
+
+          }));
+
+        });
+
+      });
+
+    });
+
+
+    describe('#delegateVariableMappingType', function() {
+
+      describe('change to #variableMappingDelegateExpression', function() {
+
+        var field, bo;
+
+        beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+          var shape = elementRegistry.get('CallActivity_10');
+          selection.select(shape);
+
+          bo = getBusinessObject(shape);
+          field = getSelect(propertiesPanel._container, 'delegateVariableMappingType');
+
+          // select 'variableMappingDelegateExpression'
+          field.options[1].selected = 'selected';
+
+          TestHelper.triggerEvent(field, 'change');
+        }));
+
+        describe('in the DOM', function() {
+
+          it('should execute', function() {
+
+            expect(field.value).to.equal('variableMappingDelegateExpression');
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(field.value).to.equal('variableMappingClass');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(field.value).to.equal('variableMappingDelegateExpression');
+
+          }));
+
+        });
+
+        describe('on the business object', function() {
+
+          it('should execute', function() {
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.defined;
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.defined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.defined;
+
+          }));
+
+        });
+
+      });
+
+
+      describe('change to undefined', function() {
+
+        var field, bo;
+
+        beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+          var shape = elementRegistry.get('CallActivity_10');
+          selection.select(shape);
+
+          bo = getBusinessObject(shape);
+          field = getSelect(propertiesPanel._container, 'delegateVariableMappingType');
+
+          // select ''
+          field.options[2].selected = 'selected';
+
+          TestHelper.triggerEvent(field, 'change');
+        }));
+
+        describe('in the DOM', function() {
+
+          it('should execute', function() {
+
+            expect(field.value).to.equal('');
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(field.value).to.equal('variableMappingClass');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(field.value).to.equal('');
+
+          }));
+
+        });
+
+        describe('on the business object', function() {
+
+          it('should execute', function() {
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.defined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
+
+          }));
+
+        });
+
+      });
+
+      describe('change to #CMMN', function() {
+
+        var field, bo;
+
+        beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+          var shape = elementRegistry.get('CallActivity_10');
+          selection.select(shape);
+
+          bo = getBusinessObject(shape);
+          field = getSelect(propertiesPanel._container, 'callActivityType');
+
+          // select 'CMMN'
+          field.options[1].selected = 'selected';
+
+          TestHelper.triggerEvent(field, 'change');
+        }));
+
+        describe('in the DOM', function() {
+
+          it('should execute', function() {
+
+            expect(field.value).to.equal('cmmn');
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(field.value).to.equal('bpmn');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(field.value).to.equal('cmmn');
+
+          }));
+
+        });
+
+        describe('on the business object', function() {
+
+          it('should execute', function() {
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('calledElement')).to.be.undefined;
+            expect(bo.get('camunda:caseRef')).to.be.defined;
+
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.defined;
+            expect(bo.get('calledElement')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.be.undefined;
+
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
+            expect(bo.get('calledElement')).to.be.undefined;
+            expect(bo.get('camunda:caseRef')).to.be.defined;
+
+          }));
+
+        });
+
+      });
+
+    });
+
+
+  });
+
+
+  describe('remove', function() {
+
+    describe('#calledElement', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_1');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var clearButton = getClearButton(propertiesPanel._container, 'callable-element-ref');
+        field = getInput(propertiesPanel._container, 'callableElementRef');
+
+        TestHelper.triggerEvent(clearButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('asd');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('calledElement')).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('calledElement')).to.equal('asd');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('calledElement')).to.equal('');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#calledElementVersion', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_1');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var clearButton = getClearButton(propertiesPanel._container, 'callable-version');
+        field = getInput(propertiesPanel._container, 'callableVersion');
+
+        TestHelper.triggerEvent(clearButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('17');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:calledElementVersion')).to.be.undefined;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:calledElementVersion')).to.equal(parseInt('17'));
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:calledElementVersion')).to.be.undefined;
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#caseVersion', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_4');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var clearButton = getClearButton(propertiesPanel._container, 'callable-version');
+        field = getInput(propertiesPanel._container, 'callableVersion');
+
+        TestHelper.triggerEvent(clearButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('17');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:caseVersion')).to.be.undefined;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:caseVersion')).to.equal(parseInt('17'));
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:caseVersion')).to.be.undefined;
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#businessKey', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_6');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        field = getInput(propertiesPanel._container, 'callableBusinessKey');
+
+        TestHelper.triggerEvent(field, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.checked).to.be.false;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.checked).to.be.true;
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.checked).to.be.false;
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn).to.have.length.of(0);
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn).to.have.length.of(0);
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#calledElementTenantId', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_9');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var clearButton = getClearButton(propertiesPanel._container, 'tenant-id');
+        field = getInput(propertiesPanel._container, 'tenantId');
+
+        TestHelper.triggerEvent(clearButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('tenant1');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:calledElementTenantId')).to.equal('tenant1');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#caseTenantId', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_8');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var clearButton = getClearButton(propertiesPanel._container, 'tenant-id');
+        field = getInput(propertiesPanel._container, 'tenantId');
+
+        TestHelper.triggerEvent(clearButton, 'click');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          expect(field.value).to.equal('');
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('tenant1');
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          expect(bo.get('camunda:caseTenantId')).to.be.undefined;
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:caseTenantId')).to.equal('tenant1');
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:caseTenantId')).to.be.undefined;
+
+        }));
+
+      });
+
+    });
+
+
+  });
+
+
+  describe('validation', function() {
+
+    describe('#delegateVariableMapping', function() {
+
+      var field;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_12');
+        selection.select(shape);
+
+        field = getInput(propertiesPanel._container, 'delegateVariableMapping');
+
+      }));
+
+      it('should be shown when a #delegateVariableMappingType is selected and no value set', function() {
+
+        expect(domClasses(field).has('invalid')).to.be.true;
+
+      });
+
+    });
+
+
+    describe('#callableElementRef', function() {
+
+      var field;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_12');
+        selection.select(shape);
+
+        field = getInput(propertiesPanel._container, 'callableElementRef');
+
+      }));
+
+      it('should be shown when #callableElementRef is empty', function() {
+
+        expect(domClasses(field).has('invalid')).to.be.true;
+
+      });
+
+    });
+
+
+    describe('#callableVersion', function() {
+
+      var field;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_12');
+        selection.select(shape);
+
+        field = getInput(propertiesPanel._container, 'callableVersion');
+
+      }));
+
+      it('should be shown when #callableVersion is empty', function() {
+
+        expect(domClasses(field).has('invalid')).to.be.true;
+
+      });
+
+    });
+
+  });
+
+
+  describe('default values', function() {
+
+    var field, bo;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      var shape = elementRegistry.get('CallActivity_5');
+      selection.select(shape);
+
+      bo = getBusinessObject(shape);
+      field = getSelect(propertiesPanel._container, 'callableBinding');
+
+    }));
+
+    it('#calledElementBinding', function() {
+
+      expect(field.value).to.equal(bo.get('camunda:calledElementBinding'));
+
+    });
+
+
+    it('#caseBinding', function() {
+
+      expect(field.value).to.equal(bo.get('camunda:caseBinding'));
+
+    });
+
+  });
+
+
+  describe('control visibility', function() {
+
+    function expectVisible(elementId, visible, getter, selector, parentElement) {
+
+      return inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var element = elementRegistry.get(elementId);
+
+        // assume
+        expect(element).to.exist;
+
+        // when
+        selection.select(element);
+        var field = getter(propertiesPanel._container, selector);
+
+        if (parentElement) {
+          field = field.parentElement;
+        }
+
+        // then
+        if (visible) {
+          expect(field).to.exist;
+        } else {
+          expect(domClasses(field).has('bpp-hidden')).to.be.true;
+        }
+      });
+    }
+
+
+    describe('should show', function() {
+
+      it('BPMN - delegateVariableMappingType', expectVisible('CallActivity_1', true, getSelect, 'delegateVariableMappingType'));
+      it('delegateVariableMapping', expectVisible('CallActivity_1', true, getInput, 'delegateVariableMapping'));
+
+      it('BPMN - callActivityType', expectVisible('CallActivity_5', true, getSelect, 'callActivityType'));
+      it('BPMN - callableBusinessKey', expectVisible('CallActivity_5', true, getInput, 'callableBusinessKey'));
+
+      it('BPMN - callableElementRef', expectVisible('CallActivity_1', true, getInput, 'callableElementRef'));
+      it('BPMN - callableBinding', expectVisible('CallActivity_1', true, getSelect, 'callableBinding'));
+      it('BPMN - callableVersion', expectVisible('CallActivity_1', true, getInput, 'callableVersion'));
+      it('BPMN - tenantId', expectVisible('CallActivity_1', true, getInput, 'tenantId'));
+
+    });
+
+
+    describe('should hide', function() {
+
+      it('CMMN - delegateVariableMappingType', expectVisible('CallActivity_3', false, getSelect, 'delegateVariableMappingType'));
+      it('CMMN - delegateVariableMapping', expectVisible('CallActivity_3', false, getInput, 'delegateVariableMapping', true));
+
+      it('BPMN - delegateVariableMappingType', expectVisible('CallActivity_5', false, getSelect, 'delegateVariableMappingType'));
+      it('BPMN - delegateVariableMapping', expectVisible('CallActivity_5', false, getInput, 'delegateVariableMapping', true));
+
+      it('BPMN - callableElementRef', expectVisible('CallActivity_5', false, getInput, 'callableElementRef', true));
+      it('BPMN - callableBinding', expectVisible('CallActivity_5', false, getSelect, 'callableBinding'));
+      it('BPMN - callableVersion', expectVisible('CallActivity_5', false, getInput, 'callableVersion', true));
+      it('BPMN - tenantId', expectVisible('CallActivity_5', false, getInput, 'tenantId', true));
+
+    });
+
+  });
 
 
   it('should not show version field when changing callActivityType from BPMN to CMMN and back for an element', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -569,365 +2017,4 @@ describe('callActivity - properties', function() {
 
   }));
 
-
-  it('should fetch the business key for a bpmn call activity', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_6');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('bpmn');
-    expect(checkBox.checked).to.be.true;
-  }));
-
-
-  it('should set the business key for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_2');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('bpmn');
-    expect(checkBox.checked).to.be.false;
-    expect(businessObject.extensionElements).to.be.undefined;
-
-    // when
-    TestHelper.triggerEvent(checkBox, 'click');
-
-    // then
-    expect(checkBox.checked).to.be.true;
-
-    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
-  }));
-
-
-  it('should remove the business key for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_6');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('bpmn');
-    expect(checkBox.checked).to.be.true;
-
-    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
-
-    // when
-    TestHelper.triggerEvent(checkBox, 'click');
-
-    // then
-    expect(checkBox.checked).to.be.false;
-
-    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(0);
-
-  }));
-
-
-  it('should fetch the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_7');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(checkBox.checked).to.be.true;
-  }));
-
-
-  it('should remove the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_7');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(checkBox.checked).to.be.true;
-
-    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(3);
-
-    // when
-    TestHelper.triggerEvent(checkBox, 'click');
-
-    // then
-    expect(checkBox.checked).to.be.false;
-
-    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(0);
-
-  }));
-
-
-  it('should undo to remove the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_7');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(checkBox.checked).to.be.true;
-
-    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(3);
-
-    // when
-    TestHelper.triggerEvent(checkBox, 'click');
-
-    // then
-    expect(checkBox.checked).to.be.false;
-
-    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(0);
-
-    // undo
-    commandStack.undo();
-
-    // then
-    expect(checkBox.checked).to.be.true;
-
-    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(3);
-  }));
-
-
-  it('should redo to remove the business key for a CMMN call activity', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_7');
-
-    selection.select(shape);
-
-    var checkBox = domQuery('input[name=callableBusinessKey]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(checkBox.checked).to.be.true;
-
-    var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(3);
-
-    // when
-    TestHelper.triggerEvent(checkBox, 'click');
-
-    // then
-    expect(checkBox.checked).to.be.false;
-
-    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(0);
-
-    // undo
-    commandStack.undo();
-    commandStack.redo();
-
-    // then
-    expect(checkBox.checked).to.be.false;
-
-    camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
-    expect(camundaIn).to.have.length.of(0);
-  }));
-
-
-  it('should fetch a calledElementTenantId field', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_9');
-
-    // when
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // then
-    expect(callActivityTypeSelect.value).to.equal('bpmn');
-    expect(inputField.value).to.equal('tenant1');
-    expect(inputField.value).to.equal(businessObject.get('camunda:calledElementTenantId'));
-  }));
-
-
-  it('should fill a calledElementTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_9');
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inputField.value).to.equal('tenant1');
-
-    // when
-    TestHelper.triggerValue(inputField, 'tenant2', 'change');
-
-    // then
-    expect(inputField.value).to.equal('tenant2');
-    expect(businessObject.get('camunda:calledElementTenantId')).to.equal('tenant2');
-  }));
-
-
-  it('should remove a calledElementTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_9');
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inputField.value).to.equal('tenant1');
-
-    // when
-    TestHelper.triggerValue(inputField, '', 'change');
-
-    // then
-    expect(inputField.value).to.equal('');
-    expect(businessObject.get('camunda:calledElementTenantId')).to.be.undefined;
-  }));
-
-
-  it('should fetch a caseTenantId field', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    // given
-    var shape = elementRegistry.get('CallActivity_8');
-
-    // when
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container),
-        callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // then
-    expect(callActivityTypeSelect.value).to.equal('cmmn');
-    expect(inputField.value).to.equal('tenant1');
-    expect(inputField.value).to.equal(businessObject.get('camunda:caseTenantId'));
-  }));
-
-
-  it('should fill a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_8');
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inputField.value).to.equal('tenant1');
-
-    // when
-    TestHelper.triggerValue(inputField, 'tenant2', 'change');
-
-    // then
-    expect(inputField.value).to.equal('tenant2');
-    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
-  }));
-
-
-  it('should remove a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('CallActivity_9');
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inputField.value).to.equal('tenant1');
-
-    // when
-    TestHelper.triggerValue(inputField, '', 'change');
-
-    // then
-    expect(inputField.value).to.equal('');
-    expect(businessObject.get('camunda:caseTenantId')).to.be.undefined;
-  }));
-
-
-  it('should undo to change a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_8');
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inputField.value).to.equal('tenant1');
-
-    // when
-    TestHelper.triggerValue(inputField, 'tenant2', 'change');
-
-    // then
-    expect(inputField.value).to.equal('tenant2');
-    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
-
-    // undo
-    commandStack.undo();
-
-    // then
-    expect(inputField.value).to.equal('tenant1');
-    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant1');
-  }));
-
-
-  it('should redo to change a caseTenantId property', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
-
-    var shape = elementRegistry.get('CallActivity_8');
-    selection.select(shape);
-
-    var inputField = domQuery('input[name=tenantId]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
-
-    // given
-    expect(inputField.value).to.equal('tenant1');
-
-    // when
-    TestHelper.triggerValue(inputField, 'tenant2', 'change');
-
-    // then
-    expect(inputField.value).to.equal('tenant2');
-    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
-
-    // redo
-    commandStack.undo();
-    commandStack.redo();
-
-    // then
-    expect(inputField.value).to.equal('tenant2');
-    expect(businessObject.get('camunda:caseTenantId')).to.equal('tenant2');
-  }));
 });
