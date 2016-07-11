@@ -344,7 +344,7 @@ describe('service-task-delegate-properties', function() {
     expect(delegateField.value).to.be.empty;
     expect(delegateField.className).to.equal('invalid');
 
-    errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container),
+    errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
     expect(errorMessages).to.have.length(1);
     expect(errorMessages[0].textContent).to.equal('Must provide a value');
 
