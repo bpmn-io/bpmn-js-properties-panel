@@ -8,6 +8,7 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes'),
     forEach = require('lodash/collection/forEach'),
     is = require('bpmn-js/lib/util/ModelUtil').is,
     coreModule = require('bpmn-js/lib/core'),
@@ -52,6 +53,7 @@ describe('collaboration-listener-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
+
   function getExecutionListener(extensionElements) {
     var executionListeners = [];
     if (!!extensionElements && !!extensionElements.values) {
@@ -64,152 +66,195 @@ describe('collaboration-listener-properties', function() {
     return executionListeners;
   }
 
+  function getInput(container, selector, dataEntrySelector) {
+    return domQuery('div[data-entry=' + dataEntrySelector + '] input[name=' + selector + ']', container);
+  }
 
-  it('should fetch execution listener properties for a collaboration process', inject(function(propertiesPanel, selection, elementRegistry) {
+  function getSelect(container, selector, dataEntrySelector) {
+    return domQuery('div[data-entry=' + dataEntrySelector + '] select[name=' + selector + ']', container);
+  }
 
-    var taskShape = elementRegistry.get('Participant_One');
-    selection.select(taskShape);
+  function getAddButton(container) {
+    return domQuery('div[data-entry=executionListeners] button[data-action=createElement]', container);
+  }
 
-    var bo = getBusinessObject(taskShape),
-        eventTypes = domQuery.all('select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+  function getRemoveButton(container) {
+    return domQuery('div[data-entry=executionListeners] button[data-action=removeElement]', container);
+  }
 
-    expect(bo.processRef.extensionElements.values.length).to.equal(1);
-    expect(eventTypes.length).to.equal(1);
-    expect(listenerTypes.length).to.equal(1);
-    expect(listenerValues.length).to.equal(1);
+  function selectListener(container) {
+    var listeners = getSelect(container, 'selectedExtensionElement', 'executionListeners');
 
-    var extensionElementsValues = bo.processRef.extensionElements.values;
-    // execution listener 1
-    expect(eventTypes[0].value).to.equal('start');
-    expect(listenerTypes[0].value).to.equal('expression');
-    expect(listenerValues[0].value).to.equal('userOne');
-    expect(extensionElementsValues[0].get('event')).to.equal(eventTypes[0].value);
-    expect(extensionElementsValues[0].get('expression')).to.equal(listenerValues[0].value);
-
-  }));
+    listeners.options[0].selected = 'selected';
+    TestHelper.triggerEvent(listeners, 'change');
+  }
 
 
-  it('should add the first execution listener to a collaboration process', inject(function(propertiesPanel, selection, elementRegistry) {
+  describe('get', function() {
 
-    var taskShape = elementRegistry.get('Participant_Two');
-    selection.select(taskShape);
+    it('should fetch execution listener properties for a collaboration process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var bo = getBusinessObject(taskShape),
-        extensionElements = bo.processRef.extensionElements,
+        var taskShape = elementRegistry.get('Participant_One');
+        selection.select(taskShape);
 
-        executionListeners = getExecutionListener(extensionElements),
-        addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        var bo = getBusinessObject(taskShape),
+            eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
 
-    // given
-    expect(extensionElements).to.be.empty;
-    expect(executionListeners).to.be.empty;
+        selectListener(propertiesPanel._container);
 
-    // when
-    TestHelper.triggerEvent(addListenerButton, 'click');
+        expect(bo.processRef.extensionElements.values.length).to.equal(1);
 
-    var eventTypes = domQuery.all('select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+        var extensionElementsValues = bo.processRef.extensionElements.values;
+        // execution listener 1
+        expect(eventType.value).to.equal('start');
+        expect(listenerType.value).to.equal('expression');
+        expect(listenerValue.value).to.equal('userOne');
+        expect(extensionElementsValues[0].get('event')).to.equal(eventType.value);
+        expect(extensionElementsValues[0].get('expression')).to.equal(listenerValue.value);
 
-    // set listener value to have a successfully validation
-    TestHelper.triggerValue(listenerValues[0], 'newExecutionListenerVal');
+      }));
 
-    // then
-    // check html
-    expect(eventTypes[0].value).to.equal('start');
-    expect(listenerTypes[0].value).to.equal('class');
-    expect(listenerValues[0].value).to.equal('newExecutionListenerVal');
-
-    // check business object
-    extensionElements = bo.processRef.extensionElements;
-    executionListeners = getExecutionListener(extensionElements);
-    expect(extensionElements.values.length).to.equal(1);
-    expect(executionListeners.length).to.equal(1);
-    expect(executionListeners[0].get('event')).to.equal(eventTypes[0].value);
-    expect(executionListeners[0].get('class')).to.equal(listenerValues[0].value);
-
-  }));
+  });
 
 
-  it('should add a new execution listener to an existing extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
+  describe('add', function() {
 
-    var taskShape = elementRegistry.get('Participant_One');
-    selection.select(taskShape);
+    it('should add the first execution listener to a collaboration process',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var bo = getBusinessObject(taskShape),
-        extensionElements = bo.processRef.extensionElements,
+        var taskShape = elementRegistry.get('Participant_Two');
+        selection.select(taskShape);
 
-        executionListeners = getExecutionListener(extensionElements),
-        addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container);
+        var bo = getBusinessObject(taskShape),
+            extensionElements = bo.processRef.extensionElements,
 
-    // given
-    expect(extensionElements.values.length).to.equal(1);
-    expect(executionListeners.length).to.equal(1);
+            executionListeners = getExecutionListener(extensionElements),
+            addListenerButton = getAddButton(propertiesPanel._container);
 
-    // when
-    TestHelper.triggerEvent(addListenerButton, 'click');
+        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
 
-    var eventTypes = domQuery.all('select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+        // given
+        expect(extensionElements).to.be.empty;
+        expect(executionListeners).to.be.empty;
 
-    // set listener value to have a successfully validation
-    TestHelper.triggerValue(listenerValues[1], 'newExecutionListenerVal');
+        // when
+        TestHelper.triggerEvent(addListenerButton, 'click');
 
-    // then
-    // check html
-    expect(eventTypes[1].value).to.equal('start');
-    expect(listenerTypes[1].value).to.equal('class');
-    expect(listenerValues[1].value).to.equal('newExecutionListenerVal');
+        // set listener value to have a successfully validation
+        TestHelper.triggerValue(listenerValue, 'newExecutionListenerVal');
 
-    // check business object
-    executionListeners = getExecutionListener(extensionElements);
-    expect(extensionElements.values.length).to.equal(2);
-    expect(executionListeners.length).to.equal(2);
-    expect(executionListeners[1].get('event')).to.equal(eventTypes[1].value);
-    expect(executionListeners[1].get('class')).to.equal(listenerValues[1].value);
+        // then
+        // check html
+        expect(eventType.value).to.equal('start');
+        expect(listenerType.value).to.equal('class');
+        expect(listenerValue.value).to.equal('newExecutionListenerVal');
 
-  }));
+        // check business object
+        extensionElements = bo.processRef.extensionElements;
+        executionListeners = getExecutionListener(extensionElements);
+        expect(extensionElements.values.length).to.equal(1);
+        expect(executionListeners.length).to.equal(1);
+        expect(executionListeners[0].get('event')).to.equal(eventType.value);
+        expect(executionListeners[0].get('class')).to.equal(listenerValue.value);
+
+      }));
 
 
-  it('should remove an execution listener from extension elements', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should add a new execution listener to an existing extension elements',
+      inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var taskShape = elementRegistry.get('Participant_One');
-    selection.select(taskShape);
+        var taskShape = elementRegistry.get('Participant_One');
+        selection.select(taskShape);
 
-    var bo = getBusinessObject(taskShape),
-        extensionElements = bo.processRef.extensionElements,
+        var bo = getBusinessObject(taskShape),
+            extensionElements = bo.processRef.extensionElements,
 
-        executionListeners = getExecutionListener(extensionElements),
-        removeListenerButtons = domQuery.all('[data-entry=executionListeners] button[data-action=removeListener]', propertiesPanel._container);
+            executionListeners = getExecutionListener(extensionElements),
+            addListenerButton = getAddButton(propertiesPanel._container);
 
-    // given
-    expect(extensionElements.values.length).to.equal(1);
-    expect(executionListeners.length).to.equal(1);
-    expect(removeListenerButtons.length).to.equal(1);
+        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
 
-    // when
-    // delete execution listener
-    TestHelper.triggerEvent(removeListenerButtons[0], 'click');
+        // given
+        expect(extensionElements.values.length).to.equal(1);
+        expect(executionListeners.length).to.equal(1);
 
-    // then
-    var eventTypes = domQuery.all('select[name=eventType]', propertiesPanel._container),
-        listenerTypes = domQuery.all('select[name=listenerType]', propertiesPanel._container),
-        listenerValues = domQuery.all('input[name=listenerValue]', propertiesPanel._container);
+        // when
+        TestHelper.triggerEvent(addListenerButton, 'click');
 
-    // check html
-    expect(eventTypes.length).to.equal(0);
-    expect(listenerTypes.length).to.equal(0);
-    expect(listenerValues.length).to.equal(0);
+        // set listener value to have a successfully validation
+        TestHelper.triggerValue(listenerValue, 'newExecutionListenerVal');
 
-    // check business object
-    extensionElements = bo.processRef.extensionElements;
-    executionListeners = getExecutionListener(extensionElements);
-    expect(extensionElements).to.be.empty;
-    expect(executionListeners).to.be.empty;
+        // then
+        // check html
+        expect(eventType.value).to.equal('start');
+        expect(listenerType.value).to.equal('class');
+        expect(listenerValue.value).to.equal('newExecutionListenerVal');
 
-  }));
+        // check business object
+        executionListeners = getExecutionListener(extensionElements);
+        expect(extensionElements.values.length).to.equal(2);
+        expect(executionListeners.length).to.equal(2);
+        expect(executionListeners[1].get('event')).to.equal(eventType.value);
+        expect(executionListeners[1].get('class')).to.equal(listenerValue.value);
+
+      }));
+
+  });
+
+
+  describe('remove', function() {
+
+    it('should remove an execution listener from extension elements',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+        var taskShape = elementRegistry.get('Participant_One');
+        selection.select(taskShape);
+
+        var bo = getBusinessObject(taskShape),
+            extensionElements = bo.processRef.extensionElements,
+
+            executionListeners = getExecutionListener(extensionElements),
+            removeListenerButton = getRemoveButton(propertiesPanel._container);
+
+        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value'),
+            listeners = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'executionListeners');
+
+        // given
+        expect(extensionElements.values).to.have.length.of(1);
+        expect(executionListeners).to.have.length.of(1);
+        expect(listeners.options).to.have.length.of(1);
+
+        selectListener(propertiesPanel._container);
+
+        // when
+        // delete execution listener
+        TestHelper.triggerEvent(removeListenerButton, 'click');
+
+        // then
+        // check html
+        expect(listeners.options).to.have.length.of(0);
+        expect(domClasses(eventType).has('bpp-hidden')).to.be.true;
+        expect(domClasses(listenerType).has('bpp-hidden')).to.be.true;
+        expect(domClasses(listenerValue.parentElement).has('bpp-hidden')).to.be.true;
+
+        // check business object
+        extensionElements = bo.processRef.extensionElements;
+        executionListeners = getExecutionListener(extensionElements);
+        expect(extensionElements).to.be.empty;
+        expect(executionListeners).to.be.empty;
+
+      }));
+
+  });
+
 
 });

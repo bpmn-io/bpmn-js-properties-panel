@@ -51,6 +51,14 @@ describe('script-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
+  function selectListener(container, idx, dataEntrySelector) {
+
+    var listeners = domQuery('div[data-entry=' + dataEntrySelector + '] select[name=selectedExtensionElement]', container);
+
+    listeners.options[idx].selected = 'selected';
+    TestHelper.triggerEvent(listeners, 'change');
+  }
+
 
   it('should fetch the inline script properties of a script task', inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -399,12 +407,14 @@ describe('script-properties', function() {
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
 
-    var eventType = domQuery('div[data-entry="executionListeners"] select[name=eventType]', propertiesPanel._container),
-        listenerType = domQuery('div[data-entry="executionListeners"] select[name=listenerType]', propertiesPanel._container),
-        scriptFormat = domQuery('div[data-entry="executionListeners"] input[name=scriptFormat]', propertiesPanel._container),
-        scriptType = domQuery('div[data-entry="executionListeners"] select[name="scriptType"]', propertiesPanel._container),
-        scriptValue = domQuery('div[data-entry="executionListeners"] textarea[name="scriptValue"]', propertiesPanel._container),
+    var eventType = domQuery('div[data-entry="executionListeners-event-type"] select[name=eventType]', propertiesPanel._container),
+        listenerType = domQuery('div[data-entry="executionListeners-type"] select[name=listenerType]', propertiesPanel._container),
+        scriptFormat = domQuery('div[data-entry="executionListeners-script-value"] input[name=scriptFormat]', propertiesPanel._container),
+        scriptType = domQuery('div[data-entry="executionListeners-script-value"] select[name="scriptType"]', propertiesPanel._container),
+        scriptValue = domQuery('div[data-entry="executionListeners-script-value"] textarea[name="scriptValue"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).extensionElements.values;
+
+    selectListener(propertiesPanel._container, 0, 'executionListeners');
 
     expect(eventType.value).to.equal('start');
     expect(listenerType.value).to.equal('script');
@@ -425,20 +435,20 @@ describe('script-properties', function() {
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
 
-    var addListenerButton = domQuery('[data-entry=executionListeners] > div > button[data-action=addListener]', propertiesPanel._container),
+    var addListenerButton = domQuery('div[data-entry=executionListeners] button[data-action=createElement]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
+
+    var eventType = domQuery('div[data-entry="executionListeners-event-type"] select[name=eventType]', propertiesPanel._container),
+        listenerType = domQuery('div[data-entry="executionListeners-type"] select[name=listenerType]', propertiesPanel._container),
+        scriptFormat = domQuery('div[data-entry="executionListeners-script-value"] input[name=scriptFormat]', propertiesPanel._container),
+        scriptType = domQuery('div[data-entry="executionListeners-script-value"] select[name="scriptType"]', propertiesPanel._container),
+        scriptValue = domQuery('div[data-entry="executionListeners-script-value"] textarea[name="scriptValue"]', propertiesPanel._container);
 
     // given
     expect(businessObject).not.to.have.property('extensionElements');
 
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
-
-    var eventType = domQuery('div[data-entry="executionListeners"] select[name=eventType]', propertiesPanel._container),
-        listenerType = domQuery('div[data-entry="executionListeners"] select[name=listenerType]', propertiesPanel._container),
-        scriptFormat = domQuery('div[data-entry="executionListeners"] input[name=scriptFormat]', propertiesPanel._container),
-        scriptType = domQuery('div[data-entry="executionListeners"] select[name="scriptType"]', propertiesPanel._container),
-        scriptValue = domQuery('div[data-entry="executionListeners"] textarea[name="scriptValue"]', propertiesPanel._container);
 
     // select 'script'
     listenerType.options[3].selected = 'selected';
@@ -454,7 +464,7 @@ describe('script-properties', function() {
     expect(scriptValue.value).to.equal('${sourceCode}');
 
     expect(businessObject.extensionElements).is.not.empty;
-    expect(businessObject.extensionElements.values.length).to.equal(1);
+    expect(businessObject.extensionElements.values).to.have.length.of(1);
 
     businessObject = businessObject.extensionElements.values[0];
     expect(businessObject.get('event')).to.equal(eventType.value);
@@ -469,22 +479,26 @@ describe('script-properties', function() {
     var shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
 
-    var listenerType = domQuery('div[data-entry="executionListeners"] select[name=listenerType]', propertiesPanel._container),
-        eventType = domQuery('div[data-entry="executionListeners"] select[name=eventType]', propertiesPanel._container),
-        scriptFormat = domQuery('div[data-entry="executionListeners"] input[name=scriptFormat]', propertiesPanel._container),
-        scriptType = domQuery('div[data-entry="executionListeners"] select[name="scriptType"]', propertiesPanel._container),
-        scriptResourceValue = domQuery('div[data-entry="executionListeners"] input[name="scriptResourceValue"]', propertiesPanel._container),
-        scriptValue = domQuery('div[data-entry="executionListeners"] textarea[name="scriptValue"]', propertiesPanel._container),
+    var eventType = domQuery('div[data-entry="executionListeners-event-type"] select[name=eventType]', propertiesPanel._container),
+        listenerType = domQuery('div[data-entry="executionListeners-type"] select[name=listenerType]', propertiesPanel._container),
+        scriptFormat = domQuery('div[data-entry="executionListeners-script-value"] input[name=scriptFormat]', propertiesPanel._container),
+        scriptType = domQuery('div[data-entry="executionListeners-script-value"] select[name="scriptType"]', propertiesPanel._container),
+        scriptValue = domQuery('div[data-entry="executionListeners-script-value"] textarea[name="scriptValue"]', propertiesPanel._container),
+        scriptResourceValue = domQuery('div[data-entry="executionListeners-script-value"] input[name="scriptResourceValue"]', propertiesPanel._container),
         businessObject = getBusinessObject(shape).extensionElements.values;
+
+    selectListener(propertiesPanel._container, 0, 'executionListeners');
 
     // given
     expect(businessObject.length).to.equal(1);
+
     expect(listenerType.value).to.equal('script');
     expect(eventType.value).to.equal('start');
     expect(scriptFormat.value).to.equal('groovy');
     expect(scriptType.value).to.equal('script');
     expect(scriptResourceValue.value).is.empty;
     expect(scriptValue.value).to.equal('${sourceCode}');
+
     expect(businessObject[0].get('event')).to.equal(eventType.value);
     expect(businessObject[0].script.get('scriptFormat')).to.equal(scriptFormat.value);
     expect(businessObject[0].script.value).to.equal(scriptValue.value);
@@ -501,11 +515,13 @@ describe('script-properties', function() {
     businessObject = getBusinessObject(shape).extensionElements.values;
 
     expect(businessObject.length).to.equal(1);
+
     expect(listenerType.value).to.equal('script');
     expect(eventType.value).to.equal('start');
     expect(scriptFormat.value).to.equal('groovy');
     expect(scriptType.value).to.equal('scriptResource');
     expect(scriptResourceValue.value).to.equal('myResource.xml');
+
     expect(businessObject[0].get('event')).to.equal(eventType.value);
     expect(businessObject[0].script.get('scriptFormat')).to.equal(scriptFormat.value);
     expect(businessObject[0].script.get('resource')).to.equal(scriptResourceValue.value);

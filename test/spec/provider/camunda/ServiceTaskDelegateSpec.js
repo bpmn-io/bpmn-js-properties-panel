@@ -257,22 +257,19 @@ describe('service-task-delegate-properties', function() {
         delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
         clearButton = domQuery('[data-entry=delegate] button[data-action=clear]',
                                 propertiesPanel._container),
-        businessObject = getBusinessObject(shape),
-        errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
+        businessObject = getBusinessObject(shape);
 
     // given
     expect(implType.value).to.equal('expression');
     expect(delegateField.value).to.equal('BAR');
     expect(businessObject.get('camunda:expression')).to.equal(delegateField.value);
-    expect(errorMessages).to.have.length(0);
 
     // when
     TestHelper.triggerEvent(clearButton, 'click');
 
     // then
-    errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
-    expect(errorMessages).to.have.length(1);
-    expect(errorMessages[0].textContent).to.equal('Must provide a value');
+    var errorMessage = domQuery('[data-entry=delegate] div[class=bpp-error-message]', propertiesPanel._container);
+    expect(errorMessage.textContent).to.equal('Must provide a value');
 
     expect(implType.value).to.equal('expression');
     expect(businessObject).to.have.property('expression');
@@ -329,8 +326,7 @@ describe('service-task-delegate-properties', function() {
     selection.select(shape);
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
-        delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
-        errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
+        delegateField = domQuery('input[name="delegate"]', propertiesPanel._container);
 
     // given
     expect(implType.value).to.be.empty;
@@ -344,9 +340,8 @@ describe('service-task-delegate-properties', function() {
     expect(delegateField.value).to.be.empty;
     expect(delegateField.className).to.equal('invalid');
 
-    errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container);
-    expect(errorMessages).to.have.length(1);
-    expect(errorMessages[0].textContent).to.equal('Must provide a value');
+    var errorMessage = domQuery('[data-entry=delegate] div[class=bpp-error-message]', propertiesPanel._container);
+    expect(errorMessage.textContent).to.equal('Must provide a value');
 
     // when
     // select implType 'class'
@@ -354,8 +349,8 @@ describe('service-task-delegate-properties', function() {
     TestHelper.triggerEvent(implType, 'change');
 
     // then
-    errorMessages = domQuery.all('.bpp-error-message', propertiesPanel._container),
-    expect(errorMessages).to.have.length(1);
+    errorMessage = domQuery('[data-entry=delegate] div[class=bpp-error-message]', propertiesPanel._container);
+    expect(errorMessage).to.be.defined;
 
   }));
 
