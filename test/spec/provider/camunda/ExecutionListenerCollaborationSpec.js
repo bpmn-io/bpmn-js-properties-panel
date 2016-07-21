@@ -89,6 +89,10 @@ describe('collaboration-listener-properties', function() {
     TestHelper.triggerEvent(listeners, 'change');
   }
 
+  var LISTENER_EVENT_TYPE_ENTRY = 'listener-event-type',
+      LISTENER_TYPE_ENTRY = 'listener-type',
+      LISTENER_VALUE_ENTRY = 'listener-value';
+
 
   describe('get', function() {
 
@@ -99,9 +103,9 @@ describe('collaboration-listener-properties', function() {
         selection.select(taskShape);
 
         var bo = getBusinessObject(taskShape),
-            eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+            eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         selectListener(propertiesPanel._container);
 
@@ -134,9 +138,9 @@ describe('collaboration-listener-properties', function() {
             executionListeners = getExecutionListener(extensionElements),
             addListenerButton = getAddButton(propertiesPanel._container);
 
-        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
         expect(extensionElements).to.be.empty;
@@ -177,9 +181,9 @@ describe('collaboration-listener-properties', function() {
             executionListeners = getExecutionListener(extensionElements),
             addListenerButton = getAddButton(propertiesPanel._container);
 
-        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
         expect(extensionElements.values.length).to.equal(1);
@@ -223,9 +227,9 @@ describe('collaboration-listener-properties', function() {
             executionListeners = getExecutionListener(extensionElements),
             removeListenerButton = getRemoveButton(propertiesPanel._container);
 
-        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value'),
+        var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY),
             listeners = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'executionListeners');
 
         // given

@@ -96,6 +96,10 @@ describe('listener-properties', function() {
     TestHelper.triggerEvent(listeners, 'change');
   }
 
+  var LISTENER_EVENT_TYPE_ENTRY = 'listener-event-type',
+      LISTENER_TYPE_ENTRY       = 'listener-type',
+      LISTENER_VALUE_ENTRY      = 'listener-value';
+
 
   describe('get', function() {
 
@@ -106,9 +110,9 @@ describe('listener-properties', function() {
         selection.select(taskShape);
 
         var bo = getBusinessObject(taskShape),
-            eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+            eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // 2 execution listener in the extension elements
         expect(bo.extensionElements.values.length).to.equal(3);
@@ -143,9 +147,9 @@ describe('listener-properties', function() {
         selection.select(taskShape);
 
         var bo = getBusinessObject(taskShape),
-            eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+            eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         expect(bo.extensionElements.values.length).to.equal(1);
 
@@ -185,9 +189,9 @@ describe('listener-properties', function() {
         selection.select(taskShape);
 
         var bo = getBusinessObject(taskShape),
-            eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+            eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         expect(bo.extensionElements.values.length).to.equal(1);
 
@@ -223,7 +227,7 @@ describe('listener-properties', function() {
         TestHelper.triggerEvent(addListenerButton, 'click');
         TestHelper.triggerEvent(addListenerButton, 'click');
 
-        var listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        var listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // then
         // select first listener
@@ -250,11 +254,11 @@ describe('listener-properties', function() {
         var bo = getBusinessObject(taskShape),
             executionListeners = getExecutionListener(bo.extensionElements),
 
-            eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value'),
+            eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY),
 
-            clearButton = getClearValueButton(propertiesPanel._container, 'executionListeners-value');
+            clearButton = getClearValueButton(propertiesPanel._container, LISTENER_VALUE_ENTRY);
 
         selectListener(propertiesPanel._container, 0);
 
@@ -299,9 +303,9 @@ describe('listener-properties', function() {
         var bo = getBusinessObject(taskShape);
         executionListeners = getExecutionListener(bo.extensionElements);
 
-        eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         expect(bo.extensionElements.values.length).to.equal(3);
         expect(executionListeners.length).to.equal(2);
@@ -424,9 +428,9 @@ describe('listener-properties', function() {
             executionListeners = getExecutionListener(bo.extensionElements),
             addListenerButton = getAddButton(propertiesPanel._container);
 
-        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
         expect(bo.extensionElements.values.length).to.equal(3);
@@ -464,9 +468,9 @@ describe('listener-properties', function() {
             executionListeners = getExecutionListener(bo.extensionElements),
             addListenerButton = getAddButton(propertiesPanel._container);
 
-        var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-            listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-            listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+            listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+            listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
         expect(bo.extensionElements.values.length).to.equal(1);
@@ -509,9 +513,9 @@ describe('listener-properties', function() {
         var executionListeners = getExecutionListener(bo.extensionElements);
         var addListenerButton = getAddButton(propertiesPanel._container);
 
-        eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
         expect(bo.extensionElements).to.be.empty;
@@ -631,9 +635,9 @@ describe('listener-properties', function() {
         var executionListeners = getExecutionListener(bo.extensionElements);
         var addListenerButton = getAddButton(propertiesPanel._container);
 
-        eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type');
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type');
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+        eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY);
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY);
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
         listeners = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'executionListeners');
 
         // given

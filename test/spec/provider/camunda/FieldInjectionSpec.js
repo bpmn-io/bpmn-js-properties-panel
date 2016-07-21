@@ -58,16 +58,16 @@ describe('fieldInjection - properties', function() {
     return extensionElementsHelper.getExtensionElements(bo, 'camunda:Field') || [];
   }
 
-  function getInput(container, selector) {
-    return domQuery('input[name=' + selector + ']', container);
+  function getInput(container, selector, dataEntrySelector) {
+    return domQuery('div[data-entry=' + dataEntrySelector + '] input[name=' + selector + ']', container);
   }
 
-  function getTextarea(container, selector) {
-    return domQuery('textarea[name=' + selector + ']', container);
+  function getTextarea(container, selector, dataEntrySelector) {
+    return domQuery('div[data-entry=' + dataEntrySelector + '] textarea[name=' + selector + ']', container);
   }
 
-  function getSelect(container, selector) {
-    return domQuery('select[id=' + selector + ']', container);
+  function getSelect(container, selector, dataEntrySelector) {
+    return domQuery('div[data-entry=' + dataEntrySelector + '] select[name=' + selector + ']', container);
   }
 
   function getAddButton(container, selector) {
@@ -78,8 +78,8 @@ describe('fieldInjection - properties', function() {
     return domQuery('div[data-entry=' + selector + '] button[data-action=removeElement]', container);
   }
 
-  function selectCamundaField(propertiesPanel, selectorId) {
-    var camundaFields = getSelect(propertiesPanel._container, selectorId);
+  function selectCamundaField(propertiesPanel) {
+    var camundaFields = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
 
     camundaFields.options[0].selected = 'selected';
     TestHelper.triggerEvent(camundaFields, 'change');  
@@ -99,14 +99,14 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
 
       it('name', inject(function(propertiesPanel) {
 
-        var field = getInput(propertiesPanel._container, 'fieldName');
+        var field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
         expect(field.value).to.equal(camundaField.get('name'));
 
@@ -114,7 +114,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldType', inject(function(propertiesPanel) {
 
-        var field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+        var field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
         expect(field.value).to.equal('string');
 
@@ -122,7 +122,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, 'fieldValue');
+        var field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
         expect(field.value).to.equal(camundaField.get('string'));
 
@@ -141,14 +141,14 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
 
       it('name', inject(function(propertiesPanel) {
 
-        var field = getInput(propertiesPanel._container, 'fieldName');
+        var field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
         expect(field.value).to.equal(camundaField.get('name'));
 
@@ -156,7 +156,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldType', inject(function(propertiesPanel) {
 
-        var field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+        var field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
         expect(field.value).to.equal('expression');
 
@@ -164,7 +164,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, 'fieldValue');
+        var field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
         expect(field.value).to.equal(camundaField.get('expression'));
 
@@ -185,14 +185,14 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
 
       it('name', inject(function(propertiesPanel) {
 
-        var field = getInput(propertiesPanel._container, 'fieldName');
+        var field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
         expect(field.value).to.equal(camundaField.get('name'));
 
@@ -200,7 +200,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldType', inject(function(propertiesPanel) {
 
-        var field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+        var field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
         expect(field.value).to.equal('string');
 
@@ -208,7 +208,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, 'fieldValue');
+        var field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
         expect(field.value).to.equal(camundaField.get('string'));
 
@@ -229,14 +229,14 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
 
       it('name', inject(function(propertiesPanel) {
 
-        var field = getInput(propertiesPanel._container, 'fieldName');
+        var field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
         expect(field.value).to.equal(camundaField.get('name'));
 
@@ -244,7 +244,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldType', inject(function(propertiesPanel) {
 
-        var field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+        var field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
         expect(field.value).to.equal('string');
 
@@ -252,7 +252,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, 'fieldValue');
+        var field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
         expect(field.value).to.equal(camundaField.get('string'));
 
@@ -272,14 +272,14 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
 
       it('name', inject(function(propertiesPanel) {
 
-        var field = getInput(propertiesPanel._container, 'fieldName');
+        var field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
         expect(field.value).to.equal(camundaField.get('name'));
 
@@ -287,7 +287,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldType', inject(function(propertiesPanel) {
 
-        var field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+        var field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
         expect(field.value).to.equal('string');
 
@@ -295,7 +295,7 @@ describe('fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, 'fieldValue');
+        var field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
         expect(field.value).to.equal('');
         expect(camundaField.get('string')).to.be.undefined;
@@ -321,7 +321,7 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
@@ -331,7 +331,7 @@ describe('fieldInjection - properties', function() {
 
         beforeEach(inject(function(propertiesPanel) {
 
-          field = getInput(propertiesPanel._container, 'fieldName');
+          field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
           TestHelper.triggerValue(field, 'FOO', 'change');
 
@@ -393,7 +393,7 @@ describe('fieldInjection - properties', function() {
 
         beforeEach(inject(function(propertiesPanel) {
 
-          field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+          field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
           // select 'expression'
           field.options[1].selected = 'selected';
@@ -458,7 +458,7 @@ describe('fieldInjection - properties', function() {
         var field;
 
         beforeEach(inject(function(propertiesPanel) {
-          field = getTextarea(propertiesPanel._container, 'fieldValue');
+          field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
           TestHelper.triggerValue(field, 'FOO', 'change');
 
@@ -528,7 +528,7 @@ describe('fieldInjection - properties', function() {
         var bo = getBusinessObject(shape);
         camundaField = getCamundaFields(bo)[0];
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
       }));
 
@@ -537,7 +537,7 @@ describe('fieldInjection - properties', function() {
         var field;
 
         beforeEach(inject(function(propertiesPanel) {
-          field = getInput(propertiesPanel._container, 'fieldName');
+          field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
           TestHelper.triggerValue(field, 'FOO', 'change');
 
@@ -598,7 +598,7 @@ describe('fieldInjection - properties', function() {
         var field;
 
         beforeEach(inject(function(propertiesPanel) {
-          field = getSelect(propertiesPanel._container, 'camunda-field-type-select');
+          field = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
 
           // select 'expression'
           field.options[1].selected = 'selected';
@@ -663,7 +663,7 @@ describe('fieldInjection - properties', function() {
         var field;
 
         beforeEach(inject(function(propertiesPanel) {
-          field = getTextarea(propertiesPanel._container, 'fieldValue');
+          field = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
           TestHelper.triggerValue(field, 'FOO', 'change');
 
@@ -746,7 +746,7 @@ describe('fieldInjection - properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
         }));
 
@@ -754,7 +754,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(0);
         }));
 
@@ -763,7 +763,7 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
 
         }));
@@ -818,7 +818,7 @@ describe('fieldInjection - properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(2);
         }));
 
@@ -826,7 +826,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
         }));
 
@@ -835,7 +835,7 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(2);
 
         }));
@@ -890,7 +890,7 @@ describe('fieldInjection - properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(2);
         }));
 
@@ -898,7 +898,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
         }));
 
@@ -907,7 +907,7 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(2);
 
         }));
@@ -960,7 +960,7 @@ describe('fieldInjection - properties', function() {
 
         var button = getRemoveButton(propertiesPanel._container, 'fields');
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
         TestHelper.triggerEvent(button, 'click');
 
@@ -969,7 +969,7 @@ describe('fieldInjection - properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(0);
         }));
 
@@ -977,7 +977,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
         }));
 
@@ -986,7 +986,7 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(0);
 
         }));
@@ -1033,7 +1033,7 @@ describe('fieldInjection - properties', function() {
 
         var button = getRemoveButton(propertiesPanel._container, 'fields');
 
-        selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+        selectCamundaField(propertiesPanel);
 
         TestHelper.triggerEvent(button, 'click');
 
@@ -1042,7 +1042,7 @@ describe('fieldInjection - properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
         }));
 
@@ -1050,7 +1050,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(2);
         }));
 
@@ -1059,7 +1059,7 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var field = getSelect(propertiesPanel._container, 'cam-extensionElements-fields');
+          var field = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'fields');
           expect(field.options).to.have.length.of(1);
 
         }));
@@ -1105,13 +1105,13 @@ describe('fieldInjection - properties', function() {
       var item = elementRegistry.get('EndEvent_Invalid');
       selection.select(item);
 
-      selectCamundaField(propertiesPanel, 'cam-extensionElements-fields');
+      selectCamundaField(propertiesPanel);
 
     }));
 
     it('should be shown if the name field is empty', inject(function(propertiesPanel) {
 
-      var field = getInput(propertiesPanel._container, 'fieldName');
+      var field = getInput(propertiesPanel._container, 'fieldName', 'field-name');
 
       expect(domClasses(field).has('invalid')).to.be.true;
 
@@ -1119,8 +1119,8 @@ describe('fieldInjection - properties', function() {
 
     it('should be shown if fieldType selected and no fieldValue is empty', inject(function(propertiesPanel) {
 
-      var fieldType = getSelect(propertiesPanel._container, 'camunda-field-type-select');
-      var fieldValue = getTextarea(propertiesPanel._container, 'fieldValue');
+      var fieldType = getSelect(propertiesPanel._container, 'fieldType', 'field-type');
+      var fieldValue = getTextarea(propertiesPanel._container, 'fieldValue', 'field-value');
 
       expect(fieldType.value).to.equal('string');
       expect(domClasses(fieldValue).has('invalid')).to.be.true;
@@ -1133,7 +1133,7 @@ describe('fieldInjection - properties', function() {
 
   describe('control visibility', function() {
 
-    function expectVisible(elementId, visible, getter, selector, parentElement) {
+    function expectVisible(elementId, visible, getter, selector, dataEntrySelector, parentElement) {
 
       return inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -1145,7 +1145,7 @@ describe('fieldInjection - properties', function() {
 
         // when
         selection.select(element);
-        var field = getter(propertiesPanel._container, selector);
+        var field = getter(propertiesPanel._container, selector, dataEntrySelector);
 
         if (parentElement) {
           field = field.parentElement;
@@ -1162,17 +1162,17 @@ describe('fieldInjection - properties', function() {
 
     describe('should show', function() {
 
-      it('fieldName', expectVisible('ServiceTask_1', true, getInput, 'fieldName'));
-      it('fieldType', expectVisible('ServiceTask_1', true, getSelect, 'camunda-field-type-select'));
-      it('fieldValue', expectVisible('ServiceTask_1', true, getTextarea, 'fieldValue'));
+      it('fieldName', expectVisible('ServiceTask_1', true, getInput, 'fieldName', 'field-name'));
+      it('fieldType', expectVisible('ServiceTask_1', true, getSelect, 'fieldType', 'field-type'));
+      it('fieldValue', expectVisible('ServiceTask_1', true, getTextarea, 'fieldValue', 'field-value'));
 
     });
 
     describe('should hide', function() {
 
-      it('fieldName', expectVisible('ServiceTask_1', false, getInput, 'fieldName', true));
-      it('fieldType', expectVisible('ServiceTask_1', false, getSelect, 'camunda-field-type-select'));
-      it('fieldValue', expectVisible('ServiceTask_1', false, getTextarea, 'fieldValue', true));
+      it('fieldName', expectVisible('ServiceTask_1', false, getInput, 'fieldName', 'field-name', true));
+      it('fieldType', expectVisible('ServiceTask_1', false, getSelect, 'fieldType', 'field-type'));
+      it('fieldValue', expectVisible('ServiceTask_1', false, getTextarea, 'fieldValue', 'field-value', true));
 
     });
 

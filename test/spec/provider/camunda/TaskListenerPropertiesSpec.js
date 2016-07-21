@@ -69,10 +69,6 @@ describe('taskListeners-properties', function() {
     return listeners;
   }
 
-  function getListenerGroup(container) {
-    return domQuery('div[data-group=taskListeners]', container);
-  }
-
   function getInput(container, selector, dataEntrySelector) {
     return domQuery('div[data-entry=' + dataEntrySelector + '] input[name=' + selector + ']', container);
   }
@@ -101,6 +97,10 @@ describe('taskListeners-properties', function() {
     TestHelper.triggerEvent(listeners, 'change');
   }
 
+  var LISTENER_EVENT_TYPE_ENTRY = 'listener-event-type',
+      LISTENER_TYPE_ENTRY       = 'listener-type',
+      LISTENER_VALUE_ENTRY      = 'listener-value';
+
 
   it('should fetch task listener properties for an user task', inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -108,9 +108,9 @@ describe('taskListeners-properties', function() {
     selection.select(taskShape);
 
     var bo = getBusinessObject(taskShape),
-        eventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value');
+        eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     expect(bo.extensionElements.values).to.have.length.of(2);
     var extensionElementsValues = bo.extensionElements.values;
@@ -134,14 +134,16 @@ describe('taskListeners-properties', function() {
     selection.select(taskShape);
 
     var bo = getBusinessObject(taskShape),
-        listenerGroup = getListenerGroup(propertiesPanel._container);
+        executionListeners = getSelect(container, 'selectedExtensionElement', 'executionListeners'),
+        taskListeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
 
     expect(is(bo.extensionElements.values[0], 'camunda:ExecutionListener')).to.be.true;
     expect(is(bo.extensionElements.values[0], 'camunda:TaskListener')).to.be.false;
 
     expect(bo.extensionElements.values).to.have.length.of(1);
 
-    expect(domClasses(listenerGroup).has('bpp-hidden')).to.be.true;
+    expect(executionListeners).to.be.defined;
+    expect(taskListeners).to.be.null;
 
   }));
 
@@ -154,9 +156,9 @@ describe('taskListeners-properties', function() {
     var bo = getBusinessObject(taskShape),
         taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT),
 
-        eventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value');
+        eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
     expect(bo.extensionElements.values).to.have.length.of(2);
@@ -203,9 +205,9 @@ describe('taskListeners-properties', function() {
 
         addListenerButton = getAddButton(propertiesPanel._container, 'taskListeners');
 
-    var eventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value');
+    var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
     expect(bo.extensionElements.values).to.have.length.of(2);
@@ -281,9 +283,9 @@ describe('taskListeners-properties', function() {
 
         addListenerButton = getAddButton(propertiesPanel._container, 'taskListeners');
 
-    var eventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value'),
+    var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY),
         listeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
 
     // given
@@ -325,11 +327,11 @@ describe('taskListeners-properties', function() {
     var bo = getBusinessObject(taskShape),
         taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT),
 
-        clearButton = getClearValueButton(propertiesPanel._container, 'taskListeners-value');
+        clearButton = getClearValueButton(propertiesPanel._container, LISTENER_VALUE_ENTRY);
 
-    var eventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value');
+    var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     selectListener(propertiesPanel._container, 0);
 
@@ -373,9 +375,9 @@ describe('taskListeners-properties', function() {
 
         addListenerButton = getAddButton(propertiesPanel._container, 'taskListeners');
 
-    var eventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value');
+    var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -558,13 +560,9 @@ describe('taskListeners-properties', function() {
         addExecutionListenerButton = getAddButton(propertiesPanel._container, 'executionListeners'),
         addTaskListenerButton = getAddButton(propertiesPanel._container, 'taskListeners');
 
-    var taskEventType = getSelect(propertiesPanel._container, 'eventType', 'taskListeners-event-type'),
-        taskListenerType = getSelect(propertiesPanel._container, 'listenerType', 'taskListeners-type'),
-        taskListenerValue = getInput(propertiesPanel._container, 'listenerValue', 'taskListeners-value');
-
-    var eventType = getSelect(propertiesPanel._container, 'eventType', 'executionListeners-event-type'),
-        listenerType = getSelect(propertiesPanel._container, 'listenerType', 'executionListeners-type'),
-        listenerValue = getInput(propertiesPanel._container, 'listenerValue', 'executionListeners-value');
+    var eventType = getSelect(propertiesPanel._container, 'eventType', LISTENER_EVENT_TYPE_ENTRY),
+        listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
+        listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
     expect(bo.extensionElements).to.be.empty;
@@ -577,12 +575,12 @@ describe('taskListeners-properties', function() {
     TestHelper.triggerEvent(addTaskListenerButton, 'click');
 
     // set task listener value to have a successfully validation
-    TestHelper.triggerValue(taskListenerValue, 'taskListenerVal', 'change');
+    TestHelper.triggerValue(listenerValue, 'taskListenerVal', 'change');
 
     // check html of task listener
-    expect(taskEventType.value).to.equal('create');
-    expect(taskListenerType.value).to.equal('class');
-    expect(taskListenerValue.value).to.equal('taskListenerVal');
+    expect(eventType.value).to.equal('create');
+    expect(listenerType.value).to.equal('class');
+    expect(listenerValue.value).to.equal('taskListenerVal');
 
     // select execution listener
     selectListener(propertiesPanel._container, 0, 'executionListeners');
