@@ -18,9 +18,9 @@ var propertiesPanelModule = require('../../../../lib'),
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 
-describe('fieldInjection - properties', function() {
+describe('listener-fieldInjection - properties', function() {
 
-  var diagramXML = require('./FieldInjection.bpmn');
+  var diagramXML = require('./ListenerFieldInjection.bpmn');
 
   var testModules = [
     coreModule, selectionModule, modelingModule,
@@ -54,8 +54,13 @@ describe('fieldInjection - properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
-  function getCamundaFields(bo) {
-    return extensionElementsHelper.getExtensionElements(bo, 'camunda:Field') || [];
+  function getExtensionElements(bo, type) {
+    return extensionElementsHelper.getExtensionElements(bo, type) || [];
+  }
+
+  function getCamundaFields(bo, type, idx) {
+    var extensionElements = getExtensionElements(bo, type);
+    return extensionElements[idx].fields || [];
   }
 
   function getInput(container, inputNode) {
@@ -78,18 +83,23 @@ describe('fieldInjection - properties', function() {
     return domQuery('div[data-entry=' + selector + '] button[data-action=removeElement]', container);
   }
 
-  function selectCamundaField(container) {
-    var camundaFields = getSelect(container, FIELDS_SELECT_ELEMENT);
+  function selectOption(container, inputNode) {
+    var select = getSelect(container, inputNode);
 
-    camundaFields.options[0].selected = 'selected';
-    TestHelper.triggerEvent(camundaFields, 'change');
+    select.options[0].selected = 'selected';
+    TestHelper.triggerEvent(select, 'change');
   }
 
+  var EXECEUTION_LISTENER_TYPE = 'camunda:ExecutionListener',
+      TASK_LISTENER_TYPE       = 'camunda:TaskListener';
 
-  var FIELD_NAME_ELEMENT                = { dataEntry: 'field-name', name: 'fieldName' },
-      FIELD_TYPE_ELEMENT                = { dataEntry: 'field-type', name: 'fieldType' },
-      FIELD_VALUE_ELEMENT               = { dataEntry: 'field-value', name: 'fieldValue' },
-      FIELDS_SELECT_ELEMENT             = { dataEntry: 'fields', name: 'selectedExtensionElement' };
+  var FIELD_NAME_ELEMENT                = { dataEntry: 'listener-field-name', name: 'fieldName' },
+      FIELD_TYPE_ELEMENT                = { dataEntry: 'listener-field-type', name: 'fieldType' },
+      FIELD_VALUE_ELEMENT               = { dataEntry: 'listener-field-value', name: 'fieldValue' },
+      FIELDS_SELECT_ELEMENT             = { dataEntry: 'listener-fields', name: 'selectedExtensionElement' },
+      EXECUTION_LISTENER_SELECT_ELEMENT = { dataEntry: 'executionListeners', name: 'selectedExtensionElement' },
+      TASK_LISTENER_SELECT_ELEMENT      = { dataEntry: 'taskListeners', name: 'selectedExtensionElement' };
+
 
   describe('get', function() {
 
@@ -98,13 +108,16 @@ describe('fieldInjection - properties', function() {
       var camundaField;
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('ServiceTask_1');
+        var shape = elementRegistry.get('ServiceTask');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
+        camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0)[0];
 
-        selectCamundaField(propertiesPanel._container);
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
       }));
 
@@ -135,18 +148,67 @@ describe('fieldInjection - properties', function() {
 
     });
 
-    describe('#businessRuleTask', function() {
+
+    describe('#user select executionListener', function() {
 
       var camundaField;
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('BusinessRuleTask_1');
+        var shape = elementRegistry.get('UserTask');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
+        camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0)[0];
 
-        selectCamundaField(propertiesPanel._container);
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+
+      }));
+
+
+      it('name', inject(function(propertiesPanel) {
+
+        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
+
+        expect(field.value).to.equal(camundaField.get('name'));
+
+      }));
+
+      it('fieldType', inject(function(propertiesPanel) {
+
+        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
+
+        expect(field.value).to.equal('string');
+
+      }));
+
+      it('fieldValue', inject(function(propertiesPanel) {
+
+        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+
+        expect(field.value).to.equal('myStringValue');
+
+      }));
+
+    });
+
+    describe('#user select taskListener', function() {
+
+      var camundaField;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('UserTask');
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape);
+        camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0)[0];
+
+        // select listener
+        selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
       }));
 
@@ -171,139 +233,7 @@ describe('fieldInjection - properties', function() {
 
         var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
-        expect(field.value).to.equal(camundaField.get('expression'));
-
-      }));
-
-
-    });
-
-
-    describe('#sendTask', function() {
-
-      var camundaField;
-
-      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('SendTask_1');
-        selection.select(shape);
-
-        var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
-
-        selectCamundaField(propertiesPanel._container);
-
-      }));
-
-
-      it('name', inject(function(propertiesPanel) {
-
-        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
-
-        expect(field.value).to.equal(camundaField.get('name'));
-
-      }));
-
-      it('fieldType', inject(function(propertiesPanel) {
-
-        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
-
-        expect(field.value).to.equal('string');
-
-      }));
-
-      it('fieldValue', inject(function(propertiesPanel) {
-
-        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
-
-        expect(field.value).to.equal(camundaField.get('string'));
-
-      }));
-
-
-    });
-
-
-    describe('#intermediateThrowEvent', function() {
-
-      var camundaField;
-
-      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('IntermediateThrowEvent_1');
-        selection.select(shape);
-
-        var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
-
-        selectCamundaField(propertiesPanel._container);
-
-      }));
-
-
-      it('name', inject(function(propertiesPanel) {
-
-        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
-
-        expect(field.value).to.equal(camundaField.get('name'));
-
-      }));
-
-      it('fieldType', inject(function(propertiesPanel) {
-
-        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
-
-        expect(field.value).to.equal('string');
-
-      }));
-
-      it('fieldValue', inject(function(propertiesPanel) {
-
-        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
-
-        expect(field.value).to.equal(camundaField.get('string'));
-
-      }));
-
-    });
-
-
-    describe('#endEvent', function() {
-
-      var camundaField;
-
-      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('EndEvent_Invalid');
-        selection.select(shape);
-
-        var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
-
-        selectCamundaField(propertiesPanel._container);
-
-      }));
-
-
-      it('name', inject(function(propertiesPanel) {
-
-        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
-
-        expect(field.value).to.equal(camundaField.get('name'));
-
-      }));
-
-      it('fieldType', inject(function(propertiesPanel) {
-
-        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
-
-        expect(field.value).to.equal('string');
-
-      }));
-
-      it('fieldValue', inject(function(propertiesPanel) {
-
-        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
-
-        expect(field.value).to.equal('');
-        expect(camundaField.get('string')).to.be.undefined;
+        expect(field.value).to.equal('${myExpression}');
 
       }));
 
@@ -320,13 +250,16 @@ describe('fieldInjection - properties', function() {
       var camundaField;
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('ServiceTask_1');
+        var shape = elementRegistry.get('ServiceTask');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
+        camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0)[0];
 
-        selectCamundaField(propertiesPanel._container);
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
       }));
 
@@ -352,7 +285,7 @@ describe('fieldInjection - properties', function() {
 
             commandStack.undo();
 
-            expect(field.value).to.equal('Field_1');
+            expect(field.value).to.equal('FieldServiceTaskOne');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -376,7 +309,7 @@ describe('fieldInjection - properties', function() {
 
             commandStack.undo();
 
-            expect(camundaField.get('name')).to.equal('Field_1');
+            expect(camundaField.get('name')).to.equal('FieldServiceTaskOne');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -522,18 +455,21 @@ describe('fieldInjection - properties', function() {
     });
 
 
-    describe('#endEvent', function() {
+    describe('#userTask', function() {
 
       var camundaField;
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('EndEvent_Invalid');
+        var shape = elementRegistry.get('UserTask');
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo)[0];
+        camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0)[0];
 
-        selectCamundaField(propertiesPanel._container);
+        // select listener
+        selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
       }));
 
@@ -558,7 +494,7 @@ describe('fieldInjection - properties', function() {
 
             commandStack.undo();
 
-            expect(field.value).to.equal('');
+            expect(field.value).to.equal('FieldUserTask');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -582,7 +518,7 @@ describe('fieldInjection - properties', function() {
 
             commandStack.undo();
 
-            expect(camundaField.get('name')).to.equal('');
+            expect(camundaField.get('name')).to.equal('FieldUserTask');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -605,8 +541,8 @@ describe('fieldInjection - properties', function() {
         beforeEach(inject(function(propertiesPanel) {
           field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
 
-          // select 'expression'
-          field.options[1].selected = 'selected';
+          // select 'string'
+          field.options[0].selected = 'selected';
           TestHelper.triggerEvent(field, 'change');
 
         }));
@@ -614,14 +550,14 @@ describe('fieldInjection - properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
-            expect(field.value).to.equal('expression');
+            expect(field.value).to.equal('string');
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(field.value).to.equal('string');
+            expect(field.value).to.equal('expression');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -629,7 +565,7 @@ describe('fieldInjection - properties', function() {
             commandStack.undo();
             commandStack.redo();
 
-            expect(field.value).to.equal('expression');
+            expect(field.value).to.equal('string');
 
           }));
 
@@ -638,16 +574,16 @@ describe('fieldInjection - properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
-            expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('expression')).to.be.undefined;
+            expect(camundaField.get('string')).to.be.defined;
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(camundaField.get('string')).to.be.defined;
-            expect(camundaField.get('expression')).to.be.undefined;
+            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('string')).to.be.undefined;
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -655,8 +591,8 @@ describe('fieldInjection - properties', function() {
             commandStack.undo();
             commandStack.redo();
 
-            expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('expression')).to.be.undefined;
+            expect(camundaField.get('string')).to.be.defined;
           }));
 
         });
@@ -684,7 +620,7 @@ describe('fieldInjection - properties', function() {
 
             commandStack.undo();
 
-            expect(field.value).to.equal('');
+            expect(field.value).to.equal('${myExpression}');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -701,14 +637,14 @@ describe('fieldInjection - properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
-            expect(camundaField.get('string')).to.equal('FOO');
+            expect(camundaField.get('expression')).to.equal('FOO');
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(camundaField.get('string')).be.undefined;
+            expect(camundaField.get('expression')).to.equal('${myExpression}');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -716,7 +652,7 @@ describe('fieldInjection - properties', function() {
             commandStack.undo();
             commandStack.redo();
 
-            expect(camundaField.get('string')).to.equal('FOO');
+            expect(camundaField.get('expression')).to.equal('FOO');
           }));
 
         });
@@ -732,17 +668,173 @@ describe('fieldInjection - properties', function() {
 
   describe('add camunda:field', function() {
 
-    describe('#intermediateThrowEvent', function() {
+    describe('#userTask', function() {
 
       var bo;
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('IntermediateThrowEvent_Empty');
+        var shape = elementRegistry.get('UserTask');
         selection.select(shape);
 
         bo = getBusinessObject(shape);
 
-        var button = getAddButton(propertiesPanel._container, 'fields');
+        // select listener
+        selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+
+        var button = getAddButton(propertiesPanel._container, 'listener-fields');
+
+        TestHelper.triggerEvent(button, 'click');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', inject(function(propertiesPanel) {
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(2);
+        }));
+
+        it('should undo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(1);
+        }));
+
+        it('should redo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(2);
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(2);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(1);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(2);
+        }));
+
+      });
+
+    });
+
+
+    describe('#serviceTask', function() {
+
+      var bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('ServiceTask');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
+        var button = getAddButton(propertiesPanel._container, 'listener-fields');
+
+        TestHelper.triggerEvent(button, 'click');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', inject(function(propertiesPanel) {
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(3);
+        }));
+
+        it('should undo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(2);
+        }));
+
+        it('should redo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(3);
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(3);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(2);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(3);
+        }));
+
+      });
+
+    });
+
+
+    describe('#endEvent', function() {
+
+      var bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('EndEvent_1');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        // add execution listener
+        var button = getAddButton(propertiesPanel._container, 'executionListeners');
+
+        TestHelper.triggerEvent(button, 'click');
+
+        // add camunda:field
+        button = getAddButton(propertiesPanel._container, 'listener-fields');
 
         TestHelper.triggerEvent(button, 'click');
 
@@ -778,7 +870,7 @@ describe('fieldInjection - properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          var camundaField = getCamundaFields(bo);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
         });
 
@@ -786,7 +878,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var camundaField = getCamundaFields(bo);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(0);
         }));
 
@@ -795,152 +887,8 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var camundaField = getCamundaFields(bo);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
-        }));
-
-      });
-
-    });
-
-
-    describe('#serviceTask', function() {
-
-      var bo;
-
-      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('ServiceTask_1');
-        selection.select(shape);
-
-        bo = getBusinessObject(shape);
-
-        var button = getAddButton(propertiesPanel._container, 'fields');
-
-        TestHelper.triggerEvent(button, 'click');
-
-      }));
-
-      describe('in the DOM', function() {
-
-        it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
-        }));
-
-        it('should undo', inject(function(commandStack, propertiesPanel) {
-
-          commandStack.undo();
-
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
-        }));
-
-        it('should redo', inject(function(commandStack, propertiesPanel) {
-
-          commandStack.undo();
-          commandStack.redo();
-
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
-
-        }));
-
-      });
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
-        });
-
-        it('should undo', inject(function(commandStack) {
-
-          commandStack.undo();
-
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
-        }));
-
-        it('should redo', inject(function(commandStack) {
-
-          commandStack.undo();
-          commandStack.redo();
-
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
-        }));
-
-      });
-
-    });
-
-
-    describe('#endEvent', function() {
-
-      var bo;
-
-      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('EndEvent_Invalid');
-        selection.select(shape);
-
-        bo = getBusinessObject(shape);
-
-        var button = getAddButton(propertiesPanel._container, 'fields');
-
-        TestHelper.triggerEvent(button, 'click');
-
-      }));
-
-      describe('in the DOM', function() {
-
-        it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
-        }));
-
-        it('should undo', inject(function(commandStack, propertiesPanel) {
-
-          commandStack.undo();
-
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
-        }));
-
-        it('should redo', inject(function(commandStack, propertiesPanel) {
-
-          commandStack.undo();
-          commandStack.redo();
-
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
-
-        }));
-
-      });
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
-        });
-
-        it('should undo', inject(function(commandStack) {
-
-          commandStack.undo();
-
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
-        }));
-
-        it('should redo', inject(function(commandStack) {
-
-          commandStack.undo();
-          commandStack.redo();
-
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
         }));
 
       });
@@ -958,87 +906,18 @@ describe('fieldInjection - properties', function() {
       var bo;
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('ServiceTask_1');
+        var shape = elementRegistry.get('ServiceTask');
         selection.select(shape);
 
         bo = getBusinessObject(shape);
 
-        var button = getRemoveButton(propertiesPanel._container, 'fields');
+        var button = getRemoveButton(propertiesPanel._container, 'listener-fields');
 
-        selectCamundaField(propertiesPanel._container);
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
 
-        TestHelper.triggerEvent(button, 'click');
-
-      }));
-
-      describe('in the DOM', function() {
-
-        it('should execute', inject(function(propertiesPanel) {
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(0);
-        }));
-
-        it('should undo', inject(function(commandStack, propertiesPanel) {
-
-          commandStack.undo();
-
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
-        }));
-
-        it('should redo', inject(function(commandStack, propertiesPanel) {
-
-          commandStack.undo();
-          commandStack.redo();
-
-          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(0);
-
-        }));
-
-      });
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(0);
-        });
-
-        it('should undo', inject(function(commandStack) {
-
-          commandStack.undo();
-
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
-        }));
-
-        it('should redo', inject(function(commandStack) {
-
-          commandStack.undo();
-          commandStack.redo();
-
-          var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(0);
-        }));
-
-      });
-
-    });
-
-    describe('#sendTask', function() {
-
-      var bo;
-
-      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-        var shape = elementRegistry.get('SendTask_Two_Fields');
-        selection.select(shape);
-
-        bo = getBusinessObject(shape);
-
-        var button = getRemoveButton(propertiesPanel._container, 'fields');
-
-        selectCamundaField(propertiesPanel._container);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
         TestHelper.triggerEvent(button, 'click');
 
@@ -1074,7 +953,7 @@ describe('fieldInjection - properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          var camundaField = getCamundaFields(bo);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
         });
 
@@ -1082,7 +961,7 @@ describe('fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var camundaField = getCamundaFields(bo);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(2);
         }));
 
@@ -1091,8 +970,252 @@ describe('fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var camundaField = getCamundaFields(bo);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
+        }));
+
+      });
+
+    });
+
+    describe('#userTask', function() {
+
+      var bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('UserTask');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var button = getRemoveButton(propertiesPanel._container, 'listener-fields');
+
+        // select listener
+        selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+
+        TestHelper.triggerEvent(button, 'click');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', inject(function(propertiesPanel) {
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(0);
+        }));
+
+        it('should undo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(1);
+        }));
+
+        it('should redo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(0);
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(0);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(1);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(0);
+        }));
+
+      });
+
+    });
+
+
+  });
+
+
+  describe('remove camunda:listener', function() {
+
+    describe('#userTask remove executionListener', function() {
+
+      var bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('UserTask');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var button = getRemoveButton(propertiesPanel._container, 'executionListeners');
+
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
+        TestHelper.triggerEvent(button, 'click');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', inject(function(propertiesPanel) {
+
+          var field = getSelect(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(0);
+
+        }));
+
+        it('should undo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+
+          var field = getSelect(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(1);
+
+        }));
+
+        it('should redo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var field = getSelect(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(0);
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          expect(getExtensionElements(bo, EXECEUTION_LISTENER_TYPE)).to.have.length.of(0);
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(getExtensionElements(bo, EXECEUTION_LISTENER_TYPE)).to.have.length.of(1);
+          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(1);
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(getExtensionElements(bo, EXECEUTION_LISTENER_TYPE)).to.have.length.of(0);
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#userTask remove taskListener', function() {
+
+      var bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('UserTask');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+
+        var button = getRemoveButton(propertiesPanel._container, 'taskListeners');
+
+        // select listener
+        selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+
+        TestHelper.triggerEvent(button, 'click');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', inject(function(propertiesPanel) {
+
+          var field = getSelect(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(0);
+
+        }));
+
+        it('should undo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+
+          var field = getSelect(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(1);
+        }));
+
+        it('should redo', inject(function(commandStack, propertiesPanel) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var field = getSelect(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+          expect(field.options).to.have.length.of(0);
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          expect(getExtensionElements(bo, TASK_LISTENER_TYPE)).to.have.length.of(0);
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(getExtensionElements(bo, TASK_LISTENER_TYPE)).to.have.length.of(1);
+
+          var camundaField = getCamundaFields(bo, TASK_LISTENER_TYPE, 0);
+          expect(camundaField).to.have.length.of(1);
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(getExtensionElements(bo, TASK_LISTENER_TYPE)).to.have.length.of(0);
+
         }));
 
       });
@@ -1107,10 +1230,14 @@ describe('fieldInjection - properties', function() {
 
     beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
-      var item = elementRegistry.get('EndEvent_Invalid');
+      var item = elementRegistry.get('StartEvent_1');
       selection.select(item);
 
-      selectCamundaField(propertiesPanel._container);
+      // select listener
+      selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
+      // select field
+      selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
     }));
 
@@ -1161,10 +1288,14 @@ describe('fieldInjection - properties', function() {
 
       beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
-        var item = elementRegistry.get('ServiceTask_1');
+        var item = elementRegistry.get('ServiceTask');
         selection.select(item);
 
-        selectCamundaField(propertiesPanel._container);
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
       }));
 
@@ -1178,8 +1309,11 @@ describe('fieldInjection - properties', function() {
 
       beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
-        var item = elementRegistry.get('ServiceTask_1');
+        var item = elementRegistry.get('ServiceTask');
         selection.select(item);
+
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
 
       }));
 
