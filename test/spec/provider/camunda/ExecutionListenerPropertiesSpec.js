@@ -182,6 +182,32 @@ describe('listener-properties', function() {
       }));
 
 
+    it('should not fetch execution listener properties for a link intermediate throw event',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+        var linkEventShape = elementRegistry.get('LinkThrowEvent_1');
+        selection.select(linkEventShape);
+
+        var listenerTab = getListenerTab(propertiesPanel._container);
+
+        expect(domClasses(listenerTab.parentElement).has('bpp-hidden')).to.be.true;
+
+      }));
+
+
+    it('should fetch execution listener properties for a link intermediate catch vent',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+        var linkEventShape = elementRegistry.get('LinkCatchEvent_1');
+        selection.select(linkEventShape);
+
+        var listenerTab = getListenerTab(propertiesPanel._container);
+
+        expect(domClasses(listenerTab.parentElement).has('bpp-hidden')).to.be.false;
+
+      }));
+
+
     it('should fetch execution listener properties for a process element',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
