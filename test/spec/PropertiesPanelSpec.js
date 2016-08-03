@@ -92,6 +92,16 @@ describe('properties-panel', function() {
       }));
 
 
+      it('should display element id when selecting label', inject(function(propertiesPanel, selection) {
+
+        // when
+        selection.select(eventShape.label);
+
+        // then
+        expect(headerText(propertiesPanel)).to.eql(eventShape.id);
+      }));
+
+
       it('should update on id edit',
         inject(function(propertiesPanel, selection, modeling) {
 

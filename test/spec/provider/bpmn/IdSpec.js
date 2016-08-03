@@ -27,6 +27,7 @@ describe('id-properties', function() {
 
   var container,
       shape,
+      getTextField,
       textField,
       businessObject;
 
@@ -55,7 +56,12 @@ describe('id-properties', function() {
     shape = elementRegistry.get('StartEvent_1');
     selection.select(shape);
 
-    textField = domQuery('input[name=id]', propertiesPanel._container);
+    getTextField = function() {
+      return domQuery('input[name=id]', propertiesPanel._container);
+    };
+
+    textField = getTextField();
+
     businessObject = getBusinessObject(shape);
   }));
 
@@ -66,6 +72,16 @@ describe('id-properties', function() {
 
     // then
     expect(textField.value).to.equal(businessObject.get('id'));
+  }));
+
+
+  it('should fetch the id for label target', inject(function(propertiesPanel, selection) {
+
+    // when selecting an element's label
+    selection.select(shape.label);
+
+    // then
+    expect(getTextField().value).to.equal(businessObject.get('id'));
   }));
 
 
@@ -80,7 +96,26 @@ describe('id-properties', function() {
       TestHelper.triggerValue(textField, 'foo', 'change');
 
       // then
-      expect(textField.value).to.equal('foo');
+      expect(getTextField().value).to.equal('foo');
+      expect(businessObject.get('id')).to.equal('foo');
+    }));
+
+
+    it('should set the id for label target', inject(function(propertiesPanel, selection) {
+
+      // given
+      selection.select(shape.label);
+
+      var textField = getTextField();
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, 'foo', 'change');
+
+      // then
+      expect(getTextField().value).to.equal('foo');
       expect(businessObject.get('id')).to.equal('foo');
     }));
 
@@ -145,7 +180,7 @@ describe('id-properties', function() {
       TestHelper.triggerValue(textField, 'foo', 'change');
 
       // then
-      expect(domClasses(textField).has('invalid')).to.be.false;
+      expect(domClasses(getTextField()).has('invalid')).to.be.false;
     });
 
 
@@ -155,7 +190,7 @@ describe('id-properties', function() {
       TestHelper.triggerValue(textField, '', 'change');
 
       // then
-      expect(domClasses(textField).has('invalid')).to.be.true;
+      expect(domClasses(getTextField()).has('invalid')).to.be.true;
     });
 
 
@@ -165,7 +200,7 @@ describe('id-properties', function() {
       TestHelper.triggerValue(textField, 'foo bar', 'change');
 
       // then
-      expect(domClasses(textField).has('invalid')).to.be.true;
+      expect(domClasses(getTextField()).has('invalid')).to.be.true;
     });
 
 
@@ -175,7 +210,7 @@ describe('id-properties', function() {
       TestHelper.triggerValue(textField, '::FOO', 'change');
 
       // then
-      expect(domClasses(textField).has('invalid')).to.be.true;
+      expect(domClasses(getTextField()).has('invalid')).to.be.true;
     });
 
 
@@ -185,7 +220,7 @@ describe('id-properties', function() {
       TestHelper.triggerValue(textField, '<hello>', 'change');
 
       // then
-      expect(domClasses(textField).has('invalid')).to.be.true;
+      expect(domClasses(getTextField()).has('invalid')).to.be.true;
     });
 
   });
