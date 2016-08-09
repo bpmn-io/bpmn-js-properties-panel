@@ -53,6 +53,9 @@ describe('collaboration-listener-properties', function() {
     propertiesPanel.attachTo(container);
   }));
 
+  function getListenersTab(container) {
+    return domQuery('div[data-tab="listeners"]', container);
+  }
 
   function getExecutionListener(extensionElements) {
     var executionListeners = [];
@@ -257,6 +260,23 @@ describe('collaboration-listener-properties', function() {
         expect(executionListeners).to.be.empty;
 
       }));
+
+  });
+
+
+  describe('visibility', function() {
+
+    it('participant without processRef', inject(function(elementRegistry, selection, propertiesPanel) {
+
+      // given
+      var participant = elementRegistry.get('Participant_Three');
+      selection.select(participant);
+
+      var extensionTab = getListenersTab(propertiesPanel._container);
+
+      expect(domClasses(extensionTab).has('bpp-hidden')).to.be.true;
+
+    }));
 
   });
 
