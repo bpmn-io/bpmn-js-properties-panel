@@ -130,11 +130,11 @@ describe('properties-entry-fields', function() {
   }));
 
 
-  it('should create a textarea field', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should create a textbox field', inject(function(propertiesPanel, selection, elementRegistry) {
 
     // given
     var userTaskShape = elementRegistry.get('UserTask'),
-        inputEl = 'textarea[name=documentation]';
+        inputEl = 'div[name=documentation]';
 
     // when
     selection.select(userTaskShape);
@@ -142,7 +142,7 @@ describe('properties-entry-fields', function() {
     var input = domQuery(inputEl, propertiesPanel._container);
 
     // starting check to verify that we have the correct text input field
-    expect(input.value).to.equal('');
+    expect(input.textContent).to.equal('');
 
     // trigger a change on the text input field
     TestHelper.triggerValue(input, 'foo', 'change');
@@ -150,6 +150,6 @@ describe('properties-entry-fields', function() {
     // now the input field should have a new value and the clear button should be visible
     input = domQuery(inputEl, propertiesPanel._container);
 
-    expect(input.value).to.equal('foo');
+    expect(input.textContent).to.equal('foo');
   }));
 });

@@ -49,8 +49,8 @@ describe('element-templates/parts - entry activation', function() {
       selectAndGet('Task');
 
       // then
-      expectEditable('custom-task.editable-4', 'textarea');
-      expectReadonly('custom-task.editable-5', 'textarea');
+      expectEditable('custom-task.editable-4', 'div[contenteditable]');
+      expectReadonly('custom-task.editable-5', 'div[contenteditable]');
     }));
 
   });

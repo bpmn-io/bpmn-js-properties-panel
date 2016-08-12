@@ -26,10 +26,10 @@
     vertical-align: middle;
   }
 
-
   input,
   button,
-  textarea {
+  textarea,
+  [contenteditable] {
     padding: 3px 6px;
     border: 1px solid @bpp-color-gray-light;
 
@@ -45,7 +45,6 @@
     }
   }
 
-
   [type=text],
   textarea,
   select {
@@ -54,6 +53,22 @@
 
   textarea {
     resize: vertical;
+  }
+
+  [contenteditable] {
+    outline: 0px solid transparent;
+    background-color: white;
+
+    max-width: 100%;
+    max-height: 120px;
+
+    overflow-y: auto;
+
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
   }
 
   label {
@@ -79,6 +94,7 @@
   button {
     .action-button();
   }
+
 }
 
 .bpp-error-message,
@@ -98,7 +114,7 @@
 }
 
 .bpp-textfield,
-.bpp-textarea {
+.bpp-textbox {
   margin-bottom: 3px;
 }
 
@@ -272,6 +288,7 @@ label.bpp-hidden {
   .icon-font();
   content: '\E806';
 }
+
 
 @import "./header";
 @import "./groups";

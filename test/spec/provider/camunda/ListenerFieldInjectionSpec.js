@@ -67,8 +67,8 @@ describe('listener-fieldInjection - properties', function() {
     return domQuery('div[data-entry=' + inputNode.dataEntry + '] input[name=' + inputNode.name + ']', container);
   }
 
-  function getTextarea(container, inputNode) {
-    return domQuery('div[data-entry=' + inputNode.dataEntry + '] textarea[name=' + inputNode.name + ']', container);
+  function getTextbox(container, inputNode) {
+    return domQuery('div[data-entry=' + inputNode.dataEntry + '] div[name=' + inputNode.name + ']', container);
   }
 
   function getSelect(container, inputNode) {
@@ -140,9 +140,9 @@ describe('listener-fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+        var field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
-        expect(field.value).to.equal(camundaField.get('string'));
+        expect(field.textContent).to.equal(camundaField.get('string'));
 
       }));
 
@@ -186,9 +186,9 @@ describe('listener-fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+        var field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
-        expect(field.value).to.equal('myStringValue');
+        expect(field.textContent).to.equal('myStringValue');
 
       }));
 
@@ -231,9 +231,9 @@ describe('listener-fieldInjection - properties', function() {
 
       it('fieldValue', inject(function(propertiesPanel) {
 
-        var field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+        var field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
-        expect(field.value).to.equal('${myExpression}');
+        expect(field.textContent).to.equal('${myExpression}');
 
       }));
 
@@ -396,7 +396,7 @@ describe('listener-fieldInjection - properties', function() {
         var field;
 
         beforeEach(inject(function(propertiesPanel) {
-          field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+          field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
           TestHelper.triggerValue(field, 'FOO', 'change');
 
@@ -405,14 +405,14 @@ describe('listener-fieldInjection - properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
-            expect(field.value).to.equal('FOO');
+            expect(field.textContent).to.equal('FOO');
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(field.value).to.equal('myStringValue');
+            expect(field.textContent).to.equal('myStringValue');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -420,7 +420,7 @@ describe('listener-fieldInjection - properties', function() {
             commandStack.undo();
             commandStack.redo();
 
-            expect(field.value).to.equal('FOO');
+            expect(field.textContent).to.equal('FOO');
 
           }));
 
@@ -604,7 +604,7 @@ describe('listener-fieldInjection - properties', function() {
         var field;
 
         beforeEach(inject(function(propertiesPanel) {
-          field = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+          field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
           TestHelper.triggerValue(field, 'FOO', 'change');
 
@@ -613,14 +613,14 @@ describe('listener-fieldInjection - properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
-            expect(field.value).to.equal('FOO');
+            expect(field.textContent).to.equal('FOO');
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(field.value).to.equal('${myExpression}');
+            expect(field.textContent).to.equal('${myExpression}');
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -628,7 +628,7 @@ describe('listener-fieldInjection - properties', function() {
             commandStack.undo();
             commandStack.redo();
 
-            expect(field.value).to.equal('FOO');
+            expect(field.textContent).to.equal('FOO');
 
           }));
 
@@ -1252,7 +1252,7 @@ describe('listener-fieldInjection - properties', function() {
     it('should be shown if fieldType selected and no fieldValue is empty', inject(function(propertiesPanel) {
 
       var fieldType = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
-      var fieldValue = getTextarea(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+      var fieldValue = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
 
       expect(fieldType.value).to.equal('string');
       expect(domClasses(fieldValue).has('invalid')).to.be.true;
@@ -1301,7 +1301,7 @@ describe('listener-fieldInjection - properties', function() {
 
       it('fieldName', expectVisible(true, getInput, FIELD_NAME_ELEMENT));
       it('fieldType', expectVisible(true, getSelect, FIELD_TYPE_ELEMENT));
-      it('fieldValue', expectVisible(true, getTextarea, FIELD_VALUE_ELEMENT));
+      it('fieldValue', expectVisible(true, getTextbox, FIELD_VALUE_ELEMENT));
 
     });
 
@@ -1319,7 +1319,7 @@ describe('listener-fieldInjection - properties', function() {
 
       it('fieldName', expectVisible(false, getInput, FIELD_NAME_ELEMENT, true));
       it('fieldType', expectVisible(false, getSelect, FIELD_TYPE_ELEMENT));
-      it('fieldValue', expectVisible(false, getTextarea, FIELD_VALUE_ELEMENT, true));
+      it('fieldValue', expectVisible(false, getTextbox, FIELD_VALUE_ELEMENT, true));
 
     });
 

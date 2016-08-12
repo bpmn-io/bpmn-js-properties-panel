@@ -62,7 +62,7 @@ function getParameterTypeSelect(container) {
 }
 
 function getParameterTextValue(container) {
-  return domQuery('textarea[id="camunda-parameterType-text"]', getInputOutputTab(container));
+  return domQuery('div[id="camunda-parameterType-text"]', getInputOutputTab(container));
 }
 
 // helper
@@ -394,7 +394,7 @@ describe('input-output-parameterType-text', function() {
       it('should execute', function() {
 
         // then
-        expect(parameterValueInput.value).to.equal('foo');
+        expect(parameterValueInput.textContent).to.equal('foo');
       });
 
 
@@ -404,7 +404,7 @@ describe('input-output-parameterType-text', function() {
         commandStack.undo();
 
         // then
-        expect(parameterValueInput.value).to.equal('hello world!');
+        expect(parameterValueInput.textContent).to.equal('hello world!');
       }));
 
 
@@ -415,7 +415,7 @@ describe('input-output-parameterType-text', function() {
         commandStack.redo();
 
         // then
-        expect(parameterValueInput.value).to.equal('foo');
+        expect(parameterValueInput.textContent).to.equal('foo');
       }));
 
     });

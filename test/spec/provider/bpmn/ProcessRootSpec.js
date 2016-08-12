@@ -74,10 +74,10 @@ describe('prcoess-root-process-properties', function() {
     var shape = elementRegistry.get('Process_1');
 
     selection.select(shape);
-    var name = domQuery('textarea[name=name]', propertiesPanel._container),
+    var name = domQuery('div[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape);
 
-    expect(shapeBo.get('name')).to.equal(name.value);
+    expect(shapeBo.get('name')).to.equal(name.textContent);
   }));
 
 
@@ -85,11 +85,11 @@ describe('prcoess-root-process-properties', function() {
 
     var shape = elementRegistry.get('Process_1');
     selection.select(shape);
-    var name = domQuery('textarea[name=name]', propertiesPanel._container),
+    var name = domQuery('div[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape);
 
     // given
-    expect(shapeBo.get('name')).to.equal(name.value);
+    expect(shapeBo.get('name')).to.equal(name.textContent);
 
     // when
     TestHelper.triggerValue(name, 'Foo', 'change');

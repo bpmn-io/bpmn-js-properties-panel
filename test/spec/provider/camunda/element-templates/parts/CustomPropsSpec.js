@@ -128,7 +128,7 @@ describe('element-templates/parts - Custom Properties', function() {
 
         // when
         var recipientField = entrySelect('custom-my.mail.Task-0', 'input'),
-            templateField = entrySelect('custom-my.mail.Task-1', 'textarea');
+            templateField = entrySelect('custom-my.mail.Task-1', 'div[contenteditable]');
 
         // then
         expect(recipientField).to.exist;
@@ -164,7 +164,7 @@ describe('element-templates/parts - Custom Properties', function() {
         // given
         var task = selectAndGet('MailTask');
 
-        var templateField = entrySelect('custom-my.mail.Task-1', 'textarea');
+        var templateField = entrySelect('custom-my.mail.Task-1', 'div[contenteditable]');
 
         // when
         TestHelper.triggerValue(templateField, 'Hello ${foo}', 'change');

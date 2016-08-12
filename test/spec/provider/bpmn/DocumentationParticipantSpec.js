@@ -14,8 +14,8 @@ var propertiesPanelModule = require('../../../../lib'),
     propertiesProviderModule = require('../../../../lib/provider/bpmn');
 
 
-function getTextarea(container, selector) {
-  return domQuery('div[data-entry='+ selector +'] textarea[name=documentation]', container);
+function getTextbox(container, selector) {
+  return domQuery('div[data-entry='+ selector +'] div[name=documentation]', container);
 }
 
 function getDocumentation(bo) {
@@ -70,13 +70,13 @@ describe('documentation-participant-properties', function() {
       item = elementRegistry.get('Collaboration_1');
       selection.select(item);
 
-      field = getTextarea(propertiesPanel._container, 'documentation');
+      field = getTextbox(propertiesPanel._container, 'documentation');
       bo = item.businessObject;
 
       // when selecting element
 
       // then
-      expect(field.value).to.equal(getDocumentation(bo).get('text'));
+      expect(field.textContent).to.equal(getDocumentation(bo).get('text'));
 
     }));
 
@@ -87,13 +87,13 @@ describe('documentation-participant-properties', function() {
       item = elementRegistry.get('Participant_Process');
       selection.select(item);
 
-      field = getTextarea(propertiesPanel._container, 'documentation');
+      field = getTextbox(propertiesPanel._container, 'documentation');
       bo = item.businessObject;
 
       // when selecting element
 
       // then
-      expect(field.value).to.equal(getDocumentation(bo).get('text'));
+      expect(field.textContent).to.equal(getDocumentation(bo).get('text'));
 
     }));
 
@@ -104,13 +104,13 @@ describe('documentation-participant-properties', function() {
       item = elementRegistry.get('Participant_Collapsed');
       selection.select(item);
 
-      field = getTextarea(propertiesPanel._container, 'documentation');
+      field = getTextbox(propertiesPanel._container, 'documentation');
       bo = item.businessObject;
 
       // when selecting element
 
       // then
-      expect(field.value).to.equal('');
+      expect(field.textContent).to.equal('');
       expect(bo.get('documentation')).to.have.length(0);
 
     }));
@@ -122,13 +122,13 @@ describe('documentation-participant-properties', function() {
       item = elementRegistry.get('Participant_Process');
       selection.select(item);
 
-      field = getTextarea(propertiesPanel._container, 'process-documentation');
+      field = getTextbox(propertiesPanel._container, 'process-documentation');
       bo = item.businessObject.processRef;
 
       // when selecting element
 
       // then
-      expect(field.value).to.equal(getDocumentation(bo).get('text'));
+      expect(field.textContent).to.equal(getDocumentation(bo).get('text'));
 
     }));
 
@@ -149,7 +149,7 @@ describe('documentation-participant-properties', function() {
         selection.select(item);
 
         bo = item.businessObject;
-        field = getTextarea(propertiesPanel._container, 'documentation');
+        field = getTextbox(propertiesPanel._container, 'documentation');
 
         // when
         TestHelper.triggerValue(field, 'DOCS', 'change');
@@ -160,7 +160,7 @@ describe('documentation-participant-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
@@ -168,7 +168,7 @@ describe('documentation-participant-properties', function() {
           commandStack.undo();
 
           // then
-          expect(field.value).to.equal('collaboration docu');
+          expect(field.textContent).to.equal('collaboration docu');
         }));
 
 
@@ -178,7 +178,7 @@ describe('documentation-participant-properties', function() {
           commandStack.redo();
 
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         }));
 
       });
@@ -225,7 +225,7 @@ describe('documentation-participant-properties', function() {
         selection.select(item);
 
         bo = item.businessObject;
-        field = getTextarea(propertiesPanel._container, 'documentation');
+        field = getTextbox(propertiesPanel._container, 'documentation');
 
         // when
         TestHelper.triggerValue(field, 'DOCS', 'change');
@@ -236,7 +236,7 @@ describe('documentation-participant-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
@@ -244,7 +244,7 @@ describe('documentation-participant-properties', function() {
           commandStack.undo();
 
           // then
-          expect(field.value).to.equal('');
+          expect(field.textContent).to.equal('');
         }));
 
 
@@ -254,7 +254,7 @@ describe('documentation-participant-properties', function() {
           commandStack.redo();
 
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         }));
 
       });
@@ -302,7 +302,7 @@ describe('documentation-participant-properties', function() {
         selection.select(item);
 
         bo = item.businessObject;
-        field = getTextarea(propertiesPanel._container, 'documentation');
+        field = getTextbox(propertiesPanel._container, 'documentation');
 
         // when
         TestHelper.triggerValue(field, 'DOCS', 'change');
@@ -313,7 +313,7 @@ describe('documentation-participant-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
@@ -321,7 +321,7 @@ describe('documentation-participant-properties', function() {
           commandStack.undo();
 
           // then
-          expect(field.value).to.equal('');
+          expect(field.textContent).to.equal('');
         }));
 
 
@@ -331,7 +331,7 @@ describe('documentation-participant-properties', function() {
           commandStack.redo();
 
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         }));
 
       });
@@ -379,7 +379,7 @@ describe('documentation-participant-properties', function() {
         selection.select(item);
 
         bo = item.businessObject.processRef;
-        field = getTextarea(propertiesPanel._container, 'process-documentation');
+        field = getTextbox(propertiesPanel._container, 'process-documentation');
 
         // when
         TestHelper.triggerValue(field, 'DOCS', 'change');
@@ -390,7 +390,7 @@ describe('documentation-participant-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
@@ -398,7 +398,7 @@ describe('documentation-participant-properties', function() {
           commandStack.undo();
 
           // then
-          expect(field.value).to.equal('process docu');
+          expect(field.textContent).to.equal('process docu');
         }));
 
 
@@ -408,7 +408,7 @@ describe('documentation-participant-properties', function() {
           commandStack.redo();
 
           // then
-          expect(field.value).to.equal('DOCS');
+          expect(field.textContent).to.equal('DOCS');
         }));
 
       });
@@ -452,7 +452,7 @@ describe('documentation-participant-properties', function() {
     function expectVisible(elementId, visible, selector, getter) {
 
       if (!getter) {
-        getter = getTextarea;
+        getter = getTextbox;
       }
 
       return inject(function(propertiesPanel, selection, elementRegistry) {

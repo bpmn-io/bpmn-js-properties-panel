@@ -54,9 +54,9 @@ describe('documentation-properties', function() {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
-    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container);
+    var textField = domQuery('div[name=documentation]', propertiesPanel._container);
 
-    expect(textField.value).to.equal('Task');
+    expect(textField.textContent).to.equal('Task');
   }));
 
 
@@ -64,7 +64,7 @@ describe('documentation-properties', function() {
 
     var shape = elementRegistry.get('BoundaryEvent_1');
     selection.select(shape);
-    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container),
+    var textField = domQuery('div[name=documentation]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
     // given
@@ -76,7 +76,7 @@ describe('documentation-properties', function() {
     var documentation = businessObject.get('documentation');
 
     // then
-    expect(textField.value).to.equal('foo');
+    expect(textField.textContent).to.equal('foo');
     expect(documentation.length).to.be.at.least(0);
     expect(documentation[0].text).to.equal('foo');
     expect(documentation[0].$instanceOf('bpmn:Documentation')).to.be.true;
@@ -87,17 +87,17 @@ describe('documentation-properties', function() {
 
     var shape = elementRegistry.get('ServiceTask_1');
     selection.select(shape);
-    var textField = domQuery('textarea[name=documentation]', propertiesPanel._container);
+    var textField = domQuery('div[name=documentation]', propertiesPanel._container);
     var businessObject = getBusinessObject(shape);
 
     // given
-    expect(textField.value).to.equal('Task');
+    expect(textField.textContent).to.equal('Task');
 
     // when
     TestHelper.triggerValue(textField, '', 'change');
 
     // then
-    expect(textField.value).to.equal('');
+    expect(textField.textContent).to.equal('');
     expect(businessObject.get('documentation').length).to.equal(0);
   }));
 });

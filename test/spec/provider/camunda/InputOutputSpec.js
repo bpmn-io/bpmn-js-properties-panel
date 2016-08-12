@@ -128,7 +128,7 @@ function getParameterTypeSelect(container) {
 }
 
 function getParameterTextValue(container) {
-  return domQuery('textarea[id="camunda-parameterType-text"]', getInputOutputTab(container));
+  return domQuery('div[id="camunda-parameterType-text"]', getInputOutputTab(container));
 }
 
 function getScriptEntry(container) {
@@ -370,7 +370,7 @@ describe('input-output-parameter-properties', function() {
         // then
         expect(getParameterNameInput(container).value).to.equal('input1');
         expect(getParameterTypeSelect(container).value).to.equal('text');
-        expect(getParameterTextValue(container).value).to.equal('hello world!');
+        expect(getParameterTextValue(container).textContent).to.equal('hello world!');
 
         // hidden entries
 
@@ -493,7 +493,7 @@ describe('input-output-parameter-properties', function() {
         // then
         expect(getParameterNameInput(container).value).to.equal('output1');
         expect(getParameterTypeSelect(container).value).to.equal('text');
-        expect(getParameterTextValue(container).value).to.equal('hello world!');
+        expect(getParameterTextValue(container).textContent).to.equal('hello world!');
 
         // hidden entries
 

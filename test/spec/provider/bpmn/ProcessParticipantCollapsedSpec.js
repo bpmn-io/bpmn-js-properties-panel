@@ -78,14 +78,14 @@ describe('process-participant-collapsed-properties', function() {
 
 
     // then
-    var input = domQuery('div[data-entry=name] textarea[name=name]', propertiesPanel._container);
-    expect(input.value).to.equal(participant.get('name'));
+    var input = domQuery('div[data-entry=name] div[name=name]', propertiesPanel._container);
+    expect(input.textContent).to.equal(participant.get('name'));
   }));
 
 
   describe('change name of participant', function() {
 
-    var participant, textarea;
+    var participant, textbox;
 
     beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
@@ -94,17 +94,17 @@ describe('process-participant-collapsed-properties', function() {
       selection.select(shape);
 
       participant = getBusinessObject(shape);
-      textarea = domQuery('div[data-entry=name] textarea[name=name]');
+      textbox = domQuery('div[data-entry=name] div[name=name]');
 
       // when
-      TestHelper.triggerValue(textarea, 'foo', 'change');
+      TestHelper.triggerValue(textbox, 'foo', 'change');
     }));
 
     describe('in the DOM', function() {
 
       it('should execute', function() {
         // then
-        expect(textarea.value).to.equal('foo');
+        expect(textbox.textContent).to.equal('foo');
       });
 
 
@@ -113,7 +113,7 @@ describe('process-participant-collapsed-properties', function() {
         commandStack.undo();
 
         // then
-        expect(textarea.value).to.equal('Collapsed Pool');
+        expect(textbox.textContent).to.equal('Collapsed Pool');
       }));
 
 
@@ -123,7 +123,7 @@ describe('process-participant-collapsed-properties', function() {
         commandStack.redo();
 
         // then
-        expect(textarea.value).to.equal('foo');
+        expect(textbox.textContent).to.equal('foo');
       }));
     });
 

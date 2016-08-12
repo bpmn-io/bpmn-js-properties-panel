@@ -8,7 +8,6 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom/lib/query'),
-    domAttr = require('min-dom/lib/attr'),
     coreModule = require('bpmn-js/lib/core'),
     selectionModule = require('diagram-js/lib/features/selection'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
@@ -20,8 +19,16 @@ function getEntry(container, entryId) {
 }
 
 function getNameField(container) {
-  var selector = 'textarea[name=name]';
+  var selector = 'div[name=name]';
   return domQuery(selector, getEntry(container, 'name'));
+}
+
+function getTextBoxRows(field) {
+  var innerText = field.innerText || '';
+  var lines = innerText.split(/\r?\n/g);
+  var rows = lines.length;
+
+  return rows;
 }
 
 describe('element-name-properties', function() {
@@ -85,7 +92,7 @@ describe('element-name-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         });
 
 
@@ -94,7 +101,7 @@ describe('element-name-properties', function() {
           commandStack.undo();
 
           // then
-          expect(nameField.value).to.equal('');
+          expect(nameField.textContent).to.equal('');
         }));
 
 
@@ -104,7 +111,7 @@ describe('element-name-properties', function() {
           commandStack.redo();
 
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         }));
 
       });
@@ -158,7 +165,7 @@ describe('element-name-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         });
 
 
@@ -167,7 +174,7 @@ describe('element-name-properties', function() {
           commandStack.undo();
 
           // then
-          expect(nameField.value).to.equal('');
+          expect(nameField.textContent).to.equal('');
         }));
 
 
@@ -177,7 +184,7 @@ describe('element-name-properties', function() {
           commandStack.redo();
 
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         }));
 
       });
@@ -231,7 +238,7 @@ describe('element-name-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         });
 
 
@@ -240,7 +247,7 @@ describe('element-name-properties', function() {
           commandStack.undo();
 
           // then
-          expect(nameField.value).to.equal('');
+          expect(nameField.textContent).to.equal('');
         }));
 
 
@@ -250,7 +257,7 @@ describe('element-name-properties', function() {
           commandStack.redo();
 
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         }));
 
       });
@@ -294,10 +301,10 @@ describe('element-name-properties', function() {
 
         element = getBusinessObject(shape);
 
-        nameField = domQuery('textarea[name=text]', getEntry(container, 'name'));
+        nameField = domQuery('div[name=text]', getEntry(container, 'name'));
 
         expect(element.text).to.equal('text for name');
-        expect(nameField.value).to.equal('text for name');
+        expect(nameField.textContent).to.equal('text for name');
 
         // when
         TestHelper.triggerValue(nameField, 'foo', 'change');
@@ -307,7 +314,7 @@ describe('element-name-properties', function() {
 
         it('should execute', function() {
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         });
 
 
@@ -316,7 +323,7 @@ describe('element-name-properties', function() {
           commandStack.undo();
 
           // then
-          expect(nameField.value).to.equal('text for name');
+          expect(nameField.textContent).to.equal('text for name');
         }));
 
 
@@ -326,7 +333,7 @@ describe('element-name-properties', function() {
           commandStack.redo();
 
           // then
-          expect(nameField.value).to.equal('foo');
+          expect(nameField.textContent).to.equal('foo');
         }));
 
       });
@@ -364,9 +371,9 @@ describe('element-name-properties', function() {
   });
 
 
-  describe('textarea rows', function() {
+  describe('textbox rows', function() {
 
-    it('should initialize textarea with one rows', inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should initialize textbox with one rows', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('ONE_LINE');
@@ -376,11 +383,11 @@ describe('element-name-properties', function() {
 
       // then
       var field = getNameField(propertiesPanel._container);
-      expect(domAttr(field, 'rows')).to.equal('1');
+      expect(getTextBoxRows(field)).to.equal(1);
     }));
 
 
-    it('should initialize textarea with three rows', inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should initialize textbox with three rows', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('FOUR_LINES');
@@ -390,7 +397,7 @@ describe('element-name-properties', function() {
 
       // then
       var field = getNameField(propertiesPanel._container);
-      expect(domAttr(field, 'rows')).to.equal('3');
+      expect(getTextBoxRows(field)).to.equal(4);
     }));
 
 
@@ -406,7 +413,7 @@ describe('element-name-properties', function() {
       TestHelper.triggerValue(field, 'a\nb', 'change');
 
       // then
-      expect(domAttr(field, 'rows')).to.equal('2');
+      expect(getTextBoxRows(field)).to.equal(2);
     }));
 
 
@@ -422,11 +429,11 @@ describe('element-name-properties', function() {
       TestHelper.triggerValue(field, 'a\nb', 'change');
 
       // then
-      expect(domAttr(field, 'rows')).to.equal('2');
+      expect(getTextBoxRows(field)).to.equal(2);
     }));
 
 
-    it('should set textarea rows to maximum value of three', inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should set textbox rows to more than three', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('ONE_LINE');
@@ -438,11 +445,11 @@ describe('element-name-properties', function() {
       TestHelper.triggerValue(field, 'a\nb\nc\nd\ne', 'change');
 
       // then
-      expect(domAttr(field, 'rows')).to.equal('3');
+      expect(getTextBoxRows(field)).to.equal(5);
     }));
 
 
-    it('should set textarea rows to minimum value of one', inject(function(elementRegistry, selection, propertiesPanel) {
+    it('should set textbox rows to minimum value of one', inject(function(elementRegistry, selection, propertiesPanel) {
 
       // given
       var shape = elementRegistry.get('FOUR_LINES');
@@ -454,7 +461,7 @@ describe('element-name-properties', function() {
       TestHelper.triggerValue(field, 'a', 'change');
 
       // then
-      expect(domAttr(field, 'rows')).to.equal('1');
+      expect(getTextBoxRows(field)).to.equal(1);
     }));
 
   });

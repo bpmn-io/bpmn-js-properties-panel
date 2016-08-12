@@ -76,11 +76,11 @@ describe('process-participant-properties', function() {
     // when
     selection.select(shape);
 
-    var name = domQuery('div[data-entry=process-name] textarea[name=name]', propertiesPanel._container),
+    var name = domQuery('div[data-entry=process-name] div[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape).get('processRef');
 
     // then
-    expect(shapeBo.get('name')).to.equal(name.value);
+    expect(shapeBo.get('name')).to.equal(name.textContent);
   }));
 
 
@@ -91,7 +91,7 @@ describe('process-participant-properties', function() {
 
     selection.select(shape);
 
-    var name = domQuery('div[data-entry=process-name] textarea[name=name]', propertiesPanel._container),
+    var name = domQuery('div[data-entry=process-name] div[name=name]', propertiesPanel._container),
         shapeBo = getBusinessObject(shape).get('processRef');
 
     // when
@@ -163,14 +163,14 @@ describe('process-participant-properties', function() {
 
 
     // then
-    var input = domQuery('div[data-entry=name] textarea[name=name]', propertiesPanel._container);
-    expect(input.value).to.equal(participant.get('name'));
+    var input = domQuery('div[data-entry=name] div[name=name]', propertiesPanel._container);
+    expect(input.textContent).to.equal(participant.get('name'));
   }));
 
 
   describe('change name of participant', function() {
 
-    var participant, textarea;
+    var participant, textbox;
 
     beforeEach(inject(function(elementRegistry, selection, propertiesPanel) {
 
@@ -179,17 +179,17 @@ describe('process-participant-properties', function() {
       selection.select(shape);
 
       participant = getBusinessObject(shape);
-      textarea = domQuery('div[data-entry=name] textarea[name=name]');
+      textbox = domQuery('div[data-entry=name] div[name=name]');
 
       // when
-      TestHelper.triggerValue(textarea, 'foo', 'change');
+      TestHelper.triggerValue(textbox, 'foo', 'change');
     }));
 
     describe('in the DOM', function() {
 
       it('should execute', function() {
         // then
-        expect(textarea.value).to.equal('foo');
+        expect(textbox.textContent).to.equal('foo');
       });
 
 
@@ -198,7 +198,7 @@ describe('process-participant-properties', function() {
         commandStack.undo();
 
         // then
-        expect(textarea.value).to.equal('Pool');
+        expect(textbox.textContent).to.equal('Pool');
       }));
 
 
@@ -208,7 +208,7 @@ describe('process-participant-properties', function() {
         commandStack.redo();
 
         // then
-        expect(textarea.value).to.equal('foo');
+        expect(textbox.textContent).to.equal('foo');
       }));
     });
 
