@@ -360,7 +360,7 @@ describe('taskListeners-properties', function() {
     expect(taskListeners).to.have.length.of(1);
 
     expect(taskListeners[0].get('event')).to.equal(eventType.value);
-    expect(taskListeners[0].get('expression')).to.be.undefined;
+    expect(taskListeners[0].get('expression')).to.equal('');
 
   }));
 

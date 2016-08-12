@@ -312,7 +312,7 @@ describe('listener-properties', function() {
         expect(executionListeners.length).to.equal(2);
 
         expect(executionListeners[0].get('event')).to.equal(eventType.value);
-        expect(executionListeners[0].get('expression')).to.be.undefined;
+        expect(executionListeners[0].get('expression')).to.equal('');
 
       }));
 
