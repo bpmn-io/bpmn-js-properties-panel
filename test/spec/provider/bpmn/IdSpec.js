@@ -169,6 +169,102 @@ describe('id-properties', function() {
       expect(businessObject.get('id')).to.equal('StartEvent_1');
     }));
 
+
+    it('should set the id with the expression at the beginning', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, '${VERSION_TAG}_foo', 'change');
+
+      // then
+      expect(getTextField().value).to.equal('${VERSION_TAG}_foo');
+      expect(businessObject.get('id')).to.equal('${VERSION_TAG}_foo');
+    });
+
+
+    it('should set the id with the expression at the end', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, 'foo_${VERSION_TAG}', 'change');
+
+      // then
+      expect(getTextField().value).to.equal('foo_${VERSION_TAG}');
+      expect(businessObject.get('id')).to.equal('foo_${VERSION_TAG}');
+    });
+
+
+    it('should set the id with the expression in the middle', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, 'foo_${VERSION_TAG}_bar', 'change');
+
+      // then
+      expect(getTextField().value).to.equal('foo_${VERSION_TAG}_bar');
+      expect(businessObject.get('id')).to.equal('foo_${VERSION_TAG}_bar');
+    });
+
+
+    it('should set the id which is only an expression', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, '${VERSION_TAG}', 'change');
+
+      // then
+      expect(getTextField().value).to.equal('${VERSION_TAG}');
+      expect(businessObject.get('id')).to.equal('${VERSION_TAG}');
+    });
+
+
+    it('should not set the id which have an invalid QName inside the expression', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, '${VERSION:TAG}', 'change');
+
+      // then
+      expect(businessObject.get('id')).to.equal('StartEvent_1');
+    });
+
+
+    it('should not set the id which have only numbers inside the expression', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, '${123}', 'change');
+
+      // then
+      expect(businessObject.get('id')).to.equal('StartEvent_1');
+    });
+
+
+    it('should not set the id which have no text inside the expression', function() {
+
+      // assume
+      expect(textField.value).to.equal('StartEvent_1');
+
+      // when
+      TestHelper.triggerValue(textField, '${}', 'change');
+
+      // then
+      expect(businessObject.get('id')).to.equal('StartEvent_1');
+    });
+
+
   });
 
 

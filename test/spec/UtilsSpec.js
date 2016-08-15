@@ -35,6 +35,9 @@ describe('Utils', function() {
     it('may contain numbers', validate('ba99'));
     it('may NOT start with numbers', validate('9ba', 'Id must be a valid QName.'));
     it('may NOT start prefix with numbers', validate('9ba:foo', 'Id must be a valid QName.'));
+
+    it('may contain ${} placeholders', validate('${foo}ba99'));
+    it('may NOT contain empty placeholders', validate('${}', 'Id must be a valid QName.'));
   });
 
 });
