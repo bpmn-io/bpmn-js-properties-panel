@@ -8,6 +8,7 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom/lib/query'),
+    domClasses = require('min-dom/lib/classes'),
     coreModule = require('bpmn-js/lib/core'),
     selectionModule = require('diagram-js/lib/features/selection'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
@@ -238,6 +239,46 @@ describe('process-participant-properties', function() {
         // then
         expect(participant.get('name')).to.equal('foo');
       }));
+    });
+
+  });
+
+
+  describe('validation errors', function() {
+
+    var shape, textField, getTextField;
+
+    beforeEach(inject(function(elementRegistry, propertiesPanel, selection) {
+
+      shape = elementRegistry.get('_Participant_2');
+      selection.select(shape);
+
+      getTextField = function() {
+        return domQuery('input[name=processId]', propertiesPanel._container);
+      };
+
+      textField = getTextField();
+
+    }));
+
+
+    it('should not be shown if id is valid', function() {
+
+      // when
+      TestHelper.triggerValue(textField, 'Foo', 'change');
+
+      // then
+      expect(domClasses(getTextField()).has('invalid')).to.be.false;
+    });
+
+
+    it('should be shown if id is invalid', function() {
+
+      // when
+      TestHelper.triggerValue(textField, 'StartEvent_1', 'change');
+
+      // then
+      expect(domClasses(getTextField()).has('invalid')).to.be.true;
     });
 
   });
