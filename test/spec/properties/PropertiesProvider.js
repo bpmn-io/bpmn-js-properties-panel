@@ -205,12 +205,47 @@ function PropertiesProvider(eventBus, bpmnFactory) {
 
   this.getTabs = function(element) {
 
-    return [{
-      id: 'tab1',
-      label: 'Tab 1',
-      groups: createGroups(element, bpmnFactory)
-    }];
-    
+    if (is(element, 'bpmn:Event')) {
+
+      return [
+        {
+          id: 'tab1',
+          label: 'Tab 1',
+          groups: createGroups(element, bpmnFactory)
+        },
+        {
+          id: 'tab2',
+          label: 'Tab 2',
+          groups: createGroups(element, bpmnFactory)
+        },
+        {
+          id: 'tab3',
+          label: 'Tab 3'
+        }
+      ];
+
+    } else {
+
+      return [
+        {
+          id: 'tab1',
+          label: 'Tab 1',
+          groups: createGroups(element, bpmnFactory)
+        },
+        {
+          id: 'tab2',
+          label: 'Tab 2',
+          groups: createGroups(element, bpmnFactory)
+        },
+        {
+          id: 'tab3',
+          label: 'Tab 3',
+          groups: createGroups(element, bpmnFactory)
+        }
+      ];
+
+    }
+
   };
 }
 
