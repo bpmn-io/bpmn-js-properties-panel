@@ -94,7 +94,6 @@ describe('form-data', function() {
     expect(formFieldSelectBox.options[2].value).to.equal('dateOfBirth');
   }));
 
-
   it('should fetch the properties of the first form field of an element', inject(function(propertiesPanel) {
 
     // when selecting the first form field
@@ -108,7 +107,6 @@ describe('form-data', function() {
     expect(domClasses(getInputField('form-field-id')).has('invalid')).to.be.false;
   }));
 
-
   it('should fetch the properties of the third form field of an element', inject(function(propertiesPanel) {
 
     // when selecting the first form field
@@ -120,7 +118,6 @@ describe('form-data', function() {
     expect(getSelectBox('form-field-type').value).to.equal('date');
     expect(getInputField('form-field-defaultValue').value).is.empty;
   }));
-
 
   describe('change properties on first form field of an element', function() {
 
@@ -192,7 +189,6 @@ describe('form-data', function() {
       }));
     });
   });
-
 
   describe('set spaces as form field id', function() {
 
@@ -401,7 +397,6 @@ describe('form-data', function() {
         expect(isContainedIn(getFormFields(), 'firstname')).to.be.ok;
         expect(isContainedIn(getFormFields(), 'lastname')).to.be.ok;
         expect(isContainedIn(getFormFields(), 'dateOfBirth')).not.to.be.ok;
-
       });
 
 
@@ -434,6 +429,7 @@ describe('form-data', function() {
     describe('in the DOM', function() {
 
       var formFieldSelectBox;
+      var formBusinessKeySelectBox;
 
       var isContainedIn = function(selectBox, value) {
         return find(selectBox, function(node) {
@@ -443,6 +439,8 @@ describe('form-data', function() {
 
       beforeEach(inject(function() {
         formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', container);
+        formBusinessKeySelectBox = domQuery('select[name=businessKey]', container);
+
       }));
 
 
@@ -453,6 +451,7 @@ describe('form-data', function() {
         expect(isContainedIn(formFieldSelectBox, 'firstname')).to.be.ok;
         expect(isContainedIn(formFieldSelectBox, 'lastname')).to.be.ok;
         expect(isContainedIn(formFieldSelectBox, 'dateOfBirth')).not.to.be.ok;
+        expect(isContainedIn(formBusinessKeySelectBox, 'dateOfBirth')).not.to.be.ok;
       });
 
 
@@ -464,6 +463,7 @@ describe('form-data', function() {
         expect(isContainedIn(formFieldSelectBox, 'firstname')).to.be.ok;
         expect(isContainedIn(formFieldSelectBox, 'lastname')).to.be.ok;
         expect(isContainedIn(formFieldSelectBox, 'dateOfBirth')).to.be.ok;
+        expect(isContainedIn(formBusinessKeySelectBox, 'dateOfBirth')).to.be.ok;
       }));
 
 
@@ -476,12 +476,12 @@ describe('form-data', function() {
         expect(isContainedIn(formFieldSelectBox, 'firstname')).to.be.ok;
         expect(isContainedIn(formFieldSelectBox, 'lastname')).to.be.ok;
         expect(isContainedIn(formFieldSelectBox, 'dateOfBirth')).not.to.be.ok;
+        expect(isContainedIn(formBusinessKeySelectBox, 'dateOfBirth')).not.to.be.ok;
       }));
 
     });
 
   });
-
 
   describe('change from form data to form key', function() {
 
@@ -539,7 +539,6 @@ describe('form-data', function() {
     }));
 
   });
-
 
   describe('camunda:validation', function() {
 
@@ -909,7 +908,6 @@ describe('form-data', function() {
 
   });
 
-
   describe('integration', function() {
 
     it('should add constraint on bo without existing extension elements', inject(function(elementRegistry, selection) {
@@ -954,7 +952,6 @@ describe('form-data', function() {
 
   });
 
-
   it('should retain other extension elements when switching to formKey', inject(function(propertiesPanel, elementRegistry, selection) {
 
     shape = elementRegistry.get('UserTask_2');
@@ -981,5 +978,187 @@ describe('form-data', function() {
     });
 
   }));
+
+  describe('businessKey', function() {
+    var businessKeySelectBox;
+    beforeEach(inject(function(elementRegistry) {
+
+      // select first form field
+      businessKeySelectBox = domQuery('select[name=businessKey]', container);
+    }));
+
+    describe ('on select value', function() {
+
+      beforeEach(inject(function(propertiesPanel) {
+        businessKeySelectBox.options[1].selected = 'selected';
+        TestHelper.triggerEvent(businessKeySelectBox, 'change');
+      }));
+
+      describe ('in DOM', function() {
+        it('should execute', function() {
+          expect(businessKeySelectBox.value).to.be.equal(businessKeySelectBox.options[1].value);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(businessKeySelectBox.value).not.to.be.ok;
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(businessKeySelectBox.value).to.be.equal(businessKeySelectBox.options[1].value);
+        }));
+
+      });
+
+      describe('on the business Object', function() {
+        it('should execute', function() {
+          expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).to.be.equal(businessKeySelectBox.options[1].value);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).not.to.be.ok;
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).to.be.equal(businessKeySelectBox.options[1].value);
+        }));
+      });
+
+    });
+
+    describe ('on select empty value', function() {
+
+      beforeEach(inject(function(propertiesPanel) {
+        businessKeySelectBox.options[1].selected = 'selected';
+        TestHelper.triggerEvent(businessKeySelectBox, 'change');
+
+        businessKeySelectBox.options[0].selected = 'selected';
+        TestHelper.triggerEvent(businessKeySelectBox, 'change');
+      }));
+
+      describe ('in DOM', function() {
+        it('should execute', function() {
+          expect(businessKeySelectBox.value).not.to.be.ok;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(businessKeySelectBox.value).to.be.equal(businessKeySelectBox.options[1].value);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(businessKeySelectBox.value).not.to.be.ok;
+        }));
+
+      });
+
+      describe('on the business Object', function() {
+        it('should execute', function() {
+          expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).not.to.be.ok;
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).to.be.equal(businessKeySelectBox.options[1].value);
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).not.to.be.ok;
+        }));
+      });
+
+    });
+
+
+    describe ('on field type change to boolean', function() {
+      it ('should be empty if same field changed', function() {
+        //when
+        businessKeySelectBox.options[1].selected = 'selected';
+        TestHelper.triggerEvent(businessKeySelectBox, 'change');
+        TestHelper.triggerFormFieldSelection(0, container);
+
+        var typeSelectBox = domQuery('select[name=type]', container);
+        typeSelectBox.options[2].selected = 'selected';
+        TestHelper.triggerEvent(typeSelectBox, 'change');
+
+        //then
+        expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).not.to.be.ok;
+      });
+
+      it ('should not be cleared if another field type changes', function() {
+        //when
+        businessKeySelectBox.options[1].selected = 'selected';
+        TestHelper.triggerEvent(businessKeySelectBox, 'change');
+        TestHelper.triggerFormFieldSelection(2, container);
+
+        var typeSelectBox = domQuery('select[name=type]', container);
+        typeSelectBox.options[2].selected = 'selected';
+        TestHelper.triggerEvent(typeSelectBox, 'change');
+
+        //then
+        expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).to.be.ok;
+      });
+    });
+
+
+
+    it ('should be disabled if no fields available for selection', function() {
+      businessKeySelectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(businessKeySelectBox, 'change');
+      // delete all fields
+      TestHelper.triggerFormFieldSelection(2, container);
+      var removeButton = domQuery('button[id=cam-extensionElements-remove-form-fields]', container);
+      TestHelper.triggerEvent(removeButton, 'click');
+      TestHelper.triggerFormFieldSelection(1, container);
+      TestHelper.triggerEvent(removeButton, 'click');
+      TestHelper.triggerFormFieldSelection(0, container);
+      TestHelper.triggerEvent(removeButton, 'click');
+
+      //then
+      expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).not.to.be.ok;
+      expect(businessKeySelectBox.className).to.be.equal('bpp-hidden');
+    });
+  });
 
 });
