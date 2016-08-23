@@ -288,6 +288,20 @@ label.bpp-hidden {
   content: '\E806';
 }
 
+.bpp-field-description {
+  margin-top: 5px;
+  color: #999;
+
+  a {
+    color: darken(@bpp-color-primary, 10%);
+    text-decoration: none;
+
+    &:hover {
+      color: @bpp-color-primary;
+    }
+  }
+}
+
 
 @import "./header";
 @import "./groups";

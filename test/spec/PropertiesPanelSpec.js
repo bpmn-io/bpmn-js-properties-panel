@@ -201,4 +201,43 @@ describe('properties-panel', function() {
 
   });
 
+
+  describe('description for field entry', function() {
+
+    function getDescriptionField(container, dataEntrySelector) {
+      return domQuery(dataEntrySelector + ' .bpp-field-description', container);
+    }
+
+    var eventShape;
+
+    beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+      propertiesPanel.attachTo(container);
+
+      eventShape = elementRegistry.get('StartEvent_1');
+      selection.select(eventShape);
+
+    }));
+
+
+    it('only text', inject(function(propertiesPanel) {
+      var descriptionField = getDescriptionField(propertiesPanel._container, '[data-entry=myText]');
+
+      expect(descriptionField.textContent).to.be.equal('This field is for documentation');
+    }));
+
+
+    it('with a link', inject(function(propertiesPanel) {
+      var descriptionField = getDescriptionField(propertiesPanel._container, '[data-entry=myLinkText]');
+
+      expect(descriptionField.textContent).to.be.equal('For details see camunda.org');
+
+      var link = domQuery('a', descriptionField);
+
+      expect(link.href).to.be.equal('http://www.camunda.org/');
+      expect(link.textContent).to.be.equal('camunda.org');
+    }));
+
+  });
+
+
 });

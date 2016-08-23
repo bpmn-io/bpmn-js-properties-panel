@@ -4,6 +4,8 @@ var inherits = require('inherits');
 
 var PropertiesActivator = require('../../../lib/PropertiesActivator');
 
+var entryFactory = require('../../../lib/factory/EntryFactory');
+
 var is = require('bpmn-js/lib/util/ModelUtil').is,
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
@@ -83,7 +85,19 @@ function createGroups(element, bpmnFactory) {
                 foo: values.foo === 'FOO' && new Error('must not be FOO')
               };
             }
-          }
+          },
+          entryFactory.textBox({
+            id : 'myText',
+            label : 'myText',
+            description: 'This field is for documentation',
+            modelProperty : 'myText'
+          }),
+          entryFactory.textField({
+            id : 'myLinkText',
+            label : 'myLinkText',
+            description: 'For details see [camunda.org](http://www.camunda.org)',
+            modelProperty : 'myLinkText'
+          })
         ]
       }
     ];
