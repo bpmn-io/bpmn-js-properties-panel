@@ -18,7 +18,7 @@ var propertiesPanelModule = require('../../../../lib'),
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 
-describe('listener-fieldInjection - properties', function() {
+describe('listener-fieldInjection-properties', function() {
 
   var diagramXML = require('./ListenerFieldInjection.bpmn');
 
@@ -90,7 +90,7 @@ describe('listener-fieldInjection - properties', function() {
     TestHelper.triggerEvent(select, 'change');
   }
 
-  var EXECEUTION_LISTENER_TYPE = 'camunda:ExecutionListener',
+  var EXECUTION_LISTENER_TYPE = 'camunda:ExecutionListener',
       TASK_LISTENER_TYPE       = 'camunda:TaskListener';
 
   var FIELD_NAME_ELEMENT                = { dataEntry: 'listener-field-name', name: 'fieldName' },
@@ -112,7 +112,7 @@ describe('listener-fieldInjection - properties', function() {
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0)[0];
+        camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0)[0];
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
@@ -158,7 +158,7 @@ describe('listener-fieldInjection - properties', function() {
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0)[0];
+        camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0)[0];
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
@@ -240,6 +240,98 @@ describe('listener-fieldInjection - properties', function() {
     });
 
 
+    describe('#executionListener with stringValue attr', function() {
+
+      var camundaField;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('Process_1');
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape);
+        camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0)[0];
+
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+
+      }));
+
+
+      it('name', inject(function(propertiesPanel) {
+
+        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
+
+        expect(field.value).to.equal(camundaField.get('name'));
+
+      }));
+
+      it('fieldType', inject(function(propertiesPanel) {
+
+        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
+
+        expect(field.value).to.equal('string');
+
+      }));
+
+      it('fieldValue', inject(function(propertiesPanel) {
+
+        var field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+
+        expect(field.textContent).to.equal(camundaField.get('stringValue'));
+
+      }));
+
+    });
+
+
+    describe('#executionListener with expression element', function() {
+
+      var camundaField;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('SequenceFlow_1');
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape);
+        camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0)[0];
+
+        // select listener
+        selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+        // select field
+        selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
+
+      }));
+
+
+      it('name', inject(function(propertiesPanel) {
+
+        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
+
+        expect(field.value).to.equal(camundaField.get('name'));
+
+      }));
+
+      it('fieldType', inject(function(propertiesPanel) {
+
+        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
+
+        expect(field.value).to.equal('expression');
+
+      }));
+
+      it('fieldValue', inject(function(propertiesPanel) {
+
+        var field = getTextbox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+
+        expect(field.textContent).to.equal(camundaField.get('expression'));
+
+      }));
+
+    });
+
+
   });
 
 
@@ -254,7 +346,7 @@ describe('listener-fieldInjection - properties', function() {
         selection.select(shape);
 
         var bo = getBusinessObject(shape);
-        camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0)[0];
+        camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0)[0];
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
@@ -792,7 +884,7 @@ describe('listener-fieldInjection - properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(3);
         });
 
@@ -800,7 +892,7 @@ describe('listener-fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(2);
         }));
 
@@ -809,7 +901,7 @@ describe('listener-fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(3);
         }));
 
@@ -870,7 +962,7 @@ describe('listener-fieldInjection - properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
         });
 
@@ -878,7 +970,7 @@ describe('listener-fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(0);
         }));
 
@@ -887,7 +979,7 @@ describe('listener-fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
         }));
 
@@ -953,7 +1045,7 @@ describe('listener-fieldInjection - properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
         });
 
@@ -961,7 +1053,7 @@ describe('listener-fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(2);
         }));
 
@@ -970,7 +1062,7 @@ describe('listener-fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
         }));
 
@@ -1114,7 +1206,7 @@ describe('listener-fieldInjection - properties', function() {
 
         it('should execute', function() {
 
-          expect(getExtensionElements(bo, EXECEUTION_LISTENER_TYPE)).to.have.length.of(0);
+          expect(getExtensionElements(bo, EXECUTION_LISTENER_TYPE)).to.have.length.of(0);
 
         });
 
@@ -1122,8 +1214,8 @@ describe('listener-fieldInjection - properties', function() {
 
           commandStack.undo();
 
-          expect(getExtensionElements(bo, EXECEUTION_LISTENER_TYPE)).to.have.length.of(1);
-          var camundaField = getCamundaFields(bo, EXECEUTION_LISTENER_TYPE, 0);
+          expect(getExtensionElements(bo, EXECUTION_LISTENER_TYPE)).to.have.length.of(1);
+          var camundaField = getCamundaFields(bo, EXECUTION_LISTENER_TYPE, 0);
           expect(camundaField).to.have.length.of(1);
 
         }));
@@ -1133,7 +1225,7 @@ describe('listener-fieldInjection - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          expect(getExtensionElements(bo, EXECEUTION_LISTENER_TYPE)).to.have.length.of(0);
+          expect(getExtensionElements(bo, EXECUTION_LISTENER_TYPE)).to.have.length.of(0);
 
         }));
 

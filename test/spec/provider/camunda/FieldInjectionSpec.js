@@ -18,7 +18,7 @@ var propertiesPanelModule = require('../../../../lib'),
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
 
-describe('fieldInjection - properties', function() {
+describe('fieldInjection-properties', function() {
 
   var diagramXML = require('./FieldInjection.bpmn');
 
@@ -78,10 +78,11 @@ describe('fieldInjection - properties', function() {
     return domQuery('div[data-entry=' + selector + '] button[data-action=removeElement]', container);
   }
 
-  function selectCamundaField(container) {
+  function selectCamundaField(container, idx) {
     var camundaFields = getSelect(container, FIELDS_SELECT_ELEMENT);
 
-    camundaFields.options[0].selected = 'selected';
+    idx = (!idx) ? 0 : idx;
+    camundaFields.options[idx].selected = 'selected';
     TestHelper.triggerEvent(camundaFields, 'change');
   }
 
@@ -308,6 +309,95 @@ describe('fieldInjection - properties', function() {
       }));
 
     });
+
+
+    describe('#field with stringValue attr', function() {
+
+      var camundaField;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('ServiceTask_2');
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape);
+        camundaField = getCamundaFields(bo)[0];
+
+        // select field
+        selectCamundaField(propertiesPanel._container);
+
+      }));
+
+
+      it('name', inject(function(propertiesPanel) {
+
+        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
+
+        expect(field.value).to.equal(camundaField.get('name'));
+
+      }));
+
+      it('fieldType', inject(function(propertiesPanel) {
+
+        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
+
+        expect(field.value).to.equal('string');
+
+      }));
+
+      it('fieldValue', inject(function(propertiesPanel) {
+
+        var field = getTextBox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+
+        expect(field.textContent).to.equal(camundaField.get('stringValue'));
+
+      }));
+
+    });
+
+
+    describe('#field with expression element', function() {
+
+      var camundaField;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('ServiceTask_2');
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape);
+        camundaField = getCamundaFields(bo)[1];
+
+        // select field
+        selectCamundaField(propertiesPanel._container, 1);
+
+      }));
+
+
+      it('name', inject(function(propertiesPanel) {
+
+        var field = getInput(propertiesPanel._container, FIELD_NAME_ELEMENT);
+
+        expect(field.value).to.equal(camundaField.get('name'));
+
+      }));
+
+      it('fieldType', inject(function(propertiesPanel) {
+
+        var field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
+
+        expect(field.value).to.equal('expression');
+
+      }));
+
+      it('fieldValue', inject(function(propertiesPanel) {
+
+        var field = getTextBox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+
+        expect(field.textContent).to.equal(camundaField.get('expression'));
+
+      }));
+
+    });
+
 
 
   });

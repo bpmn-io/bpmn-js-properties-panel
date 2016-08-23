@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.2.0" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.2.2" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <bpmn2:process id="Process_1" isExecutable="false">
     <bpmn2:startEvent id="StartEvent_1" name="StartEvent_1">
-      <bpmn2:outgoing>SequenceFlow_04xbzv0</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:messageEventDefinition />
     </bpmn2:startEvent>
-    <bpmn2:sequenceFlow id="SequenceFlow_04xbzv0" sourceRef="StartEvent_1" targetRef="IntermediateThrowEvent_Empty" />
+    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_1" targetRef="IntermediateThrowEvent_Empty" />
     <bpmn2:serviceTask id="ServiceTask_1" name="ServiceTask_1">
       <bpmn2:extensionElements>
         <camunda:field name="Field_1">        <camunda:string>myStringValue</camunda:string>
@@ -36,7 +36,7 @@
       <bpmn2:extensionElements>
         <camunda:field name="" />
       </bpmn2:extensionElements>
-      <bpmn2:incoming>SequenceFlow_0zatzp7</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_0xcu2jp</bpmn2:incoming>
       <bpmn2:messageEventDefinition />
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1cd8fbn" sourceRef="IntermediateThrowEvent_1" targetRef="SendTask_1" />
@@ -56,21 +56,30 @@
     </bpmn2:userTask>
     <bpmn2:sequenceFlow id="SequenceFlow_1rmf1fn" sourceRef="IntermediateThrowEvent_Empty" targetRef="ServiceTask_1" />
     <bpmn2:intermediateThrowEvent id="IntermediateThrowEvent_Empty" name="IntermediateThrowEvent_Empty">
-      <bpmn2:incoming>SequenceFlow_04xbzv0</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1rmf1fn</bpmn2:outgoing>
       <bpmn2:messageEventDefinition />
     </bpmn2:intermediateThrowEvent>
-    <bpmn2:sequenceFlow id="SequenceFlow_0zatzp7" sourceRef="SendTask_Two_Fields" targetRef="EndEvent_Invalid" />
+    <bpmn2:sequenceFlow id="SequenceFlow_0zatzp7" sourceRef="SendTask_Two_Fields" targetRef="ServiceTask_2" />
     <bpmn2:sendTask id="SendTask_Two_Fields" name="SendTask_Two_Fields">
       <bpmn2:extensionElements>
         <camunda:field name="Field_1">        <camunda:string>myStringValue1</camunda:string>
 </camunda:field>
         <camunda:field name="Field_2">        <camunda:string>myStringValue2</camunda:string>
-</camunda:field>        
-      </bpmn2:extensionElements>      
+</camunda:field>
+      </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_1ubj5ht</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_0zatzp7</bpmn2:outgoing>
     </bpmn2:sendTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_0xcu2jp" sourceRef="ServiceTask_2" targetRef="EndEvent_Invalid" />
+    <bpmn2:serviceTask id="ServiceTask_2" name="ServiceTask_2">
+      <bpmn2:extensionElements>
+        <camunda:field name="myFieldOne" stringValue="myFieldValueOne" />
+        <camunda:field name="myFieldTwo"><camunda:expression>myFieldValueTwo</camunda:expression></camunda:field>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_0zatzp7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0xcu2jp</bpmn2:outgoing>
+    </bpmn2:serviceTask>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -80,7 +89,7 @@
           <dc:Bounds x="52" y="332" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_04xbzv0_di" bpmnElement="SequenceFlow_04xbzv0">
+      <bpmndi:BPMNEdge id="SequenceFlow_04xbzv0_di" bpmnElement="SequenceFlow_1">
         <di:waypoint xsi:type="dc:Point" x="115" y="311" />
         <di:waypoint xsi:type="dc:Point" x="157" y="311" />
         <bpmndi:BPMNLabel>
@@ -118,9 +127,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0q8myhf_di" bpmnElement="EndEvent_Invalid">
-        <dc:Bounds x="995" y="293" width="36" height="36" />
+        <dc:Bounds x="1146" y="293" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="968" y="329" width="90" height="20" />
+          <dc:Bounds x="1119" y="329" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1cd8fbn_di" bpmnElement="SequenceFlow_1cd8fbn">
@@ -161,13 +170,23 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0zatzp7_di" bpmnElement="SequenceFlow_0zatzp7">
         <di:waypoint xsi:type="dc:Point" x="951" y="311" />
-        <di:waypoint xsi:type="dc:Point" x="995" y="311" />
+        <di:waypoint xsi:type="dc:Point" x="989" y="311" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="939.7021276595744" y="286" width="90" height="20" />
+          <dc:Bounds x="925" y="286" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SendTask_0aq3s84_di" bpmnElement="SendTask_Two_Fields">
         <dc:Bounds x="851" y="271" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xcu2jp_di" bpmnElement="SequenceFlow_0xcu2jp">
+        <di:waypoint xsi:type="dc:Point" x="1089" y="311" />
+        <di:waypoint xsi:type="dc:Point" x="1146" y="311" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1072.5" y="286" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_14flxcq_di" bpmnElement="ServiceTask_2">
+        <dc:Bounds x="989" y="271" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
