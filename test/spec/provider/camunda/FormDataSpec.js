@@ -103,7 +103,7 @@ describe('form-data', function() {
     expect(getInputField('form-field-id').value).to.equal('firstname');
     expect(getInputField('form-field-label').value).to.equal('Firstname');
     expect(getSelectBox('form-field-type').value).to.equal('string');
-    expect(getInputField('form-field-defaultValue').value).is.empty;
+    expect(getInputField('form-field-defaultValue').value).to.equal('myDefault');
     expect(domClasses(getInputField('form-field-id')).has('invalid')).to.be.false;
   }));
 
@@ -1159,6 +1159,158 @@ describe('form-data', function() {
       expect(getBusinessObject(shape).extensionElements.values[0].get('businessKey')).not.to.be.ok;
       expect(businessKeySelectBox.className).to.be.equal('bpp-hidden');
     });
+
+  });
+
+
+  describe('remove', function() {
+
+    describe('defaultValue', function() {
+
+      var inputField,
+          formFields;
+
+      beforeEach(function() {
+        // select first form field
+        TestHelper.triggerFormFieldSelection(0, container);
+
+        inputField = getInputField('form-field-defaultValue');
+        formFields = getBusinessObject(shape).extensionElements.values[0].fields;
+
+        // when
+        TestHelper.triggerValue(inputField, '', 'change');
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          // then
+          expect(inputField.value).to.equal('');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(inputField.value).to.equal('myDefault');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(inputField.value).to.equal('');
+        }));
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          // then
+          expect(formFields[0].defaultValue).to.be.undefined;
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(formFields[0].defaultValue).to.equal('myDefault');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(formFields[0].defaultValue).to.be.undefined;
+        }));
+      });
+
+    });
+
+
+    describe('label', function() {
+
+      var inputField,
+          formFields;
+
+      beforeEach(function() {
+        // select first form field
+        TestHelper.triggerFormFieldSelection(0, container);
+
+        inputField = getInputField('form-field-label');
+        formFields = getBusinessObject(shape).extensionElements.values[0].fields;
+
+        // when
+        TestHelper.triggerValue(inputField, '', 'change');
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          // then
+          expect(inputField.value).to.equal('');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(inputField.value).to.equal('Firstname');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(inputField.value).to.equal('');
+        }));
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          // then
+          expect(formFields[0].label).to.be.undefined;
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(formFields[0].label).to.equal('Firstname');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(formFields[0].label).to.be.undefined;
+        }));
+      });
+
+    });
+
+
   });
 
 });

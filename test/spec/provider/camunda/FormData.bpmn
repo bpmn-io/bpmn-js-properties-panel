@@ -4,7 +4,7 @@
     <bpmn2:startEvent id="StartEvent_1">
       <bpmn2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="firstname" label="Firstname" type="string">
+          <camunda:formField id="firstname" label="Firstname" type="string" defaultValue="myDefault">
             <camunda:validation>
               <camunda:constraint name="maxlength" config="25" />
               <camunda:constraint name="required" />
