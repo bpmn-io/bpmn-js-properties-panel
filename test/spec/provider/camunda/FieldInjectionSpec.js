@@ -612,6 +612,87 @@ describe('fieldInjection-properties', function() {
     });
 
 
+    describe('#serviceTask with stringValue attr', function() {
+
+      var camundaField;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('ServiceTask_2');
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape);
+        camundaField = getCamundaFields(bo)[0];
+
+        selectCamundaField(propertiesPanel._container);
+
+      }));
+
+      describe('#fieldValue', function() {
+
+        var field;
+
+        beforeEach(inject(function(propertiesPanel) {
+          field = getTextBox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+
+          TestHelper.triggerValue(field, 'FOO', 'change');
+
+        }));
+
+        describe('in the DOM', function() {
+
+          it('should execute', function() {
+            expect(field.textContent).to.equal('FOO');
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(field.textContent).to.equal('myFieldValueOne');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(field.textContent).to.equal('FOO');
+
+          }));
+
+        });
+
+        describe('on the business object', function() {
+
+          it('should execute', function() {
+            expect(camundaField.get('string')).to.equal('FOO');
+            expect(camundaField.get('stringValue')).to.be.undefined;
+          });
+
+          it('should undo', inject(function(commandStack) {
+
+            commandStack.undo();
+
+            expect(camundaField.get('stringValue')).to.equal('myFieldValueOne');
+          }));
+
+          it('should redo', inject(function(commandStack) {
+
+            commandStack.undo();
+            commandStack.redo();
+
+            expect(camundaField.get('string')).to.equal('FOO');
+            expect(camundaField.get('stringValue')).to.be.undefined;
+          }));
+
+        });
+
+      });
+
+
+    });
+
+
     describe('#endEvent', function() {
 
       var camundaField;
