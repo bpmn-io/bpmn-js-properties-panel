@@ -80,11 +80,31 @@ var triggerEvent = function(element, eventType) {
   }
 };
 
-var triggerValue = function(element, value, eventType) {
+/**
+ * Set the new value to the given element.
+ *
+ * @param element on which the change should be triggered
+ * @param value new value for the element
+ * @param eventType (optional) type of the event (e.g. click, change, ...)
+ * @param cursorPosition (optional) position ot the cursor after changing the value
+ */
+var triggerValue = function(element, value, eventType, cursorPosition) {
+  if (typeof eventType == 'number') {
+    cursorPosition = eventType;
+    eventType = null;
+  }
+
+  element.focus();
+
   if (domAttr(element, 'contenteditable')) {
     element.innerText = value;
   } else {
     element.value = value;
+  }
+
+  if (cursorPosition) {
+    element.selectionStart = cursorPosition;
+    element.selectionEnd = cursorPosition;
   }
 
   this.triggerEvent(element, eventType);

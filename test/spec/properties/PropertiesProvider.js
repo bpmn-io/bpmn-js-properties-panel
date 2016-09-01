@@ -9,6 +9,7 @@ var entryFactory = require('../../../lib/factory/EntryFactory');
 var is = require('bpmn-js/lib/util/ModelUtil').is,
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+var cmdHelper = require('../../../lib/helper/CmdHelper');
 
 function createGroups(element, bpmnFactory) {
   if (is(element, 'bpmn:Event')) {
@@ -97,6 +98,27 @@ function createGroups(element, bpmnFactory) {
             label : 'myLinkText',
             description: 'For details see [camunda.org](http://www.camunda.org)',
             modelProperty : 'myLinkText'
+          }),
+          entryFactory.table({
+            id: 'parameterType-list',
+            modelProperties: [ 'value' ],
+            labels: [ 'Value' ],
+
+            getElements: function(element, node) {
+              var bo = getBusinessObject(element);
+
+              return [
+                {
+                  value: bo.get('custom:foo')
+                }
+              ];
+            },
+            updateElement: function(element, values, node, idx) {
+              return cmdHelper.updateProperties(element, { 'custom:foo': values.value });
+            },
+            setControlValue: function(element, node, input, prop, value, idx) {
+              input.value = value;
+            }
           })
         ]
       }

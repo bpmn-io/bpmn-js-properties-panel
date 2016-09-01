@@ -1,6 +1,6 @@
 'use strict';
 
-require('../TestHelper');
+var TestHelper = require('../TestHelper');
 
 var TestContainer = require('mocha-test-container-support');
 
@@ -236,6 +236,124 @@ describe('properties-panel', function() {
       expect(link.href).to.be.equal('http://www.camunda.org/');
       expect(link.textContent).to.be.equal('camunda.org');
     }));
+
+  });
+
+
+  describe('table entry input field selection', function() {
+
+    function getTableEntryInputField(container) {
+      return domQuery('input[name=value]', container);
+    }
+
+    var input;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      propertiesPanel.attachTo(container);
+
+      var eventShape = elementRegistry.get('StartEvent_1');
+      selection.select(eventShape);
+
+      input = getTableEntryInputField(propertiesPanel._container);
+
+    }));
+
+
+    describe('add text to the end, cursor position is at the end', function() {
+
+      beforeEach(function() {
+
+        expect(input.selectionStart).to.equal(input.value.length);
+        expect(input.selectionEnd).to.equal(input.value.length);
+
+        TestHelper.triggerValue(input, 'BARabc', 6);
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('BARabc');
+
+          expect(input.selectionStart).to.equal(input.value.length);
+          expect(input.selectionEnd).to.equal(input.value.length);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(input.value).to.equal('BAR');
+
+          expect(input.selectionStart).to.equal(input.value.length);
+          expect(input.selectionEnd).to.equal(input.value.length);
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(input.value).to.equal('BARabc');
+
+          expect(input.selectionStart).to.equal(input.value.length);
+          expect(input.selectionEnd).to.equal(input.value.length);
+
+        }));
+
+      });
+
+    });
+
+
+    describe('add text in the middle, cursor position is after the added text', function() {
+
+      beforeEach(function() {
+
+        expect(input.selectionStart).to.equal(input.value.length);
+        expect(input.selectionEnd).to.equal(input.value.length);
+
+        TestHelper.triggerValue(input, 'BAabcR', 5);
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(input.value).to.equal('BAabcR');
+
+          // cursor position after 'BAabc'
+          expect(input.selectionStart).to.equal(input.value.length-1);
+          expect(input.selectionEnd).to.equal(input.value.length-1);
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(input.value).to.equal('BAR');
+
+          // cursor position after 'BA'
+          expect(input.selectionStart).to.equal(input.value.length-1);
+          expect(input.selectionEnd).to.equal(input.value.length-1);
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(input.value).to.equal('BAabcR');
+
+          // cursor position after 'BAabc'
+          expect(input.selectionStart).to.equal(input.value.length-1);
+          expect(input.selectionEnd).to.equal(input.value.length-1);
+
+        }));
+
+      });
+
+    });
 
   });
 

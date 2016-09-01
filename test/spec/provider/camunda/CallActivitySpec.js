@@ -127,7 +127,7 @@ describe('callActivity - properties', function() {
       var businessObject = getBusinessObject(shape);
       var field = getInput(propertiesPanel._container, 'callableVersion');
 
-      expect(parseInt(field.value)).to.equal(businessObject.get('calledElementVersion'));
+      expect(field.value).to.equal(businessObject.get('calledElementVersion'));
 
     }));
 
@@ -224,7 +224,7 @@ describe('callActivity - properties', function() {
       var businessObject = getBusinessObject(shape);
       var field = getInput(propertiesPanel._container, 'callableVersion');
 
-      expect(parseInt(field.value)).to.equal(businessObject.get('camunda:caseVersion'));
+      expect(field.value).to.equal(businessObject.get('camunda:caseVersion'));
 
     }));
 
@@ -402,20 +402,20 @@ describe('callActivity - properties', function() {
         bo = getBusinessObject(shape);
         field = getInput(propertiesPanel._container, 'callableVersion');
 
-        TestHelper.triggerValue(field, 42, 'change');
+        TestHelper.triggerValue(field, '42', 'change');
       }));
 
       describe('in the DOM', function() {
 
         it('should execute', function() {
-          expect(parseInt(field.value)).to.equal(42);
+          expect(field.value).to.equal('42');
         });
 
         it('should undo', inject(function(commandStack) {
 
           commandStack.undo();
 
-          expect(parseInt(field.value)).to.equal(17);
+          expect(field.value).to.equal('17');
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -423,7 +423,7 @@ describe('callActivity - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          expect(parseInt(field.value)).to.equal(42);
+          expect(field.value).to.equal('42');
 
         }));
 
@@ -432,14 +432,14 @@ describe('callActivity - properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          expect(parseInt(bo.get('camunda:calledElementVersion'))).to.equal(42);
+          expect(bo.get('camunda:calledElementVersion')).to.equal('42');
         });
 
         it('should undo', inject(function(commandStack) {
 
           commandStack.undo();
 
-          expect(parseInt(bo.get('camunda:calledElementVersion'))).to.equal(17);
+          expect(bo.get('camunda:calledElementVersion')).to.equal('17');
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -447,7 +447,7 @@ describe('callActivity - properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          expect(parseInt(bo.get('camunda:calledElementVersion'))).to.equal(42);
+          expect(bo.get('camunda:calledElementVersion')).to.equal('42');
 
         }));
 
@@ -569,7 +569,7 @@ describe('callActivity - properties', function() {
 
           commandStack.undo();
 
-          expect(bo.get('camunda:caseVersion')).to.equal(parseInt('17'));
+          expect(bo.get('camunda:caseVersion')).to.equal('17');
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1446,7 +1446,7 @@ describe('callActivity - properties', function() {
 
           commandStack.undo();
 
-          expect(bo.get('camunda:calledElementVersion')).to.equal(parseInt('17'));
+          expect(bo.get('camunda:calledElementVersion')).to.equal('17');
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1513,7 +1513,7 @@ describe('callActivity - properties', function() {
 
           commandStack.undo();
 
-          expect(bo.get('camunda:caseVersion')).to.equal(parseInt('17'));
+          expect(bo.get('camunda:caseVersion')).to.equal('17');
         }));
 
         it('should redo', inject(function(commandStack) {
