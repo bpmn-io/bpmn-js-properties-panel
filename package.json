@@ -22,12 +22,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "bpmn-js": "^0.16.0",
-    "bpmn-moddle": "^0.12.1",
+    "bpmn-js": "^0.17.0",
+    "bpmn-moddle": "^0.12.2",
     "browserify": "^13.0.0",
     "camunda-bpmn-moddle": "^0.8.1",
     "chai": "~2.2.0",
-    "diagram-js": "^0.16.2",
+    "diagram-js": "^0.17.0",
     "eslint": "^2.11.1",
     "eslint-plugin-mocha": "^2.2.0",
     "grunt": "^0.4.4",
@@ -65,7 +65,7 @@
     "selection-update": "^0.1.2"
   },
   "peerDependencies": {
-    "bpmn-js": ">=0.12 <0.17",
-    "diagram-js": ">=0.12 <0.17"
+    "bpmn-js": ">=0.12 <0.18",
+    "diagram-js": ">=0.12 <0.18"
   }
 }
