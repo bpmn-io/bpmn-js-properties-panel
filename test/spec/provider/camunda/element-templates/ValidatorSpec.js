@@ -185,7 +185,7 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Dropdown }',
+      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
       'invalid property.binding type <alsoInvalid>; must be any of { property, camunda:property, camunda:inputParameter, camunda:outputParameter }'
     ]);
 

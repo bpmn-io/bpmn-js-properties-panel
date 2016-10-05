@@ -190,6 +190,11 @@ describe('element-templates - cmd', function() {
               scriptFormat: 'freemarker',
               value: 'Hello ${firstName}!'
             }
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'hiddenField',
+            value: 'SECRET'
           }
         ]);
 
@@ -492,6 +497,11 @@ describe('element-templates - cmd', function() {
               scriptFormat: 'freemarker',
               value: 'Hello ${firstName}!'
             }
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'hiddenField',
+            value: 'SECRET'
           }
         ]);
 
@@ -595,6 +605,62 @@ describe('element-templates - cmd', function() {
         // then
         expect(camundaCls).to.eql('FOO');
         expect(camundaDelegateExpr).not.to.exist;
+      }));
+
+    });
+
+
+    describe('setting hidden camunda:expression', function() {
+
+      var diagramXML = require('./task-clean.bpmn');
+
+      var newTemplate = require('./ws-properties');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        // when
+        applyTemplate(taskShape, newTemplate);
+
+        var camundaExpression = task.get('camunda:expression');
+
+        // then
+        expect(camundaExpression).to.eql('${ wsCaller.exec() }');
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        applyTemplate(taskShape, newTemplate);
+
+        // when
+        commandStack.undo();
+
+        var camundaExpression = task.get('camunda:expression');
+
+        // then
+        expect(camundaExpression).not.to.exist;
       }));
 
     });

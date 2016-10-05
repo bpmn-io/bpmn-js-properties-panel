@@ -34,6 +34,14 @@
           "source": "${mailResult}",
           "scriptFormat": "freemarker"
         }
+      },
+      {
+        "type": "Hidden",
+        "value": "SECRET",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "hiddenField"
+        }
       }
     ]
   },

@@ -136,6 +136,19 @@ describe('element-templates/parts - Custom Properties', function() {
       }));
 
 
+      it('should hide if type=Hidden', inject(function() {
+
+        // given
+        selectAndGet('MailTask');
+
+        // when
+        var hiddenField = entrySelect('custom-my.mail.Task-3', '*');
+
+        // then
+        expect(hiddenField).not.to.exist;
+      }));
+
+
       it('should change, setting camunda:InputParameter (plain)', inject(function() {
 
         // given

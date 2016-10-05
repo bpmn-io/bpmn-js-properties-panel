@@ -7,7 +7,7 @@
   "properties": [
     {
       "label": "STUFF TO CALL",
-      "type": "Text",
+      "type": "Hidden",
       "editable": false,
       "value": "com.my.custom.Foo",
       "binding": {

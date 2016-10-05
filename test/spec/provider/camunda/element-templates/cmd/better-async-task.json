@@ -6,9 +6,7 @@
   ],
   "properties": [
     {
-      "id": "1",
-      "label": "Are you awesome?",
-      "type": "Boolean",
+      "type": "Hidden",
       "value": true,
       "binding": {
         "type": "property",

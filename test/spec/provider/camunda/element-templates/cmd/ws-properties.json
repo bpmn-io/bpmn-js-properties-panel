@@ -6,6 +6,14 @@
   ],
   "properties": [
     {
+      "type": "Hidden",
+      "value": "${ wsCaller.exec() }",
+      "binding": {
+        "type": "property",
+        "name": "camunda:expression"
+      }
+    },
+    {
       "label": "Web Service URL",
       "description": "Specify the url of the web service to talk to",
       "type": "String",
