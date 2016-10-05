@@ -18,6 +18,7 @@ var propertiesPanelModule = require('../../../../lib'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+
 describe('callActivity - properties', function() {
 
   var diagramXML = require('./CallActivity.bpmn');
@@ -1211,6 +1212,7 @@ describe('callActivity - properties', function() {
 
         });
 
+
         describe('on the business object', function() {
 
           it('should execute', function() {
@@ -1243,6 +1245,7 @@ describe('callActivity - properties', function() {
 
       });
 
+
       describe('change to #CMMN', function() {
 
         var field, bo;
@@ -1259,6 +1262,7 @@ describe('callActivity - properties', function() {
 
           TestHelper.triggerEvent(field, 'change');
         }));
+
 
         describe('in the DOM', function() {
 
@@ -1285,6 +1289,7 @@ describe('callActivity - properties', function() {
           }));
 
         });
+
 
         describe('on the business object', function() {
 
@@ -1446,7 +1451,7 @@ describe('callActivity - properties', function() {
 
           commandStack.undo();
 
-          expect(bo.get('camunda:calledElementVersion')).to.equal('17');
+          expect(bo.get('camunda:calledElementVersion')).to.eql('17');
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1513,7 +1518,7 @@ describe('callActivity - properties', function() {
 
           commandStack.undo();
 
-          expect(bo.get('camunda:caseVersion')).to.equal('17');
+          expect(bo.get('camunda:caseVersion')).to.eql('17');
         }));
 
         it('should redo', inject(function(commandStack) {
