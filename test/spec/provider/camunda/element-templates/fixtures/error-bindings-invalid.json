@@ -33,6 +33,20 @@
         "binding": {
           "type": "camunda:outputParameter"
         }
+      },
+      {
+        "label": "Missing camunda:in target/variables",
+        "type": "String",
+        "binding": {
+          "type": "camunda:in"
+        }
+      },
+      {
+        "label": "Missing camunda:out target/variables",
+        "type": "String",
+        "binding": {
+          "type": "camunda:out"
+        }
       }
     ]
   }

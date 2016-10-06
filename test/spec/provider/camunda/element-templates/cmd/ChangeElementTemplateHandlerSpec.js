@@ -14,7 +14,8 @@ var coreModule = require('bpmn-js/lib/core'),
 
 var Helper = require('../../../../../../lib/provider/camunda/element-templates/Helper');
 
-var findExtension = Helper.findExtension;
+var findExtension = Helper.findExtension,
+    findExtensions = Helper.findExtensions;
 
 
 describe('element-templates - cmd', function() {
@@ -227,6 +228,73 @@ describe('element-templates - cmd', function() {
 
         // then
         expect(inputOutput).not.to.exist;
+      }));
+
+    });
+
+
+    describe('setting camunda:in / camunda:out', function() {
+
+      var diagramXML = require('./call-activity.bpmn');
+
+      var newTemplate = require('./call-activity-mapped');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var callActitvityShape = elementRegistry.get('CallActivity_1');
+
+        // when
+        applyTemplate(callActitvityShape, newTemplate);
+
+        var inOuts = findExtensions(callActitvityShape, [ 'camunda:In', 'camunda:Out' ]);
+
+        // then
+        expect(inOuts).to.exist;
+
+        expect(inOuts).to.jsonEqual([
+          { $type: 'camunda:In', target: 'var_called_source', source: 'var_local' },
+          { $type: 'camunda:Out', target: 'var_called', source: 'var_local_source' },
+          { $type: 'camunda:In', target: 'var_called_expr', sourceExpression: '${expr_local}' },
+          { $type: 'camunda:Out', target: 'var_local_expr', sourceExpression: '${expr_called}' },
+          { $type: 'camunda:In', variables: 'all' },
+          { $type: 'camunda:Out', variables: 'all' },
+          { $type: 'camunda:In', variables: 'all', local: true },
+          { $type: 'camunda:Out', variables: 'all', local: true },
+          { $type: 'camunda:In', businessKey: '${execution.processBusinessKey}' }
+        ]);
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var callActitvityShape = elementRegistry.get('CallActivity_1');
+
+        applyTemplate(callActitvityShape, newTemplate);
+
+
+        // when
+        commandStack.undo();
+
+        var inOuts = findExtensions(callActitvityShape, [ 'camunda:In', 'camunda:Out' ]);
+
+        // then
+        expect(inOuts).to.have.length(2);
       }));
 
     });

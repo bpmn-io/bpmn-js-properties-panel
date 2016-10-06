@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.4.0-dev">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:task id="MailTask" name="Mail Task" camunda:modelerTemplate="my.mail.Task">
       <bpmn:extensionElements>
@@ -35,6 +35,20 @@
     <bpmn:serviceTask id="DelegateTask" name="Delegate Task" camunda:delegateExpression="com.my.custom.Foo" camunda:modelerTemplate="my.custom.ServiceTask" />
     <bpmn:task id="WebserviceTask_NoData" name="Webservice Task NoData" camunda:modelerTemplate="com.mycompany.WsCaller" />
     <bpmn:task id="ValidateTask" name="Validate Task" camunda:modelerTemplate="com.validated-inputs.Task" />
+    <bpmn:callActivity id="CallActivity" name="Call Activity" calledElement="calledProcess" camunda:modelerTemplate="my.Caller">
+      <bpmn:extensionElements>
+        <camunda:in source="var_local" target="var_called_source" />
+        <camunda:out source="var_local_source" target="var_called" />
+        <camunda:in sourceExpression="${expr_local}" target="var_called_expr" />
+        <camunda:out sourceExpression="${expr_called}" target="var_local_expr" />
+        <camunda:in variables="all" />
+        <camunda:out variables="all" />
+        <camunda:in local="true" variables="all" />
+        <camunda:out local="true" variables="all" />
+        <camunda:in businessKey="${execution.processBusinessKey}" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_NoData" name="Call Activity&#10;NoData" camunda:modelerTemplate="my.Caller" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -74,6 +88,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0pnk8c1_di" bpmnElement="ValidateTask">
         <dc:Bounds x="211" y="353" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_16ib2yl_di" bpmnElement="CallActivity">
+        <dc:Bounds x="79" y="465" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_1nz6vft_di" bpmnElement="CallActivity_NoData">
+        <dc:Bounds x="211" y="465" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

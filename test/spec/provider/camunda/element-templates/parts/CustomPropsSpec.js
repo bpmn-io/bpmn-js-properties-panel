@@ -5,6 +5,7 @@ var TestHelper = require('../../../../../TestHelper');
 /* global inject */
 
 var findExtension = require('../../../../../../lib/provider/camunda/element-templates/Helper').findExtension,
+    findCamundaInOut = require('../../../../../../lib/provider/camunda/element-templates/Helper').findCamundaInOut,
     findInputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findInputParameter,
     findOutputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findOutputParameter,
     findCamundaProperty = require('../../../../../../lib/provider/camunda/element-templates/Helper').findCamundaProperty;
@@ -301,6 +302,206 @@ describe('element-templates/parts - Custom Properties', function() {
             scriptFormat: 'freemarker',
             value: '${mailResult}'
           }
+        });
+      }));
+
+    });
+
+
+    describe('camunda:in', function() {
+
+      it('should display', inject(function() {
+
+        // given
+        selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-1', 'input');
+
+        // then
+        expect(resultField).to.exist;
+      }));
+
+
+      it('should change, setting camunda:in (source)', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-1', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, 'result', 'change');
+
+        var camundaIn = findCamundaInOut(task, {
+          type: 'camunda:in',
+          target: 'var_called_source'
+        });
+
+        expect(camundaIn).to.jsonEqual({
+          $type: 'camunda:In',
+          target: 'var_called_source',
+          source: 'result'
+        });
+      }));
+
+
+      it('should change, setting camunda:in:businessKey', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-9', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, '${key}', 'change');
+
+        var camundaIn = findCamundaInOut(task, {
+          type: 'camunda:in:businessKey'
+        });
+
+        expect(camundaIn).to.jsonEqual({
+          $type: 'camunda:In',
+          businessKey: '${key}'
+        });
+      }));
+
+
+      it('should change, setting camunda:in (sourceExpression)', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-3', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, '${expr_foo}', 'change');
+
+        var camundaIn = findCamundaInOut(task, {
+          type: 'camunda:in',
+          target: 'var_called_expr'
+        });
+
+        expect(camundaIn).to.jsonEqual({
+          $type: 'camunda:In',
+          target: 'var_called_expr',
+          sourceExpression: '${expr_foo}'
+        });
+      }));
+
+
+      it('should change, creating camunda:in if non-existing', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity_NoData');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-3', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, '${expr_foo}', 'change');
+
+        var camundaIn = findCamundaInOut(task, {
+          type: 'camunda:in',
+          target: 'var_called_expr'
+        });
+
+        expect(camundaIn).to.jsonEqual({
+          $type: 'camunda:In',
+          target: 'var_called_expr',
+          sourceExpression: '${expr_foo}'
+        });
+      }));
+
+    });
+
+
+    describe('camunda:out--', function() {
+
+      it('should display', inject(function() {
+
+        // given
+        selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-2', 'input');
+
+        // then
+        expect(resultField).to.exist;
+      }));
+
+
+      it('should change, setting camunda:out (source)', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-2', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, 'result', 'change');
+
+        var camundaOut = findCamundaInOut(task, {
+          type: 'camunda:out',
+          source: 'var_local_source'
+        });
+
+        expect(camundaOut).to.jsonEqual({
+          $type: 'camunda:Out',
+          target: 'result',
+          source: 'var_local_source'
+        });
+      }));
+
+
+      it('should change, setting camunda:out (sourceExpression)', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-4', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, 'local_foo', 'change');
+
+        var camundaOut = findCamundaInOut(task, {
+          type: 'camunda:out',
+          sourceExpression: '${expr_called}'
+        });
+
+        expect(camundaOut).to.jsonEqual({
+          $type: 'camunda:Out',
+          target: 'local_foo',
+          sourceExpression: '${expr_called}'
+        });
+      }));
+
+
+      it('should change, creating camunda:out if non-existing', inject(function() {
+
+        // given
+        var task = selectAndGet('CallActivity_NoData');
+
+        // when
+        var resultField = entrySelect('custom-my.Caller-4', 'input');
+
+        // when
+        TestHelper.triggerValue(resultField, 'local_foo', 'change');
+
+        var camundaOut = findCamundaInOut(task, {
+          type: 'camunda:out',
+          sourceExpression: '${expr_called}'
+        });
+
+        expect(camundaOut).to.jsonEqual({
+          $type: 'camunda:Out',
+          target: 'local_foo',
+          sourceExpression: '${expr_called}'
         });
       }));
 

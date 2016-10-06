@@ -50,6 +50,23 @@ describe('element-templates - Validator', function() {
   });
 
 
+  it('should accept call-activity-variables template', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/call-activity-variables');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
   it('should accept dropdown example template', function() {
 
     // given
@@ -186,7 +203,9 @@ describe('element-templates - Validator', function() {
     // then
     expect(errors(templates)).to.eql([
       'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
-      'invalid property.binding type <alsoInvalid>; must be any of { property, camunda:property, camunda:inputParameter, camunda:outputParameter }'
+      'invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'property, camunda:property, camunda:inputParameter, ' +
+        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey }'
     ]);
 
     expect(valid(templates)).to.be.empty;
@@ -208,7 +227,9 @@ describe('element-templates - Validator', function() {
       'property.binding <property> requires name',
       'property.binding <camunda:property> requires name',
       'property.binding <camunda:inputParameter> requires name',
-      'property.binding <camunda:outputParameter> requires source'
+      'property.binding <camunda:outputParameter> requires source',
+      'property.binding <camunda:in> requires variables or target',
+      'property.binding <camunda:out> requires variables, sourceExpression or source'
     ]);
 
     expect(valid(templates)).to.be.empty;

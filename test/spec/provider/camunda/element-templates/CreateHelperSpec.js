@@ -11,7 +11,10 @@ var coreModule = require('bpmn-js/lib/core'),
 var CreateHelper = require('../../../../../lib/provider/camunda/element-templates/CreateHelper');
 
 var createInputParameter = CreateHelper.createInputParameter,
-    createOutputParameter = CreateHelper.createOutputParameter;
+    createOutputParameter = CreateHelper.createOutputParameter,
+    createCamundaIn = CreateHelper.createCamundaIn,
+    createCamundaOut = CreateHelper.createCamundaOut,
+    createCamundaInWithBusinessKey = CreateHelper.createCamundaInWithBusinessKey;
 
 
 var testModules = [
@@ -127,6 +130,182 @@ describe('element-templates - CreateHelper', function() {
           scriptFormat: 'freemarker',
           value: '${ source }'
         }
+      });
+    }));
+
+  });
+
+
+  describe('createCamundaIn', function() {
+
+    it('should create source', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        target: 'var_called'
+      };
+
+      // when
+      var camundaIn = createCamundaIn(binding, 'var', bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        target: 'var_called',
+        source: 'var'
+      });
+    }));
+
+
+    it('should create sourceExpression', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        target: 'var_called',
+        expression: true
+      };
+
+      // when
+      var camundaIn = createCamundaIn(binding, '${ var }', bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        target: 'var_called',
+        sourceExpression: '${ var }'
+      });
+    }));
+
+
+    it('should create variables="all"', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        variables: 'all'
+      };
+
+      // when
+      var camundaIn = createCamundaIn(binding, null, bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        variables: 'all'
+      });
+    }));
+
+
+    it('should create variables="all" local="true"', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        variables: 'local'
+      };
+
+      // when
+      var camundaIn = createCamundaIn(binding, null, bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        variables: 'all',
+        local: true
+      });
+    }));
+
+
+    it('should create businessKey', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {};
+
+      // when
+      var camundaIn = createCamundaInWithBusinessKey(binding, '${ key }', bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        businessKey: '${ key }'
+      });
+    }));
+
+  });
+
+
+  describe('createOut', function() {
+
+    it('should create source', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        target: 'var'
+      };
+
+      // when
+      var camundaOut = createCamundaOut(binding, 'var', bpmnFactory);
+
+      // then
+      expect(camundaOut).to.jsonEqual({
+        $type: 'camunda:Out',
+        target: 'var',
+        source: 'var'
+      });
+    }));
+
+
+    it('should create sourceExpression', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        target: 'var',
+        expression: true
+      };
+
+      // when
+      var camundaOut = createCamundaOut(binding, '${ var }', bpmnFactory);
+
+      // then
+      expect(camundaOut).to.jsonEqual({
+        $type: 'camunda:Out',
+        target: 'var',
+        sourceExpression: '${ var }'
+      });
+    }));
+
+
+    it('should create variables="all"', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        variables: 'all'
+      };
+
+      // when
+      var camundaOut = createCamundaOut(binding, null, bpmnFactory);
+
+      // then
+      expect(camundaOut).to.jsonEqual({
+        $type: 'camunda:Out',
+        variables: 'all'
+      });
+    }));
+
+
+    it('should create variables="all" local="true"', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        variables: 'local'
+      };
+
+      // when
+      var camundaOut = createCamundaOut(binding, null, bpmnFactory);
+
+      // then
+      expect(camundaOut).to.jsonEqual({
+        $type: 'camunda:Out',
+        variables: 'all',
+        local: true
       });
     }));
 
