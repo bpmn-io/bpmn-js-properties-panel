@@ -14,7 +14,8 @@ var createInputParameter = CreateHelper.createInputParameter,
     createOutputParameter = CreateHelper.createOutputParameter,
     createCamundaIn = CreateHelper.createCamundaIn,
     createCamundaOut = CreateHelper.createCamundaOut,
-    createCamundaInWithBusinessKey = CreateHelper.createCamundaInWithBusinessKey;
+    createCamundaInWithBusinessKey = CreateHelper.createCamundaInWithBusinessKey,
+    createCamundaExecutionListenerScript = CreateHelper.createCamundaExecutionListenerScript;
 
 
 var testModules = [
@@ -306,6 +307,35 @@ describe('element-templates - CreateHelper', function() {
         $type: 'camunda:Out',
         variables: 'all',
         local: true
+      });
+    }));
+
+  });
+
+
+  describe('createExecutionListener', function() {
+
+    it('should create script', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:executionListener',
+        event: 'end',
+        scriptFormat: 'groovy'
+      };
+
+      // when
+      var listener = createCamundaExecutionListenerScript(binding, 'println execution.eventName', bpmnFactory);
+
+      // then
+      expect(listener).to.jsonEqual({
+        $type: 'camunda:ExecutionListener',
+        event: 'end',
+        script: {
+          $type: 'camunda:Script',
+          scriptFormat: 'groovy',
+          value: 'println execution.eventName'
+        }
       });
     }));
 

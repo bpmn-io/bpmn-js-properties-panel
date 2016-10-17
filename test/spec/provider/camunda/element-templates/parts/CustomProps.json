@@ -353,5 +353,32 @@
         }
       }
     ]
+  },
+  {
+    "name": "Execution Listener",
+    "id": "my.execution.listener.task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "value": "println execution.eventName",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "start",
+          "scriptFormat": "groovy"
+        }
+      },
+      {
+        "value": "println end",
+        "type": "String",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      }
+    ]
   }
 ]

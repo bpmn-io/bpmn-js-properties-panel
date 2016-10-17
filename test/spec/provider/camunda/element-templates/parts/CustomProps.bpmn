@@ -49,6 +49,16 @@
       </bpmn:extensionElements>
     </bpmn:callActivity>
     <bpmn:callActivity id="CallActivity_NoData" name="Call Activity&#10;NoData" camunda:modelerTemplate="my.Caller" />
+    <bpmn:task id="ExecutionListenerTask" name="Execution Listener Task" camunda:modelerTemplate="my.execution.listener.task">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">println execution.eventName</camunda:script>
+        </camunda:executionListener>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">println end</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+    </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -94,6 +104,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_1nz6vft_di" bpmnElement="CallActivity_NoData">
         <dc:Bounds x="211" y="465" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1b49o1e_di" bpmnElement="ExecutionListenerTask">
+        <dc:Bounds x="741" y="53" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

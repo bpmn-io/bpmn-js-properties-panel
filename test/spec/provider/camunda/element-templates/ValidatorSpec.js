@@ -205,7 +205,7 @@ describe('element-templates - Validator', function() {
       'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
-        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey }'
+        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener }'
     ]);
 
     expect(valid(templates)).to.be.empty;
@@ -233,6 +233,43 @@ describe('element-templates - Validator', function() {
     ]);
 
     expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should accept type "hidden" for execution listeners', function() {
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/execution-listener');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
+  it('should reject invalid types for execution listeners', function() {
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-execution-listener-invalid-type');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.eql([
+      'invalid property type <String> for camunda:executionListener; must be <Hidden>',
+      'invalid property type <Text> for camunda:executionListener; must be <Hidden>',
+      'invalid property type <Boolean> for camunda:executionListener; must be <Hidden>',
+      'invalid property type <Dropdown> for camunda:executionListener; must be <Hidden>'
+    ]);
+
+    expect(valid(templates)).to.have.length(0);
   });
 
 });

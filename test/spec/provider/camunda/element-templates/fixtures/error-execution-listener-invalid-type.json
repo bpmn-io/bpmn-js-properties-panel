@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Execution Listener",
+    "id": "my.execution.listener.task",
+    "appliesTo": [
+      "bpmn:Task"
+
+    ],
+    "properties": [
+      {
+        "value": "println end",
+        "type": "String",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      },
+      {
+        "value": "println end",
+        "type": "Text",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      },
+      {
+        "value": "println end",
+        "type": "Boolean",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      },
+      {
+        "value": "println end",
+        "type": "Dropdown",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      }
+    ]
+  }
+]

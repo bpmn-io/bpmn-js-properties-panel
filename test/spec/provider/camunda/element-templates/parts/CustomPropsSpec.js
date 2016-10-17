@@ -507,6 +507,23 @@ describe('element-templates/parts - Custom Properties', function() {
 
     });
 
+
+    describe('camunda:executionListener', function() {
+
+      it('should hide', inject(function() {
+
+        // given
+        selectAndGet('ExecutionListenerTask');
+
+        // when
+        var hiddenField = entrySelect('custom-my.execution.listener.task-0', '*');
+
+        // then
+        expect(hiddenField).not.to.exist;
+      }));
+
+    });
+
   });
 
 
