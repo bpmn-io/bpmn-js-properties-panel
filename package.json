@@ -22,8 +22,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "bpmn-js": "^0.17.0",
-    "bpmn-moddle": "^0.12.2",
+    "bpmn-js": "^0.17.3",
+    "bpmn-moddle": "^0.12.3",
     "browserify": "^13.0.0",
     "camunda-bpmn-moddle": "^0.8.1",
     "chai": "~2.2.0",
