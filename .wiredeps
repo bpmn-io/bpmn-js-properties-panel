@@ -41,6 +41,9 @@
         },
         "object-refs": {
           "version": "0.1.1"
+        },
+        "tiny-svg": {
+          "version": "^0.1.0"
         }
       }
     },
@@ -59,8 +62,8 @@
         "object-refs": {
           "version": "0.1.1"
         },
-        "snapsvg": {
-          "version": "https://github.com/Nikku/Snap.svg/archive/v0.3.0-browserify.tar.gz"
+        "tiny-svg": {
+          "version": "^0.1.0"
         }
       }
     },
