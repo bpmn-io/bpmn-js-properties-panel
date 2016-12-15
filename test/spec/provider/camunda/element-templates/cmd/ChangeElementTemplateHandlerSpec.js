@@ -365,6 +365,53 @@ describe('element-templates - cmd', function() {
 
     // describe('setting camunda:connector');
 
+
+    describe('override behavior', function() {
+
+      describe('camunda:executionListener', function() {
+
+        var diagramXML = require('./task-execution-listener.bpmn');
+
+        var newTemplate = require('./ws-properties');
+
+        beforeEach(bootstrapModeler(diagramXML, {
+          container: container,
+          modules: [
+            coreModule,
+            modelingModule,
+            propertiesPanelCommandsModule,
+            elementTemplatesModule
+          ],
+          moddleExtensions: {
+            camunda: camundaModdlePackage
+          }
+        }));
+
+
+        it('should keep old if unspecified', inject(function(elementRegistry) {
+
+          // given
+          var taskShape = elementRegistry.get('Task_1');
+
+          // when
+          applyTemplate(taskShape, newTemplate);
+
+          var executionListeners = findExtensions(taskShape, [ 'camunda:ExecutionListener' ]);
+
+          // then
+          expect(executionListeners).to.jsonEqual([
+            {
+              $type: 'camunda:ExecutionListener',
+              class: 'foo.Bar',
+              event: 'start'
+            }
+          ]);
+        }));
+
+      });
+
+    });
+
   });
 
 
