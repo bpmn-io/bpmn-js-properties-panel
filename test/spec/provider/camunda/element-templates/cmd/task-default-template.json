@@ -1,0 +1,79 @@
+[
+  {
+    "name": "FooBarTask",
+    "id": "com.foo.bar",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "FOO BAR",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+
+  {
+    "name": "DefaultFooBarTask",
+    "id": "com.foo.bar.default",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "isDefault": true,
+    "properties": [
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "DEFAULT FOO BAR",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+
+  {
+    "name": "FooBarSequenceFlow",
+    "id": "com.foo.bar.flow",
+    "appliesTo": [
+      "bpmn:SequenceFlow"
+    ],
+    "properties": [
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "FOO BAR FLOW",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+
+  {
+    "name": "DefaultFooBarSequenceFlow",
+    "id": "com.foo.bar.default.flow",
+    "appliesTo": [
+      "bpmn:SequenceFlow"
+    ],
+    "isDefault": true,
+    "properties": [
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "DEFAULT FOO BAR FLOW",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  }
+]
