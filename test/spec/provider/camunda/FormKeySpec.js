@@ -8,22 +8,14 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes'),
     coreModule = require('bpmn-js/lib/core'),
     selectionModule = require('diagram-js/lib/features/selection'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements;
 
-
-function isHiddenRow(id, container) {
-  var entry = domQuery('[data-entry="' + id + '"]', container);
-
-  var input = domQuery('select', entry) || domQuery('input', entry).parentNode;
-
-  return domClasses(input).has('bpp-hidden');
-}
 
 describe('form-key', function() {
 
@@ -101,9 +93,13 @@ describe('form-key', function() {
         clearButton = domQuery('button[data-action=clear]', formKeyInput.parentNode),
         bo = getBusinessObject(taskShape);
 
+    var properties = getExtensionElements(bo, 'camunda:FormData')[0].fields[0].properties;
+
     // assume
     expect(formKeyInput.value).to.equal('myForm.html');
     expect(bo.get('camunda:formKey')).to.equal(formKeyInput.value);
+    expect(properties.values).to.exist;
+    expect(properties.values[0].id).to.contain('foo');
 
     // when
     TestHelper.triggerEvent(clearButton, 'click');
@@ -111,6 +107,8 @@ describe('form-key', function() {
     // then
     expect(formKeyInput.value).to.be.empty;
     expect(bo.get('camunda:formKey')).to.be.undefined;
+    expect(properties.values).to.exist;
+    expect(properties.values[0].id).to.contain('foo');
 
   }));
 
@@ -142,104 +140,4 @@ describe('form-key', function() {
 
     expect(taskBo.formKey).to.be.undefined;
   }));
-
-
-  describe('change from form key to form data', function() {
-
-    it('should execute', inject(function(propertiesPanel) {
-
-      var selectBox = domQuery('select[name=formType]', propertiesPanel._container);
-
-      selectBox.options[1].selected = 'selected';
-
-      TestHelper.triggerEvent(selectBox, 'change');
-
-      var taskBo = getBusinessObject(taskShape);
-
-      // then
-      expect(taskBo.formKey).to.be.undefined;
-      expect(taskBo).to.have.property('extensionElements');
-      expect(taskBo.extensionElements.values[0].$type).to.equal('camunda:FormData');
-
-      taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-        expect(xml).not.to.contain('camunda:formKey');
-        expect(xml).to.contain('camunda:formData');
-      });
-
-    }));
-
-
-    it('should undo', inject(function(propertiesPanel, commandStack) {
-
-      var selectBox = domQuery('select[name=formType]', propertiesPanel._container);
-
-      selectBox.options[1].selected = 'selected';
-
-      TestHelper.triggerEvent(selectBox, 'change');
-
-      // when
-      commandStack.undo();
-
-      var taskBo = getBusinessObject(taskShape);
-
-      // then
-      expect(taskBo.formKey).to.equal('myForm.html');
-      expect(taskBo.extensionElements).to.be.undefined;
-
-      taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-        expect(xml).to.contain('camunda:formKey');
-        expect(xml).not.to.contain('camunda:formData');
-      });
-    }));
-
-
-    it('should redo', inject(function(propertiesPanel, commandStack) {
-
-      var selectBox = domQuery('select[name=formType]', propertiesPanel._container);
-
-      selectBox.options[1].selected = 'selected';
-
-      TestHelper.triggerEvent(selectBox, 'change');
-
-      commandStack.undo();
-      commandStack.redo();
-
-      var taskBo = getBusinessObject(taskShape);
-
-      // then
-      expect(taskBo.formKey).to.be.undefined;
-      expect(taskBo).to.have.property('extensionElements');
-      expect(taskBo.extensionElements.values[0].$type).to.equal('camunda:FormData');
-
-      taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-        expect(xml).not.to.contain('camunda:formKey');
-        expect(xml).to.contain('camunda:formData');
-      });
-
-    }));
-
-
-    it('should hide form field inputs', inject(function(propertiesPanel) {
-
-      // given
-      var selectBox = domQuery('select[name=formType]', propertiesPanel._container);
-
-      selectBox.options[1].selected = 'selected';
-
-      // when
-      TestHelper.triggerEvent(selectBox, 'change');
-
-      var formFieldSelectBox = domQuery('select[id=cam-extensionElements-form-fields]', propertiesPanel._container);
-
-      // then
-      expect(isHiddenRow('form-field-id'), propertiesPanel._container).to.be.true;
-      expect(isHiddenRow('form-field-label'), propertiesPanel._container).to.be.true;
-      expect(isHiddenRow('form-field-type'), propertiesPanel._container).to.be.true;
-      expect(isHiddenRow('form-field-defaultValue'), propertiesPanel._container).to.be.true;
-
-      expect(formFieldSelectBox.options).to.have.length.of(0);
-
-    }));
-
-  });
 });

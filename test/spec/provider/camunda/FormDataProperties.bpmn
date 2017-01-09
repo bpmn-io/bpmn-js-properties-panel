@@ -13,7 +13,7 @@
         </camunda:formData>
       </bpmn2:extensionElements>
     </bpmn2:startEvent>
-    <bpmn2:startEvent id="StartEvent_2">
+    <bpmn2:startEvent id="StartEvent_2" camunda:formKey="myForm.html">
       <bpmn2:extensionElements>
         <camunda:formData>
           <camunda:formField id="FormField_2" type="string" />
