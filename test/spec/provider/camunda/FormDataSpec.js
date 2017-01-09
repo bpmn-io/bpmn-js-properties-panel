@@ -483,62 +483,6 @@ describe('form-data', function() {
 
   });
 
-  describe('change from form data to form key', function() {
-
-    var taskBo;
-
-    beforeEach(inject(function(propertiesPanel) {
-      // given
-      var selectBox = domQuery('select[name=formType]', propertiesPanel._container);
-
-      selectBox.options[0].selected = 'selected';
-
-      // when
-      TestHelper.triggerEvent(selectBox, 'change');
-
-      taskBo = getBusinessObject(shape);
-    }));
-
-    it('should execute', inject(function(propertiesPanel) {
-      // then
-      expect(taskBo.extensionElements).to.be.undefined;
-      expect(taskBo.formKey).to.be.undefined;
-
-      taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-        expect(xml).not.to.contain('camunda:formKey');
-        expect(xml).not.to.contain('camunda:formData');
-      });
-    }));
-
-
-    it('should undo', inject(function(propertiesPanel, commandStack) {
-      // when
-      commandStack.undo();
-
-      // then
-      expect(taskBo.formKey).to.be.undefined;
-      expect(taskBo).to.have.property('extensionElements');
-      expect(taskBo.extensionElements.values[0].$type).to.equal('camunda:FormData');
-
-      taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-        expect(xml).not.to.contain('camunda:formKey');
-        expect(xml).to.contain('camunda:formData');
-      });
-    }));
-
-
-    it('should redo', inject(function(propertiesPanel) {
-      // then
-      expect(taskBo.extensionElements).to.be.undefined;
-      expect(taskBo.formKey).to.be.undefined;
-
-      taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-        expect(xml).not.to.contain('camunda:formKey');
-        expect(xml).not.to.contain('camunda:formData');
-      });
-    }));
-
-  });
 
   describe('camunda:validation', function() {
 
@@ -918,12 +862,6 @@ describe('form-data', function() {
       // select user task with form key
       selection.select(shape);
 
-      // change to form data
-      var selectBox = domQuery('select[name=formType]', container);
-
-      selectBox.options[1].selected = 'selected';
-
-      TestHelper.triggerEvent(selectBox, 'change');
 
       // add form field
       var createFormFieldButton = domQuery('[data-entry="form-fields"] [data-action="createElement"]', container);
@@ -952,32 +890,6 @@ describe('form-data', function() {
 
   });
 
-  it('should retain other extension elements when switching to formKey', inject(function(propertiesPanel, elementRegistry, selection) {
-
-    shape = elementRegistry.get('UserTask_2');
-
-    selection.select(shape);
-
-    var selectBox = domQuery('select[name=formType]', propertiesPanel._container);
-
-    selectBox.options[0].selected = 'selected';
-
-    // when
-    TestHelper.triggerEvent(selectBox, 'change');
-
-    var taskBo = getBusinessObject(shape);
-
-    expect(taskBo.extensionElements).to.exist;
-    expect(is(taskBo.extensionElements.values[0], 'camunda:TaskListener')).to.be.true;
-    expect(taskBo.formKey).to.be.undefined;
-
-    taskBo.$model.toXML(taskBo, { format:true }, function(err, xml) {
-      expect(xml).not.to.contain('camunda:formKey');
-      expect(xml).not.to.contain('camunda:formData');
-      expect(xml).to.contain('camunda:taskListener');
-    });
-
-  }));
 
   describe('businessKey', function() {
     var businessKeySelectBox;
