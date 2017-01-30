@@ -347,7 +347,6 @@ describe('CallActivity - variable mapping', function() {
 
   }));
 
-
   it('should hide camunda:in details', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_3');

@@ -38,59 +38,6 @@ describe('default element templates', function() {
     elementTemplates: templateDescriptors
   }));
 
-  it('should apply default element template on import', inject(function(bpmnjs, elementRegistry) {
-
-    // when
-    bpmnjs.clear();
-    bpmnjs.importXML(diagramXML, function() {
-
-      var task = elementRegistry.get('Task_2');
-
-      // then
-      expect(getBusinessObject(task).name).to.equal('DEFAULT FOO BAR');
-
-    });
-
-  }));
-
-  it('should not apply default element template on import if element has template applied already', inject(function(bpmnjs, elementRegistry) {
-
-    // when
-    bpmnjs.clear();
-    bpmnjs.importXML(diagramXML, function() {
-
-      var task = elementRegistry.get('Task_1');
-
-      // then
-      expect(getBusinessObject(task).name).to.equal('FOO BAR');
-
-    });
-  }));
-
-  it('should apply default element template on element templates changed', inject(function(bpmnjs, elementRegistry, elementTemplatesLoader) {
-
-    // given
-    bpmnjs.clear();
-
-    elementTemplatesLoader.setTemplates([]);
-
-    bpmnjs.importXML(diagramXML, function() {
-
-      var task = elementRegistry.get('Task_2');
-
-      // first
-      expect(getBusinessObject(task).name).to.equal('');
-
-      // but when
-      elementTemplatesLoader.setTemplates(templateDescriptors);
-
-      // then
-      expect(getBusinessObject(task).name).to.equal('DEFAULT FOO BAR');
-
-    });
-
-  }));
-
   it('should apply default element template on shape creation', inject(function(canvas, elementFactory, modeling) {
 
     // given
