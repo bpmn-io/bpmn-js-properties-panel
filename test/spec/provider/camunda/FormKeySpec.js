@@ -8,7 +8,6 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes'),
     coreModule = require('bpmn-js/lib/core'),
     selectionModule = require('diagram-js/lib/features/selection'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
@@ -16,14 +15,6 @@ var propertiesPanelModule = require('../../../../lib'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-
-function isHiddenRow(id, container) {
-  var entry = domQuery('[data-entry="' + id + '"]', container);
-
-  var input = domQuery('select', entry) || domQuery('input', entry).parentNode;
-
-  return domClasses(input).has('bpp-hidden');
-}
 
 describe('form-key', function() {
 
@@ -142,5 +133,5 @@ describe('form-key', function() {
 
     expect(taskBo.formKey).to.be.undefined;
   }));
-  
+
 });
