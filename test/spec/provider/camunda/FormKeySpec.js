@@ -13,7 +13,8 @@ var propertiesPanelModule = require('../../../../lib'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements;
 
 
 describe('form-key', function() {
@@ -92,9 +93,13 @@ describe('form-key', function() {
         clearButton = domQuery('button[data-action=clear]', formKeyInput.parentNode),
         bo = getBusinessObject(taskShape);
 
+    var properties = getExtensionElements(bo, 'camunda:FormData')[0].fields[0].properties;
+
     // assume
     expect(formKeyInput.value).to.equal('myForm.html');
     expect(bo.get('camunda:formKey')).to.equal(formKeyInput.value);
+    expect(properties.values).to.exist;
+    expect(properties.values[0].id).to.contain('foo');
 
     // when
     TestHelper.triggerEvent(clearButton, 'click');
@@ -102,6 +107,8 @@ describe('form-key', function() {
     // then
     expect(formKeyInput.value).to.be.empty;
     expect(bo.get('camunda:formKey')).to.be.undefined;
+    expect(properties.values).to.exist;
+    expect(properties.values[0].id).to.contain('foo');
 
   }));
 

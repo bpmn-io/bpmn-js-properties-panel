@@ -142,12 +142,14 @@ describe('form-data-properties', function() {
 
         it('should execute', function() {
 
-          var properties = getProperties(startEvent_2);
+          var properties = getProperties(startEvent_2),
+              bo = getBusinessObject(startEvent_2);
 
           // then
           expect(properties).to.exist;
           expect(properties[0].id).to.contain('Property_');
           expect(properties[0].name).to.be.undefined;
+          expect(bo.get('camunda:formKey')).to.equal('myForm.html');
         });
 
 
@@ -156,10 +158,12 @@ describe('form-data-properties', function() {
           // when
           commandStack.undo();
 
-          var properties = getProperties(startEvent_2);
+          var properties = getProperties(startEvent_2),
+              bo = getBusinessObject(startEvent_2);
 
           // then
           expect(properties).to.be.undefined;
+          expect(bo.get('camunda:formKey')).to.equal('myForm.html');
         }));
 
 
@@ -169,12 +173,14 @@ describe('form-data-properties', function() {
           commandStack.undo();
           commandStack.redo();
 
-          var properties = getProperties(startEvent_2);
+          var properties = getProperties(startEvent_2),
+              bo = getBusinessObject(startEvent_2);
 
           // then
           expect(properties).to.exist;
           expect(properties[0].id).to.contain('Property_');
           expect(properties[0].name).to.be.undefined;
+          expect(bo.get('camunda:formKey')).to.equal('myForm.html');
         }));
 
       });
