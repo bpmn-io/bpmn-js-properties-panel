@@ -58,12 +58,15 @@ describe('element-templates - cmd', function() {
         // when
         applyTemplate(sequenceFlowConnection, newTemplate);
 
-        var conditionExpression = sequenceFlow.conditionExpression;
+        var conditionExpression = sequenceFlow.conditionExpression,
+            elementTemplate = sequenceFlow.modelerTemplate;
 
         // then
         expect(conditionExpression).to.exist;
         expect(conditionExpression.$type).to.eql('bpmn:FormalExpression');
         expect(conditionExpression.body).to.eql('${ customer.vip }');
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('e.com.merce.FastPath');
       }));
 
 
@@ -79,10 +82,12 @@ describe('element-templates - cmd', function() {
         // when
         commandStack.undo();
 
-        var condition = sequenceFlow.conditionExpression;
+        var condition = sequenceFlow.conditionExpression,
+            elementTemplate = sequenceFlow.modelerTemplate;
 
         // then
         expect(condition).not.to.exist;
+        expect(elementTemplate).not.to.exist;
       }));
 
     });
@@ -117,10 +122,13 @@ describe('element-templates - cmd', function() {
         // when
         applyTemplate(taskShape, newTemplate);
 
-        var asyncBefore = task.get('camunda:asyncBefore');
+        var asyncBefore = task.get('camunda:asyncBefore'),
+            elementTemplate = task.modelerTemplate;
 
         // then
         expect(asyncBefore).to.be.true;
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('my.awesome.Task');
       }));
 
 
@@ -136,10 +144,12 @@ describe('element-templates - cmd', function() {
         // when
         commandStack.undo();
 
-        var asyncBefore = task.get('camunda:asyncBefore');
+        var asyncBefore = task.get('camunda:asyncBefore'),
+            elementTemplate = task.modelerTemplate;
 
         // then
         expect(asyncBefore).to.be.false;
+        expect(elementTemplate).not.to.exist;
       }));
 
     });
@@ -168,12 +178,14 @@ describe('element-templates - cmd', function() {
       it('execute', inject(function(elementRegistry) {
 
         // given
-        var taskShape = elementRegistry.get('Task_1');
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
 
         // when
         applyTemplate(taskShape, newTemplate);
 
-        var inputOutput = findExtension(taskShape, 'camunda:InputOutput');
+        var inputOutput = findExtension(taskShape, 'camunda:InputOutput'),
+            elementTemplate = task.modelerTemplate;
 
         // then
         expect(inputOutput).to.exist;
@@ -210,24 +222,29 @@ describe('element-templates - cmd', function() {
             }
           }
         ]);
+
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('my.mail.Task');
       }));
 
 
       it('undo', inject(function(elementRegistry, commandStack) {
 
         // given
-        var taskShape = elementRegistry.get('Task_1');
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
 
         applyTemplate(taskShape, newTemplate);
-
 
         // when
         commandStack.undo();
 
-        var inputOutput = findExtension(taskShape, 'camunda:InputOutput');
+        var inputOutput = findExtension(taskShape, 'camunda:InputOutput'),
+            elementTemplate = task.modelerTemplate;
 
         // then
         expect(inputOutput).not.to.exist;
+        expect(elementTemplate).not.to.exist;
       }));
 
     });
@@ -256,12 +273,14 @@ describe('element-templates - cmd', function() {
       it('execute', inject(function(elementRegistry) {
 
         // given
-        var callActitvityShape = elementRegistry.get('CallActivity_1');
+        var callActitvityShape = elementRegistry.get('CallActivity_1'),
+            callActivity = callActitvityShape.businessObject;
 
         // when
         applyTemplate(callActitvityShape, newTemplate);
 
-        var inOuts = findExtensions(callActitvityShape, [ 'camunda:In', 'camunda:Out' ]);
+        var inOuts = findExtensions(callActitvityShape, [ 'camunda:In', 'camunda:Out' ]),
+            elementTemplate = callActivity.modelerTemplate;
 
         // then
         expect(inOuts).to.exist;
@@ -277,24 +296,29 @@ describe('element-templates - cmd', function() {
           { $type: 'camunda:Out', variables: 'all', local: true },
           { $type: 'camunda:In', businessKey: '${execution.processBusinessKey}' }
         ]);
+
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('my.Caller');
       }));
 
 
       it('undo', inject(function(elementRegistry, commandStack) {
 
         // given
-        var callActitvityShape = elementRegistry.get('CallActivity_1');
+        var callActitvityShape = elementRegistry.get('CallActivity_1'),
+            callActivity = callActitvityShape.businessObject;
 
         applyTemplate(callActitvityShape, newTemplate);
-
 
         // when
         commandStack.undo();
 
-        var inOuts = findExtensions(callActitvityShape, [ 'camunda:In', 'camunda:Out' ]);
+        var inOuts = findExtensions(callActitvityShape, [ 'camunda:In', 'camunda:Out' ]),
+            elementTemplate = callActivity.modelerTemplate;
 
         // then
         expect(inOuts).to.have.length(2);
+        expect(elementTemplate).not.to.exist;
       }));
 
     });
@@ -323,12 +347,14 @@ describe('element-templates - cmd', function() {
       it('execute', inject(function(elementRegistry) {
 
         // given
-        var taskShape = elementRegistry.get('Task_1');
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
 
         // when
         applyTemplate(taskShape, newTemplate);
 
-        var properties = findExtension(taskShape, 'camunda:Properties');
+        var properties = findExtension(taskShape, 'camunda:Properties'),
+            elementTemplate = task.modelerTemplate;
 
         // then
         expect(properties).to.exist;
@@ -340,24 +366,29 @@ describe('element-templates - cmd', function() {
             value: ''
           }
         ]);
+
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('com.mycompany.WsCaller');
       }));
 
 
       it('undo', inject(function(elementRegistry, commandStack) {
 
         // given
-        var taskShape = elementRegistry.get('Task_1');
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
 
         applyTemplate(taskShape, newTemplate);
-
 
         // when
         commandStack.undo();
 
-        var properties = findExtension(taskShape, 'camunda:Properties');
+        var properties = findExtension(taskShape, 'camunda:Properties'),
+            elementTemplate = task.modelerTemplate;
 
         // then
         expect(properties).not.to.exist;
+        expect(elementTemplate).not.to.exist;
       }));
 
     });
@@ -391,12 +422,14 @@ describe('element-templates - cmd', function() {
         it('should keep old if unspecified', inject(function(elementRegistry) {
 
           // given
-          var taskShape = elementRegistry.get('Task_1');
+          var taskShape = elementRegistry.get('Task_1'),
+              task = taskShape.businessObject;
 
           // when
           applyTemplate(taskShape, newTemplate);
 
-          var executionListeners = findExtensions(taskShape, [ 'camunda:ExecutionListener' ]);
+          var executionListeners = findExtensions(taskShape, [ 'camunda:ExecutionListener' ]),
+              elementTemplate = task.modelerTemplate;
 
           // then
           expect(executionListeners).to.jsonEqual([
@@ -406,6 +439,9 @@ describe('element-templates - cmd', function() {
               event: 'start'
             }
           ]);
+
+          expect(elementTemplate).to.exist;
+          expect(elementTemplate).to.equal('com.mycompany.WsCaller');
         }));
 
       });
@@ -452,7 +488,8 @@ describe('element-templates - cmd', function() {
         // when
         applyTemplate(sequenceFlowConnection, null);
 
-        var conditionExpression = sequenceFlow.conditionExpression;
+        var conditionExpression = sequenceFlow.conditionExpression,
+            elementTemplate = sequenceFlow.modelerTemplate;
 
         // then
         expect(sequenceFlow.get('camunda:modelerTemplate')).not.to.exist;
@@ -462,6 +499,7 @@ describe('element-templates - cmd', function() {
         expect(conditionExpression).to.exist;
         expect(conditionExpression.$type).to.eql('bpmn:FormalExpression');
         expect(conditionExpression.body).to.eql('${ customer.vip }');
+        expect(elementTemplate).not.to.exist;
       }));
 
 
@@ -477,7 +515,8 @@ describe('element-templates - cmd', function() {
         // when
         commandStack.undo();
 
-        var conditionExpression = sequenceFlow.conditionExpression;
+        var conditionExpression = sequenceFlow.conditionExpression,
+            elementTemplate = sequenceFlow.modelerTemplate;
 
         // then
         expect(sequenceFlow.get('camunda:modelerTemplate')).to.eql(currentTemplate.id);
@@ -485,6 +524,9 @@ describe('element-templates - cmd', function() {
         expect(conditionExpression).to.exist;
         expect(conditionExpression.$type).to.eql('bpmn:FormalExpression');
         expect(conditionExpression.body).to.eql('${ customer.vip }');
+
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('e.com.merce.FastPath');
       }));
 
     });
