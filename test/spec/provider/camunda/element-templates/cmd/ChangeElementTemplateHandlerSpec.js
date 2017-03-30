@@ -392,9 +392,98 @@ describe('element-templates - cmd', function() {
       }));
 
     });
+    
+
+    describe('with scope connector', function() {
+
+      var diagramXML = require('./task-clean.bpmn');
+
+      var newTemplate = require('./connector-task');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
 
 
-    // describe('setting camunda:connector');
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        // when
+        applyTemplate(taskShape, newTemplate);
+
+        var connector = findExtension(taskShape, 'camunda:Connector');
+        var inputOutput = connector.get('inputOutput');
+        var elementTemplate = task.modelerTemplate;
+
+        // then
+        expect(connector).to.exist;
+
+        expect(connector.get('connectorId')).to.equal('My Connector HTTP - GET');
+
+        expect(inputOutput).to.exist;
+
+        expect(inputOutput.inputParameters).to.jsonEqual([
+          {
+            $type: 'camunda:InputParameter',
+            name: 'method',
+            value: 'GET'
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'url',
+            value: 'https://bpmn.io'
+          }
+        ]);
+
+        expect(inputOutput.outputParameters).to.jsonEqual([
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'wsResponse',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'freemarker',
+              value: '${S(response)}'
+            }
+          }
+        ]);
+
+        expect(elementTemplate).to.exist;
+        expect(elementTemplate).to.equal('my.connector.http.get.Task');
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        applyTemplate(taskShape, newTemplate);
+
+        // when
+        commandStack.undo();
+
+        var connector = findExtension(taskShape, 'camunda:Connector');
+        var elementTemplate = task.modelerTemplate;
+
+        // then
+        expect(connector).not.to.exist;
+        expect(elementTemplate).not.to.exist;
+      }));
+
+    });
 
 
     describe('override behavior', function() {
@@ -698,6 +787,103 @@ describe('element-templates - cmd', function() {
 
     });
 
+
+    describe('with scope connector', function() {
+
+      var diagramXML = require('./task-clean.bpmn');
+
+      var currentTemplate = require('./connector-task');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+      beforeEach(inject(function(elementRegistry) {
+        var taskShape = elementRegistry.get('Task_1');
+
+        applyTemplate(taskShape, currentTemplate);
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        // when
+        applyTemplate(taskShape, null);
+
+        var connector = findExtension(taskShape, 'camunda:Connector');
+        var inputOutput = connector.get('inputOutput');
+
+        // then
+        expect(task.get('camunda:modelerTemplate')).not.to.exist;
+
+        // removing a task template does
+        // not change the applied values
+        expect(connector).to.exist;
+
+        expect(inputOutput.inputParameters).to.jsonEqual([
+          {
+            $type: 'camunda:InputParameter',
+            name: 'method',
+            value: 'GET'
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'url',
+            value: 'https://bpmn.io'
+          }
+        ]);
+
+        expect(inputOutput.outputParameters).to.jsonEqual([
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'wsResponse',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'freemarker',
+              value: '${S(response)}'
+            }
+          }
+        ]);
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        applyTemplate(taskShape, null);
+
+
+        // when
+        commandStack.undo();
+
+        var connector = findExtension(taskShape, 'camunda:Connector');
+        var inputOutput = connector.get('inputOutput');
+
+        // then
+        expect(task.get('camunda:modelerTemplate')).to.eql(currentTemplate.id);
+
+        expect(connector).to.exist;
+        expect(inputOutput).to.exist;
+      }));
+
+    });
+
   });
 
 
@@ -960,8 +1146,82 @@ describe('element-templates - cmd', function() {
 
     });
 
-  });
+    describe('setting scope connector', function() {
 
+      var diagramXML = require('./task-custom-connector.bpmn');
+
+      var newTemplate = require('./connector-task');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+        var oldConnector = findExtension(taskShape, 'camunda:Connector');
+        var oldMappings = oldConnector.get('inputOutput');
+
+        // assume
+        expect(oldConnector).to.exist;
+        expect(oldMappings).to.exist;
+
+        expect(oldConnector.get('connectorId')).to.equal('My Connector HTTP - POST');
+
+        // when
+        applyTemplate(taskShape, newTemplate);
+
+        var connector = findExtension(taskShape, 'camunda:Connector');
+        var inputOutput = connector.get('inputOutput');
+
+        // then
+        expect(connector).to.exist;
+        expect(inputOutput).to.exist;
+        expect(inputOutput).not.to.eql(oldMappings);
+
+        expect(connector.get('connectorId')).to.equal('My Connector HTTP - GET');
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+        var oldConnector = findExtension(taskShape, 'camunda:Connector');
+        var oldMappings = oldConnector.get('inputOutput');
+
+        // assume
+        expect(oldConnector.get('connectorId')).to.equal('My Connector HTTP - POST');
+
+        applyTemplate(taskShape, newTemplate);
+
+        // when
+        commandStack.undo();
+
+
+        var connector = findExtension(taskShape, 'camunda:Connector');
+        var currentMappings = connector.get('inputOutput');
+
+        // then
+        expect(connector.get('connectorId')).to.equal('My Connector HTTP - POST');
+        expect(currentMappings).to.eql(oldMappings);
+      }));
+
+    });
+
+
+  });
 });
 
 
