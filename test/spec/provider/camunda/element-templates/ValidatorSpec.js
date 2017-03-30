@@ -272,4 +272,93 @@ describe('element-templates - Validator', function() {
     expect(valid(templates)).to.have.length(0);
   });
 
+
+  it('should reject invalid scopes type', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-scopes-invalid');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.contain('template(id: foo) invalid scopes, should be scopes={}');
+
+    expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should reject invalid scopes content', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.contain('template(id: foo) invalid scope, should be scope={}');
+
+    expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should reject missing scope properties', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-scopes-properties-missing');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.contain('template(id: foo) missing properties=[] in scope <camunda:Connector>');
+
+    expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should reject scope with invalid property', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.eql([
+      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
+      'invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'property, camunda:property, camunda:inputParameter, ' +
+        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener }'
+    ]);
+    expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should accept scopes example template', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/scopes');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
 });
