@@ -50,6 +50,28 @@
         "type": "camunda:inputParameter",
         "name": "hiddenField"
       }
+    },
+    {
+      "type": "List",
+      "value": [
+        "user1@test.com",
+        "user2@test.com"
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "copyRecipients"
+      }
+    },
+    {
+      "type": "Map",
+      "value": [
+        { "key": "X-Mailer", "value": "Thunderbird" },
+        { "key": "DKIM-Signature", "value": "v=1; ..." }
+      ],
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "headers"
+      }
     }
   ]
 }

@@ -202,7 +202,7 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
+      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown, List, Map }',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener }'
@@ -273,6 +273,78 @@ describe('element-templates - Validator', function() {
   });
 
 
+  it('should reject invalid map value', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-map-value-invalid');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.eql([
+      '{ key, value } must be specified for Map value'
+    ]);
+
+    expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should accept map example template', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/map');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
+  it('should reject invalid list value', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-list-value-invalid');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.eql([
+      '[ string, ] must be specified for List value'
+    ]);
+
+    expect(valid(templates)).to.be.empty;
+  });
+
+
+  it('should accept list example template', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/list');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
   it('should reject invalid scopes type', function() {
 
     // given
@@ -336,7 +408,7 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
+      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown, List, Map }',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener }'
