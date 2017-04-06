@@ -202,7 +202,7 @@ describe('script-properties', function() {
 
     // then
     expect(scriptResultVariable.value).is.empty;
-    expect(businessObject).not.to.have.property('camunda:resultVariable');
+    expect(businessObject).not.to.have.property('resultVariable');
 
   }));
 
