@@ -47,26 +47,6 @@
         }
       }
     },
-    "diagram-js": {
-      "version": "bpmn-io/diagram-js",
-      "dependencies": {
-        "didi": {
-          "version": "0.1.0"
-        },
-        "eve": {
-          "version": "0.4.2"
-        },
-        "hammerjs": {
-          "version": "2.0.4"
-        },
-        "object-refs": {
-          "version": "0.1.1"
-        },
-        "tiny-svg": {
-          "version": "^0.1.0"
-        }
-      }
-    },
     "inherits": {
       "version": "2.0.1"
     },
