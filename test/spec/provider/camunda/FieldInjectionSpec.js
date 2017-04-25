@@ -14,9 +14,11 @@ var propertiesPanelModule = require('../../../../lib'),
     modelingModule = require('bpmn-js/lib/features/modeling'),
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+    getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
+
 
 describe('fieldInjection-properties', function() {
 
@@ -55,6 +57,12 @@ describe('fieldInjection-properties', function() {
   }));
 
   function getCamundaFields(bo) {
+
+    if (is(bo, 'bpmn:Event')) {
+      // assume we got a message event definition
+      bo = bo.eventDefinitions[0];
+    }
+
     return extensionElementsHelper.getExtensionElements(bo, 'camunda:Field') || [];
   }
 

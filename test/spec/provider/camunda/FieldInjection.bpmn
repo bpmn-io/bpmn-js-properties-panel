@@ -33,21 +33,24 @@
     </bpmn2:sendTask>
     <bpmn2:sequenceFlow id="SequenceFlow_13n0zpm" sourceRef="SendTask_1" targetRef="UserTask_1" />
     <bpmn2:endEvent id="EndEvent_Invalid" name="EndEvent_Invalid">
-      <bpmn2:extensionElements>
-        <camunda:field name="" />
-      </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_0xcu2jp</bpmn2:incoming>
-      <bpmn2:messageEventDefinition />
+      <bpmn2:messageEventDefinition>
+        <bpmn2:extensionElements>
+          <camunda:field name="" />
+        </bpmn2:extensionElements>
+      </bpmn2:messageEventDefinition>
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1cd8fbn" sourceRef="IntermediateThrowEvent_1" targetRef="SendTask_1" />
     <bpmn2:intermediateThrowEvent id="IntermediateThrowEvent_1" name="IntermediateThrowEvent_1">
-      <bpmn2:extensionElements>
-        <camunda:field name="Field_1">        <camunda:string>myStringValue</camunda:string>
-</camunda:field>
-      </bpmn2:extensionElements>
       <bpmn2:incoming>SequenceFlow_1fqqz4p</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_1cd8fbn</bpmn2:outgoing>
-      <bpmn2:messageEventDefinition />
+      <bpmn2:messageEventDefinition>
+        <bpmn2:extensionElements>
+          <camunda:field name="Field_1">
+            <camunda:string>myStringValue</camunda:string>
+          </camunda:field>
+        </bpmn2:extensionElements>
+      </bpmn2:messageEventDefinition>
     </bpmn2:intermediateThrowEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_1ubj5ht" sourceRef="UserTask_1" targetRef="SendTask_Two_Fields" />
     <bpmn2:userTask id="UserTask_1" name="UserTask_1">
