@@ -109,6 +109,57 @@ describe('element-templates/parts - Chooser', function() {
       ]);
     }));
 
+
+    it('should be disabled with applied default template', inject(function() {
+
+      // given
+      selectAndGet('StartEvent_DefaultTemplate');
+
+      // when
+      var options = getElementTemplates();
+
+      // then
+      expect(isChooserDisabled()).to.be.true;
+      expect(options).to.eql([
+        { value: 'start.event.default', selected: true }
+      ]);
+    }));
+
+    it('should be enabled with no applied template and existing default template',
+      inject(function() {
+
+        // given
+        selectAndGet('StartEvent_NoTemplate');
+
+        // when
+        var options = getElementTemplates();
+
+        // then
+        expect(isChooserDisabled()).to.be.false;
+        expect(options).to.eql([
+          { value: '', selected: true },
+          { value: 'start.event.default', selected: false }
+        ]);
+      }));
+
+
+    it('should be enabled with applied template and existing default template',
+      inject(function() {
+
+        // given
+        selectAndGet('StartEvent_Template');
+
+        // when
+        var options = getElementTemplates();
+
+        // then
+        expect(isChooserDisabled()).to.be.false;
+        expect(options).to.eql([
+          { value: 'start.event.other', selected: true },
+          { value: 'start.event.default', selected: false }
+        ]);
+      }));
+
   });
 
 
@@ -163,6 +214,13 @@ describe('element-templates/parts - Chooser', function() {
   });
 
 });
+
+
+function isChooserDisabled() {
+  var templateSelect = entrySelect('elementTemplate-chooser', 'select');
+
+  return templateSelect.disabled;
+}
 
 
 function getElementTemplates() {

@@ -20,9 +20,9 @@ describe('default element templates', function() {
     container = TestContainer.get(this);
   });
 
-  var diagramXML = require('./task-default-template.bpmn');
+  var diagramXML = require('./default-templates.bpmn');
 
-  var templateDescriptors = require('./task-default-template');
+  var templateDescriptors = require('./default-templates');
 
   beforeEach(bootstrapModeler(diagramXML, {
     container: container,
