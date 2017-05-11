@@ -12,8 +12,6 @@ var coreModule = require('bpmn-js/lib/core'),
     elementTemplatesModule = require('../../../../../lib/provider/camunda/element-templates'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
-var indexBy = require('lodash/collection/indexBy');
-
 
 describe('element-templates - ElementTemplatesLoader', function() {
 
@@ -48,7 +46,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
     it('should configure elementTemplates service', inject(function(elementTemplates) {
 
       // then
-      expect(elementTemplates.getAll()).to.eql(byId(templateDescriptors));
+      expect(elementTemplates.getAll()).to.eql(templateDescriptors);
     }));
 
 
@@ -102,7 +100,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
       inject(function(elementTemplates) {
 
         // then
-        expect(elementTemplates.getAll()).to.eql(byId(templateDescriptors));
+        expect(elementTemplates.getAll()).to.eql(templateDescriptors);
       })
     );
 
@@ -223,8 +221,4 @@ function messages(errors) {
   return errors.map(function(e) {
     return e.message;
   });
-}
-
-function byId(templates) {
-  return indexBy(templates, 'id');
 }

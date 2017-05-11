@@ -2,8 +2,6 @@
 
 var ElementTemplates = require('../../../../../lib/provider/camunda/element-templates/ElementTemplates');
 
-var indexBy = require('lodash/collection/indexBy');
-
 
 describe('element-templates - ElementTemplates', function() {
 
@@ -20,7 +18,7 @@ describe('element-templates - ElementTemplates', function() {
       elementTemplates.set(templateDescriptors);
 
       // then
-      expect(elementTemplates.getAll()).to.eql(byId(templateDescriptors));
+      expect(elementTemplates.getAll()).to.eql(templateDescriptors);
     });
 
 
@@ -35,7 +33,7 @@ describe('element-templates - ElementTemplates', function() {
       elementTemplates.set([]);
 
       // then
-      expect(elementTemplates.getAll()).to.eql({});
+      expect(elementTemplates.getAll()).to.eql([]);
     });
 
   });
@@ -62,11 +60,3 @@ describe('element-templates - ElementTemplates', function() {
   });
 
 });
-
-
-
-//////////// helpers ////////////////////////////
-
-function byId(templates) {
-  return indexBy(templates, 'id');
-}
