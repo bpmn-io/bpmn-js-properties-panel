@@ -284,7 +284,7 @@ describe('element-templates - Validator', function() {
     templates.addAll(templateDescriptors);
 
     // then
-    expect(errors(templates)).to.contain('template(id: foo) invalid scopes, should be scopes=[]');
+    expect(errors(templates)).to.contain('template(id: foo) invalid scopes, should be scopes={}');
 
     expect(valid(templates)).to.be.empty;
   });
@@ -302,23 +302,6 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.contain('template(id: foo) invalid scope, should be scope={}');
-
-    expect(valid(templates)).to.be.empty;
-  });
-
-
-  it('should reject missing scope name', function() {
-
-    // given
-    var templates = new Validator();
-
-    var templateDescriptors = require('./fixtures/error-scopes-name-missing');
-
-    // when
-    templates.addAll(templateDescriptors);
-
-    // then
-    expect(errors(templates)).to.contain('template(id: foo) missing scope name');
 
     expect(valid(templates)).to.be.empty;
   });

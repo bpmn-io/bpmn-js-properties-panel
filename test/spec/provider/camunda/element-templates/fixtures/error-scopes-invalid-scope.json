@@ -6,8 +6,8 @@
       "bpmn:UserTask"
     ],
     "properties": [],
-    "scopes": [
-      "bar"
-    ]
+    "scopes": {
+      "properties": []
+    }
   }
 ]

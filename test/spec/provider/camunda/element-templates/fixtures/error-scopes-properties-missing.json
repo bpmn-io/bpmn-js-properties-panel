@@ -6,10 +6,9 @@
       "bpmn:UserTask"
     ],
     "properties": [],
-    "scopes": [
-      {
-        "name": "camunda:Connector"
+    "scopes": {
+      "camunda:Connector": {
       }
-    ]
+    }
   }
 ]

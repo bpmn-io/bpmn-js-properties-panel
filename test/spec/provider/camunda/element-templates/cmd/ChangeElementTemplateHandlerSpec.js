@@ -392,7 +392,7 @@ describe('element-templates - cmd', function() {
       }));
 
     });
-    
+
 
     describe('with scope connector', function() {
 

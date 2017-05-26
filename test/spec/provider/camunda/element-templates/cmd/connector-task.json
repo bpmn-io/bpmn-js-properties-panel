@@ -5,10 +5,9 @@
     "bpmn:Task"
   ],
   "properties": [],
-  "scopes": [
-    {
-      "scope": "camunda:Connector",
-      "inside": true,
+  "scopes": {
+    "camunda:Connector": {
+      "insideProperties": true,
       "properties": [
         {
           "label": "ConnectorId",
@@ -49,5 +48,5 @@
         }
       ]
     }
-  ]
+  }
 }

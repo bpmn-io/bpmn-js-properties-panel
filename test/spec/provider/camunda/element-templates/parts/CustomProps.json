@@ -1,5 +1,115 @@
 [
   {
+    "name": "ConnectorTask",
+    "id": "my.connector.Task",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "scopes": {
+      "camunda:Connector": {
+        "insideProperties": true,
+        "properties": [
+          {
+            "label": "ConnectorId",
+            "type": "String",
+            "value": "My Connector HTTP",
+            "binding": {
+              "type": "property",
+              "name": "connectorId"
+            },
+            "constraints": {
+              "notEmpty": true
+            }
+          },
+          {
+            "label": "URL",
+            "type": "String",
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "url"
+            },
+            "constraints": {
+              "notEmpty": true
+            }
+          },
+          {
+            "label": "Method",
+            "type": "Dropdown",
+            "choices": [
+              {
+                "value": "GET",
+                "name":"GET"
+              },
+              {
+                "value": "POST",
+                "name": "POST"
+              },
+              {
+                "value": "PUT",
+                "name": "PUT"
+              },
+              {
+                "value": "PATCH",
+                "name": "PATCH"
+              },
+              {
+                "value": "DELETE",
+                "name": "DELETE"
+              }
+            ],
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "method"
+            },
+            "constraints": {
+              "notEmpty": true
+            }
+          },
+          {
+            "type": "Hidden",
+            "value": "Camunda",
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "agent"
+            }
+          },
+          {
+            "label": "Template",
+            "type": "Text",
+            "description": "By the way, you can use freemarker templates ${...} here",
+            "value": "Hello ${firstName}!",
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "messageBody",
+              "scriptFormat": "freemarker"
+            }
+          },
+          {
+            "label": "Response",
+            "type": "String",
+            "value": "${S(response)}",
+            "binding": {
+              "type": "camunda:outputParameter",
+              "name": "wsResponse",
+              "source": "wsResponse"
+            }
+          },
+        {
+          "label": "Result",
+          "type": "String",
+          "value": "httpResult",
+          "binding": {
+            "type": "camunda:outputParameter",
+            "source": "${httpResult}",
+            "scriptFormat": "freemarker"
+          }
+        },
+        ]
+      }
+    }
+  },
+  {
     "name": "MailTask",
     "id": "my.mail.Task",
     "appliesTo": [
