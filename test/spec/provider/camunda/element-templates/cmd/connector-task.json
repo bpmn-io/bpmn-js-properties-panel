@@ -7,7 +7,6 @@
   "properties": [],
   "scopes": {
     "camunda:Connector": {
-      "insideProperties": true,
       "properties": [
         {
           "label": "ConnectorId",
