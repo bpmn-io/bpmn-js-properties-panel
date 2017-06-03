@@ -419,7 +419,7 @@ describe('element-templates/parts - Custom Properties', function() {
     });
 
 
-    describe('camunda:out--', function() {
+    describe('camunda:out', function() {
 
       it('should display', inject(function() {
 
@@ -599,6 +599,7 @@ describe('element-templates/parts - Custom Properties', function() {
 
       });
 
+
       describe('camunda:inputParameter', function() {
 
         it('should display', inject(function() {
@@ -757,6 +758,7 @@ describe('element-templates/parts - Custom Properties', function() {
 
       });
 
+
       describe('camunda:outputParameter', function() {
 
         it('should display', inject(function() {
@@ -795,6 +797,7 @@ describe('element-templates/parts - Custom Properties', function() {
           });
         }));
 
+
         it('should change, setting camunda:OutputParameter (script)', inject(function() {
 
           // given
@@ -826,6 +829,7 @@ describe('element-templates/parts - Custom Properties', function() {
             }
           });
         }));
+
 
         it('should change, creating camunda:OutputParameter if non-existing', inject(function() {
 
