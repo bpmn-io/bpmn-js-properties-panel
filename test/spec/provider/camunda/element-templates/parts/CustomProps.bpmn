@@ -10,11 +10,7 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="url"></camunda:inputParameter>
             <camunda:inputParameter name="method"></camunda:inputParameter>
-            <camunda:inputParameter name="agent">Camunda</camunda:inputParameter>
             <camunda:outputParameter name="${S(response)}">wsResponse</camunda:outputParameter>
-            <camunda:outputParameter name="mailResult">
-              <camunda:script scriptFormat="freemarker">${mailResult}</camunda:script>
-            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>My Connector HTTP</camunda:connectorId>
         </camunda:connector>
