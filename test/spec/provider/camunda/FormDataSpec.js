@@ -18,7 +18,8 @@ var domQuery = require('min-dom/lib/query'),
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     is = require('bpmn-js/lib/util/ModelUtil').is,
-    getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements;
+    getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements,
+    formHelper = require('../../../../lib/helper/FormHelper');
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
@@ -189,6 +190,60 @@ describe('form-data', function() {
       }));
     });
   });
+
+  describe('add form field', function() {
+
+    it('should add form fields to element without extenstion elements', inject(
+      function(elementRegistry, selection) {
+        // given
+        var userTask_4 = elementRegistry.get('UserTask_4');
+
+        // when
+        selection.select(userTask_4);
+
+        var addButton = domQuery('[data-entry="form-fields"] [data-action="createElement"]', container);
+
+        TestHelper.triggerEvent(addButton, 'click');
+        TestHelper.triggerEvent(addButton, 'click');
+
+        // then
+        // on business object
+        var formFields = formHelper.getFormFields(userTask_4);
+        expect(formFields).to.have.length(2);
+
+        // in DOM
+        var formFieldSelectBox = domQuery('#cam-extensionElements-form-fields', container);
+        expect(formFieldSelectBox.childNodes).to.have.length(2);
+      })
+    );
+
+
+    it('should add form field to element with existing extenstion elements', inject(
+      function(elementRegistry, selection) {
+        // given
+        var userTask_3 = elementRegistry.get('UserTask_3');
+
+        // when
+        selection.select(userTask_3);
+
+        var addButton = domQuery('[data-entry="form-fields"] [data-action="createElement"]', container);
+
+        TestHelper.triggerEvent(addButton, 'click');
+        TestHelper.triggerEvent(addButton, 'click');
+
+        // then
+        // on business object
+        var formFields = formHelper.getFormFields(userTask_3);
+        expect(formFields).to.have.length(2);
+
+        // in DOM
+        var formFieldSelectBox = domQuery('#cam-extensionElements-form-fields', container);
+        expect(formFieldSelectBox.childNodes).to.have.length(2);
+      })
+    );
+
+  });
+
 
   describe('set spaces as form field id', function() {
 
