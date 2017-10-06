@@ -103,7 +103,7 @@
             "source": "${httpResult}",
             "scriptFormat": "freemarker"
           }
-        },
+        }
         ]
       }
     }

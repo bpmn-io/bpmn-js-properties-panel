@@ -16,13 +16,7 @@
         </camunda:connector>
       </bpmn:extensionElements>
     </bpmn:ServiceTask>
-    <bpmn:ServiceTask id="ConnectorTask_NoData" name="Connector Task NoData" camunda:modelerTemplate="my.connector.Task">
-      <bpmn:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput />
-        </camunda:connector>
-      </bpmn:extensionElements>
-    </bpmn:ServiceTask>
+    <bpmn:ServiceTask id="ConnectorTask_NoData" name="Connector Task NoData" camunda:modelerTemplate="my.connector.Task" />
     <bpmn:task id="MailTask" name="Mail Task" camunda:modelerTemplate="my.mail.Task">
       <bpmn:extensionElements>
         <camunda:inputOutput>
