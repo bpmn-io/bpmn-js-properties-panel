@@ -1,6 +1,6 @@
 'use strict';
 
-var TestHelper = module.exports = require('bpmn-js/test/helper');
+var TestHelper = module.exports = require('./helper');
 
 var domQuery = require('min-dom/lib/query'),
     domAttr = require('min-dom/lib/attr');
