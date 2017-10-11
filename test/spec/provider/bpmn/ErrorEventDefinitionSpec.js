@@ -992,7 +992,7 @@ describe('error-event-properties', function() {
     describe('in the DOM', function() {
 
       it('should execute', function() {
-        expect(field).to.have.length.of(6);
+        expect(field).to.have.length(6);
         expect(field.value).not.to.equal('');
       });
 
@@ -1001,7 +1001,7 @@ describe('error-event-properties', function() {
         commandStack.undo();
 
         // then
-        expect(field).to.have.length.of(5);
+        expect(field).to.have.length(5);
         expect(field.value).to.equal('');
       }));
 
@@ -1012,7 +1012,7 @@ describe('error-event-properties', function() {
         commandStack.redo();
 
         // then
-        expect(field).to.have.length.of(6);
+        expect(field).to.have.length(6);
         expect(field.value).not.to.equal('');
       }));
 

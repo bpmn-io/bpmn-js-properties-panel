@@ -640,7 +640,7 @@ describe('callActivity - properties', function() {
           commandStack.undo();
 
           var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
-          expect(camundaIn).to.have.length.of(0);
+          expect(camundaIn).to.have.length(0);
 
         }));
 
@@ -1579,7 +1579,7 @@ describe('callActivity - properties', function() {
         it('should execute', function() {
 
           var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
-          expect(camundaIn).to.have.length.of(0);
+          expect(camundaIn).to.have.length(0);
 
         });
 
@@ -1598,7 +1598,7 @@ describe('callActivity - properties', function() {
           commandStack.redo();
 
           var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
-          expect(camundaIn).to.have.length.of(0);
+          expect(camundaIn).to.have.length(0);
 
         }));
 

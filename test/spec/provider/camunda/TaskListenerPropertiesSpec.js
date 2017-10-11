@@ -112,7 +112,7 @@ describe('taskListeners-properties', function() {
         listenerType = getSelect(propertiesPanel._container, 'listenerType', LISTENER_TYPE_ENTRY),
         listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
-    expect(bo.extensionElements.values).to.have.length.of(2);
+    expect(bo.extensionElements.values).to.have.length(2);
     var extensionElementsValues = bo.extensionElements.values;
 
     selectListener(propertiesPanel._container, 0);
@@ -140,7 +140,7 @@ describe('taskListeners-properties', function() {
     expect(is(bo.extensionElements.values[0], 'camunda:ExecutionListener')).to.be.true;
     expect(is(bo.extensionElements.values[0], 'camunda:TaskListener')).to.be.false;
 
-    expect(bo.extensionElements.values).to.have.length.of(1);
+    expect(bo.extensionElements.values).to.have.length(1);
 
     expect(executionListeners).to.be.defined;
     expect(taskListeners).to.be.null;
@@ -161,8 +161,8 @@ describe('taskListeners-properties', function() {
         listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
-    expect(bo.extensionElements.values).to.have.length.of(2);
-    expect(taskListeners).to.have.length.of(1);
+    expect(bo.extensionElements.values).to.have.length(2);
+    expect(taskListeners).to.have.length(1);
 
     selectListener(propertiesPanel._container, 0);
 
@@ -210,8 +210,8 @@ describe('taskListeners-properties', function() {
         listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
-    expect(bo.extensionElements.values).to.have.length.of(2);
-    expect(taskListeners).to.have.length.of(1);
+    expect(bo.extensionElements.values).to.have.length(2);
+    expect(taskListeners).to.have.length(1);
 
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -228,8 +228,8 @@ describe('taskListeners-properties', function() {
     // check business object
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
 
-    expect(bo.extensionElements.values).to.have.length.of(3);
-    expect(taskListeners).to.have.length.of(2);
+    expect(bo.extensionElements.values).to.have.length(3);
+    expect(taskListeners).to.have.length(2);
 
     expect(taskListeners[1].get('event')).to.equal(eventType.value);
     expect(taskListeners[1].get('class')).to.equal(listenerValue.value);
@@ -250,10 +250,10 @@ describe('taskListeners-properties', function() {
     var listeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
 
     // given
-    expect(bo.extensionElements.values).to.have.length.of(2);
-    expect(taskListeners).to.have.length.of(1);
+    expect(bo.extensionElements.values).to.have.length(2);
+    expect(taskListeners).to.have.length(1);
 
-    expect(listeners.options).to.have.length.of(1);
+    expect(listeners.options).to.have.length(1);
 
     selectListener(propertiesPanel._container, 0);
 
@@ -263,12 +263,12 @@ describe('taskListeners-properties', function() {
 
     // then
     // check html
-    expect(listeners.options).to.have.length.of(0);
+    expect(listeners.options).to.have.length(0);
 
     // check business object
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(bo.extensionElements.values).to.have.length.of(1);
-    expect(taskListeners).to.have.length.of(0);
+    expect(bo.extensionElements.values).to.have.length(1);
+    expect(taskListeners).to.have.length(0);
 
   }));
 
@@ -289,10 +289,10 @@ describe('taskListeners-properties', function() {
         listeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
 
     // given
-    expect(bo.extensionElements).to.be.empty;
+    expect(bo.extensionElements).not.to.exist;
     expect(taskListeners).to.be.empty;
 
-    expect(listeners.options).to.have.length.of(0);
+    expect(listeners.options).to.have.length(0);
 
     // when
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -302,7 +302,7 @@ describe('taskListeners-properties', function() {
 
     // then
     // check html
-    expect(listeners.options).to.have.length.of(1);
+    expect(listeners.options).to.have.length(1);
 
     expect(eventType.value).to.equal('create');
     expect(listenerType.value).to.equal('class');
@@ -310,8 +310,8 @@ describe('taskListeners-properties', function() {
 
     // check business object
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(bo.extensionElements.values).to.have.length.of(1);
-    expect(taskListeners).to.have.length.of(1);
+    expect(bo.extensionElements.values).to.have.length(1);
+    expect(taskListeners).to.have.length(1);
 
     expect(taskListeners[0].get('event')).to.equal(eventType.value);
     expect(taskListeners[0].get('class')).to.equal(listenerValue.value);
@@ -340,7 +340,7 @@ describe('taskListeners-properties', function() {
     expect(listenerType.value).to.equal('expression');
     expect(listenerValue.value).to.equal('abc');
 
-    expect(taskListeners).to.have.length.of(1);
+    expect(taskListeners).to.have.length(1);
     expect(taskListeners[0].get('event')).to.equal(eventType.value);
     expect(taskListeners[0].get('expression')).to.equal(listenerValue.value);
 
@@ -357,7 +357,7 @@ describe('taskListeners-properties', function() {
 
     // check business object
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(taskListeners).to.have.length.of(1);
+    expect(taskListeners).to.have.length(1);
 
     expect(taskListeners[0].get('event')).to.equal(eventType.value);
     expect(taskListeners[0].get('expression')).to.equal('');
@@ -380,7 +380,7 @@ describe('taskListeners-properties', function() {
         listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
-    expect(bo.extensionElements).to.be.empty;
+    expect(bo.extensionElements).not.to.exist;
     expect(taskListeners).to.be.empty;
 
     // when
@@ -413,8 +413,8 @@ describe('taskListeners-properties', function() {
 
     // check business object
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(bo.extensionElements.values).to.have.length.of(2);
-    expect(taskListeners).to.have.length.of(2);
+    expect(bo.extensionElements.values).to.have.length(2);
+    expect(taskListeners).to.have.length(2);
 
     expect(taskListeners[0].get('event')).to.equal('create');
     expect(taskListeners[0].get('class')).to.equal('taskListenerValOne');
@@ -436,8 +436,8 @@ describe('taskListeners-properties', function() {
     var addListenerButton = getAddButton(propertiesPanel._container, 'taskListeners'),
         listeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
 
-    expect(taskListeners).to.have.length.of(0);
-    expect(listeners.options).to.have.length.of(0);
+    expect(taskListeners).to.have.length(0);
+    expect(listeners.options).to.have.length(0);
 
     // add task listener
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -447,10 +447,10 @@ describe('taskListeners-properties', function() {
     commandStack.undo();
 
     // then
-    expect(listeners.options).to.have.length.of(0);
+    expect(listeners.options).to.have.length(0);
 
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(taskListeners).to.have.length.of(0);
+    expect(taskListeners).to.have.length(0);
 
   }));
 
@@ -467,8 +467,8 @@ describe('taskListeners-properties', function() {
     var addListenerButton = getAddButton(propertiesPanel._container, 'taskListeners'),
         listeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
 
-    expect(taskListeners).to.have.length.of(0);
-    expect(listeners.options).to.have.length.of(0);
+    expect(taskListeners).to.have.length(0);
+    expect(listeners.options).to.have.length(0);
 
     // add task listener
     TestHelper.triggerEvent(addListenerButton, 'click');
@@ -480,8 +480,8 @@ describe('taskListeners-properties', function() {
     // then
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
 
-    expect(taskListeners).to.have.length.of(1);
-    expect(taskListeners).to.have.length.of(1);
+    expect(taskListeners).to.have.length(1);
+    expect(taskListeners).to.have.length(1);
 
   }));
 
@@ -502,8 +502,8 @@ describe('taskListeners-properties', function() {
 
     var taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
 
-    expect(taskListeners).to.have.length.of(2);
-    expect(listeners.options).to.have.length.of(2);
+    expect(taskListeners).to.have.length(2);
+    expect(listeners.options).to.have.length(2);
 
     // when
     // undoing only the last added listener
@@ -512,8 +512,8 @@ describe('taskListeners-properties', function() {
     // then
     // first task listener exist because only one undo was executed
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(taskListeners).to.have.length.of(1);
-    expect(listeners.options).to.have.length.of(1);
+    expect(taskListeners).to.have.length(1);
+    expect(listeners.options).to.have.length(1);
 
   }));
 
@@ -533,8 +533,8 @@ describe('taskListeners-properties', function() {
     TestHelper.triggerEvent(addListenerButton, 'click');
 
     var taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(taskListeners).to.have.length.of(2);
-    expect(listeners.options).to.have.length.of(2);
+    expect(taskListeners).to.have.length(2);
+    expect(listeners.options).to.have.length(2);
 
     // when
     commandStack.undo();
@@ -542,8 +542,8 @@ describe('taskListeners-properties', function() {
 
     // then
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(taskListeners).to.have.length.of(2);
-    expect(listeners.options).to.have.length.of(2);
+    expect(taskListeners).to.have.length(2);
+    expect(listeners.options).to.have.length(2);
 
   }));
 
@@ -565,7 +565,7 @@ describe('taskListeners-properties', function() {
         listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
     // given
-    expect(bo.extensionElements).to.be.empty;
+    expect(bo.extensionElements).not.to.exist;
     expect(taskListeners).to.be.empty;
     expect(executionListeners).to.be.empty;
 
@@ -595,13 +595,13 @@ describe('taskListeners-properties', function() {
 
     // check business object
     // taskListener and executionListener exists
-    expect(bo.extensionElements.values).to.have.length.of(2);
+    expect(bo.extensionElements.values).to.have.length(2);
 
     taskListeners = getListener(bo.extensionElements, CAMUNDA_TASK_LISTENER_ELEMENT);
-    expect(taskListeners).to.have.length.of(1);
+    expect(taskListeners).to.have.length(1);
 
     executionListeners = getListener(bo.extensionElements, CAMUNDA_EXECUTION_LISTENER_ELEMENT);
-    expect(executionListeners).to.have.length.of(1);
+    expect(executionListeners).to.have.length(1);
 
   }));
 });

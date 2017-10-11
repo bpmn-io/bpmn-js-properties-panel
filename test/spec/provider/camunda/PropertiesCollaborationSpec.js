@@ -771,7 +771,7 @@ describe('extensionElements-properties-collaboration', function() {
 
         // then
         expect(bo.extensionElements).to.exist;
-        expect(bo.extensionElements.values).to.have.length.of(1);
+        expect(bo.extensionElements.values).to.have.length(1);
 
         var listeners = getExtensionElements(bo, 'camunda:ExecutionListener');
         expect(listeners[0]).not.to.be.empty;
@@ -792,7 +792,7 @@ describe('extensionElements-properties-collaboration', function() {
 
         // then
         expect(bo.extensionElements).to.exist;
-        expect(bo.extensionElements.values).to.have.length.of(2);
+        expect(bo.extensionElements.values).to.have.length(2);
 
         var properties = getExtensionElements(bo, 'camunda:Properties');
         expect(properties[0]).not.to.be.empty;

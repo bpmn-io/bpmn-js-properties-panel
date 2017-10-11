@@ -92,6 +92,7 @@ function hasErrorMessage(node) {
   return domClasses(node).has('bpp-error-message');
 }
 
+
 describe('implementation type', function() {
 
   var diagramXML = require('./ImplementationType.bpmn');
@@ -692,8 +693,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
-
+            expect(connectors[0]).to.exist;
           });
 
 
@@ -705,7 +705,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
 
@@ -718,7 +718,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
         });
@@ -1090,7 +1090,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
 
           });
 
@@ -1103,7 +1103,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:expression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
 
@@ -1116,7 +1116,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
         });
@@ -1486,7 +1486,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
 
           });
 
@@ -1499,7 +1499,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
 
@@ -1512,7 +1512,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
         });
@@ -1890,7 +1890,7 @@ describe('implementation type', function() {
             expect(bo.get('camunda:type')).to.be.undefined;
             expect(bo.get('camunda:topic')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
 
           });
 
@@ -1904,7 +1904,7 @@ describe('implementation type', function() {
             expect(bo.get('camunda:type')).not.to.be.undefined;
             expect(bo.get('camunda:topic')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
 
@@ -1918,7 +1918,7 @@ describe('implementation type', function() {
             expect(bo.get('camunda:type')).to.be.undefined;
             expect(bo.get('camunda:topic')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
         });
@@ -1983,7 +1983,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           });
 
 
@@ -1995,7 +1995,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
 
@@ -2008,7 +2008,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
         });
@@ -2059,7 +2059,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:expression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           });
 
 
@@ -2071,7 +2071,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
 
@@ -2084,7 +2084,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:expression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
         });
@@ -2135,7 +2135,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           });
 
 
@@ -2147,7 +2147,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
 
@@ -2160,7 +2160,7 @@ describe('implementation type', function() {
             // then
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
         });
@@ -2216,7 +2216,7 @@ describe('implementation type', function() {
             expect(bo.get('camunda:type')).not.to.be.undefined;
             expect(bo.get('camunda:topic')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
 
           });
 
@@ -2230,7 +2230,7 @@ describe('implementation type', function() {
             expect(bo.get('camunda:type')).to.be.undefined;
             expect(bo.get('camunda:topic')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
           }));
 
 
@@ -2244,7 +2244,7 @@ describe('implementation type', function() {
             expect(bo.get('camunda:type')).not.to.be.undefined;
             expect(bo.get('camunda:topic')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
           }));
 
         });
@@ -2300,7 +2300,7 @@ describe('implementation type', function() {
           it('should execute', function() {
             // then
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
             expect(bo.get('camunda:decisionRef')).not.to.be.undefined;
           });
 
@@ -2312,7 +2312,7 @@ describe('implementation type', function() {
 
             // then
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors[0]).not.to.be.empty;
+            expect(connectors[0]).to.exist;
             expect(bo.get('camunda:decisionRef')).to.be.undefined;
           }));
 
@@ -2325,7 +2325,7 @@ describe('implementation type', function() {
 
             // then
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-            expect(connectors).to.be.empty;
+            expect(connectors).not.to.exist;
             expect(bo.get('camunda:decisionRef')).not.to.be.undefined;
           }));
 
@@ -2603,10 +2603,10 @@ describe('implementation type', function() {
       expect(bo.extensionElements).to.exist;
 
       var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
-      expect(connectors[0]).not.to.be.empty;
+      expect(connectors[0]).to.exist;
 
       var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
-      expect(listeners[0]).not.to.be.empty;
+      expect(listeners[0]).to.exist;
 
     }));
 

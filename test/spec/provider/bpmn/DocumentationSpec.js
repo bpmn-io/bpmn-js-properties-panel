@@ -68,7 +68,7 @@ describe('documentation-properties', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(textField.value).to.be.empty;
+    expect(textField.textContent).to.be.empty;
 
     // when
     TestHelper.triggerValue(textField, 'foo', 'change');

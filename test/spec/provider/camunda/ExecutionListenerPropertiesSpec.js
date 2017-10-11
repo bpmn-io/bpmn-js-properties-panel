@@ -247,7 +247,7 @@ describe('listener-properties', function() {
 
         // given
         var executionListeners = getExecutionListener(bo.extensionElements);
-        expect(executionListeners).to.have.length.of(0);
+        expect(executionListeners).to.have.length(0);
 
         // when
         TestHelper.triggerEvent(addListenerButton, 'click');
@@ -544,7 +544,7 @@ describe('listener-properties', function() {
         listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
-        expect(bo.extensionElements).to.be.empty;
+        expect(bo.extensionElements).not.to.exist;
         expect(executionListeners).to.be.empty;
 
         // when
@@ -602,8 +602,8 @@ describe('listener-properties', function() {
 
           var executionListeners = getExecutionListener(bo.extensionElements);
 
-          expect(bo.extensionElements.values).to.have.length.of(1);
-          expect(executionListeners).to.have.length.of(1);
+          expect(bo.extensionElements.values).to.have.length(1);
+          expect(executionListeners).to.have.length(1);
 
           expect(executionListeners[0].get('event')).to.equal('start');
           expect(executionListeners[0].get('class')).to.equal('newExecutionListenerVal');
@@ -618,7 +618,7 @@ describe('listener-properties', function() {
 
           var executionListeners = getExecutionListener(bo.extensionElements);
 
-          expect(bo.extensionElements).to.be.empty;
+          expect(bo.extensionElements).not.to.exist;
           expect(executionListeners).to.be.empty;
 
         }));
@@ -633,8 +633,8 @@ describe('listener-properties', function() {
 
           var executionListeners = getExecutionListener(bo.extensionElements);
 
-          expect(bo.extensionElements.values).to.have.length.of(1);
-          expect(executionListeners).to.have.length.of(1);
+          expect(bo.extensionElements.values).to.have.length(1);
+          expect(executionListeners).to.have.length(1);
 
           expect(executionListeners[0].get('event')).to.equal('start');
           expect(executionListeners[0].get('class')).to.equal('newExecutionListenerVal');
@@ -667,7 +667,7 @@ describe('listener-properties', function() {
         listeners = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'executionListeners');
 
         // given
-        expect(bo.extensionElements).to.be.empty;
+        expect(bo.extensionElements).not.to.exist;
         expect(executionListeners).to.be.empty;
 
         // when
@@ -681,7 +681,7 @@ describe('listener-properties', function() {
 
         it('should execute', function() {
 
-          expect(listeners.options).to.have.length.of(2);
+          expect(listeners.options).to.have.length(2);
 
           expect(eventType.value).to.equal('start');
           expect(listenerType.value).to.equal('class');
@@ -696,7 +696,7 @@ describe('listener-properties', function() {
           commandStack.undo();
           commandStack.undo();
 
-          expect(listeners.options).to.have.length.of(0);
+          expect(listeners.options).to.have.length(0);
 
           expect(domClasses(eventType).has('bpp-hidden')).to.be.true;
           expect(domClasses(listenerType).has('bpp-hidden')).to.be.true;
@@ -712,7 +712,7 @@ describe('listener-properties', function() {
           commandStack.redo();
           commandStack.redo();
 
-          expect(listeners.options).to.have.length.of(2);
+          expect(listeners.options).to.have.length(2);
 
           expect(eventType.value).to.equal('start');
           expect(listenerType.value).to.equal('class');
@@ -729,8 +729,8 @@ describe('listener-properties', function() {
 
           var executionListeners = getExecutionListener(bo.extensionElements);
 
-          expect(bo.extensionElements.values).to.have.length.of(2);
-          expect(executionListeners).to.have.length.of(2);
+          expect(bo.extensionElements.values).to.have.length(2);
+          expect(executionListeners).to.have.length(2);
 
           expect(executionListeners[0].get('event')).to.equal('start');
           expect(executionListeners[0].get('class')).to.equal('');
@@ -747,7 +747,7 @@ describe('listener-properties', function() {
 
           var executionListeners = getExecutionListener(bo.extensionElements);
 
-          expect(bo.extensionElements).to.be.empty;
+          expect(bo.extensionElements).not.to.exist;
           expect(executionListeners).to.be.empty;
 
         }));
@@ -762,8 +762,8 @@ describe('listener-properties', function() {
 
           var executionListeners = getExecutionListener(bo.extensionElements);
 
-          expect(bo.extensionElements.values).to.have.length.of(2);
-          expect(executionListeners).to.have.length.of(2);
+          expect(bo.extensionElements.values).to.have.length(2);
+          expect(executionListeners).to.have.length(2);
 
           expect(executionListeners[0].get('event')).to.equal('start');
           expect(executionListeners[0].get('class')).to.equal('');
@@ -794,9 +794,9 @@ describe('listener-properties', function() {
         var listeners = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'executionListeners');
 
         // given
-        expect(bo.extensionElements.values).to.have.length.of(3);
-        expect(executionListeners).to.have.length.of(2);
-        expect(listeners.options).to.have.length.of(2);
+        expect(bo.extensionElements.values).to.have.length(3);
+        expect(executionListeners).to.have.length(2);
+        expect(listeners.options).to.have.length(2);
 
         selectListener(propertiesPanel._container, 0);
 
@@ -808,11 +808,11 @@ describe('listener-properties', function() {
         // check business object
         executionListeners = getExecutionListener(bo.extensionElements);
 
-        expect(bo.extensionElements.values).to.have.length.of(2);
-        expect(executionListeners).to.have.length.of(1);
+        expect(bo.extensionElements.values).to.have.length(2);
+        expect(executionListeners).to.have.length(1);
 
         // check html
-        expect(listeners.options).to.have.length.of(1);
+        expect(listeners.options).to.have.length(1);
       }));
 
   });
