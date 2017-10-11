@@ -146,7 +146,7 @@ describe('collaboration-listener-properties', function() {
             listenerValue = getInput(propertiesPanel._container, 'listenerValue', LISTENER_VALUE_ENTRY);
 
         // given
-        expect(extensionElements).to.be.empty;
+        expect(extensionElements).not.to.exist;
         expect(executionListeners).to.be.empty;
 
         // when
@@ -236,9 +236,9 @@ describe('collaboration-listener-properties', function() {
             listeners = getSelect(propertiesPanel._container, 'selectedExtensionElement', 'executionListeners');
 
         // given
-        expect(extensionElements.values).to.have.length.of(1);
-        expect(executionListeners).to.have.length.of(1);
-        expect(listeners.options).to.have.length.of(1);
+        expect(extensionElements.values).to.have.length(1);
+        expect(executionListeners).to.have.length(1);
+        expect(listeners.options).to.have.length(1);
 
         selectListener(propertiesPanel._container);
 
@@ -248,7 +248,7 @@ describe('collaboration-listener-properties', function() {
 
         // then
         // check html
-        expect(listeners.options).to.have.length.of(0);
+        expect(listeners.options).to.have.length(0);
         expect(domClasses(eventType).has('bpp-hidden')).to.be.true;
         expect(domClasses(listenerType).has('bpp-hidden')).to.be.true;
         expect(domClasses(listenerValue.parentElement).has('bpp-hidden')).to.be.true;
@@ -256,7 +256,7 @@ describe('collaboration-listener-properties', function() {
         // check business object
         extensionElements = bo.processRef.extensionElements;
         executionListeners = getExecutionListener(extensionElements);
-        expect(extensionElements).to.be.empty;
+        expect(extensionElements).not.to.exist;
         expect(executionListeners).to.be.empty;
 
       }));

@@ -110,7 +110,7 @@ describe('form-data-enum', function() {
           commandStack.undo();
 
           // then
-          expect(valueTable.childNodes).to.have.length.of(0);
+          expect(valueTable.childNodes).to.have.length(0);
         }));
 
 

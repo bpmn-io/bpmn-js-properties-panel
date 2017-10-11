@@ -108,7 +108,7 @@ describe('compensation-event-process', function() {
 
     // then
     var selectBox = getActivityRefSelect(propertiesPanel._container);
-    expect(selectBox.options).to.have.length.of(6);
+    expect(selectBox.options).to.have.length(6);
     expect(isContainedIn(selectBox.options, 'SubProcess')).to.be.ok;
     expect(isContainedIn(selectBox.options, 'SUBPROCESS_WITH_NESTED_EVENT_SUB')).to.be.ok;
     expect(isContainedIn(selectBox.options, 'subProcessNotTriggeredByEvent')).to.be.ok;
@@ -127,7 +127,7 @@ describe('compensation-event-process', function() {
 
     // then
     var selectBox = getActivityRefSelect(propertiesPanel._container);
-    expect(selectBox.options).to.have.length.of(2);
+    expect(selectBox.options).to.have.length(2);
     expect(isContainedIn(selectBox.options, 'A_TASK')).to.be.ok;
     expect(isContainedIn(selectBox.options, '')).to.be.ok;
   }));
@@ -143,7 +143,7 @@ describe('compensation-event-process', function() {
 
     // then
     var selectBox = domQuery('select[name=activityRef]', propertiesPanel._container);
-    expect(selectBox.options).to.have.length.of(7);
+    expect(selectBox.options).to.have.length(7);
     expect(isContainedIn(selectBox.options, 'SUBPROCESS_WITH_NESTED_EVENT_SUB')).to.be.ok;
     expect(isContainedIn(selectBox.options, 'SubProcess')).to.be.ok;
     expect(isContainedIn(selectBox.options, 'eventSubProcessTask')).to.be.ok;
@@ -163,7 +163,7 @@ describe('compensation-event-process', function() {
 
     // then
     var selectBox = getActivityRefSelect(propertiesPanel._container);
-    expect(selectBox.options).to.have.length.of(4);
+    expect(selectBox.options).to.have.length(4);
     expect(isContainedIn(selectBox.options, 'X')).to.be.ok;
     expect(isContainedIn(selectBox.options, 'A')).to.be.ok;
     expect(isContainedIn(selectBox.options, 'B')).to.be.ok;

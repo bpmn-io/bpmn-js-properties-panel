@@ -94,12 +94,12 @@ describe('CallActivity - variable mapping', function() {
     var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-    expect(selectBox.options).to.have.length.of(3);
+    expect(selectBox.options).to.have.length(3);
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(3);
+    expect(variableMappings).to.have.length(3);
   }));
 
 
@@ -111,12 +111,12 @@ describe('CallActivity - variable mapping', function() {
     var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-    expect(selectBox.options).to.have.length.of(3);
+    expect(selectBox.options).to.have.length(3);
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(3);
+    expect(variableMappings).to.have.length(3);
   }));
 
 
@@ -129,16 +129,16 @@ describe('CallActivity - variable mapping', function() {
         outSelectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-    expect(inSelectBox.options).to.have.length.of(4);
-    expect(outSelectBox.options).to.have.length.of(2);
+    expect(inSelectBox.options).to.have.length(4);
+    expect(outSelectBox.options).to.have.length(2);
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(4);
+    expect(invariableMappings).to.have.length(4);
 
     var outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(2);
+    expect(outvariableMappings).to.have.length(2);
   }));
 
 
@@ -152,7 +152,7 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(inSelectBox.options).to.have.length.of(4);
+    expect(inSelectBox.options).to.have.length(4);
 
     inSelectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(inSelectBox, 'change');
@@ -160,19 +160,19 @@ describe('CallActivity - variable mapping', function() {
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(4);
+    expect(invariableMappings).to.have.length(4);
 
     // when
     TestHelper.triggerEvent(removeButton, 'click');
 
     // then
-    expect(inSelectBox.options).to.have.length.of(3);
+    expect(inSelectBox.options).to.have.length(3);
     expect(inSelectBox.options[0].value).not.to.equal('0 : myVar');
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     invariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(invariableMappings).to.have.length.of(3);
+    expect(invariableMappings).to.have.length(3);
 
   }));
 
@@ -192,7 +192,7 @@ describe('CallActivity - variable mapping', function() {
       var removeButton = domQuery('button[id=cam-extensionElements-remove-variableMapping-out]', propertiesPanel._container);
 
       // given
-      expect(outSelectBox.options).to.have.length.of(2);
+      expect(outSelectBox.options).to.have.length(2);
 
       outSelectBox.options[1].selected = 'selected';
       TestHelper.triggerEvent(outSelectBox, 'change');
@@ -200,7 +200,7 @@ describe('CallActivity - variable mapping', function() {
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-      expect(outVariableMappings).to.have.length.of(2);
+      expect(outVariableMappings).to.have.length(2);
 
       // when
       TestHelper.triggerEvent(removeButton, 'click');
@@ -208,20 +208,20 @@ describe('CallActivity - variable mapping', function() {
 
     it('should execute', inject(function() {
 
-      expect(outSelectBox.options).to.have.length.of(1);
+      expect(outSelectBox.options).to.have.length(1);
       expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-      expect(outVariableMappings).to.have.length.of(1);
+      expect(outVariableMappings).to.have.length(1);
     }));
 
     it('should undo', inject(function(commandStack) {
 
       commandStack.undo();
 
-      expect(outSelectBox.options).to.have.length.of(2);
+      expect(outSelectBox.options).to.have.length(2);
 
       outSelectBox.options[1].selected = 'selected';
       TestHelper.triggerEvent(outSelectBox, 'change');
@@ -229,7 +229,7 @@ describe('CallActivity - variable mapping', function() {
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-      expect(outVariableMappings).to.have.length.of(2);
+      expect(outVariableMappings).to.have.length(2);
 
     }));
 
@@ -238,13 +238,13 @@ describe('CallActivity - variable mapping', function() {
       commandStack.undo();
       commandStack.redo();
 
-      expect(outSelectBox.options).to.have.length.of(1);
+      expect(outSelectBox.options).to.have.length(1);
       expect(outSelectBox.options[0].value).not.to.equal('0 : #{foo}');
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       outVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-      expect(outVariableMappings).to.have.length.of(1);
+      expect(outVariableMappings).to.have.length(1);
 
     }));
   });
@@ -264,12 +264,12 @@ describe('CallActivity - variable mapping', function() {
       businessObject = getBusinessObject(shape);
       var addButton = domQuery('button[id=cam-extensionElements-create-variableMapping-in]', propertiesPanel._container);
 
-      expect(inSelectBox.options).to.have.length.of(4);
+      expect(inSelectBox.options).to.have.length(4);
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-      expect(inVariableMappings).to.have.length.of(4);
+      expect(inVariableMappings).to.have.length(4);
 
       TestHelper.triggerEvent(addButton, 'click');
     }));
@@ -277,13 +277,13 @@ describe('CallActivity - variable mapping', function() {
 
     it('should execute', inject(function() {
 
-      expect(inSelectBox.options).to.have.length.of(5);
+      expect(inSelectBox.options).to.have.length(5);
       expect(inSelectBox.textContent).to.contain('4 : <empty>');
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-      expect(inVariableMappings).to.have.length.of(5);
+      expect(inVariableMappings).to.have.length(5);
 
     }));
 
@@ -291,12 +291,12 @@ describe('CallActivity - variable mapping', function() {
 
       commandStack.undo();
 
-      expect(inSelectBox.options).to.have.length.of(4);
+      expect(inSelectBox.options).to.have.length(4);
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-      expect(inVariableMappings).to.have.length.of(4);
+      expect(inVariableMappings).to.have.length(4);
     }));
 
     it('should redo', inject(function(commandStack) {
@@ -304,13 +304,13 @@ describe('CallActivity - variable mapping', function() {
       commandStack.undo();
       commandStack.redo();
 
-      expect(inSelectBox.options).to.have.length.of(5);
+      expect(inSelectBox.options).to.have.length(5);
       expect(inSelectBox.textContent).to.contain('4 : <empty>');
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
       inVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-      expect(inVariableMappings).to.have.length.of(5);
+      expect(inVariableMappings).to.have.length(5);
 
     }));
   });
@@ -326,24 +326,24 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(outSelectBox.options).to.have.length.of(2);
+    expect(outSelectBox.options).to.have.length(2);
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(2);
+    expect(outvariableMappings).to.have.length(2);
 
     // when
     TestHelper.triggerEvent(addButton, 'click');
 
     // then
-    expect(outSelectBox.options).to.have.length.of(3);
+    expect(outSelectBox.options).to.have.length(3);
     expect(outSelectBox.textContent).to.contain('2 : <empty>');
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     outvariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(outvariableMappings).to.have.length.of(3);
+    expect(outvariableMappings).to.have.length(3);
 
   }));
 
@@ -362,10 +362,10 @@ describe('CallActivity - variable mapping', function() {
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
+    expect(variableMappings).to.have.length(1);
     expect(variableMappings[0].source).to.equal('');
 
-    expect(selectBox.options).to.have.length.of(1);
+    expect(selectBox.options).to.have.length(1);
     expect(typeSelectBox.className).to.contain('bpp-hidden');
     expect(sourceInput.parentElement.className).to.contain('bpp-hidden');
     expect(targetInput.parentElement.className).to.contain('bpp-hidden');
@@ -384,12 +384,12 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(selectBox.options).to.have.length.of(1);
+    expect(selectBox.options).to.have.length(1);
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
+    expect(variableMappings).to.have.length(1);
     expect(variableMappings[0].source).to.equal('');
 
     // when
@@ -415,7 +415,7 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(selectBox.options).to.have.length.of(1);
+    expect(selectBox.options).to.have.length(1);
 
     selectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
@@ -432,7 +432,7 @@ describe('CallActivity - variable mapping', function() {
     expect(targetInput.className).to.equal('invalid');
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
+    expect(variableMappings).to.have.length(1);
     expect(variableMappings[0].source).to.equal('mySourceVal');
   }));
 
@@ -449,7 +449,7 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(selectBox.options).to.have.length.of(1);
+    expect(selectBox.options).to.have.length(1);
 
     selectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
@@ -466,7 +466,7 @@ describe('CallActivity - variable mapping', function() {
     expect(targetInput.className).to.equal('invalid');
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
+    expect(variableMappings).to.have.length(1);
     expect(variableMappings[0].sourceExpression).to.equal('mySourceExpressionVal');
   }));
 
@@ -483,7 +483,7 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(selectBox.options).to.have.length.of(1);
+    expect(selectBox.options).to.have.length(1);
 
     selectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
@@ -499,7 +499,7 @@ describe('CallActivity - variable mapping', function() {
     expect(targetInput.value).to.equal('myTargetVal');
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
+    expect(variableMappings).to.have.length(1);
     expect(variableMappings[0].target).to.equal('myTargetVal');
 
   }));
@@ -524,7 +524,7 @@ describe('CallActivity - variable mapping', function() {
       businessObject = getBusinessObject(shape);
       var clearButton = domQuery('[data-entry=variableMapping-target] [data-action=clear]', propertiesPanel._container);
 
-      expect(selectBox.options).to.have.length.of(1);
+      expect(selectBox.options).to.have.length(1);
 
       selectBox.options[0].selected = 'selected';
       TestHelper.triggerEvent(selectBox, 'change');
@@ -542,7 +542,7 @@ describe('CallActivity - variable mapping', function() {
       expect(targetInput.className).to.equal('invalid');
 
       var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-      expect(variableMappings).to.have.length.of(1);
+      expect(variableMappings).to.have.length(1);
       expect(variableMappings[0].target).to.be.undefined;
 
     }));
@@ -551,7 +551,7 @@ describe('CallActivity - variable mapping', function() {
 
       commandStack.undo();
 
-      expect(selectBox.options).to.have.length.of(1);
+      expect(selectBox.options).to.have.length(1);
 
       selectBox.options[0].selected = 'selected';
       TestHelper.triggerEvent(selectBox, 'change');
@@ -592,7 +592,7 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(selectBox.options).to.have.length.of(1);
+    expect(selectBox.options).to.have.length(1);
 
     selectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
@@ -602,7 +602,7 @@ describe('CallActivity - variable mapping', function() {
     expect(targetInput.value).to.equal('myTarget');
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(1);
+    expect(variableMappings).to.have.length(1);
     expect(variableMappings[0].sourceExpression).to.equal(sourceInput.value);
     expect(variableMappings[0].target).to.equal(targetInput.value);
 
@@ -616,7 +616,7 @@ describe('CallActivity - variable mapping', function() {
     expect(targetInput.value).to.equal('myTarget');
 
     var updatedVariableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-    expect(updatedVariableMappings).to.have.length.of(1);
+    expect(updatedVariableMappings).to.have.length(1);
     expect(updatedVariableMappings[0].source).to.be.empty;
     expect(updatedVariableMappings[0].sourceExpression).to.be.undefined;
     expect(updatedVariableMappings[0].target).to.equal(targetInput.value);
@@ -631,7 +631,7 @@ describe('CallActivity - variable mapping', function() {
     var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
         typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container);
 
-    expect(selectBox.options).to.have.length.of(4);
+    expect(selectBox.options).to.have.length(4);
 
     selectBox.options[3].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
@@ -650,7 +650,7 @@ describe('CallActivity - variable mapping', function() {
         sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
         targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container);
 
-    expect(selectBox.options).to.have.length.of(4);
+    expect(selectBox.options).to.have.length(4);
 
     selectBox.options[3].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
@@ -686,7 +686,7 @@ describe('CallActivity - variable mapping', function() {
 
     // then
     variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variablesMappings).to.have.length.of(0);
+    expect(variablesMappings).to.have.length(0);
   }));
 
 
@@ -702,16 +702,16 @@ describe('CallActivity - variable mapping', function() {
         businessObject = getBusinessObject(shape);
 
     // given
-    expect(selectBox).to.have.length.of(1);
+    expect(selectBox).to.have.length(1);
 
     var variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variablesMappings).to.have.length.of(0);
+    expect(variablesMappings).to.have.length(0);
 
     // when
     TestHelper.triggerEvent(addButton, 'click');
 
     // then
-    expect(selectBox).to.have.length.of(2);
+    expect(selectBox).to.have.length(2);
 
     // when
     typeSelectBox.options[2].selected = 'selected';
@@ -721,7 +721,7 @@ describe('CallActivity - variable mapping', function() {
     expect(selectBox.textContent).to.contain('1 : all');
 
     variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variablesMappings).to.have.length.of(1);
+    expect(variablesMappings).to.have.length(1);
   }));
 
 
@@ -762,7 +762,7 @@ describe('CallActivity - variable mapping', function() {
     expect(checkBox.checked).to.be.true;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
-    expect(variableMappings).to.have.length.of(3);
+    expect(variableMappings).to.have.length(3);
     expect(variableMappings[0].local).to.be.true;
   }));
 
@@ -845,7 +845,7 @@ describe('CallActivity - variable mapping', function() {
       TestHelper.triggerEvent(checkBox, 'click');
 
       variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
-      expect(variablesMappings).to.have.length.of(1);
+      expect(variablesMappings).to.have.length(1);
     }));
 
 

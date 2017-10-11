@@ -464,7 +464,7 @@ describe('script-properties', function() {
     expect(scriptValue.value).to.equal('${sourceCode}');
 
     expect(businessObject.extensionElements).is.not.empty;
-    expect(businessObject.extensionElements.values).to.have.length.of(1);
+    expect(businessObject.extensionElements.values).to.have.length(1);
 
     businessObject = businessObject.extensionElements.values[0];
     expect(businessObject.get('event')).to.equal(eventType.value);

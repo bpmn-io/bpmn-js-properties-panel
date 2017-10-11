@@ -931,7 +931,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', inject(function(propertiesPanel) {
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
         }));
 
         it('should undo', inject(function(commandStack, propertiesPanel) {
@@ -939,7 +939,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(0);
+          expect(field.options).to.have.length(0);
         }));
 
         it('should redo', inject(function(commandStack, propertiesPanel) {
@@ -948,7 +948,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
 
         }));
 
@@ -958,7 +958,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', function() {
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         });
 
         it('should undo', inject(function(commandStack) {
@@ -966,7 +966,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(0);
+          expect(camundaField).to.have.length(0);
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -975,7 +975,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         }));
 
       });
@@ -1003,7 +1003,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', inject(function(propertiesPanel) {
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
+          expect(field.options).to.have.length(2);
         }));
 
         it('should undo', inject(function(commandStack, propertiesPanel) {
@@ -1011,7 +1011,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
         }));
 
         it('should redo', inject(function(commandStack, propertiesPanel) {
@@ -1020,7 +1020,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
+          expect(field.options).to.have.length(2);
 
         }));
 
@@ -1030,7 +1030,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', function() {
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
+          expect(camundaField).to.have.length(2);
         });
 
         it('should undo', inject(function(commandStack) {
@@ -1038,7 +1038,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1047,7 +1047,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
+          expect(camundaField).to.have.length(2);
         }));
 
       });
@@ -1075,7 +1075,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', inject(function(propertiesPanel) {
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
+          expect(field.options).to.have.length(2);
         }));
 
         it('should undo', inject(function(commandStack, propertiesPanel) {
@@ -1083,7 +1083,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
         }));
 
         it('should redo', inject(function(commandStack, propertiesPanel) {
@@ -1092,7 +1092,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
+          expect(field.options).to.have.length(2);
 
         }));
 
@@ -1102,7 +1102,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', function() {
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
+          expect(camundaField).to.have.length(2);
         });
 
         it('should undo', inject(function(commandStack) {
@@ -1110,7 +1110,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1119,7 +1119,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
+          expect(camundaField).to.have.length(2);
         }));
 
       });
@@ -1154,7 +1154,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', inject(function(propertiesPanel) {
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(0);
+          expect(field.options).to.have.length(0);
         }));
 
         it('should undo', inject(function(commandStack, propertiesPanel) {
@@ -1162,7 +1162,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
         }));
 
         it('should redo', inject(function(commandStack, propertiesPanel) {
@@ -1171,7 +1171,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(0);
+          expect(field.options).to.have.length(0);
 
         }));
 
@@ -1181,7 +1181,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', function() {
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(0);
+          expect(camundaField).to.have.length(0);
         });
 
         it('should undo', inject(function(commandStack) {
@@ -1189,7 +1189,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1198,7 +1198,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(0);
+          expect(camundaField).to.have.length(0);
         }));
 
       });
@@ -1227,7 +1227,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', inject(function(propertiesPanel) {
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
         }));
 
         it('should undo', inject(function(commandStack, propertiesPanel) {
@@ -1235,7 +1235,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(2);
+          expect(field.options).to.have.length(2);
         }));
 
         it('should redo', inject(function(commandStack, propertiesPanel) {
@@ -1244,7 +1244,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var field = getSelect(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
-          expect(field.options).to.have.length.of(1);
+          expect(field.options).to.have.length(1);
 
         }));
 
@@ -1254,7 +1254,7 @@ describe('fieldInjection-properties', function() {
 
         it('should execute', function() {
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         });
 
         it('should undo', inject(function(commandStack) {
@@ -1262,7 +1262,7 @@ describe('fieldInjection-properties', function() {
           commandStack.undo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(2);
+          expect(camundaField).to.have.length(2);
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -1271,7 +1271,7 @@ describe('fieldInjection-properties', function() {
           commandStack.redo();
 
           var camundaField = getCamundaFields(bo);
-          expect(camundaField).to.have.length.of(1);
+          expect(camundaField).to.have.length(1);
         }));
 
       });
