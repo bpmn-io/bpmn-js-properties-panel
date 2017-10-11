@@ -142,7 +142,7 @@ describe('taskListeners-properties', function() {
 
     expect(bo.extensionElements.values).to.have.length(1);
 
-    expect(executionListeners).to.be.defined;
+    expect(executionListeners).to.exist;
     expect(taskListeners).to.be.null;
 
   }));

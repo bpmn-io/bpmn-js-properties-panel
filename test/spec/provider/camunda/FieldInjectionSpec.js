@@ -532,14 +532,14 @@ describe('fieldInjection-properties', function() {
 
           it('should execute', function() {
             expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('expression')).to.exist;
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(camundaField.get('string')).to.be.defined;
+            expect(camundaField.get('string')).to.exist;
             expect(camundaField.get('expression')).to.be.undefined;
           }));
 
@@ -549,7 +549,7 @@ describe('fieldInjection-properties', function() {
             commandStack.redo();
 
             expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('expression')).to.exist;
           }));
 
         });
@@ -818,14 +818,14 @@ describe('fieldInjection-properties', function() {
 
           it('should execute', function() {
             expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('expression')).to.exist;
           });
 
           it('should undo', inject(function(commandStack) {
 
             commandStack.undo();
 
-            expect(camundaField.get('string')).to.be.defined;
+            expect(camundaField.get('string')).to.exist;
             expect(camundaField.get('expression')).to.be.undefined;
           }));
 
@@ -835,7 +835,7 @@ describe('fieldInjection-properties', function() {
             commandStack.redo();
 
             expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.be.defined;
+            expect(camundaField.get('expression')).to.exist;
           }));
 
         });

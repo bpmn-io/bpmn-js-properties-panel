@@ -1021,7 +1021,7 @@ describe('error-event-properties', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
-        expect(errorEventDefinition.errorRef.name).to.be.defined;
+        expect(errorEventDefinition.errorRef.name).to.exist;
       });
 
       it('should undo', inject(function(commandStack) {
@@ -1039,7 +1039,7 @@ describe('error-event-properties', function() {
         commandStack.redo();
 
         // then
-        expect(errorEventDefinition.errorRef.name).to.be.defined;
+        expect(errorEventDefinition.errorRef.name).to.exist;
       }));
 
     });

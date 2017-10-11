@@ -973,7 +973,7 @@ describe('callActivity - properties', function() {
             expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
             expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
             expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
-            expect(bo.get('camunda:caseRef')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.exist;
 
           });
 
@@ -981,7 +981,7 @@ describe('callActivity - properties', function() {
 
             commandStack.undo();
 
-            expect(bo.get('calledElement')).to.be.defined;
+            expect(bo.get('calledElement')).to.exist;
             expect(bo.get('camunda:caseRef')).to.be.undefined;
 
           }));
@@ -996,7 +996,7 @@ describe('callActivity - properties', function() {
             expect(bo.get('camunda:calledElementTenantId')).to.be.undefined;
             expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
             expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
-            expect(bo.get('camunda:caseRef')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.exist;
 
           }));
 
@@ -1065,7 +1065,7 @@ describe('callActivity - properties', function() {
 
             commandStack.undo();
 
-            expect(bo.get('calledElement')).to.be.defined;
+            expect(bo.get('calledElement')).to.exist;
             expect(bo.get('camunda:caseRef')).to.be.undefined;
 
           }));
@@ -1141,7 +1141,7 @@ describe('callActivity - properties', function() {
           it('should execute', function() {
 
             expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
-            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.defined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.exist;
 
           });
 
@@ -1149,7 +1149,7 @@ describe('callActivity - properties', function() {
 
             commandStack.undo();
 
-            expect(bo.get('camunda:variableMappingClass')).to.be.defined;
+            expect(bo.get('camunda:variableMappingClass')).to.exist;
             expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
 
           }));
@@ -1160,7 +1160,7 @@ describe('callActivity - properties', function() {
             commandStack.redo();
 
             expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
-            expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.defined;
+            expect(bo.get('camunda:variableMappingDelegateExpression')).to.exist;
 
           }));
 
@@ -1226,7 +1226,7 @@ describe('callActivity - properties', function() {
 
             commandStack.undo();
 
-            expect(bo.get('camunda:variableMappingClass')).to.be.defined;
+            expect(bo.get('camunda:variableMappingClass')).to.exist;
             expect(bo.get('camunda:variableMappingDelegateExpression')).to.be.undefined;
 
           }));
@@ -1297,7 +1297,7 @@ describe('callActivity - properties', function() {
 
             expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
             expect(bo.get('calledElement')).to.be.undefined;
-            expect(bo.get('camunda:caseRef')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.exist;
 
           });
 
@@ -1305,8 +1305,8 @@ describe('callActivity - properties', function() {
 
             commandStack.undo();
 
-            expect(bo.get('camunda:variableMappingClass')).to.be.defined;
-            expect(bo.get('calledElement')).to.be.defined;
+            expect(bo.get('camunda:variableMappingClass')).to.exist;
+            expect(bo.get('calledElement')).to.exist;
             expect(bo.get('camunda:caseRef')).to.be.undefined;
 
           }));
@@ -1318,7 +1318,7 @@ describe('callActivity - properties', function() {
 
             expect(bo.get('camunda:variableMappingClass')).to.be.undefined;
             expect(bo.get('calledElement')).to.be.undefined;
-            expect(bo.get('camunda:caseRef')).to.be.defined;
+            expect(bo.get('camunda:caseRef')).to.exist;
 
           }));
 

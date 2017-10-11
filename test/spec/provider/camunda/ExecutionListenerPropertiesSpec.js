@@ -398,7 +398,7 @@ describe('listener-properties', function() {
         it('should execute', function() {
 
           expect(executionListeners[0].get('event')).to.equal('start');
-          expect(executionListeners[0].get('class')).to.be.defined;
+          expect(executionListeners[0].get('class')).to.exist;
           expect(executionListeners[0].get('expression')).to.be.undefined;
           expect(executionListeners[0].get('class')).to.equal('newValue');
 
@@ -413,7 +413,7 @@ describe('listener-properties', function() {
 
           expect(executionListeners[0].get('event')).to.equal('end');
           expect(executionListeners[0].get('class')).to.be.undefined;
-          expect(executionListeners[0].get('expression')).to.be.defined;
+          expect(executionListeners[0].get('expression')).to.exist;
           expect(executionListeners[0].get('expression')).to.equal('executionListenerExpr');
 
         }));
@@ -429,7 +429,7 @@ describe('listener-properties', function() {
           commandStack.redo();
 
           expect(executionListeners[0].get('event')).to.equal('start');
-          expect(executionListeners[0].get('class')).to.be.defined;
+          expect(executionListeners[0].get('class')).to.exist;
           expect(executionListeners[0].get('expression')).to.be.undefined;
           expect(executionListeners[0].get('class')).to.equal('newValue');
 

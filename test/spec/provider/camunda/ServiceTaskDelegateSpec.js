@@ -350,7 +350,7 @@ describe('service-task-delegate-properties', function() {
 
     // then
     errorMessage = domQuery('[data-entry=delegate] div[class=bpp-error-message]', propertiesPanel._container);
-    expect(errorMessage).to.be.defined;
+    expect(errorMessage).to.exist;
 
   }));
 
