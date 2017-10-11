@@ -784,10 +784,13 @@ describe('fieldInjection-properties', function() {
         beforeEach(inject(function(propertiesPanel) {
           field = getSelect(propertiesPanel._container, FIELD_TYPE_ELEMENT);
 
+          // input value
+          var valueEl = getTextBox(propertiesPanel._container, FIELD_VALUE_ELEMENT);
+          TestHelper.triggerValue(valueEl, 'VALUE', 'change');
+
           // select 'expression'
           field.options[1].selected = 'selected';
           TestHelper.triggerEvent(field, 'change');
-
         }));
 
         describe('in the DOM', function() {
@@ -817,16 +820,15 @@ describe('fieldInjection-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
-            expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.exist;
+            expect(camundaField.get('string')).not.to.exist;
+            expect(camundaField.get('expression')).to.eql('');
           });
 
           it('should undo', inject(function(commandStack) {
-
             commandStack.undo();
 
-            expect(camundaField.get('string')).to.exist;
-            expect(camundaField.get('expression')).to.be.undefined;
+            expect(camundaField.get('string')).to.eql('VALUE');
+            expect(camundaField.get('expression')).not.to.exist;
           }));
 
           it('should redo', inject(function(commandStack) {
@@ -834,8 +836,8 @@ describe('fieldInjection-properties', function() {
             commandStack.undo();
             commandStack.redo();
 
-            expect(camundaField.get('string')).to.be.undefined;
-            expect(camundaField.get('expression')).to.exist;
+            expect(camundaField.get('string')).not.to.exist;
+            expect(camundaField.get('expression')).to.eql('');
           }));
 
         });
