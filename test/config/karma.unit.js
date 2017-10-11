@@ -23,7 +23,11 @@ module.exports = function(karma) {
 
     basePath: '../../',
 
-    frameworks: [ 'browserify', 'mocha', 'chai', 'sinon-chai' ],
+    frameworks: [
+      'browserify',
+      'mocha',
+      'sinon-chai'
+    ],
 
     files: [
       'test/spec/**/*Spec.js'
@@ -48,6 +52,12 @@ module.exports = function(karma) {
       }
     },
 
+    client: {
+      mocha: {
+        timeout: 10000
+      }
+    },
+
     browserNoActivityTimeout: 30000,
 
     singleRun: false,
@@ -56,7 +66,9 @@ module.exports = function(karma) {
     // browserify configuration
     browserify: {
       debug: true,
-      transform: [ [ 'stringify', { global: true, extensions: [ '.bpmn', '.xml', '.css' ] } ] ]
+      transform: [
+        [ 'stringify', { global: true, extensions: [ '.bpmn', '.xml', '.css' ] } ]
+      ]
     }
   });
 };
