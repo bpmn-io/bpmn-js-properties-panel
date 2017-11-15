@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" xmlns:camunda="http://activiti.org/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" xmlns:camunda="http://camunda.org/schema/1.0/bpmn">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:startEvent id="StartEvent_1" name="Start">
       <bpmn:extensionElements>
@@ -35,7 +35,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_4" sourceRef="ScriptTask_Resource" targetRef="EndEvent_2">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy"><![CDATA[status == 'complete']]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:scriptTask id="ScriptTask_Resource" name="ScriptTask_Resource" scriptFormat="dmn" 
+    <bpmn:scriptTask id="ScriptTask_Resource" name="ScriptTask_Resource" scriptFormat="dmn"
       camunda:resource="org/camunda/bpm/DmnScriptTaskTest.dmn10.xml" camunda:resultVariable="decisionResult">
       <bpmn:incoming>SequenceFlow_2</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_5</bpmn:outgoing>
