@@ -1,6 +1,6 @@
 {
   "name": "bpmn-js-properties-panel",
-  "version": "0.18.2",
+  "version": "0.18.3",
   "description": "A simple properties panel for bpmn-js",
   "scripts": {
     "all": "grunt",
