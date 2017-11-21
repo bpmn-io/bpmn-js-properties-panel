@@ -64,6 +64,6 @@
     "selection-update": "^0.1.2"
   },
   "peerDependencies": {
-    "bpmn-js": ">=0.12 <0.25"
+    "bpmn-js": ">=0.12 <0.26"
   }
 }
