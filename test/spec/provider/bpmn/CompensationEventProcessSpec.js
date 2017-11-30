@@ -188,7 +188,7 @@ describe('compensation-event-process', function() {
 
     it('should show the wait for completion check box as checked', function() {
       // then
-      expect(waitForCompletionCheckbox.checked).to.be.true;
+      expect(waitForCompletionCheckbox.checked).to.be.false;
     });
 
 
@@ -198,6 +198,7 @@ describe('compensation-event-process', function() {
     });
 
   });
+
 
   describe('change wait for completion property', function() {
 
@@ -223,7 +224,7 @@ describe('compensation-event-process', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          expect(compensateEventDefinition.get('waitForCompletion')).not.to.be.ok;
+          expect(compensateEventDefinition.get('waitForCompletion')).to.be.true;
         });
 
 
@@ -232,7 +233,7 @@ describe('compensation-event-process', function() {
           commandStack.undo();
 
           //then
-          expect(compensateEventDefinition.get('waitForCompletion')).to.be.ok;
+          expect(compensateEventDefinition.get('waitForCompletion')).to.be.false;
         }));
 
 
@@ -242,15 +243,16 @@ describe('compensation-event-process', function() {
           commandStack.redo();
 
           // then
-          expect(compensateEventDefinition.get('waitForCompletion')).not.to.be.ok;
+          expect(compensateEventDefinition.get('waitForCompletion')).to.be.true;
         }));
 
       });
 
+
       describe('in the DOM', function() {
 
         it('should execute', function() {
-          expect(waitForCompletionCheckbox.checked).not.to.be.ok;
+          expect(waitForCompletionCheckbox.checked).to.be.true;
         });
 
 
@@ -259,7 +261,7 @@ describe('compensation-event-process', function() {
           commandStack.undo();
 
           //then
-          expect(waitForCompletionCheckbox.checked).to.be.ok;
+          expect(waitForCompletionCheckbox.checked).to.be.false;
         }));
 
 
@@ -269,12 +271,13 @@ describe('compensation-event-process', function() {
           commandStack.redo();
 
           // then
-          expect(waitForCompletionCheckbox.checked).not.to.be.ok;
+          expect(waitForCompletionCheckbox.checked).be.true;
         }));
 
       });
 
     });
+
 
     describe('from uncheck to checked', function() {
 

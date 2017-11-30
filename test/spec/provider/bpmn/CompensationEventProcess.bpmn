@@ -30,7 +30,7 @@
     <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1f51k5d" name="Cancel reservations">
       <bpmn:incoming>SequenceFlow_1jmyjp8</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1wizwtk</bpmn:outgoing>
-      <bpmn:compensateEventDefinition />
+      <bpmn:compensateEventDefinition waitForCompletion="false" />
     </bpmn:intermediateThrowEvent>
     <bpmn:endEvent id="EndEvent_0z0q6lr">
       <bpmn:incoming>SequenceFlow_1wizwtk</bpmn:incoming>
@@ -184,7 +184,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1wthfnm" sourceRef="ParallelGateway_11v0zvf" targetRef="SubProcess" />
     <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_0jzdpvk">
       <bpmn:incoming>SequenceFlow_1dn4zdx</bpmn:incoming>
-      <bpmn:compensateEventDefinition waitForCompletion="true" activityRef="callActivity" />
+      <bpmn:compensateEventDefinition waitForCompletion="false" activityRef="callActivity" />
     </bpmn:intermediateThrowEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">

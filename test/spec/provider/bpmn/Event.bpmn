@@ -81,11 +81,13 @@
     </bpmn2:startEvent>
 
     <bpmn2:intermediateThrowEvent id="CompensationIntermediateThrowEvent_1">
-        <bpmn2:compensateEventDefinition id="_CompensationEventDefinition_1" activityRef="ReceiveTask_1" waitForCompletion="true" />
+        <bpmn2:compensateEventDefinition id="_CompensationEventDefinition_1" activityRef="ReceiveTask_1" />
     </bpmn2:intermediateThrowEvent>
 
     <bpmn2:endEvent id="CompensationEndEvent_1">
-        <bpmn2:compensateEventDefinition id="_CompensationEventDefinition_2" />
+        <bpmn2:compensateEventDefinition
+          id="_CompensationEventDefinition_2"
+          waitForCompletion="false" />
     </bpmn2:endEvent>
 
     <bpmn2:intermediateCatchEvent id="CompensationIntermediateCatchEvent_1">

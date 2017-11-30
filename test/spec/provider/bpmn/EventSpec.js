@@ -16,6 +16,7 @@ var propertiesPanelModule = require('../../../../lib'),
     forEach = require('lodash/collection/forEach'),
     eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
 
+
 describe('event-properties', function() {
 
   var diagramXML = require('./Event.bpmn');
@@ -713,22 +714,14 @@ describe('event-properties', function() {
     var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
         bo = getBusinessObject(shape);
 
-    // given
-    expect(checkBox.checked).to.be.false;
-
     // when
     TestHelper.triggerEvent(checkBox, 'click');
 
-    // then
-    expect(checkBox.checked).to.be.true;
-    expect(bo.eventDefinitions[0].waitForCompletion).to.be.true;
-
-    // undo
     commandStack.undo();
 
     // then
     expect(checkBox.checked).to.be.false;
-    expect(bo.eventDefinitions[0].waitForCompletion).to.be.undefined;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.false;
   }));
 
 
@@ -740,17 +733,9 @@ describe('event-properties', function() {
     var checkBox = domQuery('input[name=waitForCompletion]', propertiesPanel._container),
         bo = getBusinessObject(shape);
 
-    // given
-    expect(checkBox.checked).to.be.false;
-
     // when
     TestHelper.triggerEvent(checkBox, 'click');
 
-    // then
-    expect(checkBox.checked).to.be.true;
-    expect(bo.eventDefinitions[0].waitForCompletion).to.be.true;
-
-    // redo
     commandStack.undo();
     commandStack.redo();
 
@@ -776,7 +761,7 @@ describe('event-properties', function() {
 
     // then
     expect(checkBox.checked).to.be.false;
-    expect(bo.eventDefinitions[0].waitForCompletion).to.be.undefined;
+    expect(bo.eventDefinitions[0].waitForCompletion).to.be.false;
 
   }));
 
