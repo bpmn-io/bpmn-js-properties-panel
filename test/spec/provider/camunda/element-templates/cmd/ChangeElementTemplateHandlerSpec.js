@@ -208,6 +208,42 @@ describe('element-templates - cmd', function() {
             $type: 'camunda:InputParameter',
             name: 'hiddenField',
             value: 'SECRET'
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'copyRecipients',
+            definition: {
+              $type: 'camunda:List',
+              items: [
+                {
+                  $type: 'camunda:Value',
+                  value: 'user1@test.com'
+                },
+                {
+                  $type: 'camunda:Value',
+                  value: 'user2@test.com'
+                }
+              ]
+            }
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'headers',
+            definition: {
+              $type: 'camunda:Map',
+              entries: [
+                {
+                  $type: 'camunda:Entry',
+                  key: 'X-Mailer',
+                  value: 'Thunderbird'
+                },
+                {
+                  $type: 'camunda:Entry',
+                  key: 'DKIM-Signature',
+                  value: 'v=1; ...'
+                }
+              ]
+            }
           }
         ]);
 
@@ -748,6 +784,42 @@ describe('element-templates - cmd', function() {
             $type: 'camunda:InputParameter',
             name: 'hiddenField',
             value: 'SECRET'
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'copyRecipients',
+            definition: {
+              $type: 'camunda:List',
+              items: [
+                {
+                  $type: 'camunda:Value',
+                  value: 'user1@test.com'
+                },
+                {
+                  $type: 'camunda:Value',
+                  value: 'user2@test.com'
+                }
+              ]
+            }
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'headers',
+            definition: {
+              $type: 'camunda:Map',
+              entries: [
+                {
+                  $type: 'camunda:Entry',
+                  key: 'X-Mailer',
+                  value: 'Thunderbird'
+                },
+                {
+                  $type: 'camunda:Entry',
+                  key: 'DKIM-Signature',
+                  value: 'v=1; ...'
+                }
+              ]
+            }
           }
         ]);
 

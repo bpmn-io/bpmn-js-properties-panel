@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Task",
+    "id": "bar",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "FOO",
+        "type": "List",
+        "value": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "headers"
+        }
+      }
+    ]
+  }
+]
