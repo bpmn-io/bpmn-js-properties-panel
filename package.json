@@ -51,7 +51,7 @@
     "puppeteer": "^0.11.0",
     "sinon": "^2.4.1",
     "sinon-chai": "^2.14.0",
-    "stringify": "^3.1.0",
+    "stringify": "^5.2.0",
     "time-grunt": "^1.3.0",
     "watchify": "^3.7.0"
   },
