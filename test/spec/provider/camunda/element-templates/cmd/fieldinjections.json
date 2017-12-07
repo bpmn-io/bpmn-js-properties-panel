@@ -1,0 +1,35 @@
+{
+  "name": "Valid",
+  "id": "foo",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+  {
+    "label": "Sender",
+    "type": "String",
+    "value": "My String Field Injection",
+    "binding": {
+      "type": "camunda:Field",
+      "name": "sender",
+      "expression": false
+    }
+  },{
+    "label": "Sender 2",
+    "type": "String",
+    "value": "My String Field Injection 2",
+    "binding": {
+      "type": "camunda:Field",
+      "name": "sender2"
+    }
+  },{
+    "label": "Sender 3",
+    "type": "Expression",
+    "value": "${PerfectExpression}",
+    "binding": {
+      "type": "camunda:Field",
+      "name": "sender3",
+      "expression": true
+    }
+  }]
+}
