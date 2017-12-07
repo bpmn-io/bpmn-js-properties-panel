@@ -75,6 +75,14 @@
         </camunda:executionListener>
       </bpmn:extensionElements>
     </bpmn:task>
+    <bpmn:serviceTask id="ServiceTask_FieldInjection" name="Field Injection Task" camunda:modelerTemplate="com.camunda.example.CustomServiceTaskFieldInjection">
+      <bpmn:extensionElements>
+        <camunda:field name="sender">
+          <camunda:string>buhh</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_FieldInjection_NoData" name="Field Injection Task No Data" camunda:modelerTemplate="com.camunda.example.CustomServiceTaskFieldInjection" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -129,6 +137,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1b49o1e_di" bpmnElement="ExecutionListenerTask">
         <dc:Bounds x="741" y="53" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1yvdqua_di" bpmnElement="ServiceTask_FieldInjection">
+        <dc:Bounds x="875" y="53" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1p5xb8u_di" bpmnElement="ServiceTask_FieldInjection_NoData">
+        <dc:Bounds x="987" y="53" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

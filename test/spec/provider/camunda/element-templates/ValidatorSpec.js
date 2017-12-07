@@ -202,10 +202,15 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
+      'invalid property type <InvalidType>; must be any of { ' +
+        'String, Text, Boolean, Hidden, Dropdown ' +
+      '}',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
-        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener }'
+        'camunda:outputParameter, camunda:in, camunda:out, ' +
+        'camunda:in:businessKey, camunda:executionListener, ' +
+        'camunda:field ' +
+      '}'
     ]);
 
     expect(valid(templates)).to.be.empty;
@@ -318,7 +323,9 @@ describe('element-templates - Validator', function() {
     templates.addAll(templateDescriptors);
 
     // then
-    expect(errors(templates)).to.contain('template(id: foo) missing properties=[] in scope <camunda:Connector>');
+    expect(errors(templates)).to.contain(
+      'template(id: foo) missing properties=[] in scope <camunda:Connector>'
+    );
 
     expect(valid(templates)).to.be.empty;
   });
@@ -336,10 +343,15 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
+      'invalid property type <InvalidType>; must be any of { ' +
+        'String, Text, Boolean, Hidden, Dropdown ' +
+      '}',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
-        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener }'
+        'camunda:outputParameter, camunda:in, camunda:out, ' +
+        'camunda:in:businessKey, camunda:executionListener, ' +
+        'camunda:field ' +
+      '}'
     ]);
     expect(valid(templates)).to.be.empty;
   });
@@ -351,6 +363,23 @@ describe('element-templates - Validator', function() {
     var templates = new Validator();
 
     var templateDescriptors = require('./fixtures/scopes');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
+  it('should accept field injections example template', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/field-injections');
 
     // when
     templates.addAll(templateDescriptors);
