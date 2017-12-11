@@ -205,7 +205,8 @@ describe('element-templates - Validator', function() {
       'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
-        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener, camunda:Field }'
+        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener, ' +
+        'camunda:field }'
     ]);
 
     expect(valid(templates)).to.be.empty;
@@ -339,7 +340,8 @@ describe('element-templates - Validator', function() {
       'invalid property type <InvalidType>; must be any of { String, Text, Boolean, Hidden, Dropdown }',
       'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
-        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener, camunda:Field }'
+        'camunda:outputParameter, camunda:in, camunda:out, camunda:in:businessKey, camunda:executionListener, ' +
+        'camunda:field }'
     ]);
     expect(valid(templates)).to.be.empty;
   });

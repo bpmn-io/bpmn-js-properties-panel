@@ -5,6 +5,7 @@ var TestHelper = require('../../../../../TestHelper');
 /* global inject */
 
 var findExtension = require('../../../../../../lib/provider/camunda/element-templates/Helper').findExtension,
+    findExtensions = require('../../../../../../lib/provider/camunda/element-templates/Helper').findExtensions,
     findCamundaInOut = require('../../../../../../lib/provider/camunda/element-templates/Helper').findCamundaInOut,
     findInputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findInputParameter,
     findOutputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findOutputParameter,
@@ -520,6 +521,73 @@ describe('element-templates/parts - Custom Properties', function() {
 
         // then
         expect(hiddenField).not.to.exist;
+      }));
+
+    });
+
+
+    describe('camunda:field', function() {
+
+      it('should display', inject(function() {
+
+        // given
+        selectAndGet('ServiceTask_FieldInjection');
+
+        // when
+        var endpointEntry = entrySelect('custom-com.camunda.example.CustomServiceTaskFieldInjection-0'),
+            textField = entrySelect('custom-com.camunda.example.CustomServiceTaskFieldInjection-0', 'input');
+
+        // then
+        expect(endpointEntry).to.exist;
+        expect(textField).to.exist;
+      }));
+
+
+      it('should change, updating camunda:field', inject(function() {
+
+        // given
+        var task = selectAndGet('ServiceTask_FieldInjection');
+
+        var textField = entrySelect('custom-com.camunda.example.CustomServiceTaskFieldInjection-0', 'input');
+
+        // when
+        TestHelper.triggerValue(textField, 'https://baba', 'change');
+
+        var fieldInjections = findExtensions(task, [ 'camunda:Field' ]);
+
+        // then
+        expect(fieldInjections).to.exist;
+        expect(fieldInjections).to.jsonEqual([
+          {
+            $type: 'camunda:Field',
+            string: 'https://baba',
+            name: 'sender'
+          }
+        ]);
+      }));
+
+
+      it('should change, creating camunda:field if non-existing', inject(function() {
+
+        // given
+        var task = selectAndGet('ServiceTask_FieldInjection_NoData');
+
+        var textField = entrySelect('custom-com.camunda.example.CustomServiceTaskFieldInjection-0', 'input');
+
+        // when
+        TestHelper.triggerValue(textField, 'https://baba', 'change');
+
+        var fieldInjections = findExtensions(task, [ 'camunda:Field' ]);
+
+        // then
+        expect(fieldInjections).to.exist;
+        expect(fieldInjections).to.jsonEqual([
+          {
+            $type: 'camunda:Field',
+            string: 'https://baba',
+            name: 'sender'
+          }
+        ]);
       }));
 
     });
