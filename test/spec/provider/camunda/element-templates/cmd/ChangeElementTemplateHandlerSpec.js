@@ -788,6 +788,179 @@ describe('element-templates - cmd', function() {
     });
 
 
+    describe('with camunda:field', function() {
+
+      var diagramXML = require('./task-clean.bpmn');
+
+      var currentTemplate = require('./fieldinjections');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+      beforeEach(inject(function(elementRegistry) {
+        var taskShape = elementRegistry.get('Task_1');
+
+        applyTemplate(taskShape, currentTemplate);
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        // when
+        applyTemplate(taskShape, null);
+
+        var fieldInjections = findExtensions(taskShape, [ 'camunda:Field' ]);
+
+        // then
+        expect(task.get('camunda:modelerTemplate')).not.to.exist;
+
+        // removing a task template does
+        // not change the applied values
+        expect(fieldInjections).to.exist;
+        expect(fieldInjections).to.jsonEqual([
+          {
+            $type: 'camunda:Field',
+            string: 'My String Field Injection',
+            name: 'sender'
+          },
+          {
+            $type: 'camunda:Field',
+            string: 'My String Field Injection 2',
+            name: 'sender2'
+          },
+          {
+            $type: 'camunda:Field',
+            expression: '${PerfectExpression}',
+            name: 'sender3'
+          }
+        ]);
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1'),
+            task = taskShape.businessObject;
+
+        applyTemplate(taskShape, null);
+
+
+        // when
+        commandStack.undo();
+
+        var fieldInjections = findExtensions(taskShape, [ 'camunda:Field' ]);
+
+        // then
+        expect(task.get('camunda:modelerTemplate')).to.eql(currentTemplate.id);
+
+        expect(fieldInjections).to.exist;
+      }));
+
+    });
+
+
+    describe('setting camunda:field with existing fields', function() {
+
+      var diagramXML = require('./task-fieldinjections.bpmn');
+
+      var fieldInjectionsTemplate = require('./fieldinjections');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: [
+          coreModule,
+          modelingModule,
+          propertiesPanelCommandsModule,
+          elementTemplatesModule
+        ],
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        }
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+
+        // when
+        applyTemplate(taskShape, fieldInjectionsTemplate);
+
+        var fieldInjections = findExtensions(taskShape, [ 'camunda:Field' ]);
+
+        // then
+        expect(fieldInjections).to.exist;
+
+        expect(fieldInjections).to.jsonEqual([
+          {
+            $type: 'camunda:Field',
+            string: 'My String Field Injection',
+            name: 'sender'
+          },
+          {
+            $type: 'camunda:Field',
+            string: 'My String Field Injection 2',
+            name: 'sender2'
+          },
+          {
+            $type: 'camunda:Field',
+            expression: '${PerfectExpression}',
+            name: 'sender3'
+          }
+        ]);
+      }));
+
+
+      it('undo', inject(function(elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('Task_1');
+
+        applyTemplate(taskShape, fieldInjectionsTemplate);
+
+
+        // when
+        commandStack.undo();
+
+        var fieldInjections = findExtensions(taskShape, [ 'camunda:Field' ]);
+
+        // then
+        expect(fieldInjections).to.exist;
+
+        console.log(fieldInjections);
+        expect(fieldInjections).to.jsonEqual([
+          {
+            $type: 'camunda:Field',
+            name: 'existingField',
+            string: 'myString'
+          },
+          {
+            $type: 'camunda:Field',
+            name: 'existingFieldExpression',
+            expression: '${myStringExpression}'
+          }
+        ]);
+      }));
+
+    });
+
+
     describe('with scope connector', function() {
 
       var diagramXML = require('./task-clean.bpmn');
