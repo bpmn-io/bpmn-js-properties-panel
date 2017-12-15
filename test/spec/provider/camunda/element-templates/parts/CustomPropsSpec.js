@@ -562,6 +562,11 @@ describe('element-templates/parts - Custom Properties', function() {
             $type: 'camunda:Field',
             string: 'https://baba',
             name: 'sender'
+          },
+          {
+            $type: 'camunda:Field',
+            name: 'sender2',
+            string: 'buhh1'
           }
         ]);
       }));
