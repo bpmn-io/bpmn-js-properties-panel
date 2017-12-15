@@ -80,6 +80,9 @@
         <camunda:field name="sender">
           <camunda:string>buhh</camunda:string>
         </camunda:field>
+        <camunda:field name="sender2">
+          <camunda:string>buhh1</camunda:string>
+        </camunda:field>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ServiceTask_FieldInjection_NoData" name="Field Injection Task No Data" camunda:modelerTemplate="com.camunda.example.CustomServiceTaskFieldInjection" />
