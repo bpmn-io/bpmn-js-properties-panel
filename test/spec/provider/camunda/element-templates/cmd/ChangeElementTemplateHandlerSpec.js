@@ -792,7 +792,7 @@ describe('element-templates - cmd', function() {
 
       var diagramXML = require('./task-clean.bpmn');
 
-      var currentTemplate = require('./fieldinjections');
+      var currentTemplate = require('./field-injections');
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
@@ -876,9 +876,9 @@ describe('element-templates - cmd', function() {
 
     describe('setting camunda:field with existing fields', function() {
 
-      var diagramXML = require('./task-fieldinjections.bpmn');
+      var diagramXML = require('./task-field-injections.bpmn');
 
-      var fieldInjectionsTemplate = require('./fieldinjections');
+      var fieldInjectionsTemplate = require('./field-injections');
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
