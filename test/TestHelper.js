@@ -34,7 +34,7 @@ TestHelper.bootstrapModeler = function(diagram, options, locals) {
     var previousInstance = TestHelper.getBpmnJS();
 
     if (previousInstance) {
-      var container = previousInstance.container.parentNode;
+      var container = previousInstance._container.parentNode;
 
       container.parentNode.removeChild(container);
 
@@ -64,7 +64,11 @@ var triggerEvent = function(element, eventType) {
   if (document.createEvent) {
     try {
       // Chrome, Safari, Firefox
-      evt = new MouseEvent((eventType), { view: window, bubbles: true, cancelable: true });
+      evt = new MouseEvent((eventType), {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      });
     } catch (e) {
       // IE 11, PhantomJS (wat!)
       evt = document.createEvent('MouseEvent');
@@ -86,7 +90,8 @@ var triggerEvent = function(element, eventType) {
  * @param element on which the change should be triggered
  * @param value new value for the element
  * @param eventType (optional) type of the event (e.g. click, change, ...)
- * @param cursorPosition (optional) position ot the cursor after changing the value
+ * @param cursorPosition (optional) position ot the cursor after changing
+ *                                  the value
  */
 var triggerValue = function(element, value, eventType, cursorPosition) {
   if (typeof eventType == 'number') {
@@ -125,7 +130,10 @@ var triggerInput = function(element, value) {
  * @param  {DOMElement} container
  */
 var triggerFormFieldSelection = function(index, container) {
-  var formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', container);
+  var formFieldSelectBox = domQuery(
+    'select[name=selectedExtensionElement]',
+    container
+  );
 
   formFieldSelectBox.options[index].selected = 'selected';
   TestHelper.triggerEvent(formFieldSelectBox, 'change');
