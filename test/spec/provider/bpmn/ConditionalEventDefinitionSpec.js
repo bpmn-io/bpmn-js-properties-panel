@@ -53,6 +53,57 @@ describe('conditional-event-properties', function() {
 
   describe('visibility', function() {
 
+    it('should show condition for start events (parent: root)',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('StartEvent_4');
+
+        // when
+        selection.select(shape);
+
+        var textField = domQuery('input[name=condition]', propertiesPanel._container);
+
+        // then
+        expect(textField).to.exist;
+      }
+    ));
+
+
+    it('should show variableName for start events (parent: root)',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('StartEvent_4');
+
+        // when
+        selection.select(shape);
+
+        var textField = domQuery('input[name=variableName]', propertiesPanel._container);
+
+        // then
+        expect(textField).to.exist;
+      }
+    ));
+
+
+    it('should not show variableEvent for start events (parent: root)',
+      inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('StartEvent_4');
+
+        // when
+        selection.select(shape);
+
+        var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+
+        // then
+        expect(textField).not.to.exist;
+      }
+    ));
+
+
     it('should show condition for start events (parent: event sub process)',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -138,24 +189,7 @@ describe('conditional-event-properties', function() {
     ));
 
 
-    it('should not show condition for start events (parent: root)',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-        // given
-        var shape = elementRegistry.get('StartEvent_4');
-
-        // when
-        selection.select(shape);
-
-        var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-        // then
-        expect(textField).not.to.exist;
-      }
-    ));
-
-
-    it('should not show condition for start events (parent: sub process)',
+    it('should show condition for start events (parent: sub process)',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
         // given
@@ -167,12 +201,12 @@ describe('conditional-event-properties', function() {
         var textField = domQuery('input[name=condition]', propertiesPanel._container);
 
         // then
-        expect(textField).not.to.exist;
+        expect(textField).to.exist;
       }
     ));
 
 
-    it('should not show variableName for start events (parent: sub process)',
+    it('should show variableName for start events (parent: sub process)',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
         // given
@@ -184,7 +218,7 @@ describe('conditional-event-properties', function() {
         var textField = domQuery('input[name=variableName]', propertiesPanel._container);
 
         // then
-        expect(textField).not.to.exist;
+        expect(textField).to.exist;
       }
     ));
 
@@ -210,7 +244,7 @@ describe('conditional-event-properties', function() {
 
   describe('value', function() {
 
-    it('should get existing condition', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should get existing condition (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_3');
@@ -228,7 +262,7 @@ describe('conditional-event-properties', function() {
     }));
 
 
-    it('should get existing variableName', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should get existing variableName (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_3');
@@ -245,7 +279,7 @@ describe('conditional-event-properties', function() {
     }));
 
 
-    it('should get existing variableEvent', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should get existing variableEvent (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_3');
@@ -262,7 +296,7 @@ describe('conditional-event-properties', function() {
     }));
 
 
-    it('should change condition', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should change condition (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_3');
@@ -282,7 +316,7 @@ describe('conditional-event-properties', function() {
     }));
 
 
-    describe('should change variableName', function() {
+    describe('should change variableName (parent: event sub process)', function() {
 
       var bo, textField;
 
