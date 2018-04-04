@@ -943,7 +943,6 @@ describe('element-templates - cmd', function() {
         // then
         expect(fieldInjections).to.exist;
 
-        console.log(fieldInjections);
         expect(fieldInjections).to.jsonEqual([
           {
             $type: 'camunda:Field',
