@@ -8,12 +8,12 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
-    selectionModule = require('diagram-js/lib/features/selection'),
-    modelingModule = require('bpmn-js/lib/features/modeling'),
-    coreModule = require('bpmn-js/lib/core');
+    selectionModule = require('diagram-js/lib/features/selection').default,
+    modelingModule = require('bpmn-js/lib/features/modeling').default,
+    coreModule = require('bpmn-js/lib/core').default;
 
-var domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes'),
+var domQuery = require('min-dom').query,
+    domClasses = require('min-dom').classes,
     find = require('lodash/collection/find');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,

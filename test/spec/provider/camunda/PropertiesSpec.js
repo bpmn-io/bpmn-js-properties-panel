@@ -8,16 +8,16 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
-    selectionModule = require('diagram-js/lib/features/selection'),
-    modelingModule = require('bpmn-js/lib/features/modeling'),
-    coreModule = require('bpmn-js/lib/core');
+    selectionModule = require('diagram-js/lib/features/selection').default,
+    modelingModule = require('bpmn-js/lib/features/modeling').default,
+    coreModule = require('bpmn-js/lib/core').default;
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements;
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
-var domQuery = require('min-dom/lib/query');
+var domQuery = require('min-dom').query;
 
 function getExtensionsTab(container) {
   return domQuery('div[data-tab="extensionElements"]', container);

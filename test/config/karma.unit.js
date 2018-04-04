@@ -67,7 +67,21 @@ module.exports = function(karma) {
     browserify: {
       debug: true,
       transform: [
-        [ 'stringify', { global: true, extensions: [ '.bpmn', '.xml', '.css' ] } ]
+        [ 'babelify', {
+          global: true,
+          babelrc: false,
+          presets: [
+            'env'
+          ]
+        } ],
+        [ 'stringify', {
+          global: true,
+          extensions: [
+            '.bpmn',
+            '.xml',
+            '.css'
+          ]
+        } ]
       ]
     }
   });

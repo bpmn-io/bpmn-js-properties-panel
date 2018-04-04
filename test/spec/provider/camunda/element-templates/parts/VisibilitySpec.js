@@ -8,7 +8,7 @@ var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,
     bootstrap = require('./Helper').bootstrap;
 
-var domClasses = require('min-dom/lib/classes');
+var domClasses = require('min-dom').classes;
 
 
 describe('element-templates/parts - Visibility', function() {

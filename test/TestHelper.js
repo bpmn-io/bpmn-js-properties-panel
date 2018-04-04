@@ -2,8 +2,9 @@
 
 var TestHelper = module.exports = require('./helper');
 
-var domQuery = require('min-dom/lib/query'),
-    domAttr = require('min-dom/lib/attr');
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    domAttr = require('min-dom').attr;
 
 
 TestHelper.insertCSS('diagram-js.css', require('bpmn-js/dist/assets/diagram-js.css'));
@@ -147,7 +148,7 @@ var triggerFormFieldSelection = function(index, container) {
  */
 var selectedByOption = function(element, optionValue) {
 
-  var options = domQuery.all('option', element);
+  var options = domQueryAll('option', element);
 
   for (var i = 0; i< options.length; i++) {
 

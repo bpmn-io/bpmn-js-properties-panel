@@ -7,10 +7,11 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-    domQuery = require('min-dom/lib/query'),
-    coreModule = require('bpmn-js/lib/core'),
-    selectionModule = require('diagram-js/lib/features/selection'),
-    modelingModule = require('bpmn-js/lib/features/modeling'),
+    domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    coreModule = require('bpmn-js/lib/core').default,
+    selectionModule = require('diagram-js/lib/features/selection').default,
+    modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('../../../../lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     forEach = require('lodash/collection/forEach'),
@@ -133,7 +134,7 @@ describe('event-properties', function() {
     selectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
 
-    var messages = domQuery.all('div[data-entry=event-definitions-message] select[name=selectedElement] > option', propertiesPanel._container);
+    var messages = domQueryAll('div[data-entry=event-definitions-message] select[name=selectedElement] > option', propertiesPanel._container);
 
     selectBox = domQuery(selectEl, propertiesPanel._container);
 
@@ -153,7 +154,7 @@ describe('event-properties', function() {
     selection.select(shape);
 
     var selectBox = domQuery(selectEl, propertiesPanel._container),
-        messages = domQuery.all('div[data-entry=event-definitions-message] select[name=selectedElement] > option', propertiesPanel._container);
+        messages = domQueryAll('div[data-entry=event-definitions-message] select[name=selectedElement] > option', propertiesPanel._container);
 
     // assume
     messageRef = getBusinessObject(shape).get('eventDefinitions')[0].messageRef;
@@ -185,7 +186,7 @@ describe('event-properties', function() {
     selection.select(shape);
 
     var selectBox = domQuery(selectEl, propertiesPanel._container),
-        messages = domQuery.all(selectEl + ' > option', propertiesPanel._container);
+        messages = domQueryAll(selectEl + ' > option', propertiesPanel._container);
 
     // assume
     messageRef = getBusinessObject(shape).messageRef;
@@ -224,7 +225,7 @@ describe('event-properties', function() {
     TestHelper.triggerEvent(selectBox, 'change');
 
     var signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
-    var signals = domQuery.all('div[data-entry=event-definitions-signal] select[name=selectedElement] > option', propertiesPanel._container);
+    var signals = domQueryAll('div[data-entry=event-definitions-signal] select[name=selectedElement] > option', propertiesPanel._container);
 
     // then
     expect(signals.length).to.be.at.least(1);
@@ -243,7 +244,7 @@ describe('event-properties', function() {
     selection.select(shape);
 
     var selectBox = domQuery(selectEl, propertiesPanel._container),
-        signals = domQuery.all('div[data-entry=event-definitions-signal] select[name=selectedElement] > option', propertiesPanel._container);
+        signals = domQueryAll('div[data-entry=event-definitions-signal] select[name=selectedElement] > option', propertiesPanel._container);
 
     // assume
     signalRef = getBusinessObject(shape).get('eventDefinitions')[0].signalRef;
@@ -311,7 +312,7 @@ describe('event-properties', function() {
     TestHelper.triggerEvent(selectBox, 'change');
 
     var escalationRef = getBusinessObject(shape).get('eventDefinitions')[0].escalationRef;
-    var escalations = domQuery.all(selectEl + '> option', propertiesPanel._container);
+    var escalations = domQueryAll(selectEl + '> option', propertiesPanel._container);
 
     // then
     expect(escalations.length).to.be.at.least(2);

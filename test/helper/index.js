@@ -19,7 +19,7 @@
  * and perform custom bootstrapping (CSS, ...) in that utility.
  *
  * ```
- * var TestHelper = module.exports = require('bpmn-js/test/helper');
+ * var TestHelper = module.exports = require('bpmn-js/test/helper').default;
  *
  * var fs = require('fs');
  *
@@ -35,8 +35,8 @@ var unique = require('lodash/array/unique'),
 
 var TestContainer = require('mocha-test-container-support');
 
-var Modeler = require('bpmn-js/lib/Modeler'),
-    Viewer = require('bpmn-js/lib/Viewer');
+var Modeler = require('bpmn-js/lib/Modeler').default,
+    Viewer = require('bpmn-js/lib/Viewer').default;
 
 var OPTIONS, BPMN_JS;
 

@@ -7,10 +7,11 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-    domQuery = require('min-dom/lib/query'),
-    coreModule = require('bpmn-js/lib/core'),
-    selectionModule = require('diagram-js/lib/features/selection'),
-    modelingModule = require('bpmn-js/lib/features/modeling'),
+    domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    coreModule = require('bpmn-js/lib/core').default,
+    selectionModule = require('diagram-js/lib/features/selection').default,
+    modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
@@ -152,7 +153,7 @@ describe('service-task-delegate-properties', function() {
       expect(taskBo.get('camunda:class')).to.be.undefined;
       expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
 
-      expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
+      expect(domQueryAll('select[name=implType]', propertiesPanel._container).length).to.equal(1);
       expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).to.equal('expression');
       expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).not.to.equal('class');
     })
@@ -183,7 +184,7 @@ describe('service-task-delegate-properties', function() {
       expect(taskBo.get('camunda:class')).to.be.undefined;
       expect(taskBo.get('camunda:delegateExpression')).to.be.undefined;
 
-      expect(domQuery.all('select[name=implType]', propertiesPanel._container).length).to.equal(1);
+      expect(domQueryAll('select[name=implType]', propertiesPanel._container).length).to.equal(1);
       expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).to.equal('expression');
       expect(TestHelper.selectedByIndex(domQuery('select[name=implType]', propertiesPanel._container)).value).not.to.equal('class');
     }

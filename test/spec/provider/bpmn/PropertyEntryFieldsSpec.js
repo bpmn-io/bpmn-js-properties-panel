@@ -7,11 +7,12 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('../../../../lib'),
-    domQuery = require('min-dom/lib/query'),
-    domClasses = require('min-dom/lib/classes'),
-    coreModule = require('bpmn-js/lib/core'),
-    selectionModule = require('diagram-js/lib/features/selection'),
-    modelingModule = require('bpmn-js/lib/features/modeling'),
+    domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    domClasses = require('min-dom').classes,
+    coreModule = require('bpmn-js/lib/core').default,
+    selectionModule = require('diagram-js/lib/features/selection').default,
+    modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
@@ -100,7 +101,7 @@ describe('properties-entry-fields', function() {
     // when
     selection.select(userTaskShape);
 
-    var checkBoxList  = domQuery.all(inputEl + ':checked', propertiesPanel._container),
+    var checkBoxList  = domQueryAll(inputEl + ':checked', propertiesPanel._container),
         input         = domQuery(inputEl, propertiesPanel._container);
 
     // at the start there should no checkbox be selected
@@ -110,7 +111,7 @@ describe('properties-entry-fields', function() {
     TestHelper.triggerEvent(input, 'click');
 
     // the checkbox is now selected and the business object is set to true
-    checkBoxList     = domQuery.all(inputEl +':checked', propertiesPanel._container);
+    checkBoxList     = domQueryAll(inputEl +':checked', propertiesPanel._container);
     expect(checkBoxList.length).to.equal(1);
   }));
 
@@ -123,7 +124,7 @@ describe('properties-entry-fields', function() {
     // when
     selection.select(shape);
 
-    var options = domQuery.all('select[name=callableBinding] > option', propertiesPanel._container);
+    var options = domQueryAll('select[name=callableBinding] > option', propertiesPanel._container);
 
     // then
     expect(options.length).to.equal(3);

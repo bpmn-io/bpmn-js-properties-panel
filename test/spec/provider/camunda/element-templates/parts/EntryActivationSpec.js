@@ -8,7 +8,7 @@ var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,
     bootstrap = require('./Helper').bootstrap;
 
-var domMatches = require('min-dom/lib/matches');
+var domMatches = require('min-dom').matches;
 
 
 describe('element-templates/parts - entry activation', function() {
