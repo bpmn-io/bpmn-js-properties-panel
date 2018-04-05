@@ -1126,6 +1126,7 @@ describe('timer-event-properties', function() {
 
   });
 
+
   describe('change timer definition', function() {
 
     var container;
@@ -1372,6 +1373,7 @@ describe('timer-event-properties', function() {
 
   });
 
+
   describe('validation', function() {
 
     it('should set timer event definition field as invalid', inject(function(propertiesPanel, elementRegistry, selection) {
@@ -1392,5 +1394,32 @@ describe('timer-event-properties', function() {
 
   });
 
+
+  describe('intermediate catch event', function() {
+
+    var container;
+
+    beforeEach(inject(function(elementRegistry, propertiesPanel, selection) {
+      container = propertiesPanel._container;
+
+      var shape = elementRegistry.get('IntermediateThrowEvent');
+
+      // when
+      selection.select(shape);
+    }));
+
+    it('should not have cycle option', function() {
+
+      // then
+      var selectBox = getTimerDefinitionTypeField(container);
+
+      var option = find(selectBox.options, function(o) {
+        return o.value === 'cycle';
+      });
+
+      expect(option).to.not.exist;
+    });
+
+  });
 
 });
