@@ -8,14 +8,13 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('../../../../lib'),
     domQuery = require('min-dom').query,
-    domClasses = require('min-dom').classes,
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('../../../../lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-describe('conditional-event-properties', function() {
+describe('event-properties', function() {
 
   var diagramXML = require('./ConditionalEventDefinition.bpmn');
 
@@ -53,23 +52,6 @@ describe('conditional-event-properties', function() {
 
   describe('visibility', function() {
 
-    it('should show condition for start events (parent: root)',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-        // given
-        var shape = elementRegistry.get('StartEvent_4');
-
-        // when
-        selection.select(shape);
-
-        var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-        // then
-        expect(textField).to.exist;
-      }
-    ));
-
-
     it('should show variableName for start events (parent: root)',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -104,57 +86,6 @@ describe('conditional-event-properties', function() {
     ));
 
 
-    it('should show condition for start events (parent: event sub process)',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-        // given
-        var shape = elementRegistry.get('StartEvent_3');
-
-        // when
-        selection.select(shape);
-
-        var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-        // then
-        expect(textField).to.exist;
-      }
-    ));
-
-
-    it('should show condition for intermediate events (parent: root)',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-        // given
-        var shape = elementRegistry.get('IntermediateThrowEvent_1');
-
-        // when
-        selection.select(shape);
-
-        var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-        // then
-        expect(textField).to.exist;
-      }
-    ));
-
-
-    it('should show condition for boundary events',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-        // given
-        var shape = elementRegistry.get('BoundaryEvent_1');
-
-        // when
-        selection.select(shape);
-
-        var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-        // then
-        expect(textField).to.exist;
-      }
-    ));
-
-
     it('should show variableName for boundary events',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -182,23 +113,6 @@ describe('conditional-event-properties', function() {
         selection.select(shape);
 
         var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
-
-        // then
-        expect(textField).to.exist;
-      }
-    ));
-
-
-    it('should show condition for start events (parent: sub process)',
-      inject(function(propertiesPanel, selection, elementRegistry) {
-
-        // given
-        var shape = elementRegistry.get('StartEvent_1');
-
-        // when
-        selection.select(shape);
-
-        var textField = domQuery('input[name=condition]', propertiesPanel._container);
 
         // then
         expect(textField).to.exist;
@@ -244,23 +158,6 @@ describe('conditional-event-properties', function() {
 
   describe('value', function() {
 
-    it('should get existing condition (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
-
-      // given
-      var shape = elementRegistry.get('StartEvent_3');
-      var bo = getBusinessObject(shape);
-
-      // when
-      selection.select(shape);
-
-      var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-      // then
-      expect(textField.value).to.equal('${false}');
-      expect(bo.eventDefinitions[0].condition.body).to.equal('${false}');
-
-    }));
-
 
     it('should get existing variableName (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
 
@@ -292,26 +189,6 @@ describe('conditional-event-properties', function() {
 
       // then
       expect(textField.value).to.equal(bo.eventDefinitions[0].get('camunda:variableEvent'));
-
-    }));
-
-
-    it('should change condition (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
-
-      // given
-      var shape = elementRegistry.get('StartEvent_3');
-      var bo = getBusinessObject(shape);
-
-      selection.select(shape);
-
-      var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-      // when
-      TestHelper.triggerValue(textField, 'Foobar', 'change');
-
-      // then
-      expect(textField.value).to.equal('Foobar');
-      expect(bo.eventDefinitions[0].condition.body).to.equal('Foobar');
 
     }));
 
@@ -464,26 +341,6 @@ describe('conditional-event-properties', function() {
     });
 
 
-    it('should set new condition', inject(function(propertiesPanel, selection, elementRegistry) {
-
-      // given
-      var shape = elementRegistry.get('StartEvent_2');
-      var bo = getBusinessObject(shape);
-
-      selection.select(shape);
-
-      var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-      // when
-      TestHelper.triggerValue(textField, 'Foobar', 'change');
-
-      // then
-      expect(textField.value).to.equal('Foobar');
-      expect(bo.eventDefinitions[0].condition.body).to.equal('Foobar');
-
-    }));
-
-
     it('should set new variableName', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
@@ -518,26 +375,6 @@ describe('conditional-event-properties', function() {
 
       // then
       expect(textField.value).to.equal(bo.eventDefinitions[0].get('camunda:variableEvent'));
-
-    }));
-
-
-    it('should remove condition', inject(function(propertiesPanel, selection, elementRegistry) {
-
-      // given
-      var shape = elementRegistry.get('StartEvent_3');
-      var bo = getBusinessObject(shape);
-
-      selection.select(shape);
-
-      var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-      // when
-      TestHelper.triggerValue(textField, '', 'change');
-
-      // then
-      expect(textField.value).to.equal('');
-      expect(bo.eventDefinitions[0].condition).to.be.undefined;
 
     }));
 
@@ -581,26 +418,6 @@ describe('conditional-event-properties', function() {
 
     }));
 
-  });
-
-
-  describe('validation', function() {
-
-    it('should be shown if condition is empty', inject(function(propertiesPanel, elementRegistry, selection) {
-
-      // given
-      container = propertiesPanel._container;
-
-      var shape = elementRegistry.get('StartEvent_2');
-      selection.select(shape);
-
-      // when
-      var textField = domQuery('input[name=condition]', propertiesPanel._container);
-
-      // then
-      expect(domClasses(textField).has('invalid')).to.be.true;
-
-    }));
   });
 
 });
