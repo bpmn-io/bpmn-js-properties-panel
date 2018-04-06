@@ -138,13 +138,9 @@ describe('callActivity - properties', function() {
       var shape = elementRegistry.get('CallActivity_6');
       selection.select(shape);
 
-      var bo = getBusinessObject(shape);
-      var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
-
       var checkBox = getInput(propertiesPanel._container, 'callableBusinessKey');
 
       expect(checkBox.checked).to.be.true;
-      expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
 
     }));
 
@@ -154,13 +150,24 @@ describe('callActivity - properties', function() {
       var shape = elementRegistry.get('CallActivity_7');
       selection.select(shape);
 
-      var bo = getBusinessObject(shape);
-      var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
-
       var checkBox = getInput(propertiesPanel._container, 'callableBusinessKey');
 
       expect(checkBox.checked).to.be.true;
-      expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+
+    }));
+
+
+    it('#businessKey', inject(function(propertiesPanel, elementRegistry, selection) {
+
+      var shape = elementRegistry.get('CallActivity_13');
+      selection.select(shape);
+
+      var businessObject = getBusinessObject(shape);
+      var camundaIn = getCamundaInWithBusinessKey(businessObject.extensionElements);
+
+      var field = getInput(propertiesPanel._container, 'businessKey');
+
+      expect(field.value).to.equal(camundaIn[0].businessKey);
 
     }));
 
@@ -256,6 +263,7 @@ describe('callActivity - properties', function() {
     }));
 
   });
+
 
   describe('set', function() {
 
@@ -587,7 +595,7 @@ describe('callActivity - properties', function() {
     });
 
 
-    describe('#businessKey', function() {
+    describe('#callableBusinessKey', function() {
 
       var field, bo;
 
@@ -611,8 +619,9 @@ describe('callActivity - properties', function() {
         it('should undo', inject(function(commandStack) {
 
           commandStack.undo();
-
+            
           expect(field.checked).to.be.false;
+
         }));
 
         it('should redo', inject(function(commandStack) {
@@ -651,6 +660,78 @@ describe('callActivity - properties', function() {
 
           var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
           expect(camundaIn[0].businessKey).to.equal('#{execution.processBusinessKey}');
+
+        }));
+
+      });
+
+    });
+
+
+    describe('#businessKey', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_13');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'businessKey');
+
+        TestHelper.triggerValue(field, 'bar');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('bar');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('foo');
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('bar');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn[0].businessKey).to.equal('bar');
+
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn[0].businessKey).to.equal('foo');
+
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          var camundaIn = getCamundaInWithBusinessKey(bo.extensionElements);
+          expect(camundaIn[0].businessKey).to.equal('bar');
 
         }));
 
@@ -1751,6 +1832,27 @@ describe('callActivity - properties', function() {
 
 
   describe('validation', function() {
+
+    describe('#businessKey', function() {
+
+      var field;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_14');
+        selection.select(shape);
+
+        field = getInput(propertiesPanel._container, 'businessKey');
+
+      }));
+
+      it('should be shown when #businessKey is empty', function() {
+
+        expect(domClasses(field).has('invalid')).to.be.true;
+
+      });
+
+    });
+
 
     describe('#delegateVariableMapping', function() {
 

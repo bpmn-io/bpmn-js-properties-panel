@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="_3ENCQCCrEeWkp5kiupH8Fw" targetNamespace="http://activiti.org/bpmn" exporter="Camunda Modeler" exporterVersion="1.2.0-nightly" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="_3ENCQCCrEeWkp5kiupH8Fw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.13.0-dev" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <bpmn2:process id="Process_1" isExecutable="false">
-    <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17" camunda:variableMappingClass="test"/>
+    <bpmn2:callActivity id="CallActivity_1" calledElement="asd" camunda:calledElementBinding="version" camunda:calledElementVersion="17" camunda:variableMappingClass="test" />
     <bpmn2:callActivity id="CallActivity_2" calledElement="asd" />
     <bpmn2:callActivity id="CallActivity_3" camunda:caseRef="checkCreditCase" />
     <bpmn2:callActivity id="CallActivity_4" camunda:caseRef="checkCreditCase" camunda:caseBinding="version" camunda:caseVersion="17" />
@@ -25,6 +25,16 @@
     <bpmn2:callActivity id="CallActivity_10" calledElement="myProcess" camunda:variableMappingClass="test" />
     <bpmn2:callActivity id="CallActivity_11" calledElement="myProcess" camunda:variableMappingDelegateExpression="${test}" />
     <bpmn2:callActivity id="CallActivity_12" calledElement="" camunda:calledElementBinding="version" camunda:variableMappingClass="" />
+    <bpmn2:callActivity id="CallActivity_13">
+      <bpmn2:extensionElements>
+        <camunda:in businessKey="foo" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_14">
+      <bpmn2:extensionElements>
+        <camunda:in businessKey="" />
+      </bpmn2:extensionElements>
+    </bpmn2:callActivity>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -63,6 +73,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_1y7ms67_di" bpmnElement="CallActivity_12">
         <dc:Bounds x="600" y="97" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_061z30j_di" bpmnElement="CallActivity_13">
+        <dc:Bounds x="600" y="211" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_0uatgnw_di" bpmnElement="CallActivity_14">
+        <dc:Bounds x="738" y="97" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
