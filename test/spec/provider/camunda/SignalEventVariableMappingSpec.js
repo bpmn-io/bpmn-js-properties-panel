@@ -300,6 +300,41 @@ describe('SignalEvent - variable mapping', function() {
     }));
 
 
+    it('should mark source field of a camunda:in mapping of a signal intermediate throw event as invalid', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('IntermediateThrowEvent_2');
+      selection.select(shape);
+  
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+          typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+          sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+          targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape),
+          signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(businessObject);
+  
+      // given
+      expect(selectBox.options).to.have.length(1);
+  
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+  
+      expect(typeSelectBox.value).to.equal('source');
+      expect(sourceInput.className).to.equal('invalid');
+      expect(targetInput.value).to.be.empty;
+  
+      // when
+      TestHelper.triggerValue(sourceInput, 'foo ', 'change');
+  
+      // then
+      expect(sourceInput.value).to.equal('foo ');
+      expect(sourceInput.className).to.equal('invalid');
+  
+      var variableMappings = getVariableMappings(signalEventDefinition.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(variableMappings).to.have.length(1);
+      expect(variableMappings[0].source).to.equal('foo ');
+    }));
+
+
     it('should change sourceExpression field of a camunda:in mapping of a signal intermediate throw event', inject(function(propertiesPanel, selection, elementRegistry) {
 
       var shape = elementRegistry.get('IntermediateThrowEvent_3');

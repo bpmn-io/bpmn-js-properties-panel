@@ -437,6 +437,72 @@ describe('CallActivity - variable mapping', function() {
   }));
 
 
+  it('should mark source field of a camunda:in mapping of a call activity as invalid', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_3');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.options).to.have.length(1);
+
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    expect(typeSelectBox.value).to.equal('source');
+    expect(sourceInput.className).to.equal('invalid');
+    expect(targetInput.value).to.be.empty;
+
+    // when
+    TestHelper.triggerValue(sourceInput, 'mySourceVal ', 'change');
+
+    // then
+    expect(sourceInput.value).to.equal('mySourceVal ');
+    expect(sourceInput.className).to.equal('invalid');
+
+    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+    expect(variableMappings).to.have.length(1);
+    expect(variableMappings[0].source).to.equal('mySourceVal ');
+  }));
+
+
+  it('should NOT mark source expression field of a camunda:in mapping of a call activity as invalid', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('CallActivity_8');
+    selection.select(shape);
+
+    var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+        typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+        sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(selectBox.options).to.have.length(1);
+
+    selectBox.options[0].selected = 'selected';
+    TestHelper.triggerEvent(selectBox, 'change');
+
+    expect(typeSelectBox.value).to.equal('sourceExpression');
+    expect(sourceInput.className).to.not.equal('invalid');
+
+    // when
+    TestHelper.triggerValue(sourceInput, 'mySourceVal ', 'change');
+
+    // then
+    expect(sourceInput.value).to.equal('mySourceVal ');
+    expect(sourceInput.className).to.not.equal('invalid');
+
+    var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+    expect(variableMappings).to.have.length(1);
+    expect(variableMappings[0].sourceExpression).to.equal('mySourceVal ');
+  }));
+
+
   it('should change sourceExpression field of a camunda:in mapping of a call activity', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('CallActivity_4');
@@ -503,6 +569,43 @@ describe('CallActivity - variable mapping', function() {
     expect(variableMappings[0].target).to.equal('myTargetVal');
 
   }));
+
+
+  it('should mark target field of a camunda:out mapping of a call activity as invalid', inject(
+    function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('CallActivity_3');
+      selection.select(shape);
+
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-out]', propertiesPanel._container),
+          typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+          sourceInput = domQuery('input[id=camunda-variableMapping-source]', propertiesPanel._container),
+          targetInput = domQuery('input[id="camunda-variableMapping-target"]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+
+      // given
+      expect(selectBox.options).to.have.length(1);
+
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      expect(typeSelectBox.value).to.equal('source');
+      expect(sourceInput.value).to.equal('mySource');
+      expect(targetInput.className).to.equal('invalid');
+
+      // when
+      TestHelper.triggerValue(targetInput, 'myTargetVal ', 'change');
+
+      // then
+      expect(targetInput.value).to.equal('myTargetVal ');
+      expect(targetInput.className).to.equal('invalid');
+
+      var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_OUT_EXTENSION_ELEMENT);
+      expect(variableMappings).to.have.length(1);
+      expect(variableMappings[0].target).to.equal('myTargetVal ');
+
+    }
+  ));
 
 
   describe('should clear target field of a camunda:out mapping of a call activity', function() {
