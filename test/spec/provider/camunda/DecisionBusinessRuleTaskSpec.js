@@ -146,7 +146,7 @@ describe('decision-business-rule-task-properties', function() {
   }));
 
 
-  it('should change decision ref binding for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  it('should change decision ref binding to version for an element', inject(function(propertiesPanel, selection, elementRegistry) {
 
     var shape = elementRegistry.get('BusinessRuleTask_Deployment');
     selection.select(shape);
@@ -174,6 +174,37 @@ describe('decision-business-rule-task-properties', function() {
     expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
     expect(decisionRefVersion.value).to.equal('14');
     expect(businessObject.get('camunda:decisionRefVersion')).to.equal(decisionRefVersion.value);
+  }));
+
+
+  it('should change decision ref binding to versionTag for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+
+    var shape = elementRegistry.get('BusinessRuleTask_Deployment');
+    selection.select(shape);
+
+    var implType = domQuery('select[name=implType]', propertiesPanel._container),
+        decisionRefBinding = domQuery('select[name="callableBinding"]', propertiesPanel._container),
+        decisionRefVersionTag = domQuery('input[name=versionTag]', propertiesPanel._container),
+        businessObject = getBusinessObject(shape);
+
+    // given
+    expect(implType.value).to.equal('dmn');
+    expect(decisionRefBinding.value).to.equal('deployment');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(businessObject).not.to.have.property('camunda:decisionRefVersion');
+
+    // when
+    // select option 'versionTag'
+    decisionRefBinding.options[3].selected  = 'selected';
+    TestHelper.triggerEvent(decisionRefBinding, 'change');
+
+    TestHelper.triggerValue(decisionRefVersionTag, 'foo');
+
+    // then
+    expect(decisionRefBinding.value).to.equal('versionTag');
+    expect(businessObject.get('camunda:decisionRefBinding')).to.equal(decisionRefBinding.value);
+    expect(decisionRefVersionTag.value).to.equal('foo');
+    expect(businessObject.get('camunda:decisionRefVersionTag')).to.equal(decisionRefVersionTag.value);
   }));
 
 

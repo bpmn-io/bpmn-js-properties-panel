@@ -127,7 +127,7 @@ describe('properties-entry-fields', function() {
     var options = domQueryAll('select[name=callableBinding] > option', propertiesPanel._container);
 
     // then
-    expect(options.length).to.equal(3);
+    expect(options.length).to.equal(4);
   }));
 
 

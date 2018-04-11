@@ -35,6 +35,7 @@
         <camunda:in businessKey="" />
       </bpmn2:extensionElements>
     </bpmn2:callActivity>
+    <bpmn2:callActivity id="CallActivity_15" calledElement="" camunda:calledElementBinding="versionTag" camunda:calledElementVersionTag="foo" />
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -79,6 +80,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_0uatgnw_di" bpmnElement="CallActivity_14">
         <dc:Bounds x="738" y="97" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_13532ep_di" bpmnElement="CallActivity_15">
+        <dc:Bounds x="738" y="211" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

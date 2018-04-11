@@ -463,6 +463,71 @@ describe('callActivity - properties', function() {
       });
 
     });
+    
+    
+    describe('#calledElementVersionTag', function() {
+
+      var field, bo;
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+        var shape = elementRegistry.get('CallActivity_15');
+        selection.select(shape);
+
+        bo = getBusinessObject(shape);
+        field = getInput(propertiesPanel._container, 'versionTag');
+
+        TestHelper.triggerValue(field, 'bar', 'change');
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('bar');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(field.value).to.equal('foo');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(field.value).to.equal('bar');
+
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(bo.get('camunda:calledElementVersionTag')).to.equal('bar');
+        });
+
+        it('should undo', inject(function(commandStack) {
+
+          commandStack.undo();
+
+          expect(bo.get('camunda:calledElementVersionTag')).to.equal('foo');
+        }));
+
+        it('should redo', inject(function(commandStack) {
+
+          commandStack.undo();
+          commandStack.redo();
+
+          expect(bo.get('camunda:calledElementVersionTag')).to.equal('bar');
+
+        }));
+
+      });
+
+    });
 
 
     describe('#caseRef', function() {
@@ -2123,5 +2188,28 @@ describe('callActivity - properties', function() {
     expect(businessObject.get('camunda:caseVersion')).not.to.exist;
 
   }));
+
+
+  it('should not show version tag binding option when changing called element binding from BPMN to CMMN for an element', inject(
+    function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('CallActivity_15');
+
+      selection.select(shape);
+
+      var callActivityTypeSelect = domQuery('select[name=callActivityType]', propertiesPanel._container),
+          callableBindingSelect = domQuery('select[name=callableBinding]', propertiesPanel._container);
+
+      // when
+      callActivityTypeSelect.options[1].selected = 'selected';
+      TestHelper.triggerEvent(callActivityTypeSelect, 'change');
+
+      // then
+      expect(callActivityTypeSelect.value).to.equal('cmmn');
+
+      expect(callableBindingSelect.options).to.have.length(3);
+    })
+  );
 
 });
