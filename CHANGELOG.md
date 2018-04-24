@@ -6,6 +6,10 @@ All notable changes to [bpmn-js](https://github.com/bpmn-io/bpmn-js-properties-p
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.24.1
+
+* `FIX`: show description for select entries
+
 ## 0.24.0
 
 * `FEAT`: binding of business rule tasks and call activities can be set to version tag [`10738e92`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/10738e927fdb297fc9042e8103fb4fde60ae7264)
