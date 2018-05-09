@@ -4,7 +4,7 @@ var TestHelper = require('../TestHelper');
 
 var TestContainer = require('mocha-test-container-support');
 
-/* global bootstrapModeler, inject */
+/* global bootstrapModeler, inject, sinon */
 
 
 
@@ -64,6 +64,78 @@ describe('properties-panel', function() {
     selection.select(taskShape);
 
   }));
+
+
+  describe('updating', function() {
+
+    it('should update on root added', inject(function(canvas, eventBus, propertiesPanel) {
+
+      // given
+      var spy = sinon.spy(propertiesPanel, 'update');
+
+      var root = canvas.getRootElement();
+
+      // when
+      eventBus.fire('root.added', {
+        element: root
+      });
+
+      // expect
+      expect(spy).to.have.been.called;
+    }));
+
+
+    it('should not update on implicit root added', inject(function(eventBus, propertiesPanel) {
+
+      // given
+      var spy = sinon.spy(propertiesPanel, 'update');
+
+      // when
+      eventBus.fire('root.added', {
+        element: {
+          id: '__implicitroot'
+        }
+      });
+
+      // expect
+      expect(spy).to.not.have.been.called;
+    }));
+
+
+    it('should update on selection changed', inject(
+      function(elementRegistry, eventBus, propertiesPanel, selection) {
+
+        // given
+        var spy = sinon.spy(propertiesPanel, 'update');
+
+        var startEvent = elementRegistry.get('StartEvent_1');
+
+        // when
+        selection.select(startEvent);
+
+        // then
+        expect(spy).to.have.been.called;
+      }
+    ));
+
+
+    it('should not update on selection changed if implicit root', inject(
+      function(canvas, eventBus, propertiesPanel, selection) {
+
+        // given
+        var spy = sinon.spy(propertiesPanel, 'update');
+
+        canvas.setRootElement(null, true);
+
+        // when
+        selection.select(null);
+
+        // then
+        expect(spy).to.not.have.been.called;
+      }
+    ));
+
+  });
 
 
   describe('helpers', function() {
