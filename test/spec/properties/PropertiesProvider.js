@@ -228,6 +228,9 @@ function createGroups(element, bpmnFactory) {
                 a: !values.a && new Error('a must be checked')
               };
             }
+          }, {
+            id: 'select',
+            html: '<select name="select"><option>foo</option><option>bar</option></select>'
           }
         ]
       }

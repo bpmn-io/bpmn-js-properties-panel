@@ -430,4 +430,42 @@ describe('properties-panel', function() {
   });
 
 
+  describe('listeners', function() {
+
+    function getSelect(container) {
+      return domQuery('select[name=select]', container);
+    }
+
+    var select, spy;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      propertiesPanel.attachTo(container);
+
+      var task2 = elementRegistry.get('Task_2');
+      selection.select(task2);
+
+      select = getSelect(propertiesPanel._container);
+
+      spy = sinon.spy();
+
+      document.addEventListener('keydown', spy);
+    }));
+
+    afterEach(function() {
+      document.removeEventListener('keydown', spy);
+    });
+
+
+    it('should stop propagation of DEL key events', function() {
+
+      // when
+      TestHelper.triggerKeyEvent(select, 'keydown', 46);
+
+      // then
+      expect(spy).to.not.have.been.called;
+    });
+
+  });
+
+
 });

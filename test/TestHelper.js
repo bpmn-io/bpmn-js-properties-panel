@@ -124,6 +124,20 @@ var triggerInput = function(element, value) {
   element.focus();
 };
 
+var triggerKeyEvent = function(element, event, code) {
+  var e = document.createEvent('Events');
+
+  if (e.initEvent) {
+    e.initEvent(event, true, true);
+  }
+
+  e.keyCode = code;
+  e.which = code;
+
+  element.dispatchEvent(e);
+};
+
+
 /**
  * Select a form field with the specified index in the DOM
  *
@@ -178,6 +192,7 @@ var selectedByIndex = function(element) {
 module.exports.triggerEvent = triggerEvent;
 module.exports.triggerValue = triggerValue;
 module.exports.triggerInput = triggerInput;
+module.exports.triggerKeyEvent = triggerKeyEvent;
 module.exports.triggerFormFieldSelection = triggerFormFieldSelection;
 module.exports.selectedByOption = selectedByOption;
 module.exports.selectedByIndex = selectedByIndex;
