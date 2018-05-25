@@ -25,12 +25,12 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
-    "bpmn-js": "^1.0.1",
+    "bpmn-js": "^2.0.1",
     "bpmn-moddle": "^2.1.0",
     "browserify": "^13.0.0",
     "camunda-bpmn-moddle": "^3.0.0",
     "chai": "^4.1.2",
-    "diagram-js": "^1.1.1",
+    "diagram-js": "^2.1.1",
     "eslint": "^2.11.1",
     "eslint-plugin-mocha": "^2.2.0",
     "grunt": "^0.4.4",
@@ -67,6 +67,6 @@
     "selection-update": "^0.1.2"
   },
   "peerDependencies": {
-    "bpmn-js": ">=1.0 <2.0"
+    "bpmn-js": "^1.0 || ^2.0"
   }
 }
