@@ -6,9 +6,13 @@ All notable changes to [bpmn-js](https://github.com/bpmn-io/bpmn-js-properties-p
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.25.1
+
+* `FIX`: handle delete key strokes in `selects`
+
 ## 0.25.0
 
-`CHORE`: revert [`6c757170`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/6c757170d76996da311c758c5923a530d86ba7f3), as it disabled certain [usage scenarios](https://github.com/camunda/camunda-modeler/issues/792)
+* `CHORE`: revert [`6c757170`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/6c757170d76996da311c758c5923a530d86ba7f3), as it disabled certain [usage scenarios](https://github.com/camunda/camunda-modeler/issues/792)
 
 ## 0.24.1
 
