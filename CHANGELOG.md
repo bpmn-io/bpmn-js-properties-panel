@@ -6,6 +6,8 @@ All notable changes to [bpmn-js](https://github.com/bpmn-io/bpmn-js-properties-p
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.25.2
+
 * `FIX`: correct variable mapping not removing target props
 
 ## 0.25.1
