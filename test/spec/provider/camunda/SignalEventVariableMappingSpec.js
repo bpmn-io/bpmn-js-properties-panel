@@ -408,6 +408,32 @@ describe('SignalEvent - variable mapping', function() {
     }));
 
 
+    it('should remove target attribute when inOutType have value "All"', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('IntermediateThrowEvent_1');
+      selection.select(shape);
+  
+      var selectBox = domQuery('select[id=cam-extensionElements-variableMapping-in]', propertiesPanel._container),
+          typeSelectBox = domQuery('select[id=camunda-variableMapping-inOutType-select]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape),
+          signalEventDefinition = eventDefinitionHelper.getSignalEventDefinition(businessObject);
+
+      expect(selectBox.options).to.have.length(3);
+  
+      selectBox.options[0].selected = 'selected';
+      TestHelper.triggerEvent(selectBox, 'change');
+
+      // when
+      typeSelectBox.options[2].selected = 'selected';
+      TestHelper.triggerEvent(typeSelectBox, 'change');
+
+      // then
+      var variablesMappings = getMappingsWithVariablesAttr(signalEventDefinition.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
+      expect(variablesMappings[0].target).not.to.exist;
+    }));
+
+
     it('should remove the variables attr of a camunda:in mapping of a signal intermediate throw event', inject(function(propertiesPanel, selection, elementRegistry) {
 
       var shape = elementRegistry.get('IntermediateThrowEvent_4');
