@@ -20,7 +20,7 @@ var extensionElementsHelper = require('lib/helper/ExtensionElementsHelper');
 var domQuery = require('min-dom').query,
     domClasses = require('min-dom').classes;
 
-var find = require('lodash/collection/find');
+var find = require('lodash/find');
 
 function getEntry(entryId, container) {
   return domQuery('div[data-entry="' + entryId + '"]', container);

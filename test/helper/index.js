@@ -28,10 +28,10 @@
  * ```
  */
 
-var unique = require('lodash/array/unique'),
-    isFunction = require('lodash/lang/isFunction'),
-    merge = require('lodash/object/merge'),
-    forEach = require('lodash/collection/forEach');
+var unique = require('lodash/uniq'),
+    isFunction = require('lodash/isFunction'),
+    merge = require('lodash/merge'),
+    forEach = require('lodash/forEach');
 
 var TestContainer = require('mocha-test-container-support');
 

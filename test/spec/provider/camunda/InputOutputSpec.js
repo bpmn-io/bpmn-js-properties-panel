@@ -23,7 +23,7 @@ var domQuery = require('min-dom').query,
     domQueryAll = require('min-dom').queryAll,
     domClasses = require('min-dom').classes;
 
-var find = require('lodash/collection/find');
+var find = require('lodash/find');
 
 // MODEL HELPER
 

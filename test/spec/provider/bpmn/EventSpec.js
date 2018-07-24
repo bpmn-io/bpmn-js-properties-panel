@@ -14,7 +14,7 @@ var propertiesPanelModule = require('lib'),
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    forEach = require('lodash/collection/forEach'),
+    forEach = require('lodash/forEach'),
     eventDefinitionHelper = require('lib/helper/EventDefinitionHelper');
 
 

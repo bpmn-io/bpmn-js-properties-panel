@@ -13,7 +13,7 @@ var propertiesPanelModule = require('lib'),
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    find = require('lodash/collection/find'),
+    find = require('lodash/find'),
     eventDefinitionHelper = require('lib/helper/EventDefinitionHelper');
 
 

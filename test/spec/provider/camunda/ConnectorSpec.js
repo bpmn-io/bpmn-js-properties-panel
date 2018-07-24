@@ -20,7 +20,7 @@ var inputOutputHelper = require('lib/helper/InputOutputHelper');
 var domQuery = require('min-dom').query,
     domClasses = require('min-dom').classes;
 
-var find = require('lodash/collection/find');
+var find = require('lodash/find');
 
 
 function getConnectorTab(container) {

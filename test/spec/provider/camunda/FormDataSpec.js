@@ -14,7 +14,7 @@ var propertiesPanelModule = require('lib'),
 
 var domQuery = require('min-dom').query,
     domClasses = require('min-dom').classes,
-    find = require('lodash/collection/find');
+    find = require('lodash/find');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     is = require('bpmn-js/lib/util/ModelUtil').is,

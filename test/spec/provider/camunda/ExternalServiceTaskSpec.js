@@ -16,7 +16,7 @@ var propertiesPanelModule = require('lib'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     eventDefinitionHelper = require('lib/helper/EventDefinitionHelper');
 
-var find = require('lodash/collection/find');
+var find = require('lodash/find');
 
 describe('external-service-task-properties', function() {
 
