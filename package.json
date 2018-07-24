@@ -8,7 +8,8 @@
     "dev": "npm test -- --no-single-run --auto-watch",
     "build": "run-s build:*",
     "build:less": "lessc --include-path=node_modules styles/properties.less dist/assets/bpmn-js-properties-panel.css",
-    "test": "karma start"
+    "test": "karma start",
+    "prepublishOnly": "run-s build"
   },
   "repository": {
     "type": "git",
