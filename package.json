@@ -4,8 +4,10 @@
   "description": "A simple properties panel for bpmn-js",
   "scripts": {
     "lint": "eslint .",
-    "all": "run-s lint test",
+    "all": "run-s lint test build",
     "dev": "npm test -- --no-single-run --auto-watch",
+    "build": "run-s build:*",
+    "build:less": "lessc --include-path=node_modules styles/properties.less dist/assets/bpmn-js-properties-panel.css",
     "test": "karma start"
   },
   "repository": {
@@ -40,8 +42,10 @@
     "karma-sinon-chai": "^2.0.2",
     "karma-spec-reporter": "0.0.31",
     "karma-webpack": "^3.0.0",
+    "less": "^3.8.0",
     "mocha": "^5.2.0",
     "mocha-test-container-support": "0.2.0",
+    "npm-run-all": "^4.1.3",
     "puppeteer": "^1.6.0-next.1532381444032",
     "raw-loader": "^0.5.1",
     "sinon": "^4.5.0",
