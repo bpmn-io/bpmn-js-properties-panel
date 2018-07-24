@@ -6,6 +6,8 @@ All notable changes to [bpmn-js](https://github.com/bpmn-io/bpmn-js-properties-p
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.26.0
+
 * `FEAT`: provide pre-built styles
 * `CHORE`: bump dependency versions
 * `CHORE`: migrate to `lodash@4`
