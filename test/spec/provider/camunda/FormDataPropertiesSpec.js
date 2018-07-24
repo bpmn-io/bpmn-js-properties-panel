@@ -6,14 +6,14 @@ var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../lib'),
-    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+var propertiesPanelModule = require('lib'),
+    propertiesProviderModule = require('lib/provider/camunda'),
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     coreModule = require('bpmn-js/lib/core').default;
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    getExtensionElements = require('../../../../lib/helper/ExtensionElementsHelper').getExtensionElements;
+    getExtensionElements = require('lib/helper/ExtensionElementsHelper').getExtensionElements;
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 

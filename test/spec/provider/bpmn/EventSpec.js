@@ -6,16 +6,16 @@ var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../lib'),
+var propertiesPanelModule = require('lib'),
     domQuery = require('min-dom').query,
     domQueryAll = require('min-dom').queryAll,
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesProviderModule = require('../../../../lib/provider/bpmn'),
+    propertiesProviderModule = require('lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     forEach = require('lodash/collection/forEach'),
-    eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
+    eventDefinitionHelper = require('lib/helper/EventDefinitionHelper');
 
 
 describe('event-properties', function() {

@@ -2,14 +2,14 @@
 
 var inherits = require('inherits');
 
-var PropertiesActivator = require('../../../lib/PropertiesActivator');
+var PropertiesActivator = require('lib/PropertiesActivator');
 
-var entryFactory = require('../../../lib/factory/EntryFactory');
+var entryFactory = require('lib/factory/EntryFactory');
 
 var is = require('bpmn-js/lib/util/ModelUtil').is,
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
-var cmdHelper = require('../../../lib/helper/CmdHelper');
+var cmdHelper = require('lib/helper/CmdHelper');
 
 function createGroups(element, bpmnFactory) {
   if (is(element, 'bpmn:Event')) {

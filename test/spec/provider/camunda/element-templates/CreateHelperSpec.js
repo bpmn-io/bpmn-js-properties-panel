@@ -8,7 +8,7 @@ var coreModule = require('bpmn-js/lib/core').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
-var CreateHelper = require('../../../../../lib/provider/camunda/element-templates/CreateHelper');
+var CreateHelper = require('lib/provider/camunda/element-templates/CreateHelper');
 
 var createInputParameter = CreateHelper.createInputParameter,
     createOutputParameter = CreateHelper.createOutputParameter,

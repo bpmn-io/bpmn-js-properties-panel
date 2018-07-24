@@ -6,8 +6,8 @@ var TestContainer = require('mocha-test-container-support');
 
 var coreModule = require('bpmn-js/lib/core').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesPanelCommandsModule = require('../../../../../../lib/cmd'),
-    elementTemplatesModule = require('../../../../../../lib/provider/camunda/element-templates'),
+    propertiesPanelCommandsModule = require('lib/cmd'),
+    elementTemplatesModule = require('lib/provider/camunda/element-templates'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;

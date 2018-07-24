@@ -54,11 +54,11 @@ function selectAndGet(elementId) {
 module.exports.selectAndGet = selectAndGet;
 
 
-var propertiesPanelModule = require('../../../../../../lib'),
+var propertiesPanelModule = require('lib'),
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesProviderModule = require('../../../../../../lib/provider/camunda');
+    propertiesProviderModule = require('lib/provider/camunda');
 
 var testModules = [
   coreModule,

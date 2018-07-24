@@ -4,12 +4,12 @@ var TestHelper = require('../../../../../TestHelper');
 
 /* global inject */
 
-var findExtension = require('../../../../../../lib/provider/camunda/element-templates/Helper').findExtension,
-    findExtensions = require('../../../../../../lib/provider/camunda/element-templates/Helper').findExtensions,
-    findCamundaInOut = require('../../../../../../lib/provider/camunda/element-templates/Helper').findCamundaInOut,
-    findInputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findInputParameter,
-    findOutputParameter = require('../../../../../../lib/provider/camunda/element-templates/Helper').findOutputParameter,
-    findCamundaProperty = require('../../../../../../lib/provider/camunda/element-templates/Helper').findCamundaProperty;
+var findExtension = require('lib/provider/camunda/element-templates/Helper').findExtension,
+    findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions,
+    findCamundaInOut = require('lib/provider/camunda/element-templates/Helper').findCamundaInOut,
+    findInputParameter = require('lib/provider/camunda/element-templates/Helper').findInputParameter,
+    findOutputParameter = require('lib/provider/camunda/element-templates/Helper').findOutputParameter,
+    findCamundaProperty = require('lib/provider/camunda/element-templates/Helper').findCamundaProperty;
 
 var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,

@@ -1,6 +1,6 @@
 'use strict';
 
-var validate = require('../../../../../../lib/provider/camunda/element-templates/util/validate');
+var validate = require('lib/provider/camunda/element-templates/util/validate');
 
 
 describe('element-templates/util - validate', function() {

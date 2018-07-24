@@ -6,8 +6,8 @@ var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../lib'),
-    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+var propertiesPanelModule = require('lib'),
+    propertiesProviderModule = require('lib/provider/camunda'),
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     coreModule = require('bpmn-js/lib/core').default;

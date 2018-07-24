@@ -1,6 +1,6 @@
 'use strict';
 
-var ElementTemplates = require('../../../../../lib/provider/camunda/element-templates/ElementTemplates');
+var ElementTemplates = require('lib/provider/camunda/element-templates/ElementTemplates');
 
 
 describe('element-templates - ElementTemplates', function() {

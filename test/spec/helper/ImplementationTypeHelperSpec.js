@@ -3,7 +3,7 @@
 var BpmnModdle = require('bpmn-moddle');
 var CamundaBpmnModdle = require('camunda-bpmn-moddle/resources/camunda');
 
-var ImplementationTypeHelper = require('../../../lib/helper/ImplementationTypeHelper');
+var ImplementationTypeHelper = require('lib/helper/ImplementationTypeHelper');
 
 describe('implementation type', function() {
 

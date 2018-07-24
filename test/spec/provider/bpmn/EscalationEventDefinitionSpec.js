@@ -6,16 +6,16 @@ var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../lib'),
+var propertiesPanelModule = require('lib'),
     domQuery = require('min-dom').query,
     domClasses = require('min-dom').classes,
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesProviderModule = require('../../../../lib/provider/bpmn'),
+    propertiesProviderModule = require('lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     find = require('lodash/collection/find'),
-    eventDefinitionHelper = require('../../../../lib/helper/EventDefinitionHelper');
+    eventDefinitionHelper = require('lib/helper/EventDefinitionHelper');
 
 function getGeneralTab(container) {
   return domQuery('div[data-tab="general"]', container);

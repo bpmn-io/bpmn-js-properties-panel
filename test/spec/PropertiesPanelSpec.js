@@ -8,7 +8,7 @@ var TestContainer = require('mocha-test-container-support');
 
 
 
-var propertiesPanelModule = require('../../lib'),
+var propertiesPanelModule = require('lib'),
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,

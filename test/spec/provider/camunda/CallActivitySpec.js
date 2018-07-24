@@ -6,7 +6,7 @@ var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule = require('../../../../lib'),
+var propertiesPanelModule = require('lib'),
     domQuery = require('min-dom').query,
     domClasses = require('min-dom').classes,
     is = require('bpmn-js/lib/util/ModelUtil').is,
@@ -14,7 +14,7 @@ var propertiesPanelModule = require('../../../../lib'),
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesProviderModule = require('../../../../lib/provider/camunda'),
+    propertiesProviderModule = require('lib/provider/camunda'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
