@@ -1,6 +1,6 @@
 'use strict';
 
-var BpmnModdle = require('bpmn-moddle');
+var BpmnModdle = require('bpmn-moddle').default;
 var CamundaBpmnModdle = require('camunda-bpmn-moddle/resources/camunda');
 
 var ImplementationTypeHelper = require('lib/helper/ImplementationTypeHelper');
