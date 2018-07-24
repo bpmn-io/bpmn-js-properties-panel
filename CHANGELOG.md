@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to [bpmn-js](https://github.com/bpmn-io/bpmn-js-properties-panel) are documented here. We use [semantic versioning](http://semver.org/) for releases.
+All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpmn-js-properties-panel) are documented here. We use [semantic versioning](http://semver.org/) for releases.
 
 ## Unreleased
 
