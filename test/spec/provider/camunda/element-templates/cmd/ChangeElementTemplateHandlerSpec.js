@@ -1398,7 +1398,7 @@ describe('element-templates - cmd', function() {
 
 
 
-////// test helpers /////////////////////////////////////
+// test helpers /////////////////////////////////////
 
 function applyTemplate(element, newTemplate, oldTemplate) {
 

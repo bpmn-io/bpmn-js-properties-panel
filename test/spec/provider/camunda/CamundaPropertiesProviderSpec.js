@@ -32,7 +32,7 @@ describe('camunda-properties', function() {
     container = TestContainer.get(this);
   });
 
-  
+
   describe('job configuration', function() {
 
     var diagramXML = require('./CamundaPropertiesProvider-JobConfiguration.bpmn');
@@ -65,32 +65,32 @@ describe('camunda-properties', function() {
       // given
       var shape = elementRegistry.get('ServiceTask_1'),
           selector = '[data-group=jobConfiguration]';
-  
+
       // when
       selection.select(shape);
-  
+
       var group = domQuery(selector, propertiesPanel._container);
-  
+
       // then
       expect(domClasses(group).has('bpp-hidden')).to.be.true;
     }));
-  
-  
+
+
     it('should show the job configuration group when there is a non hidden group element', inject(function(propertiesPanel, selection, elementRegistry) {
-  
+
       var shape = elementRegistry.get('ServiceTask_1'),
           groupSelector = '[data-group=jobConfiguration]',
           inputSelector = 'div[data-entry=asyncBefore] input[name=asyncBefore]';
-  
-        // given
+
+      // given
       selection.select(shape);
-  
+
       var asyncBeforeCheckbox = domQuery(inputSelector, propertiesPanel._container);
-  
+
       // when
       TestHelper.triggerEvent(asyncBeforeCheckbox, 'click');
       var group = domQuery(groupSelector, propertiesPanel._container);
-  
+
       // then
       expect(domClasses(group).has('bpp-hidden')).to.be.false;
     }));
@@ -129,10 +129,10 @@ describe('camunda-properties', function() {
       function(elementRegistry, propertiesPanel, selection) {
         var shape = elementRegistry.get('SequenceFlow_1_label'),
             groupSelector = '[data-group=details]';
-  
+
         // given
         selection.select(shape);
-  
+
         // then
         var group = domQuery(groupSelector, propertiesPanel._container);
 

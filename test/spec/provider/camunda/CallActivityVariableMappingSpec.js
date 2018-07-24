@@ -852,16 +852,16 @@ describe('CallActivity - variable mapping', function() {
         checkBox = domQuery('input[id=camunda-variableMapping-local]', propertiesPanel._container),
         businessObject = getBusinessObject(shape);
 
-      // given
+    // given
     selectBox.options[0].selected = 'selected';
     TestHelper.triggerEvent(selectBox, 'change');
 
     expect(checkBox.checked).to.be.false;
 
-      // when
+    // when
     TestHelper.triggerEvent(checkBox, 'click');
 
-      // then
+    // then
     expect(checkBox.checked).to.be.true;
 
     var variableMappings = getVariableMappings(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);

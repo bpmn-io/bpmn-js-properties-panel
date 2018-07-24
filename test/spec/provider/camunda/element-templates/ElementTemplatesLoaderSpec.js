@@ -215,7 +215,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
 });
 
 
-//////////// helpers ////////////////////////////
+// helpers ////////////////////////////
 
 function messages(errors) {
   return errors.map(function(e) {

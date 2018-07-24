@@ -95,10 +95,10 @@ describe('fieldInjection-properties', function() {
   }
 
 
-  var FIELD_NAME_ELEMENT                = { dataEntry: 'field-name', name: 'fieldName' },
-      FIELD_TYPE_ELEMENT                = { dataEntry: 'field-type', name: 'fieldType' },
-      FIELD_VALUE_ELEMENT               = { dataEntry: 'field-value', name: 'fieldValue' },
-      FIELDS_SELECT_ELEMENT             = { dataEntry: 'fields', name: 'selectedExtensionElement' };
+  var FIELD_NAME_ELEMENT = { dataEntry: 'field-name', name: 'fieldName' },
+      FIELD_TYPE_ELEMENT = { dataEntry: 'field-type', name: 'fieldType' },
+      FIELD_VALUE_ELEMENT = { dataEntry: 'field-value', name: 'fieldValue' },
+      FIELDS_SELECT_ELEMENT = { dataEntry: 'fields', name: 'selectedExtensionElement' };
 
   describe('get', function() {
 

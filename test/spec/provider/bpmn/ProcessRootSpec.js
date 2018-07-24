@@ -56,7 +56,7 @@ describe('prcoess-root-process-properties', function() {
 
     selection.select(shape);
     var isExecutable = domQuery('input[name=isExecutable]', propertiesPanel._container),
-        taskBo        = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // given
     expect(taskBo.get('isExecutable')).to.not.be.ok;

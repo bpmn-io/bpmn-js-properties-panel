@@ -344,7 +344,7 @@ describe('callActivity - properties', function() {
         field = getSelect(propertiesPanel._container, 'callableBinding');
 
         // select 'latest'
-        field.options[0].selected  = 'selected';
+        field.options[0].selected = 'selected';
         TestHelper.triggerEvent(field, 'change');
 
       }));
@@ -463,8 +463,8 @@ describe('callActivity - properties', function() {
       });
 
     });
-    
-    
+
+
     describe('#calledElementVersionTag', function() {
 
       var field, bo;
@@ -684,7 +684,7 @@ describe('callActivity - properties', function() {
         it('should undo', inject(function(commandStack) {
 
           commandStack.undo();
-            
+
           expect(field.checked).to.be.false;
 
         }));

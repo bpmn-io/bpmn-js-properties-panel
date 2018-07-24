@@ -66,7 +66,7 @@ describe('event-properties', function() {
         // then
         expect(textField).to.exist;
       }
-    ));
+      ));
 
 
     it('should not show variableEvent for start events (parent: root)',
@@ -83,7 +83,7 @@ describe('event-properties', function() {
         // then
         expect(textField).not.to.exist;
       }
-    ));
+      ));
 
 
     it('should show variableName for boundary events',
@@ -100,7 +100,7 @@ describe('event-properties', function() {
         // then
         expect(textField).to.exist;
       }
-    ));
+      ));
 
 
     it('should show variableEvent for boundary events',
@@ -117,7 +117,7 @@ describe('event-properties', function() {
         // then
         expect(textField).to.exist;
       }
-    ));
+      ));
 
 
     it('should show variableName for start events (parent: sub process)',
@@ -134,7 +134,7 @@ describe('event-properties', function() {
         // then
         expect(textField).to.exist;
       }
-    ));
+      ));
 
 
     it('should not show variableEvent for start events (parent: sub process)',
@@ -151,7 +151,7 @@ describe('event-properties', function() {
         // then
         expect(textField).not.to.exist;
       }
-    ));
+      ));
 
   });
 

@@ -107,13 +107,13 @@ describe('Task Priority', function() {
 
     it('should remove attribute when value is empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      var shape   = elementRegistry.get('Process_1'),
+      var shape = elementRegistry.get('Process_1'),
           inputEl = 'input[name=taskPriority]';
 
       // given
       selection.select(shape);
 
-      var bo         = getBusinessObject(shape),
+      var bo = getBusinessObject(shape),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
       // when
@@ -126,13 +126,13 @@ describe('Task Priority', function() {
 
     it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
-      var shape   = elementRegistry.get('Process_1'),
+      var shape = elementRegistry.get('Process_1'),
           inputEl = 'input[name=taskPriority]';
 
 
       selection.select(shape);
 
-      var bo         = getBusinessObject(shape),
+      var bo = getBusinessObject(shape),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
       // given
@@ -206,13 +206,13 @@ describe('Task Priority', function() {
 
     it('should remove attribute when value is empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      var shape   = elementRegistry.get('serviceTask'),
+      var shape = elementRegistry.get('serviceTask'),
           inputEl = 'input[name=taskPriority]';
 
       // given
       selection.select(shape);
 
-      var bo         = getBusinessObject(shape),
+      var bo = getBusinessObject(shape),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
       // when
@@ -225,13 +225,13 @@ describe('Task Priority', function() {
 
     it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
-      var shape   = elementRegistry.get('serviceTask'),
+      var shape = elementRegistry.get('serviceTask'),
           inputEl = 'input[name=taskPriority]';
 
 
       selection.select(shape);
 
-      var bo         = getBusinessObject(shape),
+      var bo = getBusinessObject(shape),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
       // given

@@ -55,42 +55,42 @@ describe('extensionElements', function() {
 
   it('should remove list when there is no child element left', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape   = elementRegistry.get('BoundaryEvent'),
+    var shape = elementRegistry.get('BoundaryEvent'),
         inputEl = 'input[name=cycle]';
 
-      // given
+    // given
     selection.select(shape);
 
-    var bo         = getBusinessObject(shape),
+    var bo = getBusinessObject(shape),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // then
+    // then
     expect(bo.get('extensionElements')).to.be.undefined;
   }));
 
 
   it('should add list when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
-    var shape   = elementRegistry.get('BoundaryEvent'),
+    var shape = elementRegistry.get('BoundaryEvent'),
         inputEl = 'input[name=cycle]';
 
 
     selection.select(shape);
 
-    var bo         = getBusinessObject(shape),
+    var bo = getBusinessObject(shape),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // given
+    // given
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // when
+    // when
     commandStack.undo();
     var eE = bo.get('extensionElements');
 
-      // then
+    // then
     expect(eE).not.to.be.undefined;
     expect(eE.get('values').length).to.equal(1);
     expect(eE.get('values')[0].body).to.equal('asd');

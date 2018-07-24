@@ -56,30 +56,30 @@ describe('Version-Tag', function() {
     var shape = elementRegistry.get('Participant_2'),
         inputEl = 'input[name=versionTag]';
 
-      // given
+    // given
     selection.select(shape);
     var bo = getBusinessObject(shape).get('processRef'),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '1.0.2', 'change');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.equal('1.0.2');
   }));
 
   it('should fetch the value of the attribute on processRef', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('Participant_1');
 
-      // when
+    // when
     selection.select(shape);
     var bo = getBusinessObject(shape).get('processRef');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.equal('1.0.0');
   }));
 
@@ -88,56 +88,56 @@ describe('Version-Tag', function() {
     var shape = elementRegistry.get('Participant_1'),
         inputEl = 'input[name=versionTag]';
 
-      // given
+    // given
     selection.select(shape);
     var bo = getBusinessObject(shape).get('processRef'),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '1.0.2', 'change');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.equal('1.0.2');
   }));
 
   it('should remove attribute from processRef when value is empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape   = elementRegistry.get('Participant_1'),
+    var shape = elementRegistry.get('Participant_1'),
         inputEl = 'input[name=versionTag]';
 
-      // given
+    // given
     selection.select(shape);
 
-    var bo         = getBusinessObject(shape).get('processRef'),
+    var bo = getBusinessObject(shape).get('processRef'),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.be.undefined;
   }));
 
 
   it('should add attribute to processRef when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
-    var shape   = elementRegistry.get('Participant_1'),
+    var shape = elementRegistry.get('Participant_1'),
         inputEl = 'input[name=versionTag]';
 
 
     selection.select(shape);
 
-    var bo         = getBusinessObject(shape).get('processRef'),
+    var bo = getBusinessObject(shape).get('processRef'),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // given
+    // given
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // when
+    // when
     commandStack.undo();
     var versionTagField = bo.get('camunda:versionTag');
 
-      // then
+    // then
     expect(versionTagField).not.to.be.undefined;
     expect(versionTagField).to.equal('1.0.0');
   }));

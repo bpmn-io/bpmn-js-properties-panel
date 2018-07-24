@@ -75,7 +75,7 @@ describe('properties-entry-fields', function() {
 
     // now the input field should have a new value and the clear button should be visible
     input = domQuery('input[name=assignee]', propertiesPanel._container);
-    buttonClassArray  = domClasses(clearButton).array();
+    buttonClassArray = domClasses(clearButton).array();
 
     expect(buttonClassArray.length).to.equal(1);
     expect(input.value).to.equal('foo');
@@ -85,7 +85,7 @@ describe('properties-entry-fields', function() {
 
     // the text input field should now be empty and the button should be hidden again
     input = domQuery('input[name=assignee]', propertiesPanel._container);
-    buttonClassArray  = domClasses(clearButton).array();
+    buttonClassArray = domClasses(clearButton).array();
 
     expect(buttonClassArray.length).to.be.at.least(1);
     expect(input.value).to.equal('');
@@ -101,8 +101,8 @@ describe('properties-entry-fields', function() {
     // when
     selection.select(userTaskShape);
 
-    var checkBoxList  = domQueryAll(inputEl + ':checked', propertiesPanel._container),
-        input         = domQuery(inputEl, propertiesPanel._container);
+    var checkBoxList = domQueryAll(inputEl + ':checked', propertiesPanel._container),
+        input = domQuery(inputEl, propertiesPanel._container);
 
     // at the start there should no checkbox be selected
     expect(checkBoxList.length).to.equal(0);
@@ -111,7 +111,7 @@ describe('properties-entry-fields', function() {
     TestHelper.triggerEvent(input, 'click');
 
     // the checkbox is now selected and the business object is set to true
-    checkBoxList     = domQueryAll(inputEl +':checked', propertiesPanel._container);
+    checkBoxList = domQueryAll(inputEl +':checked', propertiesPanel._container);
     expect(checkBoxList.length).to.equal(1);
   }));
 

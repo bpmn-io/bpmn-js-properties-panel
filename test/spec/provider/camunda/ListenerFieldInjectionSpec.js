@@ -91,14 +91,14 @@ describe('listener-fieldInjection-properties', function() {
   }
 
   var EXECUTION_LISTENER_TYPE = 'camunda:ExecutionListener',
-      TASK_LISTENER_TYPE       = 'camunda:TaskListener';
+      TASK_LISTENER_TYPE = 'camunda:TaskListener';
 
-  var FIELD_NAME_ELEMENT                = { dataEntry: 'listener-field-name', name: 'fieldName' },
-      FIELD_TYPE_ELEMENT                = { dataEntry: 'listener-field-type', name: 'fieldType' },
-      FIELD_VALUE_ELEMENT               = { dataEntry: 'listener-field-value', name: 'fieldValue' },
-      FIELDS_SELECT_ELEMENT             = { dataEntry: 'listener-fields', name: 'selectedExtensionElement' },
+  var FIELD_NAME_ELEMENT = { dataEntry: 'listener-field-name', name: 'fieldName' },
+      FIELD_TYPE_ELEMENT = { dataEntry: 'listener-field-type', name: 'fieldType' },
+      FIELD_VALUE_ELEMENT = { dataEntry: 'listener-field-value', name: 'fieldValue' },
+      FIELDS_SELECT_ELEMENT = { dataEntry: 'listener-fields', name: 'selectedExtensionElement' },
       EXECUTION_LISTENER_SELECT_ELEMENT = { dataEntry: 'executionListeners', name: 'selectedExtensionElement' },
-      TASK_LISTENER_SELECT_ELEMENT      = { dataEntry: 'taskListeners', name: 'selectedExtensionElement' };
+      TASK_LISTENER_SELECT_ELEMENT = { dataEntry: 'taskListeners', name: 'selectedExtensionElement' };
 
 
   describe('get', function() {

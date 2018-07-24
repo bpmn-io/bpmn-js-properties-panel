@@ -68,7 +68,7 @@ describe('flow-node-properties', function() {
     selection.select(shape);
 
     var asyncBefore = getAsyncBefore(propertiesPanel._container),
-        taskBo      = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // assume
     // that the asyncBefore is false
@@ -92,7 +92,7 @@ describe('flow-node-properties', function() {
     selection.select(shape);
 
     var asyncBefore = getAsyncBefore(propertiesPanel._container),
-        taskBo      = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // assume
     // that the asyncBefore is false
@@ -116,7 +116,7 @@ describe('flow-node-properties', function() {
     selection.select(shape);
 
     var asyncBefore = getAsyncBefore(propertiesPanel._container),
-        taskBo      = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // assume
     // that the asyncBefore is false
@@ -140,7 +140,7 @@ describe('flow-node-properties', function() {
     selection.select(shape);
 
     var asyncAfter = getAsyncAfter(propertiesPanel._container),
-        taskBo      = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // assume
     // that the asyncAfter is false
@@ -164,7 +164,7 @@ describe('flow-node-properties', function() {
     selection.select(shape);
 
     var checkbox = getAsyncAfter(propertiesPanel._container),
-        taskBo   = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // assume
     // that the asyncAfter property is false (unset)
@@ -190,7 +190,7 @@ describe('flow-node-properties', function() {
     selection.select(shape);
 
     var asyncAfter = getAsyncAfter(propertiesPanel._container),
-        taskBo      = getBusinessObject(shape);
+        taskBo = getBusinessObject(shape);
 
     // assume
     // that the asyncAfter is false (unset)
@@ -284,7 +284,7 @@ describe('flow-node-properties', function() {
 
   it('should remove the retryTimeCycle when the element is not async', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('ServiceTask'),
         bo = getBusinessObject(shape),
         extensionElementsCount = bo.get('extensionElements').get('values').length;
@@ -293,10 +293,10 @@ describe('flow-node-properties', function() {
 
     var domElement = getAsyncBefore(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(domElement, 'click');
 
-      // then
+    // then
     var newCount = bo.get('extensionElements').get('values').length;
 
     expect(newCount + 1).to.equal(extensionElementsCount);
@@ -305,7 +305,7 @@ describe('flow-node-properties', function() {
 
   it('should remove the retryTimeCycle and extensionElements list when the element is not async', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('ServiceTask2'),
         bo = getBusinessObject(shape);
 
@@ -313,23 +313,23 @@ describe('flow-node-properties', function() {
 
     var domElement = getAsyncBefore(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(domElement, 'click');
 
-      // then
+    // then
     expect(bo.get('extensionElements')).to.be.undefined;
   }));
 
 
   it('should show camunda:async as asyncBefore in the ui', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('ServiceTask');
 
-      // when
+    // when
     selection.select(shape);
 
-      // then
+    // then
     var asyncBeforeField = getAsyncBefore(propertiesPanel._container);
 
     expect(!!asyncBeforeField.checked).to.be.ok;
@@ -339,17 +339,17 @@ describe('flow-node-properties', function() {
 
   it('should migrate camunda:async to asyncBefore when asyncBefore is toggled', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('ServiceTask');
 
     selection.select(shape);
 
     var asyncBeforeField = getAsyncBefore(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(asyncBeforeField, 'click');
 
-      // then
+    // then
     var bo = getBusinessObject(shape);
 
     expect(bo.get('camunda:async')).to.be.not.ok;
@@ -358,7 +358,7 @@ describe('flow-node-properties', function() {
 
   it('should not remove the retryTimeCycle when the element is a timer event and is not async', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('StartEvent_Timer'),
         bo = getBusinessObject(shape),
         extensionElements = bo.get('extensionElements').get('values'),
@@ -371,10 +371,10 @@ describe('flow-node-properties', function() {
     expect(domElement.checked).to.be.true;
     expect(extensionElements[0].$type).to.equal('camunda:FailedJobRetryTimeCycle');
 
-      // when
+    // when
     TestHelper.triggerEvent(domElement, 'click');
 
-      // then
+    // then
     expect(domElement.checked).to.be.false;
 
     var newExtensionElements = bo.get('extensionElements').get('values');

@@ -542,7 +542,7 @@ describe('form-data', function() {
 
 
         it('should undo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
 
@@ -555,7 +555,7 @@ describe('form-data', function() {
 
 
         it('should redo', inject(function(commandStack) {
-          
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -573,19 +573,19 @@ describe('form-data', function() {
       describe('deleting all form fields', function() {
 
         it('should delete form data when all form fields deleted', inject(function() {
-          
+
           // given
           var removeButton = domQuery('button[id=cam-extensionElements-remove-form-fields]', container);
-  
+
           // when
           TestHelper.triggerFormFieldSelection(1, container);
           TestHelper.triggerEvent(removeButton, 'click');
           TestHelper.triggerFormFieldSelection(0, container);
           TestHelper.triggerEvent(removeButton, 'click');
-  
+
           // then
           var extensionElements = getBusinessObject(shape).extensionElements;
-  
+
           expect(extensionElements).not.to.exist;
         }));
 
@@ -1012,7 +1012,7 @@ describe('form-data', function() {
     describe('businessKey', function() {
 
       var businessKeySelectBox;
-      
+
       beforeEach(inject(function(elementRegistry) {
 
         // select first form field
@@ -1199,14 +1199,14 @@ describe('form-data', function() {
       it('should be disabled if no fields available for selection', function() {
 
         businessKeySelectBox.options[0].selected = 'selected';
-        
+
         TestHelper.triggerEvent(businessKeySelectBox, 'change');
-        
+
         // delete all fields
         TestHelper.triggerFormFieldSelection(2, container);
-        
+
         var removeButton = domQuery('button[id=cam-extensionElements-remove-form-fields]', container);
-        
+
         TestHelper.triggerEvent(removeButton, 'click');
         TestHelper.triggerFormFieldSelection(1, container);
         TestHelper.triggerEvent(removeButton, 'click');
@@ -1407,7 +1407,7 @@ describe('form-data', function() {
 
       // when
       var formFieldSelectBox = domQuery('select[name=selectedExtensionElement]', propertiesPanel._container);
-  
+
       // then
       expect(formFieldSelectBox.options).to.have.length(0);
     }));

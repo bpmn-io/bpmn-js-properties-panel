@@ -6,15 +6,15 @@ var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
 
-var propertiesPanelModule  = require('../../../../lib'),
-    coreModule               = require('bpmn-js/lib/core').default,
-    selectionModule          = require('diagram-js/lib/features/selection').default,
-    modelingModule           = require('bpmn-js/lib/features/modeling').default,
+var propertiesPanelModule = require('../../../../lib'),
+    coreModule = require('bpmn-js/lib/core').default,
+    selectionModule = require('diagram-js/lib/features/selection').default,
+    modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('../../../../lib/provider/camunda'),
-    camundaModdlePackage     = require('camunda-bpmn-moddle/resources/camunda');
+    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
-var ModelUtil         = require('bpmn-js/lib/util/ModelUtil'),
-    is                = ModelUtil.is,
+var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
+    is = ModelUtil.is,
     getBusinessObject = ModelUtil.getBusinessObject;
 
 var extensionElementsHelper = require('../../../../lib/helper/ExtensionElementsHelper');
@@ -23,7 +23,7 @@ var domQuery = require('min-dom').query,
     domQueryAll = require('min-dom').queryAll,
     domClasses = require('min-dom').classes;
 
-var find    = require('lodash/collection/find');
+var find = require('lodash/collection/find');
 
 // MODEL HELPER
 
@@ -396,8 +396,8 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterTypeSelect(container).value).to.equal('script');
 
         var scriptFormat = domQuery('div[data-tab="input-output"] input[name=scriptFormat]', container),
-            scriptType   = domQuery('div[data-tab="input-output"] select[name="scriptType"]', container),
-            scriptValue  = domQuery('div[data-tab="input-output"] textarea[name="scriptValue"]', container);
+            scriptType = domQuery('div[data-tab="input-output"] select[name="scriptType"]', container),
+            scriptValue = domQuery('div[data-tab="input-output"] textarea[name="scriptValue"]', container);
 
         expect(scriptFormat.value).to.equal('javascript');
         expect(scriptType.value).to.equal('script');
@@ -519,8 +519,8 @@ describe('input-output-parameter-properties', function() {
         expect(getParameterTypeSelect(container).value).to.equal('script');
 
         var scriptFormat = domQuery('div[data-tab="input-output"] input[name=scriptFormat]', container),
-            scriptType   = domQuery('div[data-tab="input-output"] select[name="scriptType"]', container),
-            scriptValue  = domQuery('div[data-tab="input-output"] textarea[name="scriptValue"]', container);
+            scriptType = domQuery('div[data-tab="input-output"] select[name="scriptType"]', container),
+            scriptValue = domQuery('div[data-tab="input-output"] textarea[name="scriptValue"]', container);
 
         expect(scriptFormat.value).to.equal('javascript');
         expect(scriptType.value).to.equal('script');

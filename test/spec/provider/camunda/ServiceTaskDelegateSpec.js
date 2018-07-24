@@ -67,7 +67,7 @@ describe('service-task-delegate-properties', function() {
 
       // if
       // select 'delegateExpression'
-      delegateOption.options[2].selected  = 'selected';
+      delegateOption.options[2].selected = 'selected';
       TestHelper.triggerEvent(delegateOption, 'change');
       TestHelper.triggerValue(delegateInput, 'foo');
 
@@ -256,8 +256,10 @@ describe('service-task-delegate-properties', function() {
 
     var implType = domQuery('select[name=implType]', propertiesPanel._container),
         delegateField = domQuery('input[name="delegate"]', propertiesPanel._container),
-        clearButton = domQuery('[data-entry=delegate] button[data-action=clear]',
-                                propertiesPanel._container),
+        clearButton = domQuery(
+          '[data-entry=delegate] button[data-action=clear]',
+          propertiesPanel._container
+        ),
         businessObject = getBusinessObject(shape);
 
     // given

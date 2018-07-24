@@ -85,7 +85,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // when
     // select option 'dmn'
-    implType.options[3].selected  = 'selected';
+    implType.options[3].selected = 'selected';
     TestHelper.triggerEvent(implType, 'change');
 
     TestHelper.triggerValue(decisionRefField, 'foo');
@@ -135,7 +135,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // when
     // select option 'dmn'
-    implType.options[3].selected  = 'selected';
+    implType.options[3].selected = 'selected';
     TestHelper.triggerEvent(implType, 'change');
 
     // then
@@ -164,7 +164,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // when
     // select option 'version'
-    decisionRefBinding.options[2].selected  = 'selected';
+    decisionRefBinding.options[2].selected = 'selected';
     TestHelper.triggerEvent(decisionRefBinding, 'change');
 
     TestHelper.triggerValue(decisionRefVersion, '14');
@@ -195,7 +195,7 @@ describe('decision-business-rule-task-properties', function() {
 
     // when
     // select option 'versionTag'
-    decisionRefBinding.options[3].selected  = 'selected';
+    decisionRefBinding.options[3].selected = 'selected';
     TestHelper.triggerEvent(decisionRefBinding, 'change');
 
     TestHelper.triggerValue(decisionRefVersionTag, 'foo');

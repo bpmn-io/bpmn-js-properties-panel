@@ -57,7 +57,7 @@ describe('process-participant-expanded-properties', function() {
     selection.select(shape);
 
     var isExecutable = domQuery('input[name=isExecutable]', propertiesPanel._container),
-        taskBo        = getBusinessObject(shape).get('processRef');
+        taskBo = getBusinessObject(shape).get('processRef');
 
     // when
     TestHelper.triggerEvent(isExecutable, 'click');

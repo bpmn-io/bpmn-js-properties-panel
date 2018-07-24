@@ -1246,7 +1246,7 @@ describe('multiInstance-loop-properties', function() {
     selection.select(shape);
 
     var input = getExclusive(propertiesPanel._container);
-    var  businessObject = getBusinessObject(shape).get('loopCharacteristics');
+    var businessObject = getBusinessObject(shape).get('loopCharacteristics');
 
     // given
     expect(input.checked).to.be.ok;
@@ -1284,15 +1284,15 @@ describe('multiInstance-loop-properties', function() {
 
 
   it('should hide the exclusive box when disabled', inject(function(propertiesPanel, selection, elementRegistry) {
-      // given
+    // given
     var shape = elementRegistry.get('ServiceTask4');
 
-      // when
+    // when
     selection.select(shape);
 
     var exclusiveEntry = getExclusive(propertiesPanel._container);
 
-      // then
+    // then
     expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.true;
 
   }));
@@ -1301,15 +1301,15 @@ describe('multiInstance-loop-properties', function() {
   it('should show the exclusive box when async before or async after are enabled', inject(function(propertiesPanel, selection, elementRegistry) {
     var shape = elementRegistry.get('ServiceTask4');
 
-      // given
+    // given
     selection.select(shape);
     var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
         exclusiveEntry = getExclusive(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
-      // then
+    // then
     expect(domClasses(exclusiveEntry).has(HIDE_CLASS)).to.be.false;
 
   }));
@@ -1400,14 +1400,14 @@ describe('multiInstance-loop-properties', function() {
 
 
   it('should hide the job retry time cycle field when disabled', inject(function(propertiesPanel, selection, elementRegistry) {
-      // given
+    // given
     var shape = elementRegistry.get('ServiceTask4');
 
-      // when
+    // when
     selection.select(shape);
     var jobRetryEntry = getCycle(propertiesPanel._container);
 
-      // then
+    // then
     expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.true;
 
   }));
@@ -1416,15 +1416,15 @@ describe('multiInstance-loop-properties', function() {
   it('should show the job retry time cycle field when async before or async after are enabled', inject(function(propertiesPanel, selection, elementRegistry) {
     var shape = elementRegistry.get('ServiceTask4');
 
-      // given
+    // given
     selection.select(shape);
     var asyncBeforeInput = getAsyncBefore(propertiesPanel._container),
         jobRetryEntry = getCycle(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(asyncBeforeInput, 'click');
 
-      // then
+    // then
     expect(domClasses(jobRetryEntry.parentElement).has(HIDE_CLASS)).to.be.false;
 
   }));
@@ -1436,15 +1436,15 @@ describe('multiInstance-loop-properties', function() {
         bo = getBusinessObject(shape).loopCharacteristics,
         extensionElementsCount = bo.get('extensionElements').get('values').length;
 
-      // given
+    // given
     selection.select(shape);
     var domElement = getAsyncBefore(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(domElement, 'click');
     var newCount = bo.get('extensionElements').get('values').length;
 
-      // then
+    // then
     expect(newCount + 1).to.equal(extensionElementsCount);
   }));
 
@@ -1454,14 +1454,14 @@ describe('multiInstance-loop-properties', function() {
     var shape = elementRegistry.get('ServiceTask5'),
         bo = getBusinessObject(shape).loopCharacteristics;
 
-      // given
+    // given
     selection.select(shape);
     var domElement = getAsyncBefore(propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerEvent(domElement, 'click');
 
-      // then
+    // then
     expect(bo.get('extensionElements')).to.be.undefined;
   }));
 

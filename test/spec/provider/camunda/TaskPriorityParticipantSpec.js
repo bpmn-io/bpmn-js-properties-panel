@@ -112,12 +112,12 @@ describe('Task Priority', function() {
     it('should remove attribute when value is empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
-      var shape   = elementRegistry.get('Participant_1'),
+      var shape = elementRegistry.get('Participant_1'),
           inputEl = 'input[name=taskPriority]';
 
       selection.select(shape);
 
-      var bo         = getBusinessObject(shape).get('processRef'),
+      var bo = getBusinessObject(shape).get('processRef'),
           inputElement = domQuery(inputEl, propertiesPanel._container);
 
       // when
@@ -131,7 +131,7 @@ describe('Task Priority', function() {
     it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
 
       // given
-      var shape   = elementRegistry.get('Participant_1'),
+      var shape = elementRegistry.get('Participant_1'),
           inputEl = 'input[name=taskPriority]';
 
 

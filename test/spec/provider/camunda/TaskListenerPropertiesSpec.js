@@ -98,8 +98,8 @@ describe('taskListeners-properties', function() {
   }
 
   var LISTENER_EVENT_TYPE_ENTRY = 'listener-event-type',
-      LISTENER_TYPE_ENTRY       = 'listener-type',
-      LISTENER_VALUE_ENTRY      = 'listener-value';
+      LISTENER_TYPE_ENTRY = 'listener-type',
+      LISTENER_VALUE_ENTRY = 'listener-value';
 
 
   it('should fetch task listener properties for an user task', inject(function(propertiesPanel, selection, elementRegistry) {

@@ -49,7 +49,7 @@ function selectActivityRef(type, container) {
   var option = find(select.options, function(o) {
     return o.value === type;
   });
-  option.selected  = 'selected';
+  option.selected = 'selected';
   TestHelper.triggerEvent(select, 'change');
 }
 
@@ -232,7 +232,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(compensateEventDefinition.get('waitForCompletion')).to.be.false;
         }));
 
@@ -260,7 +260,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(waitForCompletionCheckbox.checked).to.be.false;
         }));
 
@@ -307,7 +307,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(compensateEventDefinition.get('waitForCompletion')).not.to.be.ok;
         }));
 
@@ -334,7 +334,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(waitForCompletionCheckbox.checked).not.to.be.ok;
         }));
 
@@ -388,7 +388,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(compensateEventDefinition.get('activityRef')).not.to.be.ok;
         }));
 
@@ -416,7 +416,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(activityRefSelectBox.value).not.to.be.ok;
         }));
 
@@ -463,7 +463,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(compensateEventDefinition.get('activityRef')).to.be.ok;
           expect(compensateEventDefinition.get('activityRef').id).to.equal('callActivity');
         }));
@@ -492,7 +492,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(activityRefSelectBox.value).to.equal('callActivity');
         }));
 
@@ -539,7 +539,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(compensateEventDefinition.get('activityRef')).to.be.ok;
           expect(compensateEventDefinition.get('activityRef').id).to.equal('callActivity');
         }));
@@ -567,7 +567,7 @@ describe('compensation-event-process', function() {
           // when
           commandStack.undo();
 
-          //then
+          // then
           expect(activityRefSelectBox.value).to.equal('callActivity');
         }));
 

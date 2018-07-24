@@ -49,7 +49,7 @@ function selectTimerDefinitionType(type, container) {
   var option = find(selectBox.options, function(o) {
     return o.value === type;
   });
-  option.selected  = 'selected';
+  option.selected = 'selected';
   TestHelper.triggerEvent(selectBox, 'change');
 }
 

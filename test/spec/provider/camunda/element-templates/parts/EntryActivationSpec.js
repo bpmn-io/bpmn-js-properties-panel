@@ -58,7 +58,7 @@ describe('element-templates/parts - entry activation', function() {
 });
 
 
-/////// helpers //////////////////////////////
+// helpers //////////////////////////////
 
 function expectEditable(entryId, inputSelector) {
   expectEditState(entryId, inputSelector, true);

@@ -49,7 +49,7 @@ function selectErrorDefinition(id, container) {
   var option = find(selectBox.options, function(o) {
     return o.value === id;
   });
-  option.selected  = 'selected';
+  option.selected = 'selected';
   TestHelper.triggerEvent(selectBox, 'change');
 }
 

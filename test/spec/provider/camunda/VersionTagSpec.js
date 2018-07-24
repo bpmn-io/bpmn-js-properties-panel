@@ -15,6 +15,7 @@ var propertiesPanelModule = require('../../../../lib'),
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+
 describe('Version-Tag', function() {
 
   var diagramXML = require('./VersionTag.bpmn');
@@ -56,30 +57,30 @@ describe('Version-Tag', function() {
     var shape = elementRegistry.get('Process_1'),
         inputEl = 'input[name=versionTag]';
 
-      // given
+    // given
     selection.select(shape);
     var bo = getBusinessObject(shape),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '1.0.2', 'change');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.equal('1.0.2');
   }));
 
   it('should fetch the value of the attribute', inject(function(propertiesPanel, selection, elementRegistry) {
 
-      // given
+    // given
     var shape = elementRegistry.get('Process_1');
 
-      // when
+    // when
     selection.select(shape);
     var bo = getBusinessObject(shape);
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.equal('1.0.0');
   }));
 
@@ -88,60 +89,61 @@ describe('Version-Tag', function() {
     var shape = elementRegistry.get('Process_1'),
         inputEl = 'input[name=versionTag]';
 
-      // given
+    // given
     selection.select(shape);
     var bo = getBusinessObject(shape),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '1.0.2', 'change');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.equal('1.0.2');
   }));
 
   it('should remove attribute when value is empty', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape   = elementRegistry.get('Process_1'),
+    var shape = elementRegistry.get('Process_1'),
         inputEl = 'input[name=versionTag]';
 
-      // given
+    // given
     selection.select(shape);
 
-    var bo         = getBusinessObject(shape),
+    var bo = getBusinessObject(shape),
         inputElement = domQuery(inputEl, propertiesPanel._container);
 
-      // when
+    // when
     TestHelper.triggerValue(inputElement, '', 'change');
 
-      // then
+    // then
     expect(bo.get('camunda:versionTag')).to.be.undefined;
   }));
 
 
-  it('should add attribute when the remove is undone', inject(function(propertiesPanel, selection, elementRegistry, commandStack) {
+  it('should add attribute when the remove is undone', inject(
+    function(propertiesPanel, selection, elementRegistry, commandStack) {
 
-    var shape   = elementRegistry.get('Process_1'),
-        inputEl = 'input[name=versionTag]';
+      var shape = elementRegistry.get('Process_1'),
+          inputEl = 'input[name=versionTag]';
 
 
-    selection.select(shape);
+      selection.select(shape);
 
-    var bo         = getBusinessObject(shape),
-        inputElement = domQuery(inputEl, propertiesPanel._container);
+      var bo = getBusinessObject(shape),
+          inputElement = domQuery(inputEl, propertiesPanel._container);
 
       // given
-    TestHelper.triggerValue(inputElement, '', 'change');
+      TestHelper.triggerValue(inputElement, '', 'change');
 
       // when
-    commandStack.undo();
-    var versionTag = bo.get('camunda:versionTag');
-
+      commandStack.undo();
+      var versionTag = bo.get('camunda:versionTag');
 
 
       // then
-    expect(versionTag).not.to.be.undefined;
-    expect(versionTag).to.equal('1.0.0');
-  }));
+      expect(versionTag).not.to.be.undefined;
+      expect(versionTag).to.equal('1.0.0');
+    }
+  ));
 
 });
