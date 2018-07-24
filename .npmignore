@@ -4,5 +4,4 @@ test/*
 !test/helper
 .eslintrc
 .travis.yml
-Gruntfile.js
 karma.conf.js
