@@ -4,5 +4,4 @@ test/*
 !test/helper
 .eslintrc
 .travis.yml
-CONTRIBUTING.md
 Gruntfile.js
