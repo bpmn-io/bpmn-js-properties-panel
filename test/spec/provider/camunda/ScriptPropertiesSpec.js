@@ -216,7 +216,7 @@ describe('script-properties', function() {
 
     var scriptFormat = domQuery('div[data-entry="script-implementation"] input[name="scriptFormat"]', propertiesPanel._container),
         clearButton = domQuery(
-          '[data-entry=script-implementation] > .bpp-row > .bpp-field-wrapper > button[data-action=script.clearScriptFormat]',
+          '[data-entry=script-implementation] > .bpp-row > .bpp-field-wrapper > button[data-action="script.clearScriptFormat"]',
           propertiesPanel._container
         ),
         businessObject = getBusinessObject(shape);
@@ -242,7 +242,7 @@ describe('script-properties', function() {
 
     var scriptResourceValue = domQuery('div[data-entry="script-implementation"] input[name="scriptResourceValue"]', propertiesPanel._container),
         clearButton = domQuery(
-          '[data-entry=script-implementation] > .bpp-row > .bpp-field-wrapper > button[data-action=script.clearScriptResource]',
+          '[data-entry=script-implementation] > .bpp-row > .bpp-field-wrapper > button[data-action="script.clearScriptResource"]',
           propertiesPanel._container
         ),
         businessObject = getBusinessObject(shape);
@@ -388,7 +388,7 @@ describe('script-properties', function() {
 
     var scriptFormat = domQuery('div[data-entry="condition"] input[name="scriptFormat"]', propertiesPanel._container),
         clearButton = domQuery(
-          '[data-entry=condition] button[data-action=script.clearScriptFormat]',
+          '[data-entry=condition] button[data-action="script.clearScriptFormat"]',
           propertiesPanel._container
         ),
         businessObject = getBusinessObject(shape).conditionExpression;
