@@ -67,7 +67,7 @@ describe('element-name-properties', function() {
 
   describe('change name', function() {
 
-    var container, element, nameField;
+    var container, element, nameField, label;
 
     beforeEach(inject(function(propertiesPanel) {
       container = propertiesPanel._container;
@@ -302,9 +302,11 @@ describe('element-name-properties', function() {
         element = getBusinessObject(shape);
 
         nameField = domQuery('div[name=text]', getEntry(container, 'name'));
+        label = domQuery('label[for=camunda-name]', getEntry(container, 'name'));
 
         expect(element.text).to.equal('text for name');
         expect(nameField.textContent).to.equal('text for name');
+        expect(label.textContent).to.equal('Text');
 
         // when
         TestHelper.triggerValue(nameField, 'foo', 'change');
