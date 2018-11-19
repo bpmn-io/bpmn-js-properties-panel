@@ -26,11 +26,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "bpmn-js": "^2.4.0",
+    "bpmn-js": "^3.0.1",
     "bpmn-moddle": "^5.1.5",
     "camunda-bpmn-moddle": "^3.0.0",
     "chai": "^4.1.2",
-    "diagram-js": "^2.5.1",
+    "diagram-js": "^3.0.1",
     "eslint": "^5.2.0",
     "eslint-plugin-bpmn-io": "^0.5.3",
     "karma": "^2.0.4",
@@ -61,6 +61,6 @@
     "selection-update": "^0.1.2"
   },
   "peerDependencies": {
-    "bpmn-js": "^1.0 || ^2.0"
+    "bpmn-js": "^1.x || ^2.x || ^3.x"
   }
 }
