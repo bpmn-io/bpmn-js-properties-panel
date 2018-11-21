@@ -6,6 +6,15 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.28.0
+
+* `FEAT`: support `camunda:isStartableInTasklist` ([#284](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/284))
+* `FIX`: don't restrict properties panel height unnecessarily ([#283](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/283))
+
+## 0.27.0
+
+* `CHORE`: `bpmn-js@3` compatibility
+
 ## 0.26.0
 
 * `FEAT`: provide pre-built styles
