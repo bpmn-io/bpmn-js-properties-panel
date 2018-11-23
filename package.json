@@ -28,7 +28,7 @@
   "devDependencies": {
     "bpmn-js": "^3.0.1",
     "bpmn-moddle": "^5.1.5",
-    "camunda-bpmn-moddle": "^3.1.0",
+    "camunda-bpmn-moddle": "^3.1.1",
     "chai": "^4.1.2",
     "diagram-js": "^3.0.1",
     "eslint": "^5.2.0",
