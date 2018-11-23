@@ -17,6 +17,7 @@ var propertiesPanelModule = require('lib'),
 
 
 describe('isStartableInTasklist', function() {
+
   var testModules = [
     coreModule, selectionModule, modelingModule,
     propertiesPanelModule,
@@ -43,7 +44,7 @@ describe('isStartableInTasklist', function() {
     }));
 
 
-    it('should get isStartableInTasklist property of process', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should get property of process', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('Process_1'),
@@ -56,12 +57,13 @@ describe('isStartableInTasklist', function() {
           checked = domQuery(inputEl, propertiesPanel._container).checked;
 
       // then
-      expect(bo.get('isStartableInTasklist')).to.be.true;
-      expect(checked).to.be.true;
+      // non-default false property is set
+      expect(bo.get('camunda:isStartableInTasklist')).to.be.false;
+      expect(checked).to.be.false;
     }));
 
 
-    it('should set isStartableInTasklist property of process', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should set property of process', inject(function(propertiesPanel, selection, elementRegistry) {
 
       var shape = elementRegistry.get('Process_1'),
           inputEl = 'input[name=isStartableInTasklist]';
@@ -76,7 +78,8 @@ describe('isStartableInTasklist', function() {
       TestHelper.triggerEvent(inputElement, 'click');
 
       // then
-      expect(bo.get('isStartableInTasklist')).not.to.exist;
+      // default true property is set
+      expect(bo.get('camunda:isStartableInTasklist')).to.be.true;
     }));
 
   });
@@ -95,40 +98,101 @@ describe('isStartableInTasklist', function() {
     }));
 
 
-    it('should get isStartableInTasklist property of process referenced by participant', inject(function(propertiesPanel, selection, elementRegistry) {
+    describe('should get property of referenced process', function() {
+
+      it('explicitly set to FALSE', inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('Participant_Not_Startable'),
+            inputEl = 'input[name=isStartableInTasklist]';
+
+        // when
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape).get('processRef'),
+            checked = domQuery(inputEl, propertiesPanel._container).checked;
+
+        // then
+        expect(bo.get('camunda:isStartableInTasklist')).to.be.false;
+        expect(checked).to.be.false;
+      }));
+
+
+      it('default value present', inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('Participant_Startable'),
+            inputEl = 'input[name=isStartableInTasklist]';
+
+        // when
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape).get('processRef'),
+            checked = domQuery(inputEl, propertiesPanel._container).checked;
+
+        // then
+        expect(bo.get('camunda:isStartableInTasklist')).to.be.true;
+        expect(checked).to.be.true;
+      }));
+
+    });
+
+
+    describe('should set property of referenced process', function() {
+
+      it('to FALSE', inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('Participant_Startable'),
+            inputEl = 'input[name=isStartableInTasklist]';
+
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape).get('processRef'),
+            inputElement = domQuery(inputEl, propertiesPanel._container);
+
+        // when
+        TestHelper.triggerEvent(inputElement, 'click');
+
+        // then
+        expect(bo.get('camunda:isStartableInTasklist')).to.be.false;
+      }));
+
+
+      it('to default value (TRUE)', inject(function(propertiesPanel, selection, elementRegistry) {
+
+        // given
+        var shape = elementRegistry.get('Participant_Not_Startable'),
+            inputEl = 'input[name=isStartableInTasklist]';
+
+        selection.select(shape);
+
+        var bo = getBusinessObject(shape).get('processRef'),
+            inputElement = domQuery(inputEl, propertiesPanel._container);
+
+        // when
+        TestHelper.triggerEvent(inputElement, 'click');
+
+        // then
+        expect(bo.get('camunda:isStartableInTasklist')).to.be.true;
+      }));
+
+    });
+
+
+    it('should hide editing controls on collapsed pool', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
-      var shape = elementRegistry.get('Participant_1'),
+      var shape = elementRegistry.get('Participant_Collapsed'),
           inputEl = 'input[name=isStartableInTasklist]';
 
       // when
       selection.select(shape);
 
-      var bo = getBusinessObject(shape).get('processRef'),
-          checked = domQuery(inputEl, propertiesPanel._container).checked;
+      var el = domQuery(inputEl, propertiesPanel._container);
 
       // then
-      expect(bo.get('isStartableInTasklist')).to.be.true;
-      expect(checked).to.be.true;
-    }));
-
-
-    it('should set isStartableInTasklist property of process referenced by participant', inject(function(propertiesPanel, selection, elementRegistry) {
-
-      // given
-      var shape = elementRegistry.get('Participant_1'),
-          inputEl = 'input[name=isStartableInTasklist]';
-
-      selection.select(shape);
-
-      var bo = getBusinessObject(shape).get('processRef'),
-          inputElement = domQuery(inputEl, propertiesPanel._container);
-
-      // when
-      TestHelper.triggerEvent(inputElement, 'click');
-
-      // then
-      expect(bo.get('isStartableInTasklist')).not.to.exist;
+      expect(el).not.to.exist;
     }));
 
   });
