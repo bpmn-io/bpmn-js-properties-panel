@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.28.2
+
+* `CHORE`: update to `npm-run-all@4.1.5`
+
 ## 0.28.1
 
 * `FIX`: handle correct `camunda:isStartableInTasklist` default value
