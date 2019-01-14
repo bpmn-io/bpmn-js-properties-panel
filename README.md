@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bpmn-io/bpmn-js-properties-panel.svg?branch=master)](https://travis-ci.org/bpmn-io/bpmn-js-properties-panel)
 
-This is properties panel extension for [bpmn-js](https://github.com/bpmn-io/bpmn-js).
+A properties panel extension for [bpmn-js](https://github.com/bpmn-io/bpmn-js) that adds the ability to edit technical properties (generic and [Camunda](https://camunda.com)).
 
 [![bpmn-js-properties-panel screenshot](https://raw.githubusercontent.com/bpmn-io/bpmn-js-properties-panel/master/docs/screenshot.png "Screenshot of the bpmn-js modeler + properties panel")](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
 
@@ -66,7 +66,7 @@ propertiesPanel.attachTo('#other-properties');
 
 ### Use with Camunda properties
 
-In order to be able to edit [Camunda](https://camunda.org) related properties, use the [camunda properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/lib/provider/camunda).
+In order to be able to edit [Camunda](https://camunda.com) related properties, use the [camunda properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/lib/provider/camunda).
 In addition, you need to define the `camunda` namespace via [camunda-bpmn-moddle](https://github.com/camunda/camunda-bpmn-moddle).
 
 ```javascript
