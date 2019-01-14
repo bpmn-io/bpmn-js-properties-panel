@@ -169,7 +169,7 @@ describe('SignalEvent - variable mapping', function() {
 
       it('should execute', inject(function() {
         expect(inSelectBox.options).to.have.length(4);
-        expect(inSelectBox.textContent).to.contain('3 : <empty>');
+        expect(inSelectBox.textContent).to.contain('<undefined> := <empty>');
 
         expect(signalEventDefinition.extensionElements).not.to.be.undefined;
 
@@ -196,7 +196,7 @@ describe('SignalEvent - variable mapping', function() {
         commandStack.redo();
 
         expect(inSelectBox.options).to.have.length(4);
-        expect(inSelectBox.textContent).to.contain('3 : <empty>');
+        expect(inSelectBox.textContent).to.contain('<undefined> := <empty>');
 
         expect(signalEventDefinition.extensionElements).not.to.be.undefined;
 
@@ -493,8 +493,7 @@ describe('SignalEvent - variable mapping', function() {
       TestHelper.triggerEvent(typeSelectBox, 'change');
 
       // then
-      expect(selectBox.textContent).to.contain('1 : all');
-
+      expect(selectBox.textContent).to.contain('all');
       variablesMappings = getMappingsWithVariablesAttr(signalEventDefinition.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
       expect(variablesMappings).to.have.length(2);
     }));

@@ -278,7 +278,7 @@ describe('CallActivity - variable mapping', function() {
     it('should execute', inject(function() {
 
       expect(inSelectBox.options).to.have.length(5);
-      expect(inSelectBox.textContent).to.contain('4 : <empty>');
+      expect(inSelectBox.textContent).to.contain('<undefined> := <empty>');
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
@@ -305,7 +305,7 @@ describe('CallActivity - variable mapping', function() {
       commandStack.redo();
 
       expect(inSelectBox.options).to.have.length(5);
-      expect(inSelectBox.textContent).to.contain('4 : <empty>');
+      expect(inSelectBox.textContent).to.contain('<undefined> := <empty>');
 
       expect(businessObject.extensionElements).not.to.be.undefined;
 
@@ -338,7 +338,7 @@ describe('CallActivity - variable mapping', function() {
 
     // then
     expect(outSelectBox.options).to.have.length(3);
-    expect(outSelectBox.textContent).to.contain('2 : <empty>');
+    expect(outSelectBox.textContent).to.contain('<undefined> := <empty>');
 
     expect(businessObject.extensionElements).not.to.be.undefined;
 
@@ -821,7 +821,7 @@ describe('CallActivity - variable mapping', function() {
     TestHelper.triggerEvent(typeSelectBox, 'change');
 
     // then
-    expect(selectBox.textContent).to.contain('1 : all');
+    expect(selectBox.textContent).to.contain('all');
 
     variablesMappings = getMappingsWithVariablesAttr(businessObject.extensionElements, CAMUNDA_IN_EXTENSION_ELEMENT);
     expect(variablesMappings).to.have.length(1);
