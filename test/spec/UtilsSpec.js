@@ -2,6 +2,8 @@
 
 var Utils = require('lib/Utils');
 
+var translate = require('diagram-js/lib/i18n/translate/translate').default;
+
 
 describe('Utils', function() {
 
@@ -10,7 +12,7 @@ describe('Utils', function() {
     function validate(id, expectedResult) {
 
       return function() {
-        var result = Utils.validateId(id);
+        var result = Utils.validateId(id, translate);
 
         expect(result).to.eql(expectedResult);
       };
