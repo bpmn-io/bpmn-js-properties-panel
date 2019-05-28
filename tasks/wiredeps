@@ -1,0 +1,27 @@
+#! /bin/bash
+
+wire() {
+  echo "Attempting to install $1@$2";
+
+  npm install "$1@bpmn-io/$1#$2";
+
+  if [ $? -ne 0 ]; then
+    echo "Falling back to $1@master";
+
+    npm install "$1@bpmn-io/$1#master";
+  fi
+}
+
+FEATURE_BRANCH=
+
+if [ "$TRAVIS_TAG" == "" ]; then
+  if [ "$TRAVIS_PULL_REQUEST_BRANCH" != "" ]; then
+    FEATURE_BRANCH="$TRAVIS_PULL_REQUEST_BRANCH";
+  else
+    FEATURE_BRANCH="$TRAVIS_BRANCH";
+  fi
+
+  wire "diagram-js" "$FEATURE_BRANCH";
+  wire "bpmn-js" "$FEATURE_BRANCH";
+
+fi
