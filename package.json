@@ -26,6 +26,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "bpmn-font": "^0.9.0",
     "bpmn-js": "^3.1.0",
     "bpmn-moddle": "^5.1.6",
     "camunda-bpmn-moddle": "^3.2.0",
