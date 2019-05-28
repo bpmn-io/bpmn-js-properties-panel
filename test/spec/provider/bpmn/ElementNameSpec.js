@@ -370,6 +370,108 @@ describe('element-name-properties', function() {
 
     });
 
+    describe('of a group', function() {
+
+      var categoryValueRef;
+
+      beforeEach(inject(function(elementRegistry, selection) {
+        // given
+        var shape = elementRegistry.get('GROUP');
+        selection.select(shape);
+
+        element = getBusinessObject(shape);
+
+        // assure
+        expect(element.categoryValueRef).to.not.exist;
+
+        nameField = domQuery('div[name=categoryValue]', getEntry(container, 'name'));
+        label = domQuery('label[for=camunda-name]', getEntry(container, 'name'));
+
+        // when
+        TestHelper.triggerValue(nameField, 'foo', 'change');
+
+        categoryValueRef = element.categoryValueRef;
+
+      }));
+
+      it('should initialize category value if needed', inject(function(canvas) {
+        // then
+        var rootElement = canvas.getRootElement(),
+            definitons = getBusinessObject(rootElement).$parent;
+
+        expect(categoryValueRef).to.exist;
+        expect(categoryValueRef.value).to.equal('foo');
+
+        expect(categoryValueRef.$parent).to.exist;
+        expect(definitons.get('rootElements')).to.include(categoryValueRef.$parent);
+
+      }));
+
+
+      it('should have correct label', function() {
+        // then
+        expect(label.textContent).to.equal('Category Value');
+      });
+
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          // then
+          expect(nameField.textContent).to.equal('foo');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(nameField.textContent).to.equal('');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(nameField.textContent).to.equal('foo');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          // then
+          expect(categoryValueRef.value).to.equal('foo');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(categoryValueRef.value).to.equal('');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(categoryValueRef.value).to.equal('foo');
+        }));
+
+      });
+    });
+
   });
 
 
