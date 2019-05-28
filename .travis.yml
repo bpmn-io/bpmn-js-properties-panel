@@ -3,3 +3,6 @@ node_js: '10'
 
 script:
   - npm run all
+before_script:
+  - ./tasks/wiredeps
+
