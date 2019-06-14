@@ -42,4 +42,16 @@ describe('Utils', function() {
     it('may NOT contain empty placeholders', validate('${}', 'Id must be a valid QName.'));
   });
 
+
+  describe('#escapeHTML', function() {
+
+    it('should escape HTML', function() {
+      var htmlStr = '<video src=1 onerror=alert(\'hueh\')>',
+          htmlStr2 = '" onfocus=alert(1) "';
+
+      expect(Utils.escapeHTML(htmlStr)).to.eql('&lt;video src=1 onerror=alert(&#39;hueh&#39;)&gt;');
+      expect(Utils.escapeHTML(htmlStr2)).to.eql('&quot; onfocus=alert(1) &quot;');
+    });
+
+  });
 });
