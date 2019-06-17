@@ -298,7 +298,7 @@ describe('properties-panel', function() {
     }));
 
 
-    it('with a link', inject(function(propertiesPanel) {
+    it('with a markdown link', inject(function(propertiesPanel) {
       var descriptionField = getDescriptionField(propertiesPanel._container, '[data-entry=myLinkText]');
 
       expect(descriptionField.textContent).to.be.equal('For details see camunda.org');
@@ -307,6 +307,29 @@ describe('properties-panel', function() {
 
       expect(link.href).to.be.equal('http://www.camunda.org/');
       expect(link.textContent).to.be.equal('camunda.org');
+    }));
+
+
+    it('with an html link', inject(function(propertiesPanel) {
+      var descriptionField = getDescriptionField(propertiesPanel._container, '[data-entry=myHtmlLinkText]');
+
+      expect(descriptionField.textContent).to.be.equal('For details see camunda.org');
+
+      var link = domQuery('a', descriptionField);
+
+      expect(link.href).to.be.equal('http://www.camunda.org/');
+      expect(link.textContent).to.be.equal('camunda.org');
+    }));
+
+
+    it('with a malicious link', inject(function(propertiesPanel) {
+      var descriptionField = getDescriptionField(propertiesPanel._container, '[data-entry=maliciousLinkText]');
+
+      expect(descriptionField.textContent).to.be.equal('For malicious code see [javascript](javascript:alert(1))');
+
+      var link = domQuery('a', descriptionField);
+
+      expect(link).to.not.exist;
     }));
 
   });
