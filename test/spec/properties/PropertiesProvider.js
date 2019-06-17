@@ -99,6 +99,18 @@ function createGroups(element, bpmnFactory) {
             description: 'For details see [camunda.org](http://www.camunda.org)',
             modelProperty : 'myLinkText'
           }),
+          entryFactory.textField({
+            id : 'myHtmlLinkText',
+            label : 'myHtmlLinkText',
+            description: 'For details see <a href="http://www.camunda.org">camunda.org</a>',
+            modelProperty : 'myHtmlLinkText'
+          }),
+          entryFactory.textField({
+            id : 'maliciousLinkText',
+            label : 'maliciousLinkText',
+            description: 'For malicious code see [javascript](javascript:alert(1))',
+            modelProperty : 'maliciousLinkText'
+          }),
           entryFactory.table({
             id: 'parameterType-list',
             modelProperties: [ 'value' ],
