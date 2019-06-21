@@ -6,6 +6,15 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.31.0
+
+* `FEAT`: sanitize entities when building HTML ([#296](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/296))
+* `FEAT`: support name editing for `bpmn:Group`
+* `FEAT`: improve text annotation label
+* `FEAT`: translate error messages
+* `FIX`: remove accidential whitespace ([`180ba5b9`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/180ba5b9e88adb1d9d1b9bfbd10536fcb2d62709))
+* `CHORE`: update `bpmn-js` peer dependency range to `^3.x || ^4.x`
+
 ## 0.30.0
 
 * `FEAT`: improve localization ([#295](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/295))
