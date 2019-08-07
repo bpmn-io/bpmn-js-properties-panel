@@ -34,6 +34,10 @@ function getInputField(container, entryId, inputName) {
   return domQuery(selector, getEntry(container, entryId));
 }
 
+function getErrorMessageField(container) {
+  return getInputField(container, 'error-element-message', 'errorMessage');
+}
+
 function getErrorCodeVariableField(container) {
   return getInputField(container, 'errorCodeVariable', 'errorCodeVariable');
 }
@@ -101,6 +105,15 @@ describe('error-event-properties', function() {
     }));
 
 
+    it('should fetch the errorMessage of an error event', function() {
+
+      var field = getErrorMessageField(container);
+
+      expect(field.value).to.equal(errorEventDefinition.errorRef.errorMessage);
+
+    });
+
+
     it('should fetch the errorCodeVariable of an error event', function() {
 
       var field = getErrorCodeVariableField(container);
@@ -122,6 +135,80 @@ describe('error-event-properties', function() {
 
 
   describe('set', function() {
+
+    describe('should set the errorMessage for an error event', function() {
+
+      var errorEventDefinition, field;
+
+      beforeEach(inject(function(elementRegistry, selection) {
+
+        // given
+        var item = elementRegistry.get('ErrorEndEvent_ErrorMessage');
+        selection.select(item);
+
+        var bo = item.businessObject;
+        errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(bo);
+
+        field = getErrorMessageField(container);
+
+        // when
+        TestHelper.triggerValue(field, 'FOO', 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).to.equal('FOO');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(field.value).to.equal('message');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(field.value).to.equal('FOO');
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(errorEventDefinition.errorRef.errorMessage).to.equal('FOO');
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(errorEventDefinition.errorRef.errorMessage).to.equal('message');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(errorEventDefinition.errorRef.errorMessage).to.equal('FOO');
+        }));
+
+      });
+
+    });
 
 
     describe('should set the errorCodeVariable for an error event', function() {
@@ -293,6 +380,75 @@ describe('error-event-properties', function() {
       errorEventDefinition = eventDefinitionHelper.getErrorEventDefinition(bo);
 
     }));
+
+
+    describe('#errorMessage', function() {
+
+      var field, button;
+
+      beforeEach(function() {
+
+        field = getErrorMessageField(container);
+        button = getClearButton(container, 'error-element-message');
+
+        TestHelper.triggerEvent(button, 'click');
+
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+          expect(field.value).is.empty;
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(field.value).to.equal('message');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(field.value).is.empty;
+        }));
+
+      });
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+          expect(errorEventDefinition.errorRef.errorMessage).to.be.undefined;
+        });
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(errorEventDefinition.errorRef.errorMessage).to.equal('message');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(errorEventDefinition.errorRef.errorMessage).to.be.undefined;
+        }));
+
+      });
+
+    });
+
 
     describe('#errorCodeVariable', function() {
 
