@@ -44,6 +44,28 @@ describe('factory/EntryFieldDescription', function() {
     });
 
 
+    it('should preserve <a> and <br/>', function() {
+
+      var html = EntryFieldDescription(
+        '<div>' +
+          '<a href="http://foo">' +
+            '<p><br/></p>' +
+          '</a>' +
+          '<br>' +
+          '<a href="http://bar">BAR</a>' +
+        '</div>'
+      );
+
+      expect(html).to.eql(
+        '<div class="bpp-field-description">' +
+          '&lt;div&gt;<a href="http://foo" target="_blank">&lt;p&gt;<br />' +
+          '&lt;/p&gt;</a><br />' +
+          '<a href="http://bar" target="_blank">BAR</a>&lt;/div&gt;' +
+        '</div>'
+      );
+    });
+
+
     it('should handle markdown special chars in <a href>', function() {
 
       // when
@@ -103,13 +125,27 @@ describe('factory/EntryFieldDescription', function() {
     it('should transform markdown link', function() {
 
       // when
-      var html = EntryFieldDescription('Hallo [FOO](http://foo) [BAR](https://bar)!');
+      var html = EntryFieldDescription('Hallo [FOO](http://foo) [BAR](https://bar?a=1&b=10)!');
 
       // then
       expect(html).to.eql(
         '<div class="bpp-field-description">' +
           'Hallo <a href="http://foo" target="_blank">FOO</a> ' +
-          '<a href="https://bar" target="_blank">BAR</a>!' +
+          '<a href="https://bar?a=1&b=10" target="_blank">BAR</a>!' +
+        '</div>'
+      );
+    });
+
+
+    it('should ignore broken markdown link', function() {
+
+      // when
+      var html = EntryFieldDescription('Hallo [YO](http://foo');
+
+      // then
+      expect(html).to.eql(
+        '<div class="bpp-field-description">' +
+          'Hallo [YO](http://foo' +
         '</div>'
       );
     });
@@ -129,19 +165,74 @@ describe('factory/EntryFieldDescription', function() {
     });
 
 
-    it('should ignore special HTML chars in markdown link', function() {
+    it('should preserve line breaks', function() {
 
       // when
-      var html = EntryFieldDescription('Hallo [YOU](http://foo=">)');
+      var html = EntryFieldDescription('Hello <br/> world');
 
       // then
       expect(html).to.eql(
         '<div class="bpp-field-description">' +
-          'Hallo [YOU](http://foo=&quot;&gt;)' +
+          'Hello <br /> world' +
         '</div>'
       );
     });
 
+
+    it('should ignore whitespaces in br tag', function() {
+
+      // when
+      var html = EntryFieldDescription('Hello <br       /> world');
+
+      // then
+      expect(html).to.eql(
+        '<div class="bpp-field-description">' +
+          'Hello <br /> world' +
+        '</div>'
+      );
+    });
+
+
+    it('should preserve line breaks within <a> text', function() {
+
+      // when
+      var html = EntryFieldDescription('<a href="https://test.com"> HELLO <br/> WORLD </a>');
+
+      // then
+      expect(html).to.eql(
+        '<div class="bpp-field-description">' +
+          '<a href="https://test.com" target="_blank"> HELLO <br /> WORLD </a>' +
+        '</div>'
+      );
+    });
+
+
+    it('should not ignore <a> if br used within URL field', function() {
+
+      // when
+      var html = EntryFieldDescription('<a href="https://test<br />website.com"> HELLO <br/> WORLD </a>');
+
+      // then
+      expect(html).to.eql(
+        '<div class="bpp-field-description">' +
+          '<a href="https://test<br />website.com" target="_blank"> HELLO <br /> WORLD </a>' +
+        '</div>'
+      );
+    });
+
+
+    it('should handle special HTML chars in markdown link', function() {
+
+      // when
+      var html = EntryFieldDescription('Hallo [YOU](http://foo=<" []>)');
+
+      // then
+      expect(html).to.eql(
+        '<div class="bpp-field-description">' +
+          'Hallo <a href="http://foo=%3C%22%20%5B%5D%3E" target="_blank">YOU</a>' +
+        '</div>'
+      );
+    });
   });
 
 });
