@@ -89,6 +89,10 @@ describe('taskListeners-properties', function() {
     return domQuery('div[data-entry=taskListeners] button[data-action=removeElement]', container);
   }
 
+  function isHidden(node) {
+    return domClasses(node).has('bpp-hidden');
+  }
+
   function selectListener(container, idx, dataEntrySelector) {
     dataEntrySelector = (dataEntrySelector) ? dataEntrySelector : 'taskListeners';
     var listeners = getSelect(container, 'selectedExtensionElement', dataEntrySelector);
@@ -100,7 +104,9 @@ describe('taskListeners-properties', function() {
   var LISTENER_EVENT_TYPE_ENTRY = 'listener-event-type',
       LISTENER_TYPE_ENTRY = 'listener-type',
       LISTENER_VALUE_ENTRY = 'listener-value',
-      LISTENER_ID_ENTRY = 'listener-id';
+      LISTENER_ID_ENTRY = 'listener-id',
+      LISTENER_TIMER_DEFINITION_TYPE_ENTRY = 'listener-timer-event-definition-type',
+      LISTENER_TIMER_DEFINITION_ENTRY = 'listener-timer-event-definition';
 
 
   it('should fetch task listener properties for an user task', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -645,4 +651,123 @@ describe('taskListeners-properties', function() {
     expect(executionListeners).to.have.length(1);
 
   }));
+  describe('timer event definition', function() {
+
+    it('should fetch timer event definition for timeout task listener', inject(
+      function(selection, elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('UserTask_3'),
+            businessObject = getBusinessObject(taskShape);
+
+        selection.select(taskShape);
+
+        var timerDefinitionType = getSelect(
+          container,
+          'timerDefinitionType',
+          LISTENER_TIMER_DEFINITION_TYPE_ENTRY
+        );
+
+        var taskListener = businessObject.extensionElements.values[0];
+
+        // when
+        selectListener(container, 0);
+
+        // then
+        expect(timerDefinitionType.value).to.equal('timeDuration');
+        expect(taskListener.eventDefinitions).to.have.length(1);
+      }
+    ));
+
+
+    it('should NOT fetch timer event definition for assignment task listener', inject(
+      function(selection, elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('UserTask_1'),
+            businessObject = getBusinessObject(taskShape);
+
+        selection.select(taskShape);
+
+        var timerDefinitionType = getSelect(
+          container,
+          'timerDefinitionType',
+          LISTENER_TIMER_DEFINITION_TYPE_ENTRY
+        );
+
+        var taskListener = businessObject.extensionElements.values[0];
+
+        // when
+        selectListener(container, 0);
+
+        // then
+        expect(isHidden(timerDefinitionType)).to.be.true;
+        expect(taskListener.eventDefinitions).not.to.exist;
+      }
+    ));
+
+
+    it('should add timer event definition to timeout task listener', inject(
+      function(selection, elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('UserTask_4'),
+            businessObject = getBusinessObject(taskShape);
+
+        selection.select(taskShape);
+
+        var timerDefinitionType = getSelect(
+          container,
+          'timerDefinitionType',
+          LISTENER_TIMER_DEFINITION_TYPE_ENTRY
+        );
+
+        var taskListener = businessObject.extensionElements.values[0];
+
+        selectListener(container, 0);
+
+        // assure
+        expect(taskListener.eventDefinitions).to.not.exist;
+
+        // when
+        timerDefinitionType.options[0].selected = 'selected';
+        TestHelper.triggerEvent(timerDefinitionType, 'change');
+
+        // then
+        expect(taskListener.eventDefinitions).to.have.length(1);
+      }
+    ));
+
+
+    it('should set timer definition of timeout task listener', inject(
+      function(selection, elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('UserTask_3'),
+            businessObject = getBusinessObject(taskShape);
+
+        selection.select(taskShape);
+
+        var timerDefinition = getInput(
+          container,
+          'timerDefinition',
+          LISTENER_TIMER_DEFINITION_ENTRY
+        );
+
+        var taskListener = businessObject.extensionElements.values[0];
+
+        selectListener(container, 0);
+
+        // when
+        TestHelper.triggerValue(timerDefinition, 'foo');
+
+        var timerEventDefinition = taskListener.eventDefinitions[0],
+            timeDuration = timerEventDefinition.timeDuration;
+
+        // then
+        expect(timeDuration).to.exist;
+        expect(timeDuration.body).to.equal('foo');
+      }
+    ));
+  });
 });
