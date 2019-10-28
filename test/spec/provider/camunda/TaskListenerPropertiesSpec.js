@@ -99,7 +99,8 @@ describe('taskListeners-properties', function() {
 
   var LISTENER_EVENT_TYPE_ENTRY = 'listener-event-type',
       LISTENER_TYPE_ENTRY = 'listener-type',
-      LISTENER_VALUE_ENTRY = 'listener-value';
+      LISTENER_VALUE_ENTRY = 'listener-value',
+      LISTENER_ID_ENTRY = 'listener-id';
 
 
   it('should fetch task listener properties for an user task', inject(function(propertiesPanel, selection, elementRegistry) {
@@ -127,25 +128,65 @@ describe('taskListeners-properties', function() {
 
   }));
 
+  it('should validate id value for timeout task listener', inject(
+    function(selection, elementRegistry) {
 
-  it('should not fetch task listener properties for a sequence flow', inject(function(propertiesPanel, selection, elementRegistry) {
+      // given
+      var taskShape = elementRegistry.get('UserTask_3');
+      selection.select(taskShape);
 
-    var taskShape = elementRegistry.get('SequenceFlow_1');
-    selection.select(taskShape);
+      var listenerId = getInput(container, 'listenerId', LISTENER_ID_ENTRY);
 
-    var bo = getBusinessObject(taskShape),
-        executionListeners = getSelect(container, 'selectedExtensionElement', 'executionListeners'),
-        taskListeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
+      // when
+      selectListener(container, 0);
 
-    expect(is(bo.extensionElements.values[0], 'camunda:ExecutionListener')).to.be.true;
-    expect(is(bo.extensionElements.values[0], 'camunda:TaskListener')).to.be.false;
+      // then
+      expect(listenerId.className).to.equal('invalid');
+    }
+  ));
 
-    expect(bo.extensionElements.values).to.have.length(1);
 
-    expect(executionListeners).to.exist;
-    expect(taskListeners).to.be.null;
+  it('should NOT validate id value for assignment task listener', inject(
+    function(selection, elementRegistry) {
 
-  }));
+      // given
+      var taskShape = elementRegistry.get('UserTask_1');
+      selection.select(taskShape);
+
+      var listenerId = getInput(container, 'listenerId', LISTENER_ID_ENTRY);
+
+      // when
+      selectListener(container, 0);
+
+      // then
+      expect(listenerId.className).not.to.equal('invalid');
+    }
+  ));
+
+
+  it('should NOT fetch task listener properties for a sequence flow', inject(
+    function(selection, elementRegistry) {
+
+      // given
+      var taskShape = elementRegistry.get('SequenceFlow_1');
+
+      // when
+      selection.select(taskShape);
+
+      var bo = getBusinessObject(taskShape),
+          executionListeners = getSelect(container, 'selectedExtensionElement', 'executionListeners'),
+          taskListeners = getSelect(container, 'selectedExtensionElement', 'taskListeners');
+
+      expect(is(bo.extensionElements.values[0], 'camunda:ExecutionListener')).to.be.true;
+      expect(is(bo.extensionElements.values[0], 'camunda:TaskListener')).to.be.false;
+
+      expect(bo.extensionElements.values).to.have.length(1);
+
+      expect(executionListeners).to.exist;
+      expect(taskListeners).to.be.null;
+    }
+  ));
+
 
 
   it('should change properties of a task listener', inject(function(propertiesPanel, selection, elementRegistry) {
