@@ -798,5 +798,73 @@ describe('taskListeners-properties', function() {
         expect(timeDuration.body).to.equal('foo');
       }
     ));
+
+
+    it('should clear timer definition on type change', inject(
+      function(selection, elementRegistry) {
+
+        // given
+        var taskShape = elementRegistry.get('UserTask_3'),
+            businessObject = getBusinessObject(taskShape);
+
+        selection.select(taskShape);
+
+        var timerDefinitionType = getSelect(
+              container,
+              'timerDefinitionType',
+              LISTENER_TIMER_DEFINITION_TYPE_ENTRY
+            ),
+            eventType = getSelect(container, 'eventType', LISTENER_EVENT_TYPE_ENTRY);
+
+        var taskListener = businessObject.extensionElements.values[0];
+
+        selectListener(container, 0);
+
+        // when
+        eventType.options[0].selected = 'selected';
+        TestHelper.triggerEvent(eventType, 'change');
+
+        // then
+        expect(isHidden(timerDefinitionType)).to.be.true;
+        expect(taskListener.eventDefinitions).to.be.empty;
+      }
+    ));
+
+
+    it('should undo timer definition clearing', inject(
+      function(selection, elementRegistry, commandStack) {
+
+        // given
+        var taskShape = elementRegistry.get('UserTask_3'),
+            businessObject = getBusinessObject(taskShape);
+
+        selection.select(taskShape);
+
+        var timerDefinitionType = getSelect(
+              container,
+              'timerDefinitionType',
+              LISTENER_TIMER_DEFINITION_TYPE_ENTRY
+            ),
+            eventType = getSelect(container, 'eventType', LISTENER_EVENT_TYPE_ENTRY);
+
+        var taskListener = businessObject.extensionElements.values[0];
+
+        selectListener(container, 0);
+
+        eventType.options[0].selected = 'selected';
+        TestHelper.triggerEvent(eventType, 'change');
+
+        // assure
+        expect(isHidden(timerDefinitionType)).to.be.true;
+        expect(taskListener.eventDefinitions).to.be.empty;
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(timerDefinitionType.value).to.equal('timeDuration');
+        expect(taskListener.eventDefinitions).to.have.length(1);
+      }
+    ));
   });
 });
