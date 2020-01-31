@@ -1,5 +1,6 @@
 .github
 docs
+tasks
 test/*
 !test/helper
 !dist/*
