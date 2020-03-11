@@ -245,6 +245,15 @@ function createGroups(element, bpmnFactory) {
             html: '<select name="select"><option>foo</option><option>bar</option></select>'
           }
         ]
+      },
+      {
+        id: 'inputs',
+        entries: [
+          {
+            id: 'contenteditable',
+            html: '<div>Content editable:<div contenteditable></div></div>'
+          }
+        ]
       }
     ];
   }
