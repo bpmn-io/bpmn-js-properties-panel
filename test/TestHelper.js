@@ -62,27 +62,21 @@ var triggerEvent = function(element, eventType) {
 
   eventType = eventType || 'change';
 
-  if (document.createEvent) {
-    try {
-      // Chrome, Safari, Firefox
-      evt = new MouseEvent((eventType), {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      });
-    } catch (e) {
-      // IE 11, PhantomJS (wat!)
-      evt = document.createEvent('MouseEvent');
+  try {
+    // Chrome, Safari, Firefox
+    evt = new MouseEvent((eventType), {
+      view: window,
+      bubbles: true,
+      cancelable: true
+    });
+  } catch (e) {
+    // IE 11, PhantomJS (wat!)
+    evt = document.createEvent('MouseEvent');
 
-      evt.initEvent((eventType), true, true);
-    }
-    return element.dispatchEvent(evt);
-  } else {
-    // Welcome IE
-    evt = document.createEventObject();
-
-    return element.fireEvent('on' + eventType, evt);
+    evt.initEvent((eventType), true, true);
   }
+
+  return element.dispatchEvent(evt);
 };
 
 /**
