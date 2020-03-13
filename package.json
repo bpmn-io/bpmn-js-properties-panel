@@ -1,6 +1,6 @@
 {
   "name": "bpmn-js-properties-panel",
-  "version": "0.33.1",
+  "version": "0.33.2",
   "description": "A simple properties panel for bpmn-js",
   "scripts": {
     "lint": "eslint .",
