@@ -33,6 +33,7 @@ module.exports = function(karma) {
     ],
 
     files: [
+      'node_modules/promise-polyfill/dist/polyfill.js',
       'test/suite.js'
     ],
 
