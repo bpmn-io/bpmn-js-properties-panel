@@ -25,13 +25,13 @@ var testModules = [
 
 function bootstrap(diagramXML) {
 
-  return function(done) {
-    bootstrapModeler(diagramXML, {
+  return function() {
+    return bootstrapModeler(diagramXML, {
       modules: testModules,
       moddleExtensions: {
         camunda: camundaModdlePackage
       }
-    })(done);
+    })();
   };
 }
 

@@ -31,7 +31,7 @@ var bootstrapModeler = TestHelper.bootstrapModeler;
  * is necessary to speed the test execution up.
  */
 TestHelper.bootstrapModeler = function(diagram, options, locals) {
-  return function(done) {
+  return function() {
     var previousInstance = TestHelper.getBpmnJS();
 
     if (previousInstance) {
@@ -41,7 +41,7 @@ TestHelper.bootstrapModeler = function(diagram, options, locals) {
 
       previousInstance.destroy();
     }
-    return bootstrapModeler(diagram, options, locals).apply(this, [ done ]);
+    return bootstrapModeler(diagram, options, locals).apply(this);
   };
 };
 
