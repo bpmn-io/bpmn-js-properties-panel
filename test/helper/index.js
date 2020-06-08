@@ -43,7 +43,7 @@ var OPTIONS, BPMN_JS;
 
 function bootstrapBpmnJS(BpmnJS, diagram, options, locals) {
 
-  return function(done) {
+  return function() {
     var testContainer;
 
     // Make sure the test container is an optional dependency and we fall back
@@ -107,7 +107,7 @@ function bootstrapBpmnJS(BpmnJS, diagram, options, locals) {
 
     BPMN_JS = new BpmnJS(_options);
 
-    BPMN_JS.importXML(diagram, done);
+    return BPMN_JS.importXML(diagram);
   };
 }
 

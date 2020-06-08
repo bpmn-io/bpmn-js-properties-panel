@@ -72,8 +72,8 @@ var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
 function bootstrap(diagramXML, elementTemplates) {
 
-  return function(done) {
-    TestHelper.bootstrapModeler(diagramXML, {
+  return function() {
+    return TestHelper.bootstrapModeler(diagramXML, {
       modules: testModules,
       elementTemplates: elementTemplates,
       moddleExtensions: {
@@ -82,7 +82,7 @@ function bootstrap(diagramXML, elementTemplates) {
       propertiesPanel: {
         parent: document.querySelector('body')
       }
-    })(done);
+    })();
   };
 }
 
