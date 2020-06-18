@@ -6,12 +6,6 @@ Make sure you've read through [our contributing guide](https://github.com/bpmn-i
 
 -->
 
+_Which issue does this PR address?_
 
 Closes #
-
-
-### Proposed Changes
-
-*
-*
-*
