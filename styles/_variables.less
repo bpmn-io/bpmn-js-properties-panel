@@ -1,13 +1,28 @@
-@bpp-color-primary: #52B415;
+@blue-base-65: #4D90FF;
+@blue-lighten-82: #A2C5FF;
+@blue-darken-55: #1A70FF;
+@blue-darken-48: #005DF7;
+@silver-darken-80: #CDCDCD;
+@red-base-62: #FF3D3D;
+@red-lighten-85: #FFB3B3;
+
+@bpp-active-tab: @blue-base-65;
+
+@bpp-color-primary: @blue-darken-55;
+@bpp-color-primary-action-hover: @blue-darken-48;
+@bpp-color-primary-shadow: @blue-lighten-82;
+@bpp-color-primary-shadow-inset: @silver-darken-80;
+
 @bpp-color-gray: #666;
 @bpp-color-gray-dark: #333;
 @bpp-color-gray-light: #ccc;
 @bpp-color-gray-lighter: #f8f8f8;
 
-@bpp-color-toggle: mix(@bpp-color-primary, @bpp-color-gray-light);
+@bpp-color-toggle: @blue-base-65;
 
-@bpp-color-error: #cc3333;
-@bpp-color-error-bg: lighten(@bpp-color-error, 35%);
+@bpp-color-error: @red-base-62;
+@bpp-color-error-shadow: @red-lighten-85;
+@bpp-color-error-shadow-inset: @silver-darken-80;
 
 // fonts are subset from https://github.com/danielbruce/entypo
 // generated using http://fontello.com/
