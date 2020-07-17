@@ -33,7 +33,7 @@
   [contenteditable] {
     font-size: 14px;
     padding: 3px 6px;
-    border: 1px solid @bpp-color-gray-light;
+    border: 1px solid @bpp-input-border-color;
 
     &:focus {
       .focus();
@@ -42,7 +42,7 @@
     &.invalid {
       .invalid();
       &:focus {
-        box-shadow: 0 0 0 2px @bpp-color-error-shadow, 0 0 0 1px @bpp-color-error-shadow-inset inset;
+        box-shadow: 0 0 0 2px @bpp-error-shadow-color, 0 0 0 1px @bpp-error-shadow-inset-color inset;
       }
     }
   }
@@ -61,7 +61,7 @@
 
   [contenteditable] {
     outline: 0px solid transparent;
-    background-color: white;
+    background-color: @bpp-input-background-color;
 
     overflow-y: auto;
 
@@ -77,7 +77,7 @@
   }
 
   [disabled] {
-    color: #808080;
+    color: @bpp-input-disabled-color;
   }
 
   label {
@@ -93,7 +93,7 @@
     margin-bottom: 10px;
 
     &.divider {
-      border-top: 1px dotted #ccc;
+      border-top: 1px dotted @bpp-divider-color;
       padding-top: 8px;
       margin-top: 16px;
       width: 100%;
@@ -109,7 +109,7 @@
 .bpp-error-message,
 .bpp-error-message.bpp-entry-link {
   margin-top: 5px;
-  color: @bpp-color-error;
+  color: @bpp-error-color;
 }
 
 .bpp-row {
@@ -287,15 +287,15 @@ label.bpp-hidden {
 .bpp-properties-static {
   margin-bottom: 0;
   margin-top: 0;
-  border: 1px solid @bpp-color-gray-light;
-  background-color: white;
+  border: 1px solid @bpp-properties-static-border-color;
+  background-color: @bpp-properties-static-background-color;
   padding: 3px 6px;
   font: 13.3333px Arial;
   width: 100%;
 }
 
 .bpp-entry-link {
-  color: @bpp-color-primary;
+  color: @bpp-primary-color;
 }
 
 .bpp-icon-warning:before {
@@ -305,14 +305,14 @@ label.bpp-hidden {
 
 .bpp-field-description {
   margin-top: 5px;
-  color: #999;
+  color: @bpp-input-description-color;
 
   a {
-    color: darken(@bpp-color-primary, 10%);
+    color: darken(@bpp-primary-color, 10%);
     text-decoration: none;
 
     &:hover {
-      color: @bpp-color-primary;
+      color: @bpp-primary-color;
     }
   }
 }

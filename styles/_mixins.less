@@ -1,11 +1,11 @@
 .invalid() {
-  border-color: @bpp-color-error;
+  border-color: @bpp-error-color;
 }
 
 .focus() {
   outline: none;
-  border-color: @bpp-color-primary;
-  box-shadow: 0 0 0 2px @bpp-color-primary-shadow, 0 0 0 1px @bpp-color-primary-shadow-inset inset;
+  border-color: @bpp-primary-color;
+  box-shadow: 0 0 0 2px @bpp-primary-shadow-color, 0 0 0 1px @bpp-primary-shadow-inset-color inset;
 }
 
 .icon-font() {
@@ -25,7 +25,7 @@
 }
 
 .overlay() {
-  background-color: @bpp-color-gray-lighter;
+  background-color: @bpp-overlay-background-color;
 }
 
 .action-button() {
@@ -34,8 +34,8 @@
   height: 23px;
   width: 24px;
   overflow: hidden;
-  background-color: @bpp-color-gray-lighter;
-  border: 1px solid @bpp-color-gray-light;
+  background-color: @bpp-button-background-color;
+  border: 1px solid @bpp-button-border-color;
 
   > span {
     display: none;
@@ -55,7 +55,7 @@
   }
 
   &:hover {
-    color: @bpp-color-primary-action-hover;
+    color: @bpp-primary-action-hover-color;
   }
 }
 
@@ -63,6 +63,6 @@
   font-weight: bolder;
   display: inline-block;
   vertical-align: middle;
-  color: @bpp-color-gray;
+  color: @bpp-label-color;
   &.bpp-hidden { display: none; }
 }
