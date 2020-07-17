@@ -14,7 +14,7 @@
     bottom: 0;
     width: 4px;
     &:hover {
-      background-color: @bpp-color-toggle;
+      background-color: @bpp-group-toggle-hover-color;
     }
   }
 
@@ -28,9 +28,9 @@
   }
 
   &:hover > .group-toggle {
-    background-color: @bpp-color-gray-light;
+    background-color: @bpp-group-toggle-color;
     &:hover {
-      background-color: @bpp-color-toggle;
+      background-color: @bpp-group-toggle-hover-color;
     }
   }
 
@@ -38,11 +38,11 @@
     border-top: none;
 
     > .group-toggle {
-      background-color: @bpp-color-gray-light;
+      background-color: @bpp-group-toggle-color;
     }
 
     &:hover > .group-toggle {
-      background-color: @bpp-color-toggle;
+      background-color: @bpp-group-toggle-hover-color;
     }
 
     > div {
@@ -55,7 +55,7 @@
   }
 
   + .bpp-properties-group {
-    border-top: 1px solid #eee;
+    border-top: 1px solid @bpp-group-border-color;
   }
 
   &:last-child {
