@@ -276,6 +276,17 @@ label.bpp-hidden {
         border-left: none;
       }
     }
+
+    &.bpp-table-row-columns-3 {
+      width: 33%;
+      box-sizing: border-box;
+      &.bpp-table-row-removable {
+        width: ~"calc(33% - 8px)";
+      }
+      &:not(:first-child) {
+        border-left: none;
+      }
+    }
   }
 
   > button {
