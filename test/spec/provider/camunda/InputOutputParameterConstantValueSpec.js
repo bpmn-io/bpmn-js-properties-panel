@@ -19,8 +19,7 @@ var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
 
 var extensionElementsHelper = require('lib/helper/ExtensionElementsHelper');
 
-var domQuery = require('min-dom').query,
-    domQueryAll = require('min-dom').queryAll;
+var domQuery = require('min-dom').query;
 
 
 // MODEL HELPER
@@ -62,41 +61,26 @@ function getParameterTypeSelect(container) {
   return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
 }
 
-function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry="parameterType-map"] > div', getInputOutputTab(container));
+function getParameterVariableValue(container) {
+  return domQuery('input[id="camunda-parameterType-variable"]', getInputOutputTab(container));
 }
 
-function getMapTable(container) {
-  return domQuery('div[data-entry="parameterType-map"] > div.bpp-table', getInputOutputTab(container));
+function getParameterConstantValue(container) {
+  return domQuery('input[id="camunda-parameterType-constant-value"]', getInputOutputTab(container));
 }
 
-function getMapRows(container) {
-  var table = getMapTable(container);
-  return domQueryAll('div[data-list-entry-container] > div', table);
-}
-
-function getMapInput(idx, column, container) {
-  var table = getMapTable(container);
-  return domQuery('div[data-index="' + idx + '"] > input[name="' + column + '"]', table);
-}
-
-function clickAddEntryButton(container) {
-  var addButton = domQuery('button', getMapAddRowDiv(container));
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function clickRemoveEntryButton(idx, container) {
-  var removeButton = domQuery('div[data-index="' + idx + '"] > button', getMapTable(container));
-  TestHelper.triggerEvent(removeButton, 'click');
+function getParameterExpressionValue(container) {
+  return domQuery('textarea[id="camunda-parameterType-expression"]', getInputOutputTab(container));
 }
 
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extensionElements-' + suffix + ']', getInputOutputTab(container));
+  return domQuery('select[id="cam-extensionElements-' + suffix + '"]', getInputOutputTab(container));
 }
 
-describe('input-output-parameterType-map', function() {
+
+describe('input-output-parameterType-constant-value', function() {
 
   var diagramXML = require('./InputOutput.bpmn');
 
@@ -133,7 +117,7 @@ describe('input-output-parameterType-map', function() {
   }));
 
 
-  describe('change parameter type map', function() {
+  describe('change parameter type constant value', function() {
 
     var parameter,
         parameterTypeSelect;
@@ -147,13 +131,14 @@ describe('input-output-parameterType-map', function() {
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
       selection.select(shape);
 
-      // select fourth parameter
-      selectInputParameter(3, container);
+      // select fifth parameter
+      selectInputParameter(4, container);
 
-      parameter = getInputParameters(getBusinessObject(shape))[3];
+      parameter = getInputParameters(getBusinessObject(shape))[4];
       parameterTypeSelect = getParameterTypeSelect(container);
 
     }));
+
 
     describe('to variable', function() {
 
@@ -180,7 +165,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('map');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
         }));
 
 
@@ -203,7 +188,6 @@ describe('input-output-parameterType-map', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         });
 
 
@@ -213,8 +197,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
+          expect(parameter.value).to.equal('foo');
         }));
 
 
@@ -226,86 +209,6 @@ describe('input-output-parameterType-map', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
-        }));
-
-      });
-
-    });
-
-
-    describe('to constant value', function() {
-
-      beforeEach(function() {
-
-        // when
-        parameterTypeSelect.options[1].selected = 'selected';
-        TestHelper.triggerEvent(parameterTypeSelect, 'change');
-
-      });
-
-      describe('in the DOM', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(parameterTypeSelect.value).to.equal('constant-value');
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-
-          // then
-          expect(parameterTypeSelect.value).to.equal('map');
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(parameterTypeSelect.value).to.equal('constant-value');
-        }));
-
-      });
-
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-
-          // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         }));
 
       });
@@ -338,7 +241,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('map');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
         }));
 
 
@@ -361,7 +264,6 @@ describe('input-output-parameterType-map', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         });
 
 
@@ -371,8 +273,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
+          expect(parameter.value).to.equal('foo');
         }));
 
 
@@ -384,7 +285,6 @@ describe('input-output-parameterType-map', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         }));
 
       });
@@ -417,7 +317,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('map');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
         }));
 
 
@@ -432,6 +332,7 @@ describe('input-output-parameterType-map', function() {
         }));
 
       });
+
 
       describe('on the business object', function() {
 
@@ -449,8 +350,8 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
+          expect(parameter.value).to.equal('foo');
+          expect(parameter.definition).to.be.undefined;
         }));
 
 
@@ -495,7 +396,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('map');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
         }));
 
 
@@ -527,8 +428,8 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
+          expect(parameter.value).to.equal('foo');
+          expect(parameter.definition).to.be.undefined;
         }));
 
 
@@ -547,54 +448,23 @@ describe('input-output-parameterType-map', function() {
 
     });
 
-  });
 
+    describe('to map', function() {
 
-  describe('change parameter map', function(propertiesPanel) {
-
-    var parameter,
-        definition;
-
-    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
-
-      // given
-      var container = propertiesPanel._container;
-
-      var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
-      selection.select(shape);
-
-      selectInputParameter(3, container);
-
-      parameter = getInputParameters(getBusinessObject(shape))[3];
-      definition = parameter.definition;
-
-      // assume
-      is(definition, 'camunda:Map');
-
-    }));
-
-    describe('add entry', function() {
-
-      var container;
-
-      beforeEach(inject(function(propertiesPanel) {
-
-        container = propertiesPanel._container;
+      beforeEach(function() {
 
         // when
-        clickAddEntryButton(propertiesPanel._container);
-      }));
+        parameterTypeSelect.options[5].selected = 'selected';
+        TestHelper.triggerEvent(parameterTypeSelect, 'change');
+
+      });
 
       describe('in the DOM', function() {
 
         it('should execute', function() {
 
           // then
-          expect(getMapRows(container).length).to.equal(2);
-          expect(getMapInput(0, 'key', container).value).to.equal('entryKey1');
-          expect(getMapInput(0, 'value', container).value).to.equal('entryValue1');
-          expect(getMapInput(1, 'key', container).value).to.equal('');
-          expect(getMapInput(1, 'value', container).value).to.equal('');
+          expect(parameterTypeSelect.value).to.equal('map');
         });
 
 
@@ -604,9 +474,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(getMapRows(container).length).to.equal(1);
-          expect(getMapInput(0, 'key', container).value).to.equal('entryKey1');
-          expect(getMapInput(0, 'value', container).value).to.equal('entryValue1');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
         }));
 
 
@@ -617,11 +485,7 @@ describe('input-output-parameterType-map', function() {
           commandStack.redo();
 
           // then
-          expect(getMapRows(container).length).to.equal(2);
-          expect(getMapInput(0, 'key', container).value).to.equal('entryKey1');
-          expect(getMapInput(0, 'value', container).value).to.equal('entryValue1');
-          expect(getMapInput(1, 'key', container).value).to.equal('');
-          expect(getMapInput(1, 'value', container).value).to.equal('');
+          expect(parameterTypeSelect.value).to.equal('map');
         }));
 
       });
@@ -631,65 +495,8 @@ describe('input-output-parameterType-map', function() {
         it('should execute', function() {
 
           // then
-          expect(definition.entries.length).to.equal(2);
-          expect(definition.entries[0].key).to.equal('entryKey1');
-          expect(definition.entries[0].value).to.equal('entryValue1');
-          expect(definition.entries[0].definition).to.be.undefined;
-          expect(definition.entries[1].key).to.be.undefined;
-          expect(definition.entries[1].value).to.be.undefined;
-          expect(definition.entries[1].definition).to.be.undefined;
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-
-          // then
-          expect(definition.entries.length).to.equal(1);
-          expect(definition.entries[0].key).to.equal('entryKey1');
-          expect(definition.entries[0].value).to.equal('entryValue1');
-          expect(definition.entries[0].definition).to.be.undefined;
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(definition.entries.length).to.equal(2);
-          expect(definition.entries[0].key).to.equal('entryKey1');
-          expect(definition.entries[0].value).to.equal('entryValue1');
-          expect(definition.entries[0].definition).to.be.undefined;
-          expect(definition.entries[1].key).to.be.undefined;
-          expect(definition.entries[1].value).to.be.undefined;
-          expect(definition.entries[1].definition).to.be.undefined;
-        }));
-
-      });
-
-    });
-
-    describe('remove entry', function() {
-
-      var container;
-
-      beforeEach(inject(function(propertiesPanel) {
-
-        container = propertiesPanel._container;
-
-        // when
-        clickRemoveEntryButton(0, propertiesPanel._container);
-      }));
-
-      describe('in the DOM', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(getMapRows(container).length).to.equal(0);
+          expect(parameter.value).to.be.undefined;
+          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
         });
 
 
@@ -699,9 +506,8 @@ describe('input-output-parameterType-map', function() {
           commandStack.undo();
 
           // then
-          expect(getMapRows(container).length).to.equal(1);
-          expect(getMapInput(0, 'key', container).value).to.equal('entryKey1');
-          expect(getMapInput(0, 'value', container).value).to.equal('entryValue1');
+          expect(parameter.value).to.equal('foo');
+          expect(parameter.definition).to.be.undefined;
         }));
 
 
@@ -712,191 +518,8 @@ describe('input-output-parameterType-map', function() {
           commandStack.redo();
 
           // then
-          expect(getMapRows(container).length).to.equal(0);
-        }));
-
-      });
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(definition.entries.length).to.equal(0);
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-
-          // then
-          expect(definition.entries.length).to.equal(1);
-          expect(definition.entries[0].key).to.equal('entryKey1');
-          expect(definition.entries[0].value).to.equal('entryValue1');
-          expect(definition.entries[0].definition).to.be.undefined;
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(definition.entries.length).to.equal(0);
-        }));
-
-      });
-
-    });
-
-    describe('change key of entry', function() {
-
-      var container,
-          input;
-
-      beforeEach(inject(function(propertiesPanel) {
-
-        container = propertiesPanel._container;
-        input = getMapInput(0, 'key', container);
-
-        // when
-        TestHelper.triggerValue(input, 'foo', 'change');
-      }));
-
-      describe('in the DOM', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(input.value).to.equal('foo');
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-
-          // then
-          expect(input.value).to.equal('entryKey1');
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(input.value).to.equal('foo');
-        }));
-
-      });
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(definition.entries[0].key).to.equal('foo');
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-
-          // then
-          expect(definition.entries[0].key).to.equal('entryKey1');
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(definition.entries[0].key).to.equal('foo');
-        }));
-
-      });
-
-    });
-
-    describe('change value of entry', function() {
-
-      var container,
-          input;
-
-      beforeEach(inject(function(propertiesPanel) {
-
-        container = propertiesPanel._container;
-        input = getMapInput(0, 'value', container);
-
-        // when
-        TestHelper.triggerValue(input, 'foo', 'change');
-      }));
-
-      describe('in the DOM', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(input.value).to.equal('foo');
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-
-          // then
-          expect(input.value).to.equal('entryValue1');
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(input.value).to.equal('foo');
-        }));
-
-      });
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(definition.entries[0].value).to.equal('foo');
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-
-          // then
-          expect(definition.entries[0].value).to.equal('entryValue1');
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(definition.entries[0].value).to.equal('foo');
+          expect(parameter.value).to.be.undefined;
+          expect(is(parameter.definition, 'camunda:Map')).to.be.true;
         }));
 
       });
@@ -906,47 +529,282 @@ describe('input-output-parameterType-map', function() {
   });
 
 
-  describe('not editible values', function() {
+  describe('change parameter value', function() {
 
-    var container;
+    var parameterVariableInput,
+        parameterConstantValue,
+        parameterExpressionInput,
+        parameter,
+        parameterTypeSelect;
 
-    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+    describe('keep as constant value', function() {
 
-      // given
-      container = propertiesPanel._container;
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
 
-      var shape = elementRegistry.get('MAP_LIST_INPUT');
-      selection.select(shape);
+        // given
+        var container = propertiesPanel._container;
 
-      // when
-      selectInputParameter(1, container);
+        var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
+        selection.select(shape);
 
-    }));
+        // select fifth parameter
+        selectInputParameter(4, container);
 
-    it('should not be possible to edit a script value', function() {
+        parameterConstantValue = getParameterConstantValue(container);
+        parameter = getInputParameters(getBusinessObject(shape))[4];
+        parameterTypeSelect = getParameterTypeSelect(container);
 
-      // then
-      expect(getMapInput(0, 'value', container).value).to.equal('Script');
-      expect(getMapInput(0, 'value', container).hasAttribute('disabled')).to.be.ok;
-      expect(getMapInput(0, 'value', container).hasAttribute('readonly')).to.be.ok;
+        // when
+        TestHelper.triggerValue(parameterConstantValue, '500', 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameterConstantValue.value).to.equal('500');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterConstantValue.value).to.equal('foo');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterConstantValue.value).to.equal('500');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.equal('500');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.equal('500');
+        }));
+
+      });
+
     });
 
 
-    it('should not be possible to edit a map value', function() {
+    describe('to variable', function() {
 
-      // then
-      expect(getMapInput(1, 'value', container).value).to.equal('List');
-      expect(getMapInput(1, 'value', container).hasAttribute('disabled')).to.be.ok;
-      expect(getMapInput(1, 'value', container).hasAttribute('readonly')).to.be.ok;
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+        // given
+        var container = propertiesPanel._container;
+
+        var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
+        selection.select(shape);
+
+        // select fifth parameter
+        selectInputParameter(4, container);
+
+        parameterConstantValue = getParameterConstantValue(container);
+        parameter = getInputParameters(getBusinessObject(shape))[4];
+        parameterTypeSelect = getParameterTypeSelect(container);
+        parameterVariableInput = getParameterVariableValue(container);
+
+        // when
+        TestHelper.triggerValue(parameterConstantValue, '${foo}', 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          // automatically change to parameter type <variable>
+          expect(parameterTypeSelect.value).to.equal('variable');
+          expect(parameterVariableInput.value).to.equal('foo');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterConstantValue.value).to.equal('foo');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('variable');
+          expect(parameterVariableInput.value).to.equal('foo');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.equal('${foo}');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.equal('${foo}');
+        }));
+
+      });
+
     });
 
 
-    it('should not be possible to edit a list value', function() {
+    describe('to expression', function() {
 
-      // then
-      expect(getMapInput(2, 'value', container).value).to.equal('Map');
-      expect(getMapInput(2, 'value', container).hasAttribute('disabled')).to.be.ok;
-      expect(getMapInput(2, 'value', container).hasAttribute('readonly')).to.be.ok;
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+        // given
+        var container = propertiesPanel._container;
+
+        var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
+        selection.select(shape);
+
+        // select fifth parameter
+        selectInputParameter(4, container);
+
+        parameterConstantValue = getParameterConstantValue(container);
+        parameter = getInputParameters(getBusinessObject(shape))[4];
+        parameterTypeSelect = getParameterTypeSelect(container);
+        parameterExpressionInput = getParameterExpressionValue(container);
+
+        // when
+        TestHelper.triggerValue(parameterConstantValue, '${foo.bar()}', 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          // automatically change to parameter type <expression>
+          expect(parameterTypeSelect.value).to.equal('expression');
+          expect(parameterExpressionInput.value).to.equal('${foo.bar()}');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterConstantValue.value).to.equal('foo');
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('expression');
+          expect(parameterExpressionInput.value).to.equal('${foo.bar()}');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.equal('${foo.bar()}');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.equal('foo');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.equal('${foo.bar()}');
+        }));
+
+      });
+
     });
 
   });

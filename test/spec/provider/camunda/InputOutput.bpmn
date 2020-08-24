@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0-nightly.20200824">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:serviceTask id="WITHOUT_INPUT_OUTPUT" name="Without Input/Output" />
     <bpmn:serviceTask id="WITH_INPUT_PARAMS" name="With Input">
@@ -7,7 +7,7 @@
         <camunda:inputOutput>
           <camunda:inputParameter name="input1">hello world!</camunda:inputParameter>
           <camunda:inputParameter name="input2">
-            <camunda:script scriptFormat="javascript"><![CDATA[var foo = 'bar';]]></camunda:script>
+            <camunda:script scriptFormat="javascript">var foo = 'bar';</camunda:script>
           </camunda:inputParameter>
           <camunda:inputParameter name="input3">
             <camunda:list>
@@ -28,7 +28,7 @@
         <camunda:inputOutput>
           <camunda:outputParameter name="output1">hello world!</camunda:outputParameter>
           <camunda:outputParameter name="output2">
-            <camunda:script scriptFormat="javascript"><![CDATA[var foo = 'bar';]]></camunda:script>
+            <camunda:script scriptFormat="javascript">var foo = 'bar';</camunda:script>
           </camunda:outputParameter>
           <camunda:outputParameter name="output3">
             <camunda:list>
@@ -46,9 +46,9 @@
     <bpmn:serviceTask id="WITH_INPUT_OUTPUT_PARAMS" name="With Input/Output">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="input1">hello world!</camunda:inputParameter>
+          <camunda:inputParameter name="input1">${foo}</camunda:inputParameter>
           <camunda:inputParameter name="input2">
-            <camunda:script scriptFormat="javascript"><![CDATA[var foo = 'bar';]]></camunda:script>
+            <camunda:script scriptFormat="javascript">var foo = 'bar';</camunda:script>
           </camunda:inputParameter>
           <camunda:inputParameter name="input3">
             <camunda:list>
@@ -60,9 +60,11 @@
               <camunda:entry key="entryKey1">entryValue1</camunda:entry>
             </camunda:map>
           </camunda:inputParameter>
-          <camunda:outputParameter name="output1">hello world!</camunda:outputParameter>
+          <camunda:inputParameter name="input5">foo</camunda:inputParameter>
+          <camunda:inputParameter name="input6">${foo.bar() + 500}</camunda:inputParameter>
+          <camunda:outputParameter name="output1">${foo}</camunda:outputParameter>
           <camunda:outputParameter name="output2">
-            <camunda:script scriptFormat="javascript"><![CDATA[var foo = 'bar';]]></camunda:script>
+            <camunda:script scriptFormat="javascript">var foo = 'bar';</camunda:script>
           </camunda:outputParameter>
           <camunda:outputParameter name="output3">
             <camunda:list>
@@ -74,6 +76,8 @@
               <camunda:entry key="entryKey1">entryValue1</camunda:entry>
             </camunda:map>
           </camunda:outputParameter>
+          <camunda:outputParameter name="output5">500</camunda:outputParameter>
+          <camunda:outputParameter name="output6">${foo.bar()}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
@@ -89,9 +93,15 @@
           </camunda:inputParameter>
           <camunda:inputParameter name="map">
             <camunda:map>
-              <camunda:entry key="key1"><camunda:script /></camunda:entry>
-              <camunda:entry key="key2"><camunda:list /></camunda:entry>
-              <camunda:entry key="key3"><camunda:map /></camunda:entry>
+              <camunda:entry key="key1">
+                <camunda:script />
+              </camunda:entry>
+              <camunda:entry key="key2">
+                <camunda:list />
+              </camunda:entry>
+              <camunda:entry key="key3">
+                <camunda:map />
+              </camunda:entry>
             </camunda:map>
           </camunda:inputParameter>
         </camunda:inputOutput>

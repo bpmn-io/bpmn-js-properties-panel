@@ -133,7 +133,7 @@ describe('input-output-parameterType-list', function() {
   }));
 
 
-  describe('change parameter type list ', function(propertiesPanel) {
+  describe('change parameter type list', function() {
 
     var parameter,
         parameterTypeSelect;
@@ -147,7 +147,7 @@ describe('input-output-parameterType-list', function() {
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
       selection.select(shape);
 
-      // select first parameter
+      // select third parameter
       selectInputParameter(2, container);
 
       parameter = getInputParameters(getBusinessObject(shape))[2];
@@ -155,7 +155,7 @@ describe('input-output-parameterType-list', function() {
 
     }));
 
-    describe('to text', function() {
+    describe('to variable', function() {
 
       beforeEach(function() {
 
@@ -170,7 +170,7 @@ describe('input-output-parameterType-list', function() {
         it('should execute', function() {
 
           // then
-          expect(parameterTypeSelect.value).to.equal('text');
+          expect(parameterTypeSelect.value).to.equal('variable');
         });
 
 
@@ -191,7 +191,7 @@ describe('input-output-parameterType-list', function() {
           commandStack.redo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('text');
+          expect(parameterTypeSelect.value).to.equal('variable');
         }));
 
       });
@@ -232,7 +232,8 @@ describe('input-output-parameterType-list', function() {
 
     });
 
-    describe('to script', function() {
+
+    describe('to constant value', function() {
 
       beforeEach(function() {
 
@@ -247,6 +248,164 @@ describe('input-output-parameterType-list', function() {
         it('should execute', function() {
 
           // then
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('list');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('constant-value');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(parameter.definition).to.be.undefined;
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(is(parameter.definition, 'camunda:List')).to.be.true;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(parameter.definition).to.be.undefined;
+        }));
+
+      });
+
+    });
+
+
+    describe('to expression', function() {
+
+      beforeEach(function() {
+
+        // when
+        parameterTypeSelect.options[2].selected = 'selected';
+        TestHelper.triggerEvent(parameterTypeSelect, 'change');
+
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('expression');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('list');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('expression');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(parameter.definition).to.be.undefined;
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(is(parameter.definition, 'camunda:List')).to.be.true;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(parameter.definition).to.be.undefined;
+        }));
+
+      });
+
+    });
+
+
+    describe('to script', function() {
+
+      beforeEach(function() {
+
+        // when
+        parameterTypeSelect.options[3].selected = 'selected';
+        TestHelper.triggerEvent(parameterTypeSelect, 'change');
+
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
           expect(parameterTypeSelect.value).to.equal('script');
         });
 
@@ -272,6 +431,7 @@ describe('input-output-parameterType-list', function() {
         }));
 
       });
+
 
       describe('on the business object', function() {
 
@@ -309,15 +469,17 @@ describe('input-output-parameterType-list', function() {
 
     });
 
+
     describe('to map', function() {
 
       beforeEach(function() {
 
         // when
-        parameterTypeSelect.options[3].selected = 'selected';
+        parameterTypeSelect.options[5].selected = 'selected';
         TestHelper.triggerEvent(parameterTypeSelect, 'change');
 
       });
+
 
       describe('in the DOM', function() {
 
@@ -349,6 +511,7 @@ describe('input-output-parameterType-list', function() {
         }));
 
       });
+
 
       describe('on the business object', function() {
 

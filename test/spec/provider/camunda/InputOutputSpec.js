@@ -128,8 +128,16 @@ function getParameterTypeSelect(container) {
   return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
 }
 
-function getParameterTextValue(container) {
-  return domQuery('div[id="camunda-parameterType-text"]', getInputOutputTab(container));
+function getParameterVariableValue(container) {
+  return domQuery('input[id="camunda-parameterType-variable"]', getInputOutputTab(container));
+}
+
+function getParameterConstantValue(container) {
+  return domQuery('input[id="camunda-parameterType-constant-value"]', getInputOutputTab(container));
+}
+
+function getParameterExpressionValue(container) {
+  return domQuery('textarea[id="camunda-parameterType-expression"]', getInputOutputTab(container));
 }
 
 function getScriptEntry(container) {
@@ -300,18 +308,18 @@ describe('input-output-parameter-properties', function() {
     var bo = getBusinessObject(shape);
 
     // assume
-    expect(getInputParameters(bo).length).to.equal(4);
-    expect(getOutputParameters(bo).length).to.equal(4);
+    expect(getInputParameters(bo).length).to.equal(6);
+    expect(getOutputParameters(bo).length).to.equal(6);
 
     // when
     selection.select(shape);
 
     // then
     var inputsSelection = getInputParameterSelect(propertiesPanel._container);
-    expect(inputsSelection.options.length).to.equal(4);
+    expect(inputsSelection.options.length).to.equal(6);
 
     var outputsSelection = getOutputParameterSelect(propertiesPanel._container);
-    expect(outputsSelection.options.length).to.equal(4);
+    expect(outputsSelection.options.length).to.equal(6);
   }));
 
 
@@ -325,16 +333,20 @@ describe('input-output-parameter-properties', function() {
 
     // then
     var inputOptions = getInputParameterSelect(propertiesPanel._container).options;
-    expect(inputOptions[0].text).to.equal('input1 : Text');
+    expect(inputOptions[0].text).to.equal('input1 : Process Variable');
     expect(inputOptions[1].text).to.equal('input2 : Script');
     expect(inputOptions[2].text).to.equal('input3 : List');
     expect(inputOptions[3].text).to.equal('input4 : Map');
+    expect(inputOptions[4].text).to.equal('input5 : Constant Value');
+    expect(inputOptions[5].text).to.equal('input6 : Expression');
 
     var outputOptions = getOutputParameterSelect(propertiesPanel._container).options;
-    expect(outputOptions[0].text).to.equal('output1 : Text');
+    expect(outputOptions[0].text).to.equal('output1 : Element Variable');
     expect(outputOptions[1].text).to.equal('output2 : Script');
     expect(outputOptions[2].text).to.equal('output3 : List');
     expect(outputOptions[3].text).to.equal('output4 : Map');
+    expect(outputOptions[4].text).to.equal('output5 : Constant Value');
+    expect(outputOptions[5].text).to.equal('output6 : Expression');
   }));
 
   describe('property controls', function() {
@@ -363,17 +375,20 @@ describe('input-output-parameter-properties', function() {
       });
 
 
-      it('should fetch text properties', function() {
+      it('should fetch variable properties', function() {
 
         // when
         selectInputParameter(0, container);
 
         // then
         expect(getParameterNameInput(container).value).to.equal('input1');
-        expect(getParameterTypeSelect(container).value).to.equal('text');
-        expect(getParameterTextValue(container).textContent).to.equal('hello world!');
+        expect(getParameterTypeSelect(container).value).to.equal('variable');
+        expect(getParameterVariableValue(container).value).to.equal('foo');
 
         // hidden entries
+
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
@@ -405,7 +420,9 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
         expect(getListTable(container).className).to.contains('bpp-hidden');
@@ -433,7 +450,9 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
@@ -461,12 +480,66 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
         expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
         expect(getListTable(container).className).to.contains('bpp-hidden');
+
+      });
+
+
+      it('should fetch constant value properties', function() {
+
+        // when
+        selectInputParameter(4, container);
+
+        // then
+        expect(getParameterNameInput(container).value).to.equal('input5');
+        expect(getParameterTypeSelect(container).value).to.equal('constant-value');
+        expect(getParameterConstantValue(container).value).to.equal('foo');
+
+        // hidden entries
+
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
+
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
+
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
+
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
+
+      });
+
+
+      it('should fetch expression properties', function() {
+
+        // when
+        selectInputParameter(5, container);
+
+        // then
+        expect(getParameterNameInput(container).value).to.equal('input6');
+        expect(getParameterTypeSelect(container).value).to.equal('expression');
+        expect(getParameterExpressionValue(container).value).to.equal('${foo.bar() + 500}');
+
+        // hidden entries
+
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
+
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
+
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -486,17 +559,20 @@ describe('input-output-parameter-properties', function() {
       });
 
 
-      it('should fetch text properties', function() {
+      it('should fetch variable properties', function() {
 
         // when
         selectOutputParameter(0, container);
 
         // then
         expect(getParameterNameInput(container).value).to.equal('output1');
-        expect(getParameterTypeSelect(container).value).to.equal('text');
-        expect(getParameterTextValue(container).textContent).to.equal('hello world!');
+        expect(getParameterTypeSelect(container).value).to.equal('variable');
+        expect(getParameterVariableValue(container).value).to.equal('foo');
 
         // hidden entries
+
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
@@ -528,7 +604,11 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
+
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
         expect(getListTable(container).className).to.contains('bpp-hidden');
@@ -556,7 +636,11 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
+
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
@@ -584,12 +668,66 @@ describe('input-output-parameter-properties', function() {
 
         // hidden entries
 
-        expect(getParameterTextValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
 
         expect(getScriptEntry(container).className).to.contains('bpp-hidden');
 
         expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
         expect(getListTable(container).className).to.contains('bpp-hidden');
+
+      });
+
+
+      it('should fetch constant value properties', function() {
+
+        // when
+        selectOutputParameter(4, container);
+
+        // then
+        expect(getParameterNameInput(container).value).to.equal('output5');
+        expect(getParameterTypeSelect(container).value).to.equal('constant-value');
+        expect(getParameterConstantValue(container).value).to.equal('500');
+
+        // hidden entries
+
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterExpressionValue(container).parentNode.className).to.contains('bpp-hidden');
+
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
+
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
+
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
+
+      });
+
+
+      it('should fetch expression properties', function() {
+
+        // when
+        selectOutputParameter(5, container);
+
+        // then
+        expect(getParameterNameInput(container).value).to.equal('output6');
+        expect(getParameterTypeSelect(container).value).to.equal('expression');
+        expect(getParameterExpressionValue(container).value).to.equal('${foo.bar()}');
+
+        // hidden entries
+
+        expect(getParameterVariableValue(container).parentNode.className).to.contains('bpp-hidden');
+        expect(getParameterConstantValue(container).parentNode.className).to.contains('bpp-hidden');
+
+        expect(getScriptEntry(container).className).to.contains('bpp-hidden');
+
+        expect(getListAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getListTable(container).className).to.contains('bpp-hidden');
+
+        expect(getMapAddRowDiv(container).className).to.contains('bpp-hidden');
+        expect(getMapTable(container).className).to.contains('bpp-hidden');
 
       });
 
@@ -649,7 +787,7 @@ describe('input-output-parameter-properties', function() {
 
         // then
         expect(getInputParameterSelect(container).selectedIndex).to.equal(-1);
-        expect(getOutputParameterSelect(container).selectedIndex).to.equal(4);
+        expect(getOutputParameterSelect(container).selectedIndex).to.equal(6);
       });
 
     });
@@ -684,7 +822,7 @@ describe('input-output-parameter-properties', function() {
         clickAddInputParameterButton(container);
 
         // then
-        expect(getInputParameterSelect(container).selectedIndex).to.equal(4);
+        expect(getInputParameterSelect(container).selectedIndex).to.equal(6);
         expect(getOutputParameterSelect(container).selectedIndex).to.equal(-1);
       });
 
@@ -726,11 +864,13 @@ describe('input-output-parameter-properties', function() {
         // after removing 'dateOfBirth' form field
 
         // then
-        expect(getInputParameters(bo).length).to.equal(5);
+        expect(getInputParameters(bo).length).to.equal(7);
         expect(isParameterContainedIn(getInputParameters(bo), 'input1')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input5')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input6')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).to.be.ok;
       });
 
@@ -740,11 +880,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(4);
+        expect(getInputParameters(bo).length).to.equal(6);
         expect(isParameterContainedIn(getInputParameters(bo), 'input1')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input5')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input6')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).not.to.be.ok;
       }));
 
@@ -755,11 +897,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(5);
+        expect(getInputParameters(bo).length).to.equal(7);
         expect(isParameterContainedIn(getInputParameters(bo), 'input1')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input5')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input6')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).to.be.ok;
       }));
 
@@ -773,7 +917,7 @@ describe('input-output-parameter-properties', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         inputSelectBox = getInputParameterSelect(propertiesPanel._container);
-        newParameterName = getInputParameters(bo)[4].name;
+        newParameterName = getInputParameters(bo)[6].name;
       }));
 
 
@@ -781,11 +925,13 @@ describe('input-output-parameter-properties', function() {
         // after removing input parameter
 
         // then
-        expect(inputSelectBox.options.length).to.equal(5);
+        expect(inputSelectBox.options.length).to.equal(7);
         expect(isOptionContainedIn(inputSelectBox, 'input1')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input2')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input3')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input4')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input5')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input6')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, newParameterName)).to.be.ok;
       });
 
@@ -795,11 +941,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(inputSelectBox.options.length).to.equal(4);
+        expect(inputSelectBox.options.length).to.equal(6);
         expect(isOptionContainedIn(inputSelectBox, 'input1')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input2')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input3')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input4')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input5')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input6')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, newParameterName)).not.to.be.ok;
       }));
 
@@ -810,11 +958,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(inputSelectBox.options.length).to.equal(5);
+        expect(inputSelectBox.options.length).to.equal(7);
         expect(isOptionContainedIn(inputSelectBox, 'input1')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input2')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input3')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input4')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input5')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input6')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, newParameterName)).to.be.ok;
       }));
 
@@ -855,11 +1005,13 @@ describe('input-output-parameter-properties', function() {
         // after removing 'dateOfBirth' form field
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(5);
+        expect(getOutputParameters(bo).length).to.equal(7);
         expect(isParameterContainedIn(getOutputParameters(bo), 'output1')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output5')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output6')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), newParameterName)).to.be.ok;
 
       });
@@ -870,11 +1022,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(4);
+        expect(getOutputParameters(bo).length).to.equal(6);
         expect(isParameterContainedIn(getOutputParameters(bo), 'output1')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output5')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output6')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), newParameterName)).not.to.be.ok;
       }));
 
@@ -886,11 +1040,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(5);
+        expect(getOutputParameters(bo).length).to.equal(7);
         expect(isParameterContainedIn(getOutputParameters(bo), 'output1')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output5')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output6')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), newParameterName)).to.be.ok;
       }));
 
@@ -904,7 +1060,7 @@ describe('input-output-parameter-properties', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         outputSelectBox = getOutputParameterSelect(propertiesPanel._container);
-        newParameterName = getOutputParameters(bo)[4].name;
+        newParameterName = getOutputParameters(bo)[6].name;
       }));
 
 
@@ -912,11 +1068,13 @@ describe('input-output-parameter-properties', function() {
         // after removing input parameter
 
         // then
-        expect(outputSelectBox.options.length).to.equal(5);
+        expect(outputSelectBox.options.length).to.equal(7);
         expect(isOptionContainedIn(outputSelectBox, 'output1')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output2')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output3')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output4')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output5')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output6')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, newParameterName)).to.be.ok;
       });
 
@@ -926,11 +1084,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(4);
+        expect(outputSelectBox.options.length).to.equal(6);
         expect(isOptionContainedIn(outputSelectBox, 'output1')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output2')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output3')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output4')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output5')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output6')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, newParameterName)).not.to.be.ok;
       }));
 
@@ -941,11 +1101,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(5);
+        expect(outputSelectBox.options.length).to.equal(7);
         expect(isOptionContainedIn(outputSelectBox, 'output1')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output2')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output3')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output4')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output5')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output6')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, newParameterName)).to.be.ok;
       }));
 
@@ -982,11 +1144,13 @@ describe('input-output-parameter-properties', function() {
         // after removing 'dateOfBirth' form field
 
         // then
-        expect(getInputParameters(bo).length).to.equal(3);
+        expect(getInputParameters(bo).length).to.equal(5);
         expect(isParameterContainedIn(getInputParameters(bo), 'input1')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).not.to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input5')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input6')).to.be.ok;
       });
 
 
@@ -995,11 +1159,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(4);
+        expect(getInputParameters(bo).length).to.equal(6);
         expect(isParameterContainedIn(getInputParameters(bo), 'input1')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input5')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input6')).to.be.ok;
       }));
 
 
@@ -1010,11 +1176,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(3);
+        expect(getInputParameters(bo).length).to.equal(5);
         expect(isParameterContainedIn(getInputParameters(bo), 'input1')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input2')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input3')).to.be.ok;
         expect(isParameterContainedIn(getInputParameters(bo), 'input4')).not.to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input5')).to.be.ok;
+        expect(isParameterContainedIn(getInputParameters(bo), 'input6')).to.be.ok;
       }));
 
     });
@@ -1033,11 +1201,13 @@ describe('input-output-parameter-properties', function() {
         // after removing input parameter
 
         // then
-        expect(inputSelectBox.options.length).to.equal(3);
+        expect(inputSelectBox.options.length).to.equal(5);
         expect(isOptionContainedIn(inputSelectBox, 'input1')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input2')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input3')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input4')).not.to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input5')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input6')).to.be.ok;
       });
 
 
@@ -1046,11 +1216,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(inputSelectBox.options.length).to.equal(4);
+        expect(inputSelectBox.options.length).to.equal(6);
         expect(isOptionContainedIn(inputSelectBox, 'input1')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input2')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input3')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input4')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input5')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input6')).to.be.ok;
       }));
 
 
@@ -1060,11 +1232,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(inputSelectBox.options.length).to.equal(3);
+        expect(inputSelectBox.options.length).to.equal(5);
         expect(isOptionContainedIn(inputSelectBox, 'input1')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input2')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input3')).to.be.ok;
         expect(isOptionContainedIn(inputSelectBox, 'input4')).not.to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input5')).to.be.ok;
+        expect(isOptionContainedIn(inputSelectBox, 'input6')).to.be.ok;
       }));
 
     });
@@ -1100,11 +1274,13 @@ describe('input-output-parameter-properties', function() {
         // after removing 'dateOfBirth' form field
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(3);
+        expect(getOutputParameters(bo).length).to.equal(5);
         expect(isParameterContainedIn(getOutputParameters(bo), 'output1')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).not.to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output5')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output6')).to.be.ok;
       });
 
 
@@ -1113,11 +1289,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(4);
+        expect(getOutputParameters(bo).length).to.equal(6);
         expect(isParameterContainedIn(getOutputParameters(bo), 'output1')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output5')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output6')).to.be.ok;
       }));
 
 
@@ -1128,11 +1306,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(3);
+        expect(getOutputParameters(bo).length).to.equal(5);
         expect(isParameterContainedIn(getOutputParameters(bo), 'output1')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output2')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output3')).to.be.ok;
         expect(isParameterContainedIn(getOutputParameters(bo), 'output4')).not.to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output5')).to.be.ok;
+        expect(isParameterContainedIn(getOutputParameters(bo), 'output6')).to.be.ok;
       }));
 
     });
@@ -1151,11 +1331,13 @@ describe('input-output-parameter-properties', function() {
         // after removing input parameter
 
         // then
-        expect(outputSelectBox.options.length).to.equal(3);
+        expect(outputSelectBox.options.length).to.equal(5);
         expect(isOptionContainedIn(outputSelectBox, 'output1')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output2')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output3')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output4')).not.to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output5')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output6')).to.be.ok;
       });
 
 
@@ -1164,11 +1346,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.undo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(4);
+        expect(outputSelectBox.options.length).to.equal(6);
         expect(isOptionContainedIn(outputSelectBox, 'output1')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output2')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output3')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output4')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output5')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output6')).to.be.ok;
       }));
 
 
@@ -1178,11 +1362,13 @@ describe('input-output-parameter-properties', function() {
         commandStack.redo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(3);
+        expect(outputSelectBox.options.length).to.equal(5);
         expect(isOptionContainedIn(outputSelectBox, 'output1')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output2')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output3')).to.be.ok;
         expect(isOptionContainedIn(outputSelectBox, 'output4')).not.to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output5')).to.be.ok;
+        expect(isOptionContainedIn(outputSelectBox, 'output6')).to.be.ok;
       }));
 
     });

@@ -37,16 +37,7 @@ function getParameters(bo, prop) {
   return getElements(bo, 'camunda:InputOutput', prop);
 }
 
-
 // DOM HELPER
-
-function getInputOutputTab(container) {
-  return domQuery('div[data-tab="input-output"]', container);
-}
-
-function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
-}
 
 // input parameter
 
@@ -60,14 +51,32 @@ function selectInputParameter(idx, container) {
   TestHelper.triggerEvent(selectBox, 'change');
 }
 
+// property controls
+
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
+function getParameterTypeSelect(container) {
+  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
+}
+
+function getParameterVariableValue(container) {
+  return domQuery('input[id="camunda-parameterType-variable"]', getInputOutputTab(container));
+}
+
+function getParameterExpressionValue(container) {
+  return domQuery('textarea[id="camunda-parameterType-expression"]', getInputOutputTab(container));
+}
+
 // helper
 
 function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extensionElements-' + suffix + ']', getInputOutputTab(container));
+  return domQuery('select[id="cam-extensionElements-' + suffix + '"]', getInputOutputTab(container));
 }
 
 
-describe('input-output-parameterType-script', function() {
+describe('input-output-parameterType-variable', function() {
 
   var diagramXML = require('./InputOutput.bpmn');
 
@@ -104,7 +113,7 @@ describe('input-output-parameterType-script', function() {
   }));
 
 
-  describe('change parameter type script', function() {
+  describe('change parameter type variable', function() {
 
     var parameter,
         parameterTypeSelect;
@@ -118,91 +127,13 @@ describe('input-output-parameterType-script', function() {
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
       selection.select(shape);
 
-      // select second parameter
-      selectInputParameter(1, container);
+      // select first parameter
+      selectInputParameter(0, container);
 
-      parameter = getInputParameters(getBusinessObject(shape))[1];
+      parameter = getInputParameters(getBusinessObject(shape))[0];
       parameterTypeSelect = getParameterTypeSelect(container);
 
     }));
-
-    describe('to variable', function() {
-
-      beforeEach(function() {
-
-        // when
-        parameterTypeSelect.options[0].selected = 'selected';
-        TestHelper.triggerEvent(parameterTypeSelect, 'change');
-
-      });
-
-      describe('in the DOM', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(parameterTypeSelect.value).to.equal('variable');
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-
-          // then
-          expect(parameterTypeSelect.value).to.equal('script');
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(parameterTypeSelect.value).to.equal('variable');
-        }));
-
-      });
-
-
-      describe('on the business object', function() {
-
-        it('should execute', function() {
-
-          // then
-          expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
-        });
-
-
-        it('should undo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-
-          // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
-        }));
-
-
-        it('should redo', inject(function(commandStack) {
-
-          // when
-          commandStack.undo();
-          commandStack.redo();
-
-          // then
-          expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
-        }));
-
-      });
-
-    });
 
 
     describe('to constant value', function() {
@@ -230,7 +161,7 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('script');
+          expect(parameterTypeSelect.value).to.equal('variable');
         }));
 
 
@@ -253,7 +184,6 @@ describe('input-output-parameterType-script', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         });
 
 
@@ -263,8 +193,7 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
+          expect(parameter.value).to.equal('${foo}');
         }));
 
 
@@ -276,7 +205,6 @@ describe('input-output-parameterType-script', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         }));
 
       });
@@ -309,7 +237,7 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('script');
+          expect(parameterTypeSelect.value).to.equal('variable');
         }));
 
 
@@ -332,7 +260,6 @@ describe('input-output-parameterType-script', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
-          expect(parameter.definition).to.be.undefined;
         });
 
 
@@ -342,8 +269,7 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
+          expect(parameter.value).to.equal('${foo}');
         }));
 
 
@@ -355,7 +281,85 @@ describe('input-output-parameterType-script', function() {
 
           // then
           expect(parameter.value).to.be.undefined;
+        }));
+
+      });
+
+    });
+
+
+    describe('to script', function() {
+
+      beforeEach(function() {
+
+        // when
+        parameterTypeSelect.options[3].selected = 'selected';
+        TestHelper.triggerEvent(parameterTypeSelect, 'change');
+
+      });
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('script');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('variable');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('script');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.equal('${foo}');
           expect(parameter.definition).to.be.undefined;
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.be.undefined;
+          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
         }));
 
       });
@@ -388,7 +392,7 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('script');
+          expect(parameterTypeSelect.value).to.equal('variable');
         }));
 
 
@@ -420,8 +424,8 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
+          expect(parameter.value).to.equal('${foo}');
+          expect(parameter.definition).to.be.undefined;
         }));
 
 
@@ -439,6 +443,7 @@ describe('input-output-parameterType-script', function() {
       });
 
     });
+
 
     describe('to map', function() {
 
@@ -465,7 +470,7 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameterTypeSelect.value).to.equal('script');
+          expect(parameterTypeSelect.value).to.equal('variable');
         }));
 
 
@@ -497,8 +502,8 @@ describe('input-output-parameterType-script', function() {
           commandStack.undo();
 
           // then
-          expect(parameter.value).to.be.undefined;
-          expect(is(parameter.definition, 'camunda:Script')).to.be.true;
+          expect(parameter.value).to.equal('${foo}');
+          expect(parameter.definition).to.be.undefined;
         }));
 
 
@@ -511,6 +516,195 @@ describe('input-output-parameterType-script', function() {
           // then
           expect(parameter.value).to.be.undefined;
           expect(is(parameter.definition, 'camunda:Map')).to.be.true;
+        }));
+
+      });
+
+    });
+
+  });
+
+
+  describe('change parameter value', function() {
+
+    var parameterVariableInput,
+        parameterExpressionInput,
+        parameter,
+        parameterTypeSelect;
+
+    describe('keep as variable', function() {
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+        // given
+        var container = propertiesPanel._container;
+
+        var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
+        selection.select(shape);
+
+        // select first parameter
+        selectInputParameter(0, container);
+
+        parameterVariableInput = getParameterVariableValue(container);
+        parameter = getInputParameters(getBusinessObject(shape))[0];
+        parameterTypeSelect = getParameterTypeSelect(container);
+
+        // when
+        TestHelper.triggerValue(parameterVariableInput, 'bar', 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameterVariableInput.value).to.equal('bar');
+          expect(parameterTypeSelect.value).to.equal('variable');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterVariableInput.value).to.equal('foo');
+          expect(parameterTypeSelect.value).to.equal('variable');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterVariableInput.value).to.equal('bar');
+          expect(parameterTypeSelect.value).to.equal('variable');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.equal('${bar}');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.equal('${foo}');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.equal('${bar}');
+        }));
+
+      });
+
+    });
+
+
+    describe('to expression', function() {
+
+      beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+        // given
+        var container = propertiesPanel._container;
+
+        var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
+        selection.select(shape);
+
+        // select first parameter
+        selectInputParameter(0, container);
+
+        parameterVariableInput = getParameterVariableValue(container);
+        parameter = getInputParameters(getBusinessObject(shape))[0];
+        parameterTypeSelect = getParameterTypeSelect(container);
+        parameterExpressionInput = getParameterExpressionValue(container);
+
+        // when
+        TestHelper.triggerValue(parameterVariableInput, '${foo.bar()}', 'change');
+
+      }));
+
+      describe('in the DOM', function() {
+
+        it('should execute', function() {
+
+          // then
+          // automatically change to parameter type <expression>
+          expect(parameterTypeSelect.value).to.equal('expression');
+          expect(parameterExpressionInput.value).to.equal('${foo.bar()}');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameterVariableInput.value).to.equal('foo');
+          expect(parameterTypeSelect.value).to.equal('variable');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameterTypeSelect.value).to.equal('expression');
+          expect(parameterExpressionInput.value).to.equal('${foo.bar()}');
+        }));
+
+      });
+
+
+      describe('on the business object', function() {
+
+        it('should execute', function() {
+
+          // then
+          expect(parameter.value).to.equal('${foo.bar()}');
+        });
+
+
+        it('should undo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+
+          // then
+          expect(parameter.value).to.equal('${foo}');
+        }));
+
+
+        it('should redo', inject(function(commandStack) {
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expect(parameter.value).to.equal('${foo.bar()}');
         }));
 
       });
