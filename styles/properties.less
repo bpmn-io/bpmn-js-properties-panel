@@ -373,6 +373,85 @@ label.bpp-hidden {
   color: @bpp-input-description-color;
 }
 
+.bpp-collapsible {
+  height: 19px;
+
+  .bpp-field-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .bpp-collapsible__icon {
+    display: block;
+
+    padding-right: 2px;
+  }
+
+  .bpp-collapsible__icon:before {
+    display: block;
+
+    height: 16px;
+    width: 16px;
+
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpolygon fill='%23666666' fill-rule='evenodd' points='5 4.414 6.414 3 11.364 7.95 6.414 12.899 5 11.485 8.534 7.95'/%3E%3C/svg%3E%0A");
+    transform: rotate(90deg);
+  }
+
+  &.bpp-collapsible--collapsed .bpp-collapsible__icon:before {
+    transform: none;
+  }
+
+  .bpp-collapsible__title {
+    display: block;
+    margin: 0;
+    padding-right: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &:not(.bpp-collapsible--collapsed) .bpp-collapsible__title {
+    padding-right: 0;
+  }
+
+  // make space for remove button
+  &:not(.bpp-collapsible--collapsed) .bpp-collapsible__title:nth-last-child(3) {
+    padding-right: 24px;
+  }
+
+  .bpp-collapsible__description {
+    display: none;
+
+    margin: 0;
+
+    white-space: nowrap;
+    color: @bpp-collapsible-description-color;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bpp-collapsible__description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.bpp-collapsible--collapsed .bpp-collapsible__description {
+    display: block;
+  }
+
+  .bpp-collapsible__remove {
+    height: 24px;
+    top: -4px;
+    right: 0;
+  }
+}
+
+.bpp-collapsible ~ .bpp-properties-entry:not(.bpp-collapsible) {
+  margin-left: 18px;
+}
+
 
 @import "./header";
 @import "./groups";
