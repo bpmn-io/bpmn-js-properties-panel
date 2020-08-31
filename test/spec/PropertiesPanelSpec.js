@@ -135,6 +135,24 @@ describe('properties-panel', function() {
       }
     ));
 
+
+    it('should update on action triggered', inject(
+      function(elementRegistry, selection, propertiesPanel) {
+
+        // given
+        propertiesPanel.attachTo(container);
+        var task = elementRegistry.get('Task_1');
+        selection.select(task);
+        var spy = sinon.spy(propertiesPanel, 'update');
+
+        var button = domQuery('[data-entry="external-edit"] [data-action]');
+
+        // when
+        TestHelper.triggerEvent(button, 'click');
+
+        // then
+        expect(spy).to.have.been.called;
+      }));
   });
 
 
