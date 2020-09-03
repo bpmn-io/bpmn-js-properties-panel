@@ -1,51 +1,11 @@
 [
   {
-    "name": "Default Visible",
-    "id": "visible.default",
+    "name": "Foo",
+    "id": "foo",
+    "description": "Foo",
     "appliesTo": [
       "bpmn:Task"
     ],
     "properties": []
-  },
-  {
-    "name": "All Visible",
-    "id": "visible.all",
-    "appliesTo": [
-      "bpmn:Task"
-    ],
-    "properties": [],
-    "entriesVisible": {
-      "_all": true
-    }
-  },
-  {
-    "name": "All But Some Visible",
-    "id": "visible.allBut",
-    "appliesTo": [
-      "bpmn:Task"
-    ],
-    "properties": [],
-    "entriesVisible": {
-      "_all": true,
-      "name": false,
-      "asyncBefore": false,
-      "asyncAfter": false,
-      "executionListeners": false,
-      "documentation": false
-    }
-  },
-  {
-    "name": "Some Visible",
-    "id": "visible.some",
-    "appliesTo": [
-      "bpmn:Task"
-    ],
-    "properties": [],
-    "entriesVisible": {
-      "asyncBefore": true,
-      "asyncAfter": true,
-      "executionListeners": true,
-      "documentation": true
-    }
   }
 ]

@@ -7,13 +7,22 @@ var TestContainer = require('mocha-test-container-support');
 /* global bootstrapModeler, inject */
 
 var propertiesPanelModule = require('lib'),
-    domQuery = require('min-dom').query,
-    domClasses = require('min-dom').classes,
     coreModule = require('bpmn-js/lib/core').default,
-    selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('lib/provider/camunda'),
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+    selectionModule = require('diagram-js/lib/features/selection').default;
+
+var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+
+var domAttr = require('min-dom').attr,
+    domClasses = require('min-dom').classes,
+    domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
+
+var forEach = require('min-dash').forEach,
+    reduce = require('min-dash').reduce;
+
+var slice = Array.prototype.slice;
 
 
 describe('camunda-properties', function() {
@@ -142,4 +151,89 @@ describe('camunda-properties', function() {
 
   });
 
+
+  describe('integration', function() {
+
+    describe('element templates', function() {
+
+      var diagramXML = require('./ElementTemplates.bpmn');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        modules: testModules,
+        moddleExtensions: {
+          camunda: camundaModdlePackage
+        },
+        elementTemplates: function(done) {
+          done(null, [{
+            id: 'foo',
+            name: 'Foo',
+            appliesTo: [ 'bpmn:Task' ],
+            properties: []
+          }]);
+        }
+      }));
+
+
+      it('should only show element template tab if applied', inject(
+        function(elementRegistry, selection) {
+
+          // given
+          var task = elementRegistry.get('Task_1');
+
+          // when
+          selection.select(task);
+
+          // then
+          expectTabActive('element-template');
+          expectTabsVisible([ 'element-template' ]);
+        })
+      );
+
+    });
+
+  });
+
 });
+
+// helpers //////////
+
+function expectTabActive(activeTabId) {
+  var tabs = getTabs();
+
+  forEach(tabs, function(tab, tabId) {
+    if (tabId === activeTabId) {
+      expect(tab.active).to.be.true;
+    } else {
+      expect(tab.active).to.be.false;
+    }
+  });
+}
+
+function expectTabsVisible(visibleTabsIds) {
+  var tabs = getTabs();
+
+  forEach(tabs, function(tab, tabId) {
+    if (visibleTabsIds.indexOf(tabId) !== -1) {
+      expect(tab.hidden).to.be.false;
+    } else {
+      expect(tab.hidden).to.be.true;
+    }
+  });
+}
+
+function getTabs() {
+  return TestHelper.getBpmnJS().invoke(function(propertiesPanel) {
+    var tabLinks = domQueryAll('.bpp-properties-tab-link', propertiesPanel._container);
+
+    return reduce(slice.call(tabLinks), function(tabs, tabLink) {
+      var tabTarget = domAttr(domQuery('[data-tab-target]', tabLink), 'data-tab-target');
+
+      tabs[ tabTarget ] = {
+        active: domClasses(tabLink).contains('bpp-active'),
+        hidden: domClasses(tabLink).contains('bpp-hidden')
+      };
+
+      return tabs;
+    }, {});
+  });
+}

@@ -184,19 +184,6 @@ describe('element-templates/parts - Chooser', function() {
     }));
 
 
-    it('should switch template', inject(function() {
-
-      // given
-      var task = selectAndGet('Task_A');
-
-      // when
-      switchTemplate('other.task');
-
-      // then
-      expect(task.get('camunda:modelerTemplate')).to.eql('other.task');
-    }));
-
-
     it('should undo switch template', inject(function(commandStack) {
 
       // given

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Task",
+    "id": "task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": []
+  },
+  {
+    "name": "Task_Description",
+    "description": "Description",
+    "metadata": {
+      "lastModified": 1000000000000
+    },
+    "id": "task.description",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Async Before",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
+  }
+]
