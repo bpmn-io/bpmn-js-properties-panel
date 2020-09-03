@@ -60,6 +60,8 @@
   }
 
   [contenteditable] {
+    min-height: 24px;
+
     outline: 0px solid transparent;
     background-color: @bpp-input-background-color;
 
@@ -335,6 +337,17 @@ label.bpp-hidden {
 
 .bpp-entry-link {
   color: @bpp-primary-color;
+  text-decoration: underline;
+
+  &.bpp-entry-link-button {
+    display: inline-block;
+    padding: 3px 13px;
+    background: @blue-base-65;
+    color: @bpp-color-ffffff;
+    border: solid 1px @blue-darken-62;
+    border-radius: 100px;
+    text-decoration: none;
+  }
 }
 
 .bpp-icon-warning:before {
@@ -354,6 +367,10 @@ label.bpp-hidden {
       color: @bpp-primary-color;
     }
   }
+}
+
+.bpp-description {
+  color: @bpp-input-description-color;
 }
 
 

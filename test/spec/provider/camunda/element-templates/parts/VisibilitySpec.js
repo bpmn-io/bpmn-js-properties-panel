@@ -10,6 +10,8 @@ var entrySelect = require('./Helper').entrySelect,
 
 var domClasses = require('min-dom').classes;
 
+var VERY_HIGH_PRIORITY = 3000;
+
 
 describe('element-templates/parts - Visibility', function() {
 
@@ -19,20 +21,21 @@ describe('element-templates/parts - Visibility', function() {
   beforeEach(bootstrap(diagramXML, elementTemplates));
 
 
-  it('should show default entries', inject(function() {
+  it('should only show element template tab entries if applied', inject(function() {
 
     // when
-    selectAndGet('Task_Default');
+    selectAndGet('Task_1');
 
     // then
     expectShown([
-      'id',
-      'name',
-      'elementTemplate-chooser'
+      'element-template-description',
+      'element-template-element-id',
+      'element-template-element-name'
     ]);
 
     expectHidden([
       'asyncBefore',
+      'elementTemplate-chooser',
       'executionListeners'
     ]);
   }));
@@ -40,66 +43,26 @@ describe('element-templates/parts - Visibility', function() {
 
   describe('customization', function() {
 
-    it('should show all entries', inject(function() {
+    it('should allow overriding', inject(function(eventBus) {
+
+      // given
+      eventBus.on('propertiesPanel.isEntryVisible', VERY_HIGH_PRIORITY, function(context) {
+        var entry = context.entry;
+
+        return entry.id === 'asyncBefore';
+      });
 
       // when
-      selectAndGet('Task_All');
+      selectAndGet('Task_1');
 
       // then
       expectShown([
-        'id',
-        'name',
-        'elementTemplate-chooser',
-        'documentation',
-        'asyncBefore',
-        'executionListeners',
-        'properties'
-      ]);
-    }));
-
-
-    it('should hide entries selectively', inject(function() {
-
-      // when
-      selectAndGet('Task_AllButSome');
-
-      // then
-      expectShown([
-        'id',
-        'properties',
-        'parameterName',
-        'elementTemplate-chooser'
+        'asyncBefore'
       ]);
 
       expectHidden([
-        'name',
-        'asyncBefore',
-        'asyncAfter',
-        'documentation',
+        'elementTemplate-chooser',
         'executionListeners'
-      ]);
-    }));
-
-
-    it('should show entries selectively', inject(function() {
-
-      // when
-      selectAndGet('Task_Some');
-
-      // then
-      expectShown([
-        'elementTemplate-chooser',
-        'asyncBefore',
-        'asyncAfter',
-        'executionListeners',
-        'documentation'
-      ]);
-
-      expectHidden([
-        'id',
-        'name',
-        'properties',
-        'parameterName'
       ]);
     }));
 
