@@ -124,8 +124,36 @@
 }
 
 .bpp-textfield,
-.bpp-textbox {
+.bpp-textbox,
+.bpp-autosuggest-textbox {
   margin-bottom: 3px;
+}
+
+.bpp-autosuggest-list {
+  position: fixed;
+  min-width: 100px;
+  box-shadow: 0 2px 4px 0 @bpp-autosuggest-shadow-color;
+  border: solid 1px @bpp-autosuggest-border-color;
+  background-color: @bpp-color-ffffff;
+  z-index: 1;
+
+  display: none;
+
+  overflow-y: auto;
+  max-height: 200px;
+
+  &.active {
+    display: block;
+  }
+}
+
+.bpp-autosuggest-item {
+  padding: 6px 3px;
+
+  &:hover {
+    background: @blue-base-65;
+    color: @bpp-color-ffffff;
+  }
 }
 
 .bpp-radios-group {
