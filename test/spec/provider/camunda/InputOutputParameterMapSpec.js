@@ -23,78 +23,6 @@ var domQuery = require('min-dom').query,
     domQueryAll = require('min-dom').queryAll;
 
 
-// MODEL HELPER
-
-function getElements(bo, type, prop) {
-  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
-  return !prop ? elems : (elems[0] || {})[prop] || [];
-}
-
-function getInputParameters(bo) {
-  return getParameters(bo, 'inputParameters');
-}
-
-function getParameters(bo, prop) {
-  return getElements(bo, 'camunda:InputOutput', prop);
-}
-
-// DOM HELPER
-
-// input parameter
-
-function getInputParameterSelect(container) {
-  return getSelect('inputs', container);
-}
-
-function selectInputParameter(idx, container) {
-  var selectBox = getInputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
-// property controls
-
-function getInputOutputTab(container) {
-  return domQuery('div[data-tab="input-output"]', container);
-}
-
-function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
-}
-
-function getMapAddRowDiv(container) {
-  return domQuery('div[data-entry="parameterType-map"] > div', getInputOutputTab(container));
-}
-
-function getMapTable(container) {
-  return domQuery('div[data-entry="parameterType-map"] > div.bpp-table', getInputOutputTab(container));
-}
-
-function getMapRows(container) {
-  var table = getMapTable(container);
-  return domQueryAll('div[data-list-entry-container] > div', table);
-}
-
-function getMapInput(idx, column, container) {
-  var table = getMapTable(container);
-  return domQuery('div[data-index="' + idx + '"] > input[name="' + column + '"]', table);
-}
-
-function clickAddEntryButton(container) {
-  var addButton = domQuery('button', getMapAddRowDiv(container));
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function clickRemoveEntryButton(idx, container) {
-  var removeButton = domQuery('div[data-index="' + idx + '"] > button', getMapTable(container));
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
-// helper
-
-function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extensionElements-' + suffix + ']', getInputOutputTab(container));
-}
 
 describe('input-output-parameterType-map', function() {
 
@@ -148,7 +76,7 @@ describe('input-output-parameterType-map', function() {
       selection.select(shape);
 
       // select first parameter
-      selectInputParameter(3, container);
+      selectInputParameter(container, 3);
 
       parameter = getInputParameters(getBusinessObject(shape))[3];
       parameterTypeSelect = getParameterTypeSelect(container);
@@ -402,7 +330,7 @@ describe('input-output-parameterType-map', function() {
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
       selection.select(shape);
 
-      selectInputParameter(3, container);
+      selectInputParameter(container, 3);
 
       parameter = getInputParameters(getBusinessObject(shape))[3];
       definition = parameter.definition;
@@ -758,7 +686,7 @@ describe('input-output-parameterType-map', function() {
       selection.select(shape);
 
       // when
-      selectInputParameter(1, container);
+      selectInputParameter(container, 1);
 
     }));
 
@@ -791,3 +719,73 @@ describe('input-output-parameterType-map', function() {
   });
 
 });
+
+// MODEL HELPER
+
+function getElements(bo, type, prop) {
+  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
+  return !prop ? elems : (elems[0] || {})[prop] || [];
+}
+
+function getInputParameters(bo) {
+  return getParameters(bo, 'inputParameters');
+}
+
+function getParameters(bo, prop) {
+  return getElements(bo, 'camunda:InputOutput', prop);
+}
+
+// DOM HELPER
+
+// input parameter
+
+
+function getInputParameterCollapsibles(container) {
+  return domQueryAll('.bpp-collapsible[data-entry*="input-parameter"]', getInputParametersGroup(container));
+}
+
+function selectInputParameter(container, index) {
+  var collapsibles = getInputParameterCollapsibles(container);
+  TestHelper.triggerEvent(collapsibles[index].firstChild, 'click');
+}
+
+// property controls
+function getInputParametersGroup(container) {
+  return domQuery('[data-group*="input"]', getInputOutputTab(container));
+}
+
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
+function getParameterTypeSelect(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div > select[name="parameterType"]', getInputOutputTab(container));
+}
+
+function getMapAddRowDiv(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div[data-entry*="parameterType-map"] > div', getInputOutputTab(container));
+}
+
+function getMapTable(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div[data-entry*="parameterType-map"] > div.bpp-table', getInputOutputTab(container));
+}
+
+function getMapRows(container) {
+  var table = getMapTable(container);
+  return domQueryAll('div[data-list-entry-container] > div', table);
+}
+
+function getMapInput(idx, column, container) {
+  var table = getMapTable(container);
+  return domQuery('div[data-index="' + idx + '"] > input[name="' + column + '"]', table);
+}
+
+function clickAddEntryButton(container) {
+  var addButton = domQuery('button', getMapAddRowDiv(container));
+  TestHelper.triggerEvent(addButton, 'click');
+}
+
+function clickRemoveEntryButton(idx, container) {
+  var removeButton = domQuery('div[data-index="' + idx + '"] > button', getMapTable(container));
+  TestHelper.triggerEvent(removeButton, 'click');
+}

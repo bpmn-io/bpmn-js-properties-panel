@@ -19,52 +19,8 @@ var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
 
 var extensionElementsHelper = require('lib/helper/ExtensionElementsHelper');
 
-var domQuery = require('min-dom').query;
-
-
-// MODEL HELPER
-
-function getElements(bo, type, prop) {
-  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
-  return !prop ? elems : (elems[0] || {})[prop] || [];
-}
-
-function getInputParameters(bo) {
-  return getParameters(bo, 'inputParameters');
-}
-
-function getParameters(bo, prop) {
-  return getElements(bo, 'camunda:InputOutput', prop);
-}
-
-
-// DOM HELPER
-
-function getInputOutputTab(container) {
-  return domQuery('div[data-tab="input-output"]', container);
-}
-
-function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
-}
-
-// input parameter
-
-function getInputParameterSelect(container) {
-  return getSelect('inputs', container);
-}
-
-function selectInputParameter(idx, container) {
-  var selectBox = getInputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
-// helper
-
-function getSelect(suffix, container) {
-  return domQuery('select[id=cam-extensionElements-' + suffix + ']', getInputOutputTab(container));
-}
+var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
 
 
 describe('input-output-parameterType-script', function() {
@@ -119,7 +75,7 @@ describe('input-output-parameterType-script', function() {
       selection.select(shape);
 
       // select first parameter
-      selectInputParameter(1, container);
+      selectInputParameter(container, 1);
 
       parameter = getInputParameters(getBusinessObject(shape))[1];
       parameterTypeSelect = getParameterTypeSelect(container);
@@ -360,3 +316,45 @@ describe('input-output-parameterType-script', function() {
   });
 
 });
+
+// MODEL HELPER
+
+function getElements(bo, type, prop) {
+  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
+  return !prop ? elems : (elems[0] || {})[prop] || [];
+}
+
+function getInputParameters(bo) {
+  return getParameters(bo, 'inputParameters');
+}
+
+function getParameters(bo, prop) {
+  return getElements(bo, 'camunda:InputOutput', prop);
+}
+
+
+// DOM HELPER
+
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
+function getParameterTypeSelect(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div > select[name="parameterType"]', getInputOutputTab(container));
+}
+
+// input parameter
+
+function getInputParameterCollapsibles(container) {
+  return domQueryAll('.bpp-collapsible[data-entry*="input-parameter"]', getInputParametersGroup(container));
+}
+
+function selectInputParameter(container, index) {
+  var collapsibles = getInputParameterCollapsibles(container);
+  TestHelper.triggerEvent(collapsibles[index].firstChild, 'click');
+}
+
+// property controls
+function getInputParametersGroup(container) {
+  return domQuery('[data-group*="input"]', getInputOutputTab(container));
+}
