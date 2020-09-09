@@ -18,120 +18,12 @@ var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 var inputOutputHelper = require('lib/helper/InputOutputHelper');
 
 var domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
     domClasses = require('min-dom').classes;
 
 var find = require('lodash/find');
 
 
-function getConnectorTab(container) {
-  return domQuery('div[data-tab="connector"]', container);
-}
-
-function getGroup(container, groupId) {
-  var tab = getConnectorTab(container);
-  return domQuery('div[data-group="' + groupId + '"]', tab);
-}
-
-function getEntry(container, groupId, entryId) {
-  return domQuery('div[data-entry="' + entryId + '"]', getGroup(container, groupId));
-}
-
-function getInputField(container, groupId, entryId, inputName) {
-  var selector = 'input' + (inputName ? '[name="' + inputName + '"]' : '');
-  return domQuery(selector, getEntry(container, groupId, entryId));
-}
-
-function getSelectField(container, groupId, entryId, selectName) {
-  var selector = 'select' + (selectName ? '[name="' + selectName + '"]' : '');
-  return domQuery(selector, getEntry(container, groupId, entryId));
-}
-
-function getButton(container, groupId, entryId, buttonAction) {
-  var entry = getEntry(container, groupId, entryId);
-  var selector = 'button' + (buttonAction ? '[data-action="' + buttonAction + '"]' : '');
-  return domQuery(selector, entry);
-}
-
-function getConnectorIdInput(container) {
-  return getInputField(container, 'connector-details', 'connectorId');
-}
-
-function getConnectorInputParameterSelect(container) {
-  return getSelectField(container, 'connector-input-output', 'connector-inputs');
-}
-
-function selectInputParameter(container, idx) {
-  var selectBox = getConnectorInputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
-function clickAddInputParameterButton(container) {
-  var addButton = getButton(container, 'connector-input-output', 'connector-inputs', 'createElement');
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function clickRemoveInputParameterButton(container) {
-  var removeButton = getButton(container, 'connector-input-output', 'connector-inputs', 'removeElement');
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
-function getConnectorOutputParameterSelect(container) {
-  return getSelectField(container, 'connector-input-output', 'connector-outputs');
-}
-
-function selectOutputParameter(container, idx) {
-  var selectBox = getConnectorOutputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
-function clickAddOutputParameterButton(container) {
-  var addButton = getButton(container, 'connector-input-output', 'connector-outputs', 'createElement');
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function clickRemoveOutputParameterButton(container) {
-  var removeButton = getButton(container, 'connector-input-output', 'connector-outputs', 'removeElement');
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
-function getParameterGroupLabel(container) {
-  var group = getGroup(container, 'connector-input-output-parameter');
-  return domQuery('.group-label', group);
-}
-
-function getParameterNameInput(container) {
-  return getInputField(container, 'connector-input-output-parameter', 'connector-parameterName');
-}
-
-function getConnector(element) {
-  return inputOutputHelper.getConnector(element);
-}
-
-function getInputParameters(bo) {
-  return getConnector(bo).get('inputOutput').get('inputParameters');
-}
-
-function getOutputParameters(bo) {
-  return getConnector(bo).get('inputOutput').get('outputParameters');
-}
-
-function isInputInvalid(node) {
-  return domClasses(node).has('invalid');
-}
-
-function isParameterContainedIn(params, value) {
-  return find(params, function(param) {
-    return param.name === value;
-  });
-}
-
-function isOptionContainedIn(selectBox, value) {
-  return find(selectBox, function(node) {
-    return node.value === value;
-  });
-}
 
 describe('connector', function() {
 
@@ -156,16 +48,6 @@ describe('connector', function() {
 
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
-
-    var undoButton = document.createElement('button');
-    undoButton.textContent = 'UNDO';
-
-    undoButton.addEventListener('click', function() {
-      commandStack.undo();
-    });
-
-    container.appendChild(undoButton);
-
     propertiesPanel.attachTo(container);
   }));
 
@@ -561,22 +443,13 @@ describe('connector', function() {
 
     describe('on the business object', function() {
 
-      var newParameterName;
-
-      beforeEach(inject(function(propertiesPanel) {
-        newParameterName = getConnectorInputParameterSelect(propertiesPanel._container).value;
-      }));
-
-
       it('should execute', function() {
-        // after removing 'dateOfBirth' form field
 
         // then
-        expect(getInputParameters(bo).length).to.equal(3);
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar2')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).to.be.ok;
-
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(3);
+        expect(isParameterContainedIn(inputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(inputParameters, 'bar2')).to.be.ok;
       });
 
 
@@ -585,10 +458,10 @@ describe('connector', function() {
         commandStack.undo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(2);
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar2')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).not.to.be.ok;
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(2);
+        expect(isParameterContainedIn(inputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(inputParameters, 'bar2')).to.be.ok;
       }));
 
 
@@ -599,10 +472,10 @@ describe('connector', function() {
         commandStack.redo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(3);
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar2')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), newParameterName)).to.be.ok;
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(3);
+        expect(isParameterContainedIn(inputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(inputParameters, 'bar2')).to.be.ok;
       }));
 
     });
@@ -610,48 +483,37 @@ describe('connector', function() {
 
     describe('in the DOM', function() {
 
-      var inputSelectBox,
-          newParameterName;
+      var collapsibles;
 
-      beforeEach(inject(function(propertiesPanel) {
-        inputSelectBox = getConnectorInputParameterSelect(propertiesPanel._container);
-        newParameterName = getInputParameters(bo)[2].name;
+      it('should execute', inject(function(propertiesPanel) {
+
+        // after removing input parameter
+        collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
+
+        // then
+        expect(collapsibles).to.have.lengthOf(3);
       }));
 
 
-      it('should execute', function() {
-        // after removing input parameter
+      it('should undo', inject(function(commandStack, propertiesPanel) {
 
-        // then
-        expect(inputSelectBox.options.length).to.equal(3);
-        expect(isOptionContainedIn(inputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, 'bar2')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, newParameterName)).to.be.ok;
-      });
-
-
-      it('should undo', inject(function(commandStack) {
         // when
         commandStack.undo();
+        collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
 
         // then
-        expect(inputSelectBox.options.length).to.equal(2);
-        expect(isOptionContainedIn(inputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, 'bar2')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, newParameterName)).not.to.be.ok;
+        expect(collapsibles).to.have.lengthOf(2);
       }));
 
 
-      it('should redo', inject(function(commandStack) {
+      it('should redo', inject(function(commandStack, propertiesPanel) {
         // when
         commandStack.undo();
         commandStack.redo();
+        collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
 
         // then
-        expect(inputSelectBox.options.length).to.equal(3);
-        expect(isOptionContainedIn(inputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, 'bar2')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, newParameterName)).to.be.ok;
+        expect(collapsibles).to.have.lengthOf(3);
       }));
 
     });
@@ -681,21 +543,14 @@ describe('connector', function() {
 
     describe('on the business object', function() {
 
-      var newParameterName;
-
-      beforeEach(inject(function(propertiesPanel) {
-        newParameterName = getConnectorOutputParameterSelect(propertiesPanel._container).value;
-      }));
-
-
       it('should execute', function() {
         // after removing 'dateOfBirth' form field
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(3);
-        expect(isParameterContainedIn(getOutputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getOutputParameters(bo), 'bar2')).to.be.ok;
-        expect(isParameterContainedIn(getOutputParameters(bo), newParameterName)).to.be.ok;
+        var outputParameters = getOutputParameters(bo);
+        expect(outputParameters).to.have.lengthOf(3);
+        expect(isParameterContainedIn(outputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(outputParameters, 'bar2')).to.be.ok;
 
       });
 
@@ -705,10 +560,10 @@ describe('connector', function() {
         commandStack.undo();
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(2);
-        expect(isParameterContainedIn(getOutputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getOutputParameters(bo), 'bar2')).to.be.ok;
-        expect(isParameterContainedIn(getOutputParameters(bo), newParameterName)).not.to.be.ok;
+        var outputParameters = getOutputParameters(bo);
+        expect(outputParameters).to.have.lengthOf(2);
+        expect(isParameterContainedIn(outputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(outputParameters, 'bar2')).to.be.ok;
       }));
 
 
@@ -719,10 +574,10 @@ describe('connector', function() {
         commandStack.redo();
 
         // then
-        expect(getOutputParameters(bo).length).to.equal(3);
-        expect(isParameterContainedIn(getOutputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getOutputParameters(bo), 'bar2')).to.be.ok;
-        expect(isParameterContainedIn(getOutputParameters(bo), newParameterName)).to.be.ok;
+        var outputParameters = getOutputParameters(bo);
+        expect(outputParameters).to.have.lengthOf(3);
+        expect(isParameterContainedIn(outputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(outputParameters, 'bar2')).to.be.ok;
       }));
 
     });
@@ -730,48 +585,35 @@ describe('connector', function() {
 
     describe('in the DOM', function() {
 
-      var newParameterName,
-          outputSelectBox;
+      var collapsibles;
 
-      beforeEach(inject(function(propertiesPanel) {
-        outputSelectBox = getConnectorOutputParameterSelect(propertiesPanel._container);
-        newParameterName = getOutputParameters(bo)[2].name;
+
+      it('should execute', inject(function(propertiesPanel) {
+
+        // then
+        collapsibles = getOutputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(3);
       }));
 
 
-      it('should execute', function() {
-        // after removing input parameter
-
-        // then
-        expect(outputSelectBox.options.length).to.equal(3);
-        expect(isOptionContainedIn(outputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, 'bar2')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, newParameterName)).to.be.ok;
-      });
-
-
-      it('should undo', inject(function(commandStack) {
+      it('should undo', inject(function(commandStack, propertiesPanel) {
         // when
         commandStack.undo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(2);
-        expect(isOptionContainedIn(outputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, 'bar2')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, newParameterName)).not.to.be.ok;
+        collapsibles = getOutputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(2);
       }));
 
 
-      it('should redo', inject(function(commandStack) {
+      it('should redo', inject(function(commandStack, propertiesPanel) {
         // when
         commandStack.undo();
         commandStack.redo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(3);
-        expect(isOptionContainedIn(outputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, 'bar2')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, newParameterName)).to.be.ok;
+        collapsibles = getOutputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(3);
       }));
 
     });
@@ -807,34 +649,37 @@ describe('connector', function() {
         // after removing 'dateOfBirth' form field
 
         // then
-        expect(getInputParameters(bo).length).to.equal(1);
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar2')).not.to.be.ok;
-
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(1);
+        expect(isParameterContainedIn(inputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(inputParameters, 'bar2')).not.to.be.ok;
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(2);
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar2')).to.be.ok;
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(2);
+        expect(isParameterContainedIn(inputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(inputParameters, 'bar2')).to.be.ok;
       }));
 
 
       it('should redo', inject(function(commandStack) {
-        // when
 
+        // when
         commandStack.undo();
         commandStack.redo();
 
         // then
-        expect(getInputParameters(bo).length).to.equal(1);
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar1')).to.be.ok;
-        expect(isParameterContainedIn(getInputParameters(bo), 'bar2')).not.to.be.ok;
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(1);
+        expect(isParameterContainedIn(inputParameters, 'bar1')).to.be.ok;
+        expect(isParameterContainedIn(inputParameters, 'bar2')).not.to.be.ok;
       }));
 
     });
@@ -842,43 +687,39 @@ describe('connector', function() {
 
     describe('in the DOM', function() {
 
-      var inputSelectBox;
-
-      beforeEach(inject(function(propertiesPanel) {
-        inputSelectBox = getConnectorInputParameterSelect(propertiesPanel._container);
-      }));
+      var collapsibles;
 
 
-      it('should execute', function() {
+      it('should execute', inject(function(propertiesPanel) {
         // after removing input parameter
 
         // then
-        expect(inputSelectBox.options.length).to.equal(1);
-        expect(isOptionContainedIn(inputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, 'bar2')).not.to.be.ok;
-      });
+        collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
+
+        // then
+        expect(collapsibles).to.have.lengthOf(1);
+      }));
 
 
-      it('should undo', inject(function(commandStack) {
+      it('should undo', inject(function(commandStack, propertiesPanel) {
         // when
         commandStack.undo();
 
         // then
-        expect(inputSelectBox.options.length).to.equal(2);
-        expect(isOptionContainedIn(inputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, 'bar2')).to.be.ok;
+        collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(2);
       }));
 
 
-      it('should redo', inject(function(commandStack) {
+      it('should redo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         commandStack.redo();
 
         // then
-        expect(inputSelectBox.options.length).to.equal(1);
-        expect(isOptionContainedIn(inputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(inputSelectBox, 'bar2')).not.to.be.ok;
+        collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(1);
       }));
 
     });
@@ -949,43 +790,36 @@ describe('connector', function() {
 
     describe('in the DOM', function() {
 
-      var outputSelectBox;
+      var collapsibles;
 
-      beforeEach(inject(function(propertiesPanel) {
-        outputSelectBox = getConnectorOutputParameterSelect(propertiesPanel._container);
+
+      it('should execute', inject(function(propertiesPanel) {
+
+        // then
+        collapsibles = getOutputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(1);
       }));
 
 
-      it('should execute', function() {
-        // after removing input parameter
-
-        // then
-        expect(outputSelectBox.options.length).to.equal(1);
-        expect(isOptionContainedIn(outputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, 'bar2')).not.to.be.ok;
-      });
-
-
-      it('should undo', inject(function(commandStack) {
+      it('should undo', inject(function(commandStack, propertiesPanel) {
         // when
         commandStack.undo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(2);
-        expect(isOptionContainedIn(outputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, 'bar2')).to.be.ok;
+        collapsibles = getOutputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(2);
       }));
 
 
-      it('should redo', inject(function(commandStack) {
+      it('should redo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         commandStack.redo();
 
         // then
-        expect(outputSelectBox.options.length).to.equal(1);
-        expect(isOptionContainedIn(outputSelectBox, 'bar1')).to.be.ok;
-        expect(isOptionContainedIn(outputSelectBox, 'bar2')).not.to.be.ok;
+        collapsibles = getOutputParameterCollapsibles(propertiesPanel._container);
+        expect(collapsibles).to.have.lengthOf(1);
       }));
 
     });
@@ -1095,13 +929,10 @@ describe('connector', function() {
 
     describe('of input parameters', function() {
 
-      it('should display input parameter label', function() {
-
-        // when
-        selectInputParameter(container, 0);
+      it('should display label', function() {
 
         // then
-        expect(getParameterGroupLabel(container).textContent).to.equal('Input Parameter');
+        expect(getInputParameterGroupLabel(container).textContent).to.equal('Input Parameters');
 
       });
 
@@ -1112,11 +943,8 @@ describe('connector', function() {
 
       it('should display output parameter label', function() {
 
-        // when
-        selectOutputParameter(container, 0);
-
         // then
-        expect(getParameterGroupLabel(container).textContent).to.equal('Output Parameter');
+        expect(getOutputParameterGroupLabel(container).textContent).to.equal('Output Parameters');
 
       });
 
@@ -1125,3 +953,124 @@ describe('connector', function() {
   });
 
 });
+
+
+function getConnectorTab(container) {
+  return domQuery('div[data-tab="connector"]', container);
+}
+
+function getGroup(container, groupId) {
+  var tab = getConnectorTab(container);
+  return domQuery('div[data-group="' + groupId + '"]', tab);
+}
+
+function getEntry(container, groupId, entryId) {
+  return domQuery('div[data-entry="' + entryId + '"]', getGroup(container, groupId));
+}
+
+function getInputField(container, groupId, entryId, inputName) {
+  var selector = 'input' + (inputName ? '[name="' + inputName + '"]' : '');
+  return domQuery(selector, getEntry(container, groupId, entryId));
+}
+
+function getConnectorIdInput(container) {
+  return getInputField(container, 'connector-details', 'connectorId');
+}
+
+function selectInputParameter(container, index) {
+  var collapsibles = getInputParameterCollapsibles(container);
+  TestHelper.triggerEvent(collapsibles[index].firstChild, 'click');
+}
+
+function getInputParameterCollapsibles(container) {
+  return domQueryAll('.bpp-collapsible[data-entry*="input-parameter"]', getInputParametersGroup(container));
+}
+
+function clickAddInputParameterButton(container) {
+  var addButton = getAddInputParameterButton(container);
+  TestHelper.triggerEvent(addButton, 'click');
+}
+
+function getAddInputParameterButton(container) {
+  return domQuery('[data-entry*="Input-heading"] [data-action="createElement"]', getInputParametersGroup(container));
+}
+
+function getInputParametersGroup(container) {
+  return domQuery('[data-group*="input"]', getConnectorTab(container));
+}
+
+function clickRemoveInputParameterButton(container) {
+  var removeButton = getRemoveInputParameterButton(container);
+  TestHelper.triggerEvent(removeButton, 'click');
+}
+
+function getRemoveInputParameterButton(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) [data-action="onRemove"]', getInputParametersGroup(container));
+}
+
+function selectOutputParameter(container, index) {
+  var collapsibles = getOutputParameterCollapsibles(container);
+  TestHelper.triggerEvent(collapsibles[index].firstChild, 'click');
+}
+
+function getOutputParameterCollapsibles(container) {
+  return domQueryAll('.bpp-collapsible[data-entry*="output-parameter"]', getOutputParametersGroup(container));
+}
+
+function getOutputParametersGroup(container) {
+  return domQuery('[data-group*="output"]', getConnectorTab(container));
+}
+
+function clickAddOutputParameterButton(container) {
+  var addButton = getAddOutputParameterButton(container);
+  TestHelper.triggerEvent(addButton, 'click');
+}
+
+function getAddOutputParameterButton(container) {
+  return domQuery('[data-entry*="Output-heading"] [data-action="createElement"]', getOutputParametersGroup(container));
+}
+
+function clickRemoveOutputParameterButton(container) {
+  var removeButton = getRemoveOutputParameterButton(container);
+  TestHelper.triggerEvent(removeButton, 'click');
+}
+
+function getRemoveOutputParameterButton(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) [data-action="onRemove"]', getOutputParametersGroup(container));
+}
+
+function getInputParameterGroupLabel(container) {
+  var group = getGroup(container, 'connector-input-parameters');
+  return domQuery('.group-label', group);
+}
+
+function getOutputParameterGroupLabel(container) {
+  var group = getGroup(container, 'connector-output-parameters');
+  return domQuery('.group-label', group);
+}
+
+function getParameterNameInput(container) {
+  return domQuery('input[id*="parameterName"]', getInputParametersGroup(container));
+}
+
+function getConnector(element) {
+  return inputOutputHelper.getConnector(element);
+}
+
+function getInputParameters(bo) {
+  return getConnector(bo).get('inputOutput').get('inputParameters');
+}
+
+function getOutputParameters(bo) {
+  return getConnector(bo).get('inputOutput').get('outputParameters');
+}
+
+function isInputInvalid(node) {
+  return domClasses(node).has('invalid');
+}
+
+function isParameterContainedIn(params, value) {
+  return find(params, function(param) {
+    return param.name === value;
+  });
+}

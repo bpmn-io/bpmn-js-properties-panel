@@ -23,79 +23,6 @@ var domQuery = require('min-dom').query,
     domQueryAll = require('min-dom').queryAll;
 
 
-// MODEL HELPER
-
-function getElements(bo, type, prop) {
-  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
-  return !prop ? elems : (elems[0] || {})[prop] || [];
-}
-
-function getInputParameters(bo) {
-  return getParameters(bo, 'inputParameters');
-}
-
-function getParameters(bo, prop) {
-  return getElements(bo, 'camunda:InputOutput', prop);
-}
-
-// DOM HELPER
-
-// input parameter
-
-function getInputParameterSelect(container) {
-  return getSelect('inputs', container);
-}
-
-function selectInputParameter(idx, container) {
-  var selectBox = getInputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
-// property controls
-
-function getInputOutputTab(container) {
-  return domQuery('div[data-tab="input-output"]', container);
-}
-
-function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
-}
-
-function getListAddRowDiv(container) {
-  return domQuery('div[data-entry="parameterType-list"] > div.bpp-table-add-row', getInputOutputTab(container));
-}
-
-function getListTable(container) {
-  return domQuery('div[data-entry="parameterType-list"] > div.bpp-table', getInputOutputTab(container));
-}
-
-function getListRows(container) {
-  var table = getListTable(container);
-  return domQueryAll('div[data-list-entry-container] > div', table);
-}
-
-function getListInput(idx, container) {
-  var table = getListTable(container);
-  return domQuery('div[data-index="' + idx + '"] > input', table);
-}
-
-function clickAddValueButton(container) {
-  var addButton = domQuery('button.add', getListAddRowDiv(container));
-  TestHelper.triggerEvent(addButton, 'click');
-}
-
-function clickRemoveValueButton(idx, container) {
-  var removeButton = domQuery('div[data-index="' + idx + '"] > button', getListTable(container));
-  TestHelper.triggerEvent(removeButton, 'click');
-}
-
-// helper
-
-function getSelect(suffix, container) {
-  return domQuery('select[id="cam-extensionElements-' + suffix + '"]', getInputOutputTab(container));
-}
-
 describe('input-output-parameterType-list', function() {
 
   var diagramXML = require('./InputOutput.bpmn');
@@ -118,17 +45,7 @@ describe('input-output-parameterType-list', function() {
   }));
 
 
-  beforeEach(inject(function(commandStack, propertiesPanel) {
-
-    var undoButton = document.createElement('button');
-    undoButton.textContent = 'UNDO';
-
-    undoButton.addEventListener('click', function() {
-      commandStack.undo();
-    });
-
-    container.appendChild(undoButton);
-
+  beforeEach(inject(function(propertiesPanel) {
     propertiesPanel.attachTo(container);
   }));
 
@@ -148,7 +65,7 @@ describe('input-output-parameterType-list', function() {
       selection.select(shape);
 
       // select first parameter
-      selectInputParameter(2, container);
+      selectInputParameter(container, 2);
 
       parameter = getInputParameters(getBusinessObject(shape))[2];
       parameterTypeSelect = getParameterTypeSelect(container);
@@ -402,7 +319,7 @@ describe('input-output-parameterType-list', function() {
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
       selection.select(shape);
 
-      selectInputParameter(2, container);
+      selectInputParameter(container, 2);
 
       parameter = getInputParameters(getBusinessObject(shape))[2];
       definition = parameter.definition;
@@ -662,7 +579,7 @@ describe('input-output-parameterType-list', function() {
       selection.select(shape);
 
       // when
-      selectInputParameter(0, container);
+      selectInputParameter(container, 0);
 
     }));
 
@@ -695,3 +612,74 @@ describe('input-output-parameterType-list', function() {
   });
 
 });
+
+
+
+// MODEL HELPER
+
+function getElements(bo, type, prop) {
+  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
+  return !prop ? elems : (elems[0] || {})[prop] || [];
+}
+
+function getInputParameters(bo) {
+  return getParameters(bo, 'inputParameters');
+}
+
+function getParameters(bo, prop) {
+  return getElements(bo, 'camunda:InputOutput', prop);
+}
+
+// DOM HELPER
+
+// input parameter
+
+function getInputParameterCollapsibles(container) {
+  return domQueryAll('.bpp-collapsible[data-entry*="input-parameter"]', getInputParametersGroup(container));
+}
+
+function selectInputParameter(container, index) {
+  var collapsibles = getInputParameterCollapsibles(container);
+  TestHelper.triggerEvent(collapsibles[index].firstChild, 'click');
+}
+
+// property controls
+function getInputParametersGroup(container) {
+  return domQuery('[data-group*="input"]', getInputOutputTab(container));
+}
+
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
+function getParameterTypeSelect(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div > select[name="parameterType"]', getInputOutputTab(container));
+}
+
+function getListAddRowDiv(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div[data-entry*="parameterType-list"] > div.bpp-table-add-row', getInputOutputTab(container));
+}
+
+function getListTable(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div[data-entry*="parameterType-list"] > div.bpp-table', getInputOutputTab(container));
+}
+
+function getListRows(container) {
+  var table = getListTable(container);
+  return domQueryAll('div[data-list-entry-container] > div', table);
+}
+
+function getListInput(idx, container) {
+  var table = getListTable(container);
+  return domQuery('div[data-index="' + idx + '"] > input', table);
+}
+
+function clickAddValueButton(container) {
+  var addButton = domQuery('button.add', getListAddRowDiv(container));
+  TestHelper.triggerEvent(addButton, 'click');
+}
+
+function clickRemoveValueButton(idx, container) {
+  var removeButton = domQuery('div[data-index="' + idx + '"] > button', getListTable(container));
+  TestHelper.triggerEvent(removeButton, 'click');
+}

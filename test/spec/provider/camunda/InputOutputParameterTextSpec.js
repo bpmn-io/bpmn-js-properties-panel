@@ -20,72 +20,8 @@ var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
 var extensionElementsHelper = require('lib/helper/ExtensionElementsHelper');
 
 var domClasses = require('min-dom').classes,
-    domQuery = require('min-dom').query;
-
-
-// MODEL HELPER
-
-function getElements(bo, type, prop) {
-  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
-  return !prop ? elems : (elems[0] || {})[prop] || [];
-}
-
-function getInputParameters(bo) {
-  return getParameters(bo, 'inputParameters');
-}
-
-function getParameters(bo, prop) {
-  return getElements(bo, 'camunda:InputOutput', prop);
-}
-
-// DOM HELPER
-
-// input parameter
-
-function getInputParameterSelect(container) {
-  return getSelect('inputs', container);
-}
-
-function selectInputParameter(idx, container) {
-  var selectBox = getInputParameterSelect(container);
-  selectBox.options[idx].selected = 'selected';
-  TestHelper.triggerEvent(selectBox, 'change');
-}
-
-function getAutosuggestList(container) {
-  return domQuery('.bpp-autosuggest-list', getInputOutputTab(container));
-}
-
-function isActive(element) {
-  return domClasses(element).has('active');
-}
-
-function getCursorPosition() {
-  var selection = document.getSelection(),
-      range = selection.getRangeAt(0);
-
-  return range.startOffset;
-}
-
-// property controls
-
-function getInputOutputTab(container) {
-  return domQuery('div[data-tab="input-output"]', container);
-}
-
-function getParameterTypeSelect(container) {
-  return domQuery('select[id="camunda-parameterType-select"]', getInputOutputTab(container));
-}
-
-function getParameterTextValue(container) {
-  return domQuery('div[id="camunda-parameterType-text"]', getInputOutputTab(container));
-}
-
-// helper
-
-function getSelect(suffix, container) {
-  return domQuery('select[id="cam-extensionElements-' + suffix + '"]', getInputOutputTab(container));
-}
+    domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
 
 
 describe('input-output-parameterType-text', function() {
@@ -140,7 +76,7 @@ describe('input-output-parameterType-text', function() {
       selection.select(shape);
 
       // select first parameter
-      selectInputParameter(0, container);
+      selectInputParameter(container, 0);
 
       parameter = getInputParameters(getBusinessObject(shape))[0];
       parameterTypeSelect = getParameterTypeSelect(container);
@@ -395,7 +331,7 @@ describe('input-output-parameterType-text', function() {
       selection.select(shape);
 
       // select first parameter
-      selectInputParameter(0, container);
+      selectInputParameter(container, 0);
 
       parameterValueInput = getParameterTextValue(container);
       parameter = getInputParameters(getBusinessObject(shape))[0];
@@ -484,7 +420,7 @@ describe('input-output-parameterType-text', function() {
       selection.select(shape);
 
       // select first parameter
-      selectInputParameter(0, container);
+      selectInputParameter(container, 0);
 
       parameterValueInput = getParameterTextValue(container);
       autoSuggestList = getAutosuggestList(container);
@@ -743,3 +679,65 @@ describe('input-output-parameterType-text', function() {
   });
 
 });
+
+
+
+// MODEL HELPER
+
+function getElements(bo, type, prop) {
+  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
+  return !prop ? elems : (elems[0] || {})[prop] || [];
+}
+
+function getInputParameters(bo) {
+  return getParameters(bo, 'inputParameters');
+}
+
+function getParameters(bo, prop) {
+  return getElements(bo, 'camunda:InputOutput', prop);
+}
+
+// DOM HELPER
+
+// input parameter
+
+function getInputParameterCollapsibles(container) {
+  return domQueryAll('.bpp-collapsible[data-entry*="input-parameter"]', getInputParametersGroup(container));
+}
+
+function selectInputParameter(container, index) {
+  var collapsibles = getInputParameterCollapsibles(container);
+  TestHelper.triggerEvent(collapsibles[index].firstChild, 'click');
+}
+
+function getAutosuggestList(container) {
+  return domQuery('.bpp-autosuggest-list', getInputOutputTab(container));
+}
+
+function isActive(element) {
+  return domClasses(element).has('active');
+}
+
+function getCursorPosition() {
+  var selection = document.getSelection(),
+      range = selection.getRangeAt(0);
+
+  return range.startOffset;
+}
+
+// property controls
+function getInputParametersGroup(container) {
+  return domQuery('[data-group*="input"]', getInputOutputTab(container));
+}
+
+function getInputOutputTab(container) {
+  return domQuery('div[data-tab="input-output"]', container);
+}
+
+function getParameterTypeSelect(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div > select[name="parameterType"]', getInputOutputTab(container));
+}
+
+function getParameterTextValue(container) {
+  return domQuery('.bpp-collapsible:not(.bpp-collapsible--collapsed) ~ div div[id*="parameterType-text"]', getInputOutputTab(container));
+}

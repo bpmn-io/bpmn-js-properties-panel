@@ -41,6 +41,7 @@
             </camunda:map>
           </camunda:outputParameter>
         </camunda:inputOutput>
+        <camunda:executionListener expression="${abc}" event="end" />
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="WITH_INPUT_OUTPUT_PARAMS" name="With Input/Output">
