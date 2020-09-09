@@ -103,8 +103,13 @@ var triggerValue = function(element, value, eventType, cursorPosition) {
   }
 
   if (cursorPosition) {
-    element.selectionStart = cursorPosition;
-    element.selectionEnd = cursorPosition;
+
+    if (domAttr(element, 'contenteditable')) {
+      setCaretPosition(element.childNodes[0], cursorPosition);
+    } else {
+      element.selectionStart = cursorPosition;
+      element.selectionEnd = cursorPosition;
+    }
   }
 
   this.triggerEvent(element, eventType);
@@ -182,6 +187,18 @@ var selectedByIndex = function(element) {
   return element.options[element.selectedIndex];
 };
 
+var setCaretPosition = function(element, position) {
+  var range = document.createRange(),
+      selection = window.getSelection();
+
+  range.setStart(element, position);
+  range.setEnd(element, position);
+
+  selection.removeAllRanges();
+
+  selection.addRange(range);
+};
+
 
 module.exports.triggerEvent = triggerEvent;
 module.exports.triggerValue = triggerValue;
@@ -190,6 +207,7 @@ module.exports.triggerKeyEvent = triggerKeyEvent;
 module.exports.triggerFormFieldSelection = triggerFormFieldSelection;
 module.exports.selectedByOption = selectedByOption;
 module.exports.selectedByIndex = selectedByIndex;
+module.exports.setCaretPosition = setCaretPosition;
 
 
 global.chai.use(require('./matchers'));
