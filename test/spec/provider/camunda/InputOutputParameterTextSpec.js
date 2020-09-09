@@ -19,7 +19,8 @@ var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
 
 var extensionElementsHelper = require('lib/helper/ExtensionElementsHelper');
 
-var domQuery = require('min-dom').query;
+var domClasses = require('min-dom').classes,
+    domQuery = require('min-dom').query;
 
 
 // MODEL HELPER
@@ -49,6 +50,21 @@ function selectInputParameter(idx, container) {
   var selectBox = getInputParameterSelect(container);
   selectBox.options[idx].selected = 'selected';
   TestHelper.triggerEvent(selectBox, 'change');
+}
+
+function getAutosuggestList(container) {
+  return domQuery('.bpp-autosuggest-list', getInputOutputTab(container));
+}
+
+function isActive(element) {
+  return domClasses(element).has('active');
+}
+
+function getCursorPosition() {
+  var selection = document.getSelection(),
+      range = selection.getRangeAt(0);
+
+  return range.startOffset;
 }
 
 // property controls
@@ -420,6 +436,7 @@ describe('input-output-parameterType-text', function() {
 
     });
 
+
     describe('on the business object', function() {
 
       it('should execute', function() {
@@ -445,6 +462,224 @@ describe('input-output-parameterType-text', function() {
 
         // then
         expect(parameter.value).to.equal('foo');
+      }));
+
+    });
+
+  });
+
+
+  describe('auto suggest process variables', function() {
+
+    var parameterValueInput,
+        autoSuggestList,
+        changeInputValue,
+        parameter,
+        shape;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+      var container = propertiesPanel._container;
+
+      shape = elementRegistry.get('WITH_INPUT_OUTPUT_PARAMS');
+      selection.select(shape);
+
+      // select first parameter
+      selectInputParameter(0, container);
+
+      parameterValueInput = getParameterTextValue(container);
+      autoSuggestList = getAutosuggestList(container);
+      parameter = getInputParameters(getBusinessObject(shape))[0];
+
+      changeInputValue = function(value, cursorPosition) {
+        cursorPosition = cursorPosition || value.length;
+        TestHelper.triggerValue(parameterValueInput, value, 'input', cursorPosition);
+      };
+    }));
+
+
+    it('should show list of available process variables', function() {
+
+      // given
+      var newInputValue = '${output}';
+
+      // when
+      changeInputValue(newInputValue, 6);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.true;
+      expect(autoSuggestList.childNodes.length).to.be.above(0);
+    });
+
+
+    it('should NOT show suggestions if no matches', function() {
+
+      // given
+      var newInputValue = '${fooBar}';
+
+      // when
+      changeInputValue(newInputValue, 6);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.false;
+    });
+
+
+    it('should NOT show suggestions if outside expression clauses', function() {
+
+      // given
+      var newInputValue = '${output}';
+
+      // when
+      changeInputValue(newInputValue);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.false;
+    });
+
+
+    it('should show suggestions when inside starting expression clause', function() {
+
+      // given
+      var newInputValue = '${output';
+
+      // when
+      changeInputValue(newInputValue);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.true;
+      expect(autoSuggestList.childNodes.length).to.be.above(0);
+    });
+
+
+    it.skip('should hide suggestions on blur', function() {
+
+      // given
+      var newInputValue = '${output}';
+
+      changeInputValue(newInputValue, 6);
+
+
+      // assure
+      expect(isActive(autoSuggestList)).to.be.true;
+
+      // when
+
+      // todo(pinussilvestrus): <blur> handler not called
+      parameterValueInput.blur();
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.false;
+    });
+
+
+    describe('in the DOM', function() {
+
+      beforeEach(function() {
+
+        // given
+        var newInputValue = '${output}';
+        changeInputValue(newInputValue, 6);
+
+        // assure
+        expect(isActive(autoSuggestList)).to.be.true;
+
+        var firstItem = autoSuggestList.childNodes[0];
+
+        // when
+        TestHelper.triggerEvent(firstItem, 'click');
+
+        // since the input event is debounced by 300ms, we should
+        // not wait and handle this change accordingly
+        TestHelper.triggerEvent(parameterValueInput, 'change');
+      });
+
+      it('should update value when select variable', function() {
+
+        // then
+        expect(parameterValueInput.textContent).to.equal('${output1}');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(parameterValueInput.textContent).to.equal('hello world!');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(parameterValueInput.textContent).to.equal('${output1}');
+      }));
+
+
+      it('should set cursor after inserted suggestion', function() {
+
+        var cursorPosition = getCursorPosition(),
+            value = parameterValueInput.textContent;
+
+        // then
+        // before closing bracket
+        expect(cursorPosition).to.equal(value.length - 1);
+      });
+
+    });
+
+
+    describe('in the business object', function() {
+
+      beforeEach(function() {
+
+        // given
+        var newInputValue = '${output}';
+        changeInputValue(newInputValue, 6);
+
+        // assure
+        expect(isActive(autoSuggestList)).to.be.true;
+
+        var firstItem = autoSuggestList.childNodes[0];
+
+        // when
+        TestHelper.triggerEvent(firstItem, 'click');
+
+        // since the input event is debounced by 300ms, we should
+        // not wait and handle this change accordingly
+        TestHelper.triggerEvent(parameterValueInput, 'change');
+      });
+
+      it('should update value when select variable', function() {
+
+        // then
+        expect(parameter.value).to.equal('${output1}');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(parameter.value).to.equal('hello world!');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(parameter.value).to.equal('${output1}');
       }));
 
     });
