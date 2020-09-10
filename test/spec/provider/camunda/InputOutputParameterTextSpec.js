@@ -593,6 +593,20 @@ describe('input-output-parameterType-text', function() {
     });
 
 
+    it('should show suggestions - case insensitive', function() {
+
+      // given
+      var newInputValue = '${Output}';
+
+      // when
+      changeInputValue(newInputValue, 6);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.true;
+      expect(autoSuggestList.childNodes.length).to.be.above(0);
+    });
+
+
     it.skip('should hide suggestions on blur', function() {
 
       // given
