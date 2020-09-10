@@ -551,6 +551,48 @@ describe('input-output-parameterType-text', function() {
     });
 
 
+    it('should show suggestions inside function call', function() {
+
+      // given
+      var newInputValue = '${bean.foo(out)}';
+
+      // when
+      changeInputValue(newInputValue, 14);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.true;
+      expect(autoSuggestList.childNodes.length).to.be.above(0);
+    });
+
+
+    it('should show suggestions after <+>', function() {
+
+      // given
+      var newInputValue = '${foo+out}';
+
+      // when
+      changeInputValue(newInputValue, 9);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.true;
+      expect(autoSuggestList.childNodes.length).to.be.above(0);
+    });
+
+
+    it('should show suggestions after <,>', function() {
+
+      // given
+      var newInputValue = '${foo,out}';
+
+      // when
+      changeInputValue(newInputValue, 9);
+
+      // then
+      expect(isActive(autoSuggestList)).to.be.true;
+      expect(autoSuggestList.childNodes.length).to.be.above(0);
+    });
+
+
     it.skip('should hide suggestions on blur', function() {
 
       // given
