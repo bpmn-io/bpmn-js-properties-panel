@@ -228,12 +228,6 @@ describe('properties-panel', function() {
         var shape = elementRegistry.get('StartEvent_1');
         selection.select(shape);
 
-        // first: check selected tab
-        expect(getActiveTabId(propertiesPanel._container)).to.equal('tab1');
-
-        // select tab2
-        propertiesPanel.activateTab('tab2');
-
         // check selected tab
         expect(getActiveTabId(propertiesPanel._container)).to.equal('tab2');
 
@@ -247,7 +241,7 @@ describe('properties-panel', function() {
       }));
 
 
-    it('should select the first tab because the selected tab does not exist',
+    it('should select the first visible tab because the selected tab does not exist',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
         propertiesPanel.attachTo(container);
@@ -267,7 +261,7 @@ describe('properties-panel', function() {
         selection.select(shape);
 
         // check selected tab again
-        expect(getActiveTabId(propertiesPanel._container)).to.equal('tab1');
+        expect(getActiveTabId(propertiesPanel._container)).to.equal('tab2');
 
       }));
 

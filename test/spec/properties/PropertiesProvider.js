@@ -270,8 +270,7 @@ function PropertiesProvider(eventBus, bpmnFactory) {
       return [
         {
           id: 'tab1',
-          label: 'Tab 1',
-          groups: createGroups(element, bpmnFactory)
+          label: 'Tab 1'
         },
         {
           id: 'tab2',
