@@ -43,6 +43,18 @@ describe('factory/CollapsibleEntry', function() {
       expect(entryCollapsed.cssClasses).to.eql([ 'bpp-collapsible', 'bpp-collapsible--collapsed' ]);
       expect(entryOpen.cssClasses).to.eql([ 'bpp-collapsible' ]);
     });
+
+
+    it('should allow to provide own classes', function() {
+
+      // when
+      var entry = CollapsibleEntry({ cssClasses: [ 'bpp-collapsible--customized' ] });
+
+      // then
+      expect(entry.cssClasses).to.eql([
+        'bpp-collapsible--customized', 'bpp-collapsible', 'bpp-collapsible--collapsed'
+      ]);
+    });
   });
 
 
