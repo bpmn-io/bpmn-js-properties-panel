@@ -77,7 +77,7 @@ describe('properties-entry-fields', function() {
     input = domQuery('input[name=assignee]', propertiesPanel._container);
     buttonClassArray = domClasses(clearButton).array();
 
-    expect(buttonClassArray.length).to.equal(1);
+    expect(buttonClassArray.length).to.equal(2);
     expect(input.value).to.equal('foo');
 
     // trigger the clear button
