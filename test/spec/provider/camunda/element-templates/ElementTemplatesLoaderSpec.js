@@ -179,9 +179,9 @@ describe('element-templates - ElementTemplatesLoader', function() {
         // given
         PROVIDER = function(done) {
           done(null, [
-            { id: 'foo', appliesTo: [ 'foo:Bar' ], properties: [ ] },
-            { id: 'foo' },
-            { id: 'foo' }
+            { name: 'Foo', id: 'foo', appliesTo: [ 'foo:Bar' ], properties: [ ] },
+            { name: 'Foo', id: 'foo' },
+            { name: 'Foo', id: 'foo' }
           ]);
         };
 

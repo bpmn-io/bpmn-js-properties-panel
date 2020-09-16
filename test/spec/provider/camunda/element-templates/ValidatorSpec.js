@@ -84,6 +84,23 @@ describe('element-templates - Validator', function() {
   });
 
 
+  it('should reject missing name', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-name-missing');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.contain('missing template name');
+
+    expect(valid(templates)).to.be.empty;
+  });
+
+
   it('should reject missing id', function() {
 
     // given
