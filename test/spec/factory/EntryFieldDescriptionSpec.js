@@ -3,6 +3,31 @@ var EntryFieldDescription = require('lib/factory/EntryFieldDescription');
 
 describe('factory/EntryFieldDescription', function() {
 
+  describe('show', function() {
+
+    it('should use provided callback name', function() {
+
+      // when
+      var html = EntryFieldDescription('desc', { show: 'show' });
+
+      // then
+      expect(html).to.have.string('data-show="show"');
+    });
+
+
+    it('should not set "data-show" attribute if callback name is not present', function() {
+
+      // when
+      var html1 = EntryFieldDescription('desc');
+      var html2 = EntryFieldDescription('desc', { show: undefined });
+
+      // then
+      expect(html1).not.to.have.string('data-show');
+      expect(html2).not.to.have.string('data-show');
+    });
+  });
+
+
   describe('escaping', function() {
 
     it('should escape HTML', function() {
