@@ -62,6 +62,41 @@ describe('element-templates/parts - Description Properties', function() {
   }));
 
 
+  it('should indicate element template not found', inject(function() {
+
+    // given
+    selectAndGet('Task_TemplateNotFound');
+
+    // when
+    var notFound = entrySelect('element-template-not-found');
+
+    // then
+    expect(notFound).to.exist;
+  }));
+
+
+  it('should unlink element template not found', inject(function(elementRegistry) {
+
+    // given
+    selectAndGet('Task_TemplateNotFound');
+
+    // when
+    var notFound = entrySelect('element-template-not-found');
+
+    // assume
+    expect(notFound).to.exist;
+
+    // when
+    triggerClickEvent(domQuery('.bpp-entry-link', notFound));
+
+    // then
+    var task = elementRegistry.get('Task_TemplateNotFound'),
+        taskBo = getBusinessObject(task);
+
+    expect(taskBo.modelerTemplate).not.to.exist;
+  }));
+
+
   describe('dropdown', function() {
 
     it('should unlink template', inject(function(elementRegistry) {
