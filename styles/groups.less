@@ -1,6 +1,28 @@
 .bpp-properties-group {
-  padding: 6px 15px 6px 15px;
   position: relative;
+
+  .group-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+
+    .group-label {
+      .label();
+
+      font-size: 16px;
+    }
+  }
+
+  > .bpp-properties-entry {
+    padding-left: 15px;
+    padding-right: 15px;
+
+    &:last-child {
+      margin-bottom: 6px;
+    }
+  }
 
   &:empty {
     display: none;
@@ -15,15 +37,6 @@
     &:hover {
       background-color: @bpp-group-toggle-hover-color;
     }
-  }
-
-  > .group-label {
-    .label();
-
-    margin-top: 5px;
-    margin-bottom: 10px;
-
-    font-size: 16px;
   }
 
   &:hover > .group-toggle {
@@ -48,7 +61,7 @@
       display: none;
     }
 
-    > .group-label {
+    .group-label {
       margin-bottom: 5px;
     }
   }
@@ -63,7 +76,7 @@
 
   .group__dropdown {
     position: relative;
-    float: right;
+    justify-self: flex-end;
   }
 
   .group__dropdown-button {
