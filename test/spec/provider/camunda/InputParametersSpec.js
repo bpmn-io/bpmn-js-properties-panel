@@ -175,6 +175,15 @@ describe('input-parameters', function() {
         expect(isParameterContainedIn(inputParameters, 'input4')).to.be.ok;
       }));
 
+
+      it('should add parameter on top', function() {
+
+        // then
+        var inputParameters = getInputParameters(bo);
+        expect(inputParameters).to.have.lengthOf(5);
+        expect(inputParameters[1].name).to.eql('input1');
+      });
+
     });
 
 
