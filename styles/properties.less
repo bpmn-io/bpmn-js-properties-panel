@@ -448,8 +448,29 @@ label.bpp-hidden {
   }
 }
 
-.bpp-collapsible ~ .bpp-properties-entry:not(.bpp-collapsible) {
+.bpp-collapsible ~ .bpp-properties-entry:not(.bpp-collapsible):not(.bpp-collapsible-break) {
   margin-left: 18px;
+}
+
+.bpp-process-variables {
+
+  &.bpp-process-variables__description {
+    margin-bottom: 16px;
+  }
+
+  &.bpp-process-variables__scope-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: @bpp-color-666666;
+    margin-bottom: 16px;
+  }
+
+  &.bpp-process-variables__created-in {
+    .bpp-process-variables__created-in-item {
+      margin-bottom: 4px;
+      margin-top: 4px;
+    }
+  }
 }
 
 

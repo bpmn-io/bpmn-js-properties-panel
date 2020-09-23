@@ -152,13 +152,13 @@
       <bpmndi:BPMNShape id="Participant_1u7n75u_di" bpmnElement="Participant_00nc7n3" isHorizontal="true">
         <dc:Bounds x="179" y="450" width="600" height="250" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_0v4opf3_di" bpmnElement="Flow_0v4opf3">
-        <di:waypoint x="288" y="570" />
-        <di:waypoint x="340" y="570" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_07ijvg7_di" bpmnElement="Flow_07ijvg7">
         <di:waypoint x="440" y="570" />
         <di:waypoint x="492" y="570" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v4opf3_di" bpmnElement="Flow_0v4opf3">
+        <di:waypoint x="288" y="570" />
+        <di:waypoint x="340" y="570" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0kuiy4b_di" bpmnElement="Event_0kuiy4b">
         <dc:Bounds x="252" y="552" width="36" height="36" />
