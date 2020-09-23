@@ -1,5 +1,7 @@
 'use strict';
 
+var TestHelper = require('../../../TestHelper');
+
 var TestContainer = require('mocha-test-container-support');
 
 /* global bootstrapModeler, inject */
@@ -12,7 +14,9 @@ var propertiesPanelModule = require('lib'),
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
-var domQuery = require('min-dom').query;
+var classes = require('min-dom').classes,
+    domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll;
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
@@ -21,6 +25,8 @@ describe('process-variables', function() {
   var diagramXML = require('./ProcessVariables.bpmn');
 
   var diagramCollabXML = require('./ProcessVariables-collaboration.bpmn');
+
+  var diagramEmptyXML = require('./ProcessVariables-no-variables.bpmn');
 
   var testModules = [
     coreModule,
@@ -36,8 +42,39 @@ describe('process-variables', function() {
     container = TestContainer.get(this);
   });
 
+
+  describe('no variables', function() {
+    beforeEach(
+      bootstrapModeler(diagramEmptyXML, {
+        modules: testModules,
+        moddleExtensions: { camunda: camundaModdlePackage },
+      })
+    );
+
+    beforeEach(inject(function(propertiesPanel) {
+      propertiesPanel.attachTo(container);
+    }));
+
+    beforeEach(inject(function(elementRegistry, selection) {
+
+      // given
+      var process = elementRegistry.get('Process_1');
+
+      // when
+      selection.select(process);
+    }));
+
+
+    it('should show placeholder', function() {
+
+      // then
+      expect(getPlaceholder(container)).to.exist;
+    });
+  });
+
+
   describe('on process', function() {
-    var propertiesTable, task, process;
+    var task, process;
 
     beforeEach(
       bootstrapModeler(diagramXML, {
@@ -58,61 +95,46 @@ describe('process-variables', function() {
 
       // when
       selection.select(process);
-
-      propertiesTable = getProcessVariablesTable(container);
     }));
 
-    it('should show process variables', function() {
+    it('should list process variables', function() {
+      var processVariables = getProcessVariableItems(container);
 
       // then
-      expect(propertiesTable.childNodes).to.length(2);
+      expect(processVariables).to.length(2);
     });
 
 
-    it('should show variable name, origin and scope', function() {
-
-      var tableRow = getVariableRow(0, propertiesTable);
+    it('should show variable name and origin', function() {
+      var variable = getProcessVariable(container, 0);
 
       // then
-      // expect the row to contain 3 input fields
-      expect(tableRow.childNodes).to.have.length(3);
-
-      expect(tableRow.childNodes[0].name).to.equal('name');
-      expect(tableRow.childNodes[0].value).to.equal('variable1');
-
-      expect(tableRow.childNodes[1].name).to.equal('origin');
-      expect(tableRow.childNodes[1].value).to.equal('Task 1');
-
-      expect(tableRow.childNodes[2].name).to.equal('scope');
-      expect(tableRow.childNodes[2].value).to.equal('Process_1');
+      expect(getProcessVariableField(variable, 'title').innerText).to.equal('variable1');
+      expect(getProcessVariableField(variable, 'description').innerText)
+        .to.equal(getBusinessObject(task).name);
     });
 
 
-    it('should not be editable', function() {
-      var tableRow = getVariableRow(0, propertiesTable),
-          firstCell = tableRow.childNodes[0];
+    it('should show origin in uncollapsed state', function() {
+
+      // when
+      selectProcessVariable(container, 0);
+
+      var createdInNode = getCreatedIn(container, 'variable1'),
+          originItem = domQuery('.bpp-process-variables__created-in-item', createdInNode);
 
       // then
-      expect(isReadOnly(firstCell)).to.be.true;
+      expect(createdInNode).to.exist;
+      expect(isHidden(createdInNode)).to.be.false;
+
+      expect(originItem.innerText).to.equal(getBusinessObject(task).name);
     });
 
-
-    it('should show names instead of ids (if available)', function() {
-
-      var tableRow = getVariableRow(0, propertiesTable);
-
-      // then
-      // Task_1 has name
-      expect(tableRow.childNodes[1].value).to.equal(getBusinessObject(task).name);
-
-      // Process_1 has no name -> use id
-      expect(tableRow.childNodes[2].value).to.equal(process.id);
-    });
   });
 
 
   describe('on sub process', function() {
-    var propertiesTable, task, subProcess, process;
+    var task, subProcess, process;
 
     beforeEach(
       bootstrapModeler(diagramXML, {
@@ -130,65 +152,59 @@ describe('process-variables', function() {
       // given
       subProcess = elementRegistry.get('SubProcess_1');
       process = elementRegistry.get('Process_1');
-      task = elementRegistry.get('Task_1');
+      task = elementRegistry.get('Task_2');
 
       // when
       selection.select(subProcess);
-
-      propertiesTable = getProcessVariablesTable(container);
     }));
 
-    it('should show process variables', function() {
+    it('should list process variables', function() {
+      var processVariables = getProcessVariableItems(container);
 
       // then
-      expect(propertiesTable.childNodes).to.length(3);
+      expect(processVariables).to.length(3);
     });
 
 
-    it('should show variable name, origin and scope', function() {
-
-      var tableRow = getVariableRow(0, propertiesTable);
+    it('should group by scope', function() {
+      var scopes = getScopeHeaders(container);
 
       // then
-      // expect the row to contain 3 input fields
-      expect(tableRow.childNodes).to.have.length(3);
-
-      expect(tableRow.childNodes[0].name).to.equal('name');
-      expect(tableRow.childNodes[0].value).to.equal('variable1');
-
-      expect(tableRow.childNodes[1].name).to.equal('origin');
-      expect(tableRow.childNodes[1].value).to.equal('Task 1');
-
-      expect(tableRow.childNodes[2].name).to.equal('scope');
-      expect(tableRow.childNodes[2].value).to.equal('Process_1');
+      expect(scopes).to.length(2);
+      expect(scopes[0].firstChild.innerText).to.equal('Scope: ' + subProcess.id);
+      expect(scopes[1].firstChild.innerText).to.equal('Scope: ' + process.id);
     });
 
 
-    it('should not be editable', function() {
-      var tableRow = getVariableRow(0, propertiesTable),
-          firstCell = tableRow.childNodes[0];
+    it('should show variable name and origin', function() {
+      var variable = getProcessVariable(container, 0);
 
       // then
-      expect(isReadOnly(firstCell)).to.be.true;
+      expect(getProcessVariableField(variable, 'title').innerText).to.equal('variable3');
+      expect(getProcessVariableField(variable, 'description').innerText)
+        .to.equal(getBusinessObject(task).name);
     });
 
 
-    it('should show names instead of ids (if available)', function() {
+    it('should show origin in uncollapsed state', function() {
 
-      var tableRow = getVariableRow(0, propertiesTable);
+      // when
+      selectProcessVariable(container, 0);
+
+      var createdInNode = getCreatedIn(container, 'SubProcess_1-variable3'),
+          originItem = domQuery('.bpp-process-variables__created-in-item', createdInNode);
 
       // then
-      // Task_1 has name
-      expect(tableRow.childNodes[1].value).to.equal(getBusinessObject(task).name);
+      expect(createdInNode).to.exist;
+      expect(isHidden(createdInNode)).to.be.false;
 
-      // Process_1 has no name -> use id
-      expect(tableRow.childNodes[2].value).to.equal(process.id);
+      expect(originItem.innerText).to.equal(getBusinessObject(task).name);
     });
   });
 
 
   describe('on participant', function() {
-    var propertiesTable, task, participant;
+    var task, participant;
 
     beforeEach(
       bootstrapModeler(diagramCollabXML, {
@@ -209,56 +225,39 @@ describe('process-variables', function() {
 
       // when
       selection.select(participant);
-
-      propertiesTable = getProcessVariablesTable(container);
     }));
 
-    it('should show process variables', function() {
+    it('should list process variables', function() {
+      var processVariables = getProcessVariableItems(container);
 
       // then
-      expect(propertiesTable.childNodes).to.length(2);
+      expect(processVariables).to.length(2);
     });
 
 
-    it('should show variable name, origin and scope', function() {
-
-      var tableRow = getVariableRow(0, propertiesTable);
+    it('should show variable name and origin', function() {
+      var variable = getProcessVariable(container, 0);
 
       // then
-      // expect the row to contain 3 input fields
-      expect(tableRow.childNodes).to.have.length(3);
-
-      expect(tableRow.childNodes[0].name).to.equal('name');
-      expect(tableRow.childNodes[0].value).to.equal('variable1');
-
-      expect(tableRow.childNodes[1].name).to.equal('origin');
-      expect(tableRow.childNodes[1].value).to.equal('Task 1');
-
-      expect(tableRow.childNodes[2].name).to.equal('scope');
-      expect(tableRow.childNodes[2].value).to.equal('Process_1');
+      expect(getProcessVariableField(variable, 'title').innerText).to.equal('variable1');
+      expect(getProcessVariableField(variable, 'description').innerText)
+        .to.equal(getBusinessObject(task).name);
     });
 
 
-    it('should not be editable', function() {
-      var tableRow = getVariableRow(0, propertiesTable),
-          firstCell = tableRow.childNodes[0];
+    it('should show origin in uncollapsed state', function() {
+
+      // when
+      selectProcessVariable(container, 0);
+
+      var createdInNode = getCreatedIn(container, 'variable1'),
+          originItem = domQuery('.bpp-process-variables__created-in-item', createdInNode);
 
       // then
-      expect(isReadOnly(firstCell)).to.be.true;
-    });
+      expect(createdInNode).to.exist;
+      expect(isHidden(createdInNode)).to.be.false;
 
-
-    it('should show names instead of ids (if available)', function() {
-
-      var tableRow = getVariableRow(0, propertiesTable);
-
-      // then
-      // Task_1 has name
-      expect(tableRow.childNodes[1].value).to.equal(getBusinessObject(task).name);
-
-      // Process_1 has no name -> use id
-      expect(tableRow.childNodes[2].value)
-        .to.equal(getBusinessObject(participant).processRef.id);
+      expect(originItem.innerText).to.equal(getBusinessObject(task).name);
     });
 
   });
@@ -277,21 +276,41 @@ function getProcessVariablesGroup(container) {
   return domQuery('div[data-group="process-variables"]', variablesTab);
 }
 
-function getProcessVariablesEntry(container) {
+function getProcessVariableItems(container) {
   var group = getProcessVariablesGroup(container);
-  return domQuery('div[data-entry="process-variables-entry"]', group);
+  return domQueryAll('.bpp-collapsible', group);
 }
 
-function getProcessVariablesTable(container) {
-  var entry = getProcessVariablesEntry(container);
-  return domQuery('div[data-list-entry-container]', entry);
+function getProcessVariable(container, idx) {
+  var items = getProcessVariableItems(container);
+  return items[idx];
 }
 
-function getVariableRow(idx, container) {
-  return domQuery('[data-index="' + idx + '"]', container);
+function getProcessVariableField(variable, prop) {
+  return domQuery('[data-value="' + prop + '"]', variable);
 }
 
-function isReadOnly(input) {
-  return input.hasAttribute('readonly');
+function selectProcessVariable(container, idx) {
+  var item = getProcessVariable(container, idx);
+  TestHelper.triggerEvent(item.firstChild, 'click');
+}
+
+function getCreatedIn(container, prefix) {
+  var group = getProcessVariablesGroup(container);
+  return domQuery('div[data-entry="' + prefix +'-created-in"]', group);
+}
+
+function getScopeHeaders(container) {
+  var group = getProcessVariablesGroup(container);
+  return domQueryAll('.bpp-process-variables__scope-title', group);
+}
+
+function getPlaceholder(container) {
+  var group = getProcessVariablesGroup(container);
+  return domQuery('div[data-entry="process-variables-placeholder"]', group);
+}
+
+function isHidden(entryNode) {
+  return classes(domQuery('[data-show]', entryNode)).has('bpp-hidden');
 }
 
