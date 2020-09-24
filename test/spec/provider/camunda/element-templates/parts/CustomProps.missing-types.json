@@ -1,0 +1,75 @@
+[
+  {
+    "name": "Default Types",
+    "id": "com.mycompany.whateverdomain.DefaultTypes",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "inputParameter",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "input"
+        }
+      },
+      {
+        "label": "outputParameter",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${output}"
+        }
+      },
+      {
+        "label": "property",
+        "binding": {
+          "type": "property",
+          "name": "property"
+        }
+      },
+      {
+        "label": "camundaProperty",
+        "binding": {
+          "type": "camunda:property",
+          "name": "camundaProperty"
+        }
+      },
+      {
+        "label": "camundaIn",
+        "binding": {
+          "type": "camunda:in",
+          "target": "input"
+        }
+      },
+      {
+        "label": "camundaInBusinessKey",
+        "binding": {
+          "type": "camunda:in:businessKey"
+        }
+      },
+      {
+        "label": "camundaOut",
+        "binding": {
+          "type": "camunda:out",
+          "source": "output"
+        }
+      },
+      {
+        "label": "camundaField",
+        "binding": {
+          "type": "camunda:field",
+          "name": "field",
+          "expression": false
+        }
+      },
+      {
+        "label": "executionListener",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      }
+    ]
+  }
+]

@@ -259,10 +259,28 @@ describe('element-templates - Validator', function() {
 
 
   it('should accept type "hidden" for execution listeners', function() {
+
     // given
     var templates = new Validator();
 
     var templateDescriptors = require('./fixtures/execution-listener');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.be.empty;
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
+  it('should accept missing type', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/missing-types');
 
     // when
     templates.addAll(templateDescriptors);
