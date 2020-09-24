@@ -1141,4 +1141,92 @@ describe('element-templates/parts - Custom Properties', function() {
 
   });
 
+
+  describe('default-types', function() {
+
+    var diagramXML = require('./CustomProps.missing-types.bpmn'),
+        elementTemplates = require('./CustomProps.missing-types.json');
+
+    beforeEach(bootstrap(diagramXML, elementTemplates));
+
+
+    it('should display String as default - property', inject(function() {
+
+      // given
+      selectAndGet('SimpleTask');
+
+      var entryId = 'custom-com.mycompany.whateverdomain.DefaultTypes-2';
+      var propertyField = entrySelect(entryId, 'input');
+
+      // then
+      expect(propertyField).to.exist;
+    }));
+
+
+    it('should display String as default - camunda:Property', inject(function() {
+
+      // given
+      selectAndGet('SimpleTask');
+
+      var entryId = 'custom-com.mycompany.whateverdomain.DefaultTypes-3';
+      var camundaPropertyField = entrySelect(entryId, 'input');
+
+      // then
+      expect(camundaPropertyField).to.exist;
+    }));
+
+
+    it('should display String as default - camunda:in', inject(function() {
+
+      // given
+      selectAndGet('SimpleTask');
+
+      var entryId = 'custom-com.mycompany.whateverdomain.DefaultTypes-4';
+      var camundaInField = entrySelect(entryId, 'input');
+
+      // then
+      expect(camundaInField).to.exist;
+    }));
+
+
+    it('should display String as default - camunda:in:businessKey', inject(function() {
+
+      // given
+      selectAndGet('SimpleTask');
+
+      var entryId = 'custom-com.mycompany.whateverdomain.DefaultTypes-5';
+      var camundaInBusinessKeyField = entrySelect(entryId, 'input');
+
+      // then
+      expect(camundaInBusinessKeyField).to.exist;
+    }));
+
+
+    it('should display String as default - camunda:out', inject(function() {
+
+      // given
+      selectAndGet('SimpleTask');
+
+      var entryId = 'custom-com.mycompany.whateverdomain.DefaultTypes-6';
+      var camundaOutField = entrySelect(entryId, 'input');
+
+      // then
+      expect(camundaOutField).to.exist;
+    }));
+
+
+    it('should display String as default - camunda:field', inject(function() {
+
+      // given
+      selectAndGet('SimpleTask');
+
+      var entryId = 'custom-com.mycompany.whateverdomain.DefaultTypes-7';
+      var camundaField = entrySelect(entryId, 'input');
+
+      // then
+      expect(camundaField).to.exist;
+    }));
+
+  });
+
 });
