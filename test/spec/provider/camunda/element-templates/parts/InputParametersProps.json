@@ -33,6 +33,13 @@
           "name": "template",
           "scriptFormat": "freemarker"
         }
+      },
+      {
+        "label": "notCreated",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "notCreated"
+        }
       }
     ]
   }

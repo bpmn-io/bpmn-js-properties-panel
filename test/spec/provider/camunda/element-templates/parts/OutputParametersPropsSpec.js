@@ -70,6 +70,143 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
   }));
 
 
+
+  describe('parameter toggle', function() {
+
+    describe('toggle off', function() {
+
+      var task;
+
+      beforeEach(inject(function() {
+
+        // given
+        task = selectAndGet('SimpleTask');
+
+        var toggle = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-0-assignment-toggle',
+          'input'
+        );
+
+        var collapsibleTitle = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-0-collapsible',
+          '.bpp-collapsible__title'
+        );
+
+        // assure item is collapsed
+        TestHelper.triggerEvent(collapsibleTitle, 'click');
+
+        // when
+        TestHelper.triggerEvent(toggle, 'click');
+      }));
+
+
+      it('should remove', function() {
+
+        // then
+        var outputParameter = getParameter(task, '${resultStatus}');
+
+        expect(outputParameter).to.not.exist;
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        var inputParameter = getParameter(task, '${resultStatus}');
+
+        expect(inputParameter).to.exist;
+        expect(inputParameter.name).to.equal('resultStatus');
+        expect(inputParameter.value).to.equal('${resultStatus}');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var outputParameter = getParameter(task, '${resultStatus}');
+
+        expect(outputParameter).to.not.exist;
+      }));
+
+    });
+
+
+    describe('toggle on', function() {
+
+      var task;
+
+      beforeEach(inject(function() {
+
+        // given
+        task = selectAndGet('SimpleTask');
+
+        var toggle = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-4-assignment-toggle',
+          'input'
+        );
+
+        var collapsibleTitle = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-4-collapsible',
+          '.bpp-collapsible__title'
+        );
+
+        // assure item is collapsed
+        TestHelper.triggerEvent(collapsibleTitle, 'click');
+
+        // when
+        TestHelper.triggerEvent(toggle, 'click');
+      }));
+
+
+      it('should create', function() {
+
+        // then
+        var outputParameter = getParameter(task, 'notCreated');
+
+        expect(outputParameter).to.exist;
+        expect(outputParameter.value).to.equal('notCreated');
+        expect(outputParameter.name).to.be.null;
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        var outputParameter = getParameter(task, 'notCreated');
+
+        expect(outputParameter).to.not.exist;
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var outputParameter = getParameter(task, 'notCreated');
+
+        expect(outputParameter).to.exist;
+        expect(outputParameter.value).to.equal('notCreated');
+        expect(outputParameter.name).to.be.null;
+      }));
+
+    });
+
+  });
+
+
   describe('should update parameter value', function() {
     var task;
 
@@ -97,8 +234,7 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
     it('should execute', function() {
 
       // then
-      var inputOutput = findExtension(task, 'camunda:InputOutput'),
-          outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+      var outputParameter = getParameter(task, '${resultStatus}');
 
       expect(outputParameter.name).to.equal('bar');
     });
@@ -109,8 +245,7 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
       // when
       commandStack.undo();
 
-      var inputOutput = findExtension(task, 'camunda:InputOutput'),
-          outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+      var outputParameter = getParameter(task, '${resultStatus}');
 
       // then
       expect(outputParameter.name).to.equal('resultStatus');
@@ -123,8 +258,7 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
       commandStack.undo();
       commandStack.redo();
 
-      var inputOutput = findExtension(task, 'camunda:InputOutput'),
-          outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+      var outputParameter = getParameter(task, '${resultStatus}');
 
       // then
       expect(outputParameter.name).to.equal('bar');
@@ -197,3 +331,12 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
   });
 
 });
+
+
+// helper ////////////////////
+
+function getParameter(task, source) {
+  var inputOutput = findExtension(task, 'camunda:InputOutput');
+
+  return findOutputParameter(inputOutput, { source: source });
+}
