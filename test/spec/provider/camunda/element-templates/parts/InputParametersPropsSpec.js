@@ -215,6 +215,142 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
   });
 
 
+  describe('parameter toggle', function() {
+
+    describe('toggle off', function() {
+
+      var task;
+
+      beforeEach(inject(function() {
+
+        // given
+        task = selectAndGet('SimpleTask');
+
+        var toggle = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-0-assignment-toggle',
+          'input'
+        );
+
+        var collapsibleTitle = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-0-collapsible',
+          '.bpp-collapsible__title'
+        );
+
+        // assure item is collapsed
+        TestHelper.triggerEvent(collapsibleTitle, 'click');
+
+        // when
+        TestHelper.triggerEvent(toggle, 'click');
+      }));
+
+
+      it('should remove', function() {
+
+        // then
+        var inputParameter = getParameter(task, 'recipient');
+
+        expect(inputParameter).to.not.exist;
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        var inputParameter = getParameter(task, 'recipient');
+
+        expect(inputParameter).to.exist;
+        expect(inputParameter.name).to.equal('recipient');
+        expect(inputParameter.value).to.equal('recipient');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var inputParameter = getParameter(task, 'recipient');
+
+        expect(inputParameter).to.not.exist;
+      }));
+
+    });
+
+
+    describe('toggle on', function() {
+
+      var task;
+
+      beforeEach(inject(function() {
+
+        // given
+        task = selectAndGet('SimpleTask');
+
+        var toggle = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-4-assignment-toggle',
+          'input'
+        );
+
+        var collapsibleTitle = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-4-collapsible',
+          '.bpp-collapsible__title'
+        );
+
+        // assure item is collapsed
+        TestHelper.triggerEvent(collapsibleTitle, 'click');
+
+        // when
+        TestHelper.triggerEvent(toggle, 'click');
+      }));
+
+
+      it('should create', function() {
+
+        // then
+        var inputParameter = getParameter(task, 'notCreated');
+
+        expect(inputParameter).to.exist;
+        expect(inputParameter.name).to.equal('notCreated');
+        expect(inputParameter.value).to.be.null;
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        var inputParameter = getParameter(task, 'notCreated');
+
+        expect(inputParameter).to.not.exist;
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var inputParameter = getParameter(task, 'notCreated');
+
+        expect(inputParameter).to.exist;
+        expect(inputParameter.name).to.equal('notCreated');
+        expect(inputParameter.value).to.be.null;
+      }));
+
+    });
+
+  });
+
+
   describe('should update parameter value', function() {
     var task;
 
@@ -242,8 +378,7 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
     it('should execute', function() {
 
       // then
-      var inputOutput = findExtension(task, 'camunda:InputOutput'),
-          inputParameter = findInputParameter(inputOutput, { name: 'recipient' });
+      var inputParameter = getParameter(task, 'recipient');
 
       expect(inputParameter.value).to.equal('bar');
     });
@@ -254,8 +389,7 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
       // when
       commandStack.undo();
 
-      var inputOutput = findExtension(task, 'camunda:InputOutput'),
-          inputParameter = findInputParameter(inputOutput, { name: 'recipient' });
+      var inputParameter = getParameter(task, 'recipient');
 
       // then
       expect(inputParameter.value).to.equal('recipient');
@@ -268,8 +402,7 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
       commandStack.undo();
       commandStack.redo();
 
-      var inputOutput = findExtension(task, 'camunda:InputOutput'),
-          inputParameter = findInputParameter(inputOutput, { name: 'recipient' });
+      var inputParameter = getParameter(task, 'recipient');
 
       // then
       expect(inputParameter.value).to.equal('bar');
@@ -278,3 +411,12 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
   });
 
 });
+
+
+// helper ////////////////////
+
+function getParameter(task, parameterName) {
+  var inputOutput = findExtension(task, 'camunda:InputOutput');
+
+  return findInputParameter(inputOutput, { name: parameterName });
+}
