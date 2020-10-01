@@ -1,5 +1,5 @@
 var EntryFactory = require('lib/factory/EntryFactory'),
-    ToggleSwitchEntry = EntryFactory.toggleSwtich;
+    ToggleSwitchEntry = EntryFactory.toggleSwitch;
 
 
 describe('factory/ToggleSwitchEntry', function() {
