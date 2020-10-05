@@ -11,7 +11,7 @@ var is = require('bpmn-js/lib/util/ModelUtil').is,
 
 var cmdHelper = require('lib/helper/CmdHelper');
 
-function createGroups(element, bpmnFactory) {
+function createGroups(element, bpmnFactory, translate) {
   if (is(element, 'bpmn:Event')) {
     return [
       {
@@ -87,31 +87,31 @@ function createGroups(element, bpmnFactory) {
               };
             }
           },
-          entryFactory.textBox({
+          entryFactory.textBox(translate, {
             id : 'myText',
             label : 'myText',
             description: 'This field is for documentation',
             modelProperty : 'myText'
           }),
-          entryFactory.textField({
+          entryFactory.textField(translate, {
             id : 'myLinkText',
             label : 'myLinkText',
             description: 'For details see [camunda.org](http://www.camunda.org)',
             modelProperty : 'myLinkText'
           }),
-          entryFactory.textField({
+          entryFactory.textField(translate, {
             id : 'myHtmlLinkText',
             label : 'myHtmlLinkText',
             description: 'For details see <a href="http://www.camunda.org">camunda.org</a>',
             modelProperty : 'myHtmlLinkText'
           }),
-          entryFactory.textField({
+          entryFactory.textField(translate, {
             id : 'maliciousLinkText',
             label : 'maliciousLinkText',
             description: 'For malicious code see [javascript](javascript:alert(1))',
             modelProperty : 'maliciousLinkText'
           }),
-          entryFactory.table({
+          entryFactory.table(translate, {
             id: 'parameterType-list',
             modelProperties: [ 'value' ],
             labels: [ 'Value' ],
@@ -259,7 +259,7 @@ function createGroups(element, bpmnFactory) {
   }
 }
 
-function PropertiesProvider(eventBus, bpmnFactory) {
+function PropertiesProvider(eventBus, bpmnFactory, translate) {
 
   PropertiesActivator.call(this, eventBus);
 
@@ -275,7 +275,7 @@ function PropertiesProvider(eventBus, bpmnFactory) {
         {
           id: 'tab2',
           label: 'Tab 2',
-          groups: createGroups(element, bpmnFactory)
+          groups: createGroups(element, bpmnFactory, translate)
         },
         {
           id: 'tab3',
@@ -289,17 +289,17 @@ function PropertiesProvider(eventBus, bpmnFactory) {
         {
           id: 'tab1',
           label: 'Tab 1',
-          groups: createGroups(element, bpmnFactory)
+          groups: createGroups(element, bpmnFactory, translate)
         },
         {
           id: 'tab2',
           label: 'Tab 2',
-          groups: createGroups(element, bpmnFactory)
+          groups: createGroups(element, bpmnFactory, translate)
         },
         {
           id: 'tab3',
           label: 'Tab 3',
-          groups: createGroups(element, bpmnFactory)
+          groups: createGroups(element, bpmnFactory, translate)
         }
       ];
 
@@ -309,5 +309,11 @@ function PropertiesProvider(eventBus, bpmnFactory) {
 }
 
 inherits(PropertiesProvider, PropertiesActivator);
+
+PropertiesActivator.$inject = [
+  'eventBus',
+  'bpmnFactory',
+  'translate'
+];
 
 module.exports = PropertiesProvider;
