@@ -100,7 +100,7 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
       }));
 
 
-      it('should remove', function() {
+      it('should remove - business object', function() {
 
         // then
         var outputParameter = getParameter(task, '${resultStatus}');
@@ -109,7 +109,7 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
       });
 
 
-      it('should undo', inject(function(commandStack) {
+      it('should undo - business object', inject(function(commandStack) {
 
         // when
         commandStack.undo();
@@ -123,7 +123,7 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
       }));
 
 
-      it('should redo', inject(function(commandStack) {
+      it('should redo - business object', inject(function(commandStack) {
 
         // when
         commandStack.undo();
@@ -133,6 +133,49 @@ describe('element-templates/parts - Collapsible Output Parameters', function() {
         var outputParameter = getParameter(task, '${resultStatus}');
 
         expect(outputParameter).to.not.exist;
+      }));
+
+
+      it('should remove - DOM', function() {
+
+        // then
+        var parameterValueField = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-0-variableName',
+          'input'
+        );
+
+        expect(parameterValueField.value).to.be.empty;
+      });
+
+
+      it('should undo - DOM', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        var parameterValueField = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-0-variableName',
+          'input'
+        );
+
+        expect(parameterValueField.value).to.equal('resultStatus');
+      }));
+
+
+      it('should redo - DOM', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var parameterValueField = entrySelect(
+          'template-outputs-my.domain.SimpleWorkerTask-0-variableName',
+          'input'
+        );
+
+        expect(parameterValueField.value).to.be.empty;
       }));
 
     });

@@ -244,7 +244,7 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
       }));
 
 
-      it('should remove', function() {
+      it('should remove - business object', function() {
 
         // then
         var inputParameter = getParameter(task, 'recipient');
@@ -253,7 +253,7 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
       });
 
 
-      it('should undo', inject(function(commandStack) {
+      it('should undo - business object', inject(function(commandStack) {
 
         // when
         commandStack.undo();
@@ -267,7 +267,7 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
       }));
 
 
-      it('should redo', inject(function(commandStack) {
+      it('should redo - business object', inject(function(commandStack) {
 
         // when
         commandStack.undo();
@@ -277,6 +277,49 @@ describe('element-templates/parts - Collapsible Input Parameters', function() {
         var inputParameter = getParameter(task, 'recipient');
 
         expect(inputParameter).to.not.exist;
+      }));
+
+
+      it('should remove - DOM', function() {
+
+        // then
+        var parameterValueField = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-0-parameterType-text',
+          'div[contenteditable]'
+        );
+
+        expect(parameterValueField.innerText).to.be.empty;
+      });
+
+
+      it('should undo - DOM', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        var parameterValueField = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-0-parameterType-text',
+          'div[contenteditable]'
+        );
+
+        expect(parameterValueField.innerText).to.equal('recipient');
+      }));
+
+
+      it('should redo - DOM', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        var parameterValueField = entrySelect(
+          'template-inputs-my.domain.SimpleWorkerTask-0-parameterType-text',
+          'div[contenteditable]'
+        );
+
+        expect(parameterValueField.innerText).to.be.empty;
       }));
 
     });
