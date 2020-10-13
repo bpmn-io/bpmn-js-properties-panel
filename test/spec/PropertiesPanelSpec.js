@@ -16,7 +16,10 @@ var propertiesPanelModule = require('lib'),
 
 
 var domQuery = require('min-dom').query,
-    domAttr = require('min-dom').attr;
+    domAttr = require('min-dom').attr,
+    domify = require('min-dom').domify;
+
+var entryFactory = require('../../lib/factory/EntryFactory');
 
 
 describe('properties-panel', function() {
@@ -505,4 +508,141 @@ describe('properties-panel', function() {
     // Cf. https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event
     it('should paste to [contenteditable] as plain text');
   });
+
+  describe('integration test', function() {
+
+    describe('validation', function() {
+
+      function alwaysValidateFunc() {
+        return 'Validation Message';
+      }
+
+      it('should render for autoSuggestTextBox', inject(function(propertiesPanel) {
+
+        // given
+        var autoSuggestTextBox = entryFactory.autoSuggest(translate, {
+          label: 'autoSuggestTextBox Label',
+          validate: alwaysValidateFunc,
+          modelProperty: 'dummy'
+        }).html;
+
+        var containerNode = domify('<div></div>');
+        containerNode.appendChild(autoSuggestTextBox);
+
+        // when
+        propertiesPanel.applyValidationErrors({ dummy: 'Validation Error' }, containerNode);
+
+        // then
+        expect(containerNode.innerHTML).to.eql('<label for="camunda-undefined">' +
+        'autoSuggestTextBox Label</label><div class="bpp-field-wrapper">' +
+        '<div contenteditable="true" id="camunda-undefined" name="dummy" ' +
+        'data-auto-suggest="suggestItems" data-blur="handleFocusLeave" class="invalid">' +
+        '</div><div class="bpp-error-message">Validation Error</div>' +
+        '<div class="bpp-autosuggest-list"></div></div>');
+      }));
+
+
+      it('should render for textBox', inject(function(propertiesPanel) {
+
+        // given
+        var textBox = entryFactory.textBox(translate, {
+          label: 'textBox Label',
+          validate: alwaysValidateFunc,
+          modelProperty: 'dummy'
+        }).html;
+
+        var containerNode = domify('<div></div>');
+        containerNode.appendChild(textBox);
+
+        // when
+        propertiesPanel.applyValidationErrors({ dummy: 'Validation Error' }, containerNode);
+
+        // then
+        expect(containerNode.innerHTML).to.eql('<label for="camunda-undefined">' +
+        'textBox Label</label><div class="bpp-field-wrapper">' +
+        '<div contenteditable="true" id="camunda-undefined" name="dummy" ' +
+        'class="invalid"></div><div class="bpp-error-message">Validation Error</div></div>');
+      }));
+
+
+      it('should render for textField', inject(function(propertiesPanel) {
+
+        // given
+        var textField = entryFactory.textBox(translate, {
+          label: 'textField Label',
+          validate: alwaysValidateFunc,
+          modelProperty: 'dummy'
+        }).html;
+
+        var containerNode = domify('<div></div>');
+        containerNode.appendChild(textField);
+
+        // when
+        propertiesPanel.applyValidationErrors({ dummy: 'Validation Error' }, containerNode);
+
+        // then
+        expect(containerNode.innerHTML).to.eql('<label for="camunda-undefined">' +
+        'textField Label</label><div class="bpp-field-wrapper">' +
+        '<div contenteditable="true" id="camunda-undefined" name="dummy" ' +
+        'class="invalid"></div><div class="bpp-error-message">Validation Error' +
+        '</div></div>');
+      }));
+
+
+      it('should render for validationAwareTextField', inject(function(propertiesPanel) {
+
+        // given
+        var validationAwareTextField = entryFactory.validationAwareTextField(translate, {
+          label: 'validationAwareTextField Label',
+          validate: alwaysValidateFunc,
+          modelProperty: 'dummy'
+        }).html;
+
+        var containerNode = domify('<div></div>');
+        containerNode.appendChild(validationAwareTextField);
+
+        // when
+        propertiesPanel.applyValidationErrors({ dummy: 'Validation Error' }, containerNode);
+
+        // then
+        expect(containerNode.innerHTML).to.eql('<label for="camunda-undefined">' +
+        'validationAwareTextField Label</label><div class="bpp-field-wrapper">' +
+        '<input id="camunda-undefined" type="text" name="dummy" class="invalid">' +
+        '<div class="bpp-error-message">Validation Error</div><button ' +
+        'class="action-button clear" data-action="clear" data-show="canClear">' +
+        '<span>X</span></button></div>');
+      }));
+
+
+      it('should render for checkbox', inject(function(propertiesPanel) {
+
+        // given
+        var checkboxEntry = entryFactory.checkbox(translate, {
+          id: 'checkboxId',
+          label: 'checkboxLabel',
+          validate: alwaysValidateFunc,
+          modelProperty: 'dummy'
+        }).html;
+
+        var containerNode = domify('<div></div>');
+        containerNode.appendChild(checkboxEntry);
+
+        // when
+        propertiesPanel.applyValidationErrors({ dummy: 'Validation Error' }, containerNode);
+
+        // then
+        expect(containerNode.innerHTML).to.eql('<input id="camunda-checkboxId" ' +
+        'type="checkbox" name="dummy" class="invalid"><div class="bpp-error-message">' +
+        'Validation Error</div><label for="camunda-checkboxId">checkboxLabel</label>');
+      }));
+
+
+    });
+  });
 });
+
+// helper //////////////////////////
+
+function translate(string) {
+  return string;
+}
