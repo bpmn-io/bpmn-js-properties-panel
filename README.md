@@ -1,6 +1,6 @@
 # bpmn-js-properties-panel
 
-[![Build Status](https://travis-ci.org/bpmn-io/bpmn-js-properties-panel.svg?branch=master)](https://travis-ci.org/bpmn-io/bpmn-js-properties-panel)
+[![Build Status](https://travis-ci.com/bpmn-io/bpmn-js-properties-panel.svg?branch=master)](https://travis-ci.com/bpmn-io/bpmn-js-properties-panel)
 
 A properties panel extension for [bpmn-js](https://github.com/bpmn-io/bpmn-js) that adds the ability to edit technical properties (generic and [Camunda](https://camunda.com)).
 
