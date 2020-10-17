@@ -69,7 +69,7 @@ describe('event-properties', function() {
       ));
 
 
-    it('should not show variableEvent for start events (parent: root)',
+    it('should not show variableEvents for start events (parent: root)',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
         // given
@@ -78,7 +78,7 @@ describe('event-properties', function() {
         // when
         selection.select(shape);
 
-        var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+        var textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
         // then
         expect(textField).not.to.exist;
@@ -103,7 +103,7 @@ describe('event-properties', function() {
       ));
 
 
-    it('should show variableEvent for boundary events',
+    it('should show variableEvents for boundary events',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
         // given
@@ -112,7 +112,7 @@ describe('event-properties', function() {
         // when
         selection.select(shape);
 
-        var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+        var textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
         // then
         expect(textField).to.exist;
@@ -137,7 +137,7 @@ describe('event-properties', function() {
       ));
 
 
-    it('should not show variableEvent for start events (parent: sub process)',
+    it('should not show variableEvents for start events (parent: sub process)',
       inject(function(propertiesPanel, selection, elementRegistry) {
 
         // given
@@ -146,7 +146,7 @@ describe('event-properties', function() {
         // when
         selection.select(shape);
 
-        var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+        var textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
         // then
         expect(textField).not.to.exist;
@@ -176,7 +176,7 @@ describe('event-properties', function() {
     }));
 
 
-    it('should get existing variableEvent (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should get existing variableEvents (parent: event sub process)', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_3');
@@ -185,10 +185,10 @@ describe('event-properties', function() {
       // when
       selection.select(shape);
 
-      var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+      var textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
       // then
-      expect(textField.value).to.equal(bo.eventDefinitions[0].get('camunda:variableEvent'));
+      expect(textField.value).to.equal(bo.eventDefinitions[0].get('camunda:variableEvents'));
 
     }));
 
@@ -267,7 +267,7 @@ describe('event-properties', function() {
     });
 
 
-    describe('should change variableEvent', function() {
+    describe('should change variableEvents', function() {
 
       var bo, textField;
 
@@ -279,7 +279,7 @@ describe('event-properties', function() {
 
         selection.select(shape);
 
-        textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+        textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
         // when
         TestHelper.triggerValue(textField, 'delete', 'change');
@@ -315,7 +315,7 @@ describe('event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
-          expect(bo.eventDefinitions[0].get('camunda:variableEvent')).to.equal('delete');
+          expect(bo.eventDefinitions[0].get('camunda:variableEvents')).to.equal('delete');
         });
 
         it('should undo', inject(function(commandStack) {
@@ -323,7 +323,7 @@ describe('event-properties', function() {
           commandStack.undo();
 
           // then
-          expect(bo.eventDefinitions[0].get('camunda:variableEvent')).to.equal('create, update');
+          expect(bo.eventDefinitions[0].get('camunda:variableEvents')).to.equal('create, update');
         }));
 
 
@@ -333,7 +333,7 @@ describe('event-properties', function() {
           commandStack.redo();
 
           // then
-          expect(bo.eventDefinitions[0].get('camunda:variableEvent')).to.equal('delete');
+          expect(bo.eventDefinitions[0].get('camunda:variableEvents')).to.equal('delete');
         }));
 
       });
@@ -360,7 +360,7 @@ describe('event-properties', function() {
     }));
 
 
-    it('should set new variableEvent', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should set new variableEvents', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_2');
@@ -368,13 +368,13 @@ describe('event-properties', function() {
 
       selection.select(shape);
 
-      var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+      var textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
       // when
       TestHelper.triggerValue(textField, 'create, update', 'change');
 
       // then
-      expect(textField.value).to.equal(bo.eventDefinitions[0].get('camunda:variableEvent'));
+      expect(textField.value).to.equal(bo.eventDefinitions[0].get('camunda:variableEvents'));
 
     }));
 
@@ -399,7 +399,7 @@ describe('event-properties', function() {
     }));
 
 
-    it('should remove variableEvent', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('should remove variableEvents', inject(function(propertiesPanel, selection, elementRegistry) {
 
       // given
       var shape = elementRegistry.get('StartEvent_3');
@@ -407,14 +407,14 @@ describe('event-properties', function() {
 
       selection.select(shape);
 
-      var textField = domQuery('input[name=variableEvent]', propertiesPanel._container);
+      var textField = domQuery('input[name=variableEvents]', propertiesPanel._container);
 
       // when
       TestHelper.triggerValue(textField, '', 'change');
 
       // then
       expect(textField.value).to.equal('');
-      expect(bo.eventDefinitions[0].get('camunda:variableEvent')).to.be.undefined;
+      expect(bo.eventDefinitions[0].get('camunda:variableEvents')).to.be.undefined;
 
     }));
 

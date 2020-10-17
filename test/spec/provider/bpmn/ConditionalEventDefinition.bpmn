@@ -15,7 +15,7 @@
         <bpmn:conditionalEventDefinition />
       </bpmn:startEvent>
       <bpmn:startEvent id="StartEvent_3">
-        <bpmn:conditionalEventDefinition camunda:variableName="myVar" camunda:variableEvent="create, update">
+        <bpmn:conditionalEventDefinition camunda:variableName="myVar" camunda:variableEvents="create, update">
           <bpmn:condition xsi:type="bpmn:tFormalExpression">${false}</bpmn:condition>
         </bpmn:conditionalEventDefinition>
       </bpmn:startEvent>
