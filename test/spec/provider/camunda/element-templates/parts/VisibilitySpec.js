@@ -66,6 +66,147 @@ describe('element-templates/parts - Visibility', function() {
       ]);
     }));
 
+
+    describe('entriesVisible', function() {
+
+      it('all entries visible', inject(function(elementTemplatesLoader) {
+
+        // given
+        elementTemplatesLoader.setTemplates([
+          {
+            name: 'Foo',
+            id: 'foo',
+            description: 'Foo',
+            appliesTo: [
+              'bpmn:Task'
+            ],
+            properties: [],
+            entriesVisible: true
+          }
+        ]);
+
+        // when
+        selectAndGet('Task_1');
+
+        // then
+        expectShown([
+          'element-template-description',
+          'element-template-element-id',
+          'element-template-element-name',
+          'asyncBefore',
+          'elementTemplate-chooser',
+          'executionListeners'
+        ]);
+      }));
+
+
+      it('all entries visible by default', inject(function(elementTemplatesLoader) {
+
+        // given
+        elementTemplatesLoader.setTemplates([
+          {
+            name: 'Foo',
+            id: 'foo',
+            description: 'Foo',
+            appliesTo: [
+              'bpmn:Task'
+            ],
+            properties: [],
+            entriesVisible: {
+              _all: true
+            }
+          }
+        ]);
+
+        // when
+        selectAndGet('Task_1');
+
+        // then
+        expectShown([
+          'element-template-description',
+          'element-template-element-id',
+          'element-template-element-name',
+          'asyncBefore',
+          'elementTemplate-chooser',
+          'executionListeners'
+        ]);
+      }));
+
+
+      it('all entries visible by default, asyncBefore hidden', inject(function(elementTemplatesLoader) {
+
+        // given
+        elementTemplatesLoader.setTemplates([
+          {
+            name: 'Foo',
+            id: 'foo',
+            description: 'Foo',
+            appliesTo: [
+              'bpmn:Task'
+            ],
+            properties: [],
+            entriesVisible: {
+              _all: true,
+              asyncBefore: false
+            }
+          }
+        ]);
+
+        // when
+        selectAndGet('Task_1');
+
+        // then
+        expectShown([
+          'element-template-description',
+          'element-template-element-id',
+          'element-template-element-name',
+          'elementTemplate-chooser',
+          'executionListeners'
+        ]);
+
+        expectHidden([
+          'asyncBefore'
+        ]);
+      }));
+
+
+      it('all entries hidden by default, asyncBefore visible', inject(function(elementTemplatesLoader) {
+
+        // given
+        elementTemplatesLoader.setTemplates([
+          {
+            name: 'Foo',
+            id: 'foo',
+            description: 'Foo',
+            appliesTo: [
+              'bpmn:Task'
+            ],
+            properties: [],
+            entriesVisible: {
+              asyncBefore: true
+            }
+          }
+        ]);
+
+        // when
+        selectAndGet('Task_1');
+
+        // then
+        expectShown([
+          'element-template-description',
+          'element-template-element-id',
+          'element-template-element-name',
+          'asyncBefore'
+        ]);
+
+        expectHidden([
+          'elementTemplate-chooser',
+          'executionListeners'
+        ]);
+      }));
+
+    });
+
   });
 
 });
