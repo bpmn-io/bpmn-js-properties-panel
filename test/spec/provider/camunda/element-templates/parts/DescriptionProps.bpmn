@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1ysjldv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0-nightly.20200918">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1ysjldv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:task id="Task" name="Task" camunda:modelerTemplate="task" />
     <bpmn:task id="Task_Description" name="Task_Description" camunda:modelerTemplate="task.description" camunda:asyncBefore="true" />
     <bpmn:task id="Task_TemplateNotFound" name="Task_TemplateNotFound" camunda:modelerTemplate="task.noTemplate" />
+    <bpmn:startEvent id="StartEvent_Template" name="StartEvent_Template" camunda:modelerTemplate="StartEvent_Template" camunda:asyncBefore="true">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1iu9k3o">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression" />
+      </bpmn:conditionalEventDefinition>
+    </bpmn:startEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -15,6 +20,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_01zv0pp_di" bpmnElement="Task_TemplateNotFound">
         <dc:Bounds x="540" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10cvtz7_di" bpmnElement="StartEvent_Template">
+        <dc:Bounds x="192" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="167" y="275" width="87" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
