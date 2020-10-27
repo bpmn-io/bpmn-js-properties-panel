@@ -28,5 +28,27 @@
         }
       }
     ]
+  },
+  {
+    "name": "StartEvent_Template",
+    "description": "Description",
+    "metadata": {
+      "lastModified": 1000000000000
+    },
+    "id": "startEvent.template",
+    "appliesTo": [
+      "bpmn:StartEvent"
+    ],
+    "properties": [
+      {
+        "label": "Async Before",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
   }
 ]

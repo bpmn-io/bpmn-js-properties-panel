@@ -99,7 +99,7 @@ describe('element-templates/parts - Description Properties', function() {
 
   describe('dropdown', function() {
 
-    it('should unlink template', inject(function(elementRegistry) {
+    it('should unlink task template', inject(function(elementRegistry) {
 
       // given
       selectAndGet('Task_Description');
@@ -115,7 +115,7 @@ describe('element-templates/parts - Description Properties', function() {
     }));
 
 
-    it('should remove template', inject(function(elementRegistry) {
+    it('should remove task template', inject(function(elementRegistry) {
 
       // given
       selectAndGet('Task_Description');
@@ -129,6 +129,24 @@ describe('element-templates/parts - Description Properties', function() {
 
       expect(taskBo.modelerTemplate).not.to.exist;
       expect(taskBo.asyncBefore).to.be.false;
+    }));
+
+
+    it('should remove conditional event template', inject(function(elementRegistry) {
+
+      // given
+      selectAndGet('StartEvent_Template');
+
+      // when
+      clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
+
+      // then
+      var event = elementRegistry.get('StartEvent_Template'),
+          eventBo = getBusinessObject(event);
+
+      expect(eventBo.modelerTemplate).not.to.exist;
+      expect(eventBo.eventDefinitions).to.have.length(1);
+      expect(eventBo.asyncBefore).to.be.false;
     }));
 
   });
