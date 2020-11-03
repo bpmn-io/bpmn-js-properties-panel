@@ -8,7 +8,7 @@ var domQuery = require('min-dom').query,
 
 
 TestHelper.insertCSS('diagram-js.css', require('diagram-js/assets/diagram-js.css'));
-TestHelper.insertCSS('bpmn-embedded.css', require('bpmn-font/dist/css/bpmn-embedded.css'));
+TestHelper.insertCSS('bpmn-embedded.css', require('bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'));
 TestHelper.insertCSS('properties.css', require('./assets/properties.css'));
 
 TestHelper.insertCSS('diagram-js-testing.css',
