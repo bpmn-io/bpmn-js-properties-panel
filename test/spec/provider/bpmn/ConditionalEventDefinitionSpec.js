@@ -219,6 +219,7 @@ describe('event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -228,6 +229,7 @@ describe('event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -245,6 +247,7 @@ describe('event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -254,6 +257,7 @@ describe('event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -293,6 +297,7 @@ describe('event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -302,6 +307,7 @@ describe('event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -319,6 +325,7 @@ describe('event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -328,6 +335,7 @@ describe('event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();

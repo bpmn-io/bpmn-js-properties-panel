@@ -76,6 +76,7 @@ describe('element-name-properties', function() {
     describe('of an event', function() {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('START_WITHOUT_NAME');
         selection.select(shape);
@@ -91,12 +92,14 @@ describe('element-name-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(nameField.textContent).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -106,6 +109,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -119,12 +123,14 @@ describe('element-name-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(element.name).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -134,6 +140,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -149,6 +156,7 @@ describe('element-name-properties', function() {
     describe('of an task', function() {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('TASK_WITHOUT_NAME');
         selection.select(shape);
@@ -164,12 +172,14 @@ describe('element-name-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(nameField.textContent).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -179,6 +189,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -192,12 +203,14 @@ describe('element-name-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(element.name).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -207,6 +220,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -222,6 +236,7 @@ describe('element-name-properties', function() {
     describe('of a sequence flow', function() {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('FLOW_WITHOUT_NAME_1');
         selection.select(shape);
@@ -237,12 +252,14 @@ describe('element-name-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(nameField.textContent).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -252,6 +269,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -265,12 +283,14 @@ describe('element-name-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(element.name).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -280,6 +300,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -295,6 +316,7 @@ describe('element-name-properties', function() {
     describe('of a text annotation', function() {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('TEXTANNOTATION_WITH_NAME');
         selection.select(shape);
@@ -315,12 +337,14 @@ describe('element-name-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(nameField.textContent).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -330,6 +354,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -343,12 +368,14 @@ describe('element-name-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(element.text).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -358,6 +385,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -375,6 +403,7 @@ describe('element-name-properties', function() {
       var categoryValueRef;
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('GROUP');
         selection.select(shape);
@@ -395,6 +424,7 @@ describe('element-name-properties', function() {
       }));
 
       it('should initialize category value if needed', inject(function(canvas) {
+
         // then
         var rootElement = canvas.getRootElement(),
             definitons = getBusinessObject(rootElement).$parent;
@@ -409,6 +439,7 @@ describe('element-name-properties', function() {
 
 
       it('should have correct label', function() {
+
         // then
         expect(label.textContent).to.equal('Category Value');
       });
@@ -417,12 +448,14 @@ describe('element-name-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(nameField.textContent).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -432,6 +465,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -446,12 +480,14 @@ describe('element-name-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(categoryValueRef.value).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -461,6 +497,7 @@ describe('element-name-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();

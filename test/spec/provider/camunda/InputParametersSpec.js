@@ -135,6 +135,7 @@ describe('input-parameters', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // after removing 'dateOfBirth' form field
 
         // then
@@ -148,6 +149,7 @@ describe('input-parameters', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -162,6 +164,7 @@ describe('input-parameters', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -203,6 +206,7 @@ describe('input-parameters', function() {
 
 
       it('should undo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
@@ -213,6 +217,7 @@ describe('input-parameters', function() {
 
 
       it('should redo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -252,6 +257,7 @@ describe('input-parameters', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // after removing 'dateOfBirth' form field
 
         // then
@@ -265,6 +271,7 @@ describe('input-parameters', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -279,6 +286,7 @@ describe('input-parameters', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -311,6 +319,7 @@ describe('input-parameters', function() {
 
 
       it('should undo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         collapsibles = getInputParameterCollapsibles(propertiesPanel._container);
@@ -321,6 +330,7 @@ describe('input-parameters', function() {
 
 
       it('should redo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -416,6 +426,7 @@ describe('input-parameters', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -426,6 +437,7 @@ describe('input-parameters', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -505,6 +517,7 @@ describe('input-parameters', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -514,6 +527,7 @@ describe('input-parameters', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

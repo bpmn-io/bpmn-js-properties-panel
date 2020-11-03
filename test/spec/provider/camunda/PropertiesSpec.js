@@ -84,6 +84,7 @@ describe('extensionElements-properties', function() {
     var task;
 
     beforeEach(inject(function(elementRegistry, selection) {
+
       // given
       task = elementRegistry.get('WITHOUT_PROPS');
       selection.select(task);
@@ -96,6 +97,7 @@ describe('extensionElements-properties', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         container = propertiesPanel._container;
+
         // when
         clickAddProperty(container);
       }));
@@ -113,6 +115,7 @@ describe('extensionElements-properties', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -146,6 +149,7 @@ describe('extensionElements-properties', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -215,6 +219,7 @@ describe('extensionElements-properties', function() {
     var task;
 
     beforeEach(inject(function(elementRegistry, selection) {
+
       // given
       task = elementRegistry.get('WITH_MULTIPLE_PROPS');
       selection.select(task);
@@ -227,6 +232,7 @@ describe('extensionElements-properties', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         container = propertiesPanel._container;
+
         // when
         clickAddProperty(container);
       }));

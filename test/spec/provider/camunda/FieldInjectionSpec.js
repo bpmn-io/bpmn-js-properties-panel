@@ -59,6 +59,7 @@ describe('fieldInjection-properties', function() {
   function getCamundaFields(bo) {
 
     if (is(bo, 'bpmn:Event')) {
+
       // assume we got a message event definition
       bo = bo.eventDefinitions[0];
     }

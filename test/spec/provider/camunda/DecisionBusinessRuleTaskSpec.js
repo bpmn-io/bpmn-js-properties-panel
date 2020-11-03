@@ -141,6 +141,7 @@ describe('decision-business-rule-task-properties', function() {
     // then
     expect(implType.value).to.equal('dmn');
     expect(decisionRefBinding.value).to.equal('latest');
+
     // 'latest' is the default value for decisionRefBinding
     expect(businessObject).not.to.have.property('camunda:decisionRefBinding');
   }));

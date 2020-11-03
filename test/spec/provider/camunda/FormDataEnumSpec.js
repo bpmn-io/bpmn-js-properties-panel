@@ -91,6 +91,7 @@ describe('form-data-enum', function() {
           var valueRow = domQuery('[data-index="0"]', valueTable);
 
           expect(valueRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(valueRow.childNodes).to.have.length(3);
 
@@ -124,6 +125,7 @@ describe('form-data-enum', function() {
           var valueRow = domQuery('[data-index="0"]', valueTable);
 
           expect(valueRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(valueRow.childNodes).to.have.length(3);
 

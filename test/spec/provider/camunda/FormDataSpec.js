@@ -134,6 +134,7 @@ describe('form-data', function() {
           formFields;
 
       beforeEach(function() {
+
         // select first form field
         TestHelper.triggerFormFieldSelection(0, container);
 
@@ -270,6 +271,7 @@ describe('form-data', function() {
           formFields;
 
       beforeEach(function() {
+
         // select first form field
         TestHelper.triggerFormFieldSelection(0, container);
 
@@ -287,6 +289,7 @@ describe('form-data', function() {
           // then
           // should show the invalid id in the text field
           expect(id.value).to.equal('  ');
+
           // should show an invalid error
           expect(domClasses(id).has('invalid')).to.be.true;
         });
@@ -300,6 +303,7 @@ describe('form-data', function() {
           // then
           // should show the previous id in the text field
           expect(id.value).to.equal('firstname');
+
           // should not show an invalid error
           expect(domClasses(id).has('invalid')).to.be.false;
         }));
@@ -476,6 +480,7 @@ describe('form-data', function() {
 
 
         it('should execute', function() {
+
           // after removing 'dateOfBirth' form field
 
           // then
@@ -531,6 +536,7 @@ describe('form-data', function() {
 
 
         it('should execute', function() {
+
           // after removing 'dateOfBirth' form field
 
           // then
@@ -605,6 +611,7 @@ describe('form-data', function() {
       };
 
       beforeEach(function() {
+
         // select first form field
         TestHelper.triggerFormFieldSelection(0, container);
 
@@ -644,6 +651,7 @@ describe('form-data', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // when selecting first form field
 
             // then
@@ -687,6 +695,7 @@ describe('form-data', function() {
         describe('on the business Object', function() {
 
           it('should execute', function() {
+
             // when selecting first form field
 
             // then
@@ -833,6 +842,7 @@ describe('form-data', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // when deleting the first constraint
 
             // then

@@ -188,6 +188,7 @@ function createGroups(element, bpmnFactory, translate) {
                     '<span data-invalid="a"></span>' +
                     '<span data-invalid="b"></span>' +
                   '</div>',
+
             /**
              * Get display properties from the given element
              *
@@ -205,6 +206,7 @@ function createGroups(element, bpmnFactory, translate) {
                 b: someText.indexOf('B') !== -1
               };
             },
+
             /**
              * Create changes based on the given properties update
              *
@@ -227,6 +229,7 @@ function createGroups(element, bpmnFactory, translate) {
                 'custom:enum': results.join(',')
               };
             },
+
             /**
              * Validate the properties of the given element.
              *

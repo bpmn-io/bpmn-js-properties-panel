@@ -56,6 +56,7 @@ describe('connector', function() {
     var container, connectorIdInput, connector;
 
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
       // given
       container = propertiesPanel._container;
 
@@ -111,20 +112,24 @@ describe('connector', function() {
     describe('on the business object', function() {
 
       it('should not execute', function() {
+
         // then
         expect(connector.get('connectorId')).to.equal('foo');
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
+
         // then
         expect(connector.get('connectorId')).to.be.undefined;
       }));
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -143,6 +148,7 @@ describe('connector', function() {
     var container, connector;
 
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
       // given
       container = propertiesPanel._container;
       var shape = elementRegistry.get('WITHOUT_INPUT_OUTPUT');
@@ -157,6 +163,7 @@ describe('connector', function() {
     describe('when adding an input parameter', function() {
 
       beforeEach(function() {
+
         // when
         clickAddInputParameterButton(container);
       });
@@ -201,6 +208,7 @@ describe('connector', function() {
     describe('when adding an output parameter', function() {
 
       beforeEach(function() {
+
         // when
         clickAddOutputParameterButton(container);
       });
@@ -248,6 +256,7 @@ describe('connector', function() {
     var container, connector;
 
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
       // given
       container = propertiesPanel._container;
       var shape = elementRegistry.get('WITH_INPUT_OUTPUT');
@@ -265,6 +274,7 @@ describe('connector', function() {
     describe('when adding an input parameter', function() {
 
       beforeEach(function() {
+
         // when
         clickAddInputParameterButton(container);
       });
@@ -288,12 +298,14 @@ describe('connector', function() {
     describe('when adding an output parameter', function() {
 
       beforeEach(function() {
+
         // when
         clickAddOutputParameterButton(container);
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -316,6 +328,7 @@ describe('connector', function() {
     describe('when removing an input parameter', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('WITH_INPUT_PARAMS');
@@ -335,6 +348,7 @@ describe('connector', function() {
 
 
       it('should execute', function() {
+
         // then
         expect(connector.get('inputOutput')).to.be.undefined;
       });
@@ -369,6 +383,7 @@ describe('connector', function() {
     describe('when removing an output parameter', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('WITH_OUTPUT_PARAMS');
@@ -388,6 +403,7 @@ describe('connector', function() {
 
 
       it('should execute', function() {
+
         // then
         expect(connector.get('inputOutput')).to.be.undefined;
       });
@@ -454,6 +470,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -466,6 +483,7 @@ describe('connector', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -507,6 +525,7 @@ describe('connector', function() {
 
 
       it('should redo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -544,6 +563,7 @@ describe('connector', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // after removing 'dateOfBirth' form field
 
         // then
@@ -556,6 +576,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -568,6 +589,7 @@ describe('connector', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -597,6 +619,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
 
@@ -607,6 +630,7 @@ describe('connector', function() {
 
 
       it('should redo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -646,6 +670,7 @@ describe('connector', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // after removing 'dateOfBirth' form field
 
         // then
@@ -691,6 +716,7 @@ describe('connector', function() {
 
 
       it('should execute', inject(function(propertiesPanel) {
+
         // after removing input parameter
 
         // then
@@ -702,6 +728,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
 
@@ -752,6 +779,7 @@ describe('connector', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // after removing 'dateOfBirth' form field
 
         // then
@@ -763,6 +791,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -774,6 +803,7 @@ describe('connector', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -802,6 +832,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack, propertiesPanel) {
+
         // when
         commandStack.undo();
 
@@ -892,6 +923,7 @@ describe('connector', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -901,6 +933,7 @@ describe('connector', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

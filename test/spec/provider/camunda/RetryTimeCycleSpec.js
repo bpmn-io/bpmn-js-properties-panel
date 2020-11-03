@@ -148,6 +148,7 @@ describe('retryTimeCycle', function() {
     describe('retain existing extension elements', function() {
 
       it('should execute', function() {
+
         // then
         var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
         expect(timeCycles).to.have.length(1);
@@ -158,6 +159,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -171,6 +173,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -190,6 +193,7 @@ describe('retryTimeCycle', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // then
         var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
         expect(cycle).to.be.ok;
@@ -198,6 +202,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -208,6 +213,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -225,12 +231,14 @@ describe('retryTimeCycle', function() {
     describe('in the DOM', function() {
 
       it('should execute', function() {
+
         // then
         expect(input.value).to.equal('foo');
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -240,6 +248,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -275,6 +284,7 @@ describe('retryTimeCycle', function() {
     describe('retain existing extension elements', function() {
 
       it('should execute', function() {
+
         // then
         var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
         expect(timeCycles).to.have.length(1);
@@ -285,6 +295,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -298,6 +309,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -317,6 +329,7 @@ describe('retryTimeCycle', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // then
         var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
         expect(cycle).to.be.ok;
@@ -325,6 +338,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -336,6 +350,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -353,12 +368,14 @@ describe('retryTimeCycle', function() {
     describe('in the DOM', function() {
 
       it('should execute', function() {
+
         // then
         expect(input.value).to.equal('bar');
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -368,6 +385,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -404,6 +422,7 @@ describe('retryTimeCycle', function() {
     describe('retain existing extension elements', function() {
 
       it('should execute', function() {
+
         // then
         var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
         expect(timeCycles).not.to.ok;
@@ -414,6 +433,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -427,6 +447,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -446,6 +467,7 @@ describe('retryTimeCycle', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // then
         var cycle = asyncCapableHelper.getFailedJobRetryTimeCycle(bo);
         expect(cycle).not.to.be.ok;
@@ -453,6 +475,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -464,6 +487,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
 
         commandStack.undo();
@@ -480,12 +504,14 @@ describe('retryTimeCycle', function() {
     describe('in the DOM', function() {
 
       it('should execute', function() {
+
         // then
         expect(input.value).to.equal('');
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -495,6 +521,7 @@ describe('retryTimeCycle', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

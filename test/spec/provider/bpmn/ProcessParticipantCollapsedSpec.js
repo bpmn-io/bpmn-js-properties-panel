@@ -103,12 +103,14 @@ describe('process-participant-collapsed-properties', function() {
     describe('in the DOM', function() {
 
       it('should execute', function() {
+
         // then
         expect(textbox.textContent).to.equal('foo');
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -118,6 +120,7 @@ describe('process-participant-collapsed-properties', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -131,12 +134,14 @@ describe('process-participant-collapsed-properties', function() {
     describe('on the business object', function() {
 
       it('should execute', function() {
+
         // then
         expect(participant.get('name')).to.equal('foo');
       });
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -146,6 +151,7 @@ describe('process-participant-collapsed-properties', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

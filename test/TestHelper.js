@@ -63,6 +63,7 @@ var triggerEvent = function(element, eventType) {
   eventType = eventType || 'change';
 
   try {
+
     // Chrome, Safari, Firefox
     evt = new MouseEvent((eventType), {
       view: window,
@@ -70,6 +71,7 @@ var triggerEvent = function(element, eventType) {
       cancelable: true
     });
   } catch (e) {
+
     // IE 11, PhantomJS (wat!)
     evt = document.createEvent('MouseEvent');
 
