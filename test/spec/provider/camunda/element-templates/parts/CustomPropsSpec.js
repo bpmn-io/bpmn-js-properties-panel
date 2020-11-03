@@ -848,6 +848,7 @@ describe('element-templates/parts - Custom Properties', function() {
 
 
         it('should change, setting camunda:OutputParameter (plain)', inject(function() {
+
           // given
           var task = selectAndGet('ConnectorTask');
 

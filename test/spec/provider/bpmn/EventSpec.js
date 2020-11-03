@@ -67,6 +67,7 @@ describe('event-properties', function() {
 
     // then
     var selectField = domQuery(selectEl, propertiesPanel._container);
+
     // the message ref input field exists and is empty
     expect(selectField).to.exist;
     expect(selectField.value).is.empty;
@@ -85,6 +86,7 @@ describe('event-properties', function() {
     ];
 
     forEach(elements, function(element) {
+
       // given
       // that the element has a message ref input field
       var shape = elementRegistry.get(element);
@@ -96,6 +98,7 @@ describe('event-properties', function() {
 
       // then
       var selectBox = domQuery(selectEl, propertiesPanel._container);
+
       // the message ref input field exists and is empty
       expect(selectBox).to.exist;
       expect(selectBox.value).to.have.length.of.at.least(0);
@@ -115,6 +118,7 @@ describe('event-properties', function() {
 
     // then
     var selectBox = domQuery(selectEl, propertiesPanel._container);
+
     // the message ref select box doesn't exist
     expect(selectBox).to.not.exist;
   }));
@@ -276,6 +280,7 @@ describe('event-properties', function() {
     ];
 
     forEach(elements, function(element) {
+
       // given
       // that the element has a message ref input field
       var shape = elementRegistry.get(element);
@@ -287,6 +292,7 @@ describe('event-properties', function() {
 
       // then
       var selectBox = domQuery(selectEl, propertiesPanel._container);
+
       // the escalation ref input field exists and is empty
       expect(selectBox).to.exist;
       expect(selectBox.value).to.be.empty;
@@ -611,6 +617,7 @@ describe('event-properties', function() {
     // then
     expect(inputField.value).not.to.be.empty;
     expect(inputField.value).not.to.equal('asd');
+
     // should change message name of business object
     expect(messageEventDefinition.messageRef.get('name')).to.equal(inputField.value);
   }));
@@ -641,6 +648,7 @@ describe('event-properties', function() {
     expect(escalationNameField.value).not.to.be.empty;
     expect(escalationNameField.value).not.to.equal('myEscalation');
     expect(escalationCodeField.value).to.be.empty;
+
     // should change message name of business object
     expect(escalationEventDefinition.escalationRef.get('name')).to.equal(escalationNameField.value);
     expect(escalationEventDefinition.escalationRef.get('escalationCode')).to.be.undefined;
@@ -667,6 +675,7 @@ describe('event-properties', function() {
     // then
     expect(inputField.value).not.to.be.empty;
     expect(inputField.value).not.to.equal('asd');
+
     // should change message name of business object
     expect(signalEventDefinition.signalRef.get('name')).to.equal(inputField.value);
   }));

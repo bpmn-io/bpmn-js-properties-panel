@@ -206,12 +206,14 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeDate');
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -221,6 +223,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -235,12 +238,14 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDate).to.be.ok;
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -250,6 +255,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -275,12 +281,14 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeCycle');
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -290,6 +298,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -304,12 +313,14 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeCycle).to.be.ok;
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -319,6 +330,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -344,12 +356,14 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeDuration');
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -359,6 +373,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -373,12 +388,14 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -388,6 +405,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -428,12 +446,14 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('');
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -443,6 +463,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -457,12 +478,14 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDate).not.to.be.ok;
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -472,6 +495,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -497,6 +521,7 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeCycle');
             expect(getTimerDefinitionField(container).value).to.equal('date');
@@ -504,6 +529,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -514,6 +540,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -529,6 +556,7 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeCycle).to.be.ok;
             expect(timerDefinition.timeCycle.body).to.equal('date');
@@ -537,6 +565,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -548,6 +577,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -575,6 +605,7 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeDuration');
             expect(getTimerDefinitionField(container).value).to.equal('date');
@@ -582,6 +613,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -592,6 +624,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -607,6 +640,7 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
             expect(timerDefinition.timeDuration.body).to.equal('date');
@@ -615,6 +649,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -626,6 +661,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -669,12 +705,14 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('');
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -684,6 +722,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -698,12 +737,14 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeCycle).not.to.be.ok;
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -713,6 +754,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -738,6 +780,7 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeDate');
             expect(getTimerDefinitionField(container).value).to.equal('cycle');
@@ -745,6 +788,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -755,6 +799,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -770,6 +815,7 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDate).to.be.ok;
             expect(timerDefinition.timeDate.body).to.equal('cycle');
@@ -778,6 +824,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -789,6 +836,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -816,6 +864,7 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeDuration');
             expect(getTimerDefinitionField(container).value).to.equal('cycle');
@@ -823,6 +872,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -833,6 +883,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -848,6 +899,7 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDuration).to.be.ok;
             expect(timerDefinition.timeDuration.body).to.equal('cycle');
@@ -856,6 +908,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -867,6 +920,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -910,12 +964,14 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('');
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -925,6 +981,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -939,12 +996,14 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDuration).not.to.be.ok;
           });
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -954,6 +1013,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -979,6 +1039,7 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeDate');
             expect(getTimerDefinitionField(container).value).to.equal('duration');
@@ -986,6 +1047,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -996,6 +1058,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -1011,6 +1074,7 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeDate).to.be.ok;
             expect(timerDefinition.timeDate.body).to.equal('duration');
@@ -1019,6 +1083,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -1030,6 +1095,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -1057,6 +1123,7 @@ describe('timer-event-properties', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(getTimerDefinitionTypeField(container).value).to.equal('timeCycle');
             expect(getTimerDefinitionField(container).value).to.equal('duration');
@@ -1064,6 +1131,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -1074,6 +1142,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -1089,6 +1158,7 @@ describe('timer-event-properties', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(timerDefinition.timeCycle).to.be.ok;
             expect(timerDefinition.timeCycle.body).to.equal('duration');
@@ -1097,6 +1167,7 @@ describe('timer-event-properties', function() {
 
 
           it('should undo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
 
@@ -1108,6 +1179,7 @@ describe('timer-event-properties', function() {
 
 
           it('should redo', inject(function(commandStack) {
+
             // when
             commandStack.undo();
             commandStack.redo();
@@ -1157,12 +1229,14 @@ describe('timer-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(input.value).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1172,6 +1246,7 @@ describe('timer-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1185,12 +1260,14 @@ describe('timer-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(timeDate.body).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1200,6 +1277,7 @@ describe('timer-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1236,12 +1314,14 @@ describe('timer-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(input.value).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1251,6 +1331,7 @@ describe('timer-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1264,12 +1345,14 @@ describe('timer-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(timeDuration.body).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1279,6 +1362,7 @@ describe('timer-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1315,12 +1399,14 @@ describe('timer-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(input.value).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1330,6 +1416,7 @@ describe('timer-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1343,12 +1430,14 @@ describe('timer-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(timeCycle.body).to.equal('foo');
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1358,6 +1447,7 @@ describe('timer-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();

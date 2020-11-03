@@ -293,6 +293,7 @@ describe('element-templates - Validator', function() {
 
 
   it('should reject invalid types for execution listeners', function() {
+
     // given
     var templates = new Validator();
 

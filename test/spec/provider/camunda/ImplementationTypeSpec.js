@@ -134,6 +134,7 @@ describe('implementation type', function() {
     var container;
 
     beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
       // given
       container = propertiesPanel._container;
     }));
@@ -141,20 +142,24 @@ describe('implementation type', function() {
     describe('class properties', function(elementRegistry, selection) {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('CLASS');
+
         // when
         selection.select(shape);
       }));
 
 
       it('should show class implementation type', function() {
+
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('class');
       });
 
 
       it('should show java class property', function() {
+
         // then
         expect(isInputHidden(getDelegateInput(container))).to.be.false;
         expect(getDelegateInput(container).value).to.equal('foo');
@@ -162,18 +167,21 @@ describe('implementation type', function() {
 
 
       it('should hide result variable property', function() {
+
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.true;
       });
 
 
       it('should hide external topic property', function() {
+
         // then
         expect(isInputHidden(getExternalTopicInput(container))).to.be.true;
       });
 
 
       it('should hide configure connector link', function() {
+
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
       });
@@ -184,20 +192,24 @@ describe('implementation type', function() {
     describe('expression properties', function(elementRegistry, selection) {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('EXPRESSION');
+
         // when
         selection.select(shape);
       }));
 
 
       it('should show expression implementation type', function() {
+
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('expression');
       });
 
 
       it('should show expression property', function() {
+
         // then
         expect(isInputHidden(getDelegateInput(container))).to.be.false;
         expect(getDelegateInput(container).value).to.equal('foo');
@@ -205,18 +217,21 @@ describe('implementation type', function() {
 
 
       it('should show result variable property', function() {
+
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.false;
       });
 
 
       it('should hide external topic property', function() {
+
         // then
         expect(isInputHidden(getExternalTopicInput(container))).to.be.true;
       });
 
 
       it('should hide configure connector link', function() {
+
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
       });
@@ -227,20 +242,24 @@ describe('implementation type', function() {
     describe('delegate expression properties', function(elementRegistry, selection) {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('DELEGATE_EXPRESSION');
+
         // when
         selection.select(shape);
       }));
 
 
       it('should show delegate expression implementation type', function() {
+
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('delegateExpression');
       });
 
 
       it('should show java class property', function() {
+
         // then
         expect(isInputHidden(getDelegateInput(container))).to.be.false;
         expect(getDelegateInput(container).value).to.equal('foo');
@@ -248,18 +267,21 @@ describe('implementation type', function() {
 
 
       it('should hide result variable property', function() {
+
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.true;
       });
 
 
       it('should hide external topic property', function() {
+
         // then
         expect(isInputHidden(getExternalTopicInput(container))).to.be.true;
       });
 
 
       it('should hide configure connector link', function() {
+
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
       });
@@ -270,20 +292,24 @@ describe('implementation type', function() {
     describe('external properties', function(elementRegistry, selection) {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('EXTERNAL');
+
         // when
         selection.select(shape);
       }));
 
 
       it('should show external implementation type', function() {
+
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('external');
       });
 
 
       it('should show external topic property', function() {
+
         // then
         expect(isInputHidden(getExternalTopicInput(container))).to.be.false;
         expect(getExternalTopicInput(container).value).to.equal('foo');
@@ -291,18 +317,21 @@ describe('implementation type', function() {
 
 
       it('should hide java class property', function() {
+
         // then
         expect(isInputHidden(getDelegateInput(container))).to.be.true;
       });
 
 
       it('should hide result variable property', function() {
+
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.true;
       });
 
 
       it('should hide configure connector link', function() {
+
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
       });
@@ -313,37 +342,44 @@ describe('implementation type', function() {
     describe('connector properties', function(elementRegistry, selection) {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('CONNECTOR');
+
         // when
         selection.select(shape);
       }));
 
       it('should show connector implementation type', function() {
+
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('connector');
       });
 
 
       it('should show configure connector link', function() {
+
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
       });
 
 
       it('should hide java class property', function() {
+
         // then
         expect(isInputHidden(getDelegateInput(container))).to.be.true;
       });
 
 
       it('should hide external topic property', function() {
+
         // then
         expect(isInputHidden(getExternalTopicInput(container))).to.be.true;
       });
 
 
       it('should hide result variable property', function() {
+
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.true;
       });
@@ -354,19 +390,23 @@ describe('implementation type', function() {
     describe('dmn properties', function(elementRegistry, selection) {
 
       beforeEach(inject(function(elementRegistry, selection) {
+
         // given
         var shape = elementRegistry.get('DMN');
+
         // when
         selection.select(shape);
       }));
 
       it('should show dmn implementation type', function() {
+
         // then
         expect(getImplementationTypeSelect(container).value).to.equal('dmn');
       });
 
 
       it('should show dmn callable element property', function() {
+
         // then
         expect(isInputHidden(getCallableElementRefInput(container))).to.be.false;
         expect(getCallableElementRefInput(container).value).to.equal('foo');
@@ -374,6 +414,7 @@ describe('implementation type', function() {
 
 
       it('should show dmn callable binding property', function() {
+
         // then
         expect(isInputHidden(getCallableBindingSelect(container))).to.be.false;
         expect(getCallableBindingSelect(container).value).to.equal('latest');
@@ -381,24 +422,28 @@ describe('implementation type', function() {
 
 
       it('should show dmn result variable property', function() {
+
         // then
         expect(isInputHidden(getDmnResultVariableInput(container))).to.be.false;
       });
 
 
       it('should hide java class property', function() {
+
         // then
         expect(isInputHidden(getDelegateInput(container))).to.be.true;
       });
 
 
       it('should hide result variable property', function() {
+
         // then
         expect(isInputHidden(getResultVariableInput(container))).to.be.true;
       });
 
 
       it('should hide configure connector link', function() {
+
         // then
         expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
       });
@@ -414,6 +459,7 @@ describe('implementation type', function() {
     describe('from class', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('CLASS');
@@ -425,6 +471,7 @@ describe('implementation type', function() {
       describe('to expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('expression', container);
         });
@@ -432,6 +479,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('expression');
           });
@@ -462,6 +510,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             expect(bo.get('camunda:expression')).not.to.be.undefined;
@@ -498,6 +547,7 @@ describe('implementation type', function() {
       describe('to delegate expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('delegateExpression', container);
         });
@@ -505,6 +555,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('delegateExpression');
           });
@@ -535,6 +586,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
@@ -571,6 +623,7 @@ describe('implementation type', function() {
       describe('to external', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('external', container);
         });
@@ -578,6 +631,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('external');
           });
@@ -608,6 +662,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             expect(bo.get('camunda:type')).to.equal('external');
@@ -647,6 +702,7 @@ describe('implementation type', function() {
       describe('to connector', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('connector', container);
         });
@@ -654,6 +710,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
             expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
@@ -690,6 +747,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
@@ -729,6 +787,7 @@ describe('implementation type', function() {
       describe('to dmn', function() {
 
         beforeEach(inject(function(elementRegistry, selection) {
+
           // given
           var shape = elementRegistry.get('BRT_CLASS');
           selection.select(shape);
@@ -742,6 +801,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('dmn');
           });
@@ -772,6 +832,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).to.be.undefined;
             expect(bo.get('camunda:decisionRef')).not.to.be.undefined;
@@ -811,6 +872,7 @@ describe('implementation type', function() {
     describe('from expression', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('EXPRESSION');
@@ -822,6 +884,7 @@ describe('implementation type', function() {
       describe('to class', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('class', container);
         });
@@ -829,6 +892,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('class');
           });
@@ -859,6 +923,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             expect(bo.get('camunda:expression')).to.be.undefined;
@@ -895,6 +960,7 @@ describe('implementation type', function() {
       describe('to delegate expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('delegateExpression', container);
         });
@@ -902,6 +968,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('delegateExpression');
           });
@@ -932,6 +999,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
@@ -968,6 +1036,7 @@ describe('implementation type', function() {
       describe('to external', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('external', container);
         });
@@ -975,6 +1044,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('external');
           });
@@ -1005,6 +1075,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             expect(bo.get('camunda:type')).to.equal('external');
@@ -1044,6 +1115,7 @@ describe('implementation type', function() {
       describe('to connector', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('connector', container);
         });
@@ -1051,6 +1123,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
             expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
@@ -1087,6 +1160,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
@@ -1127,6 +1201,7 @@ describe('implementation type', function() {
       describe('to dmn', function() {
 
         beforeEach(inject(function(elementRegistry, selection) {
+
           // given
           var shape = elementRegistry.get('BRT_EXPRESSION');
           selection.select(shape);
@@ -1140,6 +1215,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('dmn');
           });
@@ -1170,6 +1246,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).to.be.undefined;
             expect(bo.get('camunda:decisionRef')).not.to.be.undefined;
@@ -1208,6 +1285,7 @@ describe('implementation type', function() {
     describe('from delegate expression', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('DELEGATE_EXPRESSION');
@@ -1219,6 +1297,7 @@ describe('implementation type', function() {
       describe('to class', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('class', container);
         });
@@ -1226,6 +1305,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('class');
           });
@@ -1256,6 +1336,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
@@ -1292,6 +1373,7 @@ describe('implementation type', function() {
       describe('to expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('expression', container);
         });
@@ -1299,6 +1381,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('expression');
           });
@@ -1329,6 +1412,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             expect(bo.get('camunda:expression')).not.to.be.undefined;
@@ -1365,6 +1449,7 @@ describe('implementation type', function() {
       describe('to external', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('external', container);
         });
@@ -1372,6 +1457,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('external');
           });
@@ -1402,6 +1488,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             expect(bo.get('camunda:type')).to.equal('external');
@@ -1441,6 +1528,7 @@ describe('implementation type', function() {
       describe('to connector', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('connector', container);
         });
@@ -1448,6 +1536,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
             expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
@@ -1483,6 +1572,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
@@ -1523,6 +1613,7 @@ describe('implementation type', function() {
       describe('to dmn', function() {
 
         beforeEach(inject(function(elementRegistry, selection) {
+
           // given
           var shape = elementRegistry.get('BRT_DELEGATE_EXPRESSION');
           selection.select(shape);
@@ -1536,6 +1627,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('dmn');
           });
@@ -1566,6 +1658,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:delegateExpression')).to.be.undefined;
             expect(bo.get('camunda:decisionRef')).not.to.be.undefined;
@@ -1604,6 +1697,7 @@ describe('implementation type', function() {
     describe('from external', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('EXTERNAL');
@@ -1615,6 +1709,7 @@ describe('implementation type', function() {
       describe('to class', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('class', container);
         });
@@ -1622,6 +1717,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('class');
           });
@@ -1652,6 +1748,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             expect(bo.get('camunda:type')).to.be.undefined;
@@ -1691,6 +1788,7 @@ describe('implementation type', function() {
       describe('to expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('expression', container);
         });
@@ -1698,6 +1796,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('expression');
           });
@@ -1728,6 +1827,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).not.to.be.undefined;
             expect(bo.get('camunda:type')).to.be.undefined;
@@ -1767,6 +1867,7 @@ describe('implementation type', function() {
       describe('to delegate expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('delegateExpression', container);
         });
@@ -1774,6 +1875,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('delegateExpression');
           });
@@ -1804,6 +1906,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:type')).to.be.undefined;
             expect(bo.get('camunda:topic')).to.be.undefined;
@@ -1843,6 +1946,7 @@ describe('implementation type', function() {
       describe('to connector', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('connector', container);
         });
@@ -1850,6 +1954,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(hasErrorMessage(getConfigureConnectorLink(container))).to.be.true;
             expect(isHidden(getConfigureConnectorLink(container))).to.be.false;
@@ -1886,6 +1991,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:type')).to.be.undefined;
             expect(bo.get('camunda:topic')).to.be.undefined;
@@ -1932,6 +2038,7 @@ describe('implementation type', function() {
     describe('from connector', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('CONNECTOR');
@@ -1943,6 +2050,7 @@ describe('implementation type', function() {
       describe('to class', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('class', container);
         });
@@ -1950,6 +2058,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('class');
           });
@@ -1980,6 +2089,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
@@ -2019,6 +2129,7 @@ describe('implementation type', function() {
       describe('to expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('expression', container);
         });
@@ -2026,6 +2137,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('expression');
           });
@@ -2056,6 +2168,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
@@ -2095,6 +2208,7 @@ describe('implementation type', function() {
       describe('to delegate expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('delegateExpression', container);
         });
@@ -2102,6 +2216,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('delegateExpression');
           });
@@ -2132,6 +2247,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
@@ -2171,6 +2287,7 @@ describe('implementation type', function() {
       describe('to external', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('external', container);
         });
@@ -2178,6 +2295,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(isHidden(getConfigureConnectorLink(container))).to.be.true;
             expect(implementationTypeSelect.value).to.equal('external');
@@ -2212,6 +2330,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:type')).not.to.be.undefined;
             expect(bo.get('camunda:topic')).not.to.be.undefined;
@@ -2255,6 +2374,7 @@ describe('implementation type', function() {
       describe('to dmn', function() {
 
         beforeEach(inject(function(elementRegistry, selection) {
+
           // given
           var shape = elementRegistry.get('BRT_CONNECTOR');
           selection.select(shape);
@@ -2268,6 +2388,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('dmn');
           });
@@ -2298,6 +2419,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             var connectors = extensionElementsHelper.getExtensionElements(bo, 'camunda:Connector');
             expect(connectors).not.to.exist;
@@ -2339,6 +2461,7 @@ describe('implementation type', function() {
     describe('from dmn', function() {
 
       beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
         // given
         container = propertiesPanel._container;
         var shape = elementRegistry.get('DMN');
@@ -2350,6 +2473,7 @@ describe('implementation type', function() {
       describe('to class', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('class', container);
         });
@@ -2357,6 +2481,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('class');
           });
@@ -2387,6 +2512,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:class')).not.to.be.undefined;
             expect(bo.get('camunda:decisionRef')).to.be.undefined;
@@ -2423,6 +2549,7 @@ describe('implementation type', function() {
       describe('to expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('expression', container);
         });
@@ -2430,6 +2557,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('expression');
           });
@@ -2460,6 +2588,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:expression')).not.to.be.undefined;
             expect(bo.get('camunda:decisionRef')).to.be.undefined;
@@ -2496,6 +2625,7 @@ describe('implementation type', function() {
       describe('to delegate expression', function() {
 
         beforeEach(function() {
+
           // when
           selectImplementationType('delegateExpression', container);
         });
@@ -2503,6 +2633,7 @@ describe('implementation type', function() {
         describe('in the DOM', function() {
 
           it('should execute', function() {
+
             // then
             expect(implementationTypeSelect.value).to.equal('delegateExpression');
           });
@@ -2533,6 +2664,7 @@ describe('implementation type', function() {
         describe('on the business object', function() {
 
           it('should execute', function() {
+
             // then
             expect(bo.get('camunda:delegateExpression')).not.to.be.undefined;
             expect(bo.get('camunda:decisionRef')).to.be.undefined;
@@ -2573,6 +2705,7 @@ describe('implementation type', function() {
 
 
     it('should retain other extension elements when removing connector', inject(function(elementRegistry, selection) {
+
       // given
       var shape = elementRegistry.get('WITH_LISTENER_AND_CONNECTOR');
       selection.select(shape);
@@ -2591,6 +2724,7 @@ describe('implementation type', function() {
 
 
     it('should retain other extension elements when adding connector', inject(function(elementRegistry, selection) {
+
       // given
       var shape = elementRegistry.get('WITH_LISTENER');
       selection.select(shape);

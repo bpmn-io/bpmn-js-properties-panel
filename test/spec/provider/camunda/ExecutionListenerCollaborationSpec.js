@@ -115,6 +115,7 @@ describe('collaboration-listener-properties', function() {
         expect(bo.processRef.extensionElements.values.length).to.equal(1);
 
         var extensionElementsValues = bo.processRef.extensionElements.values;
+
         // execution listener 1
         expect(eventType.value).to.equal('start');
         expect(listenerType.value).to.equal('expression');

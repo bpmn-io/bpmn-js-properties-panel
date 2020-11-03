@@ -174,6 +174,7 @@ describe('service-task-delegate-properties', function() {
 
       // if
       TestHelper.triggerValue(delegateInput, 'foo');
+
       // select 'expression'
       delegateOption.options[1].selected = 'selected';
       TestHelper.triggerEvent(delegateOption, 'change');

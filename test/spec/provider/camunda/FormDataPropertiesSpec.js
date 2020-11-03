@@ -90,6 +90,7 @@ describe('form-data-properties', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -123,6 +124,7 @@ describe('form-data-properties', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 

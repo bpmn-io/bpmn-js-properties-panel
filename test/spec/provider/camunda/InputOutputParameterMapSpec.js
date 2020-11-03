@@ -409,6 +409,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -421,6 +422,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -494,6 +496,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -506,6 +509,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -573,6 +577,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -582,6 +587,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -649,6 +655,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -658,6 +665,7 @@ describe('input-output-parameterType-map', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();

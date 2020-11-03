@@ -383,6 +383,7 @@ describe('input-output-parameterType-text', function() {
 
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -392,6 +393,7 @@ describe('input-output-parameterType-text', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

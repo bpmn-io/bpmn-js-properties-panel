@@ -114,6 +114,7 @@ describe('script-properties', function() {
 
     // given
     expect(scriptFormat.value).is.empty;
+
     // 'script' is the default value
     expect(scriptType.value).to.equal('script');
     expect(scriptValue.value).is.empty;

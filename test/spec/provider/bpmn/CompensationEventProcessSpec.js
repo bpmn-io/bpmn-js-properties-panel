@@ -187,12 +187,14 @@ describe('compensation-event-process', function() {
     }));
 
     it('should show the wait for completion check box as checked', function() {
+
       // then
       expect(waitForCompletionCheckbox.checked).to.be.false;
     });
 
 
     it('should show the referenced activity', function() {
+
       // then
       expect(activityRefSelectBox.value).to.equal('callActivity');
     });
@@ -207,6 +209,7 @@ describe('compensation-event-process', function() {
     describe('from checked to unchecked', function() {
 
       beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_0jzdpvk');
         bo = getBusinessObject(shape);
@@ -229,6 +232,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -238,6 +242,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -257,6 +262,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -266,6 +272,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -282,6 +289,7 @@ describe('compensation-event-process', function() {
     describe('from uncheck to checked', function() {
 
       beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_1f51k5d');
         bo = getBusinessObject(shape);
@@ -304,6 +312,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -313,6 +322,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -331,6 +341,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -340,6 +351,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -362,6 +374,7 @@ describe('compensation-event-process', function() {
     describe('from undefined to an activity', function() {
 
       beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_1f51k5d');
         bo = getBusinessObject(shape);
@@ -385,6 +398,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -394,6 +408,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -413,6 +428,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -422,6 +438,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -437,6 +454,7 @@ describe('compensation-event-process', function() {
     describe('from an activity to another activity', function() {
 
       beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_0jzdpvk');
         bo = getBusinessObject(shape);
@@ -460,6 +478,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -470,6 +489,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -489,6 +509,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -498,6 +519,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -514,6 +536,7 @@ describe('compensation-event-process', function() {
     describe('from an activity to undefined', function() {
 
       beforeEach(inject(function(propertiesPanel, selection, elementRegistry) {
+
         // given
         var shape = elementRegistry.get('IntermediateThrowEvent_0jzdpvk');
         bo = getBusinessObject(shape);
@@ -536,6 +559,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -546,6 +570,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -564,6 +589,7 @@ describe('compensation-event-process', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -573,6 +599,7 @@ describe('compensation-event-process', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();

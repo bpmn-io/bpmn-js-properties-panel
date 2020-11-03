@@ -135,6 +135,7 @@ describe('escalation-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(select.value).to.equal('Escalation_2');
 
@@ -144,6 +145,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -156,6 +158,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -172,6 +175,7 @@ describe('escalation-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(escalationEventDefinition.escalationRef).to.be.ok;
           expect(escalationEventDefinition.escalationRef.id).to.equal('Escalation_2');
@@ -179,6 +183,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -189,6 +194,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -217,6 +223,7 @@ describe('escalation-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(select.value).to.equal('');
 
@@ -226,6 +233,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -238,6 +246,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -254,12 +263,14 @@ describe('escalation-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(escalationEventDefinition.escalationRef).not.to.be.ok;
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -270,6 +281,7 @@ describe('escalation-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();

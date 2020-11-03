@@ -12,6 +12,7 @@ var entrySelect = require('./Helper').entrySelect,
 describe('element-templates/parts - Chooser', function() {
 
   it('should boostrap with bpmn-js', function() {
+
     // given
     var diagramXML = require('./ChooserProps.bpmn'),
         elementTemplates = require('./ChooserProps.json');

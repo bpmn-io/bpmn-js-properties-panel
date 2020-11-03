@@ -81,6 +81,7 @@ describe('link-properties', function() {
     TestHelper.triggerValue(inputField, 'foo', 'change');
 
     var linkName = bo.get('eventDefinitions')[0].name;
+
     // then
     // the link event definition name is changed
     expect(inputField.value).to.equal(linkName);

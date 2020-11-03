@@ -89,6 +89,7 @@ describe('extensionElements-properties-collaboration', function() {
     var participant;
 
     beforeEach(inject(function(elementRegistry, selection) {
+
       // given
       participant = elementRegistry.get('Participant_Without_Props');
       selection.select(participant);
@@ -101,6 +102,7 @@ describe('extensionElements-properties-collaboration', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         container = propertiesPanel._container;
+
         // when
         clickAddProperty(container);
       }));
@@ -118,6 +120,7 @@ describe('extensionElements-properties-collaboration', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -151,6 +154,7 @@ describe('extensionElements-properties-collaboration', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -220,6 +224,7 @@ describe('extensionElements-properties-collaboration', function() {
     var startEvent;
 
     beforeEach(inject(function(elementRegistry, selection) {
+
       // given
       startEvent = elementRegistry.get('StartEvent_1');
       selection.select(startEvent);
@@ -232,6 +237,7 @@ describe('extensionElements-properties-collaboration', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         container = propertiesPanel._container;
+
         // when
         clickAddProperty(container);
       }));
@@ -249,6 +255,7 @@ describe('extensionElements-properties-collaboration', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -282,6 +289,7 @@ describe('extensionElements-properties-collaboration', function() {
           var propertyRow = domQuery('[data-index="0"]', propertiesTable);
 
           expect(propertyRow).to.exist;
+
           // expect the row to contain 2 input fields and a remove button
           expect(propertyRow.childNodes).to.have.length(3);
 
@@ -351,6 +359,7 @@ describe('extensionElements-properties-collaboration', function() {
     var participant;
 
     beforeEach(inject(function(elementRegistry, selection) {
+
       // given
       participant = elementRegistry.get('Participant_With_Props');
       selection.select(participant);
@@ -363,6 +372,7 @@ describe('extensionElements-properties-collaboration', function() {
 
       beforeEach(inject(function(propertiesPanel) {
         container = propertiesPanel._container;
+
         // when
         clickAddProperty(container);
       }));

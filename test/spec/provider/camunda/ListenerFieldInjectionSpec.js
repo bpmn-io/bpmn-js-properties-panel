@@ -116,6 +116,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
@@ -162,6 +163,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
@@ -207,6 +209,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
@@ -253,6 +256,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
@@ -299,6 +303,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
@@ -350,6 +355,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, EXECUTION_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 
@@ -560,6 +566,7 @@ describe('listener-fieldInjection-properties', function() {
 
         // select listener
         selectOption(propertiesPanel._container, TASK_LISTENER_SELECT_ELEMENT);
+
         // select field
         selectOption(propertiesPanel._container, FIELDS_SELECT_ELEMENT);
 

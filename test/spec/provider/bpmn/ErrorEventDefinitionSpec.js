@@ -189,6 +189,7 @@ describe('error-event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -198,6 +199,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -215,6 +217,7 @@ describe('error-event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -224,6 +227,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -264,6 +268,7 @@ describe('error-event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -273,6 +278,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -290,6 +296,7 @@ describe('error-event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -299,6 +306,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -347,6 +355,7 @@ describe('error-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(select.value).to.equal('Error_2');
 
@@ -356,6 +365,7 @@ describe('error-event-properties', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -368,6 +378,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -385,6 +396,7 @@ describe('error-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(errorEventDefinition.errorRef).to.be.ok;
           expect(errorEventDefinition.errorRef.id).to.equal('Error_2');
@@ -392,6 +404,7 @@ describe('error-event-properties', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -402,6 +415,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -430,6 +444,7 @@ describe('error-event-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(select.value).to.equal('');
 
@@ -439,6 +454,7 @@ describe('error-event-properties', function() {
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -451,6 +467,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -468,12 +485,14 @@ describe('error-event-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(errorEventDefinition.errorRef).not.to.be.ok;
         });
 
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -484,6 +503,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -560,6 +580,7 @@ describe('error-event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -569,6 +590,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -586,6 +608,7 @@ describe('error-event-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -595,6 +618,7 @@ describe('error-event-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -639,6 +663,7 @@ describe('error-event-properties', function() {
       });
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -649,6 +674,7 @@ describe('error-event-properties', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();
@@ -667,6 +693,7 @@ describe('error-event-properties', function() {
       });
 
       it('should undo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
 
@@ -676,6 +703,7 @@ describe('error-event-properties', function() {
 
 
       it('should redo', inject(function(commandStack) {
+
         // when
         commandStack.undo();
         commandStack.redo();

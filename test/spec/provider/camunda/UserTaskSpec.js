@@ -83,6 +83,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(assigneeInput, '');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('assignee')).to.be.undefined;
@@ -101,6 +102,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(candidateUserInput, 'Kermit, Piggy');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('candidateUsers')).to.equal('Kermit, Piggy');
@@ -119,6 +121,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(candidateUserInput, '');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('candidateUsers')).to.be.undefined;
@@ -137,6 +140,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(candidateGroups, 'Administration, IT');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('candidateGroups')).to.equal('Administration, IT');
@@ -155,6 +159,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(candidateGroups, '');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('candidateGroups')).to.be.undefined;
@@ -173,6 +178,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(dueDateInput, '2015-06-26T09:57:00');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('dueDate')).to.equal('2015-06-26T09:57:00');
@@ -191,6 +197,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(dueDateInput, '');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('dueDate')).to.be.undefined;
@@ -209,6 +216,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(followUpDateInput, '2015-06-26T09:57:00');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('followUpDate')).to.equal('2015-06-26T09:57:00');
@@ -227,6 +235,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(followUpDateInput, '');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('followUpDate')).to.be.undefined;
@@ -245,6 +254,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(priority, '100');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('priority')).to.equal('100');
@@ -263,6 +273,7 @@ describe('user-task-properties', function() {
 
     // if
     TestHelper.triggerValue(priority, '');
+
     // then
     var taskBo = getBusinessObject(taskShape);
     expect(taskBo.get('priority')).to.be.undefined;

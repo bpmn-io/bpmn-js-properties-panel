@@ -123,6 +123,7 @@ describe('multiInstance-loop-properties', function() {
 
 
     it('should fetch the loop cardinality', function() {
+
       // then
       var loopCardinality = loopCharacteristics.get('loopCardinality').get('body');
 
@@ -131,6 +132,7 @@ describe('multiInstance-loop-properties', function() {
 
 
     it('should fetch the collection', function() {
+
       // then
       var collection = loopCharacteristics.get('camunda:collection');
 
@@ -139,6 +141,7 @@ describe('multiInstance-loop-properties', function() {
 
 
     it('should fetch the element variable', function() {
+
       // then
       var elementVariable = loopCharacteristics.get('camunda:elementVariable');
 
@@ -147,6 +150,7 @@ describe('multiInstance-loop-properties', function() {
 
 
     it('should fetch the completionCondition', function() {
+
       // then
       var completionCondition = loopCharacteristics.get('completionCondition').get('body');
 
@@ -244,6 +248,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -253,6 +258,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -271,6 +277,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -280,6 +287,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -321,6 +329,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -330,6 +339,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -349,6 +359,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -358,6 +369,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -400,6 +412,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -409,6 +422,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -427,6 +441,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -437,6 +452,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -481,6 +497,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -490,6 +507,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -508,6 +526,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -517,6 +536,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -558,6 +578,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -567,6 +588,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -585,6 +607,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -594,6 +617,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -635,6 +659,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -644,6 +669,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -662,6 +688,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -671,6 +698,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -715,6 +743,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -724,6 +753,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -742,6 +772,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -751,6 +782,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -792,6 +824,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -801,6 +834,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -819,6 +853,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -828,6 +863,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -869,6 +905,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -878,6 +915,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -896,6 +934,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -905,6 +944,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -952,6 +992,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -961,6 +1002,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -979,6 +1021,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -988,6 +1031,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1029,6 +1073,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1038,6 +1083,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1057,6 +1103,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1066,6 +1113,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1108,6 +1156,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1117,6 +1166,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1135,6 +1185,7 @@ describe('multiInstance-loop-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -1145,6 +1196,7 @@ describe('multiInstance-loop-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -1284,6 +1336,7 @@ describe('multiInstance-loop-properties', function() {
 
 
   it('should hide the exclusive box when disabled', inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('ServiceTask4');
 
@@ -1400,6 +1453,7 @@ describe('multiInstance-loop-properties', function() {
 
 
   it('should hide the job retry time cycle field when disabled', inject(function(propertiesPanel, selection, elementRegistry) {
+
     // given
     var shape = elementRegistry.get('ServiceTask4');
 

@@ -159,11 +159,13 @@ describe('documentation-participant-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -173,6 +175,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -186,12 +189,14 @@ describe('documentation-participant-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(bo.get('documentation')).to.include(getDocumentation(bo));
           expect(getDocumentation(bo).get('text')).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -202,6 +207,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -235,11 +241,13 @@ describe('documentation-participant-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -249,6 +257,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -262,6 +271,7 @@ describe('documentation-participant-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(bo.get('documentation')).to.have.length(1);
           expect(bo.get('documentation')).to.include(getDocumentation(bo));
@@ -269,6 +279,7 @@ describe('documentation-participant-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -278,6 +289,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -312,11 +324,13 @@ describe('documentation-participant-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -326,6 +340,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -339,6 +354,7 @@ describe('documentation-participant-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(bo.get('documentation')).to.have.length(1);
           expect(bo.get('documentation')).to.include(getDocumentation(bo));
@@ -346,6 +362,7 @@ describe('documentation-participant-properties', function() {
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -355,6 +372,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -389,11 +407,13 @@ describe('documentation-participant-properties', function() {
       describe('in the DOM', function() {
 
         it('should execute', function() {
+
           // then
           expect(field.textContent).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -403,6 +423,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
@@ -416,12 +437,14 @@ describe('documentation-participant-properties', function() {
       describe('on the business object', function() {
 
         it('should execute', function() {
+
           // then
           expect(bo.get('documentation')).to.include(getDocumentation(bo));
           expect(getDocumentation(bo).get('text')).to.equal('DOCS');
         });
 
         it('should undo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
 
@@ -432,6 +455,7 @@ describe('documentation-participant-properties', function() {
 
 
         it('should redo', inject(function(commandStack) {
+
           // when
           commandStack.undo();
           commandStack.redo();
