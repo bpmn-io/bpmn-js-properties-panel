@@ -3,6 +3,3 @@ node_js: 14
 
 script:
   - npm run all
-before_script:
-  - ./tasks/wiredeps
-
