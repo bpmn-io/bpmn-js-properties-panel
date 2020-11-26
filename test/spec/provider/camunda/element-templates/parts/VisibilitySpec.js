@@ -35,7 +35,6 @@ describe('element-templates/parts - Visibility', function() {
 
     expectHidden([
       'asyncBefore',
-      'elementTemplate-chooser',
       'executionListeners'
     ]);
   }));
@@ -61,7 +60,6 @@ describe('element-templates/parts - Visibility', function() {
       ]);
 
       expectHidden([
-        'elementTemplate-chooser',
         'executionListeners'
       ]);
     }));
@@ -94,7 +92,6 @@ describe('element-templates/parts - Visibility', function() {
           'element-template-element-id',
           'element-template-element-name',
           'asyncBefore',
-          'elementTemplate-chooser',
           'executionListeners'
         ]);
       }));
@@ -127,7 +124,6 @@ describe('element-templates/parts - Visibility', function() {
           'element-template-element-id',
           'element-template-element-name',
           'asyncBefore',
-          'elementTemplate-chooser',
           'executionListeners'
         ]);
       }));
@@ -160,7 +156,6 @@ describe('element-templates/parts - Visibility', function() {
           'element-template-description',
           'element-template-element-id',
           'element-template-element-name',
-          'elementTemplate-chooser',
           'executionListeners'
         ]);
 
@@ -200,7 +195,6 @@ describe('element-templates/parts - Visibility', function() {
         ]);
 
         expectHidden([
-          'elementTemplate-chooser',
           'executionListeners'
         ]);
       }));

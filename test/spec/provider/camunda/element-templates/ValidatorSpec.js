@@ -16,12 +16,12 @@ describe('element-templates - Validator', function() {
   }
 
 
-  it('should accept vip-ordering example template', function() {
+  it('should accept simple example template', function() {
 
     // given
     var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/vip-ordering');
+    var templateDescriptors = require('./fixtures/simple');
 
     // when
     templates.addAll(templateDescriptors);
@@ -29,7 +29,7 @@ describe('element-templates - Validator', function() {
     // then
     expect(errors(templates)).to.be.empty;
 
-    expect(valid(templates)).to.have.length(1);
+    expect(valid(templates)).to.have.length(6);
   });
 
 
@@ -130,6 +130,23 @@ describe('element-templates - Validator', function() {
 
     // then
     expect(errors(templates)).to.contain('template id <foo> already used');
+
+    expect(valid(templates)).to.have.length(1);
+  });
+
+
+  it('should reject duplicate id and version', function() {
+
+    // given
+    var templates = new Validator();
+
+    var templateDescriptors = require('./fixtures/error-id-version-duplicate');
+
+    // when
+    templates.addAll(templateDescriptors);
+
+    // then
+    expect(errors(templates)).to.contain('template id <foo> and version <1> already used');
 
     expect(valid(templates)).to.have.length(1);
   });

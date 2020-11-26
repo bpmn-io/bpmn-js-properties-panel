@@ -8,6 +8,10 @@ var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,
     bootstrap = require('./Helper').bootstrap;
 
+var getOptions = require('lib/provider/camunda/element-templates/parts/Helper').getOptions;
+
+var find = require('lodash/find');
+
 
 describe('element-templates/parts - Chooser', function() {
 
@@ -30,10 +34,10 @@ describe('element-templates/parts - Chooser', function() {
     beforeEach(bootstrap(diagramXML, elementTemplates));
 
 
-    it('should hide with no templates', inject(function() {
+    it('should be hidden (no templates)', inject(function() {
 
       // given
-      selectAndGet('Gateway');
+      selectAndGet('ExclusiveGateway_1');
 
       // when
       var chooser = entrySelect('elementTemplate-chooser');
@@ -43,128 +47,72 @@ describe('element-templates/parts - Chooser', function() {
     }));
 
 
-    it('should show with existing templates', inject(function() {
+    it('should be hidden (template applied)', inject(function() {
 
       // given
-      selectAndGet('Task_C');
+      selectAndGet('Task_2');
 
       // when
-      var options = getElementTemplates();
+      var chooser = entrySelect('elementTemplate-chooser');
 
       // then
-      expect(options).to.eql([
-        { value: '', selected: true },
-        { value: 'user.task', selected: false },
-        { value: 'other.user.task', selected: false }
-      ]);
+      expect(chooser).not.to.exist;
     }));
 
 
-    it('should indicate choosen template', inject(function() {
-
-      // given
-      selectAndGet('Task_A');
+    it('should be visible with options', inject(function() {
 
       // when
-      var options = getElementTemplates();
+      selectAndGet('Task_1');
 
       // then
-      expect(options).to.eql([
-        { value: '', selected: false },
-        { value: 'a.task', selected: true },
-        { value: 'other.task', selected: false }
-      ]);
+      expectOptions([{
+        name: '',
+        value: 'element-template-option-empty'
+      }, {
+        name: 'Task Template 1 v1 (v1)',
+        value: 'element-template-option-0',
+        id: 'task-template-1',
+        version: 1
+      }, {
+        name: 'Task Template 2 v1 (v1)',
+        value: 'element-template-option-1',
+        id: 'task-template-2',
+        version: 1
+      }, {
+        name: 'Task Template 2 v2 (v2)',
+        value: 'element-template-option-2',
+        id: 'task-template-2',
+        version: 2
+      }]);
+
+      expectOptionSelected('element-template-option-empty');
     }));
 
 
-    it('should indicate <Unknown Template> option', inject(function() {
-
-      // given
-      selectAndGet('Task_B');
-
-      // when
-      var options = getElementTemplates();
-
-      // then
-      expect(options).to.eql([
-        { value: '', selected: false },
-        { value: 'a.task', selected: false },
-        { value: 'other.task', selected: false },
-        { value: 'b.task', selected: true }
-      ]);
-    }));
-
-
-    it('should indicate <Unknown Template> option / no templates', inject(function() {
-
-      // given
-      selectAndGet('Gateway_MissingTemplate');
-
-      // when
-      var options = getElementTemplates();
-
-      // then
-      expect(options).to.eql([
-        { value: '', selected: false },
-        { value: 'some.gateway', selected: true }
-      ]);
-    }));
-
-
-    it('should be disabled with applied default template', inject(function() {
-
-      // given
-      selectAndGet('StartEvent_DefaultTemplate');
-
-      // when
-      var options = getElementTemplates();
-
-      // then
-      expect(isChooserDisabled()).to.be.true;
-      expect(options).to.eql([
-        { value: 'start.event.default', selected: true }
-      ]);
-    }));
-
-    it('should be enabled with no applied template and existing default template',
+    it('should be visible with options (default template)',
       inject(function() {
 
-        // given
-        selectAndGet('StartEvent_NoTemplate');
-
         // when
-        var options = getElementTemplates();
+        selectAndGet('StartEvent_1');
 
         // then
-        expect(isChooserDisabled()).to.be.false;
-        expect(options).to.eql([
-          { value: '', selected: true },
-          { value: 'start.event.default', selected: false }
-        ]);
-      }));
+        expectOptions([{
+          name: '',
+          value: 'element-template-option-empty'
+        }, {
+          name: 'Start Event Template 1',
+          value: 'element-template-option-0',
+          id: 'start-event-template-1',
+        }]);
 
-
-    it('should be enabled with applied template and existing default template',
-      inject(function() {
-
-        // given
-        selectAndGet('StartEvent_Template');
-
-        // when
-        var options = getElementTemplates();
-
-        // then
-        expect(isChooserDisabled()).to.be.false;
-        expect(options).to.eql([
-          { value: 'start.event.other', selected: true },
-          { value: 'start.event.default', selected: false }
-        ]);
+        expectOptionSelected('element-template-option-empty');
       }));
 
   });
 
 
-  describe('interaction', function() {
+  describe('change element template', function() {
 
     var diagramXML = require('./ChooserProps.bpmn'),
         elementTemplates = require('./ChooserProps.json');
@@ -172,31 +120,33 @@ describe('element-templates/parts - Chooser', function() {
     beforeEach(bootstrap(diagramXML, elementTemplates));
 
 
-    it('should assign template', inject(function() {
+    it('should do', inject(function() {
 
       // given
-      var task = selectAndGet('Task_C');
+      var task = selectAndGet('Task_1');
 
       // when
-      switchTemplate('other.user.task');
+      changeTemplate('task-template-1', 1);
 
       // then
-      expect(task.get('camunda:modelerTemplate')).to.eql('other.user.task');
+      expect(task.get('camunda:modelerTemplate')).to.eql('task-template-1');
+      expect(task.get('camunda:modelerTemplateVersion')).to.eql(1);
     }));
 
 
-    it('should undo switch template', inject(function(commandStack) {
+    it('should undo', inject(function(commandStack) {
 
       // given
-      var task = selectAndGet('Task_A');
+      var task = selectAndGet('Task_1');
 
-      switchTemplate('other.task');
+      changeTemplate('task-template-1', 1);
 
       // when
       commandStack.undo();
 
       // then
-      expect(task.get('camunda:modelerTemplate')).to.eql('a.task');
+      expect(task.get('camunda:modelerTemplate')).not.to.exist;
+      expect(task.get('camunda:modelerTemplateVersion')).not.to.exist;
     }));
 
   });
@@ -204,31 +154,49 @@ describe('element-templates/parts - Chooser', function() {
 });
 
 
-function isChooserDisabled() {
-  var templateSelect = entrySelect('elementTemplate-chooser', 'select');
+// helpers //////////
 
-  return templateSelect.disabled;
-}
+function expectOptions(expected) {
+  TestHelper.getBpmnJS().invoke(function(elementTemplates, selection, translate) {
+    var element = selection.get()[ 0 ];
 
+    expect(element).to.exist;
 
-function getElementTemplates() {
-  var options = entrySelect.all('elementTemplate-chooser', 'select option');
+    var options = getOptions(element, elementTemplates, translate);
 
-  return options.map(function(o) {
-    return {
-      value: o.value,
-      selected: o.selected
-    };
+    expect(options).to.eql(expected);
   });
 }
 
+function expectOptionSelected(expected) {
+  TestHelper.getBpmnJS().invoke(function(elementTemplates, selection, translate) {
+    var element = selection.get()[ 0 ];
 
-function switchTemplate(templateId) {
+    expect(element).to.exist;
 
-  var templateSelect = entrySelect('elementTemplate-chooser', 'select'),
-      option = entrySelect('elementTemplate-chooser', 'option[value="' + templateId + '"]');
+    var select = entrySelect('elementTemplate-chooser', 'select');
 
-  option.selected = 'selected';
+    expect(select.value).to.equal(expected);
+  });
+}
 
-  TestHelper.triggerEvent(templateSelect, 'change');
+function changeTemplate(id, version) {
+  TestHelper.getBpmnJS().invoke(function(elementTemplates, selection, translate) {
+    var element = selection.get()[ 0 ];
+
+    expect(element).to.exist;
+
+    var options = getOptions(element, elementTemplates, translate);
+
+    var option = find(options, function(option) {
+      return option.id = id && option.version === version;
+    });
+
+    var select = entrySelect('elementTemplate-chooser', 'select'),
+        selectOption = entrySelect('elementTemplate-chooser', 'option[value="' + option.value + '"]');
+
+    selectOption.selected = 'selected';
+
+    TestHelper.triggerEvent(select, 'change');
+  });
 }

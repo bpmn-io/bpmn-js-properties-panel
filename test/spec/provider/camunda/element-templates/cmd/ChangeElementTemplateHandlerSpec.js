@@ -17,6 +17,17 @@ var Helper = require('lib/provider/camunda/element-templates/Helper');
 var findExtension = Helper.findExtension,
     findExtensions = Helper.findExtensions;
 
+var modules = [
+  coreModule,
+  modelingModule,
+  propertiesPanelCommandsModule,
+  elementTemplatesModule
+];
+
+var moddleExtensions = {
+  camunda: camundaModdlePackage
+};
+
 
 describe('element-templates - cmd', function() {
 
@@ -29,6 +40,75 @@ describe('element-templates - cmd', function() {
 
   describe('should apply element template', function() {
 
+    describe('setting camunda:modelerTemplate and camunda:modelerTemplateVersion', function() {
+
+      var diagramXML = require('./task-clean.bpmn');
+
+      var newTemplate = require('./version');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: modules,
+        moddleExtensions: moddleExtensions
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        // when
+        applyTemplate(task, newTemplate);
+
+        // then
+        expect(businessObject.modelerTemplate).to.exist;
+        expect(businessObject.modelerTemplate).to.equal('foo');
+        expect(businessObject.modelerTemplateVersion).to.exist;
+        expect(businessObject.modelerTemplateVersion).to.equal(1);
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        applyTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(businessObject.modelerTemplate).not.to.exist;
+        expect(businessObject.modelerTemplateVersion).not.to.exist;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        applyTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(businessObject.modelerTemplate).to.exist;
+        expect(businessObject.modelerTemplate).to.equal('foo');
+        expect(businessObject.modelerTemplateVersion).to.exist;
+        expect(businessObject.modelerTemplateVersion).to.equal(1);
+      }));
+
+    });
+
+
     describe('setting bpmn:conditionExpression', function() {
 
       var diagramXML = require('./sequenceFlow-clean.bpmn');
@@ -37,15 +117,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -101,15 +174,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -163,15 +229,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -258,15 +317,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -332,15 +384,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -402,15 +447,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -496,15 +534,8 @@ describe('element-templates - cmd', function() {
 
         beforeEach(bootstrapModeler(diagramXML, {
           container: container,
-          modules: [
-            coreModule,
-            modelingModule,
-            propertiesPanelCommandsModule,
-            elementTemplatesModule
-          ],
-          moddleExtensions: {
-            camunda: camundaModdlePackage
-          }
+          modules: modules,
+          moddleExtensions: moddleExtensions
         }));
 
 
@@ -542,6 +573,71 @@ describe('element-templates - cmd', function() {
 
   describe('should unset element template', function() {
 
+    describe('unsetting camunda:modelerTemplate and camunda:modelerTemplateVersion', function() {
+
+      var diagramXML = require('./task-version.bpmn');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: modules,
+        moddleExtensions: moddleExtensions
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        // when
+        applyTemplate(task, null);
+
+        // then
+        expect(businessObject.modelerTemplate).not.to.exist;
+        expect(businessObject.modelerTemplateVersion).not.to.exist;
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        applyTemplate(task, null);
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(businessObject.modelerTemplate).to.exist;
+        expect(businessObject.modelerTemplate).to.equal('bar');
+        expect(businessObject.modelerTemplateVersion).to.exist;
+        expect(businessObject.modelerTemplateVersion).to.equal(2);
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        applyTemplate(task, null);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(businessObject.modelerTemplate).not.to.exist;
+        expect(businessObject.modelerTemplateVersion).not.to.exist;
+      }));
+
+    });
+
+
     describe('with bpmn:conditionExpression', function() {
 
       var diagramXML = require('./sequenceFlow-clean.bpmn');
@@ -550,15 +646,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
       beforeEach(inject(function(elementRegistry) {
@@ -629,15 +718,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -694,15 +776,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
       beforeEach(inject(function(elementRegistry) {
@@ -796,15 +871,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
       beforeEach(inject(function(elementRegistry) {
@@ -882,15 +950,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -968,15 +1029,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
       beforeEach(inject(function(elementRegistry) {
@@ -1061,6 +1115,77 @@ describe('element-templates - cmd', function() {
 
   describe('should change element template', function() {
 
+    describe('changing camunda:modelerTemplate and camunda:modelerTemplateVersion', function() {
+
+      var diagramXML = require('./task-version.bpmn');
+
+      var newTemplate = require('./version');
+
+      beforeEach(bootstrapModeler(diagramXML, {
+        container: container,
+        modules: modules,
+        moddleExtensions: moddleExtensions
+      }));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        // when
+        applyTemplate(task, newTemplate);
+
+        // then
+        expect(businessObject.modelerTemplate).to.exist;
+        expect(businessObject.modelerTemplate).to.equal('foo');
+        expect(businessObject.modelerTemplateVersion).to.exist;
+        expect(businessObject.modelerTemplateVersion).to.equal(1);
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        applyTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(businessObject.modelerTemplate).to.exist;
+        expect(businessObject.modelerTemplate).to.equal('bar');
+        expect(businessObject.modelerTemplateVersion).to.exist;
+        expect(businessObject.modelerTemplateVersion).to.equal(2);
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1'),
+            businessObject = task.businessObject;
+
+        applyTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(businessObject.modelerTemplate).to.exist;
+        expect(businessObject.modelerTemplate).to.equal('foo');
+        expect(businessObject.modelerTemplateVersion).to.exist;
+        expect(businessObject.modelerTemplateVersion).to.equal(1);
+      }));
+
+    });
+
+
     describe('setting camunda:class', function() {
 
       var diagramXML = require('./serviceTask-camunda-class.bpmn');
@@ -1069,15 +1194,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -1133,15 +1251,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -1189,15 +1300,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -1250,15 +1354,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -1318,6 +1415,7 @@ describe('element-templates - cmd', function() {
 
     });
 
+
     describe('setting scope connector', function() {
 
       var diagramXML = require('./task-custom-connector.bpmn');
@@ -1326,15 +1424,8 @@ describe('element-templates - cmd', function() {
 
       beforeEach(bootstrapModeler(diagramXML, {
         container: container,
-        modules: [
-          coreModule,
-          modelingModule,
-          propertiesPanelCommandsModule,
-          elementTemplatesModule
-        ],
-        moddleExtensions: {
-          camunda: camundaModdlePackage
-        }
+        modules: modules,
+        moddleExtensions: moddleExtensions
       }));
 
 
@@ -1392,17 +1483,17 @@ describe('element-templates - cmd', function() {
 
     });
 
-
   });
+
 });
 
 
 
-// test helpers /////////////////////////////////////
+// test helpers //////////
 
 function applyTemplate(element, newTemplate, oldTemplate) {
 
-  return TestHelper.getBpmnJS().invoke(function(elementRegistry, commandStack) {
+  return TestHelper.getBpmnJS().invoke(function(commandStack) {
 
     return commandStack.execute('propertiesPanel.camunda.changeTemplate', {
       element: element,
@@ -1411,4 +1502,5 @@ function applyTemplate(element, newTemplate, oldTemplate) {
     });
 
   });
+
 }

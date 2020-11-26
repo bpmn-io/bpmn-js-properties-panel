@@ -2,6 +2,7 @@
   {
     "name": "Task",
     "id": "task",
+    "version": 1,
     "appliesTo": [
       "bpmn:Task"
     ],
@@ -14,6 +15,7 @@
       "lastModified": 1000000000000
     },
     "id": "task.description",
+    "version": 1,
     "appliesTo": [
       "bpmn:Task"
     ],
@@ -36,6 +38,7 @@
       "lastModified": 1000000000000
     },
     "id": "startEvent.template",
+    "version": 1,
     "appliesTo": [
       "bpmn:StartEvent"
     ],
