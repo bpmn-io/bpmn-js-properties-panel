@@ -1,43 +1,36 @@
 [
   {
-    "name": "A Task",
-    "id": "a.task",
-    "appliesTo": [
-      "bpmn:ServiceTask"
-    ],
+    "id": "task-template-1",
+    "name":"Task Template 1 v1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
     "properties": []
   },
   {
-    "name": "Other Task",
-    "id": "other.task",
-    "appliesTo": [
-      "bpmn:ServiceTask"
-    ],
+    "id": "task-template-2",
+    "name":"Task Template 2 v1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
     "properties": []
   },
   {
-    "name": "User Task",
-    "id": "user.task",
-    "appliesTo": [
-      "bpmn:UserTask"
-    ],
+    "id": "task-template-2",
+    "name":"Task Template 2 v2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
     "properties": []
   },
   {
-    "name": "Other User Task",
-    "id": "other.user.task",
-    "appliesTo": [
-      "bpmn:UserTask"
-    ],
-    "properties": []
-  },
-  {
-    "name": "Start Event Default",
-    "id": "start.event.default",
-    "appliesTo": [
-      "bpmn:StartEvent"
-    ],
+    "id": "start-event-template-1",
+    "name":"Start Event Template 1",
     "isDefault": true,
+    "appliesTo": [ "bpmn:StartEvent" ],
+    "properties": []
+  },
+  {
+    "id": "start-event-template-2",
+    "name":"Start Event Template 2 (default)",
+    "appliesTo": [ "bpmn:StartEvent" ],
     "properties": []
   }
 ]

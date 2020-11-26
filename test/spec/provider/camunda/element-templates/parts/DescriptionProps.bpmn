@@ -2,9 +2,9 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1ysjldv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:task id="Task" name="Task" camunda:modelerTemplate="task" />
-    <bpmn:task id="Task_Description" name="Task_Description" camunda:modelerTemplate="task.description" camunda:asyncBefore="true" />
-    <bpmn:task id="Task_TemplateNotFound" name="Task_TemplateNotFound" camunda:modelerTemplate="task.noTemplate" />
-    <bpmn:startEvent id="StartEvent_Template" name="StartEvent_Template" camunda:modelerTemplate="StartEvent_Template" camunda:asyncBefore="true">
+    <bpmn:task id="Task_Description" name="Task_Description" camunda:modelerTemplate="task.description" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true" />
+    <bpmn:task id="Task_TemplateNotFound" name="Task_TemplateNotFound" camunda:modelerTemplate="task.noTemplate" camunda:modelerTemplateVersion="1" />
+    <bpmn:startEvent id="StartEvent_Template" name="StartEvent_Template" camunda:modelerTemplate="StartEvent_Template" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true">
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1iu9k3o">
         <bpmn:condition xsi:type="bpmn:tFormalExpression" />
       </bpmn:conditionalEventDefinition>

@@ -49,16 +49,16 @@ describe('element-templates/parts - Description Properties', function() {
   }));
 
 
-  it('should show date last modified', inject(function() {
+  it('should show version', inject(function() {
 
     // given
     selectAndGet('Task_Description');
 
     // when
-    var dateLastModifiedEntry = entrySelect('element-template-date-last-modified');
+    var versionEntry = entrySelect('element-template-version');
 
     // then
-    expect(dateLastModifiedEntry).to.exist;
+    expect(versionEntry).to.exist;
   }));
 
 

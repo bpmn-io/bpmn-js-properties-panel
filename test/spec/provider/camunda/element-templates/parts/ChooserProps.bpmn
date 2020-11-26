@@ -1,56 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.9.0-dev">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:serviceTask id="Task_A" name="A" camunda:modelerTemplate="a.task" camunda:async="true" />
-    <bpmn:serviceTask id="Task_B" name="B" camunda:modelerTemplate="b.task" camunda:javaDelegate="foo.Bar" />
-    <bpmn:userTask id="Task_C" name="C" />
-    <bpmn:parallelGateway id="Gateway" />
-    <bpmn:exclusiveGateway id="Gateway_MissingTemplate" camunda:modelerTemplate="some.gateway" />
-    <bpmn:startEvent id="StartEvent_Template" camunda:modelerTemplate="start.event.other">
-    </bpmn:startEvent>
-    <bpmn:startEvent id="StartEvent_NoTemplate" />
-    <bpmn:startEvent id="StartEvent_DefaultTemplate" camunda:modelerTemplate="start.event.default">
-    </bpmn:startEvent>
+    <bpmn:task id="Task_1" name="Task_1" />
+    <bpmn:startEvent id="StartEvent_1" name="StartEvent_1" />
+    <bpmn:task id="Task_2" name="Task_2" camunda:modelerTemplate="task-template-1" camunda:modelerTemplateVersion="1" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1" name="ExclusiveGateway_1" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="Task_A_di" bpmnElement="Task_A">
+      <bpmndi:BPMNShape id="Activity_1q11kb1_di" bpmnElement="Task_1">
         <dc:Bounds x="0" y="0" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_B_di" bpmnElement="Task_B">
-        <dc:Bounds x="149" y="0" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_C_di" bpmnElement="Task_C">
-        <dc:Bounds x="303" y="0" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ParallelGateway_1303ef9_di" bpmnElement="Gateway">
-        <dc:Bounds x="457" y="15" width="50" height="50" />
+      <bpmndi:BPMNShape id="Event_1dfgpdh_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="32" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="482" y="65" width="0" height="0" />
+          <dc:Bounds x="18" y="175" width="64" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_0cqbpp0_di" bpmnElement="Gateway_MissingTemplate" isMarkerVisible="true">
-        <dc:Bounds x="561" y="15" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="586" y="65" width="0" height="0" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_1rqy07x_di" bpmnElement="Task_2">
+        <dc:Bounds x="140" y="0" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_0raftso_di" bpmnElement="StartEvent_Template">
-        <dc:Bounds x="665" y="22" width="36" height="36" />
+      <bpmndi:BPMNShape id="Gateway_024k6c1_di" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds x="25" y="235" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="683" y="58" width="0" height="0" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_0e4fyyg_di" bpmnElement="StartEvent_NoTemplate">
-        <dc:Bounds x="755" y="22" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="773" y="58" width="0" height="0" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_15gzuhn_di" bpmnElement="StartEvent_DefaultTemplate">
-        <dc:Bounds x="840" y="22" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="858" y="58" width="0" height="0" />
+          <dc:Bounds x="8" y="292" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
