@@ -345,8 +345,7 @@ describe('input-parameters', function() {
   });
 
 
-
-  describe('set invalid parameter name', function(propertiesPanel) {
+  describe('set invalid parameter name', function() {
 
     var parameterNameInput,
         parameter;
@@ -452,7 +451,7 @@ describe('input-parameters', function() {
   });
 
 
-  describe('change parameter name', function(propertiesPanel) {
+  describe('change parameter name', function() {
 
     var parameterNameInput,
         parameter;
@@ -543,7 +542,7 @@ describe('input-parameters', function() {
 
   describe('input output element', function() {
 
-    describe('create', function(elementRegistry, selection) {
+    describe('create', function() {
 
       var bo;
 
@@ -593,7 +592,7 @@ describe('input-parameters', function() {
 
     });
 
-    describe('remove', function(elementRegistry, selection) {
+    describe('remove', function() {
 
       var bo;
 
@@ -665,7 +664,6 @@ describe('input-parameters', function() {
   });
 
 });
-
 
 
 // MODEL HELPER

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:serviceTask id="WITHOUT_INPUT_OUTPUT" name="Without Input/Output">
       <bpmn:extensionElements>
-        <camunda:connector>        <camunda:connectorId>foo</camunda:connectorId>
-</camunda:connector>
+        <camunda:connector>
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="WITH_INPUT_OUTPUT" name="With Input/Output">
