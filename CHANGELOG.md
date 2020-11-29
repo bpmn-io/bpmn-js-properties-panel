@@ -5,6 +5,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
+* 'FIX': correctly use an idPrefix to determine scriptType of i/o parameter in all cases ([#2007](https://github.com/camunda/camunda-modeler/issues/2007))
 
 ## 0.37.5
 
