@@ -24,7 +24,6 @@ var domQuery = require('min-dom').query,
 var find = require('lodash/find');
 
 
-
 describe('connector', function() {
 
   var diagramXML = require('./Connector.bpmn');
@@ -858,7 +857,7 @@ describe('connector', function() {
   });
 
 
-  describe('change parameter name', function(propertiesPanel) {
+  describe('change parameter name', function() {
 
     var parameterNameInput,
         parameter;

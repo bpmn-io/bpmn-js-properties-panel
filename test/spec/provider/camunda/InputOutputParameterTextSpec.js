@@ -680,6 +680,95 @@ describe('input-output-parameterType-text', function() {
 
   });
 
+
+  describe('change parameter script resource value given external resource script format', function() {
+
+    var parameterScriptResourceValueInput,
+        parameter;
+
+    beforeEach(inject(function(propertiesPanel, elementRegistry, selection) {
+
+      // given
+      var container = propertiesPanel._container;
+
+      var shape = elementRegistry.get('WITH_SCRIPT_INPUT_PARAMETERS');
+      selection.select(shape);
+
+      // select first parameter
+      selectInputParameter(container, 1);
+
+      parameterScriptResourceValueInput = getParameterScriptResourceValueInput(container, 1);
+      parameter = getInputParameters(getBusinessObject(shape))[1];
+
+      // when
+      TestHelper.triggerValue(parameterScriptResourceValueInput, 'foo', 'change');
+
+    }));
+
+    describe('in the DOM', function() {
+
+      it('should execute', function() {
+
+        // then
+        expect(parameterScriptResourceValueInput.value).to.equal('foo');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(parameterScriptResourceValueInput.value).to.equal('bar2');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(parameterScriptResourceValueInput.value).to.equal('foo');
+      }));
+
+    });
+
+    describe('on the business object', function() {
+
+      it('should execute', function() {
+
+        // then
+        expect(parameter.definition.resource).to.equal('foo');
+      });
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(parameter.definition.resource).to.equal('bar2');
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expect(parameter.definition.resource).to.equal('foo');
+      }));
+
+    });
+
+  });
+
 });
 
 
@@ -725,6 +814,10 @@ function getCursorPosition() {
       range = selection.getRangeAt(0);
 
   return range.startOffset;
+}
+
+function getParameterScriptResourceValueInput(container, id) {
+  return domQuery('input[id="input-parameter-' + id + 'cam-script-resource-val"]', getInputParametersGroup(container));
 }
 
 // property controls
