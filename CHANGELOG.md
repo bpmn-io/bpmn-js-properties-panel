@@ -5,7 +5,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
-* 'FIX': correctly use an idPrefix to determine scriptType of i/o parameter in all cases ([#2007](https://github.com/camunda/camunda-modeler/issues/2007))
+
+...
+
+## 0.37.6
+
+* `FIX`: escape element template not found description ([#397](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/397))
+* `FIX`: correctly use an idPrefix to determine scriptType of i/o parameter in all cases ([`aa287d54`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/aa287d54e1626190b942030d6f256e938875bfe0))
 
 ## 0.37.5
 
