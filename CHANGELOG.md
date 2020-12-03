@@ -12,6 +12,7 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FIX`: escape element template not found description ([#397](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/397))
 * `FIX`: correctly use an idPrefix to determine scriptType of i/o parameter in all cases ([`aa287d54`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/aa287d54e1626190b942030d6f256e938875bfe0))
+* `CHORE`: remove `bpmn-font` dependency
 
 ## 0.37.5
 
