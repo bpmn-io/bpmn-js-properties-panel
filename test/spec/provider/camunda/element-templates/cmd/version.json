@@ -1,8 +1,0 @@
-{
-  "id": "foo",
-  "name":"Foo",
-  "version": 1,
-  "isDefault": true,
-  "appliesTo": [ "bpmn:Task" ],
-  "properties": []
-}
