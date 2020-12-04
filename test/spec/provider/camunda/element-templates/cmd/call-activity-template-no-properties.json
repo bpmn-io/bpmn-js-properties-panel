@@ -1,0 +1,8 @@
+{
+  "name": "Call Activity Template no Properties",
+  "id": "call-activity-template-no-properties",
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": []
+}
