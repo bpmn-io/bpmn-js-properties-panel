@@ -1765,7 +1765,259 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
-    // TODO
+
+    describe('update camunda:In and camunda:Out', function() {
+
+      beforeEach(bootstrap(require('./call-activity.bpmn')));
+
+
+      describe('bpmn:CallActivity', function() {
+
+        it('property changed', inject(function(elementRegistry) {
+
+          // given
+          var callActivity = elementRegistry.get('CallActivity_1');
+
+          var oldTemplate = createTemplate([
+            {
+              value: 'in-1-old-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-1-target'
+              }
+            },
+            {
+              value: 'out-1-old-value',
+              binding: {
+                type: 'camunda:out',
+                source: 'out-1-source'
+              }
+            }
+          ]);
+
+          var newTemplate = createTemplate([
+            {
+              value: 'in-1-new-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-1-target'
+              }
+            },
+            {
+              value: 'out-1-new-value',
+              binding: {
+                type: 'camunda:out',
+                source: 'out-1-source'
+              }
+            }
+          ]);
+
+          changeTemplate('CallActivity_1', oldTemplate);
+
+          var camundaIn = findExtensions(callActivity, [ 'camunda:In' ])[ 0 ];
+
+          updateBusinessObject('CallActivity_1', camundaIn, {
+            source: 'in-1-changed-value'
+          });
+
+          var camundaOut = findExtensions(callActivity, [ 'camunda:Out' ])[ 0 ];
+
+          updateBusinessObject('CallActivity_1', camundaOut, {
+            target: 'out-1-changed-value'
+          });
+
+          // when
+          changeTemplate(callActivity, newTemplate, oldTemplate);
+
+          // then
+          var insAndOuts = findExtensions(callActivity, [ 'camunda:In', 'camunda:Out' ]);
+
+          expect(insAndOuts).to.have.length(2);
+          expect(insAndOuts).to.jsonEqual([
+            {
+              $type: 'camunda:In',
+              target: 'in-1-target',
+              source: 'in-1-changed-value'
+            },
+            {
+              $type: 'camunda:Out',
+              target: 'out-1-changed-value',
+              source: 'out-1-source'
+            }
+          ]);
+        }));
+
+
+        it('property unchanged', inject(function(elementRegistry) {
+
+          // given
+          var callActivity = elementRegistry.get('CallActivity_1');
+
+          var oldTemplate = createTemplate([
+            {
+              value: 'in-1-old-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-1-target'
+              }
+            },
+            {
+              value: 'out-1-old-value',
+              binding: {
+                type: 'camunda:out',
+                source: 'out-1-source'
+              }
+            }
+          ]);
+
+          var newTemplate = createTemplate([
+            {
+              value: 'in-1-new-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-1-target'
+              }
+            },
+            {
+              value: 'out-1-new-value',
+              binding: {
+                type: 'camunda:out',
+                source: 'out-1-source'
+              }
+            }
+          ]);
+
+          changeTemplate('CallActivity_1', oldTemplate);
+
+          // when
+          changeTemplate(callActivity, newTemplate, oldTemplate);
+
+          // then
+          var insAndOuts = findExtensions(callActivity, [ 'camunda:In', 'camunda:Out' ]);
+
+          expect(insAndOuts).to.have.length(2);
+          expect(insAndOuts).to.jsonEqual([
+            {
+              $type: 'camunda:In',
+              target: 'in-1-target',
+              source: 'in-1-new-value'
+            },
+            {
+              $type: 'camunda:Out',
+              target: 'out-1-new-value',
+              source: 'out-1-source'
+            }
+          ]);
+        }));
+
+
+        it('complex', inject(function(elementRegistry) {
+
+          // given
+          var callActivity = elementRegistry.get('CallActivity_1');
+
+          var oldTemplate = createTemplate([
+            {
+              value: 'in-1-old-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-1-target'
+              }
+            },
+            {
+              value: 'in-2-old-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-2-target'
+              }
+            },
+            {
+              binding: {
+                type: 'camunda:in',
+                variables: 'all'
+              }
+            },
+            {
+              value: '${in-old-business-key-value}',
+              binding: {
+                type: 'camunda:in:businessKey'
+              }
+            }
+          ]);
+
+          var newTemplate = createTemplate([
+            {
+              value: '${in-1-new-value}',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-1-target',
+                expression: true
+              }
+            },
+            {
+              value: 'in-2-new-value',
+              binding: {
+                type: 'camunda:in',
+                target: 'in-2-target',
+                local: true
+              }
+            },
+            {
+              value: '${in-new-business-key-value}',
+              binding: {
+                type: 'camunda:in:businessKey'
+              }
+            }
+          ]);
+
+          changeTemplate('CallActivity_1', oldTemplate);
+
+          var camundaIn = findExtensions(callActivity, [ 'camunda:In' ])[ 0 ];
+
+          updateBusinessObject('CallActivity_1', camundaIn, {
+            source: 'in-1-changed-value'
+          });
+
+          // when
+          changeTemplate(callActivity, newTemplate, oldTemplate);
+
+          // then
+          var insAndOuts = findExtensions(callActivity, [ 'camunda:In', 'camunda:Out' ]);
+
+          expect(insAndOuts).to.have.length(3);
+
+          // Expect 1st in to have been replaced due to change from source to source expression
+          // Expect 2nd in to have been updated and its `camunda:local` property set to true
+          // Expect variables=all in to have been removed
+          // Expect business key in to have been overridden
+          expect(insAndOuts).to.jsonEqual([
+            {
+              $type: 'camunda:In',
+              target: 'in-2-target',
+              source: 'in-2-new-value',
+              local: true
+            },
+            {
+              $type: 'camunda:In',
+              businessKey: '${in-new-business-key-value}',
+            },
+            {
+              $type: 'camunda:In',
+              target: 'in-1-target',
+              sourceExpression: '${in-1-new-value}'
+            }
+          ]);
+        }));
+
+      });
+
+
+      describe('bpmn:SignalEventDefinition', function() {
+
+        // Scope not yet supported
+      });
+
+    });
 
   });
 
