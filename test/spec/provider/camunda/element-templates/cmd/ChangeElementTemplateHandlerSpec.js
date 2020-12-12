@@ -35,7 +35,7 @@ var moddleExtensions = {
 };
 
 
-describe('element-templates - ChangeElementTemplateHandler', function() {
+describe.only('element-templates - ChangeElementTemplateHandler', function() {
 
   var container;
 
@@ -796,10 +796,10 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var inputOutput = findExtension(task, 'camunda:InputOutput');
 
           expect(inputOutput).to.exist;
-          expect(inputOutput.inputParameters).to.have.length(2);
-          expect(inputOutput.outputParameters).to.have.length(2);
+          expect(inputOutput.get('camunda:inputParameters')).to.have.length(2);
+          expect(inputOutput.get('camunda:outputParameters')).to.have.length(2);
 
-          expect(inputOutput.inputParameters).to.jsonEqual([
+          expect(inputOutput.get('camunda:inputParameters')).to.jsonEqual([
             {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
@@ -816,7 +816,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             }
           ]);
 
-          expect(inputOutput.outputParameters).to.jsonEqual([
+          expect(inputOutput.get('camunda:outputParameters')).to.jsonEqual([
             {
               $type: 'camunda:OutputParameter',
               name: 'output-1-value',
@@ -871,10 +871,10 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var inputOutput = findExtension(task, 'camunda:InputOutput');
 
           expect(inputOutput).to.exist;
-          expect(inputOutput.inputParameters).to.have.length(2);
-          expect(inputOutput.outputParameters).to.have.length(2);
+          expect(inputOutput.get('camunda:inputParameters')).to.have.length(2);
+          expect(inputOutput.get('camunda:outputParameters')).to.have.length(2);
 
-          expect(inputOutput.inputParameters).to.jsonEqual([
+          expect(inputOutput.get('camunda:inputParameters')).to.jsonEqual([
             {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
@@ -891,7 +891,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             }
           ]);
 
-          expect(inputOutput.outputParameters).to.jsonEqual([
+          expect(inputOutput.get('camunda:outputParameters')).to.jsonEqual([
             {
               $type: 'camunda:OutputParameter',
               name: 'output-1-value',
@@ -2019,6 +2019,362 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
+
+    describe('update camunda:InputParameter and camunda:OutputParameter', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn')));
+
+
+      it('property changed', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate([
+          {
+            value: 'input-1-old-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-1-name'
+            }
+          },
+          {
+            value: 'output-1-old-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        var newTemplate = createTemplate([
+          {
+            value: 'input-1-new-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-1-name'
+            }
+          },
+          {
+            value: 'output-1-new-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        var input = getInputParameter(task, 'input-1-name');
+
+        updateBusinessObject('Task_1', input, {
+          value: 'input-1-changed-value'
+        });
+
+        var output = getOutputParameter(task, 'output-1-source');
+
+        updateBusinessObject('Task_1', output, {
+          name: 'output-1-changed-value'
+        });
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var inputOutput = findExtension(task, 'camunda:InputOutput');
+
+        expect(inputOutput).to.exist;
+        expect(inputOutput.get('camunda:inputParameters')).to.have.length(1);
+        expect(inputOutput.get('camunda:outputParameters')).to.have.length(1);
+
+        expect(inputOutput.get('camunda:inputParameters')).to.jsonEqual([
+          {
+            $type: 'camunda:InputParameter',
+            name: 'input-1-name',
+            value: 'input-1-changed-value'
+          }
+        ]);
+
+        expect(inputOutput.get('camunda:outputParameters')).to.jsonEqual([
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'output-1-changed-value',
+            value: 'output-1-source'
+          }
+        ]);
+      }));
+
+
+      it('property unchanged', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate([
+          {
+            value: 'input-1-old-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-1-name'
+            }
+          },
+          {
+            value: 'output-1-old-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        var newTemplate = createTemplate([
+          {
+            value: 'input-1-new-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-1-name'
+            }
+          },
+          {
+            value: 'output-1-new-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var inputOutput = findExtension(task, 'camunda:InputOutput');
+
+        expect(inputOutput).to.exist;
+        expect(inputOutput.get('camunda:inputParameters')).to.have.length(1);
+        expect(inputOutput.get('camunda:outputParameters')).to.have.length(1);
+
+        expect(inputOutput.get('camunda:inputParameters')).to.jsonEqual([
+          {
+            $type: 'camunda:InputParameter',
+            name: 'input-1-name',
+            value: 'input-1-new-value'
+          }
+        ]);
+
+        expect(inputOutput.get('camunda:outputParameters')).to.jsonEqual([
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'output-1-new-value',
+            value: 'output-1-source'
+          }
+        ]);
+      }));
+
+
+      it('complex', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate([
+          {
+            value: '${input-1-old-value}',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-1-name',
+              scriptFormat: 'foo'
+            }
+          },
+          {
+            value: 'output-1-old-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: '${output-1-source}',
+              scriptFormat: 'foo'
+            }
+          },
+          {
+            value: 'input-2-old-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-2-name'
+            }
+          },
+          {
+            value: 'output-2-old-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-2-source'
+            }
+          },
+          {
+            value: 'input-3-old-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-3-name'
+            }
+          },
+          {
+            value: 'output-3-old-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-3-source'
+            }
+          }
+        ]);
+
+        var newTemplate = createTemplate([
+          {
+            value: '${input-1-new-value}',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-1-name',
+              scriptFormat: 'foo'
+            }
+          },
+          {
+            value: 'output-1-new-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: '${output-1-source}',
+              scriptFormat: 'foo'
+            }
+          },
+          {
+            value: '${input-2-new-value}',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-2-name',
+              scriptFormat: 'foo'
+            }
+          },
+          {
+            value: 'output-2-new-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: '${output-2-source}',
+              scriptFormat: 'foo'
+            }
+          },
+          {
+            value: 'input-4-new-value',
+            binding: {
+              type: 'camunda:inputParameter',
+              name: 'input-4-name'
+            }
+          },
+          {
+            value: 'output-4-new-value',
+            binding: {
+              type: 'camunda:outputParameter',
+              source: 'output-4-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        var input1 = getInputParameter(task, 'input-1-name');
+
+        updateBusinessObject('Task_1', input1.get('camunda:definition'), {
+          value: '${input-1-changed-value}'
+        });
+
+        var output1 = getOutputParameter(task, '${output-1-source}');
+
+        updateBusinessObject('Task_1', output1, {
+          name: 'output-1-changed-value'
+        });
+
+        var input2 = getInputParameter(task, 'input-2-name');
+
+        updateBusinessObject('Task_1', input2, {
+          value: '${input-2-changed-value}'
+        });
+
+        var output2 = getOutputParameter(task, 'output-2-source');
+
+        updateBusinessObject('Task_1', output2, {
+          name: 'output-2-changed-value'
+        });
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var inputOutput = findExtension(task, 'camunda:InputOutput');
+
+        expect(inputOutput).to.exist;
+        expect(inputOutput.get('camunda:inputParameters')).to.have.length(3);
+        expect(inputOutput.get('camunda:outputParameters')).to.have.length(3);
+
+        // Expect 1st input to not have been overridden because it was changed
+        // Expect 2nd input to have been removed because property changed to script
+        // Expect 3rd input to have been removed
+        // Expect 4th input to have been added
+        expect(inputOutput.get('camunda:inputParameters')).to.jsonEqual([
+          {
+            $type: 'camunda:InputParameter',
+            name: 'input-1-name',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'foo',
+              value: '${input-1-changed-value}'
+            }
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'input-2-name',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'foo',
+              value: '${input-2-new-value}'
+            }
+          },
+          {
+            $type: 'camunda:InputParameter',
+            name: 'input-4-name',
+            value: 'input-4-new-value'
+          }
+        ]);
+
+        // Expect 1st output to not have been overridden because it was changed
+        // Expect 2nd output to have been removed because property changed to script
+        // Expect 3rd output to have been removed
+        // Expect 4th output to have been added
+        expect(inputOutput.get('camunda:outputParameters')).to.jsonEqual([
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'output-1-changed-value',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'foo',
+              value: '${output-1-source}'
+            }
+          },
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'output-2-new-value',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'foo',
+              value: '${output-2-source}'
+            }
+          },
+          {
+            $type: 'camunda:OutputParameter',
+            name: 'output-4-new-value',
+            value: 'output-4-source'
+          }
+        ]);
+      }));
+
+    });
+
   });
 
 
@@ -2160,6 +2516,28 @@ function createTemplate(properties, id, version) {
     version: version,
     properties: properties
   };
+}
+
+function getInputParameter(element, name) {
+  var inputOutput = findExtension(element, 'camunda:InputOutput');
+
+  return find(inputOutput.get('camunda:inputParameters'), function(inputParameter) {
+    return inputParameter.get('camunda:name') === name;
+  });
+}
+
+function getOutputParameter(element, source) {
+  var inputOutput = findExtension(element, 'camunda:InputOutput');
+
+  return find(inputOutput.get('camunda:outputParameters'), function(outputParameter) {
+    var definition = outputParameter.get('camunda:definition');
+
+    if (definition) {
+      return definition.get('camunda:value') === source;
+    } else {
+      return outputParameter.get('camunda:value') === source;
+    }
+  });
 }
 
 function updateProperties(element, properties) {
