@@ -18,7 +18,8 @@ var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 var findExtension = require('lib/provider/camunda/element-templates/Helper').findExtension,
     findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions;
 
-var isArray = require('lodash/isArray'),
+var find = require('lodash/find'),
+    isArray = require('lodash/isArray'),
     isString = require('lodash/isString'),
     isUndefined = require('lodash/isUndefined');
 
@@ -34,7 +35,7 @@ var moddleExtensions = {
 };
 
 
-describe.only('element-templates - ChangeElementTemplateHandler', function() {
+describe('element-templates - ChangeElementTemplateHandler', function() {
 
   var container;
 
@@ -1248,6 +1249,521 @@ describe.only('element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
+
+    describe('update properties', function() {
+
+      describe('update bpmn:conditionExpression', function() {
+
+        beforeEach(bootstrap(require('./sequence-flow.bpmn')));
+
+
+        it('property changed', inject(function(elementRegistry) {
+
+          // given
+          var sequenceFlow = elementRegistry.get('SequenceFlow_1'),
+              businessObject = getBusinessObject(sequenceFlow);
+
+          var oldTemplate = createTemplate({
+            value: '${foo}',
+            binding: {
+              type: 'property',
+              name: 'conditionExpression',
+              scriptFormat: 'fooScript'
+            }
+          });
+
+          var newTemplate = createTemplate({
+            value: '${bar}',
+            binding: {
+              type: 'property',
+              name: 'conditionExpression',
+              scriptFormat: 'barScript'
+            }
+          });
+
+          changeTemplate('SequenceFlow_1', oldTemplate);
+
+          var conditionExpression = businessObject.get('bpmn:conditionExpression');
+
+          updateBusinessObject('SequenceFlow_1', conditionExpression, {
+            'bpmn:body': '${baz}',
+            'bpmn:language': 'bazScript'
+          });
+
+          // when
+          changeTemplate(sequenceFlow, newTemplate, oldTemplate);
+
+          // then
+          conditionExpression = businessObject.get('bpmn:conditionExpression');
+
+          expect(conditionExpression).to.exist;
+          expect(conditionExpression.$instanceOf('bpmn:FormalExpression')).to.be.true;
+          expect(conditionExpression.get('bpmn:body')).to.equal('${baz}');
+          expect(conditionExpression.get('bpmn:language')).to.equal('bazScript');
+        }));
+
+
+        it('property unchanged', inject(function(elementRegistry) {
+
+          // given
+          var sequenceFlow = elementRegistry.get('SequenceFlow_1'),
+              businessObject = getBusinessObject(sequenceFlow);
+
+          var oldTemplate = createTemplate({
+            value: '${foo}',
+            binding: {
+              type: 'property',
+              name: 'conditionExpression',
+              scriptFormat: 'fooScript'
+            }
+          });
+
+          var newTemplate = createTemplate({
+            value: '${bar}',
+            binding: {
+              type: 'property',
+              name: 'conditionExpression',
+              scriptFormat: 'barScript'
+            }
+          });
+
+          changeTemplate('SequenceFlow_1', oldTemplate);
+
+          // when
+          changeTemplate(sequenceFlow, newTemplate, oldTemplate);
+
+          // then
+          var conditionExpression = businessObject.get('bpmn:conditionExpression');
+
+          expect(conditionExpression).to.exist;
+          expect(conditionExpression.$instanceOf('bpmn:FormalExpression')).to.be.true;
+          expect(conditionExpression.get('bpmn:body')).to.equal('${bar}');
+          expect(conditionExpression.get('bpmn:language')).to.equal('barScript');
+        }));
+
+      });
+
+
+      describe('update camunda:asyncBefore', function() {
+
+        beforeEach(bootstrap(require('./task.bpmn')));
+
+        it('property changed', inject(function(elementRegistry) {
+
+          // given
+          var task = elementRegistry.get('Task_1'),
+              businessObject = getBusinessObject(task);
+
+          var oldTemplate = createTemplate({
+            value: true,
+            binding: {
+              type: 'property',
+              name: 'camunda:asyncBefore'
+            }
+          });
+
+          var newTemplate = createTemplate({
+            value: true,
+            binding: {
+              type: 'property',
+              name: 'camunda:asyncBefore'
+            }
+          });
+
+          changeTemplate('Task_1', oldTemplate);
+
+          updateProperties('Task_1', { 'camunda:asyncBefore': false });
+
+          // when
+          changeTemplate(task, newTemplate, oldTemplate);
+
+          // then
+          var asyncBefore = businessObject.get('camunda:asyncBefore');
+
+          expect(asyncBefore).to.be.false;
+        }));
+
+
+        it('property not changed', inject(function(elementRegistry) {
+
+          // given
+          var task = elementRegistry.get('Task_1'),
+              businessObject = getBusinessObject(task);
+
+          var oldTemplate = createTemplate({
+            value: true,
+            binding: {
+              type: 'property',
+              name: 'camunda:asyncBefore'
+            }
+          });
+
+          var newTemplate = createTemplate({
+            value: false,
+            binding: {
+              type: 'property',
+              name: 'camunda:asyncBefore'
+            }
+          });
+
+          changeTemplate('Task_1', oldTemplate);
+
+          // when
+          changeTemplate(task, newTemplate, oldTemplate);
+
+          // then
+          var asyncBefore = businessObject.get('camunda:asyncBefore');
+
+          expect(asyncBefore).to.be.false;
+        }));
+
+      });
+
+
+      describe('update camunda:expression', function() {
+
+        beforeEach(bootstrap(require('./service-task.bpmn')));
+
+
+        it('property changed', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1'),
+              businessObject = getBusinessObject(serviceTask);
+
+          var oldTemplate = createTemplate({
+            value: '${foo}',
+            binding: {
+              type: 'property',
+              name: 'camunda:expression'
+            }
+          });
+
+          var newTemplate = createTemplate({
+            value: '${bar}',
+            binding: {
+              type: 'property',
+              name: 'camunda:expression'
+            }
+          });
+
+          changeTemplate('ServiceTask_1', oldTemplate);
+
+          updateProperties('ServiceTask_1', { 'camunda:expression': '${baz}' });
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          var expression = businessObject.get('camunda:expression');
+
+          expect(expression).to.equal('${baz}');
+        }));
+
+
+        it('property not changed', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1'),
+              businessObject = getBusinessObject(serviceTask);
+
+          var oldTemplate = createTemplate({
+            value: '${foo}',
+            binding: {
+              type: 'property',
+              name: 'camunda:expression'
+            }
+          });
+
+          var newTemplate = createTemplate({
+            value: '${bar}',
+            binding: {
+              type: 'property',
+              name: 'camunda:expression'
+            }
+          });
+
+          changeTemplate('ServiceTask_1', oldTemplate);
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          var expression = businessObject.get('camunda:expression');
+
+          expect(expression).to.equal('${bar}');
+        }));
+
+      });
+
+    });
+
+
+    describe('update camunda:ExecutionListener', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn')));
+
+      // We assume that execution listeners cannot be edited through the properties panel and
+      // therefore can always be overridden
+      it('should always override', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate({
+          value: 'bar',
+          binding: {
+            type: 'camunda:executionListener',
+            event: 'start',
+            scriptFormat: 'foo'
+          }
+        });
+
+        var newTemplate = createTemplate({
+          value: 'baz',
+          binding: {
+            type: 'camunda:executionListener',
+            event: 'start',
+            scriptFormat: 'foo'
+          }
+        });
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var executionListeners = findExtensions(task, [ 'camunda:ExecutionListener' ]);
+
+        expect(executionListeners).to.have.length(1);
+        expect(executionListeners).to.jsonEqual([{
+          $type: 'camunda:ExecutionListener',
+          event: 'start',
+          script: {
+            $type: 'camunda:Script',
+            scriptFormat: 'foo',
+            value: 'baz'
+          }
+        }]);
+      }));
+
+    });
+
+
+    describe('update camunda:Field', function() {
+
+      beforeEach(bootstrap(require('./service-task.bpmn')));
+
+
+      it('property changed', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = createTemplate({
+          value: 'foo',
+          binding: {
+            type: 'camunda:field',
+            name: 'foo'
+          }
+        });
+
+        var newTemplate = createTemplate({
+          value: 'bar',
+          binding: {
+            type: 'camunda:field',
+            name: 'foo'
+          }
+        });
+
+        changeTemplate('ServiceTask_1', oldTemplate);
+
+        var field = findExtensions(serviceTask, [ 'camunda:Field' ])[ 0 ];
+
+        updateBusinessObject('ServiceTask_1', field, {
+          string: 'baz'
+        });
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        // then
+        var fields = findExtensions(serviceTask, [ 'camunda:Field' ]);
+
+        expect(fields).to.have.length(1);
+        expect(fields).to.jsonEqual([{
+          $type: 'camunda:Field',
+          string: 'baz',
+          name: 'foo'
+        }]);
+      }));
+
+
+      it('property unchanged', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = createTemplate({
+          value: 'foo',
+          binding: {
+            type: 'camunda:field',
+            name: 'foo'
+          }
+        });
+
+        var newTemplate = createTemplate({
+          value: 'bar',
+          binding: {
+            type: 'camunda:field',
+            name: 'foo'
+          }
+        });
+
+        changeTemplate('ServiceTask_1', oldTemplate);
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        // then
+        var fields = findExtensions(serviceTask, [ 'camunda:Field' ]);
+
+        expect(fields).to.have.length(1);
+        expect(fields).to.jsonEqual([{
+          $type: 'camunda:Field',
+          string: 'bar',
+          name: 'foo'
+        }]);
+      }));
+
+
+      it('complex', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = createTemplate([
+          {
+            value: 'field-1-old-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-1-name'
+            }
+          },
+          {
+            value: 'field-2-old-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-2-name'
+            }
+          },
+          {
+            value: 'field-3-old-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-3-name'
+            }
+          },
+          {
+            value: 'field-4-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-4-name'
+            }
+          }
+        ]);
+
+        var newTemplate = createTemplate([
+          {
+            value: 'field-1-new-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-1-name'
+            }
+          },
+          {
+            value: 'field-2-new-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-2-name'
+            }
+          },
+          {
+            value: 'field-3-new-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-3-name'
+            }
+          },
+          {
+            value: 'field-5-value',
+            binding: {
+              type: 'camunda:field',
+              name: 'field-5-name'
+            }
+          }
+        ]);
+
+        changeTemplate('ServiceTask_1', oldTemplate);
+
+        expect(findExtensions(serviceTask, [ 'camunda:Field' ])).to.have.length(4);
+
+        var field1 = find(findExtensions(serviceTask, [ 'camunda:Field' ]), function(field) {
+          return field.get('camunda:name') === 'field-1-name';
+        });
+
+        updateBusinessObject('ServiceTask_1', field1, {
+          string: 'field-1-value-changed'
+        });
+
+        var field2 = find(findExtensions(serviceTask, [ 'camunda:Field' ]), function(field) {
+          return field.get('camunda:name') === 'field-2-name';
+        });
+
+        updateBusinessObject('ServiceTask_1', field2, {
+          name: 'field-2-name-changed',
+          string: 'field-2-value-changed'
+        });
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        // then
+        var fields = findExtensions(serviceTask, [ 'camunda:Field' ]);
+
+        expect(fields).to.have.length(4);
+
+        // Expect 1st field not to have been overridden because it's value was changed
+        // Expect 2nd field to have been removed because it couldn't be identified after its name was changed
+        // Expect 3rd field to have been overridden because its value wasn't changed
+        // Expect 4th field to have been removed because it was removed from template
+        // Expect 5th field to have been added because it was added to template
+        expect(fields).to.jsonEqual([
+          {
+            $type: 'camunda:Field',
+            string: 'field-1-value-changed',
+            name: 'field-1-name'
+          },
+          {
+            $type: 'camunda:Field',
+            string: 'field-3-new-value',
+            name: 'field-3-name'
+          },
+          {
+            $type: 'camunda:Field',
+            string: 'field-2-new-value',
+            name: 'field-2-name'
+          },
+          {
+            $type: 'camunda:Field',
+            string: 'field-5-value',
+            name: 'field-5-name'
+          }
+        ]);
+      }));
+
+    });
 
     // TODO
 
