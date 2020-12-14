@@ -35,7 +35,7 @@ var moddleExtensions = {
 };
 
 
-describe.only('element-templates - ChangeElementTemplateHandler', function() {
+describe('element-templates - ChangeElementTemplateHandler', function() {
 
   var container;
 
@@ -2375,6 +2375,194 @@ describe.only('element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
+
+    describe('update camunda:Property', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn')));
+
+
+      it('property changed', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate({
+          value: 'property-1-old-value',
+          binding: {
+            type: 'camunda:property',
+            name: 'property-1-name'
+          }
+        });
+
+        var newTemplate = createTemplate({
+          value: 'property-1-new-value',
+          binding: {
+            type: 'camunda:property',
+            name: 'property-1-name'
+          }
+        });
+
+        changeTemplate('Task_1', oldTemplate);
+
+        var property = getCamundaProperty(task, 'property-1-name');
+
+        updateBusinessObject('Task_1', property, {
+          value: 'property-1-changed-value'
+        });
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var properties = findExtensions(task, [ 'camunda:Properties' ])[ 0 ];
+
+        expect(properties).to.exist;
+
+        expect(properties.get('camunda:values')).to.have.length(1);
+        expect(properties.get('camunda:values')).to.jsonEqual([{
+          $type: 'camunda:Property',
+          name: 'property-1-name',
+          value: 'property-1-changed-value'
+        }]);
+      }));
+
+
+      it('property unchanged', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate({
+          value: 'property-1-old-value',
+          binding: {
+            type: 'camunda:property',
+            name: 'property-1-name'
+          }
+        });
+
+        var newTemplate = createTemplate({
+          value: 'property-1-new-value',
+          binding: {
+            type: 'camunda:property',
+            name: 'property-1-name'
+          }
+        });
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var properties = findExtensions(task, [ 'camunda:Properties' ])[ 0 ];
+
+        expect(properties).to.exist;
+
+        expect(properties.get('camunda:values')).to.have.length(1);
+        expect(properties.get('camunda:values')).to.jsonEqual([{
+          $type: 'camunda:Property',
+          name: 'property-1-name',
+          value: 'property-1-new-value'
+        }]);
+      }));
+
+
+      it('complex', inject(function(elementRegistry) {
+
+        // given
+        var task = elementRegistry.get('Task_1');
+
+        var oldTemplate = createTemplate([
+          {
+            value: 'property-1-old-value',
+            binding: {
+              type: 'camunda:property',
+              name: 'property-1-name'
+            }
+          },
+          {
+            value: 'property-2-old-value',
+            binding: {
+              type: 'camunda:property',
+              name: 'property-2-name'
+            }
+          },
+          {
+            value: 'property-3-old-value',
+            binding: {
+              type: 'camunda:property',
+              name: 'property-3-name'
+            }
+          }
+        ]);
+
+        var newTemplate = createTemplate([
+          {
+            value: 'property-1-changed-value',
+            binding: {
+              type: 'camunda:property',
+              name: 'property-1-name'
+            }
+          },
+          {
+            value: 'property-2-new-value',
+            binding: {
+              type: 'camunda:property',
+              name: 'property-2-name'
+            }
+          },
+          {
+            value: 'property-4-new-value',
+            binding: {
+              type: 'camunda:property',
+              name: 'property-4-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        var property = getCamundaProperty(task, 'property-1-name');
+
+        updateBusinessObject('Task_1', property, {
+          value: 'property-1-changed-value'
+        });
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        var properties = findExtensions(task, [ 'camunda:Properties' ])[ 0 ];
+
+        expect(properties).to.exist;
+
+        expect(properties.get('camunda:values')).to.have.length(3);
+
+        // Expect 1st property not to have been updated because it was changed
+        // Expect 2nd property to have been overridden because it was not changed
+        // Expect 3rd property to have been removed
+        // Expect 4th property to have been added
+        expect(properties.get('camunda:values')).to.jsonEqual([
+          {
+            $type: 'camunda:Property',
+            name: 'property-1-name',
+            value: 'property-1-changed-value'
+          },
+          {
+            $type: 'camunda:Property',
+            name: 'property-2-name',
+            value: 'property-2-new-value'
+          },
+          {
+            $type: 'camunda:Property',
+            name: 'property-4-name',
+            value: 'property-4-new-value'
+          }
+        ]);
+      }));
+
+    });
+
   });
 
 
@@ -2516,6 +2704,14 @@ function createTemplate(properties, id, version) {
     version: version,
     properties: properties
   };
+}
+
+function getCamundaProperty(element, name) {
+  var camundaProperties = findExtensions(element, [ 'camunda:Properties' ])[ 0 ];
+
+  return find(camundaProperties.get('camunda:values'), function(camundaProperty) {
+    return camundaProperty.get('camunda:name') === name;
+  });
 }
 
 function getInputParameter(element, name) {
