@@ -97,6 +97,72 @@ describe('element-templates/parts - Description Properties', function() {
   }));
 
 
+  describe('update', function() {
+
+    it('should indicate newest element template', inject(function(elementRegistry) {
+
+      // given
+      selectAndGet('StartEvent');
+
+      // when
+      var update = entrySelect('element-template-update');
+
+      // then
+      expect(update).to.exist;
+    }));
+
+
+    it('should not indicate newest element template (no newest element template)', inject(function(elementRegistry) {
+
+      // given
+      selectAndGet('EndEvent');
+
+      // when
+      var update = entrySelect('element-template-update');
+
+      // then
+      expect(update).not.to.exist;
+    }));
+
+
+    it('should not indicate newest element template (no version)', inject(function(elementRegistry) {
+
+      // given
+      selectAndGet('Task');
+
+      // when
+      var update = entrySelect('element-template-update');
+
+      // then
+      expect(update).not.to.exist;
+    }));
+
+
+    it('should update element template', inject(function(elementRegistry) {
+
+      // given
+      selectAndGet('StartEvent');
+
+      // when
+      var update = entrySelect('element-template-update');
+
+      // assume
+      expect(update).to.exist;
+
+      // when
+      triggerClickEvent(domQuery('.bpp-entry-link', update));
+
+      // then
+      var startEvent = elementRegistry.get('StartEvent'),
+          startEventBo = getBusinessObject(startEvent);
+
+      expect(startEventBo.modelerTemplate).to.equal('StartEvent');
+      expect(startEventBo.modelerTemplateVersion).to.equal(2);
+    }));
+
+  });
+
+
   describe('dropdown', function() {
 
     it('should unlink task template', inject(function(elementRegistry) {
@@ -135,13 +201,13 @@ describe('element-templates/parts - Description Properties', function() {
     it('should remove conditional event template', inject(function(elementRegistry) {
 
       // given
-      selectAndGet('StartEvent_Template');
+      selectAndGet('StartEvent');
 
       // when
       clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
 
       // then
-      var event = elementRegistry.get('StartEvent_Template'),
+      var event = elementRegistry.get('StartEvent'),
           eventBo = getBusinessObject(event);
 
       expect(eventBo.modelerTemplate).not.to.exist;
