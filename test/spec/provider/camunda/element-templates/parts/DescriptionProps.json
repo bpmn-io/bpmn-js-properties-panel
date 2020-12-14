@@ -1,20 +1,16 @@
 [
   {
-    "name": "Task",
-    "id": "task",
-    "version": 1,
+    "name": "Task v1",
+    "id": "Task",
     "appliesTo": [
       "bpmn:Task"
     ],
     "properties": []
   },
   {
-    "name": "Task_Description",
+    "name": "Task_Description v1",
     "description": "Description",
-    "metadata": {
-      "lastModified": 1000000000000
-    },
-    "id": "task.description",
+    "id": "Task_Description",
     "version": 1,
     "appliesTo": [
       "bpmn:Task"
@@ -32,12 +28,8 @@
     ]
   },
   {
-    "name": "StartEvent_Template",
-    "description": "Description",
-    "metadata": {
-      "lastModified": 1000000000000
-    },
-    "id": "startEvent.template",
+    "name": "StartEvent v1",
+    "id": "StartEvent",
     "version": 1,
     "appliesTo": [
       "bpmn:StartEvent"
@@ -53,5 +45,42 @@
         }
       }
     ]
+  },
+  {
+    "name": "StartEvent v2",
+    "id": "StartEvent",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:StartEvent"
+    ],
+    "properties": [
+      {
+        "label": "Async Before",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
+  },
+  {
+    "name": "EndEvent v1",
+    "id": "EndEvent",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:EndEvent"
+    ],
+    "properties": []
+  },
+  {
+    "name": "EndEvent v2",
+    "id": "EndEvent",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:EndEvent"
+    ],
+    "properties": []
   }
 ]
