@@ -13,7 +13,8 @@ var coreModule = require('bpmn-js/lib/core').default,
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var findExtension = require('lib/provider/camunda/element-templates/Helper').findExtension,
     findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions;
@@ -2563,6 +2564,173 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
+
+    describe('update scope elements', function() {
+
+      describe('camunda:Connector', function() {
+
+        beforeEach(bootstrap(require('./service-task.bpmn')));
+
+
+        it('properties changed', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = createTemplate([
+            {
+              value: 'input-1-old-value',
+              binding: {
+                type: 'camunda:inputParameter',
+                name: 'input-1-name'
+              }
+            },
+            {
+              value: 'output-1-old-value',
+              binding: {
+                type: 'camunda:outputParameter',
+                source: 'output-1-source'
+              }
+            }
+          ], 'camunda:Connector');
+
+          var newTemplate = createTemplate([
+            {
+              value: 'input-1-new-value',
+              binding: {
+                type: 'camunda:inputParameter',
+                name: 'input-1-name'
+              }
+            },
+            {
+              value: 'output-1-new-value',
+              binding: {
+                type: 'camunda:outputParameter',
+                source: 'output-1-source'
+              }
+            }
+          ], 'camunda:Connector');
+
+          changeTemplate('ServiceTask_1', oldTemplate);
+
+          var connector = findExtension(serviceTask, 'camunda:Connector');
+
+          var input = getInputParameter(connector, 'input-1-name');
+
+          updateBusinessObject(serviceTask, input, {
+            value: 'input-1-changed-value'
+          });
+
+          var output = getOutputParameter(connector, 'output-1-source');
+
+          updateBusinessObject(serviceTask, output, {
+            name: 'output-1-changed-value'
+          });
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          connector = findExtension(serviceTask, 'camunda:Connector');
+
+          expect(connector).to.exist;
+          expect(connector).to.jsonEqual({
+            $type: 'camunda:Connector',
+            inputOutput: {
+              $type: 'camunda:InputOutput',
+              inputParameters: [
+                {
+                  $type: 'camunda:InputParameter',
+                  name: 'input-1-name',
+                  value: 'input-1-changed-value'
+                }
+              ],
+              outputParameters: [
+                {
+                  $type: 'camunda:OutputParameter',
+                  name: 'output-1-changed-value',
+                  value: 'output-1-source'
+                }
+              ]
+            }
+          });
+        }));
+
+
+        it('properties unchanged', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = createTemplate([
+            {
+              value: 'input-1-old-value',
+              binding: {
+                type: 'camunda:inputParameter',
+                name: 'input-1-name'
+              }
+            },
+            {
+              value: 'output-1-old-value',
+              binding: {
+                type: 'camunda:outputParameter',
+                source: 'output-1-source'
+              }
+            }
+          ], 'camunda:Connector');
+
+          var newTemplate = createTemplate([
+            {
+              value: 'input-1-new-value',
+              binding: {
+                type: 'camunda:inputParameter',
+                name: 'input-1-name'
+              }
+            },
+            {
+              value: 'output-1-new-value',
+              binding: {
+                type: 'camunda:outputParameter',
+                source: 'output-1-source'
+              }
+            }
+          ], 'camunda:Connector');
+
+          changeTemplate('ServiceTask_1', oldTemplate);
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          var connector = findExtension(serviceTask, 'camunda:Connector');
+
+          expect(connector).to.exist;
+          expect(connector).to.jsonEqual({
+            $type: 'camunda:Connector',
+            inputOutput: {
+              $type: 'camunda:InputOutput',
+              inputParameters: [
+                {
+                  $type: 'camunda:InputParameter',
+                  name: 'input-1-name',
+                  value: 'input-1-new-value'
+                }
+              ],
+              outputParameters: [
+                {
+                  $type: 'camunda:OutputParameter',
+                  name: 'output-1-new-value',
+                  value: 'output-1-source'
+                }
+              ]
+            }
+          });
+        }));
+
+      });
+
+    });
+
   });
 
 
@@ -2694,16 +2862,25 @@ function expectNoElementTemplate(element) {
   });
 }
 
-function createTemplate(properties, id, version) {
+function createTemplate(properties, scope) {
   if (!isArray(properties)) {
     properties = [ properties ];
   }
 
-  return {
-    id: id,
-    version: version,
-    properties: properties
+  var template = {
+    properties: [],
+    scopes: {}
   };
+
+  if (scope) {
+    template.scopes[ scope ] = {
+      properties: properties
+    };
+  } else {
+    template.properties = properties;
+  }
+
+  return template;
 }
 
 function getCamundaProperty(element, name) {
@@ -2715,7 +2892,13 @@ function getCamundaProperty(element, name) {
 }
 
 function getInputParameter(element, name) {
-  var inputOutput = findExtension(element, 'camunda:InputOutput');
+  var inputOutput;
+
+  if (is(element, 'camunda:Connector')) {
+    inputOutput = element.get('camunda:inputOutput');
+  } else {
+    inputOutput = findExtension(element, 'camunda:InputOutput');
+  }
 
   return find(inputOutput.get('camunda:inputParameters'), function(inputParameter) {
     return inputParameter.get('camunda:name') === name;
@@ -2723,7 +2906,13 @@ function getInputParameter(element, name) {
 }
 
 function getOutputParameter(element, source) {
-  var inputOutput = findExtension(element, 'camunda:InputOutput');
+  var inputOutput;
+
+  if (is(element, 'camunda:Connector')) {
+    inputOutput = element.get('camunda:inputOutput');
+  } else {
+    inputOutput = findExtension(element, 'camunda:InputOutput');
+  }
 
   return find(inputOutput.get('camunda:outputParameters'), function(outputParameter) {
     var definition = outputParameter.get('camunda:definition');
