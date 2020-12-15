@@ -120,7 +120,7 @@ describe('process-variables', function() {
       // when
       selectProcessVariable(container, 0);
 
-      var createdInNode = getCreatedIn(container, 'variable1'),
+      var createdInNode = getCreatedIn(container, 0),
           originItem = domQuery('.bpp-process-variables__created-in-item', createdInNode);
 
       // then
@@ -191,7 +191,7 @@ describe('process-variables', function() {
       // when
       selectProcessVariable(container, 0);
 
-      var createdInNode = getCreatedIn(container, 'SubProcess_1-variable3'),
+      var createdInNode = getCreatedIn(container, 0, 'SubProcess_1-'),
           originItem = domQuery('.bpp-process-variables__created-in-item', createdInNode);
 
       // then
@@ -250,7 +250,7 @@ describe('process-variables', function() {
       // when
       selectProcessVariable(container, 0);
 
-      var createdInNode = getCreatedIn(container, 'variable1'),
+      var createdInNode = getCreatedIn(container, 0),
           originItem = domQuery('.bpp-process-variables__created-in-item', createdInNode);
 
       // then
@@ -261,6 +261,7 @@ describe('process-variables', function() {
     });
 
   });
+
 
 });
 
@@ -295,9 +296,13 @@ function selectProcessVariable(container, idx) {
   TestHelper.triggerEvent(item.firstChild, 'click');
 }
 
-function getCreatedIn(container, prefix) {
+function getCreatedIn(container, idx, scopePrefix) {
+  if (!scopePrefix) {
+    scopePrefix = '';
+  }
+
   var group = getProcessVariablesGroup(container);
-  return domQuery('div[data-entry="' + prefix +'-created-in"]', group);
+  return domQuery('div[data-entry="' + scopePrefix + 'variable- ' + idx + '-created-in"]', group);
 }
 
 function getScopeHeaders(container) {
