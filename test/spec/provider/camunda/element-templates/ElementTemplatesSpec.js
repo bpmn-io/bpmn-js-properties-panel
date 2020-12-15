@@ -11,7 +11,8 @@ var coreModule = require('bpmn-js/lib/core').default,
 
 var diagramXML = require('./ElementTemplates.bpmn');
 
-var templates = require('./fixtures/simple');
+var templates = require('./fixtures/simple'),
+    falsyVersionTemplate = require('./fixtures/falsy-version');
 
 
 describe('element-templates - ElementTemplates', function() {
@@ -179,6 +180,16 @@ describe('element-templates - ElementTemplates', function() {
 
       // then
       expect(elementTemplates.getAll()).to.have.length(3);
+    }));
+
+
+    it('should not ignore version set to 0', inject(function(elementTemplates) {
+
+      // when
+      elementTemplates.set(falsyVersionTemplate);
+
+      // then
+      expect(elementTemplates.get(falsyVersionTemplate[0].id, 0)).to.exist;
     }));
 
   });
