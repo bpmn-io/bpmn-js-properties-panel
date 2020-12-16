@@ -8,6 +8,18 @@ ___Note:__ Yet to be released changes appear here._
 
 ...
 
+## 0.38.0
+
+* `FEAT`: allow updating templates ([#399](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/399))
+* `FEAT`: recognize template versions ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398))
+* `FEAT`: prevent changing template before the current one is unlinked or removed ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398))
+* `FIX`: stop using variable name as id ([#405](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/405))
+* `CHORE`: update `camunda-bpmn-moddle` to v4.5.0 ([`f8ed2081`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/f8ed2081538b0d604ad7fc1a5949ab00ec0c109a))
+
+### BREAKING CHANGES
+
+* Element template select is no longer visible when an element template is applied. Unlink or remove the template to be able to apply another one ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398)).
+
 ## 0.37.6
 
 * `FIX`: escape element template not found description ([#397](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/397))
