@@ -19,6 +19,7 @@ ___Note:__ Yet to be released changes appear here._
 ### BREAKING CHANGES
 
 * Element template select is no longer visible when an element template is applied. Unlink or remove the template to be able to apply another one ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398)).
+* `getDefaultTemplate` helper has been removed. Use `ElementTemplates#getDefault` instead ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398)).
 
 ## 0.37.6
 
