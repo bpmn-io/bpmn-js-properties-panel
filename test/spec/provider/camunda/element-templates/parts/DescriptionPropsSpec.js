@@ -10,6 +10,8 @@ var entrySelect = require('./Helper').entrySelect,
 
 var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+var getVersionOrDateFromTemplate = require('lib/provider/camunda/element-templates/parts/Helper').getVersionOrDateFromTemplate;
+
 var domQuery = require('min-dom').query;
 
 var triggerClickEvent = require('lib/Utils').triggerClickEvent;
@@ -214,6 +216,61 @@ describe('element-templates/parts - Description Properties', function() {
       expect(eventBo.eventDefinitions).to.have.length(1);
       expect(eventBo.asyncBefore).to.be.false;
     }));
+
+  });
+
+
+  describe('#getVersionOrDateFromTemplate', function() {
+
+    it('should get version as integer', function() {
+
+      // given
+      var template = {
+        version: 1
+      };
+
+      // when
+      var versionOrDate = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(versionOrDate).to.equal('Version 1');
+    });
+
+
+    it('should get version as date', function() {
+
+      // given
+      var template = {
+        version: 1000000000000,
+        metadata: {
+          created: 1000000000000
+        }
+      };
+
+      // when
+      var versionOrDate = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(versionOrDate).to.match(/Version [0-9]{2}\.[0-9]{2}\.[0-9]{4}/);
+    });
+
+
+    it('should get version as date', function() {
+
+      // given
+      var template = {
+        version: 1000000000000,
+        metadata: {
+          updated: 1000000000000
+        }
+      };
+
+      // when
+      var versionOrDate = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(versionOrDate).to.match(/Version [0-9]{2}\.[0-9]{2}\.[0-9]{4}/);
+    });
 
   });
 
