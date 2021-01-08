@@ -8,6 +8,10 @@ ___Note:__ Yet to be released changes appear here._
 
 ...
 
+## 0.38.1
+
+* `FIX`: fix displayed template version ([#408](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/408), [#409](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/409))
+
 ## 0.38.0
 
 * `FEAT`: allow updating templates ([#399](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/399))
