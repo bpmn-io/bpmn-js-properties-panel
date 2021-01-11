@@ -146,7 +146,7 @@ describe('process-participant-expanded-properties', function() {
 
 
     // then
-    var input = domQuery('div[data-entry=id] input[name=id]', propertiesPanel._container);
+    var input = domQuery('div[data-entry=participant-id] input[name=id]', propertiesPanel._container);
     expect(input.value).to.equal(participant.get('id'));
   }));
 
@@ -162,7 +162,7 @@ describe('process-participant-expanded-properties', function() {
 
 
     // then
-    var input = domQuery('div[data-entry=name] div[name=name]', propertiesPanel._container);
+    var input = domQuery('div[data-entry=participant-name] div[name=name]', propertiesPanel._container);
     expect(input.textContent).to.equal(participant.get('name'));
   }));
 
@@ -178,7 +178,7 @@ describe('process-participant-expanded-properties', function() {
       selection.select(shape);
 
       participant = getBusinessObject(shape);
-      textbox = domQuery('div[data-entry=name] div[name=name]');
+      textbox = domQuery('div[data-entry=participant-name] div[name=name]');
 
       // when
       TestHelper.triggerValue(textbox, 'foo', 'change');
