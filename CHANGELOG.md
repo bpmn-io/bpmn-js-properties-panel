@@ -8,6 +8,16 @@ ___Note:__ Yet to be released changes appear here._
 
 ...
 
+## 0.39.0
+
+* `FEAT`: add 'Participant' prefix to properties panel participant inputs for clarity ([#413](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/413))
+* `CHORE`: bump to `bpmn-js@8.1.0`
+* `CHORE`: bump to `diagram-js@7.0.0`
+
+### BREAKING CHANGES
+
+* Participant input `data-entry` html attribute was changed from `id` to `participant-id`
+
 ## 0.38.1
 
 * `FIX`: fix displayed template version ([#408](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/408), [#409](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/409))
