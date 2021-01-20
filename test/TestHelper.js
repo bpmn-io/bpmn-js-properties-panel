@@ -9,12 +9,13 @@ var domQuery = require('min-dom').query,
 
 TestHelper.insertCSS('diagram-js.css', require('bpmn-js/dist/assets/diagram-js.css'));
 TestHelper.insertCSS('bpmn-embedded.css', require('bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'));
-TestHelper.insertCSS('properties.css', require('./assets/properties.css'));
+TestHelper.insertCSS('bpmn-js-properties-panel.css', require('../dist/assets/bpmn-js-properties-panel.css'));
 
 TestHelper.insertCSS('diagram-js-testing.css',
-  '.test-container .result { height: auto; }' +
-  '.bpp-container { height: 400px !important; }' +
-  ' div.test-container {height: auto}'
+  '* { box-sizing: border-box; }' +
+  'body .test-container { height: auto }' +
+  'body .test-content-container { height: 90vh; display: flex; }' +
+  '.bpp-properties-panel { height: 100%; width: 30vw; overflow: auto; }'
 );
 
 

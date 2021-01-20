@@ -1,16 +1,15 @@
 'use strict';
 
+/* global bootstrapModeler, inject */
+
 var TestHelper = require('../../../TestHelper');
+
+var Modeler = require('bpmn-js/lib/Modeler').default;
 
 var TestContainer = require('mocha-test-container-support');
 
-/* global bootstrapModeler, inject */
-
 var propertiesPanelModule = require('lib'),
-    coreModule = require('bpmn-js/lib/core').default,
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesProviderModule = require('lib/provider/camunda'),
-    selectionModule = require('diagram-js/lib/features/selection').default;
+    propertiesProviderModule = require('lib/provider/camunda');
 
 var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
@@ -24,21 +23,67 @@ var forEach = require('min-dash').forEach,
 
 var slice = Array.prototype.slice;
 
+var singleStart = window.__env__ && window.__env__.SINGLE_START === 'camunda';
+
 
 describe('camunda-properties', function() {
 
-  var testModules = [
-    coreModule,
-    selectionModule,
-    modelingModule,
-    propertiesPanelModule,
-    propertiesProviderModule
-  ];
+  var testModules = [].concat(
+    Modeler.prototype._modules,
+    [
+      propertiesPanelModule,
+      propertiesProviderModule
+    ]
+  );
 
   var container;
 
   beforeEach(function() {
     container = TestContainer.get(this);
+  });
+
+
+  describe('simple', function() {
+
+    var diagramXML = require('./PropertiesCollaboration.bpmn');
+
+
+    beforeEach(bootstrapModeler(diagramXML, {
+      modules: testModules,
+      moddleExtensions: {
+        camunda: camundaModdlePackage
+      }
+    }));
+
+
+    var propertiesContainer;
+
+    beforeEach(inject(function(commandStack) {
+
+      propertiesContainer = document.createElement('div');
+
+      propertiesContainer.style.display = 'flex';
+      propertiesContainer.style.flexDirection = 'column';
+
+      container.appendChild(propertiesContainer);
+
+      var button = document.createElement('button');
+      button.textContent = 'UNDO';
+
+      button.addEventListener('click', function() {
+        commandStack.undo();
+      });
+
+      propertiesContainer.appendChild(button);
+    }));
+
+
+    (singleStart ? it.only : it)('should open stuff', inject(
+      function(propertiesPanel) {
+        propertiesPanel.attachTo(propertiesContainer);
+      }
+    ));
+
   });
 
 

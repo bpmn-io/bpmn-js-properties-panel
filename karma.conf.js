@@ -2,6 +2,8 @@ var path = require('path');
 
 var absoluteBasePath = path.resolve(__dirname);
 
+var singleStart = process.env.SINGLE_START;
+
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
 var browsers =
@@ -23,8 +25,8 @@ var browsers =
 
 
 module.exports = function(karma) {
-  karma.set({
 
+  var config = {
     frameworks: [
       'mocha',
       'sinon-chai'
@@ -36,7 +38,7 @@ module.exports = function(karma) {
     ],
 
     preprocessors: {
-      'test/suite.js': [ 'webpack' ]
+      'test/suite.js': [ 'webpack', 'env' ]
     },
 
     reporters: [ 'spec' ],
@@ -82,5 +84,12 @@ module.exports = function(karma) {
         ]
       }
     }
-  });
+  };
+
+  if (singleStart) {
+    config.browsers = [].concat(config.browsers, 'Debug');
+    config.envPreprocessor = [].concat(config.envPreprocessor || [], 'SINGLE_START');
+  }
+
+  karma.set(config);
 };
