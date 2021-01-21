@@ -54,7 +54,7 @@
     "webpack": "^4.16.2"
   },
   "dependencies": {
-    "@bpmn-io/extract-process-variables": "^0.3.0",
+    "@bpmn-io/extract-process-variables": "^0.4.0",
     "ids": "^1.0.0",
     "inherits": "^2.0.1",
     "lodash": "^4.17.20",
