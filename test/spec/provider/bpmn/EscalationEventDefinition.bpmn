@@ -1,21 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0-nightly.20210204">
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:intermediateThrowEvent id="WITH_ESCALATION_REF">
+    <bpmn:intermediateThrowEvent id="EscalationIntermediateThrowEvent">
       <bpmn:escalationEventDefinition escalationRef="Escalation_4" />
     </bpmn:intermediateThrowEvent>
+    <bpmn:task id="Activity_19fqn2r" />
+    <bpmn:boundaryEvent id="EscalationBoundaryEvent" attachedToRef="Activity_19fqn2r">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1s7id7f" camunda:escalationCodeVariable="myEscalationCodeVariable" />
+    </bpmn:boundaryEvent>
+    <bpmn:subProcess id="Activity_08yxn8x" triggeredByEvent="true">
+      <bpmn:startEvent id="EscalationStartEvent">
+        <bpmn:escalationEventDefinition id="EscalationEventDefinition_07wl81r" camunda:escalationCodeVariable="myEscalationCodeVariable" />
+      </bpmn:startEvent>
+      <bpmn:startEvent id="InvalidEscalationStartEvent">
+        <bpmn:escalationEventDefinition id="EscalationEventDefinition_0547uct" camunda:escalationCodeVariable="myEscala tionVariable" />
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:endEvent id="EscalationEndEvent">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0wne3ho" />
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="InvalidEscalationBoundaryEvent" attachedToRef="Activity_19fqn2r">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0ts9iem" camunda:escalationCodeVariable="myEscalat ionVariable" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="DropdownEscalationBoundaryEvent" attachedToRef="Activity_19fqn2r">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1719puh" camunda:escalationCodeVariable="myEscalationCodeVariable" />
+    </bpmn:boundaryEvent>
   </bpmn:process>
+  <bpmn:escalation id="EscalationWithoutCode" name="EscalationWithoutCode" />
+  <bpmn:escalation id="EscalationWithCode" name="EscalationWithCode" escalationCode="123" />
   <bpmn:escalation id="Escalation_1" name="a" />
   <bpmn:escalation id="Escalation_2" name="b" escalationCode="foo" />
   <bpmn:escalation id="Escalation_3" name="c" />
   <bpmn:escalation id="Escalation_4" name="d" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="IntermediateThrowEvent_08pa9ca_di" bpmnElement="WITH_ESCALATION_REF">
-        <dc:Bounds x="261" y="241" width="36" height="36" />
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_08pa9ca_di" bpmnElement="EscalationIntermediateThrowEvent">
+        <dc:Bounds x="191" y="81" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="234" y="277" width="90" height="20" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19fqn2r_di" bpmnElement="Activity_19fqn2r">
+        <dc:Bounds x="159" y="166" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0vyz244_di" bpmnElement="Activity_08yxn8x" isExpanded="true">
+        <dc:Bounds x="330" y="142" width="150" height="128" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1g16vej_di" bpmnElement="EscalationStartEvent">
+        <dc:Bounds x="422" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17dwhji_di" bpmnElement="InvalidEscalationStartEvent">
+        <dc:Bounds x="352" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ljyekm_di" bpmnElement="EscalationEndEvent">
+        <dc:Bounds x="382" y="81" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0g9baht_di" bpmnElement="DropdownEscalationBoundaryEvent">
+        <dc:Bounds x="141" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qh53ws_di" bpmnElement="InvalidEscalationBoundaryEvent">
+        <dc:Bounds x="192" y="148" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rupl9n_di" bpmnElement="EscalationBoundaryEvent">
+        <dc:Bounds x="191" y="228" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

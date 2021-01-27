@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.3.0-dev">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0-nightly.20210204">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:endEvent id="ErrorEndEvent_ErrorMessage" name="ErrorEndEvent_ErrorMessage">
       <bpmn:errorEventDefinition errorRef="Error_1" />
@@ -7,7 +7,27 @@
     <bpmn:startEvent id="ErrorStartEvent_all" name="ErrorStartEvent_all">
       <bpmn:errorEventDefinition errorRef="Error_1" camunda:errorCodeVariable="myErrorCodeVariable" camunda:errorMessageVariable="myErrorMessageVariable" />
     </bpmn:startEvent>
+    <bpmn:task id="Activity_14t3ia3" />
+    <bpmn:subProcess id="Activity_0enx46c" triggeredByEvent="true">
+      <bpmn:startEvent id="ErrorStartEvent">
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_1lsum1y" camunda:errorCodeVariable="myErrorCodeVariable" camunda:errorMessageVariable="myErrorMessageVariable" />
+      </bpmn:startEvent>
+      <bpmn:startEvent id="InvalidErrorStartEvent">
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_06w8382" camunda:errorCodeVariable="myErr orCodeVariable" camunda:errorMessageVariable="myErr orMessageVariable" />
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="ErrorBoundaryEvent" attachedToRef="Activity_14t3ia3">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0wx29bg" camunda:errorCodeVariable="myErrorCodeVariable" camunda:errorMessageVariable="myErrorMessageVariable" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="InvalidErrorBoundaryEvent" attachedToRef="Activity_14t3ia3">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0u7z0mz" camunda:errorCodeVariable="myErr orCodeVariable" camunda:errorMessageVariable="myErr orMessageVariable" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="DropdownErrorBoundaryEvent" attachedToRef="Activity_14t3ia3">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0nbzbkl" errorRef="Error_1t1y1dp" camunda:errorCodeVariable="myErrorCodeVariable" camunda:errorMessageVariable="myErrorMessageVariable" />
+    </bpmn:boundaryEvent>
   </bpmn:process>
+  <bpmn:error id="Error_1brsglg" name="ErrorWithoutACode" />
+  <bpmn:error id="Error_1t1y1dp" name="ErrorWithACode" errorCode="123" />
   <bpmn:error id="Error_1" name="b" errorCode="code" camunda:errorMessage="message" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -22,6 +42,27 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="477" y="122" width="89" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14t3ia3_di" bpmnElement="Activity_14t3ia3">
+        <dc:Bounds x="210" y="287" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0enx46c_di" bpmnElement="Activity_0enx46c" isExpanded="true">
+        <dc:Bounds x="381" y="263" width="150" height="128" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_016coab_di" bpmnElement="ErrorStartEvent">
+        <dc:Bounds x="403" y="313" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qd1asd_di" bpmnElement="InvalidErrorStartEvent">
+        <dc:Bounds x="473" y="313" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10mf1t9_di" bpmnElement="InvalidErrorBoundaryEvent">
+        <dc:Bounds x="242" y="349" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xk5v7n_di" bpmnElement="ErrorBoundaryEvent">
+        <dc:Bounds x="243" y="269" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_15to537_di" bpmnElement="DropdownErrorBoundaryEvent">
+        <dc:Bounds x="192" y="312" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
