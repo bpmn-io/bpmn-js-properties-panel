@@ -8,6 +8,8 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('lib'),
     domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
+    domClasses = require('min-dom').classes,
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
@@ -50,6 +52,10 @@ function getClearButton(container, selector) {
   return domQuery('div[data-entry=' + selector + '] button[data-action=clear]', container);
 }
 
+function hasInvalidClass(node) {
+  return domClasses(node).has('invalid');
+}
+
 describe('error-event-properties', function() {
 
   var diagramXML = require('./ErrorEventDefinition.bpmn');
@@ -70,7 +76,6 @@ describe('error-event-properties', function() {
     modules: testModules,
     moddleExtensions: { camunda: camundaModdlePackage }
   }));
-
 
   beforeEach(inject(function(commandStack, propertiesPanel) {
 
@@ -123,6 +128,20 @@ describe('error-event-properties', function() {
     });
 
 
+    it('should validate an invalid errorCodeVariable', inject(function(elementRegistry, selection, propertiesPanel) {
+
+      // given
+      var shape = elementRegistry.get('InvalidErrorBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var errorCodeVar = domQuery('input[name=errorCodeVariable]', container);
+
+      // then
+      expect(hasInvalidClass(errorCodeVar)).to.be.true;
+    }));
+
+
     it('should fetch the errorMessageVariable of an error event', function() {
 
       var field = getErrorMessageVariableField(container);
@@ -130,6 +149,20 @@ describe('error-event-properties', function() {
       expect(field.value).to.equal(errorEventDefinition.get('camunda:errorMessageVariable'));
 
     });
+
+
+    it('should validate an invalid errorMessageVariable', inject(function(elementRegistry, selection, propertiesPanel) {
+
+      // given
+      var shape = elementRegistry.get('InvalidErrorBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var errorMessageVar = domQuery('input[name=errorMessageVariable]', propertiesPanel._container);
+
+      // then
+      expect(hasInvalidClass(errorMessageVar)).to.be.true;
+    }));
 
   });
 
@@ -655,5 +688,40 @@ describe('error-event-properties', function() {
 
   });
 
+
+  describe('dropdown options', function() {
+
+    it('should display error code', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('DropdownErrorBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var options = domQueryAll('select[id=camunda-error][name=selectedElement] > option', propertiesPanel._container);
+      var optionWithCode = options['1'];
+
+      // then
+      expect(optionWithCode.textContent.indexOf('(code=')).to.not.eql(-1);
+
+    }));
+
+
+    it('should not display error code', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('DropdownErrorBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var options = domQueryAll('select[id=camunda-error][name=selectedElement] > option', propertiesPanel._container);
+      var optionWithoutCode = options['0'];
+
+      // then
+      expect(optionWithoutCode.textContent.indexOf('(code=')).to.eql(-1);
+
+    }));
+
+  });
 
 });

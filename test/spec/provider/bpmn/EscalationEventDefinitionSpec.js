@@ -8,6 +8,7 @@ var TestContainer = require('mocha-test-container-support');
 
 var propertiesPanelModule = require('lib'),
     domQuery = require('min-dom').query,
+    domQueryAll = require('min-dom').queryAll,
     domClasses = require('min-dom').classes,
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
@@ -15,7 +16,9 @@ var propertiesPanelModule = require('lib'),
     propertiesProviderModule = require('lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     find = require('lodash/find'),
-    eventDefinitionHelper = require('lib/helper/EventDefinitionHelper');
+    eventDefinitionHelper = require('lib/helper/EventDefinitionHelper'),
+    camundaPackage = require('camunda-bpmn-moddle/resources/camunda.json');
+
 
 function getGeneralTab(container) {
   return domQuery('div[data-tab="general"]', container);
@@ -69,6 +72,10 @@ function isInputHidden(node) {
   return isHidden(node.parentNode);
 }
 
+function hasInvalidClass(node) {
+  return domClasses(node).has('invalid');
+}
+
 describe('escalation-event-properties', function() {
 
   var diagramXML = require('./EscalationEventDefinition.bpmn');
@@ -86,7 +93,10 @@ describe('escalation-event-properties', function() {
   });
 
   beforeEach(bootstrapModeler(diagramXML, {
-    modules: testModules
+    modules: testModules,
+    moddleExtensions: {
+      camunda: camundaPackage
+    }
   }));
 
 
@@ -114,7 +124,7 @@ describe('escalation-event-properties', function() {
       // given
       container = propertiesPanel._container;
 
-      var shape = elementRegistry.get('WITH_ESCALATION_REF');
+      var shape = elementRegistry.get('EscalationIntermediateThrowEvent');
       selection.select(shape);
 
       var bo = getBusinessObject(shape);
@@ -293,6 +303,304 @@ describe('escalation-event-properties', function() {
       });
 
     });
+
+  });
+
+
+  describe('boundary event', function() {
+
+    it('should show escalation code variable input', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(escalationCodeVar).to.exist;
+    }));
+
+
+    it('should get escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+          escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+      // then
+      expect(escalationCodeVar.value).to.equal('myEscalationCodeVariable');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+    }));
+
+
+    it('should set escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationBoundaryEvent');
+      selection.select(shape);
+
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+          escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+      // assume
+      expect(escalationCodeVar.value).to.equal('myEscalationCodeVariable');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+      // when
+      TestHelper.triggerValue(escalationCodeVar, 'myNewEscalationCodeVar', 'change');
+
+      // then
+      expect(escalationCodeVar.value).to.equal('myNewEscalationCodeVar');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+    }));
+
+
+    it('should validate escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(hasInvalidClass(escalationCodeVar)).to.be.false;
+
+    }));
+
+
+    it('should invalidate escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('InvalidEscalationBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(hasInvalidClass(escalationCodeVar)).to.be.true;
+
+    }));
+
+
+    it('should clear escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationBoundaryEvent');
+      selection.select(shape);
+
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+          clearButton = domQuery(
+            '[data-entry=escalationCodeVariable] button[data-action=clear]', propertiesPanel._container),
+          escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+      // assume
+      expect(escalationCodeVar.value).to.equal('myEscalationCodeVariable');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+      // when
+      TestHelper.triggerEvent(clearButton, 'click');
+
+      // then
+      expect(escalationCodeVar.value).to.be.empty;
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.be.undefined;
+
+    }));
+
+  });
+
+
+  describe('start event', function() {
+
+    it('should show escalation code variable input', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationStartEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(escalationCodeVar).to.exist;
+    }));
+
+
+    it('should get escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationStartEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+          escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+      // then
+      expect(escalationCodeVar.value).to.equal('myEscalationCodeVariable');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+    }));
+
+
+    it('should set escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationStartEvent');
+      selection.select(shape);
+
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+          escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+      // assume
+      expect(escalationCodeVar.value).to.equal('myEscalationCodeVariable');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+      // when
+      TestHelper.triggerValue(escalationCodeVar, 'myNewEscalationCodeVar', 'change');
+
+      // then
+      expect(escalationCodeVar.value).to.equal('myNewEscalationCodeVar');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+    }));
+
+
+    it('should validate escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationStartEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(hasInvalidClass(escalationCodeVar)).to.be.false;
+
+    }));
+
+
+    it('should invalidate escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('InvalidEscalationStartEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(hasInvalidClass(escalationCodeVar)).to.be.true;
+
+    }));
+
+
+    it('should clear escalation code variable', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationStartEvent');
+      selection.select(shape);
+
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container),
+          clearButton = domQuery(
+            '[data-entry=escalationCodeVariable] button[data-action=clear]', propertiesPanel._container),
+          escalationEventDefinition = eventDefinitionHelper.getEscalationEventDefinition(shape);
+
+      // assume
+      expect(escalationCodeVar.value).to.equal('myEscalationCodeVariable');
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.equal(escalationCodeVar.value);
+
+      // when
+      TestHelper.triggerEvent(clearButton, 'click');
+
+      // then
+      expect(escalationCodeVar.value).to.be.empty;
+      expect(escalationEventDefinition.get('camunda:escalationCodeVariable')).to.be.undefined;
+
+    }));
+
+  });
+
+
+  describe('intermediate throw event', function() {
+
+    it('should not show escalation code variable input', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationIntermediateThrowEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(escalationCodeVar).to.not.exist;
+    }));
+
+  });
+
+
+  describe('end event', function() {
+
+    it('should not show escalation code variable input', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('EscalationEndEvent');
+      selection.select(shape);
+
+      // when
+      var escalationCodeVar = domQuery('input[name=escalationCodeVariable]', propertiesPanel._container);
+
+      // then
+      expect(escalationCodeVar).to.not.exist;
+    }));
+
+  });
+
+
+  describe('dropdown options', function() {
+
+    it('should display escalation code', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('DropdownEscalationBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var options = domQueryAll('select[id=camunda-escalation][name=selectedElement] > option', propertiesPanel._container);
+      var optionWithCode = options['1'];
+
+      // then
+      expect(optionWithCode.textContent.indexOf('(code=')).to.not.eql(-1);
+
+    }));
+
+
+    it('should not display escalation code', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      // given
+      var shape = elementRegistry.get('DropdownEscalationBoundaryEvent');
+      selection.select(shape);
+
+      // when
+      var options = domQueryAll('select[id=camunda-escalation][name=selectedElement] > option', propertiesPanel._container);
+      var optionWithoutCode = options['0'];
+
+      // then
+      expect(optionWithoutCode.textContent.indexOf('(code=')).to.eql(-1);
+
+    }));
 
   });
 
