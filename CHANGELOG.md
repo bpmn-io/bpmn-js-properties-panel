@@ -5,9 +5,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
-* `CHORE`: bump to `bpmn-js@8.2.0`
 
 ...
+
+## 0.40.0
+
+* `CHORE`: bump to `@bpmn-io/extract-process-variables@0.4.0`
+* `CHORE`: bump to `bpmn-js@8.2.0`
+* `CHORE`: bump to `bpmn-moddle@7.0.4`
 
 ## 0.39.0
 
