@@ -5,7 +5,7 @@ var absoluteBasePath = path.resolve(__dirname);
 // configures browsers to run test against
 // any of [ 'ChromeHeadless', 'Chrome', 'Firefox', 'IE', 'PhantomJS' ]
 var browsers =
-  (process.env.TEST_BROWSERS || 'PhantomJS')
+  (process.env.TEST_BROWSERS || 'ChromeHeadless')
     .replace(/^\s+|\s+$/, '')
     .split(/\s*,\s*/g)
     .map(function(browser) {
