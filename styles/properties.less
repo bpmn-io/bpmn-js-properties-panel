@@ -499,6 +499,10 @@ label.bpp-hidden {
   margin-left: 0;
 }
 
+.bpp-collapsible ~ .bpp-properties-entry.bpp-error {
+  margin-left: 0;
+}
+
 .bpp-collapsible--with-mapping .bpp-collapsible__description:not(:empty) {
   position: relative;
 
@@ -520,6 +524,27 @@ label.bpp-hidden {
   opacity: 0.7;
 }
 
+.bpp-collapsible-error .bpp-collapsible__description:not(:empty) {
+  position: relative;
+
+  // make space for icon
+  text-indent: 24px;
+  padding-right: 24px;
+}
+
+.bpp-collapsible-error .bpp-collapsible__description:not(:empty):before {
+  position: absolute;
+  top: -1px;
+  left: -24px;
+
+  display: block;
+  width: 16px;
+  height: 16px;
+
+  content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpolygon fill='%23909090' fill-rule='evenodd' points='8 3 8 7 15 7 15 9 8 9 8 13 2 8'/%3E%3C/svg%3E");
+  opacity: 0.7;
+}
+
 .bpp-input-output {
   .bpp-input-output__add {
     top: -28px;
@@ -527,7 +552,19 @@ label.bpp-hidden {
   }
 }
 
+.bpp-error {
+  .bpp-error__add {
+    top: -28px;
+    right: 0;
+  }
+}
+
 .bpp-input-output-placeholder {
+  padding-bottom: 3px;
+  font-size: 14px;
+}
+
+.bpp-error-placeholder {
   padding-bottom: 3px;
   font-size: 14px;
 }
