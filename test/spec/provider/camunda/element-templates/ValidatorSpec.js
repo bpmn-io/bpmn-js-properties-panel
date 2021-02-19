@@ -2,6 +2,8 @@
 
 var Validator = require('lib/provider/camunda/element-templates/Validator');
 
+var ElementTemplateSchemaVersion = require('@camunda/element-templates-json-schema/package.json').version;
+
 
 describe('element-templates - Validator', function() {
 
@@ -15,432 +17,562 @@ describe('element-templates - Validator', function() {
     return validator.getValidTemplates();
   }
 
+  describe('schema version', function() {
 
-  it('should accept simple example template', function() {
+    it('should accept when template and library have the same version', function() {
 
-    // given
-    var templates = new Validator();
+      // given
+      var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/simple');
+      var templateDescriptor = require('./fixtures/simple-same-schema-version.json');
 
-    // when
-    templates.addAll(templateDescriptors);
+      templateDescriptor.map(function(template) {
+        template.$schema = 'https://unpkg.com/@camunda/element-templates-json-schema@' +
+          ElementTemplateSchemaVersion + '/resources/schema.json';
+      });
 
-    // then
-    expect(errors(templates)).to.be.empty;
+      // when
+      templates.addAll(templateDescriptor);
 
-    expect(valid(templates)).to.have.length(6);
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(6);
+    });
+
+
+    it('should accept when template has lower version than library', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptor = require('./fixtures/simple-low-schema-version.json');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(6);
+    });
+
+
+    it('should reject when template has higher version than library', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptor = require('./fixtures/simple-high-schema-version.json');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(valid(templates)).to.be.empty;
+
+      expect(errors(templates)).to.have.length(6);
+    });
+
+
+    it('should accept when template has no version', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptor = require('./fixtures/simple.json');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(6);
+    });
+
+
+    it('should accept when template has latest version', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptor = require('./fixtures/simple-latest-schema-version.json');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(6);
+    });
+
+
+    it('should accept and reject when some templates have unsupported version', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptor = require('./fixtures/simple-mixed-schema-version.json');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.have.length(3);
+
+      expect(valid(templates)).to.have.length(3);
+    });
+
+
+    it('should provide correct error details when rejecting', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptor = require('./fixtures/simple-high-schema-version.json');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.have.length(6);
+
+      expect(errors(templates)[0]).to.eql('template name <Foo> with id <foo> uses element template schema version <99.99.99>. Your installation only supports up to version <0.2.0>. Please update your installation.');
+    });
+
   });
 
 
-  it('should accept misc example template', function() {
+  describe('content validation', function() {
 
-    // given
-    var templates = new Validator();
+    it('should accept simple example template', function() {
 
-    var templateDescriptors = require('./fixtures/misc');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/simple');
 
-    // then
-    expect(errors(templates)).to.be.empty;
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.have.length(1);
-  });
+      // then
+      expect(errors(templates)).to.be.empty;
 
+      expect(valid(templates)).to.have.length(6);
+    });
 
-  it('should accept call-activity-variables template', function() {
 
-    // given
-    var templates = new Validator();
+    it('should accept misc example template', function() {
 
-    var templateDescriptors = require('./fixtures/call-activity-variables');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/misc');
 
-    // then
-    expect(errors(templates)).to.be.empty;
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.have.length(1);
-  });
+      // then
+      expect(errors(templates)).to.be.empty;
 
+      expect(valid(templates)).to.have.length(1);
+    });
 
-  it('should accept dropdown example template', function() {
 
-    // given
-    var templates = new Validator();
+    it('should accept call-activity-variables template', function() {
 
-    var templateDescriptors = require('./fixtures/dropdown');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/call-activity-variables');
 
-    // then
-    expect(errors(templates)).to.be.empty;
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.have.length(1);
-  });
+      // then
+      expect(errors(templates)).to.be.empty;
 
+      expect(valid(templates)).to.have.length(1);
+    });
 
-  it('should reject missing name', function() {
 
-    // given
-    var templates = new Validator();
+    it('should accept dropdown example template', function() {
 
-    var templateDescriptors = require('./fixtures/error-name-missing');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/dropdown');
 
-    // then
-    expect(errors(templates)).to.contain('missing template name');
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      // then
+      expect(errors(templates)).to.be.empty;
 
+      expect(valid(templates)).to.have.length(1);
+    });
 
-  it('should reject missing id', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject missing name', function() {
 
-    var templateDescriptors = require('./fixtures/error-id-missing');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-name-missing');
 
-    // then
-    expect(errors(templates)).to.contain('missing template id');
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      // then
+      expect(errors(templates)).to.contain('missing template name');
 
+      expect(valid(templates)).to.be.empty;
+    });
 
-  it('should reject duplicate id', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject missing id', function() {
 
-    var templateDescriptors = require('./fixtures/error-id-duplicate');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-id-missing');
 
-    // then
-    expect(errors(templates)).to.contain('template id <foo> already used');
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.have.length(1);
-  });
+      // then
+      expect(errors(templates)).to.contain('missing template id');
 
+      expect(valid(templates)).to.be.empty;
+    });
 
-  it('should reject duplicate id and version', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject duplicate id', function() {
 
-    var templateDescriptors = require('./fixtures/error-id-version-duplicate');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-id-duplicate');
 
-    // then
-    expect(errors(templates)).to.contain('template id <foo> and version <1> already used');
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.have.length(1);
-  });
+      // then
+      expect(errors(templates)).to.contain('template id <foo> already used');
 
+      expect(valid(templates)).to.have.length(1);
+    });
 
-  it('should reject missing appliesTo', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject duplicate id and version', function() {
 
-    var templateDescriptors = require('./fixtures/error-appliesTo-missing');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-id-version-duplicate');
 
-    // then
-    expect(errors(templates)).to.contain('template(id: foo) missing appliesTo=[]');
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      // then
+      expect(errors(templates)).to.contain('template id <foo> and version <1> already used');
 
+      expect(valid(templates)).to.have.length(1);
+    });
 
-  it('should reject missing properties', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject missing appliesTo', function() {
 
-    var templateDescriptors = require('./fixtures/error-properties-missing');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-appliesTo-missing');
 
-    // then
-    expect(errors(templates)).to.contain('template(id: foo) missing properties=[]');
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      // then
+      expect(errors(templates)).to.contain('template(id: foo) missing appliesTo=[]');
 
+      expect(valid(templates)).to.be.empty;
+    });
 
-  it('should reject missing dropdown choices', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject missing properties', function() {
 
-    var templateDescriptors = require('./fixtures/error-dropdown-choices-missing');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-properties-missing');
 
-    // then
-    expect(errors(templates)).to.eql([
-      'must provide choices=[] with Dropdown type'
-    ]);
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      // then
+      expect(errors(templates)).to.contain('template(id: foo) missing properties=[]');
 
+      expect(valid(templates)).to.be.empty;
+    });
 
-  it('should reject invalid dropdown choices', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject missing dropdown choices', function() {
 
-    var templateDescriptors = require('./fixtures/error-dropdown-choices-invalid');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-dropdown-choices-missing');
 
-    // then
-    expect(errors(templates)).to.eql([
-      '{ name, value } must be specified for Dropdown choices'
-    ]);
+      // when
+      templates.addAll(templateDescriptors);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      // then
+      expect(errors(templates)).to.eql([
+        'must provide choices=[] with Dropdown type'
+      ]);
 
+      expect(valid(templates)).to.be.empty;
+    });
 
-  it('should reject invalid property', function() {
 
-    // given
-    var templates = new Validator();
+    it('should reject invalid dropdown choices', function() {
 
-    var templateDescriptors = require('./fixtures/error-property-invalid');
+      // given
+      var templates = new Validator();
 
-    // when
-    templates.addAll(templateDescriptors);
+      var templateDescriptors = require('./fixtures/error-dropdown-choices-invalid');
 
-    // then
-    expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { ' +
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.eql([
+        '{ name, value } must be specified for Dropdown choices'
+      ]);
+
+      expect(valid(templates)).to.be.empty;
+    });
+
+
+    it('should reject invalid property', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/error-property-invalid');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.eql([
+        'invalid property type <InvalidType>; must be any of { ' +
         'String, Text, Boolean, Hidden, Dropdown ' +
       '}',
-      'invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, ' +
         'camunda:in:businessKey, camunda:executionListener, ' +
         'camunda:field ' +
       '}'
-    ]);
+      ]);
 
-    expect(valid(templates)).to.be.empty;
-  });
-
-
-  it('should reject invalid bindings', function() {
-
-    // given
-    var templates = new Validator();
-
-    var templateDescriptors = require('./fixtures/error-bindings-invalid');
-
-    // when
-    templates.addAll(templateDescriptors);
-
-    // then
-    expect(errors(templates)).to.eql([
-      'property.binding <property> requires name',
-      'property.binding <camunda:property> requires name',
-      'property.binding <camunda:inputParameter> requires name',
-      'property.binding <camunda:outputParameter> requires source',
-      'property.binding <camunda:in> requires variables or target',
-      'property.binding <camunda:out> requires variables, sourceExpression or source'
-    ]);
-
-    expect(valid(templates)).to.be.empty;
-  });
+      expect(valid(templates)).to.be.empty;
+    });
 
 
-  it('should accept type "hidden" for execution listeners', function() {
+    it('should reject invalid bindings', function() {
 
-    // given
-    var templates = new Validator();
+      // given
+      var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/execution-listener');
+      var templateDescriptors = require('./fixtures/error-bindings-invalid');
 
-    // when
-    templates.addAll(templateDescriptors);
+      // when
+      templates.addAll(templateDescriptors);
 
-    // then
-    expect(errors(templates)).to.be.empty;
+      // then
+      expect(errors(templates)).to.eql([
+        'property.binding <property> requires name',
+        'property.binding <camunda:property> requires name',
+        'property.binding <camunda:inputParameter> requires name',
+        'property.binding <camunda:outputParameter> requires source',
+        'property.binding <camunda:in> requires variables or target',
+        'property.binding <camunda:out> requires variables, sourceExpression or source'
+      ]);
 
-    expect(valid(templates)).to.have.length(1);
-  });
-
-
-  it('should accept missing type', function() {
-
-    // given
-    var templates = new Validator();
-
-    var templateDescriptors = require('./fixtures/missing-types');
-
-    // when
-    templates.addAll(templateDescriptors);
-
-    // then
-    expect(errors(templates)).to.be.empty;
-
-    expect(valid(templates)).to.have.length(1);
-  });
+      expect(valid(templates)).to.be.empty;
+    });
 
 
-  it('should reject invalid types for execution listeners', function() {
+    it('should accept type "hidden" for execution listeners', function() {
 
-    // given
-    var templates = new Validator();
+      // given
+      var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/error-execution-listener-invalid-type');
+      var templateDescriptors = require('./fixtures/execution-listener');
 
-    // when
-    templates.addAll(templateDescriptors);
+      // when
+      templates.addAll(templateDescriptors);
 
-    // then
-    expect(errors(templates)).to.eql([
-      'invalid property type <String> for camunda:executionListener; must be <Hidden>',
-      'invalid property type <Text> for camunda:executionListener; must be <Hidden>',
-      'invalid property type <Boolean> for camunda:executionListener; must be <Hidden>',
-      'invalid property type <Dropdown> for camunda:executionListener; must be <Hidden>'
-    ]);
+      // then
+      expect(errors(templates)).to.be.empty;
 
-    expect(valid(templates)).to.have.length(0);
-  });
+      expect(valid(templates)).to.have.length(1);
+    });
 
 
-  it('should reject invalid scopes type', function() {
+    it('should accept missing type', function() {
 
-    // given
-    var templates = new Validator();
+      // given
+      var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/error-scopes-invalid');
+      var templateDescriptors = require('./fixtures/missing-types');
 
-    // when
-    templates.addAll(templateDescriptors);
+      // when
+      templates.addAll(templateDescriptors);
 
-    // then
-    expect(errors(templates)).to.contain('template(id: foo) invalid scopes, should be scopes={}');
+      // then
+      expect(errors(templates)).to.be.empty;
 
-    expect(valid(templates)).to.be.empty;
-  });
-
-
-  it('should reject invalid scopes content', function() {
-
-    // given
-    var templates = new Validator();
-
-    var templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
-
-    // when
-    templates.addAll(templateDescriptors);
-
-    // then
-    expect(errors(templates)).to.contain('template(id: foo) invalid scope, should be scope={}');
-
-    expect(valid(templates)).to.be.empty;
-  });
+      expect(valid(templates)).to.have.length(1);
+    });
 
 
-  it('should reject missing scope properties', function() {
+    it('should reject invalid types for execution listeners', function() {
 
-    // given
-    var templates = new Validator();
+      // given
+      var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/error-scopes-properties-missing');
+      var templateDescriptors = require('./fixtures/error-execution-listener-invalid-type');
 
-    // when
-    templates.addAll(templateDescriptors);
+      // when
+      templates.addAll(templateDescriptors);
 
-    // then
-    expect(errors(templates)).to.contain(
-      'template(id: foo) missing properties=[] in scope <camunda:Connector>'
-    );
+      // then
+      expect(errors(templates)).to.eql([
+        'invalid property type <String> for camunda:executionListener; must be <Hidden>',
+        'invalid property type <Text> for camunda:executionListener; must be <Hidden>',
+        'invalid property type <Boolean> for camunda:executionListener; must be <Hidden>',
+        'invalid property type <Dropdown> for camunda:executionListener; must be <Hidden>'
+      ]);
 
-    expect(valid(templates)).to.be.empty;
-  });
+      expect(valid(templates)).to.have.length(0);
+    });
 
 
-  it('should reject scope with invalid property', function() {
+    it('should reject invalid scopes type', function() {
 
-    // given
-    var templates = new Validator();
+      // given
+      var templates = new Validator();
 
-    var templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+      var templateDescriptors = require('./fixtures/error-scopes-invalid');
 
-    // when
-    templates.addAll(templateDescriptors);
+      // when
+      templates.addAll(templateDescriptors);
 
-    // then
-    expect(errors(templates)).to.eql([
-      'invalid property type <InvalidType>; must be any of { ' +
+      // then
+      expect(errors(templates)).to.contain('template(id: foo) invalid scopes, should be scopes={}');
+
+      expect(valid(templates)).to.be.empty;
+    });
+
+
+    it('should reject invalid scopes content', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.contain('template(id: foo) invalid scope, should be scope={}');
+
+      expect(valid(templates)).to.be.empty;
+    });
+
+
+    it('should reject missing scope properties', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/error-scopes-properties-missing');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.contain(
+        'template(id: foo) missing properties=[] in scope <camunda:Connector>'
+      );
+
+      expect(valid(templates)).to.be.empty;
+    });
+
+
+    it('should reject scope with invalid property', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.eql([
+        'invalid property type <InvalidType>; must be any of { ' +
         'String, Text, Boolean, Hidden, Dropdown ' +
       '}',
-      'invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, ' +
         'camunda:in:businessKey, camunda:executionListener, ' +
         'camunda:field ' +
       '}'
-    ]);
-    expect(valid(templates)).to.be.empty;
+      ]);
+      expect(valid(templates)).to.be.empty;
+    });
+
+
+    it('should accept scopes example template', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/scopes');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(1);
+    });
+
+
+    it('should accept field injections example template', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/field-injections');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(1);
+    });
+
   });
-
-
-  it('should accept scopes example template', function() {
-
-    // given
-    var templates = new Validator();
-
-    var templateDescriptors = require('./fixtures/scopes');
-
-    // when
-    templates.addAll(templateDescriptors);
-
-    // then
-    expect(errors(templates)).to.be.empty;
-
-    expect(valid(templates)).to.have.length(1);
-  });
-
-
-  it('should accept field injections example template', function() {
-
-    // given
-    var templates = new Validator();
-
-    var templateDescriptors = require('./fixtures/field-injections');
-
-    // when
-    templates.addAll(templateDescriptors);
-
-    // then
-    expect(errors(templates)).to.be.empty;
-
-    expect(valid(templates)).to.have.length(1);
-  });
-
 });
