@@ -139,7 +139,7 @@ describe('element-templates - Validator', function() {
       // then
       expect(errors(templates)).to.have.length(6);
 
-      expect(errors(templates)[0]).to.eql('template name <Foo> with id <foo> uses element template schema version <99.99.99>. Your installation only supports up to version <0.2.0>. Please update your installation.');
+      expect(errors(templates)[0]).to.eql('template(id: <foo>, name: <Foo>): unsupported element template schema version <99.99.99>. Your installation only supports up to version <0.2.0>. Please update your installation');
     });
 
   });
@@ -226,7 +226,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('missing template name');
+      expect(errors(templates)).to.contain('template(id: <invalid>, name: <undefined>): missing template name');
 
       expect(valid(templates)).to.be.empty;
     });
@@ -243,7 +243,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('missing template id');
+      expect(errors(templates)).to.contain('template(id: <undefined>, name: <Invalid>): missing template id');
 
       expect(valid(templates)).to.be.empty;
     });
@@ -260,7 +260,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('template id <foo> already used');
+      expect(errors(templates)).to.contain('template(id: <foo>, name: <Foo 2>): template id <foo> already used');
 
       expect(valid(templates)).to.have.length(1);
     });
@@ -277,7 +277,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('template id <foo> and version <1> already used');
+      expect(errors(templates)).to.contain('template(id: <foo>, name: <Foo 2>): template id <foo> and version <1> already used');
 
       expect(valid(templates)).to.have.length(1);
     });
@@ -294,7 +294,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('template(id: foo) missing appliesTo=[]');
+      expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): missing appliesTo=[]');
 
       expect(valid(templates)).to.be.empty;
     });
@@ -311,7 +311,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('template(id: foo) missing properties=[]');
+      expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): missing properties=[]');
 
       expect(valid(templates)).to.be.empty;
     });
@@ -329,7 +329,7 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'must provide choices=[] with Dropdown type'
+        'template(id: <bar>, name: <Task>): must provide choices=[] with Dropdown type'
       ]);
 
       expect(valid(templates)).to.be.empty;
@@ -348,7 +348,7 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        '{ name, value } must be specified for Dropdown choices'
+        'template(id: <bar>, name: <Task>): { name, value } must be specified for Dropdown choices'
       ]);
 
       expect(valid(templates)).to.be.empty;
@@ -367,10 +367,10 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'invalid property type <InvalidType>; must be any of { ' +
+        'template(id: <foo>, name: <Invalid>): invalid property type <InvalidType>; must be any of { ' +
         'String, Text, Boolean, Hidden, Dropdown ' +
       '}',
-        'invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'template(id: <foo>, name: <Invalid>): invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, ' +
         'camunda:in:businessKey, camunda:executionListener, ' +
@@ -394,12 +394,12 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'property.binding <property> requires name',
-        'property.binding <camunda:property> requires name',
-        'property.binding <camunda:inputParameter> requires name',
-        'property.binding <camunda:outputParameter> requires source',
-        'property.binding <camunda:in> requires variables or target',
-        'property.binding <camunda:out> requires variables, sourceExpression or source'
+        'template(id: <foo>, name: <Invalid>): property.binding <property> requires name',
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:property> requires name',
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:inputParameter> requires name',
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:outputParameter> requires source',
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:in> requires variables or target',
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:out> requires variables, sourceExpression or source'
       ]);
 
       expect(valid(templates)).to.be.empty;
@@ -452,10 +452,10 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'invalid property type <String> for camunda:executionListener; must be <Hidden>',
-        'invalid property type <Text> for camunda:executionListener; must be <Hidden>',
-        'invalid property type <Boolean> for camunda:executionListener; must be <Hidden>',
-        'invalid property type <Dropdown> for camunda:executionListener; must be <Hidden>'
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <String> for camunda:executionListener; must be <Hidden>',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <Text> for camunda:executionListener; must be <Hidden>',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <Boolean> for camunda:executionListener; must be <Hidden>',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <Dropdown> for camunda:executionListener; must be <Hidden>'
       ]);
 
       expect(valid(templates)).to.have.length(0);
@@ -473,7 +473,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('template(id: foo) invalid scopes, should be scopes={}');
+      expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scopes, should be scopes={}');
 
       expect(valid(templates)).to.be.empty;
     });
@@ -490,7 +490,7 @@ describe('element-templates - Validator', function() {
       templates.addAll(templateDescriptors);
 
       // then
-      expect(errors(templates)).to.contain('template(id: foo) invalid scope, should be scope={}');
+      expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scope, should be scope={}');
 
       expect(valid(templates)).to.be.empty;
     });
@@ -508,7 +508,7 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.contain(
-        'template(id: foo) missing properties=[] in scope <camunda:Connector>'
+        'template(id: <foo>, name: <Invalid>): missing properties=[] in scope <camunda:Connector>'
       );
 
       expect(valid(templates)).to.be.empty;
@@ -527,10 +527,10 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'invalid property type <InvalidType>; must be any of { ' +
+        'template(id: <foo>, name: <Invalid>): invalid property type <InvalidType>; must be any of { ' +
         'String, Text, Boolean, Hidden, Dropdown ' +
       '}',
-        'invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'template(id: <foo>, name: <Invalid>): invalid property.binding type <alsoInvalid>; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, ' +
         'camunda:in:businessKey, camunda:executionListener, ' +

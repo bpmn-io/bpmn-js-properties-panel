@@ -190,8 +190,8 @@ describe('element-templates - ElementTemplatesLoader', function() {
           var errors = e.errors;
 
           expect(messages(errors)).to.eql([
-            'template id <foo> already used',
-            'template id <foo> already used'
+            'template(id: <foo>, name: <Foo>): template id <foo> already used',
+            'template(id: <foo>, name: <Foo>): template id <foo> already used'
           ]);
         });
 
