@@ -51,7 +51,7 @@ describe('element-templates/parts - Description Properties', function() {
   }));
 
 
-  it('should show version', inject(function() {
+  it('should show version label given a version', inject(function() {
 
     // given
     selectAndGet('Task_Description');
@@ -61,6 +61,19 @@ describe('element-templates/parts - Description Properties', function() {
 
     // then
     expect(versionEntry).to.exist;
+  }));
+
+
+  it('should hide version label given no version or metadata', inject(function() {
+
+    // given
+    selectAndGet('Task');
+
+    // when
+    var versionEntry = entrySelect('element-template-version');
+
+    // then
+    expect(versionEntry).not.to.exist;
   }));
 
 
