@@ -5,5 +5,4 @@ test/*
 !test/helper
 !dist/*
 .eslintrc
-.travis.yml
 karma.conf.js
