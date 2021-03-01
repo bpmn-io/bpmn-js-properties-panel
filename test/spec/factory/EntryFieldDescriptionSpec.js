@@ -224,7 +224,7 @@ describe('factory/EntryFieldDescription', function() {
 
       // then
       expect(domQuery('.description__text', html).innerHTML).to.equal(
-        '<a href="https://test&lt;br /&gt;website.com" target="_blank"> HELLO <br> WORLD </a>'
+        '<a href="https://test<br />website.com" target="_blank"> HELLO <br> WORLD </a>'
       );
     });
 
