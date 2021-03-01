@@ -509,6 +509,7 @@ describe('properties-panel', function() {
     it('should paste to [contenteditable] as plain text');
   });
 
+
   describe('integration test', function() {
 
     describe('validation', function() {
@@ -639,6 +640,50 @@ describe('properties-panel', function() {
 
     });
   });
+
+
+  describe('properties providers', function() {
+
+    it('should register provider', inject(
+      function(propertiesPanel) {
+
+        // given
+
+        // when
+        // high priority provider
+        propertiesPanel.registerProvider(1500, {
+          getTabs: function(element) {
+            expect(element).to.exist;
+
+            return function(tabs) {
+              expect(tabs).to.be.empty;
+            };
+          }
+        });
+
+        // default priority provider
+        propertiesPanel.registerProvider({
+          getTabs: function(element) {
+            expect(element).to.exist;
+
+            return function(tabs) {
+              expect(tabs).to.have.length(3);
+
+              // clear tabs
+              return [];
+            };
+          }
+        });
+
+        propertiesPanel.attachTo(container);
+
+        // then
+        expect(document.querySelectorAll('.bpp-properties-tab', container)).to.be.empty;
+      }
+    ));
+
+  });
+
 });
 
 // helper //////////////////////////
