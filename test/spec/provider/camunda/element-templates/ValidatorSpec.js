@@ -462,99 +462,122 @@ describe('element-templates - Validator', function() {
     });
 
 
-    it('should reject invalid scopes type', function() {
+    describe('scopes', function() {
 
-      // given
-      var templates = new Validator();
+      it('should accept scopes as array', function() {
 
-      var templateDescriptors = require('./fixtures/error-scopes-invalid');
+        // given
+        var templates = new Validator();
 
-      // when
-      templates.addAll(templateDescriptors);
+        var templateDescriptors = require('./fixtures/scopes-array');
 
-      // then
-      expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scopes, should be scopes={}');
+        // when
+        templates.addAll(templateDescriptors);
 
-      expect(valid(templates)).to.be.empty;
-    });
+        // then
+        expect(errors(templates)).to.be.empty;
 
-
-    it('should reject invalid scopes content', function() {
-
-      // given
-      var templates = new Validator();
-
-      var templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
-
-      // when
-      templates.addAll(templateDescriptors);
-
-      // then
-      expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scope, should be scope={}');
-
-      expect(valid(templates)).to.be.empty;
-    });
+        expect(valid(templates)).to.have.length(1);
+      });
 
 
-    it('should reject missing scope properties', function() {
+      it('should accept scopes as object descriptor (connectors)', function() {
 
-      // given
-      var templates = new Validator();
+        // given
+        var templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-scopes-properties-missing');
+        var templateDescriptors = require('./fixtures/scopes-single-connector');
 
-      // when
-      templates.addAll(templateDescriptors);
+        // when
+        templates.addAll(templateDescriptors);
 
-      // then
-      expect(errors(templates)).to.contain(
-        'template(id: <foo>, name: <Invalid>): missing properties=[] in scope <camunda:Connector>'
-      );
+        // then
+        expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.be.empty;
-    });
+        expect(valid(templates)).to.have.length(1);
+      });
 
 
-    it('should reject scope with invalid property', function() {
+      it('should reject invalid scopes content', function() {
 
-      // given
-      var templates = new Validator();
+        // given
+        var templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+        var templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
 
-      // when
-      templates.addAll(templateDescriptors);
+        // when
+        templates.addAll(templateDescriptors);
 
-      // then
-      expect(errors(templates)).to.eql([
-        'template(id: <foo>, name: <Invalid>): invalid property type <InvalidType>; must be any of { ' +
-        'String, Text, Boolean, Hidden, Dropdown ' +
-      '}',
-        'template(id: <foo>, name: <Invalid>): invalid property.binding type <alsoInvalid>; must be any of { ' +
-        'property, camunda:property, camunda:inputParameter, ' +
-        'camunda:outputParameter, camunda:in, camunda:out, ' +
-        'camunda:in:businessKey, camunda:executionListener, ' +
-        'camunda:field ' +
-      '}'
-      ]);
-      expect(valid(templates)).to.be.empty;
-    });
+        // then
+        expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scope <properties>, object descriptor is only supported for <camunda:Connector>');
+
+        expect(valid(templates)).to.be.empty;
+      });
 
 
-    it('should accept scopes example template', function() {
+      it('should reject missing scope properties', function() {
 
-      // given
-      var templates = new Validator();
+        // given
+        var templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/scopes');
+        var templateDescriptors = require('./fixtures/error-scopes-properties-missing');
 
-      // when
-      templates.addAll(templateDescriptors);
+        // when
+        templates.addAll(templateDescriptors);
 
-      // then
-      expect(errors(templates)).to.be.empty;
+        // then
+        expect(errors(templates)).to.contain(
+          'template(id: <foo>, name: <Invalid>): missing properties=[] in scope <camunda:Connector>'
+        );
 
-      expect(valid(templates)).to.have.length(1);
+        expect(valid(templates)).to.be.empty;
+      });
+
+
+      it('should reject missing scope type', function() {
+
+        // given
+        var templates = new Validator();
+
+        var templateDescriptors = require('./fixtures/error-scopes-type-missing');
+
+        // when
+        templates.addAll(templateDescriptors);
+
+        // then
+        expect(errors(templates)).to.contain(
+          'template(id: <foo>, name: <Invalid>): invalid scope, missing type'
+        );
+
+        expect(valid(templates)).to.be.empty;
+      });
+
+
+      it('should reject scope with invalid property', function() {
+
+        // given
+        var templates = new Validator();
+
+        var templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+
+        // when
+        templates.addAll(templateDescriptors);
+
+        // then
+        expect(errors(templates)).to.eql([
+          'template(id: <foo>, name: <Invalid>): invalid property type <InvalidType>; must be any of { ' +
+          'String, Text, Boolean, Hidden, Dropdown ' +
+        '}',
+          'template(id: <foo>, name: <Invalid>): invalid property.binding type <alsoInvalid>; must be any of { ' +
+          'property, camunda:property, camunda:inputParameter, ' +
+          'camunda:outputParameter, camunda:in, camunda:out, ' +
+          'camunda:in:businessKey, camunda:executionListener, ' +
+          'camunda:field ' +
+        '}'
+        ]);
+        expect(valid(templates)).to.be.empty;
+      });
+
     });
 
 

@@ -6,8 +6,9 @@
       "bpmn:UserTask"
     ],
     "properties": [],
-    "scopes": {
-      "camunda:Connector": {
+    "scopes": [
+      {
+        "type": "camunda:Connector",
         "properties": [
           {
             "label": "Label",
@@ -20,6 +21,6 @@
           }
         ]
       }
-    }
+    ]
   }
 ]

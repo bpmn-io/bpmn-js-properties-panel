@@ -1,18 +1,19 @@
 [
   {
-    "name": "Invalid",
+    "name": "Connector - Array",
     "id": "foo",
     "appliesTo": [
       "bpmn:UserTask"
     ],
     "properties": [],
-    "scopes": {
-      "camunda:Connector": {
+    "scopes": [
+      {
+        "type": "camunda:Connector",
         "properties": [
           {
             "label": "ConnectorId",
             "type": "String",
-            "value": "HTTP Connector",
+            "value": "My Connector HTTP - GET",
             "binding": {
               "type": "property",
               "name": "connectorId"
@@ -20,6 +21,6 @@
           }
         ]
       }
-    }
+    ]
   }
 ]
