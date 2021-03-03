@@ -598,6 +598,350 @@ describe('element-templates/parts - Custom Properties', function() {
     });
 
 
+    describe('camunda:Connector (legacy)', function() {
+
+      function expectError(entry, message) {
+        var errorElement = entrySelect(entry, '.bpp-error-message');
+
+        var error = errorElement && errorElement.textContent;
+
+        expect(error).to.eql(message);
+      }
+
+      function expectValid(entry) {
+        expectError(entry, null);
+      }
+
+      function changeInput(entry, newValue) {
+        var input = entrySelect(entry, 'input');
+
+        TestHelper.triggerValue(input, newValue, 'change');
+      }
+
+
+      describe('connector', function() {
+
+        it('should exist', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_legacy');
+          var connector = findExtension(task, 'camunda:Connector');
+
+          expect(connector).to.exist;
+        }));
+
+      });
+
+
+      describe('property', function() {
+
+        it('should display', inject(function() {
+
+          // given
+          selectAndGet('ConnectorTask_legacy');
+
+          // when
+          var connectorIdEntry = entrySelect('custom-my.connector.legacy.Task-camunda_Connector-0'),
+              inputText = entrySelect('custom-my.connector.legacy.Task-camunda_Connector-0', '[type=text]');
+
+          // then
+          expect(connectorIdEntry).to.exist;
+          expect(inputText).to.exist;
+        }));
+
+
+        it('should change, updating String property', inject(function() {
+
+          // given
+          selectAndGet('ConnectorTask_legacy');
+
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-0';
+          var inputText = entrySelect(entryId, '[type=text]');
+
+          // assume
+          expectValid(entryId);
+          expect(inputText.value).to.equal('My Connector HTTP');
+
+          // when
+          changeInput(entryId, '');
+
+          // then
+          expect(inputText.value).to.equal('');
+          expectError(entryId, 'Must not be empty');
+        }));
+
+      });
+
+
+      describe('camunda:inputParameter', function() {
+
+        it('should display', inject(function() {
+
+          // given
+          selectAndGet('ConnectorTask_legacy');
+
+          // when
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-1';
+          var inputText = entrySelect(entryId, '[type=text]');
+
+          // assume
+          expect(inputText.value).to.equal('');
+          expectError(entryId, 'Must not be empty');
+
+          // when
+          changeInput(entryId, 'http://camunda-modeler/');
+
+          // then
+          expectValid(entryId);
+          expect(inputText.value).to.equal('http://camunda-modeler/');
+        }));
+
+
+        it('should hide if type=Hidden', inject(function() {
+
+          // given
+          selectAndGet('ConnectorTask_legacy');
+
+          // when
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-3';
+          var hiddenField = entrySelect(entryId, '*');
+
+          // then
+          expect(hiddenField).not.to.exist;
+        }));
+
+
+        it('should change, setting camunda:InputParameter (plain)', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_legacy');
+
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-1';
+          var urlField = entrySelect(entryId, 'input');
+
+          // when
+          TestHelper.triggerValue(urlField, 'http://camunda-modeler/', 'change');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              urlMapping = findInputParameter(inputOutput, { name: 'url' });
+
+          // then
+          expect(urlMapping).to.exist;
+          expect(urlMapping).to.jsonEqual({
+            $type: 'camunda:InputParameter',
+            name: 'url',
+            value: 'http://camunda-modeler/'
+          });
+        }));
+
+
+        it('should change, setting camunda:InputParameter (script)', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_legacy');
+
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-4';
+          var templateField = entrySelect(entryId, 'div[contenteditable]');
+
+          // when
+          TestHelper.triggerValue(templateField, 'Hello ${foo}', 'change');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              recipientMapping = findInputParameter(inputOutput, { name: 'messageBody' });
+
+          // then
+          expect(recipientMapping).to.exist;
+
+          expect(recipientMapping).to.jsonEqual({
+            $type: 'camunda:InputParameter',
+            name: 'messageBody',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'freemarker',
+              value: 'Hello ${foo}'
+            }
+          });
+        }));
+
+
+        it('should change, setting camunda:InputParameter (Dropdown)', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_legacy');
+
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-2';
+          var recipientField = entrySelect(entryId, 'select');
+
+          // assume
+          expect(recipientField.value).to.equal('');
+          expectError(entryId, 'Must not be empty');
+
+          // when
+          TestHelper.triggerValue(recipientField, 'POST', 'change');
+
+          // then
+          expectValid(entryId);
+          expect(recipientField.value).to.equal('POST');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              recipientMapping = findInputParameter(inputOutput, { name: 'method' });
+
+          expect(recipientMapping).to.exist;
+          expect(recipientMapping).to.jsonEqual({
+            $type: 'camunda:InputParameter',
+            name: 'method',
+            value: 'POST'
+          });
+        }));
+
+
+        it('should change, creating camunda:InputParameter if non-existing', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_NoData_legacy');
+
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-1';
+          var recipientField = entrySelect(entryId, 'input');
+
+          // assume
+          expect(recipientField.value).to.equal('');
+          expectError(entryId, 'Must not be empty');
+
+          // when
+          TestHelper.triggerValue(recipientField, 'http://camunda-modeler/', 'change');
+
+          // then
+          expectValid(entryId);
+          expect(recipientField.value).to.equal('http://camunda-modeler/');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              recipientMapping = findInputParameter(inputOutput, { name: 'url' });
+
+          expect(recipientMapping).to.exist;
+          expect(recipientMapping).to.jsonEqual({
+            $type: 'camunda:InputParameter',
+            name: 'url',
+            value: 'http://camunda-modeler/'
+          });
+        }));
+
+      });
+
+
+      describe('camunda:outputParameter', function() {
+
+        it('should display', inject(function() {
+
+          // given
+          selectAndGet('ConnectorTask_legacy');
+
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-5';
+          var responseField = entrySelect(entryId, 'input');
+
+          // then
+          expect(responseField).to.exist;
+        }));
+
+
+        it('should change, setting camunda:OutputParameter (plain)', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_legacy');
+
+          // when
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-5';
+          var responseField = entrySelect(entryId, 'input');
+
+          // when
+          TestHelper.triggerValue(responseField, 'result', 'change');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              recipientMapping = findOutputParameter(inputOutput, { source: 'wsResponse' });
+
+          expect(recipientMapping).to.exist;
+          expect(recipientMapping).to.jsonEqual({
+            $type: 'camunda:OutputParameter',
+            name: 'result',
+            value: 'wsResponse'
+          });
+        }));
+
+
+        it('should change, setting camunda:OutputParameter (script)', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_legacy');
+
+          // when
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-6';
+          var resultField = entrySelect(entryId, 'input');
+
+          // when
+          TestHelper.triggerValue(resultField, 'result', 'change');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              resultMapping = findOutputParameter(inputOutput, {
+                source: '${httpResult}',
+                scriptFormat: 'freemarker'
+              });
+
+          // then
+          expect(resultMapping).to.exist;
+          expect(resultMapping).to.jsonEqual({
+            $type: 'camunda:OutputParameter',
+            name: 'result',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'freemarker',
+              value: '${httpResult}'
+            }
+          });
+        }));
+
+
+        it('should change, creating camunda:OutputParameter if non-existing', inject(function() {
+
+          // given
+          var task = selectAndGet('ConnectorTask_NoData_legacy');
+
+          // when
+          var entryId = 'custom-my.connector.legacy.Task-camunda_Connector-6';
+          var resultField = entrySelect(entryId, 'input');
+
+          // when
+          TestHelper.triggerValue(resultField, 'result', 'change');
+
+          var connector = findExtension(task, 'camunda:Connector'),
+              inputOutput = connector.get('inputOutput'),
+              resultMapping = findOutputParameter(inputOutput, {
+                source: '${httpResult}',
+                scriptFormat: 'freemarker'
+              });
+
+          // then
+          expect(resultMapping).to.exist;
+          expect(resultMapping).to.jsonEqual({
+            $type: 'camunda:OutputParameter',
+            name: 'result',
+            definition: {
+              $type: 'camunda:Script',
+              scriptFormat: 'freemarker',
+              value: '${httpResult}'
+            }
+          });
+        }));
+
+      });
+
+    });
+
+
     describe('camunda:Connector', function() {
 
       function expectError(entry, message) {
