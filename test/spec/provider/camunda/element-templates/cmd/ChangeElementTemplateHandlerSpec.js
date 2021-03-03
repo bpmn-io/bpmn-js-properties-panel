@@ -1073,7 +1073,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Connector', function() {
 
-        describe('camunda:Connector specified', function() {
+        describe('camunda:Connector specified (legacy)', function() {
 
           beforeEach(bootstrap(require('./service-task.bpmn')));
 
@@ -1146,6 +1146,105 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
             // then
             expectElementTemplate(serviceTask, 'service-task-template', 1);
+
+            var connector = findExtension(serviceTask, 'camunda:Connector');
+
+            expect(connector).to.exist;
+            expect(connector.get('connectorId')).to.equal('foo');
+
+            var inputOutput = connector.get('inputOutput');
+
+            expect(inputOutput).to.exist;
+
+            expect(inputOutput.inputParameters).to.jsonEqual([{
+              $type: 'camunda:InputParameter',
+              name: 'input-1-name',
+              value: 'input-1-value'
+            }]);
+
+            expect(inputOutput.outputParameters).to.jsonEqual([{
+              $type: 'camunda:OutputParameter',
+              name: 'output-1-value',
+              value: 'output-1-source'
+            }]);
+          }));
+
+        });
+
+
+        describe('camunda:Connector specified', function() {
+
+          beforeEach(bootstrap(require('./service-task.bpmn')));
+
+          var newTemplate = require('./service-task-connector-template-1.json');
+
+
+          it('execute', inject(function(elementRegistry) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1');
+
+            // when
+            changeTemplate(serviceTask, newTemplate);
+
+            // then
+            expectElementTemplate(serviceTask, 'service-task-template-connector', 1);
+
+            var connector = findExtension(serviceTask, 'camunda:Connector');
+
+            expect(connector).to.exist;
+            expect(connector.get('connectorId')).to.equal('foo');
+
+            var inputOutput = connector.get('inputOutput');
+
+            expect(inputOutput).to.exist;
+
+            expect(inputOutput.inputParameters).to.jsonEqual([{
+              $type: 'camunda:InputParameter',
+              name: 'input-1-name',
+              value: 'input-1-value'
+            }]);
+
+            expect(inputOutput.outputParameters).to.jsonEqual([{
+              $type: 'camunda:OutputParameter',
+              name: 'output-1-value',
+              value: 'output-1-source'
+            }]);
+          }));
+
+
+          it('undo', inject(function(commandStack, elementRegistry) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1');
+
+            changeTemplate(serviceTask, newTemplate);
+
+            // when
+            commandStack.undo();
+
+            // then
+            expectNoElementTemplate(serviceTask);
+
+            var connector = findExtension(serviceTask, 'camunda:Connector');
+
+            expect(connector).not.to.exist;
+          }));
+
+
+          it('redo', inject(function(commandStack, elementRegistry) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1');
+
+            changeTemplate(serviceTask, newTemplate);
+
+            // when
+            commandStack.undo();
+            commandStack.redo();
+
+            // then
+            expectElementTemplate(serviceTask, 'service-task-template-connector', 1);
 
             var connector = findExtension(serviceTask, 'camunda:Connector');
 
@@ -2567,6 +2666,183 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update scope elements', function() {
 
+      describe('camunda:Connector (legacy)', function() {
+
+        beforeEach(bootstrap(require('./service-task.bpmn')));
+
+
+        it('properties changed', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = {
+            properties: [],
+            scopes: {
+              'camunda:Connector': {
+                properties: [
+                  {
+                    value: 'input-1-old-value',
+                    binding: {
+                      type: 'camunda:inputParameter',
+                      name: 'input-1-name'
+                    }
+                  },
+                  {
+                    value: 'output-1-old-value',
+                    binding: {
+                      type: 'camunda:outputParameter',
+                      source: 'output-1-source'
+                    }
+                  }
+                ]
+              }
+            }
+          };
+
+          var newTemplate = createTemplate([
+            {
+              value: 'input-1-new-value',
+              binding: {
+                type: 'camunda:inputParameter',
+                name: 'input-1-name'
+              }
+            },
+            {
+              value: 'output-1-new-value',
+              binding: {
+                type: 'camunda:outputParameter',
+                source: 'output-1-source'
+              }
+            }
+          ], 'camunda:Connector');
+
+          changeTemplate('ServiceTask_1', oldTemplate);
+
+          var connector = findExtension(serviceTask, 'camunda:Connector');
+
+          var input = getInputParameter(connector, 'input-1-name');
+
+          updateBusinessObject(serviceTask, input, {
+            value: 'input-1-changed-value'
+          });
+
+          var output = getOutputParameter(connector, 'output-1-source');
+
+          updateBusinessObject(serviceTask, output, {
+            name: 'output-1-changed-value'
+          });
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          connector = findExtension(serviceTask, 'camunda:Connector');
+
+          expect(connector).to.exist;
+          expect(connector).to.jsonEqual({
+            $type: 'camunda:Connector',
+            inputOutput: {
+              $type: 'camunda:InputOutput',
+              inputParameters: [
+                {
+                  $type: 'camunda:InputParameter',
+                  name: 'input-1-name',
+                  value: 'input-1-changed-value'
+                }
+              ],
+              outputParameters: [
+                {
+                  $type: 'camunda:OutputParameter',
+                  name: 'output-1-changed-value',
+                  value: 'output-1-source'
+                }
+              ]
+            }
+          });
+        }));
+
+
+        it('properties unchanged', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = {
+            properties: [],
+            scopes: {
+              'camunda:Connector': {
+                properties: [
+                  {
+                    value: 'input-1-old-value',
+                    binding: {
+                      type: 'camunda:inputParameter',
+                      name: 'input-1-name'
+                    }
+                  },
+                  {
+                    value: 'output-1-old-value',
+                    binding: {
+                      type: 'camunda:outputParameter',
+                      source: 'output-1-source'
+                    }
+                  }
+                ]
+              }
+            }
+          };
+
+          var newTemplate = createTemplate([
+            {
+              value: 'input-1-new-value',
+              binding: {
+                type: 'camunda:inputParameter',
+                name: 'input-1-name'
+              }
+            },
+            {
+              value: 'output-1-new-value',
+              binding: {
+                type: 'camunda:outputParameter',
+                source: 'output-1-source'
+              }
+            }
+          ], 'camunda:Connector');
+
+          changeTemplate('ServiceTask_1', oldTemplate);
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          var connector = findExtension(serviceTask, 'camunda:Connector');
+
+          expect(connector).to.exist;
+          expect(connector).to.jsonEqual({
+            $type: 'camunda:Connector',
+            inputOutput: {
+              $type: 'camunda:InputOutput',
+              inputParameters: [
+                {
+                  $type: 'camunda:InputParameter',
+                  name: 'input-1-name',
+                  value: 'input-1-new-value'
+                }
+              ],
+              outputParameters: [
+                {
+                  $type: 'camunda:OutputParameter',
+                  name: 'output-1-new-value',
+                  value: 'output-1-source'
+                }
+              ]
+            }
+          });
+        }));
+
+      });
+
+
       describe('camunda:Connector', function() {
 
         beforeEach(bootstrap(require('./service-task.bpmn')));
@@ -2869,13 +3145,16 @@ function createTemplate(properties, scope) {
 
   var template = {
     properties: [],
-    scopes: {}
+    scopes: []
   };
 
   if (scope) {
-    template.scopes[ scope ] = {
-      properties: properties
-    };
+    template.scopes = [
+      {
+        type: scope,
+        properties: properties
+      }
+    ];
   } else {
     template.properties = properties;
   }
