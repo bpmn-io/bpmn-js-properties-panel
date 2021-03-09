@@ -6,14 +6,19 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+...
+
+## 0.41.0
+
 * `FEAT`: support multiple properties panel providers ([#438](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/438))
 * `FEAT`: validate element template schema version provided as part `$schema` attribute and ignore unsupported versions ([#2083](https://github.com/camunda/camunda-modeler/issues/2083))
 * `FEAT`: provided clearer labels for `bpmn:*EventDefinitions` ([#421](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/421))
+* `FEAT`: support error event definitions for external service tasks ([#422](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/422))
+* `FEAT`: support new element templates scope descriptors ([#423](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/423))
 * `FIX`: don't render `version` in element template view, when applied element template has no `version` ([#2101](https://github.com/camunda/camunda-modeler/issues/2101))
 * `FIX`: always provide `id` and `name` of an element template when logging an error ([#2111](https://github.com/camunda/camunda-modeler/issues/2111))
 * `CHORE`: bump to `@bpmn-io/extract-process-variables@0.4.1`
-
-...
+* `CHORE`: bump to `bpmn-js@8.2.1`
 
 ## 0.40.0
 
