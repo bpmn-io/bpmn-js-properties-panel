@@ -55,7 +55,7 @@ describe('listener-fieldInjection-properties', function() {
   }));
 
   function getExtensionElements(bo, type) {
-    return extensionElementsHelper.getExtensionElements(bo, type) || [];
+    return extensionElementsHelper.getExtensionElements(bo, type);
   }
 
   function getCamundaFields(bo, type, idx) {
