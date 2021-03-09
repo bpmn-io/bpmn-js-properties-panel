@@ -165,7 +165,7 @@ describe('retryTimeCycle', function() {
 
         // then
         var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
-        expect(timeCycles).not.to.ok;
+        expect(timeCycles).to.be.empty;
 
         var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
         expect(listeners).to.have.length(1);
@@ -425,7 +425,7 @@ describe('retryTimeCycle', function() {
 
         // then
         var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
-        expect(timeCycles).not.to.ok;
+        expect(timeCycles).to.be.empty;
 
         var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
         expect(listeners).to.have.length(1);
@@ -455,7 +455,7 @@ describe('retryTimeCycle', function() {
 
         // then
         var timeCycles = extensionElementsHelper.getExtensionElements(bo, 'camunda:FailedJobRetryTimeCycle');
-        expect(timeCycles).not.to.ok;
+        expect(timeCycles).to.be.empty;
 
         var listeners = extensionElementsHelper.getExtensionElements(bo, 'camunda:ExecutionListener');
         expect(listeners).to.have.length(1);

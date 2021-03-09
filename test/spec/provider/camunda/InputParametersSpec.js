@@ -669,7 +669,7 @@ describe('input-parameters', function() {
 // MODEL HELPER
 
 function getElements(bo, type, prop) {
-  var elems = extensionElementsHelper.getExtensionElements(bo, type) || [];
+  var elems = extensionElementsHelper.getExtensionElements(bo, type);
   return !prop ? elems : (elems[0] || {})[prop] || [];
 }
 
