@@ -64,7 +64,7 @@ describe('fieldInjection-properties', function() {
       bo = bo.eventDefinitions[0];
     }
 
-    return extensionElementsHelper.getExtensionElements(bo, 'camunda:Field') || [];
+    return extensionElementsHelper.getExtensionElements(bo, 'camunda:Field');
   }
 
   function getInput(container, inputNode) {

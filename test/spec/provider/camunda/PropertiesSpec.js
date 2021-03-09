@@ -45,7 +45,7 @@ function getPropertiesTable(container) {
 }
 
 var getPropertyValues = function(element) {
-  var properties = (getExtensionElements(getBusinessObject(element), 'camunda:Properties') || [])[0];
+  var properties = getExtensionElements(getBusinessObject(element), 'camunda:Properties')[0];
 
   if (properties) {
     return properties.values;

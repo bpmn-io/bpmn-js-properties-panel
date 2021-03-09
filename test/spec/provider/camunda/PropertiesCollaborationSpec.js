@@ -50,7 +50,7 @@ var getPropertyValues = function(element, isNoParticipant) {
   if (isNoParticipant) {
     bo = getBusinessObject(element);
   }
-  var properties = (getExtensionElements(bo, 'camunda:Properties') || [])[0];
+  var properties = getExtensionElements(bo, 'camunda:Properties')[0];
 
   if (properties) {
     return properties.values;
