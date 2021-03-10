@@ -19,6 +19,8 @@ var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
 var findExtension = require('lib/provider/camunda/element-templates/Helper').findExtension,
     findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions;
 
+var findRootElementsByType = require('lib/Utils').findRootElementsByType;
+
 var find = require('lodash/find'),
     isArray = require('lodash/isArray'),
     isString = require('lodash/isString'),
@@ -1069,6 +1071,117 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
     });
 
 
+    describe('update camunda:ErrorEventDefinition', function() {
+
+      describe('camunda:ErrorEventDefinition specified', function() {
+
+        beforeEach(bootstrap(require('./service-task.bpmn')));
+
+        var newTemplate = require('./error-template-1.json');
+
+
+        it('execute', inject(function(elementRegistry) {
+
+          // given
+          var task = elementRegistry.get('ServiceTask_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'error-template', 1);
+
+          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1'),
+              error = errorEventDefinition.errorRef;
+
+          expect(errorEventDefinition).to.exist;
+          expect(errorEventDefinition.get('expression')).to.eql('expression-value');
+
+          expect(error).to.exist;
+          expect(error.get('name')).to.equal('error-name');
+        }));
+
+
+        it('undo', inject(function(elementRegistry, commandStack) {
+
+          // given
+          var task = elementRegistry.get('ServiceTask_1');
+
+          changeTemplate(task, newTemplate);
+
+          // when
+          commandStack.undo();
+
+          // then
+          expectNoElementTemplate(task);
+
+          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1');
+
+          expect(errorEventDefinition).to.not.exist;
+        }));
+
+
+        it('redo', inject(function(elementRegistry, commandStack) {
+
+          // given
+          var task = elementRegistry.get('ServiceTask_1');
+
+          changeTemplate(task, newTemplate);
+
+          // when
+          commandStack.undo();
+          commandStack.redo();
+
+          // then
+          expectElementTemplate(task, 'error-template', 1);
+
+          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1'),
+              error = errorEventDefinition.errorRef;
+
+
+          expect(errorEventDefinition).to.exist;
+          expect(errorEventDefinition.get('expression')).to.eql('expression-value');
+
+          expect(error).to.exist;
+          expect(error.get('name')).to.equal('error-name');
+        }));
+
+      });
+
+
+      describe('camunda:ErrorEventDefinition not specified', function() {
+
+        beforeEach(bootstrap(require('./service-task-error.bpmn')));
+
+        var newTemplate = require('./task-template-no-properties.json');
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          var task = elementRegistry.get('ServiceTask_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template-no-properties');
+
+          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1'),
+              error = errorEventDefinition.errorRef;
+
+          expect(errorEventDefinition).to.exist;
+          expect(errorEventDefinition.get('expression')).to.eql('error-expression');
+
+          expect(error).to.exist;
+          expect(error.get('name')).to.equal('error-name');
+        }));
+
+      });
+
+    });
+
+
     describe('update scope elements', function() {
 
       describe('camunda:Connector', function() {
@@ -1309,6 +1422,117 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
               name: 'output-1-name',
               value: 'output-1-value'
             }]);
+          }));
+
+        });
+
+      });
+
+
+      describe('bpmn:Error', function() {
+
+        describe('bpmn:Error specified', function() {
+
+          beforeEach(bootstrap(require('./service-task.bpmn')));
+
+          var newTemplate = require('./error-template-1.json');
+
+          it('execute', inject(function(elementRegistry) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1'),
+                businessObject = getBusinessObject(serviceTask);
+
+            // when
+            changeTemplate(serviceTask, newTemplate);
+
+            // then
+            expectElementTemplate(serviceTask, 'error-template', 1);
+
+            var errors = findRootElementsByType(businessObject, 'bpmn:Error'),
+                error = errors[0];
+
+            expect(errors).to.have.length(1);
+
+            expect(error).to.exist;
+            expect(error.get('errorMessage')).to.equal('error-message');
+            expect(error.get('errorCode')).to.equal('error-code');
+            expect(error.get('name')).to.equal('error-name');
+          }));
+
+
+          it('undo', inject(function(elementRegistry, commandStack) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1'),
+                businessObject = getBusinessObject(serviceTask);
+
+            changeTemplate(serviceTask, newTemplate);
+
+            // when
+            commandStack.undo();
+
+            expectNoElementTemplate(serviceTask);
+
+            var error = findRootElementsByType(businessObject, 'bpmn:Error')[0];
+
+            expect(error).to.not.exist;
+          }));
+
+
+          it('redo', inject(function(elementRegistry, commandStack) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1'),
+                businessObject = getBusinessObject(serviceTask);
+
+            changeTemplate(serviceTask, newTemplate);
+
+            // when
+            commandStack.undo();
+            commandStack.redo();
+
+            // then
+            expectElementTemplate(serviceTask, 'error-template', 1);
+
+            var errors = findRootElementsByType(businessObject, 'bpmn:Error'),
+                error = errors[0];
+
+            expect(errors).to.have.length(1);
+
+            expect(error).to.exist;
+            expect(error.get('errorMessage')).to.eql('error-message');
+            expect(error.get('errorCode')).to.eql('error-code');
+            expect(error.get('name')).to.eql('error-name');
+          }));
+
+        });
+
+
+        describe('bpmn:Error not specified', function() {
+
+          beforeEach(bootstrap(require('./service-task-error.bpmn')));
+
+          var newTemplate = require('./service-task-template-no-properties.json');
+
+
+          it('should not override existing', inject(function(elementRegistry) {
+
+            // given
+            var serviceTask = elementRegistry.get('ServiceTask_1');
+
+            // when
+            changeTemplate(serviceTask, newTemplate);
+
+            // then
+            expectElementTemplate(serviceTask, 'service-task-template-no-properties');
+
+            var error = findErrorForEventDefinition(serviceTask, 'Error_1');
+
+            expect(error).to.exist;
+            expect(error.get('name')).to.equal('error-name');
+            expect(error.get('errorMessage')).to.equal('error-message');
+            expect(error.get('errorCode')).to.equal('error-code');
           }));
 
         });
@@ -2664,6 +2888,454 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
     });
 
 
+    describe('update camunda:ErrorEventDefinition', function() {
+
+      beforeEach(bootstrap(require('./service-task.bpmn')));
+
+
+      it('property changed', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = {
+          properties: [
+            {
+              value: 'error-expression-old-value',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: [
+                {
+                  value: 'error-code',
+                  binding: {
+                    type: 'property',
+                    name: 'errorCode'
+                  }
+                },
+                {
+                  value: 'error-message',
+                  binding: {
+                    type: 'property',
+                    name: 'camunda:errorMessage'
+                  }
+                },
+                {
+                  value: 'error-name',
+                  binding: {
+                    type: 'property',
+                    name: 'name'
+                  }
+                }
+              ]
+            }
+          ]
+        };
+
+        var newTemplate = {
+          properties: [
+            {
+              value: 'error-expression-new-value',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: [
+                {
+                  value: 'error-code',
+                  binding: {
+                    type: 'property',
+                    name: 'errorCode'
+                  }
+                },
+                {
+                  value: 'error-message',
+                  binding: {
+                    type: 'property',
+                    name: 'camunda:errorMessage'
+                  }
+                },
+                {
+                  value: 'error-name',
+                  binding: {
+                    type: 'property',
+                    name: 'name'
+                  }
+                }
+              ]
+            }
+          ]
+        };
+
+        changeTemplate(serviceTask, oldTemplate);
+
+        var errorEventDefinition =
+          findErrorEventDefinition(serviceTask, 'error-1');
+
+        updateBusinessObject(serviceTask, errorEventDefinition, {
+          expression: 'error-expression-updated-value'
+        });
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        errorEventDefinition =
+          findErrorEventDefinition(serviceTask, 'error-1');
+
+        // then
+        expect(errorEventDefinition.expression).to.eql('error-expression-updated-value');
+      }));
+
+
+      it('should always create one Error only for each definition', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = {
+          properties: [
+            {
+              value: 'error-expression-old-value',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: [
+                {
+                  value: 'error-code',
+                  binding: {
+                    type: 'property',
+                    name: 'errorCode'
+                  }
+                },
+                {
+                  value: 'error-message',
+                  binding: {
+                    type: 'property',
+                    name: 'camunda:errorMessage'
+                  }
+                },
+                {
+                  value: 'error-name',
+                  binding: {
+                    type: 'property',
+                    name: 'name'
+                  }
+                }
+              ]
+            }
+          ]
+        };
+
+        var newTemplate = {
+          properties: [
+            {
+              value: 'error-expression-new-value',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: [
+                {
+                  value: 'error-code',
+                  binding: {
+                    type: 'property',
+                    name: 'errorCode'
+                  }
+                },
+                {
+                  value: 'error-message',
+                  binding: {
+                    type: 'property',
+                    name: 'camunda:errorMessage'
+                  }
+                },
+                {
+                  value: 'error-name',
+                  binding: {
+                    type: 'property',
+                    name: 'name'
+                  }
+                }
+              ]
+            }
+          ]
+        };
+
+        changeTemplate(serviceTask, oldTemplate);
+
+        var errorEventDefinition =
+          findErrorEventDefinition(serviceTask, 'error-1');
+
+        updateBusinessObject(serviceTask, errorEventDefinition, {
+          expression: 'error-expression-updated-value'
+        });
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        // then
+        var errors = findRootElementsByType(getBusinessObject(serviceTask), 'bpmn:Error'),
+            error = errors[0];
+
+        expect(errors).to.have.length(1);
+
+        expect(error).to.exist;
+        expect(error.get('id').indexOf('error-1')).to.equal(0); // start with binding error ref
+        expect(error.get('errorCode')).to.equal('error-code');
+        expect(error.get('name')).to.equal('error-name');
+        expect(error.get('errorMessage')).to.eql('error-message');
+      }));
+
+
+      it('properties unchanged', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = {
+          properties: [
+            {
+              value: 'error-expression-old-value',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: [
+                {
+                  value: 'error-code',
+                  binding: {
+                    type: 'property',
+                    name: 'errorCode'
+                  }
+                },
+                {
+                  value: 'error-message',
+                  binding: {
+                    type: 'property',
+                    name: 'camunda:errorMessage'
+                  }
+                },
+                {
+                  value: 'error-name',
+                  binding: {
+                    type: 'property',
+                    name: 'name'
+                  }
+                }
+              ]
+            }
+          ]
+        };
+
+        var newTemplate = {
+          properties: [
+            {
+              value: 'error-expression-new-value',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: [
+                {
+                  value: 'error-code',
+                  binding: {
+                    type: 'property',
+                    name: 'errorCode'
+                  }
+                },
+                {
+                  value: 'error-message',
+                  binding: {
+                    type: 'property',
+                    name: 'camunda:errorMessage'
+                  }
+                },
+                {
+                  value: 'error-name',
+                  binding: {
+                    type: 'property',
+                    name: 'name'
+                  }
+                }
+              ]
+            }
+          ]
+        };
+
+        changeTemplate(serviceTask, oldTemplate);
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        // then
+        var errorEventDefinition = findErrorEventDefinition(serviceTask, 'error-1');
+
+        expect(errorEventDefinition).to.exist;
+
+        expect(errorEventDefinition.get('expression')).to.eql('error-expression-new-value');
+      }));
+
+
+      it('complex', inject(function(elementRegistry) {
+
+        // given
+        var serviceTask = elementRegistry.get('ServiceTask_1');
+
+        var oldTemplate = {
+          properties: [
+            {
+              value: 'error-expression-old-value-1',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+            {
+              value: 'error-expression-old-value-2',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-2'
+              }
+            },
+            {
+              value: 'error-expression-old-value-3',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-3'
+              }
+            }
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: []
+            },
+            {
+              id: 'error-2',
+              type: 'bpmn:Error',
+              properties: []
+            },
+            {
+              id: 'error-3',
+              type: 'bpmn:Error',
+              properties: []
+            }
+          ]
+        };
+
+        var newTemplate = {
+          properties: [
+            {
+              value: 'error-expression-old-value-1',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-1'
+              }
+            },
+            {
+              value: 'error-expression-new-value-2',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-2'
+              }
+            },
+            {
+              value: 'error-expression-new-value-4',
+              binding: {
+                type: 'camunda:errorEventDefinition',
+                errorRef: 'error-4'
+              }
+            }
+          ],
+          scopes: [
+            {
+              id: 'error-1',
+              type: 'bpmn:Error',
+              properties: []
+            },
+            {
+              id: 'error-2',
+              type: 'bpmn:Error',
+              properties: []
+            },
+            {
+              id: 'error-4',
+              type: 'bpmn:Error',
+              properties: []
+            }
+          ]
+        };
+
+        changeTemplate(serviceTask, oldTemplate);
+
+        var errorEventDefinition = findErrorEventDefinition(serviceTask, 'error-1');
+
+        updateBusinessObject(serviceTask, errorEventDefinition, {
+          expression: 'error-expression-updated-value'
+        });
+
+        // when
+        changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+        // then
+        var errorEventDefinitions = findExtensions(serviceTask, [ 'camunda:ErrorEventDefinition' ]);
+
+        expect(errorEventDefinitions).to.have.length(3);
+
+        // Expect 1st definition not to have been overridden because it's value was changed
+        // Expect 2nd definition to have been updated
+        // Expect 3rd definition to have been removed because it was removed from template
+        // Expect 4th definition to have been added because it was added to template
+        expect(findErrorEventDefinition(serviceTask, 'error-1').expression)
+          .to.equal('error-expression-updated-value');
+        expect(findErrorEventDefinition(serviceTask, 'error-2').expression)
+          .to.equal('error-expression-new-value-2');
+        expect(findErrorEventDefinition(serviceTask, 'error-3')).to.not.exist;
+        expect(findErrorEventDefinition(serviceTask, 'error-4')).to.exist;
+      }));
+
+    });
+
+
     describe('update scope elements', function() {
 
       describe('camunda:Connector (legacy)', function() {
@@ -3005,6 +3677,476 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       });
 
+
+      describe('bpmn:Error', function() {
+
+        beforeEach(bootstrap(require('./service-task.bpmn')));
+
+
+        it('properties changed', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = {
+            properties: [
+              {
+                value: 'error-expression',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-1'
+                }
+              },
+            ],
+            scopes: [
+              {
+                id: 'error-1',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-old-value',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-old-value',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-old-value',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          var newTemplate = {
+            properties: [
+              {
+                value: 'error-expression',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-1'
+                }
+              },
+            ],
+            scopes: [
+              {
+                id: 'error-1',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-new-value',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-new-value',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-new-value',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          changeTemplate(serviceTask, oldTemplate);
+
+          var error = findErrorForEventDefinition(serviceTask, 'error-1');
+
+          updateBusinessObject(serviceTask, error, {
+            name: 'error-name-updated-value',
+            errorMessage: 'error-message-updated-value'
+          });
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          error = findErrorForEventDefinition(serviceTask, 'error-1');
+
+          expect(error).to.exist;
+          expect(error.get('errorCode')).to.equal('error-code-new-value'); // were untouched
+          expect(error.get('errorMessage')).to.eql('error-message-updated-value');
+          expect(error.get('name')).to.eql('error-name-updated-value');
+        }));
+
+
+        it('properties unchanged', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = {
+            properties: [
+              {
+                value: 'error-expression',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-1'
+                }
+              },
+            ],
+            scopes: [
+              {
+                id: 'error-1',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-old-value',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-old-value',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-old-value',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          var newTemplate = {
+            properties: [
+              {
+                value: 'error-expression',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-1'
+                }
+              },
+            ],
+            scopes: [
+              {
+                id: 'error-1',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-new-value',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-new-value',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-new-value',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          changeTemplate(serviceTask, oldTemplate);
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+          var errors = findRootElementsByType(getBusinessObject(serviceTask), 'bpmn:Error'),
+              error = errors[0];
+
+          expect(errors).to.have.length(1);
+
+          expect(error).to.exist;
+          expect(error.get('errorCode')).to.equal('error-code-new-value');
+          expect(error.get('name')).to.equal('error-name-new-value');
+          expect(error.get('errorMessage')).to.eql('error-message-new-value');
+        }));
+
+
+        it('complex', inject(function(elementRegistry) {
+
+          // given
+          var serviceTask = elementRegistry.get('ServiceTask_1');
+
+          var oldTemplate = {
+            properties: [
+              {
+                value: 'error-expression-old-value-1',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-1'
+                }
+              },
+              {
+                value: 'error-expression-old-value-2',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-2'
+                }
+              },
+              {
+                value: 'error-expression-old-value-3',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-3'
+                }
+              }
+            ],
+            scopes: [
+              {
+                id: 'error-1',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-old-value-1',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-old-value-1',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-old-value-1',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              },
+              {
+                id: 'error-2',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-old-value-2',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-old-value-2',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-old-value-2',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              },
+              {
+                id: 'error-3',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-old-value-3',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-old-value-3',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-old-value-3',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          var newTemplate = {
+            properties: [
+              {
+                value: 'error-expression-old-value-1',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-1'
+                }
+              },
+              {
+                value: 'error-expression-old-value-2',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-2'
+                }
+              },
+              {
+                value: 'error-expression-new-value-4',
+                binding: {
+                  type: 'camunda:errorEventDefinition',
+                  errorRef: 'error-4'
+                }
+              }
+            ],
+            scopes: [
+              {
+                id: 'error-1',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-new-value-1',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-new-value-1',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-new-value-1',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              },
+              {
+                id: 'error-2',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-new-value-2',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-new-value-2',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-new-value-2',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              },
+              {
+                id: 'error-4',
+                type: 'bpmn:Error',
+                properties: [
+                  {
+                    value: 'error-code-new-value-4',
+                    binding: {
+                      type: 'property',
+                      name: 'errorCode'
+                    }
+                  },
+                  {
+                    value: 'error-message-new-value-4',
+                    binding: {
+                      type: 'property',
+                      name: 'camunda:errorMessage'
+                    }
+                  },
+                  {
+                    value: 'error-name-new-value-4',
+                    binding: {
+                      type: 'property',
+                      name: 'name'
+                    }
+                  }
+                ]
+              }
+            ]
+          };
+
+          changeTemplate(serviceTask, oldTemplate);
+
+          var error = findErrorForEventDefinition(serviceTask, 'error-1');
+
+          updateBusinessObject(serviceTask, error, {
+            name: 'error-name-updated-value'
+          });
+
+          // when
+          changeTemplate(serviceTask, newTemplate, oldTemplate);
+
+          // then
+
+          // Expect 1st error not to have been overridden because it's value was changed
+          // Expect 2nd error to have been updated
+          // Expect 3rd error to have been removed because it was removed from template
+          // Expect 4th error to have been added because it was added to template
+          expect(findErrorForEventDefinition(serviceTask, 'error-1').name)
+            .to.equal('error-name-updated-value');
+          expect(findErrorForEventDefinition(serviceTask, 'error-2').name)
+            .to.equal('error-name-new-value-2');
+          expect(findErrorForEventDefinition(serviceTask, 'error-3')).to.not.exist;
+          expect(findErrorForEventDefinition(serviceTask, 'error-4')).to.exist;
+        }));
+
+      });
+
     });
 
   });
@@ -3229,5 +4371,21 @@ function updateBusinessObject(element, businessObject, properties) {
       businessObject: businessObject,
       properties: properties
     });
+  });
+}
+
+function findErrorForEventDefinition(element, bindingErrorRef) {
+  var eventDefinition = findErrorEventDefinition(element, bindingErrorRef);
+
+  if (eventDefinition) {
+    return eventDefinition.errorRef;
+  }
+}
+
+function findErrorEventDefinition(element, bindingErrorRef) {
+  var errorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
+
+  return errorEventDefinitions.find(function(errorEventDefinition) {
+    return errorEventDefinition.errorRef.id.indexOf(bindingErrorRef) == 0;
   });
 }
