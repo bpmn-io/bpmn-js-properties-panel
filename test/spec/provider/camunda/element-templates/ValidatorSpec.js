@@ -374,7 +374,7 @@ describe('element-templates - Validator', function() {
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, ' +
         'camunda:in:businessKey, camunda:executionListener, ' +
-        'camunda:field ' +
+        'camunda:field, camunda:errorEventDefinition ' +
       '}'
       ]);
 
@@ -572,7 +572,7 @@ describe('element-templates - Validator', function() {
           'property, camunda:property, camunda:inputParameter, ' +
           'camunda:outputParameter, camunda:in, camunda:out, ' +
           'camunda:in:businessKey, camunda:executionListener, ' +
-          'camunda:field ' +
+          'camunda:field, camunda:errorEventDefinition ' +
         '}'
         ]);
         expect(valid(templates)).to.be.empty;
@@ -596,6 +596,24 @@ describe('element-templates - Validator', function() {
 
       expect(valid(templates)).to.have.length(1);
     });
+
+
+    it('should accept errors example template', function() {
+
+      // given
+      var templates = new Validator();
+
+      var templateDescriptors = require('./fixtures/error-templates');
+
+      // when
+      templates.addAll(templateDescriptors);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(1);
+    });
+
 
   });
 });
