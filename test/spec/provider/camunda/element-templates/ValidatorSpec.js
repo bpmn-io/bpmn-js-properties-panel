@@ -399,7 +399,8 @@ describe('element-templates - Validator', function() {
         'template(id: <foo>, name: <Invalid>): property.binding <camunda:inputParameter> requires name',
         'template(id: <foo>, name: <Invalid>): property.binding <camunda:outputParameter> requires source',
         'template(id: <foo>, name: <Invalid>): property.binding <camunda:in> requires variables or target',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:out> requires variables, sourceExpression or source'
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:out> requires variables, sourceExpression or source',
+        'template(id: <foo>, name: <Invalid>): property.binding <camunda:errorEventDefinition> requires errorRef'
       ]);
 
       expect(valid(templates)).to.be.empty;

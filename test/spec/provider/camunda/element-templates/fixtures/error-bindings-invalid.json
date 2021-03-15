@@ -47,6 +47,13 @@
         "binding": {
           "type": "camunda:out"
         }
+      },
+      {
+        "label": "Missing camunda:errorEventDefinition errorRef",
+        "type": "String",
+        "binding": {
+          "type": "camunda:errorEventDefinition"
+        }
       }
     ]
   }
