@@ -618,5 +618,109 @@
         }
       }
     ]
+  },
+  {
+    "name": "ExternalErrorTask",
+    "id": "com.camunda.example.ExternalErrorTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "external",
+        "binding": {
+          "type": "property",
+          "name": "camunda:type"
+        }
+      },
+      {
+        "label": "Error Expression",
+        "value": "error-expression",
+        "type": "String",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-1"
+        }
+      }
+    ],
+    "scopes": [
+      {
+        "type": "bpmn:Error",
+        "id": "error-1",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "String",
+            "value": "my-code",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "String",
+            "value": "error-message",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "String",
+            "value": "error-name",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "SimpleErrorScope",
+    "id": "com.camunda.example.SimpleErrorScope",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "scopes": [
+      {
+        "type": "bpmn:Error",
+        "id": "error-simple",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "String",
+            "value": "my-code",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "String",
+            "value": "error-message",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "String",
+            "value": "error-name",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
