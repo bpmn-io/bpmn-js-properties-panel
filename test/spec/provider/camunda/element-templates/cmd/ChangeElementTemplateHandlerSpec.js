@@ -17,7 +17,8 @@ var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
     is = require('bpmn-js/lib/util/ModelUtil').is;
 
 var findExtension = require('lib/provider/camunda/element-templates/Helper').findExtension,
-    findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions;
+    findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions,
+    findErrorEventDefinition = require('lib/provider/camunda/element-templates/Helper').findCamundaErrorEventDefinition;
 
 var findRootElementsByType = require('lib/Utils').findRootElementsByType;
 
@@ -1167,7 +1168,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           // then
           expectElementTemplate(task, 'task-template-no-properties');
 
-          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1'),
+          var errorEventDefinition = findErrorEventDefinition(task, 'fooError'),
               error = errorEventDefinition.errorRef;
 
           expect(errorEventDefinition).to.exist;
@@ -1527,7 +1528,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             // then
             expectElementTemplate(serviceTask, 'service-task-template-no-properties');
 
-            var error = findErrorForEventDefinition(serviceTask, 'Error_1');
+            var error = findErrorForEventDefinition(serviceTask, 'fooError');
 
             expect(error).to.exist;
             expect(error.get('name')).to.equal('error-name');
@@ -3106,7 +3107,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         expect(errors).to.have.length(1);
 
         expect(error).to.exist;
-        expect(error.get('id').indexOf('error-1')).to.equal(0); // start with binding error ref
+        expect(error.get('id').indexOf('Error_error-1')).to.equal(0); // start with binding error ref
         expect(error.get('errorCode')).to.equal('error-code');
         expect(error.get('name')).to.equal('error-name');
         expect(error.get('errorMessage')).to.eql('error-message');
@@ -4380,12 +4381,4 @@ function findErrorForEventDefinition(element, bindingErrorRef) {
   if (eventDefinition) {
     return eventDefinition.errorRef;
   }
-}
-
-function findErrorEventDefinition(element, bindingErrorRef) {
-  var errorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
-
-  return errorEventDefinitions.find(function(errorEventDefinition) {
-    return errorEventDefinition.errorRef.id.indexOf(bindingErrorRef) == 0;
-  });
 }
