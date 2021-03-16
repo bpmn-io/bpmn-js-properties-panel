@@ -8,6 +8,10 @@ var coreModule = require('bpmn-js/lib/core').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
 
+var getRoot = require('lib/Utils').getRoot;
+
+var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+
 var CreateHelper = require('lib/provider/camunda/element-templates/CreateHelper');
 
 var createInputParameter = CreateHelper.createInputParameter,
@@ -15,7 +19,8 @@ var createInputParameter = CreateHelper.createInputParameter,
     createCamundaIn = CreateHelper.createCamundaIn,
     createCamundaOut = CreateHelper.createCamundaOut,
     createCamundaInWithBusinessKey = CreateHelper.createCamundaInWithBusinessKey,
-    createCamundaExecutionListenerScript = CreateHelper.createCamundaExecutionListenerScript;
+    createCamundaExecutionListenerScript = CreateHelper.createCamundaExecutionListenerScript,
+    createError = CreateHelper.createError;
 
 
 var testModules = [
@@ -339,6 +344,31 @@ describe('element-templates - CreateHelper', function() {
       });
     }));
 
+  });
+
+
+  describe('createError', function() {
+
+    it('should create error', inject(function(bpmnFactory, elementRegistry) {
+
+      // given
+      var binding = {
+        type: 'camunda:errorEventDefinition',
+        errorRef: 'error-1'
+      };
+
+      var process = elementRegistry.get('Process_1');
+
+      var rootElement = getRoot(getBusinessObject(process));
+
+      // when
+      var error = createError(binding.errorRef, rootElement, bpmnFactory);
+
+      // then
+      expect(error).to.exist;
+      expect(error.$type).to.eql('bpmn:Error');
+      expect(error.id.indexOf('Error_' + binding.errorRef)).to.equal(0);
+    }));
   });
 
 });
