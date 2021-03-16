@@ -9,11 +9,19 @@ var findExtension = require('lib/provider/camunda/element-templates/Helper').fin
     findCamundaInOut = require('lib/provider/camunda/element-templates/Helper').findCamundaInOut,
     findInputParameter = require('lib/provider/camunda/element-templates/Helper').findInputParameter,
     findOutputParameter = require('lib/provider/camunda/element-templates/Helper').findOutputParameter,
-    findCamundaProperty = require('lib/provider/camunda/element-templates/Helper').findCamundaProperty;
+    findCamundaProperty = require('lib/provider/camunda/element-templates/Helper').findCamundaProperty,
+    findCamundaErrorEventDefinition = require('lib/provider/camunda/element-templates/Helper').findCamundaErrorEventDefinition;
 
 var entrySelect = require('./Helper').entrySelect,
     selectAndGet = require('./Helper').selectAndGet,
     bootstrap = require('./Helper').bootstrap;
+
+var getRoot = require('lib/Utils').getRoot;
+
+var find = require('min-dash').find;
+
+var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
+    is = require('bpmn-js/lib/util/ModelUtil').is;
 
 
 describe('element-templates/parts - Custom Properties', function() {
@@ -593,6 +601,63 @@ describe('element-templates/parts - Custom Properties', function() {
             name: 'sender'
           }
         ]);
+      }));
+
+    });
+
+
+    describe('camunda:errorEventDefinition', function() {
+
+      it('should display', inject(function() {
+
+        // given
+        selectAndGet('ExternalErrorTask');
+
+        // when
+        var errorExpressionEntry = entrySelect('custom-com.camunda.example.ExternalErrorTask-1'),
+            textField = entrySelect('custom-com.camunda.example.ExternalErrorTask-1', 'input');
+
+        // then
+        expect(errorExpressionEntry).to.exist;
+        expect(textField).to.exist;
+      }));
+
+
+      it('should change, updating camunda:errorEventDefinition', inject(function() {
+
+        // given
+        var task = selectAndGet('ExternalErrorTask'),
+            newExpression = '${true}',
+            textField = entrySelect('custom-com.camunda.example.ExternalErrorTask-1', 'input');
+
+        // when
+        TestHelper.triggerValue(textField, newExpression, 'change');
+
+        var errorEventDefinition = findCamundaErrorEventDefinition(task, 'error-1');
+
+        // then
+        expect(errorEventDefinition).to.exist;
+        expect(errorEventDefinition.get('expression')).to.eql(newExpression);
+      }));
+
+
+      it('should change, creating camunda:errorEventDefinition if non-existing', inject(function() {
+
+        // given
+        var task = selectAndGet('ExternalErrorTask_NoData'),
+            newExpression = '${true}',
+            textField = entrySelect('custom-com.camunda.example.ExternalErrorTask-1', 'input');
+
+        expect(findCamundaErrorEventDefinition(task, 'error-1')).to.not.exist;
+
+        // when
+        TestHelper.triggerValue(textField, newExpression, 'change');
+
+        var errorEventDefinition = findCamundaErrorEventDefinition(task, 'error-1');
+
+        // then
+        expect(errorEventDefinition).to.exist;
+        expect(errorEventDefinition.get('expression')).to.eql(newExpression);
       }));
 
     });
@@ -1285,6 +1350,111 @@ describe('element-templates/parts - Custom Properties', function() {
 
     });
 
+
+    describe('bpmn:Error', function() {
+
+      it('should display', inject(function() {
+
+        // given
+        selectAndGet('ExternalErrorTask');
+
+        // when
+        var errorCodeEntry = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-0'),
+            errorCodeTextField = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-0', 'input'),
+            errorMessageEntry = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-1'),
+            errorMessageTextField = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-1', 'input'),
+            errorNameEntry = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-2'),
+            errorNameTextField = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-2', 'input');
+
+        // then
+        expect(errorCodeEntry).to.exist;
+        expect(errorCodeTextField).to.exist;
+
+        expect(errorMessageEntry).to.exist;
+        expect(errorMessageTextField).to.exist;
+
+        expect(errorNameEntry).to.exist;
+        expect(errorNameTextField).to.exist;
+      }));
+
+
+      it('should change error code, updating bpmn:Error', inject(function() {
+
+        // given
+        var task = selectAndGet('ExternalErrorTask'),
+            newErrorCode = 'new-error-code',
+            textField = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-0', 'input');
+
+        // when
+        TestHelper.triggerValue(textField, newErrorCode, 'change');
+
+        var error = findError(task, 'error-1');
+
+        // then
+        expect(error).to.exist;
+        expect(error.get('errorCode')).to.eql(newErrorCode);
+      }));
+
+
+      it('should change error message, updating bpmn:Error', inject(function() {
+
+        // given
+        var task = selectAndGet('ExternalErrorTask'),
+            newErrorMessage = 'new-error-message',
+            textField = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-1', 'input');
+
+        // when
+        TestHelper.triggerValue(textField, newErrorMessage, 'change');
+
+        var error = findError(task, 'error-1');
+
+        // then
+        expect(error).to.exist;
+        expect(error.get('errorMessage')).to.eql(newErrorMessage);
+      }));
+
+
+      it('should change error name, updating bpmn:Error', inject(function() {
+
+        // given
+        var task = selectAndGet('ExternalErrorTask'),
+            newErrorName = 'new-error-name',
+            textField = entrySelect('custom-com.camunda.example.ExternalErrorTask-bpmn_Error-2', 'input');
+
+        // when
+        TestHelper.triggerValue(textField, newErrorName, 'change');
+
+        var error = findError(task, 'error-1');
+
+        // then
+        expect(error).to.exist;
+        expect(error.get('name')).to.eql(newErrorName);
+      }));
+
+
+      it('should change, creating bpmn:Error if non-existing', inject(function() {
+
+        // given
+        var task = selectAndGet('ExternalErrorTask_NoError');
+
+        var newErrorCode = '${true}',
+            textField = entrySelect('custom-com.camunda.example.SimpleErrorScope-bpmn_Error-0', 'input');
+
+        // assume
+        expect(findError(task, 'error-simple')).to.not.exist;
+
+        // when
+        TestHelper.triggerValue(textField, newErrorCode, 'change');
+
+        var error = findError(task, 'error-simple');
+
+        // then
+        expect(error).to.exist;
+        expect(error.get('errorCode')).to.eql(newErrorCode);
+      }));
+
+    });
+
   });
 
 
@@ -1575,3 +1745,15 @@ describe('element-templates/parts - Custom Properties', function() {
   });
 
 });
+
+
+// helpers /////////////////////
+
+function findError(element, bindingErrorRef) {
+  var root = getRoot(getBusinessObject(element)),
+      rootElements = root.get('rootElements');
+
+  return find(rootElements, function(rootElement) {
+    return is(rootElement, 'bpmn:Error') && rootElement.id.indexOf('Error_' + bindingErrorRef) == 0;
+  });
+}
