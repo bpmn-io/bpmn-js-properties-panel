@@ -102,7 +102,15 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ConnectorTask_NoData_legacy" name="Connector Task NoData" camunda:modelerTemplate="my.connector.legacy.Task" />
+    <bpmn:serviceTask id="ExternalErrorTask" name="External Error Task" camunda:modelerTemplate="com.camunda.example.ExternalErrorTask" camunda:type="external">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_1bt7x0x" errorRef="Error_error-1_xyz" expression="error-expression" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ExternalErrorTask_NoData" name="External Error Task NoData" camunda:modelerTemplate="com.camunda.example.ExternalErrorTask" />
+    <bpmn:serviceTask id="ExternalErrorTask_NoError" name="External Error Task NoError" camunda:modelerTemplate="com.camunda.example.SimpleErrorScope" />
   </bpmn:process>
+  <bpmn:error id="Error_error-1_xyz" name="error-name" errorCode="my-code" camunda:errorMessage="foo" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNEdge id="SequenceFlow_13jfpgw_di" bpmnElement="VipOrderPath">
@@ -168,6 +176,15 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1yvd1h6_di" bpmnElement="ConnectorTask_NoData_legacy">
         <dc:Bounds x="654" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0epmlyl_di" bpmnElement="ExternalErrorTask">
+        <dc:Bounds x="800" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0kfraj6_di" bpmnElement="ExternalErrorTask_NoData">
+        <dc:Bounds x="800" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cex61n_di" bpmnElement="ExternalErrorTask_NoError">
+        <dc:Bounds x="800" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
