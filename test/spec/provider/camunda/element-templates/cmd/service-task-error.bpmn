@@ -3,11 +3,11 @@
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_1">
       <bpmn:extensionElements>
-         <camunda:errorEventDefinition id="ErrorEventDefinition_1" errorRef="Error_1" expression="error-expression" />
+         <camunda:errorEventDefinition id="ErrorEventDefinition_1" errorRef="Error_fooError" expression="error-expression" />
       </bpmn:extensionElements>
     </bpmn:serviceTask>
   </bpmn:process>
-  <bpmn:error id="Error_1" name="error-name" errorCode="error-code" camunda:errorMessage="error-message" />
+  <bpmn:error id="Error_fooError" name="error-name" errorCode="error-code" camunda:errorMessage="error-message" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="ServiceTask_1_di" bpmnElement="ServiceTask_1">
