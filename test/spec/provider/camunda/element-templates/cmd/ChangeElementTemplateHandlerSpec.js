@@ -4222,6 +4222,58 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
   });
 
+
+  describe('_getOrCreateExtensionElements', function() {
+
+    beforeEach(bootstrap(require('./task.bpmn')));
+
+    var newTemplate = require('./task-template-1.json');
+
+    it('should work with existing extension elements', inject(function(elementRegistry) {
+
+      // given
+      var task = elementRegistry.get('Task_2'),
+          businessObject = getBusinessObject(task);
+
+      // when
+      changeTemplate(task, newTemplate);
+
+      // then
+      expectElementTemplate(task, 'task-template', 1);
+
+      var extensionElements = businessObject.get('extensionElements');
+
+      expect(extensionElements).to.exist;
+      expect(findExtensions(businessObject, [ 'camunda:ErrorEventDefinition' ]))
+        .to.have.length(1);
+    }));
+
+
+    it('should set parent to newly created extension elements', inject(function(elementRegistry) {
+
+      // given
+      var task = elementRegistry.get('Task_1'),
+          businessObject = getBusinessObject(task);
+
+      var extensionElements = businessObject.get('extensionElements');
+
+      // assume
+      expect(extensionElements).to.not.exist;
+
+      // when
+      changeTemplate(task, newTemplate);
+
+      // then
+      expectElementTemplate(task, 'task-template', 1);
+
+      extensionElements = businessObject.get('extensionElements');
+
+      expect(extensionElements).to.exist;
+      expect(extensionElements.$parent).to.eql(businessObject);
+    }));
+
+  });
+
 });
 
 
