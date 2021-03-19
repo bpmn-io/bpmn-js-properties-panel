@@ -16,103 +16,169 @@ var domQuery = require('min-dom').query;
 
 var triggerClickEvent = require('lib/Utils').triggerClickEvent;
 
+var is = require('bpmn-js/lib/util/ModelUtil').is;
+
 
 describe('element-templates/parts - Description Properties', function() {
 
-  var diagramXML = require('./DescriptionProps.bpmn'),
-      elementTemplates = require('./DescriptionProps.json');
+  describe('information', function() {
+    var diagramXML = require('./DescriptionProps.bpmn'),
+        elementTemplates = require('./DescriptionProps.json');
 
-  beforeEach(bootstrap(diagramXML, elementTemplates));
-
-
-  it('should show description', inject(function() {
-
-    // given
-    selectAndGet('Task_Description');
-
-    // when
-    var descriptionEntry = entrySelect('element-template-description');
-
-    // then
-    expect(descriptionEntry).to.exist;
-  }));
+    beforeEach(bootstrap(diagramXML, elementTemplates));
 
 
-  it('should not show description', inject(function() {
+    it('should show description', inject(function() {
 
-    // given
-    selectAndGet('Task');
+      // given
+      selectAndGet('Task_Description');
 
-    // when
-    var descriptionEntry = entrySelect('element-template-description');
+      // when
+      var descriptionEntry = entrySelect('element-template-description');
 
-    // then
-    expect(descriptionEntry).not.to.exist;
-  }));
-
-
-  it('should show version label given a version', inject(function() {
-
-    // given
-    selectAndGet('Task_Description');
-
-    // when
-    var versionEntry = entrySelect('element-template-version');
-
-    // then
-    expect(versionEntry).to.exist;
-  }));
+      // then
+      expect(descriptionEntry).to.exist;
+    }));
 
 
-  it('should hide version label given no version or metadata', inject(function() {
+    it('should not show description', inject(function() {
 
-    // given
-    selectAndGet('Task');
+      // given
+      selectAndGet('Task');
 
-    // when
-    var versionEntry = entrySelect('element-template-version');
+      // when
+      var descriptionEntry = entrySelect('element-template-description');
 
-    // then
-    expect(versionEntry).not.to.exist;
-  }));
-
-
-  it('should indicate element template not found', inject(function() {
-
-    // given
-    selectAndGet('Task_TemplateNotFound');
-
-    // when
-    var notFound = entrySelect('element-template-not-found');
-
-    // then
-    expect(notFound).to.exist;
-  }));
+      // then
+      expect(descriptionEntry).not.to.exist;
+    }));
 
 
-  it('should unlink element template not found', inject(function(elementRegistry) {
+    it('should show version label given a version', inject(function() {
 
-    // given
-    selectAndGet('Task_TemplateNotFound');
+      // given
+      selectAndGet('Task_Description');
 
-    // when
-    var notFound = entrySelect('element-template-not-found');
+      // when
+      var versionEntry = entrySelect('element-template-version');
 
-    // assume
-    expect(notFound).to.exist;
+      // then
+      expect(versionEntry).to.exist;
+    }));
 
-    // when
-    triggerClickEvent(domQuery('.bpp-entry-link', notFound));
 
-    // then
-    var task = elementRegistry.get('Task_TemplateNotFound'),
-        taskBo = getBusinessObject(task);
+    it('should hide version label given no version or metadata', inject(function() {
 
-    expect(taskBo.modelerTemplate).not.to.exist;
-  }));
+      // given
+      selectAndGet('Task');
+
+      // when
+      var versionEntry = entrySelect('element-template-version');
+
+      // then
+      expect(versionEntry).not.to.exist;
+    }));
+
+
+    it('should indicate element template not found', inject(function() {
+
+      // given
+      selectAndGet('Task_TemplateNotFound');
+
+      // when
+      var notFound = entrySelect('element-template-not-found');
+
+      // then
+      expect(notFound).to.exist;
+    }));
+
+
+    it('should unlink element template not found', inject(function(elementRegistry) {
+
+      // given
+      selectAndGet('Task_TemplateNotFound');
+
+      // when
+      var notFound = entrySelect('element-template-not-found');
+
+      // assume
+      expect(notFound).to.exist;
+
+      // when
+      triggerClickEvent(domQuery('.bpp-entry-link', notFound));
+
+      // then
+      var task = elementRegistry.get('Task_TemplateNotFound'),
+          taskBo = getBusinessObject(task);
+
+      expect(taskBo.modelerTemplate).not.to.exist;
+    }));
+
+
+    describe('#getVersionOrDateFromTemplate', function() {
+
+      it('should get version as integer', function() {
+
+        // given
+        var template = {
+          version: 1
+        };
+
+        // when
+        var versionOrDate = getVersionOrDateFromTemplate(template);
+
+        // then
+        expect(versionOrDate).to.equal('Version 1');
+      });
+
+
+      it('should get version as date', function() {
+
+        // given
+        var template = {
+          version: 1000000000000,
+          metadata: {
+            created: 1000000000000
+          }
+        };
+
+        // when
+        var versionOrDate = getVersionOrDateFromTemplate(template);
+
+        // then
+        expect(versionOrDate).to.match(/Version [0-9]{2}\.[0-9]{2}\.[0-9]{4}/);
+      });
+
+
+      it('should get version as date', function() {
+
+        // given
+        var template = {
+          version: 1000000000000,
+          metadata: {
+            updated: 1000000000000
+          }
+        };
+
+        // when
+        var versionOrDate = getVersionOrDateFromTemplate(template);
+
+        // then
+        expect(versionOrDate).to.match(/Version [0-9]{2}\.[0-9]{2}\.[0-9]{4}/);
+      });
+
+    });
+
+  });
 
 
   describe('update', function() {
+
+    var diagramXML = require('./DescriptionProps.bpmn'),
+        elementTemplates = require('./DescriptionProps.json');
+
+    beforeEach(bootstrap(diagramXML, elementTemplates));
+
 
     it('should indicate newest element template', inject(function(elementRegistry) {
 
@@ -180,109 +246,153 @@ describe('element-templates/parts - Description Properties', function() {
 
   describe('dropdown', function() {
 
-    it('should unlink task template', inject(function(elementRegistry) {
+    describe('template on shape', function() {
+      var diagramXML = require('./DescriptionProps.bpmn'),
+          elementTemplates = require('./DescriptionProps.json');
 
-      // given
-      selectAndGet('Task_Description');
+      beforeEach(bootstrap(diagramXML, elementTemplates));
 
-      // when
-      clickDropdownMenuItem('elementTemplateDescription', 'element-template-unlink');
+      it('should unlink task template', inject(function(elementRegistry) {
 
-      // then
-      var task = elementRegistry.get('Task_Description'),
-          taskBo = getBusinessObject(task);
+        // given
+        selectAndGet('Task_Description');
 
-      expect(taskBo.modelerTemplate).not.to.exist;
-    }));
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-unlink');
 
+        // then
+        var task = elementRegistry.get('Task_Description'),
+            taskBo = getBusinessObject(task);
 
-    it('should remove task template', inject(function(elementRegistry) {
-
-      // given
-      selectAndGet('Task_Description');
-
-      // when
-      clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
-
-      // then
-      var task = elementRegistry.get('Task_Description'),
-          taskBo = getBusinessObject(task);
-
-      expect(taskBo.modelerTemplate).not.to.exist;
-      expect(taskBo.asyncBefore).to.be.false;
-    }));
+        expect(taskBo.modelerTemplate).not.to.exist;
+      }));
 
 
-    it('should remove conditional event template', inject(function(elementRegistry) {
+      it('should remove task template', inject(function(elementRegistry) {
 
-      // given
-      selectAndGet('StartEvent');
+        // given
+        selectAndGet('Task_Description');
 
-      // when
-      clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
 
-      // then
-      var event = elementRegistry.get('StartEvent'),
-          eventBo = getBusinessObject(event);
+        // then
+        var task = elementRegistry.get('Task_Description'),
+            taskBo = getBusinessObject(task);
 
-      expect(eventBo.modelerTemplate).not.to.exist;
-      expect(eventBo.eventDefinitions).to.have.length(1);
-      expect(eventBo.asyncBefore).to.be.false;
-    }));
-
-  });
+        expect(taskBo.modelerTemplate).not.to.exist;
+        expect(taskBo.asyncBefore).to.be.false;
+      }));
 
 
-  describe('#getVersionOrDateFromTemplate', function() {
+      it('should remove conditional event template', inject(function(elementRegistry) {
 
-    it('should get version as integer', function() {
+        // given
+        selectAndGet('StartEvent');
 
-      // given
-      var template = {
-        version: 1
-      };
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
 
-      // when
-      var versionOrDate = getVersionOrDateFromTemplate(template);
+        // then
+        var event = elementRegistry.get('StartEvent'),
+            eventBo = getBusinessObject(event);
 
-      // then
-      expect(versionOrDate).to.equal('Version 1');
+        expect(eventBo.modelerTemplate).not.to.exist;
+        expect(eventBo.eventDefinitions).to.have.length(1);
+        expect(eventBo.asyncBefore).to.be.false;
+      }));
     });
 
 
-    it('should get version as date', function() {
+    describe('template on root - process', function() {
+      var diagramXML = require('./DescriptionProps-root-process.bpmn'),
+          elementTemplates = require('./DescriptionProps-root.json');
 
-      // given
-      var template = {
-        version: 1000000000000,
-        metadata: {
-          created: 1000000000000
-        }
-      };
+      beforeEach(bootstrap(diagramXML, elementTemplates));
 
-      // when
-      var versionOrDate = getVersionOrDateFromTemplate(template);
+      it('should unlink root template', inject(function(elementRegistry) {
 
-      // then
-      expect(versionOrDate).to.match(/Version [0-9]{2}\.[0-9]{2}\.[0-9]{4}/);
+        // given
+        selectAndGet('Process_1');
+
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-unlink');
+
+        // then
+        var process = elementRegistry.get('Process_1'),
+            processBo = getBusinessObject(process);
+
+        expect(processBo.modelerTemplate).not.to.exist;
+      }));
+
+
+      it('should remove root template', inject(function(elementRegistry, canvas) {
+
+        // given
+        selectAndGet('Process_1');
+
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
+
+        // then
+        var process = elementRegistry.get('Process_1'),
+            root = canvas.getRootElement(),
+            rootBo = getBusinessObject(root);
+
+        expect(process).not.to.exist;
+
+        expect(root).to.exist;
+        expect(is(root, 'bpmn:Process')).to.be.true;
+
+        expect(rootBo.extensionElements).not.to.exist;
+      }));
+
     });
 
 
-    it('should get version as date', function() {
+    describe('template on root - collaboration', function() {
+      var diagramXML = require('./DescriptionProps-root-collaboration.bpmn'),
+          elementTemplates = require('./DescriptionProps-root.json');
 
-      // given
-      var template = {
-        version: 1000000000000,
-        metadata: {
-          updated: 1000000000000
-        }
-      };
+      beforeEach(bootstrap(diagramXML, elementTemplates));
 
-      // when
-      var versionOrDate = getVersionOrDateFromTemplate(template);
+      it('should unlink root template', inject(function(elementRegistry) {
 
-      // then
-      expect(versionOrDate).to.match(/Version [0-9]{2}\.[0-9]{2}\.[0-9]{4}/);
+        // given
+        selectAndGet('Collaboration_1');
+
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-unlink');
+
+        // then
+        var collaboration = elementRegistry.get('Collaboration_1'),
+            collaborationBo = getBusinessObject(collaboration);
+
+        expect(collaborationBo.modelerTemplate).not.to.exist;
+      }));
+
+
+      it('should remove root template', inject(function(elementRegistry, canvas) {
+
+        // given
+        selectAndGet('Collaboration_1');
+
+        // when
+        clickDropdownMenuItem('elementTemplateDescription', 'element-template-remove');
+
+        // then
+        var collaboration = elementRegistry.get('Collaboration_1'),
+            root = canvas.getRootElement(),
+            rootBo = getBusinessObject(root);
+
+        expect(collaboration).not.to.exist;
+
+        expect(root).to.exist;
+        expect(is(root, 'bpmn:Collaboration')).to.be.true;
+
+        expect(rootBo.extensionElements).not.to.exist;
+      }));
+
     });
 
   });
