@@ -422,8 +422,11 @@ label.bpp-hidden {
 
   .bpp-collapsible__title {
     display: block;
+    flex: 1 0;
+    max-width: min-content;
     margin: 0;
     padding-right: 6px;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -440,6 +443,8 @@ label.bpp-hidden {
 
   .bpp-collapsible__description {
     display: none;
+    flex: 1 1;
+    max-width: min-content;
 
     margin: 0;
 
