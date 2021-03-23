@@ -2744,6 +2744,62 @@ describe('implementation type', function() {
 
     }));
 
+
+    describe('error-related properties', function() {
+
+      var bo;
+
+      beforeEach(inject(function(elementRegistry, selection) {
+
+        // given
+        var shape = elementRegistry.get('WITH_ERROR_EVENT_DEFINITION');
+        selection.select(shape);
+        bo = getBusinessObject(shape);
+
+        // assume
+        expect(extensionElementsHelper.getExtensionElements(bo, 'camunda:ErrorEventDefinition').length).to.eql(1);
+
+        // when
+        selectImplementationType('class', container);
+
+      }));
+
+
+      it('should remove when changing from external to any other', inject(function() {
+
+        // then
+        expect(bo.extensionElements).not.to.exist;
+
+      }));
+
+
+      it('should undo', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(bo.extensionElements).to.exist;
+        expect(extensionElementsHelper.getExtensionElements(bo, 'camunda:ErrorEventDefinition').length).to.eql(1);
+
+      }));
+
+
+      it('should redo', inject(function(commandStack) {
+
+        // given
+        commandStack.undo();
+
+        // when
+        commandStack.redo();
+
+        // then
+        expect(bo.extensionElements).not.to.exist;
+
+      }));
+
+    });
+
   });
 
 });
