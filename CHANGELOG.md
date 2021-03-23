@@ -6,11 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-## BREAKING CHANGES
-* `ExtensionElementsHelper#getExtensionElements` now returns an empty array if no extension element of the requested type was found, instead of returning `undefined`.  
-This means the return value is now always _truthy_. ([#447](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/447))
+* `CHORE`: make extension elements helper always return an array ([#447](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/447))
 
 ...
+
+### Breaking Changes
+
+* `ExtensionElementsHelper#getExtensionElements` now returns an empty array if no extension element of the requested type was found, instead of returning `undefined`.  This means the return value is now always _truthy_. 
 
 ## 0.41.0
 
