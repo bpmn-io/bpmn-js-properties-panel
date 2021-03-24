@@ -6,13 +6,18 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `CHORE`: make extension elements helper always return an array ([#447](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/447))
-
 ...
+
+## 0.42.0
+
+* `FEAT`: support templating of `camunda:ErrorEventDefinition` and global `bpmn:Error` elements ([#424](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/424), [#425](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/425), [#441](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/441))
+* `FEAT`: improve element template validation
+* `FIX`: ensure necessary part of variable title is always displayed ([`452f4488`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/452f4488d2a65db858f6e67f4684e8c413af0ad5))
+* `CHORE`: make extension elements helper always return an array ([#447](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/447))
 
 ### Breaking Changes
 
-* `ExtensionElementsHelper#getExtensionElements` now returns an empty array if no extension element of the requested type was found, instead of returning `undefined`.  This means the return value is now always _truthy_. 
+* `ExtensionElementsHelper#getExtensionElements` now returns an empty array if no extension element of the requested type was found, instead of returning `undefined`.  This means the return value is now always _truthy_.
 
 ## 0.41.0
 
