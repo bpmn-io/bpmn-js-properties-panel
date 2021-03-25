@@ -15,6 +15,6 @@ updates:
       - dependency-name: "bpmn-js"
         dependency-type: "all"
     commit-message:
-      prefix: "chore(project):"
+      prefix: "deps:"
     versioning-strategy: "increase"
     
