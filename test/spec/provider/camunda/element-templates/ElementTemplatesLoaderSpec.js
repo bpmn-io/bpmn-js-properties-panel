@@ -179,7 +179,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
         // given
         PROVIDER = function(done) {
           done(null, [
-            { name: 'Foo', id: 'foo', appliesTo: [ 'foo:Bar' ], properties: [ ] },
+            { name: 'Foo', id: 'foo', appliesTo: [ 'bpmn:Task' ], properties: [ ] },
             { name: 'Foo', id: 'foo' },
             { name: 'Foo', id: 'foo' }
           ]);

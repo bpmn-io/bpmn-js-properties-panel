@@ -8,13 +8,13 @@ describe('element-templates/util - validate', function() {
   it('should return validation errors only', function() {
 
     // given
-    var templateDescriptors = require('../fixtures/error-property-invalid');
+    var templateDescriptors = require('../fixtures/error-bindings-invalid');
 
     // when
     var errors = validate(templateDescriptors);
 
     // then
-    expect(errors).to.have.length(2);
+    expect(errors).to.have.length(7);
 
     expect(errors[0] instanceof Error).to.be.true;
   });
