@@ -329,7 +329,7 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'template(id: <bar>, name: <Task>): must provide choices=[] with Dropdown type'
+        'template(id: <bar>, name: <Task>): must provide choices=[] with "Dropdown" type'
       ]);
 
       expect(valid(templates)).to.be.empty;
@@ -348,7 +348,7 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'template(id: <bar>, name: <Task>): { name, value } must be specified for Dropdown choices'
+        'template(id: <bar>, name: <Task>): { name, value } must be specified for "Dropdown" choices'
       ]);
 
       expect(valid(templates)).to.be.empty;
@@ -367,10 +367,7 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'template(id: <foo>, name: <Invalid>): invalid property type <InvalidType>; must be any of { ' +
-        'String, Text, Boolean, Hidden, Dropdown ' +
-      '}',
-        'template(id: <foo>, name: <Invalid>): invalid property.binding type <alsoInvalid>; must be any of { ' +
+        'template(id: <foo>, name: <Invalid>): invalid property.binding type "alsoInvalid"; must be any of { ' +
         'property, camunda:property, camunda:inputParameter, ' +
         'camunda:outputParameter, camunda:in, camunda:out, ' +
         'camunda:in:businessKey, camunda:executionListener, ' +
@@ -394,13 +391,13 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'template(id: <foo>, name: <Invalid>): property.binding <property> requires name',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:property> requires name',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:inputParameter> requires name',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:outputParameter> requires source',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:in> requires variables or target',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:out> requires variables, sourceExpression or source',
-        'template(id: <foo>, name: <Invalid>): property.binding <camunda:errorEventDefinition> requires errorRef'
+        'template(id: <foo>, name: <Invalid>): property.binding "property" requires name',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:property" requires name',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:inputParameter" requires name',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:outputParameter" requires source',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:in" requires variables or target',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:out" requires variables, sourceExpression or source',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:errorEventDefinition" requires errorRef'
       ]);
 
       expect(valid(templates)).to.be.empty;
@@ -453,10 +450,11 @@ describe('element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
-        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <String> for camunda:executionListener; must be <Hidden>',
-        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <Text> for camunda:executionListener; must be <Hidden>',
-        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <Boolean> for camunda:executionListener; must be <Hidden>',
-        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type <Dropdown> for camunda:executionListener; must be <Hidden>'
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "String" for binding type "camunda:executionListener"; must be "Hidden"',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Text" for binding type "camunda:executionListener"; must be "Hidden"',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Boolean" for binding type "camunda:executionListener"; must be "Hidden"',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): must provide choices=[] with "Dropdown" type',
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Dropdown" for binding type "camunda:executionListener"; must be "Hidden"',
       ]);
 
       expect(valid(templates)).to.have.length(0);
@@ -510,7 +508,7 @@ describe('element-templates - Validator', function() {
         templates.addAll(templateDescriptors);
 
         // then
-        expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scope <properties>, object descriptor is only supported for <camunda:Connector>');
+        expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scope "properties", object descriptor is only supported for "camunda:Connector"');
 
         expect(valid(templates)).to.be.empty;
       });
@@ -528,7 +526,7 @@ describe('element-templates - Validator', function() {
 
         // then
         expect(errors(templates)).to.contain(
-          'template(id: <foo>, name: <Invalid>): missing properties=[] in scope <camunda:Connector>'
+          'template(id: <foo>, name: <Invalid>): invalid scope "camunda:Connector", missing properties=[]'
         );
 
         expect(valid(templates)).to.be.empty;
@@ -566,10 +564,7 @@ describe('element-templates - Validator', function() {
 
         // then
         expect(errors(templates)).to.eql([
-          'template(id: <foo>, name: <Invalid>): invalid property type <InvalidType>; must be any of { ' +
-          'String, Text, Boolean, Hidden, Dropdown ' +
-        '}',
-          'template(id: <foo>, name: <Invalid>): invalid property.binding type <alsoInvalid>; must be any of { ' +
+          'template(id: <foo>, name: <Invalid>): invalid property.binding type "alsoInvalid"; must be any of { ' +
           'property, camunda:property, camunda:inputParameter, ' +
           'camunda:outputParameter, camunda:in, camunda:out, ' +
           'camunda:in:businessKey, camunda:executionListener, ' +
