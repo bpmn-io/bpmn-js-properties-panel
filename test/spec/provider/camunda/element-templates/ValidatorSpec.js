@@ -2,7 +2,9 @@
 
 var Validator = require('lib/provider/camunda/element-templates/Validator');
 
-var ElementTemplateSchemaVersion = require('@camunda/element-templates-json-schema/package.json').version;
+var getTemplateSchemaVersion = require('@bpmn-io/element-templates-validator').getSchemaVersion;
+
+var ElementTemplateSchemaVersion = getTemplateSchemaVersion();
 
 
 describe('element-templates - Validator', function() {
