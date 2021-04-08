@@ -15,6 +15,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FIX`: ensure necessary part of variable title is always displayed ([`452f4488`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/452f4488d2a65db858f6e67f4684e8c413af0ad5))
 * `FIX`: use pre-compiled element templates validator ([#462](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/462))
 * `CHORE`: make extension elements helper always return an array ([#447](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/447))
+* `CHORE`: bump to `bpmn-js@8.3.0`
 
 ### Breaking Changes
 
