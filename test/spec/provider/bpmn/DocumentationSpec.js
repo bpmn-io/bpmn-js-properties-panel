@@ -14,6 +14,7 @@ var propertiesPanelModule = require('lib'),
     propertiesProviderModule = require('lib/provider/bpmn'),
     getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
 
+
 describe('documentation-properties', function() {
 
   var diagramXML = require('./Documentation.bpmn');
@@ -50,54 +51,163 @@ describe('documentation-properties', function() {
   }));
 
 
-  it('should fetch the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+  describe('should fetch documentation', function() {
 
-    var shape = elementRegistry.get('ServiceTask_1');
-    selection.select(shape);
-    var textField = domQuery('div[name=documentation]', propertiesPanel._container);
+    it('basic', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    expect(textField.textContent).to.equal('Task');
-  }));
+      var shape = elementRegistry.get('ServiceTask_1');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container);
 
-
-  it('should set the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
-
-    var shape = elementRegistry.get('BoundaryEvent_1');
-    selection.select(shape);
-    var textField = domQuery('div[name=documentation]', propertiesPanel._container),
-        businessObject = getBusinessObject(shape);
-
-    // given
-    expect(textField.textContent).to.be.empty;
-
-    // when
-    TestHelper.triggerValue(textField, 'foo', 'change');
-
-    var documentation = businessObject.get('documentation');
-
-    // then
-    expect(textField.textContent).to.equal('foo');
-    expect(documentation.length).to.be.at.least(0);
-    expect(documentation[0].text).to.equal('foo');
-    expect(documentation[0].$instanceOf('bpmn:Documentation')).to.be.true;
-  }));
+      expect(textField.textContent).to.equal('Task');
+    }));
 
 
-  it('should remove the documentation for an element', inject(function(propertiesPanel, selection, elementRegistry) {
+    it('documentation list', inject(function(propertiesPanel, selection, elementRegistry) {
 
-    var shape = elementRegistry.get('ServiceTask_1');
-    selection.select(shape);
-    var textField = domQuery('div[name=documentation]', propertiesPanel._container);
-    var businessObject = getBusinessObject(shape);
+      var shape = elementRegistry.get('MULTIPLE_DOCS');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container);
 
-    // given
-    expect(textField.textContent).to.equal('Task');
+      expect(textField.textContent).to.equal('MULTIPLE_DOCS');
+    }));
 
-    // when
-    TestHelper.triggerValue(textField, '', 'change');
 
-    // then
-    expect(textField.textContent).to.equal('');
-    expect(businessObject.get('documentation').length).to.equal(0);
-  }));
+    it('ignoring typed documentation', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('TYPED_DOCS');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container);
+
+      expect(textField.textContent).to.equal('');
+    }));
+
+
+    it('picking up textFormat=text/plain', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('TEXT_PLAIN');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container);
+
+      expect(textField.textContent).to.equal('TEXT_PLAIN');
+    }));
+
+  });
+
+
+  describe('should set the documentation', function() {
+
+    it('basic', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('BoundaryEvent_1');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+
+      // given
+      expect(textField.textContent).to.be.empty;
+
+      // when
+      TestHelper.triggerValue(textField, 'foo', 'change');
+
+      var documentation = businessObject.get('documentation');
+
+      // then
+      expect(textField.textContent).to.equal('foo');
+      expect(documentation.length).to.be.at.least(0);
+      expect(documentation[0].text).to.equal('foo');
+      expect(documentation[0].$instanceOf('bpmn:Documentation')).to.be.true;
+    }));
+
+
+    it('documentation list', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('MULTIPLE_DOCS');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+
+      // given
+      expect(textField.textContent).to.eql('MULTIPLE_DOCS');
+
+      // when
+      TestHelper.triggerValue(textField, 'foo', 'change');
+
+      var documentation = businessObject.get('documentation');
+
+      // then
+      expect(textField.textContent).to.equal('foo');
+      expect(documentation.length).to.be.at.least(0);
+      expect(documentation[1].text).to.equal('foo');
+      expect(documentation[1].$instanceOf('bpmn:Documentation')).to.be.true;
+    }));
+
+
+    it('ignoring typed documentation', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('TYPED_DOCS');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container),
+          businessObject = getBusinessObject(shape);
+
+      // given
+      expect(textField.textContent).to.be.empty;
+
+      // when
+      TestHelper.triggerValue(textField, 'foo', 'change');
+
+      var documentation = businessObject.get('documentation');
+
+      // then
+      expect(textField.textContent).to.equal('foo');
+      expect(documentation.length).to.be.at.least(0);
+      expect(documentation[1].text).to.equal('foo');
+      expect(documentation[1].$instanceOf('bpmn:Documentation')).to.be.true;
+    }));
+
+  });
+
+
+  describe('should remove the documentation', function() {
+
+    it('basic', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('ServiceTask_1');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container);
+      var businessObject = getBusinessObject(shape);
+
+      // given
+      expect(textField.textContent).to.equal('Task');
+
+      // when
+      TestHelper.triggerValue(textField, '', 'change');
+
+      // then
+      expect(textField.textContent).to.equal('');
+      expect(businessObject.get('documentation')).to.have.length(0);
+    }));
+
+
+    it('documentation list', inject(function(propertiesPanel, selection, elementRegistry) {
+
+      var shape = elementRegistry.get('MULTIPLE_DOCS');
+      selection.select(shape);
+      var textField = domQuery('div[name=documentation]', propertiesPanel._container);
+      var businessObject = getBusinessObject(shape);
+
+      // given
+      expect(textField.textContent).to.equal('MULTIPLE_DOCS');
+
+      // when
+      TestHelper.triggerValue(textField, '', 'change');
+
+      // then
+      expect(textField.textContent).to.equal('');
+      expect(businessObject.get('documentation')).to.have.length(1);
+      expect(businessObject.get('documentation')[0].text).to.eql('VENDOR DOCS');
+    }));
+
+  });
+
 });
