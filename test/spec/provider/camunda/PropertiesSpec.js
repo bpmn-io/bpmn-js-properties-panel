@@ -129,6 +129,18 @@ describe('extensionElements-properties', function() {
         });
 
 
+        it('should have unique identifiers', function() {
+
+          var propertyRow = domQuery('[data-index="0"]', propertiesTable);
+
+          expect(propertyRow).to.exist;
+
+          // expect the 2 input fields to have a unique identifier
+          expect(propertyRow.childNodes[0].id).to.equal('camunda-table-row-cell-input-value-0');
+          expect(propertyRow.childNodes[1].id).to.equal('camunda-table-row-cell-input-value-1');
+        });
+
+
         it('should undo', inject(function(commandStack) {
 
           // when
