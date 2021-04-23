@@ -22,9 +22,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${foo.id()}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:scriptTask id="ScriptTask_1" name="ScriptTask_1" scriptFormat="groovy">
-      <script>
-        printf('hello world')
-      </script>
+      <script>printf('hello world')</script>
       <bpmn:incoming>SequenceFlow_3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_4</bpmn:outgoing>
     </bpmn:scriptTask>
