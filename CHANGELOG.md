@@ -6,7 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-...
+## 0.43.0
+
+* `FEAT`: update existing documentation entries ([#465](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/465))
+* `FIX`: open and close properties when working as web component ([#458](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/458))
+* `FIX`: give properties table inputs a unique identifier ([#407](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/407))
+* `DEPS`: bump to `bpmn-js@8.5.0` and `diagram-js@7.3.0`
 
 ## 0.42.0
 
