@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.43.1
+
+* `FIX`: preserve Windows newline character ([#471](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/471))
+* `DEPS`: update to `bpmn-js@8.7.0` and `bpmn-moddle@7.1.1`
+
 ## 0.43.0
 
 * `FEAT`: update existing documentation entries ([#465](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/465))
