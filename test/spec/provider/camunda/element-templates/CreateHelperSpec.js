@@ -148,6 +148,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
+        type: 'camunda:in',
         target: 'var_called'
       };
 
@@ -167,6 +168,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
+        type: 'camunda:in',
         target: 'var_called',
         expression: true
       };
@@ -187,6 +189,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
+        type: 'camunda:in',
         variables: 'all'
       };
 
@@ -205,6 +208,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
+        type: 'camunda:in',
         variables: 'local'
       };
 
@@ -214,8 +218,53 @@ describe('element-templates - CreateHelper', function() {
       // then
       expect(camundaIn).to.jsonEqual({
         $type: 'camunda:In',
-        variables: 'all',
-        local: true
+        local: true,
+        variables: 'all'
+      });
+    }));
+
+
+    it('should create variables="local" and target', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:in',
+        variables: 'local',
+        target: 'var_called'
+      };
+
+      // when
+      var camundaIn = createCamundaIn(binding, 'foobar', bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        local: true,
+        source: 'foobar',
+        target: 'var_called'
+      });
+    }));
+
+
+    it('should create variables="local", target and expression', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:in',
+        variables: 'local',
+        target: 'var_called',
+        expression: true
+      };
+
+      // when
+      var camundaIn = createCamundaIn(binding, 'foobar', bpmnFactory);
+
+      // then
+      expect(camundaIn).to.jsonEqual({
+        $type: 'camunda:In',
+        local: true,
+        sourceExpression: 'foobar',
+        target: 'var_called'
       });
     }));
 
@@ -244,7 +293,8 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
-        target: 'var'
+        type: 'camunda:out',
+        source: 'var'
       };
 
       // when
@@ -263,17 +313,17 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
-        target: 'var',
-        expression: true
+        type: 'camunda:out',
+        sourceExpression: '${ var }'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, '${ var }', bpmnFactory);
+      var camundaOut = createCamundaOut(binding, 'var_local_expr', bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
         $type: 'camunda:Out',
-        target: 'var',
+        target: 'var_local_expr',
         sourceExpression: '${ var }'
       });
     }));
@@ -283,6 +333,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
+        type: 'camunda:out',
         variables: 'all'
       };
 
@@ -301,6 +352,7 @@ describe('element-templates - CreateHelper', function() {
 
       // given
       var binding = {
+        type: 'camunda:out',
         variables: 'local'
       };
 
@@ -310,8 +362,52 @@ describe('element-templates - CreateHelper', function() {
       // then
       expect(camundaOut).to.jsonEqual({
         $type: 'camunda:Out',
-        variables: 'all',
-        local: true
+        local: true,
+        variables: 'all'
+      });
+    }));
+
+
+    it('should create local="true" and source', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:out',
+        variables: 'local',
+        source: 'mySource'
+      };
+
+      // when
+      var camundaOut = createCamundaOut(binding, 'foobar', bpmnFactory);
+
+      // then
+      expect(camundaOut).to.jsonEqual({
+        $type: 'camunda:Out',
+        local: true,
+        source: 'mySource',
+        target: 'foobar'
+      });
+    }));
+
+
+    it('should create local="true" and sourceExpression', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:out',
+        variables: 'local',
+        sourceExpression: '${ mySource }'
+      };
+
+      // when
+      var camundaOut = createCamundaOut(binding, 'foobar', bpmnFactory);
+
+      // then
+      expect(camundaOut).to.jsonEqual({
+        $type: 'camunda:Out',
+        local: true,
+        sourceExpression: '${ mySource }',
+        target: 'foobar'
       });
     }));
 

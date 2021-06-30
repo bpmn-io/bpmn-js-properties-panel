@@ -604,7 +604,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
           var insAndOuts = findExtensions(callActivity, [ 'camunda:In', 'camunda:Out' ]);
 
-          expect(insAndOuts).to.have.length(9);
+          expect(insAndOuts).to.have.length(13);
           expect(insAndOuts).to.jsonEqual([
             {
               $type: 'camunda:In',
@@ -628,6 +628,30 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             },
             {
               $type: 'camunda:In',
+              local: true,
+              source: '${in-3-value}',
+              target: 'in-3-target'
+            },
+            {
+              $type: 'camunda:In',
+              local: true,
+              sourceExpression: '${in-4-value}',
+              target: 'in-4-target'
+            },
+            {
+              $type: 'camunda:Out',
+              local: true,
+              source: 'out-3-source',
+              target: 'out-3-value'
+            },
+            {
+              $type: 'camunda:Out',
+              local: true,
+              sourceExpression: '${ out-4-source-expression }',
+              target: 'out-4-value'
+            },
+            {
+              $type: 'camunda:In',
               variables: 'all'
             },
             {
@@ -636,13 +660,13 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             },
             {
               $type: 'camunda:In',
-              variables: 'all',
-              local: true
+              local: true,
+              variables: 'all'
             },
             {
               $type: 'camunda:Out',
-              variables: 'all',
-              local: true
+              local: true,
+              variables: 'all'
             },
             {
               $type: 'camunda:In',
@@ -687,7 +711,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
           var insAndOuts = findExtensions(callActivity, [ 'camunda:In', 'camunda:Out' ]);
 
-          expect(insAndOuts).to.have.length(9);
+          expect(insAndOuts).to.have.length(13);
           expect(insAndOuts).to.jsonEqual([
             {
               $type: 'camunda:In',
@@ -711,6 +735,30 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             },
             {
               $type: 'camunda:In',
+              local: true,
+              source: '${in-3-value}',
+              target: 'in-3-target'
+            },
+            {
+              $type: 'camunda:In',
+              local: true,
+              sourceExpression: '${in-4-value}',
+              target: 'in-4-target'
+            },
+            {
+              $type: 'camunda:Out',
+              local: true,
+              source: 'out-3-source',
+              target: 'out-3-value'
+            },
+            {
+              $type: 'camunda:Out',
+              local: true,
+              sourceExpression: '${ out-4-source-expression }',
+              target: 'out-4-value'
+            },
+            {
+              $type: 'camunda:In',
               variables: 'all'
             },
             {
@@ -719,13 +767,13 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             },
             {
               $type: 'camunda:In',
-              variables: 'all',
-              local: true
+              local: true,
+              variables: 'all'
             },
             {
               $type: 'camunda:Out',
-              variables: 'all',
-              local: true
+              local: true,
+              variables: 'all'
             },
             {
               $type: 'camunda:In',
