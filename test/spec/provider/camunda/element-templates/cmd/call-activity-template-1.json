@@ -36,6 +36,39 @@
       }
     },
     {
+      "value": "${in-3-value}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "in-3-target",
+        "variables": "local"
+      }
+    },
+    {
+      "value": "${in-4-value}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "in-4-target",
+        "variables": "local",
+        "expression": true
+      }
+    },
+    {
+      "value": "out-3-value",
+      "binding": {
+        "type": "camunda:out",
+        "variables": "local",
+        "source": "out-3-source"
+      }
+    },
+    {
+      "value": "out-4-value",
+      "binding": {
+        "type": "camunda:out",
+        "variables": "local",
+        "sourceExpression": "${ out-4-source-expression }"
+      }
+    },
+    {
       "binding": {
         "type": "camunda:in",
         "variables": "all"
