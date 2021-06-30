@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0evowaa" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_0nlx8t6" isExecutable="true">
+    <bpmn:task id="Task_1" />
+    <bpmn:boundaryEvent id="ErrorEvent_empty" attachedToRef="Task_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1" />
+    </bpmn:boundaryEvent>
+    <bpmn:subProcess id="EventSubProcess_1" triggeredByEvent="true">
+      <bpmn:startEvent id="ErrorEvent_1">
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_2" errorRef="Error_1" />
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:startEvent id="StartEvent_1" />
+  </bpmn:process>
+  <bpmn:error id="Error_1" name="Error_1" errorCode="500" />
+  <bpmn:error id="Error_3" name="Error_3" />
+  <bpmn:error id="Error_2" name="Error_2" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0nlx8t6">
+      <bpmndi:BPMNShape id="Activity_0m22viw_di" bpmnElement="Task_1">
+        <dc:Bounds x="530" y="340" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0mlb230_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="242" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0nnog6x_di" bpmnElement="EventSubProcess_1" isExpanded="true">
+        <dc:Bounds x="120" y="290" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1f72hoo_di" bpmnElement="ErrorEvent_1">
+        <dc:Bounds x="160" y="372" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1276rgr_di" bpmnElement="ErrorEvent_empty">
+        <dc:Bounds x="552" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

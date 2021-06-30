@@ -1,0 +1,64 @@
+{
+  "name": "@bpmn-io/bpmn-properties-panel",
+  "version": "0.0.0",
+  "description": "Properties panel for bpmn-js, built on top of @bpmn-io/properties-panel.",
+  "scripts": {
+    "all": "run-s lint test",
+    "lint": "eslint .",
+    "dev": "npm test -- --auto-watch --no-single-run",
+    "test": "karma start karma.config.js",
+    "start": "cross-env SINGLE_START=1 npm run dev"
+  },
+  "author": "Niklas Kiefer <niklas.kiefer@camunda.com> (https://github.com/pinussilvestrus)",
+  "contributors": [
+    {
+      "name": "bpmn.io contributors",
+      "url": "https://github.com/bpmn-io"
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@bpmn-io/properties-panel": "^0.1.0",
+    "bpmn-js": "^8.6.1",
+    "classnames": "^2.3.1",
+    "diagram-js": "^7.3.0",
+    "ids": "^1.0.0",
+    "min-dom": "^3.1.3",
+    "preact": "^10.5.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-transform-react-jsx": "^7.14.3",
+    "@testing-library/preact": "^2.0.1",
+    "babel-loader": "^8.2.2",
+    "bpmn-moddle": "^7.1.1",
+    "chai": "^4.3.4",
+    "copy-webpack-plugin": "^9.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^5.2.6",
+    "eslint": "^7.28.0",
+    "eslint-plugin-bpmn-io": "^0.12.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "karma": "^6.3.3",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-debug-launcher": "0.0.4",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-mocha": "^2.0.1",
+    "karma-sinon-chai": "^2.0.2",
+    "karma-webpack": "^5.0.0",
+    "mocha": "^9.0.0",
+    "mocha-test-container-support": "^0.2.0",
+    "npm-run-all": "^4.1.5",
+    "puppeteer": "^10.0.0",
+    "raw-loader": "^4.0.2",
+    "react-svg-loader": "^3.0.3",
+    "sinon": "^11.1.1",
+    "sinon-chai": "^3.7.0",
+    "sirv-cli": "^1.0.12",
+    "webpack": "^5.38.1",
+    "zeebe-bpmn-moddle": "^0.7.0"
+  }
+}

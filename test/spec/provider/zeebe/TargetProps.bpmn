@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0oevfuo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+  <bpmn:process id="Process_04htq1t" isExecutable="true">
+    <bpmn:callActivity id="CallActivity_1" name="CallActivity_1">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="someProcessId" propagateAllChildVariables="false" />
+        <zeebe:ioMapping>
+          <zeebe:input source="= source" target="target" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:task id="Task_1" name="Task_1" />
+    <bpmn:callActivity id="CallActivity_2" name="CallActivity_2" />
+    <bpmn:callActivity id="CallActivity_3" name="CallActivity_3">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="= source" target="target" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_04htq1t">
+      <bpmndi:BPMNShape id="Activity_1vl2lnl_di" bpmnElement="CallActivity_1">
+        <dc:Bounds x="160" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sm93h2_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gt91s8_di" bpmnElement="CallActivity_2">
+        <dc:Bounds x="160" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0s74y25_di" bpmnElement="CallActivity_3">
+        <dc:Bounds x="160" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
