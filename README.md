@@ -1,0 +1,1 @@
+# @bpmn-io/bpmn-properties-panel
