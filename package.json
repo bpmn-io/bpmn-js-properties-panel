@@ -3,11 +3,32 @@
   "version": "0.0.0",
   "description": "Properties panel for bpmn-js, built on top of @bpmn-io/properties-panel.",
   "scripts": {
-    "all": "run-s lint test",
+    "all": "run-s lint test distro",
+    "distro": "run-s build test:build",
+    "build": "run-p bundle",
+    "bundle": "rollup -c",
+    "bundle:watch": "rollup -c -w",
     "lint": "eslint .",
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start karma.config.js",
-    "start": "cross-env SINGLE_START=1 npm run dev"
+    "test:build": "mocha --reporter=spec --recursive test/distro",
+    "start": "cross-env SINGLE_START=1 npm run dev",
+    "prepare": "run-s bundle"
+  },
+  "keywords": [
+    "bpmn-io",
+    "bpmn-js",
+    "properties-panel"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    ".babelrc",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpmn-io/bpmn-properties-panel.git"
   },
   "author": "Niklas Kiefer <niklas.kiefer@camunda.com> (https://github.com/pinussilvestrus)",
   "contributors": [
@@ -29,6 +50,11 @@
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/plugin-transform-react-jsx": "^7.14.3",
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "@testing-library/preact": "^2.0.1",
     "babel-loader": "^8.2.2",
     "bpmn-moddle": "^7.1.1",
@@ -55,6 +81,9 @@
     "puppeteer": "^10.0.0",
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
+    "rollup": "^2.52.6",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-react-svg": "^3.0.3",
     "sinon": "^11.1.1",
     "sinon-chai": "^3.7.0",
     "sirv-cli": "^1.0.12",
