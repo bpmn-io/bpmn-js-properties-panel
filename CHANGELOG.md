@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.44.0
+
+* `FEAT`: allow independent configuration of variables and local in `camunda:in|out` element template bindings ([`5e5b2d6f`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/5e5b2d6f7a45fda4d46909ba21a52a66c12d6451))
+* `DEPS`: update to `element-templates-validator@0.2.0`
+* `DEPS`: update to `bpmn-js@8.7.1`
+
 ## 0.43.1
 
 * `FIX`: preserve Windows newline character ([#471](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/471))
