@@ -23,6 +23,10 @@ export function getErrorEventDefinition(element) {
   return getEventDefinition(element, 'bpmn:ErrorEventDefinition');
 }
 
+export function getTimerEventDefinition(element) {
+  return getEventDefinition(element, 'bpmn:TimerEventDefinition');
+}
+
 export function getError(element) {
   const errorEventDefinition = getErrorEventDefinition(element);
 

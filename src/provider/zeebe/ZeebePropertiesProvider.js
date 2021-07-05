@@ -11,7 +11,8 @@ import {
   TargetProps,
   OutputProps,
   TaskDefinitionProps,
-  FormProps
+  FormProps,
+  TimerEventDefinitionProps
 } from './properties';
 
 import {
@@ -114,6 +115,20 @@ function TargetGroup(element) {
   };
 }
 
+function TimerEventGroup(element) {
+
+  const entries = [
+    ...TimerEventDefinitionProps({ element })
+  ];
+
+  return {
+    id: 'timerEvent',
+    label: 'Timer Event',
+    entries,
+    component: Group
+  };
+}
+
 function HeaderGroup(element) {
   return {
     id: 'headers',
@@ -176,6 +191,12 @@ function getGroups(element) {
 
   if (targetGroup.entries.length) {
     groups.push(targetGroup);
+  }
+
+  const timerEventGroup = TimerEventGroup(element);
+
+  if (timerEventGroup.entries.length) {
+    groups.push(timerEventGroup);
   }
 
   const multiInstanceGroup = MultiInstanceGroup(element);

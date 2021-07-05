@@ -324,6 +324,53 @@ describe('<ZeebePropertiesProvider>', function() {
   }));
 
 
+  it('should show timer event group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const elements = [
+      elementRegistry.get('TimerStartEvent_1'),
+      elementRegistry.get('TimerBoundaryEvent_1'),
+      elementRegistry.get('InterruptingTimerBoundaryEvent_1'),
+      elementRegistry.get('IntermediateTimerICatchEvent_1')
+    ];
+
+    for (const ele of elements) {
+      await act(() => {
+        selection.select(ele);
+      });
+
+      // when
+      const timerEvent = getGroup(container, 'timerEvent');
+
+      // then
+      expect(timerEvent).to.exist;
+    }
+  }));
+
+
+  it('should NOT show timer event group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const elements = [
+      elementRegistry.get('Task_1'),
+      elementRegistry.get('IntermediateCatchEvent_1'),
+      elementRegistry.get('BoundaryEvent_1')
+    ];
+
+    for (const ele of elements) {
+      await act(() => {
+        selection.select(ele);
+      });
+
+      // when
+      const timerEvent = getGroup(container, 'timerEvent');
+
+      // then
+      expect(timerEvent).not.to.exist;
+    }
+  }));
+
+
   it('should show groups for sendTasks', inject(async function(selection, elementRegistry) {
 
     // given
