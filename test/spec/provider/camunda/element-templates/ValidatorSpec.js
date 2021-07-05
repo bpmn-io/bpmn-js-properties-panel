@@ -397,8 +397,8 @@ describe('element-templates - Validator', function() {
         'template(id: <foo>, name: <Invalid>): property.binding "camunda:property" requires name',
         'template(id: <foo>, name: <Invalid>): property.binding "camunda:inputParameter" requires name',
         'template(id: <foo>, name: <Invalid>): property.binding "camunda:outputParameter" requires source',
-        'template(id: <foo>, name: <Invalid>): property.binding "camunda:in" requires variables or target',
-        'template(id: <foo>, name: <Invalid>): property.binding "camunda:out" requires variables, sourceExpression or source',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:in" requires variables, target, or both',
+        'template(id: <foo>, name: <Invalid>): property.binding "camunda:out" requires one of the following: variables, sourceExpression, source, (sourceExpression and variables), or (source and variables)',
         'template(id: <foo>, name: <Invalid>): property.binding "camunda:errorEventDefinition" requires errorRef'
       ]);
 
