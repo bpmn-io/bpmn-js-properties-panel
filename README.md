@@ -104,6 +104,7 @@ class ExamplePropertiesProvider {
 ExamplePropertiesProvider.$inject = [ 'propertiesPanel' ];
 ```
 
+
 ## Build and Run
 
 

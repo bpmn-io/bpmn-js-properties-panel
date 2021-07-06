@@ -49,6 +49,7 @@ export default class BpmnPropertiesPanelRenderer {
     });
   }
 
+
   /**
    * Attach the properties panel to a parent node.
    *
@@ -73,15 +74,7 @@ export default class BpmnPropertiesPanelRenderer {
     this._parentNode = container;
 
     // (3) render properties panel to new parent
-    render(
-      <BpmnPropertiesPanel
-        element={ element }
-        injector={ this._injector }
-        getProviders={ this._getProviders.bind(this) }
-        layoutConfig={ this._layoutConfig }
-      />,
-      this._parentNode
-    );
+    this._render(element);
 
     // (4) notify interested parties
     this._eventBus.fire('propertiesPanel.attach');
@@ -128,6 +121,29 @@ export default class BpmnPropertiesPanelRenderer {
 
     return event.providers;
   }
+
+  _render(element) {
+    if (!element || isImplicitRoot(element)) {
+      return;
+    }
+
+    render(
+      <BpmnPropertiesPanel
+        element={ element }
+        injector={ this._injector }
+        getProviders={ this._getProviders.bind(this) }
+        layoutConfig={ this._layoutConfig }
+      />,
+      this._parentNode
+    );
+  }
 }
 
 BpmnPropertiesPanelRenderer.$inject = ['config.propertiesPanel', 'injector', 'eventBus'];
+
+
+// helpers ///////////////////////
+
+function isImplicitRoot(element) {
+  return element && element.id === '__implicitroot';
+}

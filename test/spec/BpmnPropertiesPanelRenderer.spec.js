@@ -254,6 +254,32 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should ensure creating -> no import -> attaching -> import works', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    const { modeler } = await createModeler(null, {
+      shouldImport: false,
+      propertiesPanel: {}
+    });
+
+    const propertiesPanel = modeler.get('propertiesPanel');
+
+    // when
+    propertiesPanel.attachTo(propertiesContainer);
+
+    // assume
+    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+
+    // and when
+    await modeler.importXML(diagramXml);
+
+    // then
+    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+  });
+
+
   it('#attachTo', async function() {
 
     // given
