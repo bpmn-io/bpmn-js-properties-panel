@@ -207,8 +207,7 @@ function TimerEventDefinitionValue(props) {
     getValue,
     setValue,
     debounce,
-    description: getTimerEventDefinitionValueDescription(timerEventDefinitionType, translate),
-    disabled: !timerEventFormalExpression
+    description: getTimerEventDefinitionValueDescription(timerEventDefinitionType, translate)
   });
 }
 
