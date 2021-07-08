@@ -377,7 +377,6 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
       <ul>
         <li><code>2019-10-01T12:00:00Z</code> - { translate('UTC time') }</li>
         <li><code>2019-10-02T08:09:40+02:00</code> - { translate('UTC plus 2 hours zone offset') }</li>
-        <li><code>2019-10-02T08:09:40+02:00[Europe/Berlin]</code> - { translate('UTC plus 2 hours zone offset at Berlin') }</li>
       </ul>
       <a href="https://docs.camunda.io/docs/reference/bpmn-processes/timer-events/timer-events/#time-date" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);
