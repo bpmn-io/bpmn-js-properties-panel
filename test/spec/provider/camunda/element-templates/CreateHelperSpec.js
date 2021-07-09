@@ -284,6 +284,31 @@ describe('element-templates - CreateHelper', function() {
       });
     }));
 
+
+    it('should throw when configuration is invalid', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:in',
+        variables: 'invalidValue',
+        target: 'var_called',
+        expression: true
+      };
+
+      var err;
+
+      // when
+      try {
+        createCamundaIn(binding, 'foobar', bpmnFactory);
+      } catch (error) {
+        err = error;
+      }
+
+      // then
+      expect(err).to.exist;
+      expect(err.message).to.equal('invalid configuration for camunda:in element template binding');
+    }));
+
   });
 
 
@@ -409,6 +434,30 @@ describe('element-templates - CreateHelper', function() {
         sourceExpression: '${ mySource }',
         target: 'foobar'
       });
+    }));
+
+
+    it('should throw when configuration is invalid', inject(function(bpmnFactory) {
+
+      // given
+      var binding = {
+        type: 'camunda:out',
+        variables: 'invalidValue',
+        sourceExpression: '${ mySource }'
+      };
+
+      var err;
+
+      // when
+      try {
+        createCamundaOut(binding, 'foobar', bpmnFactory);
+      } catch (error) {
+        err = error;
+      }
+
+      // then
+      expect(err).to.exist;
+      expect(err.message).to.equal('invalid configuration for camunda:out element template binding');
     }));
 
   });
