@@ -5,6 +5,7 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import { findIndex } from 'min-dash';
 
 import {
+  CandidateStarterProps,
   VersionTagProps
 } from './properties';
 
@@ -57,30 +58,30 @@ export default class CamundaPlatformPropertiesProvider {
 
   _getGroups(element) {
     const groups = [
-      DelegatePropsGroup(element),
-      UserTaskGroup(element),
-      ScriptTaskGroup(element),
-      LinkGroup(element),
-      CallActivityGroup(element),
-      EventGroup(element),
-      ErrorGroup(element),
-      ConditionalGroup(element),
-      InitiatorGroup(element),
-      ExternalTaskGroup(element),
-      MultiInstanceGroup(element),
       AsyncContinuationGroup(element),
-      JobConfigurationGroup(element),
+      CallActivityGroup(element),
       CandidateStarterGroup(element),
-      HistoryTimeToLiveGroup(element),
-      TasklistGroup(element),
-      VariablesMappingGroup(element),
-      ProcessVariablesGroup(element),
-      FormGroup(element),
-      ListenerGroup(element),
-      InputOutputGroup(element),
+      ConditionalGroup(element),
       ConnectorGroup(element),
+      DelegatePropsGroup(element),
+      ErrorGroup(element),
+      EventGroup(element),
+      ExtensionElementsGroup(element),
+      ExternalTaskGroup(element),
       FieldInjectionGroup(element),
-      ExtensionElementsGroup(element)
+      FormGroup(element),
+      HistoryTimeToLiveGroup(element),
+      InitiatorGroup(element),
+      InputOutputGroup(element),
+      JobConfigurationGroup(element),
+      LinkGroup(element),
+      ListenerGroup(element),
+      MultiInstanceGroup(element),
+      ProcessVariablesGroup(element),
+      ScriptTaskGroup(element),
+      TasklistGroup(element),
+      UserTaskGroup(element),
+      VariablesMappingGroup(element)
     ];
 
     // contract: if a group returns null, it should not be displayed at all
@@ -340,13 +341,14 @@ function JobConfigurationGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function CandidateStarterGroup(element) {
   const group = {
     label: 'Candidate Starter',
     id: 'CamundaPlatform__CandidateStarter',
     component: Group,
-    entries: []
+    entries: [
+      ...CandidateStarterProps({ element })
+    ]
   };
 
   if (group.entries.length) {

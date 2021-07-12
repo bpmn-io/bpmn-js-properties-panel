@@ -1,3 +1,5 @@
+import TestContainer from 'mocha-test-container-support';
+
 import {
   act
 } from '@testing-library/preact';
@@ -7,18 +9,23 @@ import {
   inject
 } from 'test/TestHelper';
 
+import {
+  query as domQuery
+} from 'min-dom';
+
 import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
 import BpmnPropertiesPanel from 'src/render';
 
-import CamundaPlatformPropertiesProviderModule from 'src/provider/camunda-platform';
-import BpmnPropertiesProviderModule from 'src/provider/bpmn';
+import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
+import BpmnPropertiesProvider from 'src/provider/bpmn';
 
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
-import diagramXML from './CamundaPlatformPropertiesProvider.bpmn';
+import processDiagramXML from './CamundaPlatformPropertiesProvider-Process.bpmn';
+import collaborationDiagramXML from './CamundaPlatformPropertiesProvider-Collaboration.bpmn';
 
 
 describe('<CamundaPlatformPropertiesProvider>', function() {
@@ -28,7 +35,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
     CoreModule,
     ModelingModule,
     SelectionModule,
-    CamundaPlatformPropertiesProviderModule
+    CamundaPlatformPropertiesProvider
   ];
 
   const moddleExtensions = {
@@ -38,7 +45,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
   describe('basics', function() {
 
-    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+    beforeEach(bootstrapPropertiesPanel(processDiagramXML, {
       modules: testModules,
       moddleExtensions,
       debounceInput: false
@@ -58,13 +65,119 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
   });
 
 
+  describe('groups', function() {
+
+    describe('process', function() {
+
+      let container;
+
+      beforeEach(function() {
+        container = TestContainer.get(this);
+      });
+
+      beforeEach(bootstrapPropertiesPanel(processDiagramXML, {
+        modules: testModules,
+        moddleExtensions,
+        debounceInput: false
+      }));
+
+
+      it('should show candidate starter group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Process_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const candidateStarterGroup = getGroup(container, 'CamundaPlatform__CandidateStarter');
+
+        // then
+        expect(candidateStarterGroup).to.exist;
+      }));
+
+
+      it('should NOT show candidate starter group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const candidateStarterGroup = getGroup(container, 'CamundaPlatform__CandidateStarter');
+
+        // then
+        expect(candidateStarterGroup).not.to.exist;
+      }));
+
+    });
+
+
+    describe('collaboration', function() {
+
+      let container;
+
+      beforeEach(function() {
+        container = TestContainer.get(this);
+      });
+
+      beforeEach(bootstrapPropertiesPanel(collaborationDiagramXML, {
+        modules: testModules,
+        moddleExtensions,
+        debounceInput: false
+      }));
+
+
+      it('should show candidate starter group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const candidateStarterGroup = getGroup(container, 'CamundaPlatform__CandidateStarter');
+
+        // then
+        expect(candidateStarterGroup).to.exist;
+      }));
+
+
+      it('should NOT show candidate starter group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const candidateStarterGroup = getGroup(container, 'CamundaPlatform__CandidateStarter');
+
+        // then
+        expect(candidateStarterGroup).not.to.exist;
+      }));
+
+    });
+
+  });
+
+
   describe('integration', function() {
 
     it('should work with BpmnPropertiesProvider', function() {
 
       // given
-      const test = bootstrapPropertiesPanel(diagramXML, {
-        modules: testModules.concat(BpmnPropertiesProviderModule),
+      const test = bootstrapPropertiesPanel(processDiagramXML, {
+        modules: testModules.concat(BpmnPropertiesProvider),
         moddleExtensions,
         debounceInput: false
       });
@@ -74,3 +187,10 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
     });
   });
 });
+
+
+// helpers /////////////////////
+
+function getGroup(container, id) {
+  return domQuery(`[data-group-id="group-${id}"`, container);
+}
