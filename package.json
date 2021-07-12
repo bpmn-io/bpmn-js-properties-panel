@@ -12,7 +12,9 @@
     "dev": "npm test -- --auto-watch --no-single-run",
     "test": "karma start karma.config.js",
     "test:build": "mocha --reporter=spec --recursive test/distro",
-    "start": "cross-env SINGLE_START=1 npm run dev",
+    "start": "npm run start:cloud",
+    "start:cloud": "cross-env SINGLE_START=cloud npm run dev",
+    "start:platform": "cross-env SINGLE_START=platform npm run dev",
     "prepare": "run-s bundle"
   },
   "keywords": [

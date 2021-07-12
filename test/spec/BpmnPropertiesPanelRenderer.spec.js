@@ -21,7 +21,11 @@ import Modeler from 'bpmn-js/lib/Modeler';
 import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
+import CamundaPropertiesProvider from 'src/provider/camunda-platform';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
+
+import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
+import CamundaModdleExtension from 'camunda-bpmn-moddle/lib';
 
 import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
 import ZeebeModdleExtension from 'zeebe-bpmn-moddle/lib';
@@ -57,7 +61,16 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   async function createModeler(xml, options = {}) {
     const {
-      shouldImport = true
+      shouldImport = true,
+      additionalModules = [
+        ZeebeModdleExtension,
+        BpmnPropertiesPanel,
+        BpmnPropertiesProvider,
+        ZeebePropertiesProvider
+      ],
+      moddleExtensions = {
+        zeebe: ZeebeModdle
+      }
     } = options;
 
     clearBpmnJS();
@@ -67,15 +80,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       keyboard: {
         bindTo: document
       },
-      additionalModules: [
-        ZeebeModdleExtension,
-        BpmnPropertiesPanel,
-        BpmnPropertiesProvider,
-        ZeebePropertiesProvider
-      ],
-      moddleExtensions: {
-        zeebe: ZeebeModdle
-      },
+      additionalModules,
+      moddleExtensions,
       propertiesPanel: {
         parent: propertiesContainer
       },
@@ -97,13 +103,52 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     }
   }
 
-  (singleStart ? it.only : it)('should import simple process', async function() {
+  ((singleStart && singleStart === 'cloud') ? it.only : it)('should import simple process (cloud)', async function() {
 
     // given
     const diagramXml = require('test/fixtures/simple.bpmn').default;
 
     // when
-    const result = await createModeler(diagramXml);
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          ZeebeModdleExtension,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider,
+          ZeebePropertiesProvider
+        ],
+        moddleExtensions: {
+          zeebe: ZeebeModdle
+        }
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
+  ((singleStart && singleStart === 'platform') ? it.only : it)('should import simple process (platform)', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          CamundaModdleExtension,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider,
+          CamundaPropertiesProvider
+        ],
+        moddleExtensions: {
+          zeebe: CamundaModdle
+        }
+      }
+    );
 
     // then
     expect(result.error).not.to.exist;
