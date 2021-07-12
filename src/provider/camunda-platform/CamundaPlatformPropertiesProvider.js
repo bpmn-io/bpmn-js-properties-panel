@@ -87,7 +87,7 @@ CamundaPlatformPropertiesProvider.$inject = [ 'propertiesPanel' ];
 // @TODO: implement
 function updateGeneralGroup(element) {}
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function DelegatePropsGroup(element) {
 
   if (!is(element, 'camunda:ServiceTaskLike')) {
@@ -101,10 +101,14 @@ function DelegatePropsGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function UserTaskGroup(element) {
 
   if (!is(element, 'bpmn:UserTask')) {
@@ -118,10 +122,14 @@ function UserTaskGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ScriptTaskGroup(element) {
 
   if (!is(element, 'bpmn:ScriptTask')) {
@@ -135,10 +143,14 @@ function ScriptTaskGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function LinkGroup(element) {
   const group = {
     label: 'Link',
@@ -147,10 +159,14 @@ function LinkGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function CallActivityGroup(element) {
 
   if (!is(element, 'bpmn:CallActivity')) {
@@ -164,10 +180,14 @@ function CallActivityGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function EventGroup(element) {
 
   if (!is(element, 'bpmn:Event')) {
@@ -181,10 +201,14 @@ function EventGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ErrorGroup(element) {
   const group = {
     label: 'Error',
@@ -193,10 +217,14 @@ function ErrorGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ConditionalGroup(element) {
   const group = {
     label: 'Conditional',
@@ -205,10 +233,14 @@ function ConditionalGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function InitiatorGroup(element) {
   const group = {
     label: 'Initiator',
@@ -217,10 +249,14 @@ function InitiatorGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ExternalTaskGroup(element) {
   const group = {
     label: 'External Task',
@@ -229,10 +265,14 @@ function ExternalTaskGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function MultiInstanceGroup(element) {
   const group = {
     label: 'Multi Instance',
@@ -241,10 +281,14 @@ function MultiInstanceGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function AsyncContinuationGroup(element) {
   const group = {
     label: 'Async Continuation',
@@ -253,10 +297,14 @@ function AsyncContinuationGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function JobConfigurationGroup(element) {
   const group = {
     label: 'Job Configuration',
@@ -265,10 +313,14 @@ function JobConfigurationGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function CandidateStarterGroup(element) {
   const group = {
     label: 'Candidate Starter',
@@ -277,10 +329,14 @@ function CandidateStarterGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function HistoryTimeToLiveGroup(element) {
   const group = {
     label: 'History Time To Live',
@@ -289,10 +345,14 @@ function HistoryTimeToLiveGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function TasklistGroup(element) {
   const group = {
     label: 'Tasklist',
@@ -301,10 +361,14 @@ function TasklistGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function VariablesMappingGroup(element) {
   const group = {
     label: 'Variables Mapping',
@@ -313,10 +377,14 @@ function VariablesMappingGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ProcessVariablesGroup(element) {
   const group = {
     label: 'Process Variables',
@@ -325,10 +393,14 @@ function ProcessVariablesGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function FormGroup(element) {
   const group = {
     label: 'Form',
@@ -337,10 +409,14 @@ function FormGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ListenerGroup(element) {
   const group = {
     label: 'Listener',
@@ -349,10 +425,14 @@ function ListenerGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function InputOutputGroup(element) {
   const group = {
     label: 'Input Output',
@@ -361,10 +441,14 @@ function InputOutputGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ConnectorGroup(element) {
   const group = {
     label: 'Connector',
@@ -373,10 +457,14 @@ function ConnectorGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function FieldInjectionGroup(element) {
   const group = {
     label: 'Field Injection',
@@ -385,10 +473,14 @@ function FieldInjectionGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
-// @TODO: implement
+// @TODO: implement, hide with no entries in the meantime
 function ExtensionElementsGroup(element) {
   const group = {
     label: 'Extension Elements',
@@ -397,6 +489,10 @@ function ExtensionElementsGroup(element) {
     entries: []
   };
 
-  return group;
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
