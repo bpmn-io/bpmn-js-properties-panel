@@ -8,9 +8,9 @@ import {
 
 import {
   usePrevious
-} from '@bpmn-io/properties-panel/src/hooks';
+} from '@bpmn-io/properties-panel/lib/hooks';
 
-import SelectEntry from '@bpmn-io/properties-panel/src/components/entries/Select';
+import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select';
 
 
 export default function ReferenceSelectEntry(props) {

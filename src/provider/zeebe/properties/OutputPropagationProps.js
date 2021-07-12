@@ -23,7 +23,7 @@ import {
   useService
 } from '../../../hooks';
 
-import ToggleSwitch, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/src/components/entries/ToggleSwitch';
+import ToggleSwitch, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/ToggleSwitch';
 
 
 export function OutputPropagationProps(props) {

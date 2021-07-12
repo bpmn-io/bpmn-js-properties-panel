@@ -1,5 +1,5 @@
-import Group from '@bpmn-io/properties-panel/src/components/Group';
-import ListGroup from '@bpmn-io/properties-panel/src/components/ListGroup';
+import Group from '@bpmn-io/properties-panel/lib/components/Group';
+import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import {
   ConditionProps,

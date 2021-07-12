@@ -15,8 +15,8 @@ import {
   getTimerEventDefinition
 } from '../../bpmn/utils/EventDefinitionUtil';
 
-import SelectEntry, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/src/components/entries/Select';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import SelectEntry, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 
 export function TimerEventDefinitionProps(props) {

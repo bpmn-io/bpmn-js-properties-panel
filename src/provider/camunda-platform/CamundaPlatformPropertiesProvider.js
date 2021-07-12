@@ -1,4 +1,4 @@
-import Group from '@bpmn-io/properties-panel/src/components/Group';
+import Group from '@bpmn-io/properties-panel/lib/components/Group';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 

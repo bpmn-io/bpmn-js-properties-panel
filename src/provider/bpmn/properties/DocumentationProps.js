@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextArea, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/src/components/entries/TextArea';
+import TextArea, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
 
 import {
   useService

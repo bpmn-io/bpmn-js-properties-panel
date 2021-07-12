@@ -61,7 +61,7 @@ module.exports = function(karma) {
           },
           {
             test: /\.m?js$/,
-            exclude: /node_modules(?!\/@bpmn-io\/properties-panel)/,
+            exclude: /node_modules/,
             use: {
               loader: 'babel-loader',
               options: {

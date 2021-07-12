@@ -1,12 +1,12 @@
-import Group from '@bpmn-io/properties-panel/src/components/Group';
+import Group from '@bpmn-io/properties-panel/lib/components/Group';
 
 import {
   isEdited as textFieldIsEdited
-} from '@bpmn-io/properties-panel/src/components/entries/TextField';
+} from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   isEdited as checkboxIsEdited
-} from '@bpmn-io/properties-panel/src/components/entries/Checkbox';
+} from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
 
 import {
   DocumentationProps,

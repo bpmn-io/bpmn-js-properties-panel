@@ -7,7 +7,7 @@ import {
   add as collectionAdd
 } from 'diagram-js/lib/util/Collections';
 
-import TextField from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   useService

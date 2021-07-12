@@ -2,7 +2,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   useService

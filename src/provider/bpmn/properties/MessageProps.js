@@ -6,9 +6,9 @@ import {
   sortBy
 } from 'min-dash';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 import ReferenceSelect from '../../../entries/ReferenceSelect';
-import { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/src/components/entries/Select';
+import { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
 
 import {
   useService

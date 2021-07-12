@@ -1,6 +1,6 @@
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   useService

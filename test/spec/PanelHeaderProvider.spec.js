@@ -14,7 +14,7 @@ import {
   insertCoreStyles
 } from 'test/TestHelper';
 
-import Header from '@bpmn-io/properties-panel/src/components/Header';
+import Header from '@bpmn-io/properties-panel/lib/components/Header';
 
 import {
   PanelHeaderProvider,

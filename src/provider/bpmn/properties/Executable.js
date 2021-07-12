@@ -2,7 +2,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Checkbox from '@bpmn-io/properties-panel/src/components/entries/Checkbox';
+import Checkbox from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
 
 import {
   useService

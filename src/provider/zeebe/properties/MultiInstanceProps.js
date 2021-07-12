@@ -2,7 +2,7 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   getExtensionElementsList

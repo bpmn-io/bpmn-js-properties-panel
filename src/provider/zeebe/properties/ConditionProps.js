@@ -15,7 +15,7 @@ import {
   useService
 } from '../../../hooks';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 
 export function ConditionProps(props) {

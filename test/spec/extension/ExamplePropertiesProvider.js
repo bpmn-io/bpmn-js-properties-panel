@@ -8,11 +8,11 @@ import {
   useService
 } from 'src/hooks';
 
-import TextField from '@bpmn-io/properties-panel/src/components/entries/TextField';
+import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   LayoutContext
-} from '@bpmn-io/properties-panel/src/context';
+} from '@bpmn-io/properties-panel/lib/context';
 
 import {
   is
