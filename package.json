@@ -39,7 +39,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@bpmn-io/properties-panel": "^0.1.0",
+    "@bpmn-io/properties-panel": "^0.1.1",
     "classnames": "^2.3.1",
     "ids": "^1.0.0",
     "min-dom": "^3.1.3",
