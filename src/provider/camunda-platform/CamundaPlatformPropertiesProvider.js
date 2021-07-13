@@ -9,6 +9,7 @@ import {
   CandidateStarterProps,
   FieldInjectionProps,
   HistoryCleanupProps,
+  TasklistProps,
   VersionTagProps
 } from './properties';
 
@@ -394,13 +395,14 @@ function HistoryCleanupGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function TasklistGroup(element) {
   const group = {
     label: 'Tasklist',
     id: 'CamundaPlatform__Tasklist',
     component: Group,
-    entries: []
+    entries: [
+      ...TasklistProps({ element })
+    ]
   };
 
   if (group.entries.length) {

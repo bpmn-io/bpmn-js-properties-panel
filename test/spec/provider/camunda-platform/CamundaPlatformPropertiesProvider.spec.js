@@ -195,6 +195,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(historyGroup).not.to.exist;
       }));
 
+
+      it('should show tasklist group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Process_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const tasklistGroup = getGroup(container, 'CamundaPlatform__Tasklist');
+
+        // then
+        expect(tasklistGroup).to.exist;
+      }));
+
+
+      it('should NOT show history group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const tasklistGroup = getGroup(container, 'CamundaPlatform__Tasklist');
+
+        // then
+        expect(tasklistGroup).not.to.exist;
+      }));
+
     });
 
 
@@ -278,6 +312,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(historyGroup).not.to.exist;
+      }));
+
+
+      it('should show tasklist group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const tasklistGroup = getGroup(container, 'CamundaPlatform__Tasklist');
+
+        // then
+        expect(tasklistGroup).to.exist;
+      }));
+
+
+      it('should NOT show tasklist group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const tasklistGroup = getGroup(container, 'CamundaPlatform__Tasklist');
+
+        // then
+        expect(tasklistGroup).not.to.exist;
       }));
 
     });
