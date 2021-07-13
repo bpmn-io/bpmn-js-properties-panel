@@ -161,6 +161,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         }
       }));
 
+
+      it('should show history group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Process_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const historyGroup = getGroup(container, 'CamundaPlatform__HistoryCleanup');
+
+        // then
+        expect(historyGroup).to.exist;
+      }));
+
+
+      it('should NOT show history group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const historyGroup = getGroup(container, 'CamundaPlatform__HistoryCleanup');
+
+        // then
+        expect(historyGroup).not.to.exist;
+      }));
+
     });
 
 
@@ -210,6 +244,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(candidateStarterGroup).not.to.exist;
+      }));
+
+
+      it('should show history group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const historyGroup = getGroup(container, 'CamundaPlatform__HistoryCleanup');
+
+        // then
+        expect(historyGroup).to.exist;
+      }));
+
+
+      it('should NOT show history group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const historyGroup = getGroup(container, 'CamundaPlatform__HistoryCleanup');
+
+        // then
+        expect(historyGroup).not.to.exist;
       }));
 
     });

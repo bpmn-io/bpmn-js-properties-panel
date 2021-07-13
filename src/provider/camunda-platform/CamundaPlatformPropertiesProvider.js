@@ -8,6 +8,7 @@ import { findIndex } from 'min-dash';
 import {
   CandidateStarterProps,
   FieldInjectionProps,
+  HistoryCleanupProps,
   VersionTagProps
 } from './properties';
 
@@ -72,7 +73,7 @@ export default class CamundaPlatformPropertiesProvider {
       ExternalTaskGroup(element),
       FieldInjectionGroup(element),
       FormGroup(element),
-      HistoryTimeToLiveGroup(element),
+      HistoryCleanupGroup(element),
       InitiatorGroup(element),
       InputOutputGroup(element),
       JobConfigurationGroup(element),
@@ -376,12 +377,14 @@ function FieldInjectionGroup(element) {
 }
 
 // @TODO: implement, hide with no entries in the meantime
-function HistoryTimeToLiveGroup(element) {
+function HistoryCleanupGroup(element) {
   const group = {
-    label: 'History Time To Live',
-    id: 'CamundaPlatform__HistoryTimeToLive',
+    label: 'History Cleanup',
+    id: 'CamundaPlatform__HistoryCleanup',
     component: Group,
-    entries: []
+    entries: [
+      ...HistoryCleanupProps({ element })
+    ]
   };
 
   if (group.entries.length) {
