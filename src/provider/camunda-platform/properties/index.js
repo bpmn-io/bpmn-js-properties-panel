@@ -1,0 +1,1 @@
+export { VersionTagProps } from './VersionTagProps';

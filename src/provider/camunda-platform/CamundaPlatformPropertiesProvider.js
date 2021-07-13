@@ -2,6 +2,12 @@ import Group from '@bpmn-io/properties-panel/lib/components/Group';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
+import { findIndex } from 'min-dash';
+
+import {
+  VersionTagProps
+} from './properties';
+
 
 const LOW_PRIORITY = 500;
 
@@ -43,7 +49,7 @@ export default class CamundaPlatformPropertiesProvider {
       groups = groups.concat(this._getGroups(element));
 
       // (2) update existing groups with Camunda Platform specific properties
-      updateGeneralGroup(groups);
+      updateGeneralGroup(groups, element);
 
       return groups;
     };
@@ -84,8 +90,22 @@ export default class CamundaPlatformPropertiesProvider {
 
 CamundaPlatformPropertiesProvider.$inject = [ 'propertiesPanel' ];
 
-// @TODO: implement
-function updateGeneralGroup(element) {}
+function updateGeneralGroup(groups, element) {
+
+  const generalGroup = findGroup(groups, 'general');
+
+  if (!generalGroup) {
+    return;
+  }
+
+  const { entries } = generalGroup;
+
+  // (1) add version tag before executable (if existing)
+  const executableEntry = findIndex(entries, (entry) => entry.id === 'isExecutable');
+  const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
+
+  entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
+}
 
 // @TODO: implement, hide with no entries in the meantime
 function DelegatePropsGroup(element) {
@@ -496,3 +516,9 @@ function ExtensionElementsGroup(element) {
   return null;
 }
 
+
+// helper /////////////////////
+
+function findGroup(groups, id) {
+  return groups.find(g => g.id === id);
+}
