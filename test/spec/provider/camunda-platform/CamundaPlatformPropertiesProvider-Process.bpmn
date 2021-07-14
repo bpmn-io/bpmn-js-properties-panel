@@ -13,7 +13,21 @@
       <bpmn:incoming>Flow_1fpiafa</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1fpiafa" sourceRef="Task_1" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="FieldInjectionServiceTask_1" name="Show Field Injection" />
+    <bpmn:businessRuleTask id="FieldInjectionBusinessRuleTask_1" name="Show Field Injection" />
+    <bpmn:sendTask id="FieldInjectionSendMessageTask_1" name="Show Field Injection" />
+    <bpmn:intermediateThrowEvent id="FieldInjectionIntermediateMessageThrowEvent_1" name="Show Field Injection">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0v3qg1h" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateCatchEvent id="FieldInjectionIntermediateMessageCatchEvent_1" name="Don&#39;t show Field Injection">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1m24q6c" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:callActivity id="FieldInjectionCallActivity_1" name="Don&#39;t show Field Injection" />
+    <bpmn:group id="Group_181txdl" categoryValueRef="CategoryValue_0gchis2" />
   </bpmn:process>
+  <bpmn:category id="Category_0s6pp9d">
+    <bpmn:categoryValue id="CategoryValue_0gchis2" value="Field Injection" />
+  </bpmn:category>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNEdge id="Flow_1fpiafa_di" bpmnElement="Flow_1fpiafa">
@@ -32,6 +46,36 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0b1fek8_di" bpmnElement="EndEvent_1">
         <dc:Bounds x="432" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a01dei_di" bpmnElement="FieldInjectionServiceTask_1">
+        <dc:Bounds x="210" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06qzrwn_di" bpmnElement="FieldInjectionBusinessRuleTask_1">
+        <dc:Bounds x="340" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1y7jiau_di" bpmnElement="FieldInjectionSendMessageTask_1">
+        <dc:Bounds x="470" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13sbst4_di" bpmnElement="FieldInjectionIntermediateMessageThrowEvent_1">
+        <dc:Bounds x="602" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="593" y="425" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1pfw86h_di" bpmnElement="FieldInjectionIntermediateMessageCatchEvent_1">
+        <dc:Bounds x="372" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="350" y="585" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08t1jid_di" bpmnElement="FieldInjectionCallActivity_1">
+        <dc:Bounds x="210" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_181txdl_di" bpmnElement="Group_181txdl">
+        <dc:Bounds x="150" y="330" width="510" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="371" y="337" width="68" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

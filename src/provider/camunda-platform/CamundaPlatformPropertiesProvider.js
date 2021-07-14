@@ -6,6 +6,7 @@ import { findIndex } from 'min-dash';
 
 import {
   CandidateStarterProps,
+  FieldInjectionProps,
   VersionTagProps
 } from './properties';
 
@@ -359,6 +360,24 @@ function CandidateStarterGroup(element) {
 }
 
 // @TODO: implement, hide with no entries in the meantime
+function FieldInjectionGroup(element) {
+  const group = {
+    label: 'Field Injection',
+    id: 'CamundaPlatform__FieldInjection',
+    component: Group,
+    entries: [
+      ...FieldInjectionProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
+// @TODO: implement, hide with no entries in the meantime
 function HistoryTimeToLiveGroup(element) {
   const group = {
     label: 'History Time To Live',
@@ -475,22 +494,6 @@ function ConnectorGroup(element) {
   const group = {
     label: 'Connector',
     id: 'CamundaPlatform__Connector',
-    component: Group,
-    entries: []
-  };
-
-  if (group.entries.length) {
-    return group;
-  }
-
-  return null;
-}
-
-// @TODO: implement, hide with no entries in the meantime
-function FieldInjectionGroup(element) {
-  const group = {
-    label: 'Field Injection',
-    id: 'CamundaPlatform__FieldInjection',
     component: Group,
     entries: []
   };
