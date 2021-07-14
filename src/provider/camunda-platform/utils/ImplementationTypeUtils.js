@@ -18,7 +18,6 @@ export function isServiceTaskLike(element) {
   return is(element, 'camunda:ServiceTaskLike');
 }
 
-
 /**
  * getServiceTaskLikeBusinessObject - Get a 'camunda:ServiceTaskLike' business object.
  *

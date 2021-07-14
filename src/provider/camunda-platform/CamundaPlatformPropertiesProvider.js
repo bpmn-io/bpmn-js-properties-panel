@@ -1,4 +1,5 @@
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
+import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -359,18 +360,15 @@ function CandidateStarterGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function FieldInjectionGroup(element) {
   const group = {
     label: 'Field Injection',
     id: 'CamundaPlatform__FieldInjection',
-    component: Group,
-    entries: [
-      ...FieldInjectionProps({ element })
-    ]
+    component: ListGroup,
+    ...FieldInjectionProps({ element })
   };
 
-  if (group.entries.length) {
+  if (group.add || group.items) {
     return group;
   }
 

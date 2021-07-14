@@ -3,7 +3,6 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 
-
 /**
  * getExtensionElementsList - get the extensionElements of a given type for a given
  * businessObject as list. Will return an empty list if no extensionElements (of
