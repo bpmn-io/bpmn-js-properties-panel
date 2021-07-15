@@ -11,7 +11,7 @@ Properties panel for [bpmn-js](https://github.com/bpmn-io/bpmn-js), built on top
 
 
 ```
-npm install @bpmn-io/bpmn-properties-panel
+npm install bpmn-io/bpmn-properties-panel
 ```
 
 ## Usage
