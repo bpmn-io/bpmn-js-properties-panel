@@ -139,7 +139,7 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
         const fieldInjectionHeaderLabel = getFieldInjectionItemLabel(container, 0);
 
         // then
-        expect(fieldInjectionHeaderLabel.innerText).to.equal('<field injection>');
+        expect(fieldInjectionHeaderLabel.innerText).to.equal('<empty>');
       }));
 
     });
@@ -362,7 +362,7 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
         const fieldInjectionHeaderLabel = getFieldInjectionItemLabel(container, 0);
 
         // then
-        expect(fieldInjectionHeaderLabel.innerText).to.equal('<field injection>');
+        expect(fieldInjectionHeaderLabel.innerText).to.equal('<empty>');
       }));
 
     });

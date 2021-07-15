@@ -180,5 +180,5 @@ function AddFieldInjection(props) {
 // helper ///////////////
 
 function getFieldLabel(field) {
-  return field.name || '<field injection>';
+  return field.name || '<empty>';
 }
