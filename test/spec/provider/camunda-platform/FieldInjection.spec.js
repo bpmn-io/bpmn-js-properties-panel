@@ -3,11 +3,11 @@ import { act } from '@testing-library/preact';
 
 import {
   getServiceTaskLikeBusinessObject
-} from '../../../../src/provider/camunda-platform/utils/ImplementationTypeUtils';
+} from 'src/provider/camunda-platform/utils/ImplementationTypeUtils';
 
 import {
   getExtensionElementsList
-} from '../../../../src/provider/zeebe/utils/ExtensionElementsUtil';
+} from 'src/provider/zeebe/utils/ExtensionElementsUtil';
 
 import {
   bootstrapPropertiesPanel,

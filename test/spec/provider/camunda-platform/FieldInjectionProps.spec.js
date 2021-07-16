@@ -17,11 +17,11 @@ import {
 
 import {
   getServiceTaskLikeBusinessObject
-} from '../../../../src/provider/camunda-platform/utils/ImplementationTypeUtils';
+} from 'src/provider/camunda-platform/utils/ImplementationTypeUtils';
 
 import {
   getExtensionElementsList
-} from '../../../../src/provider/zeebe/utils/ExtensionElementsUtil';
+} from 'src/provider/zeebe/utils/ExtensionElementsUtil';
 
 import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
