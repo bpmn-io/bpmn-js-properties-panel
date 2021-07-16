@@ -99,6 +99,7 @@ describe('provider/bpmn - FieldInjection', function() {
 
           // then
           expect(nameInput).to.exist;
+          expect(nameInput.value).to.equal('some');
         })
       );
 
@@ -192,6 +193,7 @@ describe('provider/bpmn - FieldInjection', function() {
 
           // then
           expect(typeSelect).to.exist;
+          expect(typeSelect.value).to.equal('string');
         })
       );
 
@@ -302,6 +304,7 @@ describe('provider/bpmn - FieldInjection', function() {
 
           // then
           expect(valueInput).to.exist;
+          expect(valueInput.value).to.equal('fieldInjection');
         })
       );
 
@@ -432,6 +435,7 @@ describe('provider/bpmn - FieldInjection', function() {
             const valueInput = getValueInput(container, 0);
 
             // then
+            expect(valueInput).to.exist;
             expect(valueInput.value).to.equal('Hello World');
           })
         );
@@ -533,6 +537,7 @@ describe('provider/bpmn - FieldInjection', function() {
 
           // then
           expect(nameInput).to.exist;
+          expect(nameInput.value).to.equal('some');
         })
       );
 
@@ -626,6 +631,7 @@ describe('provider/bpmn - FieldInjection', function() {
 
           // then
           expect(typeSelect).to.exist;
+          expect(typeSelect.value).to.equal('string');
         })
       );
 
@@ -736,6 +742,7 @@ describe('provider/bpmn - FieldInjection', function() {
 
           // then
           expect(valueInput).to.exist;
+          expect(valueInput.value).to.equal('stringInjection');
         })
       );
 
@@ -866,6 +873,7 @@ describe('provider/bpmn - FieldInjection', function() {
             const valueInput = getValueInput(container, 0);
 
             // then
+            expect(valueInput).to.exist;
             expect(valueInput.value).to.equal('Hello World');
           })
         );
