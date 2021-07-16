@@ -140,30 +140,6 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
-      it('should show field injections group', inject(async function(elementRegistry, selection) {
-
-        // given
-        const elements = [
-          elementRegistry.get('FieldInjectionServiceTask_1'),
-          elementRegistry.get('FieldInjectionBusinessRuleTask_1'),
-          elementRegistry.get('FieldInjectionSendMessageTask_1'),
-          elementRegistry.get('FieldInjectionIntermediateMessageThrowEvent_1')
-        ];
-
-        for (const element of elements) {
-          await act(() => {
-            selection.select(element);
-          });
-
-          // when
-          const fieldInjectionGroup = getGroup(container, 'CamundaPlatform__FieldInjection');
-
-          // then
-          expect(fieldInjectionGroup).to.exist;
-        }
-      }));
-
-
       it('should NOT show field injections group', inject(async function(elementRegistry, selection) {
 
         // given
