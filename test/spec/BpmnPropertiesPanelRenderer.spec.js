@@ -145,7 +145,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CamundaPropertiesProvider
         ],
         moddleExtensions: {
-          zeebe: CamundaModdle
+          camunda: CamundaModdle
         }
       }
     );
