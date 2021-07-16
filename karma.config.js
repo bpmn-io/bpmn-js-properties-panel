@@ -1,5 +1,8 @@
 const path = require('path');
-const { DefinePlugin } = require('webpack');
+const {
+  DefinePlugin,
+  NormalModuleReplacementPlugin
+} = require('webpack');
 
 const basePath = '.';
 
@@ -96,7 +99,30 @@ module.exports = function(karma) {
 
           // @barmac: process.env has to be defined to make @testing-library/preact work
           'process.env': {}
-        })
+        }),
+        new NormalModuleReplacementPlugin(
+          /^preact(\/[^/]+)?$/,
+          function(resource) {
+
+            const replMap = {
+              'preact/hooks': path.resolve('node_modules/preact/hooks/dist/hooks.module.js'),
+              'preact/jsx-runtime': path.resolve('node_modules/preact/jsx-runtime/dist/jsxRuntime.module.js'),
+              'preact': path.resolve('node_modules/preact/dist/preact.module.js')
+            };
+
+            const replacement = replMap[resource.request];
+
+            if (!replacement) {
+              return;
+            }
+
+            resource.request = replacement;
+          }
+        ),
+        new NormalModuleReplacementPlugin(
+          /^preact\/hooks/,
+          path.resolve('node_modules/preact/hooks/dist/hooks.module.js')
+        )
       ],
       resolve: {
         mainFields: [
