@@ -229,6 +229,55 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(tasklistGroup).not.to.exist;
       }));
 
+
+      it('should show job configuration group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const elements = [
+          elementRegistry.get('Process_1'),
+          elementRegistry.get('JobConfigurationServiceTask_1'),
+          elementRegistry.get('JobConfigurationTimerStartEvent_1'),
+          elementRegistry.get('JobConfigurationTimerCatchEvent_1'),
+          elementRegistry.get('JobConfigurationScriptTask_1'),
+          elementRegistry.get('JobConfigurationTimerBoundaryEvent_1')
+        ];
+
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const jobConfigurationGroup = getGroup(container, 'CamundaPlatform__JobConfiguration');
+
+          // then
+          expect(jobConfigurationGroup).to.exist;
+        }
+      }));
+
+
+      it('should NOT show job configuration group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const elements = [
+          elementRegistry.get('JobConfigurationServiceTask_2'),
+          elementRegistry.get('JobConfigurationUserTask_1'),
+          elementRegistry.get('JobConfiguration_Event1')
+        ];
+
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const jobConfiguration = getGroup(container, 'CamundaPlatform__JobConfiguration');
+
+          // then
+          expect(jobConfiguration).not.to.exist;
+        }
+      }));
+
     });
 
 
@@ -346,6 +395,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(tasklistGroup).not.to.exist;
+      }));
+
+
+      it('should show job configuration group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const jobConfigurationGroup = getGroup(container, 'CamundaPlatform__JobConfiguration');
+
+        // then
+        expect(jobConfigurationGroup).to.exist;
+      }));
+
+
+      it('should NOT show job configuration group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const jobConfigurationGroup = getGroup(container, 'CamundaPlatform__JobConfiguration');
+
+        // then
+        expect(jobConfigurationGroup).not.to.exist;
       }));
 
     });

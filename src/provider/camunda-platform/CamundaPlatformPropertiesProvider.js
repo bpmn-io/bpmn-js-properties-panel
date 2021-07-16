@@ -9,6 +9,7 @@ import {
   CandidateStarterProps,
   FieldInjectionProps,
   HistoryCleanupProps,
+  JobConfigurationProps,
   TasklistProps,
   VersionTagProps
 } from './properties';
@@ -329,13 +330,14 @@ function AsyncContinuationGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function JobConfigurationGroup(element) {
   const group = {
     label: 'Job Configuration',
     id: 'CamundaPlatform__JobConfiguration',
     component: Group,
-    entries: []
+    entries: [
+      ...JobConfigurationProps({ element })
+    ]
   };
 
   if (group.entries.length) {

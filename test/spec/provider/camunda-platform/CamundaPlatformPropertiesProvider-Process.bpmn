@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dbphwf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dbphwf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0l7qg72</bpmn:outgoing>
@@ -23,10 +23,29 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1m24q6c" />
     </bpmn:intermediateCatchEvent>
     <bpmn:callActivity id="FieldInjectionCallActivity_1" name="Don&#39;t show Field Injection" />
+    <bpmn:serviceTask id="JobConfigurationServiceTask_1" name="Show Job Configuration" camunda:asyncBefore="true" />
+    <bpmn:businessRuleTask id="ShowJobConfigurationBusinessRuleTask_1" name="Show Job Configuration" camunda:asyncAfter="true" camunda:exclusive="false" />
+    <bpmn:startEvent id="JobConfigurationTimerStartEvent_1" name="Show Job Configuration">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1y3cgjx" />
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="JobConfigurationTimerCatchEvent_1" name="Show Job Configuration" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1mnbc07" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="JobConfigurationScriptTask_1" name="Show Job Configuration" camunda:asyncBefore="true" camunda:asyncAfter="true" />
+    <bpmn:boundaryEvent id="JobConfigurationTimerBoundaryEvent_1" name="Show Job Configuration" cancelActivity="false" attachedToRef="JobConfigurationScriptTask_1">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1aiq270" />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="JobConfigurationServiceTask_2" name="Don&#39;t show Job Configuration" />
+    <bpmn:userTask id="JobConfigurationUserTask_1" name="Don&#39;t show Job Configuration" />
+    <bpmn:intermediateThrowEvent id="JobConfiguration_Event1" name="Don&#39;t show Job Configuration" />
     <bpmn:group id="Group_181txdl" categoryValueRef="CategoryValue_0gchis2" />
+    <bpmn:group id="Group_1k1ibga" categoryValueRef="CategoryValue_1nalfj2" />
   </bpmn:process>
   <bpmn:category id="Category_0s6pp9d">
     <bpmn:categoryValue id="CategoryValue_0gchis2" value="Field Injection" />
+  </bpmn:category>
+  <bpmn:category id="Category_1h8e7u4">
+    <bpmn:categoryValue id="CategoryValue_1nalfj2" value="Job Configuration" />
   </bpmn:category>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -71,10 +90,55 @@
       <bpmndi:BPMNShape id="Activity_08t1jid_di" bpmnElement="FieldInjectionCallActivity_1">
         <dc:Bounds x="210" y="520" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jl1gnf_di" bpmnElement="JobConfigurationServiceTask_1">
+        <dc:Bounds x="720" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1uj27bg_di" bpmnElement="ShowJobConfigurationBusinessRuleTask_1">
+        <dc:Bounds x="850" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1eywaor_di" bpmnElement="JobConfigurationTimerStartEvent_1">
+        <dc:Bounds x="972" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="957" y="425" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1y775k2_di" bpmnElement="JobConfigurationTimerCatchEvent_1">
+        <dc:Bounds x="1052" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1038" y="425" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1umerin_di" bpmnElement="JobConfigurationScriptTask_1">
+        <dc:Bounds x="1160" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1at4r1b_di" bpmnElement="JobConfigurationServiceTask_2">
+        <dc:Bounds x="720" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09x2791_di" bpmnElement="JobConfigurationUserTask_1">
+        <dc:Bounds x="850" y="520" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0z1l7uw_di" bpmnElement="JobConfiguration_Event1">
+        <dc:Bounds x="982" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="963" y="585" width="75" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0o1gki8_di" bpmnElement="JobConfigurationTimerBoundaryEvent_1">
+        <dc:Bounds x="1212" y="422" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1198" y="465" width="66" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_181txdl_di" bpmnElement="Group_181txdl">
         <dc:Bounds x="150" y="330" width="510" height="300" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="371" y="337" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_1k1ibga_di" bpmnElement="Group_1k1ibga">
+        <dc:Bounds x="700" y="330" width="650" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="983" y="337" width="87" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
