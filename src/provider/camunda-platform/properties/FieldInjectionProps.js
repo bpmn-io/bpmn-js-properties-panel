@@ -33,7 +33,7 @@ export function FieldInjectionProps(props) {
   const businessObject = getServiceTaskLikeBusinessObject(element);
 
   if (!businessObject) {
-    return [];
+    return null;
   }
 
   const fieldInjections = getExtensionElementsList(businessObject, 'camunda:Field');
