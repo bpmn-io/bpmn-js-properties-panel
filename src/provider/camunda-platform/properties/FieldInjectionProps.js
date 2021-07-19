@@ -20,7 +20,7 @@ import {
 
 import {
   getExtensionElementsList
-} from '../../zeebe/utils/ExtensionElementsUtil';
+} from '../utils/ExtensionElementsUtil';
 
 import FieldInjection from './FieldInjection';
 

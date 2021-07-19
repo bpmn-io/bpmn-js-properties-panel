@@ -19,7 +19,7 @@ import {
 
 import {
   getExtensionElementsList
-} from 'src/provider/zeebe/utils/ExtensionElementsUtil';
+} from '../utils/ExtensionElementsUtil';
 
 
 export function JobExecutionProps(props) {

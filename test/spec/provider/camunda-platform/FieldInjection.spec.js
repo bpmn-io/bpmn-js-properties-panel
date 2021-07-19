@@ -7,7 +7,7 @@ import {
 
 import {
   getExtensionElementsList
-} from 'src/provider/zeebe/utils/ExtensionElementsUtil';
+} from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
 
 import {
   bootstrapPropertiesPanel,
