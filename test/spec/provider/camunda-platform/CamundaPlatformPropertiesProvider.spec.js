@@ -516,6 +516,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(processVariablesGroup).to.not.exist;
       }));
 
+
+      it('should show extension properties group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const extensionPropertiesGroup = getGroup(container, 'CamundaPlatform__ExtensionProperties');
+
+        // then
+        expect(extensionPropertiesGroup).to.exist;
+      }));
+
+
+      it('should NOT show extension properties group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const extensionPropertiesGroup = getGroup(container, 'CamundaPlatform__ExtensionProperties');
+
+        // then
+        expect(extensionPropertiesGroup).not.to.exist;
+      }));
+
     });
 
   });

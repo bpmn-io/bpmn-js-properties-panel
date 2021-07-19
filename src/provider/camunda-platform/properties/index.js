@@ -1,4 +1,5 @@
 export { CandidateStarterProps } from './CandidateStarterProps';
+export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { FieldInjectionProps } from './FieldInjectionProps';
 export { HistoryCleanupProps } from './HistoryCleanupProps';
 export { JobExecutionProps } from './JobExecutionProps';

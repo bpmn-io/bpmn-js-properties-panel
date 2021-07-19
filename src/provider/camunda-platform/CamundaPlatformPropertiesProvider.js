@@ -7,6 +7,7 @@ import { findIndex } from 'min-dash';
 
 import {
   CandidateStarterProps,
+  ExtensionPropertiesProps,
   FieldInjectionProps,
   HistoryCleanupProps,
   JobExecutionProps,
@@ -73,7 +74,7 @@ export default class CamundaPlatformPropertiesProvider {
       DelegatePropsGroup(element),
       ErrorGroup(element),
       EventGroup(element),
-      ExtensionElementsGroup(element),
+      ExtensionPropertiesGroup(element),
       ExternalTaskGroup(element),
       FieldInjectionGroup(element),
       FormGroup(element),
@@ -509,16 +510,15 @@ function ConnectorGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function ExtensionElementsGroup(element) {
+function ExtensionPropertiesGroup(element) {
   const group = {
-    label: 'Extension Elements',
-    id: 'CamundaPlatform__ExtensionElements',
-    component: Group,
-    entries: []
+    label: 'Extension Properties',
+    id: 'CamundaPlatform__ExtensionProperties',
+    component: ListGroup,
+    ...ExtensionPropertiesProps({ element })
   };
 
-  if (group.entries.length) {
+  if (group.items) {
     return group;
   }
 
