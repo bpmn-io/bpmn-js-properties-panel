@@ -387,6 +387,75 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       expect(spy).to.have.been.calledOnce;
     });
 
+
+    it('should emit <propertiesPanel.rendered>', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const eventBus = modeler.get('eventBus');
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      eventBus.on('propertiesPanel.rendered', spy);
+
+      // when
+      propertiesPanel._render();
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+    });
+
+
+    it('should NOT emit <propertiesPanel.rendered> on attach', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const container = domify('<div></div>');
+      TestContainer.get(this).appendChild(container);
+
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const eventBus = modeler.get('eventBus');
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      eventBus.on('propertiesPanel.rendered', spy);
+
+      // when
+      propertiesPanel.attachTo(container);
+
+      // then
+      expect(spy).to.not.have.been.called;
+    });
+
+
+    it('should emit <propertiesPanel.destroyed>', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const eventBus = modeler.get('eventBus');
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      eventBus.on('propertiesPanel.destroyed', spy);
+
+      // when
+      propertiesPanel._destroy();
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+    });
+
   });
 
 });

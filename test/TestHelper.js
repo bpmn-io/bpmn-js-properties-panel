@@ -22,9 +22,11 @@ export function bootstrapPropertiesPanel(diagram, options, locals) {
     insertBpmnStyles();
     insertCoreStyles();
 
+    // (1) create modeler + import diagram
     const createModeler = bootstrapBpmnJS(Modeler, diagram, options, locals);
-    await createModeler.call(this);
+    await act(() => createModeler.call(this));
 
+    // (2) attach properties panel
     const attachPropertiesPanel = inject(function(propertiesPanel) {
       const propertiesPanelContainer = document.createElement('div');
       propertiesPanelContainer.classList.add('properties-container');

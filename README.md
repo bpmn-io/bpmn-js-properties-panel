@@ -60,7 +60,7 @@ For proper styling include the necessary stylesheets:
 ## API
 
 
-#### `BpmnPropertiesPanelRenderer#attachTo(container: HTMLElement, element?: ModdleElement) => void`
+#### `BpmnPropertiesPanelRenderer#attachTo(container: HTMLElement) => void`
 
 Attach the properties panel to a parent node.
 

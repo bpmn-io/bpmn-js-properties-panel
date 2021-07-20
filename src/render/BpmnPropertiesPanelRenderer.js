@@ -5,6 +5,7 @@ import {
 } from 'preact';
 
 import {
+  domify,
   query as domQuery
 } from 'min-dom';
 
@@ -20,32 +21,31 @@ export default class BpmnPropertiesPanelRenderer {
 
   constructor(config, injector, eventBus) {
     let {
-      parent: parentNode,
+      parent,
       layout: layoutConfig
     } = config || {};
-
-    if (typeof parentNode === 'string') {
-      parentNode = domQuery(parentNode);
-    }
 
     this._eventBus = eventBus;
     this._injector = injector;
     this._layoutConfig = layoutConfig;
 
-    this._parentNode = parentNode;
-
+    this._container = domify('<div style="height: 100%" class="bio-properties-panel-container"></div>');
 
     this._eventBus.on('root.added', (event) => {
 
       const { element } = event;
 
-      if (this._parentNode) {
-        this.attachTo(this._parentNode, element);
+      this._render(element);
+
+      if (parent) {
+        this.attachTo(parent);
       }
+
+      return;
     });
 
     eventBus.on('root.removed', () => {
-      this.detach();
+      this._destroy();
     });
   }
 
@@ -54,29 +54,23 @@ export default class BpmnPropertiesPanelRenderer {
    * Attach the properties panel to a parent node.
    *
    * @param {HTMLElement} container
-   * @param {ModdleElement} element
    */
-  attachTo(container, element) {
-    const canvas = this._injector.get('canvas');
-
+  attachTo(container) {
     if (!container) {
       throw new Error('container required');
     }
 
-    if (!element) {
-      element = canvas.getRootElement();
+    if (typeof container === 'string') {
+      container = domQuery(container);
     }
 
     // (1) detach from old parent
     this.detach();
 
-    // (2) save new parent
-    this._parentNode = container;
+    // (2) append to parent container
+    container.appendChild(this._container);
 
-    // (3) render properties panel to new parent
-    this._render(element);
-
-    // (4) notify interested parties
+    // (3) notify interested parties
     this._eventBus.fire('propertiesPanel.attach');
   }
 
@@ -84,8 +78,10 @@ export default class BpmnPropertiesPanelRenderer {
    * Detach the properties panel from its parent node.
    */
   detach() {
-    if (this._parentNode) {
-      render(null, this._parentNode);
+    const parentNode = this._container.parentNode;
+
+    if (parentNode) {
+      parentNode.removeChild(this._container);
 
       this._eventBus.fire('propertiesPanel.detach');
     }
@@ -123,7 +119,13 @@ export default class BpmnPropertiesPanelRenderer {
   }
 
   _render(element) {
-    if (!element || isImplicitRoot(element)) {
+    const canvas = this._injector.get('canvas');
+
+    if (!element) {
+      element = canvas.getRootElement();
+    }
+
+    if (isImplicitRoot(element)) {
       return;
     }
 
@@ -134,8 +136,18 @@ export default class BpmnPropertiesPanelRenderer {
         getProviders={ this._getProviders.bind(this) }
         layoutConfig={ this._layoutConfig }
       />,
-      this._parentNode
+      this._container
     );
+
+    this._eventBus.fire('propertiesPanel.rendered');
+  }
+
+  _destroy() {
+    if (this._container) {
+      render(null, this._container);
+
+      this._eventBus.fire('propertiesPanel.destroyed');
+    }
   }
 }
 
