@@ -51,7 +51,7 @@ export function JobExecutionProps(props) {
   if ((is(element, 'camunda:AsyncCapable') && isAsync(businessObject)) ||
       isTimerEvent(element)) {
     entries.push({
-      id: 'jobPriority',
+      id: 'retryTimeCycle',
       component: <RetryTimeCycle element={ element } />,
       isEdited: textFieldIsEdited
     });
