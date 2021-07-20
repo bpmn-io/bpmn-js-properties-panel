@@ -23,21 +23,21 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1m24q6c" />
     </bpmn:intermediateCatchEvent>
     <bpmn:callActivity id="FieldInjectionCallActivity_1" name="Don&#39;t show Field Injection" />
-    <bpmn:serviceTask id="JobConfigurationServiceTask_1" name="Show Job Configuration" camunda:asyncBefore="true" />
-    <bpmn:businessRuleTask id="ShowJobConfigurationBusinessRuleTask_1" name="Show Job Configuration" camunda:asyncAfter="true" camunda:exclusive="false" />
-    <bpmn:startEvent id="JobConfigurationTimerStartEvent_1" name="Show Job Configuration">
+    <bpmn:serviceTask id="JobExecutionServiceTask_1" name="Show Job Execution" camunda:asyncBefore="true" />
+    <bpmn:businessRuleTask id="ShowJobExecutionBusinessRuleTask_1" name="Show Job Execution" camunda:asyncAfter="true" camunda:exclusive="false" />
+    <bpmn:startEvent id="JobExecutionTimerStartEvent_1" name="Show Job Execution">
       <bpmn:timerEventDefinition id="TimerEventDefinition_1y3cgjx" />
     </bpmn:startEvent>
-    <bpmn:intermediateCatchEvent id="JobConfigurationTimerCatchEvent_1" name="Show Job Configuration" camunda:asyncBefore="true" camunda:asyncAfter="true">
+    <bpmn:intermediateCatchEvent id="JobExecutionTimerCatchEvent_1" name="Show Job Execution" camunda:asyncBefore="true" camunda:asyncAfter="true">
       <bpmn:timerEventDefinition id="TimerEventDefinition_1mnbc07" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:scriptTask id="JobConfigurationScriptTask_1" name="Show Job Configuration" camunda:asyncBefore="true" camunda:asyncAfter="true" />
-    <bpmn:boundaryEvent id="JobConfigurationTimerBoundaryEvent_1" name="Show Job Configuration" cancelActivity="false" attachedToRef="JobConfigurationScriptTask_1">
+    <bpmn:scriptTask id="JobExecutionScriptTask_1" name="Show Job Execution" camunda:asyncBefore="true" camunda:asyncAfter="true" />
+    <bpmn:boundaryEvent id="JobExecutionTimerBoundaryEvent_1" name="Show Job Execution" cancelActivity="false" attachedToRef="JobExecutionScriptTask_1">
       <bpmn:timerEventDefinition id="TimerEventDefinition_1aiq270" />
     </bpmn:boundaryEvent>
-    <bpmn:serviceTask id="JobConfigurationServiceTask_2" name="Don&#39;t show Job Configuration" />
-    <bpmn:userTask id="JobConfigurationUserTask_1" name="Don&#39;t show Job Configuration" />
-    <bpmn:intermediateThrowEvent id="JobConfiguration_Event1" name="Don&#39;t show Job Configuration" />
+    <bpmn:serviceTask id="JobExecutionServiceTask_2" name="Don&#39;t show Job Execution" />
+    <bpmn:userTask id="JobExecutionUserTask_1" name="Don&#39;t show Job Execution" />
+    <bpmn:intermediateThrowEvent id="JobExecution_Event1" name="Don&#39;t show Job Execution" />
     <bpmn:group id="Group_181txdl" categoryValueRef="CategoryValue_0gchis2" />
     <bpmn:group id="Group_1k1ibga" categoryValueRef="CategoryValue_1nalfj2" />
   </bpmn:process>
@@ -45,7 +45,7 @@
     <bpmn:categoryValue id="CategoryValue_0gchis2" value="Field Injection" />
   </bpmn:category>
   <bpmn:category id="Category_1h8e7u4">
-    <bpmn:categoryValue id="CategoryValue_1nalfj2" value="Job Configuration" />
+    <bpmn:categoryValue id="CategoryValue_1nalfj2" value="Job Execution" />
   </bpmn:category>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -90,40 +90,40 @@
       <bpmndi:BPMNShape id="Activity_08t1jid_di" bpmnElement="FieldInjectionCallActivity_1">
         <dc:Bounds x="210" y="520" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0jl1gnf_di" bpmnElement="JobConfigurationServiceTask_1">
+      <bpmndi:BPMNShape id="Activity_0jl1gnf_di" bpmnElement="JobExecutionServiceTask_1">
         <dc:Bounds x="720" y="360" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1uj27bg_di" bpmnElement="ShowJobConfigurationBusinessRuleTask_1">
+      <bpmndi:BPMNShape id="Activity_1uj27bg_di" bpmnElement="ShowJobExecutionBusinessRuleTask_1">
         <dc:Bounds x="850" y="360" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1eywaor_di" bpmnElement="JobConfigurationTimerStartEvent_1">
+      <bpmndi:BPMNShape id="Event_1eywaor_di" bpmnElement="JobExecutionTimerStartEvent_1">
         <dc:Bounds x="972" y="382" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="957" y="425" width="66" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1y775k2_di" bpmnElement="JobConfigurationTimerCatchEvent_1">
+      <bpmndi:BPMNShape id="Event_1y775k2_di" bpmnElement="JobExecutionTimerCatchEvent_1">
         <dc:Bounds x="1052" y="382" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1038" y="425" width="66" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1umerin_di" bpmnElement="JobConfigurationScriptTask_1">
+      <bpmndi:BPMNShape id="Activity_1umerin_di" bpmnElement="JobExecutionScriptTask_1">
         <dc:Bounds x="1160" y="360" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1at4r1b_di" bpmnElement="JobConfigurationServiceTask_2">
+      <bpmndi:BPMNShape id="Activity_1at4r1b_di" bpmnElement="JobExecutionServiceTask_2">
         <dc:Bounds x="720" y="520" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_09x2791_di" bpmnElement="JobConfigurationUserTask_1">
+      <bpmndi:BPMNShape id="Activity_09x2791_di" bpmnElement="JobExecutionUserTask_1">
         <dc:Bounds x="850" y="520" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0z1l7uw_di" bpmnElement="JobConfiguration_Event1">
+      <bpmndi:BPMNShape id="Event_0z1l7uw_di" bpmnElement="JobExecution_Event1">
         <dc:Bounds x="982" y="542" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="963" y="585" width="75" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0o1gki8_di" bpmnElement="JobConfigurationTimerBoundaryEvent_1">
+      <bpmndi:BPMNShape id="Event_0o1gki8_di" bpmnElement="JobExecutionTimerBoundaryEvent_1">
         <dc:Bounds x="1212" y="422" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1198" y="465" width="66" height="27" />

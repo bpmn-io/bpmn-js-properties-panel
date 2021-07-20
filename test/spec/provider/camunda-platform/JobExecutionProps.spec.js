@@ -31,11 +31,11 @@ import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
-import processDiagramXML from './JobConfigurationProps-Process.bpmn';
-import collaborationDiagramXML from './JobConfigurationProps-Collaboration.bpmn';
+import processDiagramXML from './JobExecutionProps-Process.bpmn';
+import collaborationDiagramXML from './JobExecutionProps-Collaboration.bpmn';
 
 
-describe('provider/camunda-platform - JobConfigurationProps', function() {
+describe('provider/camunda-platform - JobExecutionProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,

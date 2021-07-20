@@ -230,16 +230,16 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
-      it('should show job configuration group', inject(async function(elementRegistry, selection) {
+      it('should show job execution group', inject(async function(elementRegistry, selection) {
 
         // given
         const elements = [
           elementRegistry.get('Process_1'),
-          elementRegistry.get('JobConfigurationServiceTask_1'),
-          elementRegistry.get('JobConfigurationTimerStartEvent_1'),
-          elementRegistry.get('JobConfigurationTimerCatchEvent_1'),
-          elementRegistry.get('JobConfigurationScriptTask_1'),
-          elementRegistry.get('JobConfigurationTimerBoundaryEvent_1')
+          elementRegistry.get('JobExecutionServiceTask_1'),
+          elementRegistry.get('JobExecutionTimerStartEvent_1'),
+          elementRegistry.get('JobExecutionTimerCatchEvent_1'),
+          elementRegistry.get('JobExecutionScriptTask_1'),
+          elementRegistry.get('JobExecutionTimerBoundaryEvent_1')
         ];
 
         for (const element of elements) {
@@ -248,21 +248,21 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
           });
 
           // when
-          const jobConfigurationGroup = getGroup(container, 'CamundaPlatform__JobConfiguration');
+          const jobExecutionGroup = getGroup(container, 'CamundaPlatform__JobExecution');
 
           // then
-          expect(jobConfigurationGroup).to.exist;
+          expect(jobExecutionGroup).to.exist;
         }
       }));
 
 
-      it('should NOT show job configuration group', inject(async function(elementRegistry, selection) {
+      it('should NOT show job execution group', inject(async function(elementRegistry, selection) {
 
         // given
         const elements = [
-          elementRegistry.get('JobConfigurationServiceTask_2'),
-          elementRegistry.get('JobConfigurationUserTask_1'),
-          elementRegistry.get('JobConfiguration_Event1')
+          elementRegistry.get('JobExecutionServiceTask_2'),
+          elementRegistry.get('JobExecutionUserTask_1'),
+          elementRegistry.get('JobExecution_Event1')
         ];
 
         for (const element of elements) {
@@ -271,10 +271,10 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
           });
 
           // when
-          const jobConfiguration = getGroup(container, 'CamundaPlatform__JobConfiguration');
+          const jobExecution = getGroup(container, 'CamundaPlatform__JobExecution');
 
           // then
-          expect(jobConfiguration).not.to.exist;
+          expect(jobExecution).not.to.exist;
         }
       }));
 
@@ -398,7 +398,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
-      it('should show job configuration group', inject(async function(elementRegistry, selection) {
+      it('should show job execution group', inject(async function(elementRegistry, selection) {
 
         // given
         const participant = elementRegistry.get('Participant_1');
@@ -408,14 +408,14 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         });
 
         // when
-        const jobConfigurationGroup = getGroup(container, 'CamundaPlatform__JobConfiguration');
+        const jobExecutionGroup = getGroup(container, 'CamundaPlatform__JobExecution');
 
         // then
-        expect(jobConfigurationGroup).to.exist;
+        expect(jobExecutionGroup).to.exist;
       }));
 
 
-      it('should NOT show job configuration group', inject(async function(elementRegistry, selection) {
+      it('should NOT show job execution group', inject(async function(elementRegistry, selection) {
 
         // given
         const participant = elementRegistry.get('Participant_2');
@@ -425,10 +425,10 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         });
 
         // when
-        const jobConfigurationGroup = getGroup(container, 'CamundaPlatform__JobConfiguration');
+        const jobExecutionGroup = getGroup(container, 'CamundaPlatform__JobExecution');
 
         // then
-        expect(jobConfigurationGroup).not.to.exist;
+        expect(jobExecutionGroup).not.to.exist;
       }));
 
     });

@@ -22,7 +22,7 @@ import {
 } from 'src/provider/zeebe/utils/ExtensionElementsUtil';
 
 
-export function JobConfigurationProps(props) {
+export function JobExecutionProps(props) {
   const {
     element
   } = props;

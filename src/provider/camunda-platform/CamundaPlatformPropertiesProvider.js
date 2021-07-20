@@ -9,7 +9,7 @@ import {
   CandidateStarterProps,
   FieldInjectionProps,
   HistoryCleanupProps,
-  JobConfigurationProps,
+  JobExecutionProps,
   TasklistProps,
   VersionTagProps
 } from './properties';
@@ -78,7 +78,7 @@ export default class CamundaPlatformPropertiesProvider {
       HistoryCleanupGroup(element),
       InitiatorGroup(element),
       InputOutputGroup(element),
-      JobConfigurationGroup(element),
+      JobExecutionGroup(element),
       LinkGroup(element),
       ListenerGroup(element),
       MultiInstanceGroup(element),
@@ -330,13 +330,13 @@ function AsyncContinuationGroup(element) {
   return null;
 }
 
-function JobConfigurationGroup(element) {
+function JobExecutionGroup(element) {
   const group = {
-    label: 'Job Configuration',
-    id: 'CamundaPlatform__JobConfiguration',
+    label: 'Job Execution',
+    id: 'CamundaPlatform__JobExecution',
     component: Group,
     entries: [
-      ...JobConfigurationProps({ element })
+      ...JobExecutionProps({ element })
     ]
   };
 
