@@ -10,6 +10,7 @@ import {
   FieldInjectionProps,
   HistoryCleanupProps,
   JobExecutionProps,
+  ProcessVariablesProps,
   TasklistProps,
   VersionTagProps
 } from './properties';
@@ -63,6 +64,7 @@ export default class CamundaPlatformPropertiesProvider {
 
   _getGroups(element) {
     const groups = [
+      ProcessVariablesGroup(element),
       AsyncContinuationGroup(element),
       CallActivityGroup(element),
       CandidateStarterGroup(element),
@@ -82,7 +84,6 @@ export default class CamundaPlatformPropertiesProvider {
       LinkGroup(element),
       ListenerGroup(element),
       MultiInstanceGroup(element),
-      ProcessVariablesGroup(element),
       ScriptTaskGroup(element),
       TasklistGroup(element),
       UserTaskGroup(element),
@@ -372,14 +373,13 @@ function FieldInjectionGroup(element) {
     ...FieldInjectionProps({ element })
   };
 
-  if (group.add || group.items) {
+  if (group.items) {
     return group;
   }
 
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function HistoryCleanupGroup(element) {
   const group = {
     label: 'History Cleanup',
@@ -430,16 +430,15 @@ function VariablesMappingGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function ProcessVariablesGroup(element) {
   const group = {
     label: 'Process Variables',
     id: 'CamundaPlatform__ProcessVariables',
-    component: Group,
-    entries: []
+    component: ListGroup,
+    ...ProcessVariablesProps({ element })
   };
 
-  if (group.entries.length) {
+  if (group.items) {
     return group;
   }
 

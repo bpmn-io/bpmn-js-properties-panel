@@ -213,7 +213,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
-      it('should NOT show history group', inject(async function(elementRegistry, selection) {
+      it('should NOT show tasklist group', inject(async function(elementRegistry, selection) {
 
         // given
         const process = elementRegistry.get('Task_1');
@@ -276,6 +276,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
           // then
           expect(jobExecution).not.to.exist;
         }
+      }));
+
+
+      it('should show process variables group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const process = elementRegistry.get('Process_1');
+
+        await act(() => {
+          selection.select(process);
+        });
+
+        // when
+        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+        // then
+        expect(processVariablesGroup).to.exist;
+      }));
+
+
+      it('should NOT show process variables group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+        // then
+        expect(processVariablesGroup).to.not.exist;
       }));
 
     });
@@ -429,6 +463,57 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(jobExecutionGroup).not.to.exist;
+      }));
+
+
+      it('should show process variables group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+        // then
+        expect(processVariablesGroup).to.exist;
+      }));
+
+
+      it('should NOT show process variables group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+        // then
+        expect(processVariablesGroup).to.not.exist;
+      }));
+
+
+      it('should NOT show process variables group - no items', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_3');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+        // then
+        expect(processVariablesGroup).to.not.exist;
       }));
 
     });
