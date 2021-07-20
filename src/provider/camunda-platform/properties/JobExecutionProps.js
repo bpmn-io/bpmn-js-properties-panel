@@ -107,8 +107,7 @@ function RetryTimeCycle(props) {
 
   const getValue = () => {
     const failedJobRetryTimeCycle = getExtensionElementsList(businessObject, 'camunda:FailedJobRetryTimeCycle')[0];
-    return (failedJobRetryTimeCycle && failedJobRetryTimeCycle.body) ||
-     '';
+    return failedJobRetryTimeCycle && failedJobRetryTimeCycle.body;
   };
 
   const setValue = (value) => {
