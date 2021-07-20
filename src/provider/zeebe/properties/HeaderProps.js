@@ -17,6 +17,7 @@ import {
 import Header from './Header';
 
 import {
+  areHeadersSupported,
   getHeaders,
   getTaskHeaders
 } from '../utils/HeadersUtil';
@@ -27,6 +28,11 @@ import {
 
 
 export function HeaderProps(element) {
+
+  if (!areHeadersSupported(element)) {
+    return null;
+  }
+
   const headers = getHeaders(element) || [];
 
   const items = headers.map((header, index) => {

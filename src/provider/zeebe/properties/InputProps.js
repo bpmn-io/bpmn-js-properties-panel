@@ -17,6 +17,7 @@ import {
 import InputOutputParameter from './InputOutputParameter';
 
 import {
+  areInputParametersSupported,
   createIOMapping,
   getInputParameters,
   getIoMapping
@@ -29,6 +30,11 @@ import {
 
 
 export function InputProps(element) {
+
+  if (!areInputParametersSupported(element)) {
+    return null;
+  }
+
   const inputParameters = getInputParameters(element) || [];
 
   const items = inputParameters.map((parameter, index) => {

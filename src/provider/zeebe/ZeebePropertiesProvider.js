@@ -15,16 +15,8 @@ import {
   TimerEventDefinitionProps
 } from './properties';
 
-import {
-  areInputParametersSupported,
-  areOutputParametersSupported
-} from './utils/InputOutputUtil';
-
-import {
-  areHeadersSupported
-} from './utils/HeadersUtil';
-
 const LOW_PRIORITY = 500;
+
 
 function TaskDefinitionGroup(element) {
 
@@ -205,11 +197,15 @@ function getGroups(element) {
     groups.push(multiInstanceGroup);
   }
 
-  if (areInputParametersSupported(element)) {
+  const inputGroup = InputGroup(element);
+
+  if (inputGroup.items) {
     groups.push(InputGroup(element));
   }
 
-  if (areOutputParametersSupported(element)) {
+  const outputGroup = OutputGroup(element);
+
+  if (outputGroup.items) {
     groups.push(OutputGroup(element));
   }
 
@@ -219,7 +215,9 @@ function getGroups(element) {
     groups.push(outputPropagationGroup);
   }
 
-  if (areHeadersSupported(element)) {
+  const headerGroup = HeaderGroup(element);
+
+  if (headerGroup.items) {
     groups.push(HeaderGroup(element));
   }
 
