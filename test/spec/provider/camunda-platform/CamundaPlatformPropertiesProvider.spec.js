@@ -312,6 +312,54 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(processVariablesGroup).to.not.exist;
       }));
 
+
+      it('should show external task group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const elements = [
+          elementRegistry.get('ExternalTaskServiceTask_2'),
+          elementRegistry.get('Process_1'),
+          elementRegistry.get('ExternalTaskBusinessRuleTask_1'),
+          elementRegistry.get('ExternalTaskMessageEndEvent_1'),
+          elementRegistry.get('ExternalTaskMessageIntermediateThrowEvent_1'),
+          elementRegistry.get('ExternalTaskSendTask_1')
+        ];
+
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const externalTaskGroup = getGroup(container, 'CamundaPlatform__ExternalTask');
+
+          // then
+          expect(externalTaskGroup).to.exist;
+        }
+      }));
+
+
+      it('should NOT show external task group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const elements = [
+          elementRegistry.get('ExternalTaskServiceTask_1'),
+          elementRegistry.get('ExternalTaskSendTask_2')
+        ];
+
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const externalTaskGroup = getGroup(container, 'CamundaPlatform__ExternalTask');
+
+          // then
+          expect(externalTaskGroup).to.not.exist;
+        }
+      }));
+
     });
 
 
@@ -548,6 +596,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(extensionPropertiesGroup).not.to.exist;
+      }));
+
+
+      it('should show external task group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const externalTaskGroup = getGroup(container, 'CamundaPlatform__ExternalTask');
+
+        // then
+        expect(externalTaskGroup).to.exist;
+      }));
+
+
+      it('should NOT show external task group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const externalTaskGroup = getGroup(container, 'CamundaPlatform__ExternalTask');
+
+        // then
+        expect(externalTaskGroup).not.to.exist;
       }));
 
     });

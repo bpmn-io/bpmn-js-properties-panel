@@ -8,6 +8,7 @@ import { findIndex } from 'min-dash';
 import {
   CandidateStarterProps,
   ExtensionPropertiesProps,
+  ExternalTaskPriorityProps,
   FieldInjectionProps,
   HistoryCleanupProps,
   JobExecutionProps,
@@ -284,13 +285,14 @@ function InitiatorGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function ExternalTaskGroup(element) {
   const group = {
     label: 'External Task',
     id: 'CamundaPlatform__ExternalTask',
     component: Group,
-    entries: []
+    entries: [
+      ...ExternalTaskPriorityProps({ element })
+    ]
   };
 
   if (group.entries.length) {
