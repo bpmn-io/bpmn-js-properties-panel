@@ -360,6 +360,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         }
       }));
 
+
+      it('should show asynchronous continuations group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const asynchronousContinuationsGroup = getGroup(container, 'CamundaPlatform__AsynchronousContinuations');
+
+        // then
+        expect(asynchronousContinuationsGroup).to.exist;
+      }));
+
+
+      it('should NOT show asynchronous continuations group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Group_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const asynchronousContinuationsGroup = getGroup(container, 'CamundaPlatform__AsynchronousContinuations');
+
+        // then
+        expect(asynchronousContinuationsGroup).to.not.exist;
+      }));
+
     });
 
 

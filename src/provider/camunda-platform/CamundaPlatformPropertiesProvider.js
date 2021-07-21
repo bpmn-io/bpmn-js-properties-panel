@@ -6,6 +6,7 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 import { findIndex } from 'min-dash';
 
 import {
+  AsynchronousContinuationsProps,
   CandidateStarterProps,
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
@@ -67,7 +68,7 @@ export default class CamundaPlatformPropertiesProvider {
   _getGroups(element) {
     const groups = [
       ProcessVariablesGroup(element),
-      AsyncContinuationGroup(element),
+      AsynchronousContinuationsGroup(element),
       CallActivityGroup(element),
       CandidateStarterGroup(element),
       ConditionalGroup(element),
@@ -318,13 +319,14 @@ function MultiInstanceGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function AsyncContinuationGroup(element) {
+function AsynchronousContinuationsGroup(element) {
   const group = {
-    label: 'Async Continuation',
-    id: 'CamundaPlatform__AsyncContinuation',
+    label: 'Asynchronous Continuations',
+    id: 'CamundaPlatform__AsynchronousContinuations',
     component: Group,
-    entries: []
+    entries: [
+      ...AsynchronousContinuationsProps({ element })
+    ]
   };
 
   if (group.entries.length) {

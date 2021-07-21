@@ -1,3 +1,4 @@
+export { AsynchronousContinuationsProps } from './AsynchronousContinuationsProps';
 export { CandidateStarterProps } from './CandidateStarterProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { ExternalTaskPriorityProps } from './ExternalTaskPriorityProps';
