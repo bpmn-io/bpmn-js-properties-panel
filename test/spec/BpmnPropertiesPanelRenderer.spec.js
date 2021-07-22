@@ -1,6 +1,7 @@
 import TestContainer from 'mocha-test-container-support';
 
 import {
+  act,
   cleanup
 } from '@testing-library/preact/pure';
 
@@ -208,75 +209,108 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
-  it('should ensure creating + importing -> attaching works', async function() {
+  describe('integration', function() {
 
-    // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    it('should ensure creating + importing -> attaching works', async function() {
 
-    // when
-    const { modeler } = await createModeler(diagramXml, {
-      propertiesPanel: {}
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      // when
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {}
+      });
+
+      // assume
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+
+      // and when
+      const propertiesPanel = modeler.get('propertiesPanel');
+      propertiesPanel.attachTo(propertiesContainer);
+
+      // then
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
     });
 
-    // assume
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
 
-    // and when
-    const propertiesPanel = modeler.get('propertiesPanel');
-    propertiesPanel.attachTo(propertiesContainer);
+    it('should ensure creating + attaching -> importing works', async function() {
 
-    // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
-  });
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
 
+      // when
+      const { modeler } = await createModeler(null, {
+        shouldImport: false,
+        propertiesPanel: {
+          parent: propertiesContainer
+        }
+      });
 
-  it('should ensure creating + attaching -> importing works', async function() {
+      // assume
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
 
-    // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+      // and when
+      await modeler.importXML(diagramXml);
 
-    // when
-    const { modeler } = await createModeler(null, {
-      shouldImport: false,
-      propertiesPanel: {
-        parent: propertiesContainer
-      }
+      // then
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
     });
 
-    // assume
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
 
-    // and when
-    await modeler.importXML(diagramXml);
+    it('should ensure creating -> no import -> attaching -> import works', async function() {
 
-    // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
-  });
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
 
+      const { modeler } = await createModeler(null, {
+        shouldImport: false,
+        propertiesPanel: {}
+      });
 
-  it('should ensure creating -> no import -> attaching -> import works', async function() {
+      const propertiesPanel = modeler.get('propertiesPanel');
 
-    // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+      // when
+      propertiesPanel.attachTo(propertiesContainer);
 
-    const { modeler } = await createModeler(null, {
-      shouldImport: false,
-      propertiesPanel: {}
+      // assume
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+
+      // and when
+      await modeler.importXML(diagramXml);
+
+      // then
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
     });
 
-    const propertiesPanel = modeler.get('propertiesPanel');
 
-    // when
-    propertiesPanel.attachTo(propertiesContainer);
+    it('should keep state during detach and attach', async function() {
 
-    // assume
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
 
-    // and when
-    await modeler.importXML(diagramXml);
+      let modeler;
+      await act(async () => {
+        const result = await createModeler(diagramXml);
+        modeler = result.modeler;
+      });
 
-    // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+      const elementRegistry = modeler.get('elementRegistry');
+      const selection = modeler.get('selection');
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+      // assume
+      expect(getHeaderName(propertiesContainer)).to.eql('start');
+
+      // when
+      propertiesPanel.detach();
+      propertiesPanel.attachTo(propertiesContainer);
+
+      // then
+      expect(getHeaderName(propertiesContainer)).to.eql('start');
+    });
+
   });
 
 
@@ -465,4 +499,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
 function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
+}
+
+function getHeaderName(container) {
+  return domQuery('.bio-properties-panel-header-label', container).innerText;
 }
