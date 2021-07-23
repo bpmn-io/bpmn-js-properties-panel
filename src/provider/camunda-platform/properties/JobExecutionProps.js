@@ -11,7 +11,7 @@ import {
 
 import {
   getTimerEventDefinition
-} from 'src/provider/bpmn/utils/EventDefinitionUtil';
+} from '../../bpmn/utils/EventDefinitionUtil';
 
 import {
   createElement
