@@ -127,6 +127,12 @@ npm start
 npm run dev
 ```
 
+## Release
+
+```sh
+np --no-publish
+```
+
 ## License
 
 MIT
