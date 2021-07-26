@@ -12,6 +12,7 @@ import {
   ExternalTaskPriorityProps,
   FieldInjectionProps,
   HistoryCleanupProps,
+  ImplementationProps,
   JobExecutionProps,
   InitiatorProps,
   ProcessVariablesProps,
@@ -71,6 +72,7 @@ export default class CamundaPlatformPropertiesProvider {
   _getGroups(element) {
     const groups = [
       ProcessVariablesGroup(element),
+      ImplementationGroup(element),
       UserAssignmentGroup(element),
       StartInitiatorGroup(element),
       ScriptGroup(element),
@@ -79,7 +81,6 @@ export default class CamundaPlatformPropertiesProvider {
       CandidateStarterGroup(element),
       ConditionalGroup(element),
       ConnectorGroup(element),
-      DelegatePropsGroup(element),
       ErrorGroup(element),
       EventGroup(element),
       ExtensionPropertiesGroup(element),
@@ -120,18 +121,15 @@ function updateGeneralGroup(groups, element) {
   entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function DelegatePropsGroup(element) {
-
-  if (!is(element, 'camunda:ServiceTaskLike')) {
-    return null;
-  }
+function ImplementationGroup(element) {
 
   const group = {
-    label: 'Delegate Props',
-    id: 'CamundaPlatform__DelegateProps',
+    label: 'Implementation',
+    id: 'CamundaPlatform__Implementation',
     component: Group,
-    entries: []
+    entries: [
+      ...ImplementationProps({ element })
+    ]
   };
 
   if (group.entries.length) {

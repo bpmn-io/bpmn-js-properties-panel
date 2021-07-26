@@ -496,6 +496,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(scriptGroup).to.not.exist;
       }));
 
+
+      it('should show implementation group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('ExternalTaskServiceTask_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
+
+        // then
+        expect(implementationGroup).to.exist;
+      }));
+
+
+      it('should NOT show implementation group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const group = elementRegistry.get('Group_1');
+
+        await act(() => {
+          selection.select(group);
+        });
+
+        // when
+        const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
+
+        // then
+        expect(implementationGroup).to.not.exist;
+      }));
+
     });
 
 
