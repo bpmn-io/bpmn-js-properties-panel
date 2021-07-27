@@ -394,6 +394,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(asynchronousContinuationsGroup).to.not.exist;
       }));
 
+
+      it('should show user assignment group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_1');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        const userAssignmentGroup = getGroup(container, 'CamundaPlatform__UserAssignment');
+
+        // then
+        expect(userAssignmentGroup).to.exist;
+      }));
+
+
+      it('should NOT show user assignment group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const userAssignmentGroup = getGroup(container, 'CamundaPlatform__UserAssignment');
+
+        // then
+        expect(userAssignmentGroup).not.to.exist;
+      }));
+
     });
 
 

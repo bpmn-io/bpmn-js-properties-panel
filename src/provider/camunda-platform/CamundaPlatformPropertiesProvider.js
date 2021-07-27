@@ -15,6 +15,7 @@ import {
   JobExecutionProps,
   ProcessVariablesProps,
   TasklistProps,
+  UserAssignmentProps,
   VersionTagProps
 } from './properties';
 
@@ -68,6 +69,7 @@ export default class CamundaPlatformPropertiesProvider {
   _getGroups(element) {
     const groups = [
       ProcessVariablesGroup(element),
+      UserAssignmentGroup(element),
       AsynchronousContinuationsGroup(element),
       CallActivityGroup(element),
       CandidateStarterGroup(element),
@@ -89,7 +91,6 @@ export default class CamundaPlatformPropertiesProvider {
       MultiInstanceGroup(element),
       ScriptTaskGroup(element),
       TasklistGroup(element),
-      UserTaskGroup(element),
       VariablesMappingGroup(element)
     ];
 
@@ -138,18 +139,15 @@ function DelegatePropsGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function UserTaskGroup(element) {
-
-  if (!is(element, 'bpmn:UserTask')) {
-    return null;
-  }
+function UserAssignmentGroup(element) {
 
   const group = {
-    label: 'User Task',
-    id: 'CamundaPlatform__UserTask',
+    label: 'User Assignment',
+    id: 'CamundaPlatform__UserAssignment',
     component: Group,
-    entries: []
+    entries: [
+      ...UserAssignmentProps({ element })
+    ]
   };
 
   if (group.entries.length) {

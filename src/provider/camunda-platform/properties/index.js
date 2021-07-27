@@ -7,4 +7,5 @@ export { HistoryCleanupProps } from './HistoryCleanupProps';
 export { JobExecutionProps } from './JobExecutionProps';
 export { ProcessVariablesProps } from './ProcessVariablesProps';
 export { TasklistProps } from './TasklistProps';
+export { UserAssignmentProps } from './UserAssignmentProps';
 export { VersionTagProps } from './VersionTagProps';
