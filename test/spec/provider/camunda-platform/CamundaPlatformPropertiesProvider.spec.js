@@ -428,6 +428,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(userAssignmentGroup).not.to.exist;
       }));
 
+
+      it('should show start initiator group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        const startInitiatorGroup = getGroup(container, 'CamundaPlatform__StartInitiator');
+
+        // then
+        expect(startInitiatorGroup).to.exist;
+      }));
+
+
+      it('should NOT show start initiator group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const startInitiatorGroup = getGroup(container, 'CamundaPlatform__StartInitiator');
+
+        // then
+        expect(startInitiatorGroup).to.not.exist;
+      }));
+
     });
 
 

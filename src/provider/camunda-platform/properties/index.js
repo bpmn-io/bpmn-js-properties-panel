@@ -6,6 +6,7 @@ export { FieldInjectionProps } from './FieldInjectionProps';
 export { HistoryCleanupProps } from './HistoryCleanupProps';
 export { JobExecutionProps } from './JobExecutionProps';
 export { ProcessVariablesProps } from './ProcessVariablesProps';
+export { InitiatorProps } from './InitiatorProps';
 export { TasklistProps } from './TasklistProps';
 export { UserAssignmentProps } from './UserAssignmentProps';
 export { VersionTagProps } from './VersionTagProps';

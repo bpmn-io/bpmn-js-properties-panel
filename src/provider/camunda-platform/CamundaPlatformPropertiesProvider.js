@@ -13,6 +13,7 @@ import {
   FieldInjectionProps,
   HistoryCleanupProps,
   JobExecutionProps,
+  InitiatorProps,
   ProcessVariablesProps,
   TasklistProps,
   UserAssignmentProps,
@@ -70,6 +71,7 @@ export default class CamundaPlatformPropertiesProvider {
     const groups = [
       ProcessVariablesGroup(element),
       UserAssignmentGroup(element),
+      StartInitiatorGroup(element),
       AsynchronousContinuationsGroup(element),
       CallActivityGroup(element),
       CandidateStarterGroup(element),
@@ -83,7 +85,6 @@ export default class CamundaPlatformPropertiesProvider {
       FieldInjectionGroup(element),
       FormGroup(element),
       HistoryCleanupGroup(element),
-      InitiatorGroup(element),
       InputOutputGroup(element),
       JobExecutionGroup(element),
       LinkGroup(element),
@@ -268,13 +269,14 @@ function ConditionalGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function InitiatorGroup(element) {
+function StartInitiatorGroup(element) {
   const group = {
-    label: 'Initiator',
-    id: 'CamundaPlatform__Initiator',
+    label: 'Start Initiator',
+    id: 'CamundaPlatform__StartInitiator',
     component: Group,
-    entries: []
+    entries: [
+      ...InitiatorProps({ element })
+    ]
   };
 
   if (group.entries.length) {
