@@ -462,6 +462,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(startInitiatorGroup).to.not.exist;
       }));
 
+
+      it('should show script group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const scriptTask = elementRegistry.get('ScriptTask_1');
+
+        await act(() => {
+          selection.select(scriptTask);
+        });
+
+        // when
+        const scriptGroup = getGroup(container, 'CamundaPlatform__Script');
+
+        // then
+        expect(scriptGroup).to.exist;
+      }));
+
+
+      it('should NOT show script group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const scriptGroup = getGroup(container, 'CamundaPlatform__Script');
+
+        // then
+        expect(scriptGroup).to.not.exist;
+      }));
+
     });
 
 

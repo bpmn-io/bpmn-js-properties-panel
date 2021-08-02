@@ -15,6 +15,7 @@ import {
   JobExecutionProps,
   InitiatorProps,
   ProcessVariablesProps,
+  ScriptTaskProps,
   TasklistProps,
   UserAssignmentProps,
   VersionTagProps
@@ -72,6 +73,7 @@ export default class CamundaPlatformPropertiesProvider {
       ProcessVariablesGroup(element),
       UserAssignmentGroup(element),
       StartInitiatorGroup(element),
+      ScriptGroup(element),
       AsynchronousContinuationsGroup(element),
       CallActivityGroup(element),
       CandidateStarterGroup(element),
@@ -90,7 +92,6 @@ export default class CamundaPlatformPropertiesProvider {
       LinkGroup(element),
       ListenerGroup(element),
       MultiInstanceGroup(element),
-      ScriptTaskGroup(element),
       TasklistGroup(element),
       VariablesMappingGroup(element)
     ];
@@ -158,18 +159,15 @@ function UserAssignmentGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function ScriptTaskGroup(element) {
-
-  if (!is(element, 'bpmn:ScriptTask')) {
-    return null;
-  }
+function ScriptGroup(element) {
 
   const group = {
-    label: 'Script Task',
-    id: 'CamundaPlatform__ScriptTask',
+    label: 'Script',
+    id: 'CamundaPlatform__Script',
     component: Group,
-    entries: []
+    entries: [
+      ...ScriptTaskProps({ element })
+    ]
   };
 
   if (group.entries.length) {
