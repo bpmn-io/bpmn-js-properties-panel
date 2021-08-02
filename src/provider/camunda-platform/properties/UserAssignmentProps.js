@@ -181,7 +181,7 @@ function DueDate(props) {
     element,
     id: 'dueDate',
     label: translate('Due Date'),
-    description : translate('The due date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)'),
+    description : translate('The due date as an EL expression (e.g. ${someDate}) or an ISO date (e.g. 2015-06-26T09:54:00).'),
     getValue,
     setValue,
     debounce
@@ -215,8 +215,8 @@ function FollowUpDate(props) {
     element,
     id: 'followUpDate',
     label: translate('Follow Up Date'),
-    description : translate('The follow up date as an EL expression (e.g. ${someDate} or an ' +
-      'ISO date (e.g. 2015-06-26T09:54:00)'),
+    description : translate('The follow up date as an EL expression (e.g. ${someDate}) or an ' +
+      'ISO date (e.g. 2015-06-26T09:54:00).'),
     getValue,
     setValue,
     debounce
