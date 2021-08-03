@@ -90,7 +90,6 @@ export default class CamundaPlatformPropertiesProvider {
       HistoryCleanupGroup(element),
       InputOutputGroup(element),
       JobExecutionGroup(element),
-      LinkGroup(element),
       ListenerGroup(element),
       MultiInstanceGroup(element),
       TasklistGroup(element),
@@ -166,22 +165,6 @@ function ScriptGroup(element) {
     entries: [
       ...ScriptTaskProps({ element })
     ]
-  };
-
-  if (group.entries.length) {
-    return group;
-  }
-
-  return null;
-}
-
-// @TODO: implement, hide with no entries in the meantime
-function LinkGroup(element) {
-  const group = {
-    label: 'Link',
-    id: 'CamundaPlatform__Link',
-    component: Group,
-    entries: []
   };
 
   if (group.entries.length) {

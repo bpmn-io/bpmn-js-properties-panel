@@ -68,3 +68,14 @@ export function getMessage(element) {
 
   return messageEventDefinition && messageEventDefinition.get('messageRef');
 }
+
+export function getLinkEventDefinition(element) {
+  return getEventDefinition(element, 'bpmn:LinkEventDefinition');
+}
+
+export function isLinkSupported(element) {
+  return isAny(element, [
+    'bpmn:IntermediateThrowEvent',
+    'bpmn:IntermediateCatchEvent'
+  ]) && !!getLinkEventDefinition(element);
+}

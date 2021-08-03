@@ -5,6 +5,7 @@ import {
   ErrorProps,
   ExecutableProps,
   IdProps,
+  LinkProps,
   MessageProps,
   NameProps,
   ProcessProps,
@@ -77,13 +78,31 @@ function MessageGroup(element) {
   return null;
 }
 
+function LinkGroup(element) {
+  const group = {
+    label: 'Link',
+    id: 'link',
+    component: Group,
+    entries: [
+      ...LinkProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
 function getGroups(element) {
 
   const groups = [
     GeneralGroup(element),
     DocumentationGroup(element),
     ErrorGroup(element),
-    MessageGroup(element)
+    MessageGroup(element),
+    LinkGroup(element)
   ];
 
   // contract: if a group returns null, it should not be displayed at all

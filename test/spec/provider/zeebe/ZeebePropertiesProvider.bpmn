@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210721" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Start Event">
       <bpmn:extensionElements>
@@ -73,6 +73,9 @@
       <bpmn:timerEventDefinition id="TimerEventDefinition_0pn8lpz" />
     </bpmn:intermediateCatchEvent>
     <bpmn:intermediateThrowEvent id="IntermediateCatchEvent_1" name="IntermediateCatchEvent_1" />
+    <bpmn:intermediateCatchEvent id="LinkEvent_1" name="LinkEvent_1">
+      <bpmn:linkEventDefinition id="LinkEventDefinition_1" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -141,16 +144,22 @@
           <dc:Bounds x="568" y="565" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0kw5hij_di" bpmnElement="BoundaryEvent_1">
-        <dc:Bounds x="282" y="562" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_01bngjo_di" bpmnElement="LinkEvent_1">
+        <dc:Bounds x="262" y="662" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="256" y="605" width="88" height="14" />
+          <dc:Bounds x="245" y="705" width="71" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ii3c12_di" bpmnElement="InterruptingTimerBoundaryEvent_1">
         <dc:Bounds x="342" y="562" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="317" y="605" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0kw5hij_di" bpmnElement="BoundaryEvent_1">
+        <dc:Bounds x="282" y="562" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="256" y="605" width="88" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
