@@ -8,6 +8,14 @@ import {
   useService
 } from '../../../hooks';
 
+
+/**
+ * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ */
+
+/**
+ * @returns {Array<Entry>} entries
+ */
 export function ExecutableProps(props) {
   const {
     element

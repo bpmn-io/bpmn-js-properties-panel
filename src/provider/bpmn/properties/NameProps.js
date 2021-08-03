@@ -13,6 +13,13 @@ import {
   useService
 } from '../../../hooks';
 
+/**
+ * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ */
+
+/**
+ * @returns {Array<Entry>} entries
+ */
 export function NameProps(props) {
   const {
     element

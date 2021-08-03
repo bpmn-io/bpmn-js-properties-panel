@@ -31,6 +31,13 @@ import {
 const CREATE_NEW_OPTION = 'create-new';
 
 
+/**
+ * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ */
+
+/**
+ * @returns {Array<Entry>} entries
+ */
 export function ErrorProps(props) {
   const {
     element

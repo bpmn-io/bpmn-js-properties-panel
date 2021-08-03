@@ -10,7 +10,13 @@ import {
   isIdValid
 } from '../utils/ValidationUtil';
 
+/**
+ * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ */
 
+/**
+ * @returns {Array<Entry>} entries
+ */
 export function ProcessProps(props) {
   const {
     element

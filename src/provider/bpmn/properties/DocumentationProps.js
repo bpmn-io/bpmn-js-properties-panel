@@ -11,6 +11,14 @@ import {
 
 const DOCUMENTATION_TEXT_FORMAT = 'text/plain';
 
+
+/**
+ * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ */
+
+/**
+ * @returns {Array<Entry>} entries
+ */
 export function DocumentationProps(props) {
   const {
     element
