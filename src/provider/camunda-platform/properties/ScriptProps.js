@@ -178,7 +178,8 @@ function Script(props) {
     label: translate('Script'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    monospace: true
   });
 }
 
