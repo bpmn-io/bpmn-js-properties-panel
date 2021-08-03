@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   useService
@@ -13,8 +13,21 @@ import {
   isIdValid
 } from '../utils/ValidationUtil';
 
+export function IdProps(props) {
+  const {
+    element
+  } = props;
 
-export default function IdProperty(props) {
+  return [
+    {
+      id: 'id',
+      component: <Id element={ element } />,
+      isEdited
+    }
+  ];
+}
+
+function Id(props) {
   const {
     element
   } = props;

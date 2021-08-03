@@ -2,14 +2,31 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Checkbox from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import Checkbox, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
 
 import {
   useService
 } from '../../../hooks';
 
+export function ExecutableProps(props) {
+  const {
+    element
+  } = props;
 
-export default function ExecutableProperty(props) {
+  if (!is(element, 'bpmn:Process') && !hasProcessRef(element)) {
+    return [];
+  }
+
+  return [
+    {
+      id: 'isExecutable',
+      component: <Executable element={ element } />,
+      isEdited
+    }
+  ];
+}
+
+function Executable(props) {
   const {
     element
   } = props;
@@ -19,10 +36,6 @@ export default function ExecutableProperty(props) {
   const translate = useService('translate');
 
   let getValue, setValue;
-
-  if (!is(element, 'bpmn:Process') && !hasProcessRef(element)) {
-    return;
-  }
 
   setValue = (value) => {
     modeling.updateProperties(element, {

@@ -26,9 +26,9 @@ import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
-import diagramXML from './Id.bpmn';
+import diagramXML from './IdProps.bpmn';
 
-describe('provider/bpmn - Id', function() {
+describe('provider/bpmn - IdProps', function() {
 
   const testModules = [
     CoreModule,

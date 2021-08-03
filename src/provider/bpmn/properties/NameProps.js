@@ -7,14 +7,31 @@ import {
   add as collectionAdd
 } from 'diagram-js/lib/util/Collections';
 
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import {
   useService
 } from '../../../hooks';
 
+export function NameProps(props) {
+  const {
+    element
+  } = props;
 
-export default function NameProperty(props) {
+  if (is(element, 'bpmn:Collaboration')) {
+    return [];
+  }
+
+  return [
+    {
+      id: 'name',
+      component: <Name element={ element } />,
+      isEdited
+    }
+  ];
+}
+
+function Name(props) {
   const {
     element
   } = props;
@@ -24,10 +41,6 @@ export default function NameProperty(props) {
   const canvas = useService('canvas');
   const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
-
-  if (is(element, 'bpmn:Collaboration')) {
-    return;
-  }
 
   // (1) default: name
   let options = {

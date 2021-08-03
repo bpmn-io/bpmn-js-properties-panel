@@ -1,47 +1,22 @@
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
 
 import {
-  isEdited as textFieldIsEdited
-} from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-
-import {
-  isEdited as checkboxIsEdited
-} from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
-
-import {
   DocumentationProps,
   ErrorProps,
-  ExecutableProperty,
-  IdProperty,
+  ExecutableProps,
+  IdProps,
   MessageProps,
-  NameProperty,
+  NameProps,
   ProcessProps,
 } from './properties';
-
-import {
-  isErrorSupported,
-  isMessageSupported
-} from './utils/EventDefinitionUtil';
 
 function GeneralGroup(element) {
 
   const entries = [
-    {
-      id: 'name',
-      component: <NameProperty element={ element } />,
-      isEdited: textFieldIsEdited
-    },
-    {
-      id: 'id',
-      component: <IdProperty element={ element } />,
-      isEdited: textFieldIsEdited
-    },
+    ...NameProps({ element }),
+    ...IdProps({ element }),
     ...ProcessProps({ element }),
-    {
-      id: 'isExecutable',
-      component: <ExecutableProperty element={ element } />,
-      isEdited: checkboxIsEdited
-    }
+    ...ExecutableProps({ element })
   ];
 
   return {
@@ -69,51 +44,50 @@ function DocumentationGroup(element) {
 }
 
 function ErrorGroup(element) {
-
-  const entries = [
-    ...ErrorProps({ element })
-  ];
-
-  return {
+  const group = {
     id: 'error',
     label: 'Error',
-    entries,
-    component: Group
+    component: Group,
+    entries: [
+      ...ErrorProps({ element })
+    ]
   };
 
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
 function MessageGroup(element) {
-
-  const entries = [
-    ...MessageProps({ element })
-  ];
-
-  return {
+  const group = {
     id: 'message',
     label: 'Message',
-    entries,
-    component: Group
+    component: Group,
+    entries: [
+      ...MessageProps({ element })
+    ]
   };
 
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
 function getGroups(element) {
 
   const groups = [
     GeneralGroup(element),
-    DocumentationGroup(element)
+    DocumentationGroup(element),
+    ErrorGroup(element),
+    MessageGroup(element)
   ];
 
-  if (isErrorSupported(element)) {
-    groups.push(ErrorGroup(element));
-  }
-
-  if (isMessageSupported(element)) {
-    groups.push(MessageGroup(element));
-  }
-
-  return groups;
+  // contract: if a group returns null, it should not be displayed at all
+  return groups.filter(group => group !== null);
 }
 
 export default class BpmnPropertiesProvider {

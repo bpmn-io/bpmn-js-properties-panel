@@ -16,7 +16,8 @@ import {
 
 import {
   getMessage,
-  getMessageEventDefinition
+  getMessageEventDefinition,
+  isMessageSupported
 } from '../utils/EventDefinitionUtil';
 
 import {
@@ -34,6 +35,10 @@ export function MessageProps(props) {
   const {
     element
   } = props;
+
+  if (!isMessageSupported(element)) {
+    return [];
+  }
 
   const message = getMessage(element);
 

@@ -26,9 +26,9 @@ import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
-import diagramXML from './Name.bpmn';
+import diagramXML from './NameProps.bpmn';
 
-describe('provider/bpmn - Name', function() {
+describe('provider/bpmn - NameProps', function() {
 
   const testModules = [
     CoreModule, SelectionModule, ModelingModule,

@@ -16,7 +16,8 @@ import {
 
 import {
   getError,
-  getErrorEventDefinition
+  getErrorEventDefinition,
+  isErrorSupported
 } from '../utils/EventDefinitionUtil';
 
 import {
@@ -34,6 +35,10 @@ export function ErrorProps(props) {
   const {
     element
   } = props;
+
+  if (!isErrorSupported(element)) {
+    return [];
+  }
 
   const error = getError(element);
 

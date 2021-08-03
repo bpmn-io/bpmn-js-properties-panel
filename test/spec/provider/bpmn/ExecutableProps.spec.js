@@ -23,11 +23,11 @@ import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
-import executableDiagramXML from './Executable.bpmn';
-import participantsDiagramXML from './Executable.participants.bpmn';
+import executableDiagramXML from './ExecutableProps.bpmn';
+import participantsDiagramXML from './ExecutableProps.participants.bpmn';
 
 
-describe('provider/bpmn - Executable', function() {
+describe('provider/bpmn - ExecutableProps', function() {
 
   const testModules = [
     CoreModule, SelectionModule, ModelingModule,
