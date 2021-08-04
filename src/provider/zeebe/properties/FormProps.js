@@ -7,7 +7,7 @@ import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-pane
 
 import {
   createElement
-} from '../utils/ElementUtil';
+} from '../../../utils/ElementUtil';
 
 import {
   getExtensionElementsList
@@ -15,7 +15,7 @@ import {
 
 import {
   nextId
-} from '../utils/IdUtil';
+} from '../../../utils/ElementUtil';
 
 import {
   find

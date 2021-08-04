@@ -12,7 +12,7 @@ import {
 
 import {
   createElement
-} from './ElementUtil';
+} from '../../../utils/ElementUtil';
 
 function getElements(bo, type, prop) {
   const elems = getExtensionElementsList(bo, type);

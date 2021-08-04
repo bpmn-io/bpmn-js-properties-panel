@@ -26,7 +26,7 @@ import {
   findRootElementsByType,
   getRoot,
   nextId
-} from '../utils/ElementUtil';
+} from '../../../utils/ElementUtil';
 
 const CREATE_NEW_OPTION = 'create-new';
 

@@ -26,7 +26,7 @@ import {
 import {
   createElement,
   nextId
-} from '../utils/ElementUtil';
+} from '../../../utils/ElementUtil';
 
 
 export function InputProps(element) {

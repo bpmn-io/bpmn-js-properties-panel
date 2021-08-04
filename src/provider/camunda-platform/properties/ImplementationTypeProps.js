@@ -14,7 +14,7 @@ import {
 
 import {
   createElement
-} from '../../bpmn/utils/ElementUtil';
+} from '../../../utils/ElementUtil';
 
 import {
   getExtensionElementsList

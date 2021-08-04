@@ -19,7 +19,7 @@ import ExtensionProperty from './ExtensionProperty';
 
 import {
   createElement
-} from '../../bpmn/utils/ElementUtil';
+} from '../../../utils/ElementUtil';
 
 import {
   getExtensionElementsList
