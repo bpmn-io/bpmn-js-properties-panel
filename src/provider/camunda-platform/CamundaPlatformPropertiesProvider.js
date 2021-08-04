@@ -9,6 +9,7 @@ import {
   AsynchronousContinuationsProps,
   CandidateStarterProps,
   ErrorProps,
+  ConditionProps,
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
   FieldInjectionProps,
@@ -81,7 +82,7 @@ export default class CamundaPlatformPropertiesProvider {
       AsynchronousContinuationsGroup(element),
       CallActivityGroup(element),
       CandidateStarterGroup(element),
-      ConditionalGroup(element),
+      ConditionGroup(element),
       ConnectorGroup(element),
       EventGroup(element),
       ExtensionPropertiesGroup(element),
@@ -229,13 +230,14 @@ function EventGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function ConditionalGroup(element) {
+function ConditionGroup(element) {
   const group = {
-    label: 'Conditional',
-    id: 'CamundaPlatform__Conditional',
+    label: 'Condition',
+    id: 'CamundaPlatform__Condition',
     component: Group,
-    entries: []
+    entries: [
+      ...ConditionProps({ element })
+    ]
   };
 
   if (group.entries.length) {

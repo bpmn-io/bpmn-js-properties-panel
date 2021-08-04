@@ -1,4 +1,5 @@
 export { AsynchronousContinuationsProps } from './AsynchronousContinuationsProps';
+export { ConditionProps } from './ConditionProps';
 export { CandidateStarterProps } from './CandidateStarterProps';
 export { ErrorProps } from './ErrorProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';

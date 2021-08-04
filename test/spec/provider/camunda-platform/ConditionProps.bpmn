@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1avm05p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:category id="Category_078roiv">
+    <bpmn:categoryValue id="CategoryValue_1is1zkz" value="Should display" />
+  </bpmn:category>
+  <bpmn:category id="Category_1rhdqyn">
+    <bpmn:categoryValue id="CategoryValue_1ay8yzc" value="Should not display" />
+  </bpmn:category>
+  <bpmn:process id="Process_00tgo4q" isExecutable="true">
+    <bpmn:task id="Activity_0p2eypu">
+      <bpmn:incoming>Flow3</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_1qbye32">
+      <bpmn:outgoing>Flow3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Activity_0n6j795">
+      <bpmn:incoming>Flow2</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:task id="Activity_1ttjwvh">
+      <bpmn:outgoing>Flow2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_07689k4">
+      <bpmn:incoming>Flow1</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow3" name="Flow3" sourceRef="Gateway_1qbye32" targetRef="Activity_0p2eypu">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">foobar</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow2" name="Flow2" sourceRef="Activity_1ttjwvh" targetRef="Activity_0n6j795" />
+    <bpmn:sequenceFlow id="Flow1" name="Flow1" sourceRef="StartEvent_1" targetRef="Activity_07689k4" />
+    <bpmn:task id="DefaultSourceTask" name="DefaultSourceTask" default="Flow5">
+      <bpmn:outgoing>Flow5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="DefaultTargetTask" name="DefaultTargetTask">
+      <bpmn:incoming>Flow5</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow5" name="Flow5" sourceRef="DefaultSourceTask" targetRef="DefaultTargetTask" />
+    <bpmn:exclusiveGateway id="Gateway_1ricxhk">
+      <bpmn:outgoing>ConditionExpressionFlow</bpmn:outgoing>
+      <bpmn:outgoing>InlineScriptFlow</bpmn:outgoing>
+      <bpmn:outgoing>ExternalResourceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Activity_0nzi599" name="Expression">
+      <bpmn:incoming>ConditionExpressionFlow</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="ConditionExpressionFlow" name="ConditionExpressionFlow" sourceRef="Gateway_1ricxhk" targetRef="Activity_0nzi599">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${expression}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:task id="Activity_003vaeg" name="Inline script">
+      <bpmn:incoming>InlineScriptFlow</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="InlineScriptFlow" name="InlineScriptFlow" sourceRef="Gateway_1ricxhk" targetRef="Activity_003vaeg">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="feel">inline script</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:task id="Activity_0a226so" name="External resource">
+      <bpmn:incoming>ExternalResourceFlow</bpmn:incoming>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="ExternalResourceFlow" name="ExternalResourceFlow" sourceRef="Gateway_1ricxhk" targetRef="Activity_0a226so">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="feel" camunda:resource="deployment://script.feel" />
+    </bpmn:sequenceFlow>
+    <bpmn:group id="Group_0x9cbhh" categoryValueRef="CategoryValue_1ay8yzc" />
+    <bpmn:group id="Group_1rwu632" categoryValueRef="CategoryValue_1is1zkz" />
+    <bpmn:group id="Group_0vzi29r" categoryValueRef="CategoryValue_17rddng" />
+    <bpmn:group id="Group_16iuezy" categoryValueRef="CategoryValue_1580p2r" />
+  </bpmn:process>
+  <bpmn:category id="Category_1pbgg7w">
+    <bpmn:categoryValue id="CategoryValue_17rddng" value="Should remove default" />
+  </bpmn:category>
+  <bpmn:category id="Category_1nimruv">
+    <bpmn:categoryValue id="CategoryValue_1580p2r" value="Script and expression" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_00tgo4q">
+      <bpmndi:BPMNEdge id="Flow_0kvt1bt_di" bpmnElement="ExternalResourceFlow">
+        <di:waypoint x="860" y="725" />
+        <di:waypoint x="860" y="920" />
+        <di:waypoint x="940" y="920" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="834" y="820" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lbysop_di" bpmnElement="InlineScriptFlow">
+        <di:waypoint x="860" y="725" />
+        <di:waypoint x="860" y="810" />
+        <di:waypoint x="940" y="810" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="836" y="765" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_040voih_di" bpmnElement="ConditionExpressionFlow">
+        <di:waypoint x="885" y="700" />
+        <di:waypoint x="940" y="700" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="869" y="682" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pk7j0w_di" bpmnElement="Flow5">
+        <di:waypoint x="340" y="785" />
+        <di:waypoint x="390" y="785" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="350" y="767" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lk9pb0_di" bpmnElement="Flow1">
+        <di:waypoint x="338" y="300" />
+        <di:waypoint x="393" y="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="351" y="282" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pjrb3k_di" bpmnElement="Flow2">
+        <di:waypoint x="980" y="250" />
+        <di:waypoint x="1033" y="250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="992" y="232" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uktmxr_di" bpmnElement="Flow3">
+        <di:waypoint x="955" y="370" />
+        <di:waypoint x="1013" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="970" y="352" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0p2eypu_di" bpmnElement="Activity_0p2eypu">
+        <dc:Bounds x="1013" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1qbye32_di" bpmnElement="Gateway_1qbye32" isMarkerVisible="true">
+        <dc:Bounds x="905" y="345" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0n6j795_di" bpmnElement="Activity_0n6j795">
+        <dc:Bounds x="1033" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ttjwvh_di" bpmnElement="Activity_1ttjwvh">
+        <dc:Bounds x="880" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07689k4_di" bpmnElement="Activity_07689k4">
+        <dc:Bounds x="393" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="302" y="282" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0uluups_di" bpmnElement="DefaultSourceTask">
+        <dc:Bounds x="240" y="745" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u575d1_di" bpmnElement="DefaultTargetTask">
+        <dc:Bounds x="390" y="745" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ricxhk_di" bpmnElement="Gateway_1ricxhk" isMarkerVisible="true">
+        <dc:Bounds x="835" y="675" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0nzi599_di" bpmnElement="Activity_0nzi599">
+        <dc:Bounds x="940" y="660" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_003vaeg_di" bpmnElement="Activity_003vaeg">
+        <dc:Bounds x="940" y="770" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a226so_di" bpmnElement="Activity_0a226so">
+        <dc:Bounds x="940" y="880" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0x9cbhh_di" bpmnElement="Group_0x9cbhh">
+        <dc:Bounds x="155" y="120" width="550" height="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="404" y="127" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_1rwu632_di" bpmnElement="Group_1rwu632">
+        <dc:Bounds x="743" y="120" width="550" height="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="982" y="127" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0vzi29r_di" bpmnElement="Group_0vzi29r">
+        <dc:Bounds x="155" y="605" width="550" height="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="394" y="612" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_16iuezy_di" bpmnElement="Group_16iuezy">
+        <dc:Bounds x="740" y="610" width="553" height="465" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="990" y="617" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
