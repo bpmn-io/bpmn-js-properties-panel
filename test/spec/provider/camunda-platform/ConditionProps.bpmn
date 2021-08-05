@@ -60,6 +60,28 @@
     <bpmn:sequenceFlow id="ExternalResourceFlow" name="ExternalResourceFlow" sourceRef="Gateway_1ricxhk" targetRef="Activity_0a226so">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="feel" camunda:resource="deployment://script.feel" />
     </bpmn:sequenceFlow>
+    <bpmn:intermediateThrowEvent id="NoneEvent" />
+    <bpmn:intermediateCatchEvent id="ConditionalIntermediateEvent">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0z241h1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:startEvent id="ConditionalStartEvent">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0bpqlc8" />
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="ConditionExpressionEvent" name="ConditionExpressionEvent">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0tjfo9a">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${expression}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="InlineScriptEvent" name="InlineScriptEvent">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0acmhky">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression" language="feel">inline script</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="ExternalResourceEvent" name="ExternalResourceEvent">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0wb0ivo">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression" language="feel" camunda:resource="deployment://script.feel" />
+      </bpmn:conditionalEventDefinition>
+    </bpmn:intermediateCatchEvent>
     <bpmn:group id="Group_0x9cbhh" categoryValueRef="CategoryValue_1ay8yzc" />
     <bpmn:group id="Group_1rwu632" categoryValueRef="CategoryValue_1is1zkz" />
     <bpmn:group id="Group_0vzi29r" categoryValueRef="CategoryValue_17rddng" />
@@ -159,6 +181,33 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0a226so_di" bpmnElement="Activity_0a226so">
         <dc:Bounds x="940" y="880" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10e3p00_di" bpmnElement="NoneEvent">
+        <dc:Bounds x="302" y="382" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11y10aq_di" bpmnElement="ConditionalIntermediateEvent">
+        <dc:Bounds x="912" y="442" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1mm3dcy_di" bpmnElement="ConditionalStartEvent">
+        <dc:Bounds x="912" y="502" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1etxxm6_di" bpmnElement="ConditionExpressionEvent">
+        <dc:Bounds x="1092" y="682" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1067" y="725" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1hp7kt4_di" bpmnElement="InlineScriptEvent">
+        <dc:Bounds x="1092" y="792" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1069" y="835" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qre27x_di" bpmnElement="ExternalResourceEvent">
+        <dc:Bounds x="1092" y="902" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1069" y="945" width="82" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_0x9cbhh_di" bpmnElement="Group_0x9cbhh">
         <dc:Bounds x="155" y="120" width="550" height="470" />

@@ -7,6 +7,8 @@ import {
   isAny
 } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
+import { getEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
+
 import {
   createElement
 } from '../../../utils/ElementUtil';
@@ -26,7 +28,10 @@ import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/li
 export function ConditionProps(props) {
   const { element } = props;
 
-  if (!is(element, 'bpmn:SequenceFlow') || !isConditionalSource(element.source)) {
+  if (
+    !(is(element, 'bpmn:SequenceFlow') && isConditionalSource(element.source)) &&
+    !getConditionalEventDefinition(element)
+  ) {
     return [];
   }
 
@@ -65,68 +70,26 @@ function ConditionType(props) {
   const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
 
-  const businessObject = getBusinessObject(element);
-
-
   const getValue = () => {
     return getConditionType(element);
   };
 
   const setValue = (value) => {
-    const commands = [];
 
     // (1) Remove formalExpression if <none> is selected
     if (value === '') {
-      commands.push({
-        cmd: 'element.updateProperties',
-        context: {
-          element: element,
-          properties: {
-            conditionExpression: undefined
-          }
-        }
-      });
+      updateCondition(element, commandStack, undefined);
     } else {
 
-      // (2) If we set value to a default flow, make it a non-default flow
-      // by updating the element source
-      const source = element.source;
-
-      if (source.businessObject.default === businessObject) {
-        commands.push({
-          cmd: 'element.updateProperties',
-          context: {
-            element: source,
-            properties: { 'default': undefined }
-          }
-        });
-      }
-
-      // (3) Create and set formalExpression element containing the conditionExpression
+      // (2) Create and set formalExpression element containing the conditionExpression
       const attributes = {
         body: '',
         language: value === 'script' ? '' : undefined,
       };
-      const formalExpressionElement = createElement(
-        'bpmn:FormalExpression',
-        attributes,
-        businessObject,
-        bpmnFactory
-      );
+      const formalExpressionElement = createFormalExpression(element, attributes, bpmnFactory);
 
-      commands.push({
-        cmd: 'element.updateProperties',
-        context: {
-          element: element,
-          properties: {
-            conditionExpression: formalExpressionElement
-          }
-        }
-      });
+      updateCondition(element, commandStack, formalExpressionElement);
     }
-
-    // (4) Execute the commands
-    commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
   const getOptions = () => ([
@@ -161,21 +124,15 @@ function ConditionExpression(props) {
   };
 
   const setValue = (value) => {
-    const businessObject = getBusinessObject(element);
-    const conditionExpression = createElement(
-      'bpmn:FormalExpression',
+    const conditionExpression = createFormalExpression(
+      element,
       {
         body: value
       },
-      businessObject,
       bpmnFactory
     );
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element,
-      businessObject,
-      properties: { conditionExpression }
-    });
+    updateCondition(element, commandStack, conditionExpression);
   };
 
   return <TextField
@@ -383,6 +340,14 @@ function isConditionalSource(element) {
   return isAny(element, CONDITIONAL_SOURCES);
 }
 
+function getConditionalEventDefinition(element) {
+  if (!is(element, 'bpmn:Event')) {
+    return false;
+  }
+
+  return getEventDefinition(element, 'bpmn:ConditionalEventDefinition');
+}
+
 function getConditionType(element) {
   const conditionExpression = getConditionExpression(element);
 
@@ -403,7 +368,11 @@ function getConditionType(element) {
 function getConditionExpression(element) {
   const businessObject = getBusinessObject(element);
 
-  return businessObject.get('conditionExpression');
+  if (is(businessObject, 'bpmn:SequenceFlow')) {
+    return businessObject.get('conditionExpression');
+  } else if (getConditionalEventDefinition(businessObject)) {
+    return getConditionalEventDefinition(businessObject).get('condition');
+  }
 }
 
 function getScriptType(element) {
@@ -415,4 +384,32 @@ function getScriptType(element) {
   } else {
     return 'script';
   }
+}
+
+function updateCondition(element, commandStack, condition = undefined) {
+  if (is(element, 'bpmn:SequenceFlow')) {
+    commandStack.execute('element.updateProperties', {
+      element,
+      properties: {
+        conditionExpression: condition
+      }
+    });
+  } else {
+    commandStack.execute('properties-panel.update-businessobject', {
+      element,
+      businessObject: getConditionalEventDefinition(element),
+      properties: {
+        condition
+      }
+    });
+  }
+}
+
+function createFormalExpression(parent, attributes, bpmnFactory) {
+  return createElement(
+    'bpmn:FormalExpression',
+    attributes,
+    is(parent, 'bpmn:SequenceFlow') ? getBusinessObject(parent) : getConditionalEventDefinition(parent),
+    bpmnFactory
+  );
 }

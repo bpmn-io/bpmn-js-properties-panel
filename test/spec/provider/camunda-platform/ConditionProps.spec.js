@@ -15,8 +15,11 @@ import {
 } from 'min-dom';
 
 import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
+
+import { getEventDefinition } from 'src/provider/bpmn/utils/EventDefinitionUtil';
 
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
@@ -61,34 +64,42 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('Flow3');
+      const elements = [ 'Flow3', 'ConditionalIntermediateEvent', 'ConditionalStartEvent' ];
 
-      // when
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      const conditionExpressionInput = domQuery('select[name=conditionType]', container);
+        // when
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(conditionExpressionInput).to.exist;
+        const conditionExpressionInput = domQuery('select[name=conditionType]', container);
+
+        // then
+        expect(conditionExpressionInput).to.exist;
+      }
     }));
 
 
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('Flow1');
+      const elements = [ 'Flow1', 'NoneEvent' ];
 
-      // when
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      const conditionExpressionInput = domQuery('select[name=conditionType]', container);
+        // when
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(conditionExpressionInput).not.to.exist;
+        const conditionExpressionInput = domQuery('select[name=conditionType]', container);
+
+        // then
+        expect(conditionExpressionInput).not.to.exist;
+      }
     }));
 
 
@@ -113,6 +124,30 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(businessObject.get('conditionExpression')).to.exist;
+      })
+    );
+
+
+    it('should create condition',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const conditionalEvent = elementRegistry.get('ConditionalStartEvent');
+
+        await act(() => {
+          selection.select(conditionalEvent);
+        });
+
+        const conditionTypeInput = domQuery('select[name=conditionType]', container);
+
+        // assume
+        expect(getConditionExpression(conditionalEvent)).not.to.exist;
+
+        // when
+        changeInput(conditionTypeInput, 'expression');
+
+        // then
+        expect(getConditionExpression(conditionalEvent)).to.exist;
       })
     );
 
@@ -164,6 +199,30 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(sequenceFlowBo.get('conditionExpression')).not.to.exist;
+      })
+    );
+
+
+    it('should remove condition',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const conditionalEvent = elementRegistry.get('ConditionExpressionEvent');
+
+        await act(() => {
+          selection.select(conditionalEvent);
+        });
+
+        const conditionExpressionInput = domQuery('select[name=conditionType]', container);
+
+        // assume
+        expect(getConditionExpression(conditionalEvent)).to.exist;
+
+        // when
+        changeInput(conditionExpressionInput, '');
+
+        // then
+        expect(getConditionExpression(conditionalEvent)).not.to.exist;
       })
     );
   });
@@ -257,19 +316,19 @@ describe('provider/camunda-platform - ConditionProps', function() {
   });
 
 
-  describe('conditionExpression#language', function() {
+  describe('bpmn:ConditionalEventDefinition#condition', function() {
 
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const conditionalEvent = elementRegistry.get('ConditionExpressionEvent');
 
       // when
       await act(() => {
-        selection.select(sequenceFlow);
+        selection.select(conditionalEvent);
       });
 
-      const conditionExpressionInput = domQuery('input[name=conditionScriptLanguage]', container);
+      const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
 
       // then
       expect(conditionExpressionInput).to.exist;
@@ -279,55 +338,43 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('ConditionExpressionFlow');
+      const elements = [ 'NoneEvent', 'ConditionalStartEvent' ];
 
-      // when
-      await act(() => {
-        selection.select(sequenceFlow);
+      elements.forEach(async ele => {
+        const element = elementRegistry.get(ele);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
+
+        // then
+        expect(conditionExpressionInput).not.to.exist;
       });
-
-      const conditionExpressionInput = domQuery('input[name=conditionScriptLanguage]', container);
-
-      // then
-      expect(conditionExpressionInput).not.to.exist;
     }));
 
 
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const conditionalEvent = elementRegistry.get('ConditionExpressionEvent');
 
       await act(() => {
-        selection.select(sequenceFlow);
+        selection.select(conditionalEvent);
       });
 
-      // when
-      const input = domQuery('input[name=conditionScriptLanguage]', container);
-      changeInput(input, 'newValue');
-
-      // then
-      expect(
-        getConditionExpression(sequenceFlow).get('language')
-      ).to.eql('newValue');
-    }));
-
-
-    it('should NOT set to undefined', inject(async function(elementRegistry, selection) {
-
-      // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
-
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
 
       // when
-      const input = domQuery('input[name=conditionScriptLanguage]', container);
-      changeInput(input, '');
+      changeInput(conditionExpressionInput, 'myExpression');
+
+      const conditionExpressionVal = getConditionExpressionBody(conditionalEvent);
 
       // then
-      expect(getConditionExpression(sequenceFlow).get('language')).to.exist;
+      expect(conditionExpressionVal).to.exist;
+      expect(conditionExpressionVal).to.equal('myExpression');
     }));
 
 
@@ -335,15 +382,15 @@ describe('provider/camunda-platform - ConditionProps', function() {
       inject(async function(elementRegistry, selection, commandStack) {
 
         // given
-        const sequenceFlow = elementRegistry.get('InlineScriptFlow');
-
-        const originalValue = getConditionExpression(sequenceFlow).get('language');
+        const conditionalEvent = elementRegistry.get('ConditionExpressionEvent'),
+              originalValue = getConditionExpressionBody(conditionalEvent);
 
         await act(() => {
-          selection.select(sequenceFlow);
+          selection.select(conditionalEvent);
         });
-        const input = domQuery('input[name=conditionScriptLanguage]', container);
-        changeInput(input, 'newValue');
+
+        const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
+        changeInput(conditionExpressionInput, 'myExpression');
 
         // when
         await act(() => {
@@ -351,7 +398,127 @@ describe('provider/camunda-platform - ConditionProps', function() {
         });
 
         // then
-        expect(input.value).to.eql(originalValue);
+        expect(conditionExpressionInput.value).to.eql(originalValue);
+      })
+    );
+  });
+
+
+  describe('conditionExpression#language', function() {
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
+
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        const conditionExpressionInput = domQuery('input[name=conditionScriptLanguage]', container);
+
+        // then
+        expect(conditionExpressionInput).to.exist;
+      }
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [ 'ConditionExpressionFlow', 'ConditionExpressionEvent' ];
+
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        const conditionExpressionInput = domQuery('input[name=conditionScriptLanguage]', container);
+
+        // then
+        expect(conditionExpressionInput).not.to.exist;
+      }
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
+
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const input = domQuery('input[name=conditionScriptLanguage]', container);
+        changeInput(input, 'newValue');
+
+        // then
+        expect(
+          getConditionExpression(element).get('language')
+        ).to.eql('newValue');
+      }
+    }));
+
+
+    it('should NOT set to undefined', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
+
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const input = domQuery('input[name=conditionScriptLanguage]', container);
+        changeInput(input, '');
+
+        // then
+        expect(getConditionExpression(element).get('language')).to.exist;
+      }
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
+
+        for (const id of elements) {
+          const element = elementRegistry.get(id);
+
+          const originalValue = getConditionExpression(element).get('language');
+
+          await act(() => {
+            selection.select(element);
+          });
+          const input = domQuery('input[name=conditionScriptLanguage]', container);
+          changeInput(input, 'newValue');
+
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(input.value).to.eql(originalValue);
+        }
       })
     );
   });
@@ -362,76 +529,92 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // when
-      const select = domQuery('select[name=conditionScriptType]', container);
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(select.value).to.eql('script');
+        // when
+        const select = domQuery('select[name=conditionScriptType]', container);
+
+        // then
+        expect(select.value).to.eql('script');
+      }
     }));
 
 
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const task = elementRegistry.get('ConditionExpressionFlow');
+      const elements = [ 'ConditionExpressionFlow', 'ConditionExpressionEvent' ];
 
-      await act(() => {
-        selection.select(task);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // when
-      const select = domQuery('select[name=conditionScriptType]', container);
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(select).to.not.exist;
+        // when
+        const select = domQuery('select[name=conditionScriptType]', container);
+
+        // then
+        expect(select).to.not.exist;
+      }
     }));
 
 
     it('should update - resource', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // assume
-      expect(getConditionExpression(sequenceFlow).get('camunda:resource')).to.be.undefined;
+        await act(() => {
+          selection.select(element);
+        });
 
-      // when
-      const select = domQuery('select[name=conditionScriptType]', container);
-      changeInput(select, 'resource');
+        // assume
+        expect(getConditionExpression(element).get('camunda:resource')).to.be.undefined;
 
-      // then
-      expect(getConditionExpression(sequenceFlow).get('camunda:resource')).to.exist;
+        // when
+        const select = domQuery('select[name=conditionScriptType]', container);
+        changeInput(select, 'resource');
+
+        // then
+        expect(getConditionExpression(element).get('camunda:resource')).to.exist;
+      }
     }));
 
 
     it('should update - script', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('ExternalResourceFlow');
+      const elements = [ 'ExternalResourceFlow', 'ExternalResourceEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // assume
-      expect(getConditionExpression(sequenceFlow).get('body')).to.be.undefined;
+        await act(() => {
+          selection.select(element);
+        });
 
-      // when
-      const select = domQuery('select[name=conditionScriptType]', container);
-      changeInput(select, 'script');
+        // assume
+        expect(getConditionExpression(element).get('body')).to.be.undefined;
 
-      // then
-      expect(getConditionExpression(sequenceFlow).get('body')).to.exist;
+        // when
+        const select = domQuery('select[name=conditionScriptType]', container);
+        changeInput(select, 'script');
+
+        // then
+        expect(getConditionExpression(element).get('body')).to.exist;
+      }
     }));
 
 
@@ -439,23 +622,27 @@ describe('provider/camunda-platform - ConditionProps', function() {
       inject(async function(elementRegistry, selection, commandStack) {
 
         // given
-        const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+        const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-        const originalValue = getConditionExpressionBody(sequenceFlow);
+        for (const id of elements) {
+          const element = elementRegistry.get(id);
 
-        await act(() => {
-          selection.select(sequenceFlow);
-        });
-        const select = domQuery('select[name=conditionScriptType]', container);
-        changeInput(select, 'resource');
+          const originalValue = getConditionExpressionBody(element);
 
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
+          await act(() => {
+            selection.select(element);
+          });
+          const select = domQuery('select[name=conditionScriptType]', container);
+          changeInput(select, 'resource');
 
-        // then
-        expect(getConditionExpressionBody(sequenceFlow)).to.eql(originalValue);
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(getConditionExpressionBody(element)).to.eql(originalValue);
+        }
       })
     );
 
@@ -467,72 +654,88 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-      // when
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      const conditionExpressionInput = domQuery('textarea[name=conditionScriptValue]', container);
+        // when
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(conditionExpressionInput).to.exist;
+        const conditionExpressionInput = domQuery('textarea[name=conditionScriptValue]', container);
+
+        // then
+        expect(conditionExpressionInput).to.exist;
+      }
     }));
 
 
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('ConditionExpressionFlow');
+      const elements = [ 'ConditionExpressionFlow', 'ConditionExpressionEvent' ];
 
-      // when
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      const conditionExpressionInput = domQuery('textarea[name=conditionScriptValue]', container);
+        // when
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(conditionExpressionInput).not.to.exist;
+        const conditionExpressionInput = domQuery('textarea[name=conditionScriptValue]', container);
+
+        // then
+        expect(conditionExpressionInput).not.to.exist;
+      }
     }));
 
 
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // when
-      const input = domQuery('textarea[name=conditionScriptValue]', container);
-      changeInput(input, 'newValue');
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(
-        getConditionExpressionBody(sequenceFlow)
-      ).to.eql('newValue');
+        // when
+        const input = domQuery('textarea[name=conditionScriptValue]', container);
+        changeInput(input, 'newValue');
+
+        // then
+        expect(
+          getConditionExpressionBody(element)
+        ).to.eql('newValue');
+      }
     }));
 
 
     it('should NOT set to undefined', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+      const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // when
-      const input = domQuery('textarea[name=conditionScriptValue]', container);
-      changeInput(input, '');
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(getConditionExpressionBody(sequenceFlow)).to.exist;
+        // when
+        const input = domQuery('textarea[name=conditionScriptValue]', container);
+        changeInput(input, '');
+
+        // then
+        expect(getConditionExpressionBody(element)).to.exist;
+      }
     }));
 
 
@@ -540,23 +743,27 @@ describe('provider/camunda-platform - ConditionProps', function() {
       inject(async function(elementRegistry, selection, commandStack) {
 
         // given
-        const sequenceFlow = elementRegistry.get('InlineScriptFlow');
+        const elements = [ 'InlineScriptFlow', 'InlineScriptEvent' ];
 
-        const originalValue = getConditionExpressionBody(sequenceFlow);
+        for (const id of elements) {
+          const element = elementRegistry.get(id);
 
-        await act(() => {
-          selection.select(sequenceFlow);
-        });
-        const input = domQuery('textarea[name=conditionScriptValue]', container);
-        changeInput(input, 'newValue');
+          const originalValue = getConditionExpressionBody(element);
 
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
+          await act(() => {
+            selection.select(element);
+          });
+          const input = domQuery('textarea[name=conditionScriptValue]', container);
+          changeInput(input, 'newValue');
 
-        // then
-        expect(input.value).to.eql(originalValue);
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(input.value).to.eql(originalValue);
+        }
       })
     );
   });
@@ -567,24 +774,31 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('ExternalResourceFlow');
+      const elements = [ 'ExternalResourceFlow', 'ExternalResourceEvent' ];
 
-      // when
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      const conditionExpressionInput = domQuery('input[name=conditionScriptResource]', container);
+        // when
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(conditionExpressionInput).to.exist;
+        const conditionExpressionInput = domQuery('input[name=conditionScriptResource]', container);
+
+        // then
+        expect(conditionExpressionInput).to.exist;
+      }
     }));
 
 
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const elements = [ 'ConditionExpressionFlow', 'InlineScriptFlow' ];
+      const elements = [
+        'ConditionExpressionFlow', 'InlineScriptFlow',
+        'InlineScriptEvent', 'ConditionExpressionEvent'
+      ];
 
       elements.forEach(async ele => {
         const sequenceFlow = elementRegistry.get(ele);
@@ -605,38 +819,46 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('ExternalResourceFlow');
+      const elements = [ 'ExternalResourceFlow', 'ExternalResourceEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // when
-      const input = domQuery('input[name=conditionScriptResource]', container);
-      changeInput(input, 'newValue');
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(
-        getConditionExpression(sequenceFlow).get('camunda:resource')
-      ).to.eql('newValue');
+        // when
+        const input = domQuery('input[name=conditionScriptResource]', container);
+        changeInput(input, 'newValue');
+
+        // then
+        expect(
+          getConditionExpression(element).get('camunda:resource')
+        ).to.eql('newValue');
+      }
     }));
 
 
     it('should NOT set to undefined', inject(async function(elementRegistry, selection) {
 
       // given
-      const sequenceFlow = elementRegistry.get('ExternalResourceFlow');
+      const elements = [ 'ExternalResourceFlow', 'ExternalResourceEvent' ];
 
-      await act(() => {
-        selection.select(sequenceFlow);
-      });
+      for (const id of elements) {
+        const element = elementRegistry.get(id);
 
-      // when
-      const input = domQuery('input[name=conditionScriptResource]', container);
-      changeInput(input, '');
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(getConditionExpression(sequenceFlow).get('camunda:resource')).to.exist;
+        // when
+        const input = domQuery('input[name=conditionScriptResource]', container);
+        changeInput(input, '');
+
+        // then
+        expect(getConditionExpression(element).get('camunda:resource')).to.exist;
+      }
     }));
 
 
@@ -644,23 +866,27 @@ describe('provider/camunda-platform - ConditionProps', function() {
       inject(async function(elementRegistry, selection, commandStack) {
 
         // given
-        const sequenceFlow = elementRegistry.get('ExternalResourceFlow');
+        const elements = [ 'ExternalResourceFlow', 'ExternalResourceEvent' ];
 
-        const originalValue = getConditionExpression(sequenceFlow).get('camunda:resource');
+        for (const id of elements) {
+          const element = elementRegistry.get(id);
 
-        await act(() => {
-          selection.select(sequenceFlow);
-        });
-        const input = domQuery('input[name=conditionScriptResource]', container);
-        changeInput(input, 'newValue');
+          const originalValue = getConditionExpression(element).get('camunda:resource');
 
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
+          await act(() => {
+            selection.select(element);
+          });
+          const input = domQuery('input[name=conditionScriptResource]', container);
+          changeInput(input, 'newValue');
 
-        // then
-        expect(input.value).to.eql(originalValue);
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(input.value).to.eql(originalValue);
+        }
       })
     );
   });
@@ -672,7 +898,11 @@ describe('provider/camunda-platform - ConditionProps', function() {
 function getConditionExpression(element) {
   const businessObject = getBusinessObject(element);
 
-  return businessObject.get('conditionExpression');
+  if (is(businessObject, 'bpmn:SequenceFlow')) {
+    return businessObject.get('conditionExpression');
+  } else if (getConditionalEventDefinition(businessObject)) {
+    return getConditionalEventDefinition(businessObject).get('condition');
+  }
 }
 
 /**
@@ -688,4 +918,12 @@ function getConditionExpressionBody(element) {
   if (conditionExpression) {
     return conditionExpression.get('body');
   }
+}
+
+function getConditionalEventDefinition(element) {
+  if (!is(element, 'bpmn:Event')) {
+    return false;
+  }
+
+  return getEventDefinition(element, 'bpmn:ConditionalEventDefinition');
 }
