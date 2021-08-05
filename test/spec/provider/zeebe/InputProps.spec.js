@@ -262,7 +262,7 @@ function getGroup(container, id) {
 }
 
 function getListItems(container, type) {
-  return domQueryAll(`div[data-entry-id^="${type}-"].bio-properties-panel-collapsible-entry`, container);
+  return domQueryAll(`div[data-entry-id*="-${type}-"].bio-properties-panel-collapsible-entry`, container);
 }
 
 function getInputListItems(container) {

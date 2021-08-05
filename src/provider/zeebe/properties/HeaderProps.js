@@ -36,7 +36,7 @@ export function HeaderProps(element) {
   const headers = getHeaders(element) || [];
 
   const items = headers.map((header, index) => {
-    const id = 'header-' + index;
+    const id = element.id + '-header-' + index;
 
     return {
       id,

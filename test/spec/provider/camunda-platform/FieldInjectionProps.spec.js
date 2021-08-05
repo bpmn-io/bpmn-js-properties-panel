@@ -545,9 +545,9 @@ function getAddFieldButton(container) {
 }
 
 function getRemoveFieldButton(container, id) {
-  return domQuery(`[data-entry-id="fieldInjection-${id}"] .bio-properties-panel-remove-entry`, container);
+  return domQuery(`[data-entry-id*="-fieldInjection-${id}"] .bio-properties-panel-remove-entry`, container);
 }
 
 function getFieldInjectionItemLabel(container, id) {
-  return domQuery(`[data-entry-id="fieldInjection-${id}"] .bio-properties-panel-collapsible-entry-header-title`, container);
+  return domQuery(`[data-entry-id*="-fieldInjection-${id}"] .bio-properties-panel-collapsible-entry-header-title`, container);
 }

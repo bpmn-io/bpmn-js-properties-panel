@@ -38,7 +38,7 @@ export function OutputProps(element) {
   const outputParameters = getOutputParameters(element) || [];
 
   const items = outputParameters.map((parameter, index) => {
-    const id = 'output-' + index;
+    const id = element.id + '-output-' + index;
 
     return {
       id,

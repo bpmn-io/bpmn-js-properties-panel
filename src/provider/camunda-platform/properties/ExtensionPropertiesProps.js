@@ -42,7 +42,7 @@ export function ExtensionPropertiesProps(props) {
   const properties = getPropertiesList(businessObject) || [];
 
   const items = properties.map((property, index) => {
-    const id = 'extensionProperty-' + index;
+    const id = element.id + '-extensionProperty-' + index;
 
     return {
       id,

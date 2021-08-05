@@ -107,7 +107,7 @@ function TypeProperty(props) {
 
   return SelectEntry({
     element: field,
-    id: idPrefix + 'type',
+    id: idPrefix + '-type',
     label: translate('Type'),
     getValue,
     setValue,

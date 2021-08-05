@@ -38,7 +38,7 @@ export function InputProps(element) {
   const inputParameters = getInputParameters(element) || [];
 
   const items = inputParameters.map((parameter, index) => {
-    const id = 'input-' + index;
+    const id = element.id + '-input-' + index;
 
     return {
       id,

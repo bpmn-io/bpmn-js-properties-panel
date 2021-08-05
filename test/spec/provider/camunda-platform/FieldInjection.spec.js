@@ -76,7 +76,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, serviceTask.id, 0);
 
           // then
           expect(nameInput).to.not.exist;
@@ -95,7 +95,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, serviceTask.id, 0);
 
           // then
           expect(nameInput).to.exist;
@@ -114,7 +114,7 @@ describe('provider/bpmn - FieldInjection', function() {
             selection.select(serviceTask);
           });
 
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, serviceTask.id, 0);
 
           // when
           changeInput(nameInput, 'newValue');
@@ -141,7 +141,7 @@ describe('provider/bpmn - FieldInjection', function() {
                 fieldInjection = getExtensionElementsList(businessObject, 'camunda:Field'),
                 originalValue = fieldInjection[0].name;
 
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, serviceTask.id, 0);
           changeInput(nameInput, 'newValue');
 
           // when
@@ -170,7 +170,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, serviceTask.id, 0);
 
           // then
           expect(typeSelect).to.not.exist;
@@ -189,7 +189,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, serviceTask.id, 0);
 
           // then
           expect(typeSelect).to.exist;
@@ -208,7 +208,7 @@ describe('provider/bpmn - FieldInjection', function() {
             selection.select(serviceTask);
           });
 
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, serviceTask.id, 0);
 
           // when
           changeInput(typeSelect, 'expression');
@@ -233,7 +233,7 @@ describe('provider/bpmn - FieldInjection', function() {
             selection.select(serviceTask);
           });
 
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, serviceTask.id, 0);
           changeInput(typeSelect, 'expression');
 
           // when
@@ -258,7 +258,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, serviceTask.id, 0);
 
           // then
           expect(typeSelect.value).to.equal('string');
@@ -281,7 +281,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const valueInput = getValueInput(container, 0);
+          const valueInput = getValueInput(container, serviceTask.id, 0);
 
           // then
           expect(valueInput).to.not.exist;
@@ -300,7 +300,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const valueInput = getValueInput(container, 0);
+          const valueInput = getValueInput(container, serviceTask.id, 0);
 
           // then
           expect(valueInput).to.exist;
@@ -321,7 +321,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(serviceTask);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, serviceTask.id, 0);
 
             // when
             changeInput(valueInput, 'newValue');
@@ -348,7 +348,7 @@ describe('provider/bpmn - FieldInjection', function() {
                   fieldInjection = getExtensionElementsList(businessObject, 'camunda:Field'),
                   originalValue = fieldInjection[0].string;
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, serviceTask.id, 0);
             changeInput(valueInput, 'newValue');
 
             // when
@@ -376,7 +376,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(serviceTask);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,serviceTask.id, 0);
 
             // when
             changeInput(valueInput, 'newValue');
@@ -403,7 +403,7 @@ describe('provider/bpmn - FieldInjection', function() {
                   fieldInjection = getExtensionElementsList(businessObject, 'camunda:Field'),
                   originalValue = fieldInjection[0].expression;
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,serviceTask.id, 0);
             changeInput(valueInput, 'newValue');
 
             // when
@@ -432,7 +432,7 @@ describe('provider/bpmn - FieldInjection', function() {
             });
 
             // when
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,serviceTask.id, 0);
 
             // then
             expect(valueInput).to.exist;
@@ -451,7 +451,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(serviceTask);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,serviceTask.id, 0);
 
             // when
             changeInput(valueInput, 'newValue');
@@ -475,7 +475,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(serviceTask);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,serviceTask.id, 0);
 
             changeInput(valueInput, 'newValue');
 
@@ -514,7 +514,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, messageThrowEvent.id, 0);
 
           // then
           expect(nameInput).to.not.exist;
@@ -533,7 +533,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, messageThrowEvent.id, 0);
 
           // then
           expect(nameInput).to.exist;
@@ -552,7 +552,7 @@ describe('provider/bpmn - FieldInjection', function() {
             selection.select(messageThrowEvent);
           });
 
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, messageThrowEvent.id, 0);
 
           // when
           changeInput(nameInput, 'newValue');
@@ -579,7 +579,7 @@ describe('provider/bpmn - FieldInjection', function() {
                 fieldInjection = getExtensionElementsList(businessObject, 'camunda:Field'),
                 originalValue = fieldInjection[0].name;
 
-          const nameInput = getNameInput(container, 0);
+          const nameInput = getNameInput(container, messageThrowEvent.id, 0);
           changeInput(nameInput, 'newValue');
 
           // when
@@ -608,7 +608,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, messageThrowEvent.id, 0);
 
           // then
           expect(typeSelect).to.not.exist;
@@ -627,7 +627,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, messageThrowEvent.id, 0);
 
           // then
           expect(typeSelect).to.exist;
@@ -646,7 +646,7 @@ describe('provider/bpmn - FieldInjection', function() {
             selection.select(messageThrowEvent);
           });
 
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, messageThrowEvent.id, 0);
 
           // when
           changeInput(typeSelect, 'expression');
@@ -671,7 +671,7 @@ describe('provider/bpmn - FieldInjection', function() {
             selection.select(messageThrowEvent);
           });
 
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, messageThrowEvent.id, 0);
           changeInput(typeSelect, 'expression');
 
           // when
@@ -696,7 +696,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const typeSelect = getTypeSelect(container, 0);
+          const typeSelect = getTypeSelect(container, messageThrowEvent.id, 0);
 
           // then
           expect(typeSelect.value).to.equal('string');
@@ -719,7 +719,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const valueInput = getValueInput(container, 0);
+          const valueInput = getValueInput(container, messageThrowEvent.id, 0);
 
           // then
           expect(valueInput).to.not.exist;
@@ -738,7 +738,7 @@ describe('provider/bpmn - FieldInjection', function() {
           });
 
           // when
-          const valueInput = getValueInput(container, 0);
+          const valueInput = getValueInput(container,messageThrowEvent.id, 0);
 
           // then
           expect(valueInput).to.exist;
@@ -759,7 +759,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(messageThrowEvent);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,messageThrowEvent.id, 0);
 
             // when
             changeInput(valueInput, 'newValue');
@@ -786,7 +786,7 @@ describe('provider/bpmn - FieldInjection', function() {
                   fieldInjection = getExtensionElementsList(businessObject, 'camunda:Field'),
                   originalValue = fieldInjection[0].string;
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, messageThrowEvent.id, 0);
             changeInput(valueInput, 'newValue');
 
             // when
@@ -814,7 +814,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(messageThrowEvent);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, messageThrowEvent.id, 0);
 
             // when
             changeInput(valueInput, 'newValue');
@@ -841,7 +841,7 @@ describe('provider/bpmn - FieldInjection', function() {
                   fieldInjection = getExtensionElementsList(businessObject, 'camunda:Field'),
                   originalValue = fieldInjection[0].expression;
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, messageThrowEvent.id, 0);
             changeInput(valueInput, 'newValue');
 
             // when
@@ -870,7 +870,7 @@ describe('provider/bpmn - FieldInjection', function() {
             });
 
             // when
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, messageThrowEvent.id, 0);
 
             // then
             expect(valueInput).to.exist;
@@ -889,7 +889,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(messageThrowEvent);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container,messageThrowEvent.id, 0);
 
             // when
             changeInput(valueInput, 'newValue');
@@ -913,7 +913,7 @@ describe('provider/bpmn - FieldInjection', function() {
               selection.select(messageThrowEvent);
             });
 
-            const valueInput = getValueInput(container, 0);
+            const valueInput = getValueInput(container, messageThrowEvent.id, 0);
 
             changeInput(valueInput, 'newValue');
 
@@ -941,14 +941,14 @@ describe('provider/bpmn - FieldInjection', function() {
 
 // helper //////////////////
 
-function getNameInput(container, id) {
-  return domQuery(`#bio-properties-panel-fieldInjection-${id}-name`, container);
+function getNameInput(container, elementId, id) {
+  return domQuery(`#bio-properties-panel-${elementId}-fieldInjection-${id}-name`, container);
 }
 
-function getValueInput(container, id) {
-  return domQuery(`#bio-properties-panel-fieldInjection-${id}-value`, container);
+function getValueInput(container, elementId, id) {
+  return domQuery(`#bio-properties-panel-${elementId}-fieldInjection-${id}-value`, container);
 }
 
-function getTypeSelect(container, id) {
-  return domQuery(`#bio-properties-panel-fieldInjection-${id}type`, container);
+function getTypeSelect(container, elementId, id) {
+  return domQuery(`#bio-properties-panel-${elementId}-fieldInjection-${id}-type`, container);
 }

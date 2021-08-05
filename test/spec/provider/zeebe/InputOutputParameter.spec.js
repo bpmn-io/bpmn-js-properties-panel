@@ -71,7 +71,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
         // when
         const inputGroup = getGroup(container, 'inputs');
-        const targetInput = domQuery('input[name=input-0-target]', inputGroup);
+        const targetInput = domQuery('input[name=ServiceTask_empty-input-0-target]', inputGroup);
 
         // then
         expect(targetInput).to.not.exist;
@@ -89,7 +89,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const inputGroup = getGroup(container, 'inputs');
-      const targetInput = domQuery('input[name=input-0-target]', inputGroup);
+      const targetInput = domQuery('input[name=ServiceTask_1-input-0-target]', inputGroup);
 
       // then
       expect(targetInput.value).to.eql(getInput(serviceTask, 0).get('target'));
@@ -107,7 +107,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const inputGroup = getGroup(container, 'inputs');
-      const targetInput = domQuery('input[name=input-0-target]', inputGroup);
+      const targetInput = domQuery('input[name=ServiceTask_1-input-0-target]', inputGroup);
       changeInput(targetInput, 'newValue');
 
       // then
@@ -125,7 +125,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const targetInput = domQuery('input[name=input-0-target]', container);
+        const targetInput = domQuery('input[name=ServiceTask_1-input-0-target]', container);
         changeInput(targetInput, 'newValue');
 
         // when
@@ -155,7 +155,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
         // when
         const inputGroup = getGroup(container, 'inputs');
-        const sourceInput = domQuery('input[name=input-0-source]', inputGroup);
+        const sourceInput = domQuery('input[name=ServiceTask_empty-input-0-source]', inputGroup);
 
         // then
         expect(sourceInput).to.not.exist;
@@ -173,7 +173,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const inputGroup = getGroup(container, 'inputs');
-      const sourceInput = domQuery('input[name=input-0-source]', inputGroup);
+      const sourceInput = domQuery('input[name=ServiceTask_1-input-0-source]', inputGroup);
 
       // then
       expect(sourceInput.value).to.eql(getInput(serviceTask, 0).get('source'));
@@ -191,7 +191,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const inputGroup = getGroup(container, 'inputs');
-      const sourceInput = domQuery('input[name=input-0-source]', inputGroup);
+      const sourceInput = domQuery('input[name=ServiceTask_1-input-0-source]', inputGroup);
       changeInput(sourceInput, 'newValue');
 
       // then
@@ -209,7 +209,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const sourceInput = domQuery('input[name=input-0-source]', container);
+        const sourceInput = domQuery('input[name=ServiceTask_1-input-0-source]', container);
         changeInput(sourceInput, 'newValue');
 
         // when
@@ -239,7 +239,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
         // when
         const outputGroup = getGroup(container, 'outputs');
-        const targetInput = domQuery('input[name=output-0-target]', outputGroup);
+        const targetInput = domQuery('input[name=ServiceTask_empty-output-0-target]', outputGroup);
 
         // then
         expect(targetInput).to.not.exist;
@@ -257,7 +257,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const outputGroup = getGroup(container, 'outputs');
-      const targetInput = domQuery('input[name=output-0-target]', outputGroup);
+      const targetInput = domQuery('input[name=ServiceTask_1-output-0-target]', outputGroup);
 
       // then
       expect(targetInput.value).to.eql(getOutput(serviceTask, 0).get('target'));
@@ -275,7 +275,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const outputGroup = getGroup(container, 'outputs');
-      const targetInput = domQuery('input[name=output-0-target]', outputGroup);
+      const targetInput = domQuery('input[name=ServiceTask_1-output-0-target]', outputGroup);
       changeInput(targetInput, 'newValue');
 
       // then
@@ -293,7 +293,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const targetInput = domQuery('input[name=output-0-target]', container);
+        const targetInput = domQuery('input[name=ServiceTask_1-output-0-target]', container);
         changeInput(targetInput, 'newValue');
 
         // when
@@ -323,7 +323,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
         // when
         const outputGroup = getGroup(container, 'outputs');
-        const sourceInput = domQuery('input[name=output-0-source]', outputGroup);
+        const sourceInput = domQuery('input[name=ServiceTask_empty-output-0-source]', outputGroup);
 
         // then
         expect(sourceInput).to.not.exist;
@@ -341,7 +341,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const outputGroup = getGroup(container, 'outputs');
-      const sourceInput = domQuery('input[name=output-0-source]', outputGroup);
+      const sourceInput = domQuery('input[name=ServiceTask_1-output-0-source]', outputGroup);
 
       // then
       expect(sourceInput.value).to.eql(getOutput(serviceTask, 0).get('source'));
@@ -359,7 +359,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const outputGroup = getGroup(container, 'outputs');
-      const sourceInput = domQuery('input[name=output-0-source]', outputGroup);
+      const sourceInput = domQuery('input[name=ServiceTask_1-output-0-source]', outputGroup);
       changeInput(sourceInput, 'newValue');
 
       // then
@@ -377,7 +377,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const sourceInput = domQuery('input[name=output-0-source]', container);
+        const sourceInput = domQuery('input[name=ServiceTask_1-output-0-source]', container);
         changeInput(sourceInput, 'newValue');
 
         // when

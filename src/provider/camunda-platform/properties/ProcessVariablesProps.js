@@ -68,7 +68,7 @@ export function ProcessVariablesProps(props) {
   }
 
   const items = variableItems.map((variable, index) => {
-    const id = 'variable-' + index;
+    const id = element.id + '-variable-' + index;
 
     return {
       id,

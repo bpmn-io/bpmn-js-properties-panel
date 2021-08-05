@@ -39,7 +39,7 @@ export function FieldInjectionProps(props) {
   const fieldInjections = getExtensionElementsList(businessObject, 'camunda:Field');
 
   const items = fieldInjections.map((field, index) => {
-    const id = 'fieldInjection-' + index;
+    const id = element.id + '-fieldInjection-' + index;
 
     return {
       id,

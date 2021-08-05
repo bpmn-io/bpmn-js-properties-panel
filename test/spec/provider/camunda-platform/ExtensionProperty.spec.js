@@ -74,7 +74,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-        const nameInput = domQuery('input[name=extensionProperty-0-name]', group);
+        const nameInput = domQuery('input[name=ServiceTask_empty-extensionProperty-0-name]', group);
 
         // then
         expect(nameInput).to.not.exist;
@@ -92,7 +92,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
 
       // when
       const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-      const nameInput = domQuery('input[name=extensionProperty-0-name]', group);
+      const nameInput = domQuery('input[name=ServiceTask_1-extensionProperty-0-name]', group);
 
       // then
       expect(nameInput.value).to.eql(getProperty(serviceTask, 0).get('name'));
@@ -110,7 +110,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
 
       // when
       const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-      const nameInput = domQuery('input[name=extensionProperty-0-name]', group);
+      const nameInput = domQuery('input[name=ServiceTask_1-extensionProperty-0-name]', group);
       changeInput(nameInput, 'newValue');
 
       // then
@@ -129,7 +129,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
           selection.select(serviceTask);
         });
         const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-        const nameInput = domQuery('input[name=extensionProperty-0-name]', group);
+        const nameInput = domQuery('input[name=ServiceTask_1-extensionProperty-0-name]', group);
         changeInput(nameInput, 'newValue');
 
         // when
@@ -159,7 +159,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-        const valueInput = domQuery('input[name=extensionProperty-0-value]', group);
+        const valueInput = domQuery('input[name=ServiceTask_empty-extensionProperty-0-value]', group);
 
         // then
         expect(valueInput).to.not.exist;
@@ -177,7 +177,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
 
       // when
       const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-      const valueInput = domQuery('input[name=extensionProperty-0-value]', group);
+      const valueInput = domQuery('input[name=ServiceTask_1-extensionProperty-0-value]', group);
 
       // then
       expect(valueInput.value).to.eql(getProperty(serviceTask, 0).get('value'));
@@ -195,7 +195,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
 
       // when
       const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
-      const valueInput = domQuery('input[name=extensionProperty-0-value]', group);
+      const valueInput = domQuery('input[name=ServiceTask_1-extensionProperty-0-value]', group);
       changeInput(valueInput, 'newValue');
 
       // then
@@ -213,7 +213,7 @@ describe('provider/camunda-platform - ExtensionProperty', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const valueInput = domQuery('input[name=extensionProperty-0-value]', container);
+        const valueInput = domQuery('input[name=ServiceTask_1-extensionProperty-0-value]', container);
         changeInput(valueInput, 'newValue');
 
         // when
