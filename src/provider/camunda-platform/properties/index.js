@@ -1,5 +1,6 @@
 export { AsynchronousContinuationsProps } from './AsynchronousContinuationsProps';
 export { CandidateStarterProps } from './CandidateStarterProps';
+export { ErrorProps } from './ErrorProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { ExternalTaskPriorityProps } from './ExternalTaskPriorityProps';
 export { FieldInjectionProps } from './FieldInjectionProps';

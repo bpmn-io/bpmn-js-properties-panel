@@ -8,6 +8,7 @@ import { findIndex } from 'min-dash';
 import {
   AsynchronousContinuationsProps,
   CandidateStarterProps,
+  ErrorProps,
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
   FieldInjectionProps,
@@ -64,6 +65,7 @@ export default class CamundaPlatformPropertiesProvider {
 
       // (2) update existing groups with Camunda Platform specific properties
       updateGeneralGroup(groups, element);
+      updateErrorGroup(groups, element);
 
       return groups;
     };
@@ -81,7 +83,6 @@ export default class CamundaPlatformPropertiesProvider {
       CandidateStarterGroup(element),
       ConditionalGroup(element),
       ConnectorGroup(element),
-      ErrorGroup(element),
       EventGroup(element),
       ExtensionPropertiesGroup(element),
       ExternalTaskGroup(element),
@@ -118,6 +119,18 @@ function updateGeneralGroup(groups, element) {
   const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
 
   entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
+}
+
+function updateErrorGroup(groups, element) {
+  const errorGroup = findGroup(groups, 'error');
+
+  if (!errorGroup) {
+    return;
+  }
+
+  const { entries } = errorGroup;
+
+  ErrorProps({ element, entries });
 }
 
 function ImplementationGroup(element) {
@@ -205,22 +218,6 @@ function EventGroup(element) {
   const group = {
     label: 'Event',
     id: 'CamundaPlatform__Event',
-    component: Group,
-    entries: []
-  };
-
-  if (group.entries.length) {
-    return group;
-  }
-
-  return null;
-}
-
-// @TODO: implement, hide with no entries in the meantime
-function ErrorGroup(element) {
-  const group = {
-    label: 'Error',
-    id: 'CamundaPlatform__Error',
     component: Group,
     entries: []
   };

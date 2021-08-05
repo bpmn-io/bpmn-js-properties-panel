@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1st5ehn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210721" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_0dpshfe" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" />
+    <bpmn:subProcess id="EventSubProcess_1" triggeredByEvent="true">
+      <bpmn:startEvent id="ErrorStartEvent_1">
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_17ats6r" errorRef="Error_1" camunda:errorCodeVariable="errorCodeVariable" camunda:errorMessageVariable="errorMessageVariable" />
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:endEvent id="ErrorEndEvent_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_2" errorRef="Error_2" />
+    </bpmn:endEvent>
+    <bpmn:task id="Task_1" />
+    <bpmn:boundaryEvent id="ErrorBoundaryEvent_noError" attachedToRef="Task_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_3" />
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_1" name="Error_1" errorCode="errorCode" camunda:errorMessage="errorMessage" />
+  <bpmn:error id="Error_2" name="Error_2" errorCode="errorCode" camunda:errorMessage="errorMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0dpshfe">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1njo586_di" bpmnElement="ErrorEndEvent_1">
+        <dc:Bounds x="292" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15kxix6_di" bpmnElement="Task_1">
+        <dc:Bounds x="390" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04n0jao_di" bpmnElement="EventSubProcess_1" isExpanded="true">
+        <dc:Bounds x="170" y="220" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10qvvwe_di" bpmnElement="ErrorStartEvent_1">
+        <dc:Bounds x="210" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1b7iyuc_di" bpmnElement="ErrorBoundaryEvent_noError">
+        <dc:Bounds x="422" y="139" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
