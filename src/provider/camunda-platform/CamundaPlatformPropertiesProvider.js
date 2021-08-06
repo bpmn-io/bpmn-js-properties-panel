@@ -7,6 +7,7 @@ import { findIndex } from 'min-dash';
 
 import {
   AsynchronousContinuationsProps,
+  CallActivityProps,
   CandidateStarterProps,
   ErrorProps,
   ConditionProps,
@@ -188,18 +189,13 @@ function ScriptGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
 function CallActivityGroup(element) {
 
-  if (!is(element, 'bpmn:CallActivity')) {
-    return null;
-  }
-
   const group = {
-    label: 'Call Activity',
+    label: 'Called element',
     id: 'CamundaPlatform__CallActivity',
     component: Group,
-    entries: []
+    entries: [ ...CallActivityProps({ element }) ]
   };
 
   if (group.entries.length) {

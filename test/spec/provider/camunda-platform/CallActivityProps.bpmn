@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_07ptmz4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process" isExecutable="true">
+    <bpmn:callActivity id="NoType" name="NoType" />
+    <bpmn:callActivity id="BPMN" name="BPMN" calledElement="bpmn" camunda:calledElementTenantId="tenant" />
+    <bpmn:callActivity id="CMMN" name="CMMN" camunda:caseRef="caseRef" camunda:caseTenantId="tenant" />
+    <bpmn:callActivity id="WithoutBusinessKey" name="WithoutBusinessKey" />
+    <bpmn:callActivity id="WithBusinessKey" name="WithBusinessKey">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="BPMN_Version" name="BPMN_Version" calledElement="bpmn" camunda:calledElementBinding="version" camunda:calledElementVersion="version" />
+    <bpmn:callActivity id="BPMN_VersionTag" name="BPMN_VersionTag" calledElement="bpmn" camunda:calledElementBinding="versionTag" camunda:calledElementVersionTag="versionTag" />
+    <bpmn:callActivity id="CMMN_Version" name="CMMN_Version" camunda:caseRef="caseRef" camunda:caseBinding="version" camunda:caseVersion="version" camunda:caseTenantId="tenant" />
+    <bpmn:callActivity id="BPMN_DelegateVariableMappingClass" name="BPMN_DelegateVariableMappingClass" calledElement="bpmn" camunda:calledElementBinding="versionTag" camunda:calledElementVersionTag="versionTag" camunda:variableMappingClass="BPMN_DelegateVariableMappingClass" />
+    <bpmn:callActivity id="BPMN_DelegateVariableMappingDelegateExpression" name="BPMN_DelegateVariableMappingDelegateExpression" calledElement="bpmn" camunda:calledElementBinding="versionTag" camunda:calledElementVersionTag="versionTag" camunda:variableMappingDelegateExpression="BPMN_DelegateVariableMappingDelegateExpression" />
+    <bpmn:callActivity id="WithCamundaIn" name="With other camunda:in">
+      <bpmn:extensionElements>
+        <camunda:in source="source" target="target" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process">
+      <bpmndi:BPMNShape id="Activity_0remqnr_di" bpmnElement="NoType">
+        <dc:Bounds x="160" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bt3lzf_di" bpmnElement="BPMN">
+        <dc:Bounds x="160" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ia8oh9_di" bpmnElement="CMMN">
+        <dc:Bounds x="160" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jb55oe_di" bpmnElement="WithoutBusinessKey">
+        <dc:Bounds x="300" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vuz4rv_di" bpmnElement="WithBusinessKey">
+        <dc:Bounds x="440" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jx7q2e_di" bpmnElement="BPMN_Version">
+        <dc:Bounds x="300" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMN_VersionTag_di" bpmnElement="BPMN_VersionTag">
+        <dc:Bounds x="440" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12lo41d_di" bpmnElement="CMMN_Version">
+        <dc:Bounds x="300" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gcsr7l_di" bpmnElement="BPMN_DelegateVariableMappingClass">
+        <dc:Bounds x="580" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bw10h1_di" bpmnElement="BPMN_DelegateVariableMappingDelegateExpression">
+        <dc:Bounds x="720" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d0ssxa_di" bpmnElement="WithCamundaIn">
+        <dc:Bounds x="580" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
