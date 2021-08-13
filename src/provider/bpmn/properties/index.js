@@ -6,3 +6,4 @@ export { LinkProps } from './LinkProps';
 export { MessageProps } from './MessageProps';
 export { NameProps } from './NameProps';
 export { ProcessProps } from './ProcessProps';
+export { SignalProps } from './SignalProps';

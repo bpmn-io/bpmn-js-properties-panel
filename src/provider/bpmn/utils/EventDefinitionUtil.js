@@ -73,9 +73,29 @@ export function getLinkEventDefinition(element) {
   return getEventDefinition(element, 'bpmn:LinkEventDefinition');
 }
 
+export function getSignalEventDefinition(element) {
+  return getEventDefinition(element, 'bpmn:SignalEventDefinition');
+}
+
 export function isLinkSupported(element) {
   return isAny(element, [
     'bpmn:IntermediateThrowEvent',
     'bpmn:IntermediateCatchEvent'
   ]) && !!getLinkEventDefinition(element);
+}
+
+export function isSignalSupported(element) {
+  return isAny(element, [
+    'bpmn:StartEvent',
+    'bpmn:IntermediateCatchEvent',
+    'bpmn:IntermediateThrowEvent',
+    'bpmn:BoundaryEvent',
+    'bpmn:EndEvent'
+  ]) && !!getSignalEventDefinition(element);
+}
+
+export function getSignal(element) {
+  const signalEventDefinition = getSignalEventDefinition(element);
+
+  return signalEventDefinition && signalEventDefinition.get('signalRef');
 }

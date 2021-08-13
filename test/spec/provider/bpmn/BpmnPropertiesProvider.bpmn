@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1jjb961" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1jjb961" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0">
   <bpmn:process id="Process_1j5bpos" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" />
     <bpmn:task id="Task_1" />
@@ -10,6 +10,9 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_1j4k787" />
     </bpmn:startEvent>
     <bpmn:receiveTask id="ReceiveTask_1" />
+    <bpmn:intermediateThrowEvent id="SignalThrowEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1rxez75" />
+    </bpmn:intermediateThrowEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1j5bpos">
@@ -24,6 +27,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_17nav0i_di" bpmnElement="ReceiveTask_1">
         <dc:Bounds x="360" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1knk6fp_di" bpmnElement="SignalThrowEvent_1">
+        <dc:Bounds x="542" y="132" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1ej25yw_di" bpmnElement="BoundaryEvent_1">
         <dc:Bounds x="322" y="172" width="36" height="36" />

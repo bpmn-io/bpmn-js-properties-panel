@@ -27,9 +27,11 @@ import diagramXML from './BpmnPropertiesProvider.bpmn';
 describe('<BpmnPropertiesProvider>', function() {
 
   const testModules = [
-    CoreModule, SelectionModule, ModelingModule,
     BpmnPropertiesPanel,
-    BpmnPropertiesProvider
+    BpmnPropertiesProvider,
+    CoreModule,
+    ModelingModule,
+    SelectionModule
   ];
 
   let container;
@@ -142,6 +144,40 @@ describe('<BpmnPropertiesProvider>', function() {
 
     // then
     expect(messageGroup).to.exist;
+  }));
+
+
+  it('should show signal group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const signalEvent = elementRegistry.get('SignalThrowEvent_1');
+
+    await act(() => {
+      selection.select(signalEvent);
+    });
+
+    // when
+    const signalGroup = getGroup(container, 'signal');
+
+    // then
+    expect(signalGroup).to.exist;
+  }));
+
+
+  it('should not show signal group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const startEvent = elementRegistry.get('StartEvent_1');
+
+    await act(() => {
+      selection.select(startEvent);
+    });
+
+    // when
+    const signalGroup = getGroup(container, 'signal');
+
+    // then
+    expect(signalGroup).to.not.exist;
   }));
 
 });

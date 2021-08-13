@@ -9,6 +9,7 @@ import {
   MessageProps,
   NameProps,
   ProcessProps,
+  SignalProps
 } from './properties';
 
 function GeneralGroup(element) {
@@ -78,6 +79,23 @@ function MessageGroup(element) {
   return null;
 }
 
+function SignalGroup(element) {
+  const group = {
+    id: 'signal',
+    label: 'Signal',
+    component: Group,
+    entries: [
+      ...SignalProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
 function LinkGroup(element) {
   const group = {
     label: 'Link',
@@ -101,8 +119,9 @@ function getGroups(element) {
     GeneralGroup(element),
     DocumentationGroup(element),
     ErrorGroup(element),
+    LinkGroup(element),
     MessageGroup(element),
-    LinkGroup(element)
+    SignalGroup(element)
   ];
 
   // contract: if a group returns null, it should not be displayed at all
