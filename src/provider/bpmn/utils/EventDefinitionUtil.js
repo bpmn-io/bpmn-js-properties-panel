@@ -85,13 +85,7 @@ export function isLinkSupported(element) {
 }
 
 export function isSignalSupported(element) {
-  return isAny(element, [
-    'bpmn:StartEvent',
-    'bpmn:IntermediateCatchEvent',
-    'bpmn:IntermediateThrowEvent',
-    'bpmn:BoundaryEvent',
-    'bpmn:EndEvent'
-  ]) && !!getSignalEventDefinition(element);
+  return is(element, 'bpmn:Event') && !!getSignalEventDefinition(element);
 }
 
 export function getSignal(element) {
