@@ -42,7 +42,7 @@ import IntermediateEventCatchNonInterruptingParallelIcon from './bpmn-icon-inter
 import IntermediateEventCatchNonInterruptingSignalIcon from './bpmn-icon-intermediate-event-catch-non-interrupting-signal.svg';
 import IntermediateEventCatchNonInterruptingTimerIcon from './bpmn-icon-intermediate-event-catch-non-interrupting-timer.svg';
 import IntermediateEventCatchParallelMultipleIcon from './bpmn-icon-intermediate-event-catch-parallel-multiple.svg';
-import IntermediateEventCatchSignalIcon from './bpmn-icon-intermediate-event-catch-cancel.svg';
+import IntermediateEventCatchSignalIcon from './bpmn-icon-intermediate-event-catch-signal.svg';
 import IntermediateEventCatchTimerIcon from './bpmn-icon-intermediate-event-catch-timer.svg';
 import IntermediateEventNoneIcon from './bpmn-icon-intermediate-event-none.svg';
 import IntermediateEventThrowCompensationIcon from './bpmn-icon-intermediate-event-throw-compensation.svg';
