@@ -3,6 +3,7 @@ export { CallActivityProps } from './CallActivityProps';
 export { ConditionProps } from './ConditionProps';
 export { CandidateStarterProps } from './CandidateStarterProps';
 export { ErrorProps } from './ErrorProps';
+export { EscalationProps } from './EscalationProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { ExternalTaskPriorityProps } from './ExternalTaskPriorityProps';
 export { FieldInjectionProps } from './FieldInjectionProps';

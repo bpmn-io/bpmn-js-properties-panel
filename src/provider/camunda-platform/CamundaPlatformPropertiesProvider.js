@@ -1,23 +1,22 @@
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-
 import { findIndex } from 'min-dash';
 
 import {
   AsynchronousContinuationsProps,
   CallActivityProps,
   CandidateStarterProps,
-  ErrorProps,
   ConditionProps,
+  ErrorProps,
+  EscalationProps,
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
   FieldInjectionProps,
   HistoryCleanupProps,
   ImplementationProps,
-  JobExecutionProps,
   InitiatorProps,
+  JobExecutionProps,
   ProcessVariablesProps,
   ScriptTaskProps,
   TasklistProps,
@@ -68,6 +67,7 @@ export default class CamundaPlatformPropertiesProvider {
       // (2) update existing groups with Camunda Platform specific properties
       updateGeneralGroup(groups, element);
       updateErrorGroup(groups, element);
+      updateEscalationGroup(groups, element);
 
       return groups;
     };
@@ -85,7 +85,6 @@ export default class CamundaPlatformPropertiesProvider {
       CandidateStarterGroup(element),
       ConditionGroup(element),
       ConnectorGroup(element),
-      EventGroup(element),
       ExtensionPropertiesGroup(element),
       ExternalTaskGroup(element),
       FieldInjectionGroup(element),
@@ -133,6 +132,18 @@ function updateErrorGroup(groups, element) {
   const { entries } = errorGroup;
 
   ErrorProps({ element, entries });
+}
+
+function updateEscalationGroup(groups, element) {
+  const escalationGroup = findGroup(groups, 'escalation');
+
+  if (!escalationGroup) {
+    return;
+  }
+
+  const { entries } = escalationGroup;
+
+  EscalationProps({ element, entries });
 }
 
 function ImplementationGroup(element) {
@@ -196,27 +207,6 @@ function CallActivityGroup(element) {
     id: 'CamundaPlatform__CallActivity',
     component: Group,
     entries: [ ...CallActivityProps({ element }) ]
-  };
-
-  if (group.entries.length) {
-    return group;
-  }
-
-  return null;
-}
-
-// @TODO: implement, hide with no entries in the meantime
-function EventGroup(element) {
-
-  if (!is(element, 'bpmn:Event')) {
-    return null;
-  }
-
-  const group = {
-    label: 'Event',
-    id: 'CamundaPlatform__Event',
-    component: Group,
-    entries: []
   };
 
   if (group.entries.length) {
