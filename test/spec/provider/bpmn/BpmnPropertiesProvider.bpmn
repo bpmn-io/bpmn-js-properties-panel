@@ -13,6 +13,9 @@
     <bpmn:intermediateThrowEvent id="SignalThrowEvent_1">
       <bpmn:signalEventDefinition id="SignalEventDefinition_1rxez75" />
     </bpmn:intermediateThrowEvent>
+    <bpmn:boundaryEvent id="EscalationEvent_1" attachedToRef="ReceiveTask_1">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_02obpqc" />
+    </bpmn:boundaryEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1j5bpos">
@@ -33,6 +36,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1ej25yw_di" bpmnElement="BoundaryEvent_1">
         <dc:Bounds x="322" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0j62yi6_di" bpmnElement="EscalationEvent_1">
+        <dc:Bounds x="392" y="302" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -93,3 +93,17 @@ export function getSignal(element) {
 
   return signalEventDefinition && signalEventDefinition.get('signalRef');
 }
+
+export function getEscalationEventDefinition(element) {
+  return getEventDefinition(element, 'bpmn:EscalationEventDefinition');
+}
+
+export function isEscalationSupported(element) {
+  return is(element, 'bpmn:Event') && !!getEscalationEventDefinition(element);
+}
+
+export function getEscalation(element) {
+  const escalationEventDefinition = getEscalationEventDefinition(element);
+
+  return escalationEventDefinition && escalationEventDefinition.get('escalationRef');
+}

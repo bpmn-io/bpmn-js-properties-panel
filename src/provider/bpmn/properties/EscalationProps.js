@@ -15,9 +15,9 @@ import {
 } from '../../../hooks';
 
 import {
-  getSignal,
-  getSignalEventDefinition,
-  isSignalSupported
+  getEscalation,
+  getEscalationEventDefinition,
+  isEscalationSupported
 } from '../utils/EventDefinitionUtil';
 
 import {
@@ -38,72 +38,77 @@ const CREATE_NEW_OPTION = 'create-new';
 /**
  * @returns {Array<Entry>} entries
  */
-export function SignalProps(props) {
+export function EscalationProps(props) {
   const {
     element
   } = props;
 
-  if (!isSignalSupported(element)) {
+  if (!isEscalationSupported(element)) {
     return [];
   }
 
-  const signal = getSignal(element);
+  const escalation = getEscalation(element);
 
   let entries = [
     {
-      id: 'signalRef',
-      component: <SignalRef element={ element } />,
+      id: 'escalationRef',
+      component: <EscalationRef element={ element } />,
       isEdited: selectIsEdited
     }
   ];
 
-  if (signal) {
+  if (escalation) {
     entries = [
       ...entries,
       {
-        id: 'signalName',
-        component: <SignalName element={ element } />,
+        id: 'escalationName',
+        component: <EscalationName element={ element } />,
         isEdited: textFieldIsEdited
       },
+      {
+        id: 'escalationCode',
+        component: <EscalationCode element={ element } />,
+        isEdited: textFieldIsEdited
+      }
     ];
   }
 
   return entries;
 }
 
-function SignalRef(props) {
+function EscalationRef(props) {
   const { element } = props;
 
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
-  const signalEventDefinition = getSignalEventDefinition(element);
+  const escalationEventDefinition = getEscalationEventDefinition(element);
 
   const getValue = () => {
-    const signal = getSignal(element);
+    const escalation = getEscalation(element);
 
-    return signal && signal.get('id');
+    return escalation && escalation.get('id');
   };
 
   const setValue = (value) => {
-    const root = getRoot(signalEventDefinition);
+    const root = getRoot(escalationEventDefinition);
     const commands = [];
 
-    let signal;
+    let escalation;
 
-    // (1) create new signal
+    // (1) create new escalation
     if (value === CREATE_NEW_OPTION) {
-      const id = nextId('Signal_');
+      const id = nextId('Escalation_');
 
-      signal = createElement(
-        'bpmn:Signal',
+      escalation = createElement(
+        'bpmn:Escalation',
         { id, name: id },
         root,
         bpmnFactory
       );
 
-      value = signal.get('id');
+      value = escalation.get('id');
 
       commands.push({
         cmd: 'properties-panel.update-businessobject-list',
@@ -111,21 +116,21 @@ function SignalRef(props) {
           element,
           currentObject: root,
           propertyName: 'rootElements',
-          objectsToAdd: [ signal ]
+          objectsToAdd: [ escalation ]
         }
       });
     }
 
-    // (2) update (or remove) signalRef
-    signal = signal || findElementById(signalEventDefinition, 'bpmn:Signal', value);
+    // (2) update (or remove) escalationRef
+    escalation = escalation || findElementById(escalationEventDefinition, 'bpmn:Escalation', value);
 
     commands.push({
       cmd: 'properties-panel.update-businessobject',
       context: {
         element,
-        businessObject: signalEventDefinition,
+        businessObject: escalationEventDefinition,
         properties: {
-          signalRef: signal
+          escalationRef: escalation
         }
       }
     });
@@ -141,12 +146,12 @@ function SignalRef(props) {
       { value: CREATE_NEW_OPTION, label: translate('Create new ...') }
     ];
 
-    const signals = findRootElementsByType(getBusinessObject(element), 'bpmn:Signal');
+    const escalations = findRootElementsByType(getBusinessObject(element), 'bpmn:Escalation');
 
-    sortByName(signals).forEach(signal => {
+    sortByName(escalations).forEach(escalation => {
       options.push({
-        value: signal.get('id'),
-        label: signal.get('name')
+        value: escalation.get('id'),
+        label: escalation.get('name')
       });
     });
 
@@ -155,26 +160,26 @@ function SignalRef(props) {
 
   return ReferenceSelect({
     element,
-    id: 'signalRef',
-    label: translate('Global signal reference'),
-    autoFocusEntry: 'signalName',
+    id: 'escalationRef',
+    label: translate('Global escalation reference'),
+    autoFocusEntry: 'escalationName',
     getValue,
     setValue,
     getOptions
   });
 }
 
-function SignalName(props) {
+function EscalationName(props) {
   const { element } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const signal = getSignal(element);
+  const escalation = getEscalation(element);
 
   const getValue = () => {
-    return signal.get('name');
+    return escalation.get('name');
   };
 
   const setValue = (value) => {
@@ -182,7 +187,7 @@ function SignalName(props) {
       'properties-panel.update-businessobject',
       {
         element,
-        businessObject: signal,
+        businessObject: escalation,
         properties: {
           name: value
         }
@@ -192,8 +197,44 @@ function SignalName(props) {
 
   return TextField({
     element,
-    id: 'signalName',
+    id: 'escalationName',
     label: translate('Name'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+function EscalationCode(props) {
+  const { element } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const escalation = getEscalation(element);
+
+  const getValue = () => {
+    return escalation.get('escalationCode');
+  };
+
+  const setValue = (value) => {
+    return commandStack.execute(
+      'properties-panel.update-businessobject',
+      {
+        element,
+        businessObject: escalation,
+        properties: {
+          escalationCode: value
+        }
+      }
+    );
+  };
+
+  return TextField({
+    element,
+    id: 'escalationCode',
+    label: translate('Code'),
     getValue,
     setValue,
     debounce

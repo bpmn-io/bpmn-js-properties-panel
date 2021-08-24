@@ -1,5 +1,6 @@
 export { DocumentationProps } from './DocumentationProps';
 export { ErrorProps } from './ErrorProps';
+export { EscalationProps } from './EscalationProps';
 export { ExecutableProps } from './ExecutableProps';
 export { IdProps } from './IdProps';
 export { LinkProps } from './LinkProps';

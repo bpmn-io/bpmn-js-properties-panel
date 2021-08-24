@@ -164,7 +164,7 @@ describe('<BpmnPropertiesProvider>', function() {
   }));
 
 
-  it('should not show signal group', inject(async function(elementRegistry, selection) {
+  it('should NOT show signal group', inject(async function(elementRegistry, selection) {
 
     // given
     const startEvent = elementRegistry.get('StartEvent_1');
@@ -178,6 +178,40 @@ describe('<BpmnPropertiesProvider>', function() {
 
     // then
     expect(signalGroup).to.not.exist;
+  }));
+
+
+  it('should show escalation group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const escalationEvent = elementRegistry.get('EscalationEvent_1');
+
+    await act(() => {
+      selection.select(escalationEvent);
+    });
+
+    // when
+    const escalationGroup = getGroup(container, 'escalation');
+
+    // then
+    expect(escalationGroup).to.exist;
+  }));
+
+
+  it('should NOT show escalation group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const startEvent = elementRegistry.get('StartEvent_1');
+
+    await act(() => {
+      selection.select(startEvent);
+    });
+
+    // when
+    const escalationGroup = getGroup(container, 'escalation');
+
+    // then
+    expect(escalationGroup).to.not.exist;
   }));
 
 });

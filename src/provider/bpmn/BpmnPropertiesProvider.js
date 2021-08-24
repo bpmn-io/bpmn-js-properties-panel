@@ -3,6 +3,7 @@ import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import {
   DocumentationProps,
   ErrorProps,
+  EscalationProps,
   ExecutableProps,
   IdProps,
   LinkProps,
@@ -113,6 +114,23 @@ function LinkGroup(element) {
   return null;
 }
 
+function EscalationGroup(element) {
+  const group = {
+    id: 'escalation',
+    label: 'Escalation',
+    component: Group,
+    entries: [
+      ...EscalationProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
 function getGroups(element) {
 
   const groups = [
@@ -121,7 +139,8 @@ function getGroups(element) {
     ErrorGroup(element),
     LinkGroup(element),
     MessageGroup(element),
-    SignalGroup(element)
+    SignalGroup(element),
+    EscalationGroup(element)
   ];
 
   // contract: if a group returns null, it should not be displayed at all
