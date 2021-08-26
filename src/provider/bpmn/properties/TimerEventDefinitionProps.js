@@ -3,44 +3,41 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  isAny
-} from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
-
-import {
   useService
 } from '../../../hooks';
 
 import {
-  getTimerEventDefinition
+  isTimerSupported,
+  getTimerEventDefinition,
+  getTimerDefinitionType
 } from '../utils/EventDefinitionUtil';
 
 import SelectEntry, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
 import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 
+/**
+ * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ */
+
+/**
+ * @returns {Array<Entry>} entries
+ */
 export function TimerEventDefinitionProps(props) {
   const {
     element
   } = props;
 
-  // (1) Only support for StartEvent, IntermediateCatchEvent, or BoundaryEvent
-  if (!isAny(element,
-    [ 'bpmn:StartEvent',
-      'bpmn:IntermediateCatchEvent',
-      'bpmn:BoundaryEvent' ])) {
-    return [];
-  }
-
-  // (2) Only provide if timerEventDefinition is set
   const businessObject = getBusinessObject(element),
         timerEventDefinition = getTimerEventDefinition(businessObject),
         timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition);
 
-  if (!timerEventDefinition) {
+  // (1) Only show for supported elements
+  if (!isTimerSupported(element)) {
     return [];
   }
 
-  // (3) Provide entries, have a value only if selection was made
+  // (2) Provide entries, have a value only if selection was made
   const entries = [];
 
   entries.push({
@@ -115,9 +112,9 @@ function TimerEventDefinitionType(props) {
   const getOptions = (element) => {
     return [
       { value: '', label: translate('<none>') },
-      { value: 'timeDate', label: translate('Time Date') },
-      { value: 'timeDuration', label: translate('Time Duration') },
-      { value: 'timeCycle', label: translate('Time Cycle') }
+      { value: 'timeDate', label: translate('Date') },
+      { value: 'timeDuration', label: translate('Duration') },
+      { value: 'timeCycle', label: translate('Cycle') }
     ];
   };
 
@@ -181,35 +178,6 @@ function TimerEventDefinitionValue(props) {
 
 // helper //////////////////////////
 
-/**
- * Get the timer definition type for a given timer event definition.
- *
- * @param {ModdleElement<bpmn:TimerEventDefinition>} timer
- *
- * @return {string|undefined} the timer definition type
- */
-function getTimerDefinitionType(timer) {
-
-  if (!timer) {
-    return;
-  }
-
-  const timeDate = timer.get('timeDate');
-  if (typeof timeDate !== 'undefined') {
-    return 'timeDate';
-  }
-
-  const timeCycle = timer.get('timeCycle');
-  if (typeof timeCycle !== 'undefined') {
-    return 'timeCycle';
-  }
-
-  const timeDuration = timer.get('timeDuration');
-  if (typeof timeDuration !== 'undefined') {
-    return 'timeDuration';
-  }
-}
-
 function getTimerEventDefinitionValueDescription(timerDefinitionType, translate) {
   switch (timerDefinitionType) {
   case 'timeDate':
@@ -234,7 +202,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
 
   case 'timeDuration':
     return (<div>
-      <p>{ translate('A Time Duration defined as ISO 8601 durations format.') }</p>
+      <p>{ translate('A time duration defined as ISO 8601 durations format.') }</p>
       <ul>
         <li><code>PT15S</code> - { translate('15 seconds') }</li>
         <li><code>PT1H30M</code> - { translate('1 hour and 30 minutes') }</li>

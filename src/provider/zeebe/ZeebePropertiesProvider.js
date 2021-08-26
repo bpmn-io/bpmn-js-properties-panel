@@ -144,8 +144,8 @@ function updateMessageGroup(groups, element) {
 }
 
 // overwrite bpmn generic timerEventDefinition group with zeebe-specific one
-function updateTimerEventGroup(groups, element) {
-  const timerEventGroup = findGroup(groups, 'timerEvent');
+function updateTimerGroup(groups, element) {
+  const timerEventGroup = findGroup(groups, 'timer');
 
   if (!timerEventGroup) {
     return;
@@ -231,7 +231,7 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateMessageGroup(groups, element);
-      updateTimerEventGroup(groups, element);
+      updateTimerGroup(groups, element);
 
       return groups;
     };

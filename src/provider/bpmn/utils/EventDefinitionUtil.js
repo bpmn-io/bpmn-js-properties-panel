@@ -23,6 +23,43 @@ export function getErrorEventDefinition(element) {
   return getEventDefinition(element, 'bpmn:ErrorEventDefinition');
 }
 
+export function isTimerSupported(element) {
+  return isAny(element, [
+    'bpmn:StartEvent',
+    'bpmn:IntermediateCatchEvent',
+    'bpmn:BoundaryEvent'
+  ]) && !!getTimerEventDefinition(element);
+}
+
+/**
+ * Get the timer definition type for a given timer event definition.
+ *
+ * @param {ModdleElement<bpmn:TimerEventDefinition>} timer
+ *
+ * @return {string|undefined} the timer definition type
+ */
+export function getTimerDefinitionType(timer) {
+
+  if (!timer) {
+    return;
+  }
+
+  const timeDate = timer.get('timeDate');
+  if (typeof timeDate !== 'undefined') {
+    return 'timeDate';
+  }
+
+  const timeCycle = timer.get('timeCycle');
+  if (typeof timeCycle !== 'undefined') {
+    return 'timeCycle';
+  }
+
+  const timeDuration = timer.get('timeDuration');
+  if (typeof timeDuration !== 'undefined') {
+    return 'timeDuration';
+  }
+}
+
 export function getTimerEventDefinition(element) {
   return getEventDefinition(element, 'bpmn:TimerEventDefinition');
 }

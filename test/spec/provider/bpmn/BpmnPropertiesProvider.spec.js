@@ -225,7 +225,7 @@ describe('<BpmnPropertiesProvider>', function() {
     });
 
     // when
-    const timerEventGroup = getGroup(container, 'timerEvent');
+    const timerEventGroup = getGroup(container, 'timer');
 
     // then
     expect(timerEventGroup).to.not.exist;
@@ -242,7 +242,7 @@ describe('<BpmnPropertiesProvider>', function() {
     });
 
     // when
-    const timerEventGroup = getGroup(container, 'timerEvent');
+    const timerEventGroup = getGroup(container, 'timer');
 
     // then
     expect(timerEventGroup).to.exist;

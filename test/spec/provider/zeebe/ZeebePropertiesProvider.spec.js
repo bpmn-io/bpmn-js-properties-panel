@@ -347,7 +347,7 @@ describe('<ZeebePropertiesProvider>', function() {
         });
 
         // when
-        const timerEvent = getGroup(container, 'timerEvent');
+        const timerEvent = getGroup(container, 'timer');
 
         // then
         expect(timerEvent).to.exist;
@@ -370,7 +370,7 @@ describe('<ZeebePropertiesProvider>', function() {
         });
 
         // when
-        const timerEvent = getGroup(container, 'timerEvent');
+        const timerEvent = getGroup(container, 'timer');
 
         // then
         expect(timerEvent).not.to.exist;
@@ -476,7 +476,7 @@ describe('<ZeebePropertiesProvider>', function() {
       });
 
       // when
-      const timerEventGroups = getAllGroups(container, 'timerEvent');
+      const timerEventGroups = getAllGroups(container, 'timer');
       const selectOptionTimeDate = domQuery('#bio-properties-panel-timerEventDefinitionType option[value="timeDate"]', timerEventGroups[0]);
       const selectOptionTimeDuration = domQuery('#bio-properties-panel-timerEventDefinitionType option[value="timeDuration"]', timerEventGroups[0]);
 

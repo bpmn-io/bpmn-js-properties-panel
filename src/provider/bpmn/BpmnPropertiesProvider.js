@@ -132,10 +132,10 @@ function EscalationGroup(element) {
   return null;
 }
 
-function TimerEventGroup(element) {
+function TimerGroup(element) {
   const group = {
-    label: 'Timer Event',
-    id: 'timerEvent',
+    label: 'Timer',
+    id: 'timer',
     component: Group,
     entries: [
       ...TimerEventDefinitionProps({ element })
@@ -159,7 +159,7 @@ function getGroups(element) {
     MessageGroup(element),
     SignalGroup(element),
     EscalationGroup(element),
-    TimerEventGroup(element)
+    TimerGroup(element)
   ];
 
   // contract: if a group returns null, it should not be displayed at all

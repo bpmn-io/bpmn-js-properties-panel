@@ -221,6 +221,29 @@ describe('provider/bpmn - TimerEventDefinitionProps', function() {
           expect(orginalTimer.timeDate.body).to.equal('myDate');
         }));
 
+
+        it('should not execute given no value change', inject(async function(elementRegistry, selection, eventBus) {
+
+          // given
+          const element = elementRegistry.get('TimerCatchEvent_1');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          const eventBusSpy = sinon.spy();
+
+          eventBus.on('propertiesPanel.updated', eventBusSpy);
+
+          // when
+          const select = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
+
+          changeInput(select, 'timeDate');
+
+          // then
+          expect(eventBusSpy).to.not.have.been.called;
+        }));
+
       });
 
 
