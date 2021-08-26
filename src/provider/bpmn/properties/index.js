@@ -1,3 +1,4 @@
+export { CompensationProps } from './CompensationProps';
 export { DocumentationProps } from './DocumentationProps';
 export { ErrorProps } from './ErrorProps';
 export { EscalationProps } from './EscalationProps';

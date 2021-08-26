@@ -248,6 +248,40 @@ describe('<BpmnPropertiesProvider>', function() {
     expect(timerEventGroup).to.exist;
   }));
 
+
+  it('should show compensation group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const compensationEvent = elementRegistry.get('CompensationEvent_1');
+
+    await act(() => {
+      selection.select(compensationEvent);
+    });
+
+    // when
+    const compensationGroup = getGroup(container, 'compensation');
+
+    // then
+    expect(compensationGroup).to.exist;
+  }));
+
+
+  it('should NOT show signal group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const startEvent = elementRegistry.get('StartEvent_1');
+
+    await act(() => {
+      selection.select(startEvent);
+    });
+
+    // when
+    const compensationGroup = getGroup(container, 'compensation');
+
+    // then
+    expect(compensationGroup).to.not.exist;
+  }));
+
 });
 
 

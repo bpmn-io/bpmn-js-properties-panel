@@ -144,3 +144,20 @@ export function getEscalation(element) {
 
   return escalationEventDefinition && escalationEventDefinition.get('escalationRef');
 }
+
+export function isCompensationSupported(element) {
+  return isAny(element, [
+    'bpmn:EndEvent',
+    'bpmn:IntermediateThrowEvent'
+  ]) && !!getCompensateEventDefinition(element);
+}
+
+export function getCompensateEventDefinition(element) {
+  return getEventDefinition(element, 'bpmn:CompensateEventDefinition');
+}
+
+export function getCompensateActivity(element) {
+  const compensateEventDefinition = getCompensateEventDefinition(element);
+
+  return compensateEventDefinition && compensateEventDefinition.get('activityRef');
+}

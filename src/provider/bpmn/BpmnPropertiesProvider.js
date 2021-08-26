@@ -1,6 +1,7 @@
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
 
 import {
+  CompensationProps,
   DocumentationProps,
   ErrorProps,
   EscalationProps,
@@ -30,6 +31,23 @@ function GeneralGroup(element) {
     component: Group
   };
 
+}
+
+function CompensationGroup(element) {
+  const group = {
+    label: 'Compensation',
+    id: 'compensation',
+    component: Group,
+    entries: [
+      ...CompensationProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
 }
 
 function DocumentationGroup(element) {
@@ -154,6 +172,7 @@ function getGroups(element) {
   const groups = [
     GeneralGroup(element),
     DocumentationGroup(element),
+    CompensationGroup(element),
     ErrorGroup(element),
     LinkGroup(element),
     MessageGroup(element),
