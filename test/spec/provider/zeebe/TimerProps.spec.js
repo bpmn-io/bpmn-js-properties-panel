@@ -28,10 +28,10 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
-import diagramXML from './TimerEventDefinitionProps.bpmn';
+import diagramXML from './TimerProps.bpmn';
 
 
-describe('provider/zeebe - TimerEventDefinitionProps', function() {
+describe('provider/zeebe - TimerProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,

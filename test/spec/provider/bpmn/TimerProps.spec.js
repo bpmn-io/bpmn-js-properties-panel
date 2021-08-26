@@ -25,10 +25,10 @@ import SelectionModule from 'diagram-js/lib/features/selection';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
-import diagramXML from './TimerEventDefinitionProps.bpmn';
+import diagramXML from './TimerProps.bpmn';
 
 
-describe('provider/bpmn - TimerEventDefinitionProps', function() {
+describe('provider/bpmn - TimerProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,

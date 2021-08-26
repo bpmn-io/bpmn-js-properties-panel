@@ -24,7 +24,7 @@ import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-pa
 /**
  * @returns {Array<Entry>} entries
  */
-export function TimerEventDefinitionProps(props) {
+export function TimerProps(props) {
   const {
     element
   } = props;

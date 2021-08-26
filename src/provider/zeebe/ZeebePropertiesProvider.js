@@ -12,7 +12,7 @@ import {
   OutputProps,
   TaskDefinitionProps,
   FormProps,
-  TimerEventDefinitionProps
+  TimerProps
 } from './properties';
 
 const LOW_PRIORITY = 500;
@@ -152,7 +152,7 @@ function updateTimerGroup(groups, element) {
   }
 
   timerEventGroup.entries = [
-    ...TimerEventDefinitionProps({ element })
+    ...TimerProps({ element })
   ];
 }
 

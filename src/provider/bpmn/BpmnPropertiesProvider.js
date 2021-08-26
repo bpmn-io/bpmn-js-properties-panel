@@ -11,7 +11,7 @@ import {
   NameProps,
   ProcessProps,
   SignalProps,
-  TimerEventDefinitionProps
+  TimerProps
 } from './properties';
 
 function GeneralGroup(element) {
@@ -138,7 +138,7 @@ function TimerGroup(element) {
     id: 'timer',
     component: Group,
     entries: [
-      ...TimerEventDefinitionProps({ element })
+      ...TimerProps({ element })
     ]
   };
 
