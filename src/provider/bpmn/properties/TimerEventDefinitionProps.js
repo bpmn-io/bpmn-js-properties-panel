@@ -1,6 +1,5 @@
 import {
-  getBusinessObject,
-  is
+  getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -13,7 +12,7 @@ import {
 
 import {
   getTimerEventDefinition
-} from '../../bpmn/utils/EventDefinitionUtil';
+} from '../utils/EventDefinitionUtil';
 
 import SelectEntry, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
 import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
@@ -41,34 +40,21 @@ export function TimerEventDefinitionProps(props) {
     return [];
   }
 
-  // (3) Return duration-specific TexField only if only duration is supported
-  const onlySupportDuration = !isTimerDefinitionTypeSupported('timeCycle', element) &&
-   !isTimerDefinitionTypeSupported('timeDate', element);
-
-  // (4) Only provide duration-specific textField if only duration is supported,
-  // otherwise push type-select and generic textField is type was selected
+  // (3) Provide entries, have a value only if selection was made
   const entries = [];
 
-  if (onlySupportDuration) {
+  entries.push({
+    id: 'timerEventDefinitionType',
+    component: <TimerEventDefinitionType element={ element } />,
+    isEdited: selectIsEdited
+  });
+
+  if (timerEventDefinitionType) {
     entries.push({
-      id: 'timerEventDefinitionDurationValue',
-      component: <TimerEventDefinitionDurationValue element={ element } />,
+      id: 'timerEventDefinitionValue',
+      component: <TimerEventDefinitionValue element={ element } />,
       isEdited: textFieldIsEdited
     });
-  } else {
-    entries.push({
-      id: 'timerEventDefinitionType',
-      component: <TimerEventDefinitionType element={ element } />,
-      isEdited: selectIsEdited
-    });
-
-    if (timerEventDefinitionType) {
-      entries.push({
-        id: 'timerEventDefinitionValue',
-        component: <TimerEventDefinitionValue element={ element } />,
-        isEdited: textFieldIsEdited
-      });
-    }
   }
 
   return entries;
@@ -127,31 +113,12 @@ function TimerEventDefinitionType(props) {
   };
 
   const getOptions = (element) => {
-
-    const options = [ { value: '', label: translate('<none>') } ];
-
-    if (isTimerDefinitionTypeSupported('timeDate', element)) {
-      options.push({
-        value: 'timeDate',
-        label: translate('Time Date')
-      });
-    }
-
-    if (isTimerDefinitionTypeSupported('timeDuration', element)) {
-      options.push({
-        value: 'timeDuration',
-        label: translate('Time Duration')
-      });
-    }
-
-    if (isTimerDefinitionTypeSupported('timeCycle', element)) {
-      options.push({
-        value: 'timeCycle',
-        label: translate('Time Cycle')
-      });
-    }
-
-    return options;
+    return [
+      { value: '', label: translate('<none>') },
+      { value: 'timeDate', label: translate('Time Date') },
+      { value: 'timeDuration', label: translate('Time Duration') },
+      { value: 'timeCycle', label: translate('Time Cycle') }
+    ];
   };
 
   return SelectEntry({
@@ -211,86 +178,6 @@ function TimerEventDefinitionValue(props) {
   });
 }
 
-/**
- * TimerEventDefinitionDurationValue - textField entry allowing to specify the
- * duration value. This is to be used stand-alone, without the TimerEventDefinitionType
- *
- * @param  {type} props
- * @return {TextField}
- */
-function TimerEventDefinitionDurationValue(props) {
-  const {
-    element
-  } = props;
-
-  const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack'),
-        translate = useService('translate'),
-        debounce = useService('debounceInput');
-
-  const businessObject = getBusinessObject(element),
-        timerEventDefinition = getTimerEventDefinition(businessObject);
-
-  let timerEventFormalExpression = timerEventDefinition.get('timeDuration');
-
-  const getValue = () => {
-    return timerEventFormalExpression && timerEventFormalExpression.get('body');
-  };
-
-  const setValue = (value) => {
-    const commands = [];
-
-    // (1) re-use formalExpression
-    if (!timerEventFormalExpression) {
-      timerEventFormalExpression = bpmnFactory.create('bpmn:FormalExpression', { body: undefined });
-      timerEventFormalExpression.$parent = timerEventDefinition;
-
-      // (1.1) update the formalExpression
-      const newProps = {
-        timeDuration: timerEventFormalExpression,
-        timeDate: undefined,
-        timeCycle: undefined
-      };
-
-      // (1.2) push command
-      commands.push({
-        cmd: 'properties-panel.update-businessobject',
-        context: {
-          element: element,
-          businessObject: timerEventDefinition,
-          properties: newProps
-        }
-      });
-
-    }
-
-    // (2) update value
-    commands.push({
-      cmd: 'properties-panel.update-businessobject',
-      context: {
-        element: element,
-        businessObject: timerEventFormalExpression,
-        properties: {
-          body: value
-        }
-      }
-    });
-
-    // (3) commit all commands
-    commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
-
-  return TextField({
-    element,
-    id: 'timerEventDefinitionDurationValue',
-    label: translate('Timer Duration'),
-    getValue,
-    setValue,
-    debounce,
-    description: getTimerEventDefinitionValueDescription('timeDuration', translate)
-  });
-}
-
 
 // helper //////////////////////////
 
@@ -323,51 +210,6 @@ function getTimerDefinitionType(timer) {
   }
 }
 
-
-/**
- * isTimerDefinitionTypeSupported - Checks whether a given timerDefinitionType
- * is supported for a given element
- *
- * @param  {string} timerDefinitionType
- * @param  {ModdleElement} element
- *
- * @return {boolean}
- */
-function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
-  const businessObject = getBusinessObject(element);
-
-  switch (timerDefinitionType) {
-  case 'timeDate':
-    if (is(element, 'bpmn:StartEvent')) {
-      return true;
-    }
-    return false;
-
-  case 'timeCycle':
-    if (is(element, 'bpmn:StartEvent')) {
-      return true;
-    }
-
-    if (is(element, 'bpmn:BoundaryEvent') && !businessObject.cancelActivity) {
-      return true;
-    }
-    return false;
-
-  case 'timeDuration':
-    if (is(element, 'bpmn:IntermediateCatchEvent')) {
-      return true;
-    }
-
-    if (is(element, 'bpmn:BoundaryEvent') && !businessObject.cancelActivity) {
-      return true;
-    }
-    return false;
-
-  default:
-    return undefined;
-  }
-}
-
 function getTimerEventDefinitionValueDescription(timerDefinitionType, translate) {
   switch (timerDefinitionType) {
   case 'timeDate':
@@ -377,7 +219,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
         <li><code>2019-10-01T12:00:00Z</code> - { translate('UTC time') }</li>
         <li><code>2019-10-02T08:09:40+02:00</code> - { translate('UTC plus 2 hours zone offset') }</li>
       </ul>
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/timer-events/timer-events/#time-date" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-date" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);
 
   case 'timeCycle':
@@ -387,7 +229,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
         <li><code>R5/PT10S</code> - { translate('every 10 seconds, up to 5 times') }</li>
         <li><code>R/P1D</code> - { translate('every day, infinitely') }</li>
       </ul>
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/timer-events/timer-events/#time-cycle" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-cycle" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);
 
   case 'timeDuration':
@@ -398,7 +240,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
         <li><code>PT1H30M</code> - { translate('1 hour and 30 minutes') }</li>
         <li><code>P14D</code> - { translate('14 days') }</li>
       </ul>
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/timer-events/timer-events/#time-duration" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-duration" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);
   }
 }

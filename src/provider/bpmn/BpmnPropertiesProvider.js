@@ -10,7 +10,8 @@ import {
   MessageProps,
   NameProps,
   ProcessProps,
-  SignalProps
+  SignalProps,
+  TimerEventDefinitionProps
 } from './properties';
 
 function GeneralGroup(element) {
@@ -131,6 +132,23 @@ function EscalationGroup(element) {
   return null;
 }
 
+function TimerEventGroup(element) {
+  const group = {
+    label: 'Timer Event',
+    id: 'timerEvent',
+    component: Group,
+    entries: [
+      ...TimerEventDefinitionProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
 function getGroups(element) {
 
   const groups = [
@@ -140,7 +158,8 @@ function getGroups(element) {
     LinkGroup(element),
     MessageGroup(element),
     SignalGroup(element),
-    EscalationGroup(element)
+    EscalationGroup(element),
+    TimerEventGroup(element)
   ];
 
   // contract: if a group returns null, it should not be displayed at all

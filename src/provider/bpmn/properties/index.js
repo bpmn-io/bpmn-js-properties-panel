@@ -8,3 +8,4 @@ export { MessageProps } from './MessageProps';
 export { NameProps } from './NameProps';
 export { ProcessProps } from './ProcessProps';
 export { SignalProps } from './SignalProps';
+export { TimerEventDefinitionProps } from './TimerEventDefinitionProps';

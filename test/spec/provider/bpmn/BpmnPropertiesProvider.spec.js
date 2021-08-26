@@ -214,6 +214,40 @@ describe('<BpmnPropertiesProvider>', function() {
     expect(escalationGroup).to.not.exist;
   }));
 
+
+  it('should NOT show timer event group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const startEvent = elementRegistry.get('StartEvent_1');
+
+    await act(() => {
+      selection.select(startEvent);
+    });
+
+    // when
+    const timerEventGroup = getGroup(container, 'timerEvent');
+
+    // then
+    expect(timerEventGroup).to.not.exist;
+  }));
+
+
+  it('should show timer event group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const startEvent = elementRegistry.get('TimerStartEvent_1');
+
+    await act(() => {
+      selection.select(startEvent);
+    });
+
+    // when
+    const timerEventGroup = getGroup(container, 'timerEvent');
+
+    // then
+    expect(timerEventGroup).to.exist;
+  }));
+
 });
 
 
