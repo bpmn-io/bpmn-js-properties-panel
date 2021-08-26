@@ -448,7 +448,7 @@ describe('<ZeebePropertiesProvider>', function() {
     }));
 
 
-    it('should NOT show link group', inject(async function(elementRegistry, selection) {
+    it('should work with BpmnPropertiesProvider', inject(async function(elementRegistry, selection) {
 
       // given
       const linkEvent = elementRegistry.get('LinkEvent_1');
@@ -461,7 +461,7 @@ describe('<ZeebePropertiesProvider>', function() {
       const linkGroup = getGroup(container, 'link');
 
       // then
-      expect(linkGroup).to.not.exist;
+      expect(linkGroup).to.exist;
     }));
 
   });

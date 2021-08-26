@@ -26,7 +26,7 @@ import {
 import diagramXML from './LinkProps.bpmn';
 
 
-describe('provider/camunda-platform - LinkProps', function() {
+describe('provider/bpmn - LinkProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,

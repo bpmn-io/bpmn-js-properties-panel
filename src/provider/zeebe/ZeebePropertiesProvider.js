@@ -1,7 +1,3 @@
-import {
-  findIndex
-} from 'min-dash';
-
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
@@ -161,15 +157,6 @@ function updateMessageGroup(groups, element) {
   ];
 }
 
-// disable link group for cloud diagrams
-function updateLinkGroup(groups) {
-  const idx = findIndex(groups, g => g.id === 'link');
-
-  if (idx >= 0) {
-    groups.splice(idx, 1);
-  }
-}
-
 function getGroups(element) {
 
   const groups = [];
@@ -251,7 +238,6 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateMessageGroup(groups, element);
-      updateLinkGroup(groups);
 
       return groups;
     };
