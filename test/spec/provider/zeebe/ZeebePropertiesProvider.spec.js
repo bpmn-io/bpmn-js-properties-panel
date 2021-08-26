@@ -10,7 +10,8 @@ import {
 } from 'test/TestHelper';
 
 import {
-  query as domQuery
+  query as domQuery,
+  queryAll as domQueryAll
 } from 'min-dom';
 
 import CoreModule from 'bpmn-js/lib/core';
@@ -34,6 +35,7 @@ describe('<ZeebePropertiesProvider>', function() {
     CoreModule,
     ModelingModule,
     SelectionModule,
+    BpmnPropertiesProvider,
     ZeebePropertiesProvider
   ];
 
@@ -442,7 +444,7 @@ describe('<ZeebePropertiesProvider>', function() {
     });
 
     beforeEach(bootstrapPropertiesPanel(diagramXML, {
-      modules: testModules.concat(BpmnPropertiesProvider),
+      modules: testModules,
       moddleExtensions,
       debounceInput: false
     }));
@@ -464,6 +466,26 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(linkGroup).to.exist;
     }));
 
+    it('should overwrite timer event group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const timerEvent = elementRegistry.get('TimerStartEvent_1');
+
+      await act(() => {
+        selection.select(timerEvent);
+      });
+
+      // when
+      const timerEventGroups = getAllGroups(container, 'timerEvent');
+      const selectOptionTimeDate = domQuery('#bio-properties-panel-timerEventDefinitionType option[value="timeDate"]', timerEventGroups[0]);
+      const selectOptionTimeDuration = domQuery('#bio-properties-panel-timerEventDefinitionType option[value="timeDuration"]', timerEventGroups[0]);
+
+      // then
+      expect(timerEventGroups).to.have.length(1);
+      expect(selectOptionTimeDate).to.exist;
+      expect(selectOptionTimeDuration).to.not.exist;
+    }));
+
   });
 
 });
@@ -473,4 +495,8 @@ describe('<ZeebePropertiesProvider>', function() {
 
 function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
+}
+
+function getAllGroups(container, id) {
+  return domQueryAll(`[data-group-id="group-${id}"`, container);
 }

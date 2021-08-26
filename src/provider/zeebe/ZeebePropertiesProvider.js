@@ -107,20 +107,6 @@ function TargetGroup(element) {
   };
 }
 
-function TimerEventGroup(element) {
-
-  const entries = [
-    ...TimerEventDefinitionProps({ element })
-  ];
-
-  return {
-    id: 'timerEvent',
-    label: 'Timer Event',
-    entries,
-    component: Group
-  };
-}
-
 function HeaderGroup(element) {
   return {
     id: 'headers',
@@ -157,6 +143,19 @@ function updateMessageGroup(groups, element) {
   ];
 }
 
+// overwrite bpmn generic timerEventDefinition group with zeebe-specific one
+function updateTimerEventGroup(groups, element) {
+  const timerEventGroup = findGroup(groups, 'timerEvent');
+
+  if (!timerEventGroup) {
+    return;
+  }
+
+  timerEventGroup.entries = [
+    ...TimerEventDefinitionProps({ element })
+  ];
+}
+
 function getGroups(element) {
 
   const groups = [];
@@ -183,12 +182,6 @@ function getGroups(element) {
 
   if (targetGroup.entries.length) {
     groups.push(targetGroup);
-  }
-
-  const timerEventGroup = TimerEventGroup(element);
-
-  if (timerEventGroup.entries.length) {
-    groups.push(timerEventGroup);
   }
 
   const multiInstanceGroup = MultiInstanceGroup(element);
@@ -238,6 +231,7 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateMessageGroup(groups, element);
+      updateTimerEventGroup(groups, element);
 
       return groups;
     };
