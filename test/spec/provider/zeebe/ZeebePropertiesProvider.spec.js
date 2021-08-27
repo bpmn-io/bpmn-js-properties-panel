@@ -486,6 +486,27 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(selectOptionTimeDuration).to.not.exist;
     }));
 
+
+    it('should overwrite multiInstance group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('ScriptTask_1');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      // when
+      const multiInstanceGroups = getAllGroups(container, 'multiInstance');
+      const completionConditionInput = domQuery('input[name=completionCondition]', multiInstanceGroups[0]);
+      const inputCollectionInput = domQuery('input[name="multiInstance-inputCollection"]', multiInstanceGroups[0]);
+
+      // then
+      expect(multiInstanceGroups).to.have.length(1);
+      expect(completionConditionInput).to.not.exist;
+      expect(inputCollectionInput).to.exist;
+    }));
+
   });
 
 });

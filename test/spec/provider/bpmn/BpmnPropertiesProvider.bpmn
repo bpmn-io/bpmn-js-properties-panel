@@ -27,7 +27,6 @@
     </bpmn:subProcess>
     <bpmn:subProcess id="SubProcess_2" name="SubProcess_2" />
   </bpmn:process>
-  </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1j5bpos">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">

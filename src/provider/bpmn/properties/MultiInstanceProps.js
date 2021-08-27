@@ -138,7 +138,7 @@ function getBody(expression) {
  * @return {any} the property value
  */
 function getProperty(element, propertyName) {
-  var loopCharacteristics = getLoopCharacteristics(element);
+  const loopCharacteristics = getLoopCharacteristics(element);
   return loopCharacteristics && loopCharacteristics.get(propertyName);
 }
 
@@ -234,7 +234,7 @@ function getLoopCardinality(element) {
  * @return {string} the loop cardinality value
  */
 function getLoopCardinalityValue(element) {
-  var loopCardinality = getLoopCardinality(element);
+  const loopCardinality = getLoopCardinality(element);
   return getBody(loopCardinality);
 }
 
@@ -259,6 +259,6 @@ function getCompletionCondition(element) {
  * @return {string} the completion condition value
  */
 function getCompletionConditionValue(element) {
-  var completionCondition = getCompletionCondition(element);
+  const completionCondition = getCompletionCondition(element);
   return getBody(completionCondition);
 }

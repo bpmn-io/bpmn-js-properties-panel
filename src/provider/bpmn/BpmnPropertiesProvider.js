@@ -170,7 +170,7 @@ function TimerGroup(element) {
 
 function MultiInstanceGroup(element) {
   const group = {
-    label: 'Multi-Instance',
+    label: 'Multi-instance',
     id: 'multiInstance',
     component: Group,
     entries: [

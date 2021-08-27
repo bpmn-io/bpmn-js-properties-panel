@@ -25,6 +25,7 @@ import ModelingModule from 'bpmn-js/lib/features/modeling';
 import BpmnPropertiesPanel from 'src/render';
 
 import ZeebePropertiesProvider from 'src/provider/zeebe';
+import BpmnPropertiesProvider from 'src/provider/bpmn';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
@@ -38,8 +39,11 @@ import diagramXML from './MultiInstanceProps.bpmn';
 describe('provider/zeebe - MultiInstanceProps', function() {
 
   const testModules = [
-    CoreModule, SelectionModule, ModelingModule,
+    CoreModule,
+    ModelingModule,
+    SelectionModule,
     BpmnPropertiesPanel,
+    BpmnPropertiesProvider,
     ZeebePropertiesProvider
   ];
 

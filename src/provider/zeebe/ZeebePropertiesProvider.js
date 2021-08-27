@@ -32,20 +32,6 @@ function TaskDefinitionGroup(element) {
   };
 }
 
-function MultiInstanceGroup(element) {
-
-  const entries = [
-    ...MultiInstanceProps({ element })
-  ];
-
-  return {
-    id: 'multiInstance',
-    label: 'Multi-Instance',
-    entries,
-    component: Group
-  };
-}
-
 function InputGroup(element) {
 
   return {
@@ -156,6 +142,19 @@ function updateTimerGroup(groups, element) {
   ];
 }
 
+// overwrite bpmn generic multiInstance group with zeebe-specific one
+function updateMultiInstanceGroup(groups, element) {
+  const multiInstanceGroup = findGroup(groups, 'multiInstance');
+
+  if (!multiInstanceGroup) {
+    return;
+  }
+
+  multiInstanceGroup.entries = [
+    ...MultiInstanceProps({ element })
+  ];
+}
+
 function getGroups(element) {
 
   const groups = [];
@@ -182,12 +181,6 @@ function getGroups(element) {
 
   if (targetGroup.entries.length) {
     groups.push(targetGroup);
-  }
-
-  const multiInstanceGroup = MultiInstanceGroup(element);
-
-  if (multiInstanceGroup.entries.length) {
-    groups.push(multiInstanceGroup);
   }
 
   const inputGroup = InputGroup(element);
@@ -232,6 +225,7 @@ export default class ZeebePropertiesProvider {
       // (2) update existing groups with zeebe specific properties
       updateMessageGroup(groups, element);
       updateTimerGroup(groups, element);
+      updateMultiInstanceGroup(groups, element);
 
       return groups;
     };
