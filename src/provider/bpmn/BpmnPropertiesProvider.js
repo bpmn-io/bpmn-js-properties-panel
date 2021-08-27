@@ -9,6 +9,7 @@ import {
   IdProps,
   LinkProps,
   MessageProps,
+  MultiInstanceProps,
   NameProps,
   ProcessProps,
   SignalProps,
@@ -167,6 +168,23 @@ function TimerGroup(element) {
   return null;
 }
 
+function MultiInstanceGroup(element) {
+  const group = {
+    label: 'Multi-Instance',
+    id: 'multiInstance',
+    component: Group,
+    entries: [
+      ...MultiInstanceProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
 function getGroups(element) {
 
   const groups = [
@@ -176,6 +194,7 @@ function getGroups(element) {
     ErrorGroup(element),
     LinkGroup(element),
     MessageGroup(element),
+    MultiInstanceGroup(element),
     SignalGroup(element),
     EscalationGroup(element),
     TimerGroup(element)

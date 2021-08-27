@@ -272,7 +272,7 @@ function ExternalTaskGroup(element) {
 // @TODO: implement, hide with no entries in the meantime
 function MultiInstanceGroup(element) {
   const group = {
-    label: 'Multi Instance',
+    label: 'Multi-Instance',
     id: 'CamundaPlatform__MultiInstance',
     component: Group,
     entries: []

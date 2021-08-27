@@ -40,7 +40,7 @@ function MultiInstanceGroup(element) {
 
   return {
     id: 'multiInstance',
-    label: 'Multi Instance',
+    label: 'Multi-Instance',
     entries,
     component: Group
   };

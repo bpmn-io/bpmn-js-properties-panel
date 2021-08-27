@@ -282,6 +282,40 @@ describe('<BpmnPropertiesProvider>', function() {
     expect(compensationGroup).to.not.exist;
   }));
 
+
+  it('should NOT show multiInstance group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const element = elementRegistry.get('SubProcess_2');
+
+    await act(() => {
+      selection.select(element);
+    });
+
+    // when
+    const multiInstanceGroup = getGroup(container, 'multiInstance');
+
+    // then
+    expect(multiInstanceGroup).to.not.exist;
+  }));
+
+
+  it('should show multiInstance group', inject(async function(elementRegistry, selection) {
+
+    // given
+    const element = elementRegistry.get('SubProcess_1');
+
+    await act(() => {
+      selection.select(element);
+    });
+
+    // when
+    const multiInstanceGroup = getGroup(container, 'multiInstance');
+
+    // then
+    expect(multiInstanceGroup).to.exist;
+  }));
+
 });
 
 

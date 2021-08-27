@@ -6,6 +6,7 @@ export { ExecutableProps } from './ExecutableProps';
 export { IdProps } from './IdProps';
 export { LinkProps } from './LinkProps';
 export { MessageProps } from './MessageProps';
+export { MultiInstanceProps } from './MultiInstanceProps';
 export { NameProps } from './NameProps';
 export { ProcessProps } from './ProcessProps';
 export { SignalProps } from './SignalProps';

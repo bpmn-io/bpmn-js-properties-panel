@@ -22,6 +22,11 @@
     <bpmn:intermediateThrowEvent id="CompensationEvent_1">
       <bpmn:compensateEventDefinition id="CompensateEventDefinition_0lmdpa9" />
     </bpmn:intermediateThrowEvent>
+    <bpmn:subProcess id="SubProcess_1" name="SubProcess_1">
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_2" name="SubProcess_2" />
+  </bpmn:process>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1j5bpos">
@@ -55,8 +60,17 @@
       <bpmndi:BPMNShape id="Event_1ej25yw_di" bpmnElement="BoundaryEvent_1">
         <dc:Bounds x="322" y="172" width="36" height="36" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09ghys0_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="470" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0omjspj_di" bpmnElement="SubProcess_2" isExpanded="true">
+        <dc:Bounds x="830" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0j62yi6_di" bpmnElement="EscalationEvent_1">
         <dc:Bounds x="392" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ej25yw_di" bpmnElement="BoundaryEvent_1">
+        <dc:Bounds x="322" y="172" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

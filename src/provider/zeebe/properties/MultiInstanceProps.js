@@ -71,7 +71,7 @@ function InputCollection(props) {
   return TextField({
     element,
     id: 'multiInstance-inputCollection',
-    label: translate('Input Collection'),
+    label: translate('Input collection'),
     getValue,
     setValue,
     debounce
@@ -99,7 +99,7 @@ function InputElement(props) {
   return TextField({
     element,
     id: 'multiInstance-inputElement',
-    label: translate('Input Element'),
+    label: translate('Input element'),
     getValue,
     setValue,
     debounce
@@ -127,7 +127,7 @@ function OutputCollection(props) {
   return TextField({
     element,
     id: 'multiInstance-outputCollection',
-    label: translate('Output Collection'),
+    label: translate('Output collection'),
     getValue,
     setValue,
     debounce
@@ -155,7 +155,7 @@ function OutputElement(props) {
   return TextField({
     element,
     id: 'multiInstance-outputElement',
-    label: translate('Output Element'),
+    label: translate('Output element'),
     getValue,
     setValue,
     debounce
