@@ -156,6 +156,28 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  ((singleStart && singleStart === 'bpmn') ? it.only : it)('should import simple process (bpmn)', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          CamundaModdleExtension,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider
+        ]
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
   it('should render properties panel when root element was added', async function() {
 
     // given
