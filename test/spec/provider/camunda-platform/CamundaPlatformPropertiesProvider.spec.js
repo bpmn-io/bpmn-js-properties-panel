@@ -10,7 +10,8 @@ import {
 } from 'test/TestHelper';
 
 import {
-  query as domQuery
+  query as domQuery,
+  queryAll as domQueryAll
 } from 'min-dom';
 
 import CoreModule from 'bpmn-js/lib/core';
@@ -855,6 +856,45 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       // then
       return test.call(this);
     });
+
+
+    describe('update existing groups', function() {
+
+      let container;
+
+      beforeEach(function() {
+        container = TestContainer.get(this);
+      });
+
+      beforeEach(bootstrapPropertiesPanel(processDiagramXML, {
+        modules: testModules.concat(BpmnPropertiesProvider),
+        moddleExtensions,
+        debounceInput: false
+      }));
+
+
+      it('should extend multiInstance group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask_1');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const multiInstanceGroups = getAllGroups(container, 'multiInstance');
+        const completionConditionInput = domQuery('input[name=completionCondition]', multiInstanceGroups[0]);
+        const elementVariableInput = domQuery('input[name="elementVariable"]', multiInstanceGroups[0]);
+
+        // then
+        expect(multiInstanceGroups).to.have.length(1);
+        expect(completionConditionInput).to.exist;
+        expect(elementVariableInput).to.exist;
+      }));
+
+    });
+
   });
 });
 
@@ -863,4 +903,8 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
 function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
+}
+
+function getAllGroups(container, id) {
+  return domQueryAll(`[data-group-id="group-${id}"`, container);
 }

@@ -65,6 +65,12 @@
       <bpmndi:BPMNShape id="Activity_0omjspj_di" bpmnElement="SubProcess_2" isExpanded="true">
         <dc:Bounds x="830" y="380" width="350" height="200" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09ghys0_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="470" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0omjspj_di" bpmnElement="SubProcess_2" isExpanded="true">
+        <dc:Bounds x="830" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0j62yi6_di" bpmnElement="EscalationEvent_1">
         <dc:Bounds x="392" y="302" width="36" height="36" />
       </bpmndi:BPMNShape>

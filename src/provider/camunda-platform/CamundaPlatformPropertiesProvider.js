@@ -18,6 +18,7 @@ import {
   ImplementationProps,
   InitiatorProps,
   JobExecutionProps,
+  MultiInstanceProps,
   ProcessVariablesProps,
   ScriptTaskProps,
   TasklistProps,
@@ -69,6 +70,7 @@ export default class CamundaPlatformPropertiesProvider {
       updateGeneralGroup(groups, element);
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
+      updateMultiInstanceGroup(groups, element);
 
       return groups;
     };
@@ -134,6 +136,18 @@ function updateErrorGroup(groups, element) {
   const { entries } = errorGroup;
 
   ErrorProps({ element, entries });
+}
+
+function updateMultiInstanceGroup(groups, element) {
+  const multiInstanceGroup = findGroup(groups, 'multiInstance');
+
+  if (!multiInstanceGroup) {
+    return;
+  }
+
+  const { entries } = multiInstanceGroup;
+
+  MultiInstanceProps({ element, entries });
 }
 
 function updateEscalationGroup(groups, element) {
