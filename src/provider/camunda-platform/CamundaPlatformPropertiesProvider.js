@@ -26,6 +26,7 @@ import {
   OutMappingPropagationProps,
   OutMappingProps,
   OutputProps,
+  ExecutionListenerProps,
   ProcessVariablesProps,
   ScriptTaskProps,
   TasklistProps,
@@ -109,7 +110,7 @@ export default class CamundaPlatformPropertiesProvider {
       FormGroup(element),
       HistoryCleanupGroup(element),
       JobExecutionGroup(element),
-      ListenerGroup(element),
+      ExecutionListenerGroup(element),
       MultiInstanceGroup(element),
       TasklistGroup(element)
     ];
@@ -538,16 +539,15 @@ function FormGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function ListenerGroup(element) {
+function ExecutionListenerGroup(element) {
   const group = {
-    label: 'Listener',
-    id: 'CamundaPlatform__Listener',
-    component: Group,
-    entries: []
+    label: 'Execution listener',
+    id: 'CamundaPlatform__ExecutionListener',
+    component: ListGroup,
+    ...ExecutionListenerProps({ element })
   };
 
-  if (group.entries.length) {
+  if (group.items) {
     return group;
   }
 

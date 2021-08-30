@@ -801,6 +801,41 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(formKeyGroup).to.not.exist;
+
+      }));
+
+
+      it('should show execution listener group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const executionListenerGroup = getGroup(container, 'CamundaPlatform__ExecutionListener');
+
+        // then
+        expect(executionListenerGroup).to.exist;
+      }));
+
+
+      it('should NOT show execution listener group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Group_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const executionListenerGroup = getGroup(container, 'CamundaPlatform__ExecutionListener');
+
+        // then
+        expect(executionListenerGroup).not.to.exist;
       }));
 
     });
@@ -1073,6 +1108,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
         // then
         expect(externalTaskGroup).not.to.exist;
+      }));
+
+
+      it('should show execution listener group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_1');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const executionListenerGroup = getGroup(container, 'CamundaPlatform__ExecutionListener');
+
+        // then
+        expect(executionListenerGroup).to.exist;
+      }));
+
+
+      it('should NOT show execution listener group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const participant = elementRegistry.get('Participant_2');
+
+        await act(() => {
+          selection.select(participant);
+        });
+
+        // when
+        const executionListenerGroup = getGroup(container, 'CamundaPlatform__ExecutionListener');
+
+        // then
+        expect(executionListenerGroup).not.to.exist;
       }));
 
     });

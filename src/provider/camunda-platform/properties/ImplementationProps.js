@@ -89,14 +89,16 @@ export function ImplementationProps(props) {
   return entries;
 }
 
-function JavaClass(props) {
-  const { element } = props;
+export function JavaClass(props) {
+  const {
+    element,
+    businessObject = getBusinessObject(element),
+    id = 'javaClass'
+  } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
-
-  const businessObject = getBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('camunda:class');
@@ -114,22 +116,24 @@ function JavaClass(props) {
 
   return TextField({
     element,
-    id: 'javaClass',
-    label: translate('Java Class'),
+    id,
+    label: translate('Java class'),
     getValue,
     setValue,
     debounce
   });
 }
 
-function Expression(props) {
-  const { element } = props;
+export function Expression(props) {
+  const {
+    element,
+    businessObject = getBusinessObject(element),
+    id = 'expression'
+  } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
-
-  const businessObject = getBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('camunda:expression');
@@ -147,7 +151,7 @@ function Expression(props) {
 
   return TextField({
     element,
-    id: 'expression',
+    id,
     label: translate('Expression'),
     getValue,
     setValue,
@@ -188,14 +192,16 @@ function ResultVariable(props) {
   });
 }
 
-function DelegateExpression(props) {
-  const { element } = props;
+export function DelegateExpression(props) {
+  const {
+    element,
+    businessObject = getBusinessObject(element),
+    id = 'delegateExpression'
+  } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
-
-  const businessObject = getBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('camunda:delegateExpression');
@@ -213,8 +219,8 @@ function DelegateExpression(props) {
 
   return TextField({
     element,
-    id: 'delegateExpression',
-    label: translate('Delegate Expression'),
+    id,
+    label: translate('Delegate expression'),
     getValue,
     setValue,
     debounce
