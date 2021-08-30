@@ -250,6 +250,27 @@ describe('provider/bpmn - CompensationProps', function() {
         })
       );
 
+
+      it('should NOT include compensation sub process',
+        inject(async function(elementRegistry, selection) {
+
+          // given
+          const compensationEvent = elementRegistry.get('CompensationEndEvent_1');
+
+          await act(() => {
+            selection.select(compensationEvent);
+          });
+
+          // when
+          const select = domQuery('select[name=activityRef]', container);
+
+          // then
+          expect(asOptionNamesList(select)).to.not.include(
+            'Sub Process 3 (id=SubProcess_3)'
+          );
+        })
+      );
+
     });
 
 

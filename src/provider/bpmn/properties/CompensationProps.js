@@ -187,7 +187,7 @@ function hasCompensationEventAttached(activity, boundaryEvents) {
 /**
  * Checks whether an Activity can be compensated. That's the case when it is
  * a) a CallActivity
- * b) a SubProcess, when it is not event based
+ * b) a SubProcess, when it is not event based and not a compensation
  * c) any other Activity, when it is attaching a CompensateEvent of the parent container
  *
  * @param {ModdleElement} activity
@@ -196,7 +196,7 @@ function hasCompensationEventAttached(activity, boundaryEvents) {
  */
 function canBeCompensated(activity, boundaryEvents) {
   return is(activity, 'bpmn:CallActivity') ||
-    (is(activity, 'bpmn:SubProcess') && !activity.triggeredByEvent) ||
+    (is(activity, 'bpmn:SubProcess') && !activity.triggeredByEvent && !activity.isForCompensation) ||
     hasCompensationEventAttached(activity, boundaryEvents);
 }
 
