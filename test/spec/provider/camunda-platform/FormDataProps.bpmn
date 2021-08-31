@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_01ii2ms" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="myProcess" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="StartEvent_1">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="formFieldID" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:subProcess id="Activity_0j3tvw2">
+      <bpmn:startEvent id="StartEvent_2" name="StartEvent_2" />
+    </bpmn:subProcess>
+    <bpmn:userTask id="UserTask_1" name="UserTask_1" />
+    <bpmn:userTask id="UserTask_2" name="UserTask_2">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="someExtension" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_3" name="UserTask_3">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="FormFieldId_1" />
+          <camunda:formField id="FormFieldId_2" />
+        </camunda:formData>
+        <camunda:properties>
+          <camunda:property name="myProp" value="myVal" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="myProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="122" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j3tvw2_di" bpmnElement="Activity_0j3tvw2" isExpanded="true">
+        <dc:Bounds x="140" y="190" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fj9o0o_di" bpmnElement="StartEvent_2">
+        <dc:Bounds x="180" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="315" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13voyjh_di" bpmnElement="UserTask_1">
+        <dc:Bounds x="300" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17dp5y8_di" bpmnElement="UserTask_2">
+        <dc:Bounds x="450" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0f5h995_di" bpmnElement="UserTask_3">
+        <dc:Bounds x="590" y="57" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
