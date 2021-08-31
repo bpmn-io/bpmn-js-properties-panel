@@ -13,6 +13,7 @@ import {
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
   FieldInjectionProps,
+  FormKeyProps,
   HistoryCleanupProps,
   ImplementationProps,
   InitiatorProps,
@@ -88,6 +89,7 @@ export default class CamundaPlatformPropertiesProvider {
       ExtensionPropertiesGroup(element),
       ExternalTaskGroup(element),
       FieldInjectionGroup(element),
+      FormKeyGroup(element),
       FormGroup(element),
       HistoryCleanupGroup(element),
       InputOutputGroup(element),
@@ -408,6 +410,23 @@ function ProcessVariablesGroup(element) {
   };
 
   if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function FormKeyGroup(element) {
+  const group = {
+    label: 'Form key',
+    id: 'CamundaPlatform__FormKey',
+    component: Group,
+    entries: [
+      ...FormKeyProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
     return group;
   }
 
