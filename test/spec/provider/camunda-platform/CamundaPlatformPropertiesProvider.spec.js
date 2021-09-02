@@ -566,6 +566,142 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
+      it('should show in mapping group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1');
+
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        // when
+        const inMappingGroup = getGroup(container, 'CamundaPlatform__InMapping');
+
+        // then
+        expect(inMappingGroup).to.exist;
+      }));
+
+
+      it('should NOT show in mapping group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        const inMappingGroup = getGroup(container, 'CamundaPlatform__InMapping');
+
+        // then
+        expect(inMappingGroup).to.not.exist;
+      }));
+
+
+      it('should show out mapping group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1');
+
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        // when
+        const outMappingGroup = getGroup(container, 'CamundaPlatform__OutMapping');
+
+        // then
+        expect(outMappingGroup).to.exist;
+      }));
+
+
+      it('should NOT show out mapping group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        const outMappingGroup = getGroup(container, 'CamundaPlatform__OutMapping');
+
+        // then
+        expect(outMappingGroup).to.not.exist;
+      }));
+
+
+      it('should show in mapping propagation group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1');
+
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        // when
+        const inMappingPropagationGroup = getGroup(container, 'CamundaPlatform__InMappingPropagation');
+
+        // then
+        expect(inMappingPropagationGroup).to.exist;
+      }));
+
+
+      it('should NOT show in mapping propagation group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        const inMappingPropagationGroup = getGroup(container, 'CamundaPlatform__InMappingPropagation');
+
+        // then
+        expect(inMappingPropagationGroup).to.not.exist;
+      }));
+
+
+      it('should show out mapping propagation group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1');
+
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        // when
+        const outMappingPropagationGroup = getGroup(container, 'CamundaPlatform__OutMappingPropagation');
+
+        // then
+        expect(outMappingPropagationGroup).to.exist;
+      }));
+
+
+      it('should NOT show out mapping propagation group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        const outMappingPropagationGroup = getGroup(container, 'CamundaPlatform__OutMappingPropagation');
+
+        // then
+        expect(outMappingPropagationGroup).to.not.exist;
+      }));
+
+
       it('should show input group', inject(async function(elementRegistry, selection) {
 
         // given

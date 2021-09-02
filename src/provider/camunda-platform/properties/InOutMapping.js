@@ -1,0 +1,267 @@
+import Checkbox from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import Select from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+
+import {
+  useService
+} from '../../../hooks';
+
+const DEFAULT_PROPS = {
+  'source': undefined,
+  'sourceExpression': undefined
+};
+
+
+export default function InOutMapping(props) {
+  const {
+    idPrefix,
+    element,
+    mapping
+  } = props;
+
+  const type = getInOutType(mapping);
+  const entries = [];
+
+  // (1) Type
+  entries.push({
+    id: idPrefix + '-type',
+    component: <Type idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+  });
+
+  // (2) Source
+  if (type === 'source') {
+    entries.push({
+      id: idPrefix + '-source',
+      component: <Source idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+    });
+  }
+
+  // (3) Source expression
+  if (type === 'sourceExpression') {
+    entries.push({
+      id: idPrefix + '-sourceExpression',
+      component: <SourceExpression idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+    });
+  }
+
+  // (4) Target
+  entries.push({
+    id: idPrefix + '-target',
+    component: <Target idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+  });
+
+  // (5) Local
+  entries.push({
+    id: idPrefix + '-local',
+    component: <Local idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+  });
+
+  return entries;
+}
+
+function Type(props) {
+  const {
+    idPrefix,
+    element,
+    mapping
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+
+  const getValue = (mapping) => {
+    return getInOutType(mapping);
+  };
+
+  const setValue = (value) => {
+    let props = {
+      ...DEFAULT_PROPS,
+      [value]: ''
+    };
+
+    commandStack.execute('properties-panel.update-businessobject', {
+      element: element,
+      businessObject: mapping,
+      properties: props
+    });
+  };
+
+  const getOptions = () => {
+
+    const options = [
+      {
+        label: translate('Source'),
+        value: 'source'
+      },
+      {
+        label: translate('Source expression'),
+        value: 'sourceExpression'
+      }
+    ];
+
+    return options;
+  };
+
+  return Select({
+    element: mapping,
+    id: idPrefix + '-type',
+    label: translate('Type'),
+    getValue,
+    setValue,
+    getOptions
+  });
+}
+
+function Source(props) {
+  const {
+    idPrefix,
+    element,
+    mapping
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const setValue = (value) => {
+    commandStack.execute('properties-panel.update-businessobject', {
+      element: element,
+      businessObject: mapping,
+      properties: {
+        source: value
+      }
+    });
+  };
+
+  const getValue = (mapping) => {
+    return mapping.get('camunda:source');
+  };
+
+  return TextField({
+    element: mapping,
+    id: idPrefix + '-source',
+    label: translate('Source'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+function SourceExpression(props) {
+  const {
+    idPrefix,
+    element,
+    mapping
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const setValue = (value) => {
+    commandStack.execute('properties-panel.update-businessobject', {
+      element: element,
+      businessObject: mapping,
+      properties: {
+        sourceExpression: value
+      }
+    });
+  };
+
+  const getValue = (mapping) => {
+    return mapping.get('camunda:sourceExpression');
+  };
+
+  return TextField({
+    element: mapping,
+    id: idPrefix + '-sourceExpression',
+    label: translate('Source expression'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+function Target(props) {
+  const {
+    idPrefix,
+    element,
+    mapping
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const setValue = (value) => {
+    commandStack.execute('properties-panel.update-businessobject', {
+      element: element,
+      businessObject: mapping,
+      properties: {
+        target: value
+      }
+    });
+  };
+
+  const getValue = (mapping) => {
+    return mapping.get('camunda:target');
+  };
+
+  return TextField({
+    element: mapping,
+    id: idPrefix + '-target',
+    label: translate('Target'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+function Local(props) {
+  const {
+    idPrefix,
+    element,
+    mapping
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+
+  const getValue = () => {
+    return mapping.get('camunda:local');
+  };
+
+  const setValue = (value) => {
+    commandStack.execute('properties-panel.update-businessobject', {
+      element: element,
+      businessObject: mapping,
+      properties: {
+        'local': value
+      }
+    });
+  };
+
+  return Checkbox({
+    element,
+    id: idPrefix + '-local',
+    label: translate('Local'),
+    getValue,
+    setValue
+  });
+}
+
+
+// helper ///////////////////
+
+function getInOutType(mapping) {
+  let inOutType = '';
+
+  if (typeof mapping.source !== 'undefined') {
+    inOutType = 'source';
+  }
+  else if (typeof mapping.sourceExpression !== 'undefined') {
+    inOutType = 'sourceExpression';
+  }
+
+  return inOutType;
+}

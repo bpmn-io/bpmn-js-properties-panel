@@ -18,9 +18,13 @@ import {
   HistoryCleanupProps,
   ImplementationProps,
   InitiatorProps,
+  InMappingPropagationProps,
+  InMappingProps,
   InputProps,
   JobExecutionProps,
   MultiInstanceProps,
+  OutMappingPropagationProps,
+  OutMappingProps,
   OutputProps,
   ProcessVariablesProps,
   ScriptTaskProps,
@@ -88,6 +92,10 @@ export default class CamundaPlatformPropertiesProvider {
       ScriptGroup(element),
       AsynchronousContinuationsGroup(element),
       CallActivityGroup(element),
+      InMappingGroup(element),
+      InMappingPropagationGroup(element),
+      OutMappingGroup(element),
+      OutMappingPropagationGroup(element),
       CandidateStarterGroup(element),
       ConditionGroup(element),
       InputGroup(element),
@@ -103,8 +111,7 @@ export default class CamundaPlatformPropertiesProvider {
       JobExecutionGroup(element),
       ListenerGroup(element),
       MultiInstanceGroup(element),
-      TasklistGroup(element),
-      VariablesMappingGroup(element)
+      TasklistGroup(element)
     ];
 
     // contract: if a group returns null, it should not be displayed at all
@@ -404,13 +411,61 @@ function TasklistGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function VariablesMappingGroup(element) {
+function InMappingGroup(element) {
   const group = {
-    label: 'Variables Mapping',
-    id: 'CamundaPlatform__VariablesMapping',
+    label: 'In mappings',
+    id: 'CamundaPlatform__InMapping',
+    component: ListGroup,
+    ...InMappingProps({ element })
+  };
+
+  if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function InMappingPropagationGroup(element) {
+  const group = {
+    label: 'In mapping propagation',
+    id: 'CamundaPlatform__InMappingPropagation',
     component: Group,
-    entries: []
+    entries: [
+      ...InMappingPropagationProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
+function OutMappingGroup(element) {
+  const group = {
+    label: 'Out mappings',
+    id: 'CamundaPlatform__OutMapping',
+    component: ListGroup,
+    ...OutMappingProps({ element })
+  };
+
+  if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function OutMappingPropagationGroup(element) {
+  const group = {
+    label: 'Out mapping propagation',
+    id: 'CamundaPlatform__OutMappingPropagation',
+    component: Group,
+    entries: [
+      ...OutMappingPropagationProps({ element })
+    ]
   };
 
   if (group.entries.length) {
