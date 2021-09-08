@@ -160,7 +160,7 @@ export default function BpmnPropertiesPanel(props) {
 // helpers //////////////////////////
 
 function isImplicitRoot(element) {
-  return element && element.id === '__implicitroot';
+  return element && element.isImplicit;
 }
 
 function findElement(elements, element) {

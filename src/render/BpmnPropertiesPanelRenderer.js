@@ -157,5 +157,5 @@ BpmnPropertiesPanelRenderer.$inject = ['config.propertiesPanel', 'injector', 'ev
 // helpers ///////////////////////
 
 function isImplicitRoot(element) {
-  return element && element.id === '__implicitroot';
+  return element && element.isImplicit;
 }
