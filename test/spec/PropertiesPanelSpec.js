@@ -96,7 +96,8 @@ describe('properties-panel', function() {
       // when
       eventBus.fire('root.added', {
         element: {
-          id: '__implicitroot'
+          id: '__implicitroot',
+          isImplicit: true
         }
       });
 
@@ -128,7 +129,10 @@ describe('properties-panel', function() {
         // given
         var spy = sinon.spy(propertiesPanel, 'update');
 
-        canvas.setRootElement(null, true);
+        canvas.setRootElement({
+          id: '__implicitroot',
+          isImplicit: true
+        }, true);
 
         // when
         selection.select(null);
