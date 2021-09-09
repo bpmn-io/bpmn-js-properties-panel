@@ -565,6 +565,74 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(formKeyGroup).to.not.exist;
       }));
 
+
+      it('should show input group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const inputGroup = getGroup(container, 'CamundaPlatform__Input');
+
+        // then
+        expect(inputGroup).to.exist;
+      }));
+
+
+      it('should NOT show input group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        const inputGroup = getGroup(container, 'CamundaPlatform__Input');
+
+        // then
+        expect(inputGroup).to.not.exist;
+      }));
+
+
+      it('should show output group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const outputGroup = getGroup(container, 'CamundaPlatform__Output');
+
+        // then
+        expect(outputGroup).to.exist;
+      }));
+
+
+      it('should NOT show output group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const endEvent = elementRegistry.get('EndEvent_1');
+
+        await act(() => {
+          selection.select(endEvent);
+        });
+
+        // when
+        const outputGroup = getGroup(container, 'CamundaPlatform__Output');
+
+        // then
+        expect(outputGroup).to.not.exist;
+      }));
+
     });
 
 

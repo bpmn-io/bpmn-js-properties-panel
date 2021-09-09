@@ -17,8 +17,10 @@ import {
   HistoryCleanupProps,
   ImplementationProps,
   InitiatorProps,
+  InputProps,
   JobExecutionProps,
   MultiInstanceProps,
+  OutputProps,
   ProcessVariablesProps,
   ScriptTaskProps,
   TasklistProps,
@@ -87,6 +89,8 @@ export default class CamundaPlatformPropertiesProvider {
       CallActivityGroup(element),
       CandidateStarterGroup(element),
       ConditionGroup(element),
+      InputGroup(element),
+      OutputGroup(element),
       ConnectorGroup(element),
       ExtensionPropertiesGroup(element),
       ExternalTaskGroup(element),
@@ -94,7 +98,6 @@ export default class CamundaPlatformPropertiesProvider {
       FormKeyGroup(element),
       FormGroup(element),
       HistoryCleanupGroup(element),
-      InputOutputGroup(element),
       JobExecutionGroup(element),
       ListenerGroup(element),
       MultiInstanceGroup(element),
@@ -479,16 +482,30 @@ function ListenerGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function InputOutputGroup(element) {
+function InputGroup(element) {
   const group = {
-    label: 'Input Output',
-    id: 'CamundaPlatform__InputOutput',
-    component: Group,
-    entries: []
+    label: 'Inputs',
+    id: 'CamundaPlatform__Input',
+    component: ListGroup,
+    ...InputProps({ element })
   };
 
-  if (group.entries.length) {
+  if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function OutputGroup(element) {
+  const group = {
+    label: 'Outputs',
+    id: 'CamundaPlatform__Output',
+    component: ListGroup,
+    ...OutputProps({ element })
+  };
+
+  if (group.items) {
     return group;
   }
 
