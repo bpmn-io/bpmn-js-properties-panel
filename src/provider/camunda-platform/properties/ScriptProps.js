@@ -1,5 +1,6 @@
 import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import TextArea, { isEdited as textAreaIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
@@ -16,18 +17,19 @@ import {
 export function ScriptProps(props) {
   const {
     element,
+    script,
     prefix
   } = props;
 
   const entries = [];
-  const scriptType = getScriptType(element);
+  const scriptType = getScriptType(script || element);
 
   const idPrefix = prefix || '';
 
   // (1) scriptFormat
   entries.push({
     id: idPrefix + 'scriptFormat',
-    component: <Format element={ element } idPrefix={ idPrefix } />,
+    component: <Format element={ element } idPrefix={ idPrefix } script={ script } />,
     isEdited: textFieldIsEdited
   });
 
@@ -35,7 +37,7 @@ export function ScriptProps(props) {
   // (2) type
   entries.push({
     id: idPrefix + 'scriptType',
-    component: <Type element={ element } idPrefix={ idPrefix } />,
+    component: <Type element={ element } idPrefix={ idPrefix } script={ script } />,
     isEdited: selectIsEdited
   });
 
@@ -43,7 +45,7 @@ export function ScriptProps(props) {
   if (scriptType === 'script') {
     entries.push({
       id: idPrefix + 'scriptValue',
-      component: <Script element={ element } idPrefix={ idPrefix } />,
+      component: <Script element={ element } idPrefix={ idPrefix } script={ script } />,
       isEdited: textAreaIsEdited
     });
   }
@@ -52,7 +54,7 @@ export function ScriptProps(props) {
   if (scriptType === 'resource') {
     entries.push({
       id: idPrefix + 'scriptResource',
-      component: <Resource element={ element } idPrefix={ idPrefix } />,
+      component: <Resource element={ element } idPrefix={ idPrefix } script={ script } />,
       isEdited: textFieldIsEdited
     });
   }
@@ -63,14 +65,15 @@ export function ScriptProps(props) {
 function Format(props) {
   const {
     element,
-    idPrefix
+    idPrefix,
+    script
   } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const businessObject = getBusinessObject(element);
+  const businessObject = script || getBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('scriptFormat');
@@ -99,22 +102,25 @@ function Format(props) {
 function Type(props) {
   const {
     element,
-    idPrefix
+    idPrefix,
+    script
   } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
+  const businessObject = script || getBusinessObject(element);
+  const scriptProperty = getScriptProperty(businessObject);
+
   const getValue = () => {
-    return getScriptType(element);
+    return getScriptType(businessObject);
   };
 
   const setValue = (value) => {
-    const businessObject = getBusinessObject(element);
 
     // reset script properties on type change
     const updatedProperties = {
-      'script': value === 'script' ? '' : undefined,
+      [scriptProperty]: value === 'script' ? '' : undefined,
       'camunda:resource': value === 'resource' ? '' : undefined
     };
 
@@ -129,8 +135,8 @@ function Type(props) {
 
     const options = [
       { value: '', label: translate('<none>') },
-      { value: 'resource', label: translate('External Resource') },
-      { value: 'script', label: translate('Inline Script') }
+      { value: 'resource', label: translate('External resource') },
+      { value: 'script', label: translate('Inline script') }
     ];
 
     return options;
@@ -149,17 +155,19 @@ function Type(props) {
 function Script(props) {
   const {
     element,
-    idPrefix
+    idPrefix,
+    script
   } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const businessObject = getBusinessObject(element);
+  const businessObject = script || getBusinessObject(element);
+  const scriptProperty = getScriptProperty(businessObject);
 
   const getValue = () => {
-    return businessObject.get('script');
+    return getScriptValue(businessObject);
   };
 
   const setValue = (value) => {
@@ -167,7 +175,7 @@ function Script(props) {
       element: element,
       businessObject: businessObject,
       properties: {
-        'script': value || ''
+        [scriptProperty]: value || ''
       }
     });
   };
@@ -186,14 +194,15 @@ function Script(props) {
 function Resource(props) {
   const {
     element,
-    idPrefix
+    idPrefix,
+    script
   } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const businessObject = getBusinessObject(element);
+  const businessObject = script || getBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('camunda:resource');
@@ -225,8 +234,8 @@ function Resource(props) {
 function getScriptType(element) {
   const businessObject = getBusinessObject(element);
 
-  const script = getScript(businessObject);
-  if (typeof script !== 'undefined') {
+  const scriptValue = getScriptValue(businessObject);
+  if (typeof scriptValue !== 'undefined') {
     return 'script';
   }
 
@@ -236,6 +245,14 @@ function getScriptType(element) {
   }
 }
 
-function getScript(businessObject) {
-  return businessObject.get('script');
+function getScriptValue(businessObject) {
+  return businessObject.get(getScriptProperty(businessObject));
+}
+
+function isScript(element) {
+  return is(element, 'camunda:Script');
+}
+
+function getScriptProperty(businessObject) {
+  return isScript(businessObject) ? 'value' : 'script';
 }
