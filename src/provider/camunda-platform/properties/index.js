@@ -7,7 +7,7 @@ export { EscalationProps } from './EscalationProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { ExternalTaskPriorityProps } from './ExternalTaskPriorityProps';
 export { FieldInjectionProps } from './FieldInjectionProps';
-export { FormKeyProps } from './FormKeyProps';
+export { FormProps } from './FormProps';
 export { HistoryCleanupProps } from './HistoryCleanupProps';
 export { ImplementationProps } from './ImplementationProps';
 export { InitiatorProps } from './InitiatorProps';

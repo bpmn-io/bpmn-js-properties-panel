@@ -13,7 +13,7 @@ import {
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
   FieldInjectionProps,
-  FormKeyProps,
+  FormProps,
   HistoryCleanupProps,
   ImplementationProps,
   InitiatorProps,
@@ -432,11 +432,11 @@ function ProcessVariablesGroup(element) {
 
 function FormKeyGroup(element) {
   const group = {
-    label: 'Form key',
+    label: 'Forms',
     id: 'CamundaPlatform__FormKey',
     component: Group,
     entries: [
-      ...FormKeyProps({ element })
+      ...FormProps({ element })
     ]
   };
 
