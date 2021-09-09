@@ -30,12 +30,17 @@ function getParameters(element, prop) {
 /**
  * Get a camunda:inputOutput from the business object
  *
- * @param {djs.model.Base} element
+ * @param {djs.model.Base | ModdleElement} element
  *
  * @return {ModdleElement} the inputOutput object
  */
 export function getInputOutput(element) {
+  if (is(element, 'camunda:Connector')) {
+    return element.get('inputOutput');
+  }
+
   const businessObject = getBusinessObject(element);
+
   return (getElements(businessObject, 'camunda:InputOutput') || [])[0];
 }
 

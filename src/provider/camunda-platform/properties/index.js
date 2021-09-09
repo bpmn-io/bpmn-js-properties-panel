@@ -2,6 +2,8 @@ export { AsynchronousContinuationsProps } from './AsynchronousContinuationsProps
 export { CallActivityProps } from './CallActivityProps';
 export { CandidateStarterProps } from './CandidateStarterProps';
 export { ConditionProps } from './ConditionProps';
+export { ConnectorInputProps } from './ConnectorInputProps';
+export { ConnectorOutputProps } from './ConnectorOutputProps';
 export { ErrorProps } from './ErrorProps';
 export { EscalationProps } from './EscalationProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';

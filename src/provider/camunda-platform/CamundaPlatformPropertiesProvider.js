@@ -8,6 +8,8 @@ import {
   CallActivityProps,
   CandidateStarterProps,
   ConditionProps,
+  ConnectorInputProps,
+  ConnectorOutputProps,
   ErrorProps,
   EscalationProps,
   ExtensionPropertiesProps,
@@ -101,7 +103,8 @@ export default class CamundaPlatformPropertiesProvider {
       ConditionGroup(element),
       InputGroup(element),
       OutputGroup(element),
-      ConnectorGroup(element),
+      ConnectorInputGroup(element),
+      ConnectorOutputGroup(element),
       ExtensionPropertiesGroup(element),
       ExternalTaskGroup(element),
       FieldInjectionGroup(element),
@@ -584,16 +587,30 @@ function OutputGroup(element) {
   return null;
 }
 
-// @TODO: implement, hide with no entries in the meantime
-function ConnectorGroup(element) {
+function ConnectorInputGroup(element) {
   const group = {
-    label: 'Connector',
-    id: 'CamundaPlatform__Connector',
-    component: Group,
-    entries: []
+    label: 'Connector inputs',
+    id: 'CamundaPlatform__ConnectorInput',
+    component: ListGroup,
+    ...ConnectorInputProps({ element })
   };
 
-  if (group.entries.length) {
+  if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function ConnectorOutputGroup(element) {
+  const group = {
+    label: 'Connector outputs',
+    id: 'CamundaPlatform__ConnectorOutput',
+    component: ListGroup,
+    ...ConnectorOutputProps({ element })
+  };
+
+  if (group.items) {
     return group;
   }
 

@@ -838,6 +838,74 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(executionListenerGroup).not.to.exist;
       }));
 
+
+      it('should show connector input group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_connector');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // when
+        const connectorInputGroup = getGroup(container, 'CamundaPlatform__ConnectorInput');
+
+        // then
+        expect(connectorInputGroup).to.exist;
+      }));
+
+
+      it('should NOT show connector input group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_external');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // when
+        const connectorInputGroup = getGroup(container, 'CamundaPlatform__ConnectorInput');
+
+        // then
+        expect(connectorInputGroup).to.not.exist;
+      }));
+
+
+      it('should show connector output group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_connector');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // when
+        const connectorOutputGroup = getGroup(container, 'CamundaPlatform__ConnectorOutput');
+
+        // then
+        expect(connectorOutputGroup).to.exist;
+      }));
+
+
+      it('should NOT show output group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_external');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // when
+        const connectorOutputGroup = getGroup(container, 'CamundaPlatform__ConnectorOutput');
+
+        // then
+        expect(connectorOutputGroup).to.not.exist;
+      }));
+
     });
 
 
