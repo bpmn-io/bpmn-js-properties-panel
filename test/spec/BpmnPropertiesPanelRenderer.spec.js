@@ -231,6 +231,59 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should ignore implicit root', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const { modeler } = await createModeler(diagramXml, {
+      shouldImport: false,
+      propertiesPanel: {}
+    });
+
+    const canvas = modeler.get('canvas');
+    const rootElement = canvas.getRootElement();
+
+    // assume
+    expect(rootElement.isImplicit).to.be.true;
+
+    // when
+    const propertiesPanel = modeler.get('propertiesPanel');
+    propertiesPanel.attachTo(propertiesContainer);
+    propertiesPanel._render(rootElement);
+
+    // then
+    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+  });
+
+
+  it('should ignore implicit root - legacy', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const { modeler } = await createModeler(diagramXml, {
+      shouldImport: false,
+      propertiesPanel: {}
+    });
+
+    const implicitRootElement = {
+      id: '__implicitroot',
+      children: []
+    };
+
+    // when
+    const propertiesPanel = modeler.get('propertiesPanel');
+    propertiesPanel.attachTo(propertiesContainer);
+    propertiesPanel._render(implicitRootElement);
+
+    // then
+    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+  });
+
+
   describe('integration', function() {
 
     it('should ensure creating + importing -> attaching works', async function() {
