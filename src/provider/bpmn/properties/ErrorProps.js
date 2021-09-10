@@ -22,7 +22,7 @@ import {
 
 import {
   createElement,
-  findElementById,
+  findRootElementById,
   findRootElementsByType,
   getRoot,
   nextId
@@ -120,7 +120,7 @@ function ErrorRef(props) {
     }
 
     // (2) update (or remove) errorRef
-    error = error || findElementById(errorEventDefinition, 'bpmn:Error', value);
+    error = error || findRootElementById(errorEventDefinition, 'bpmn:Error', value);
 
     commands.push({
       cmd: 'properties-panel.update-businessobject',

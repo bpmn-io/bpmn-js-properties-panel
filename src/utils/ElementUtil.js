@@ -42,15 +42,18 @@ export function getRoot(businessObject) {
 
 export function filterElementsByType(objectList, type) {
   const list = objectList || [];
+
   return list.filter(element => is(element, type));
 }
 
 export function findRootElementsByType(businessObject, referencedType) {
   const root = getRoot(businessObject);
+
   return filterElementsByType(root.get('rootElements'), referencedType);
 }
 
-export function findElementById(eventDefinition, type, id) {
-  const elements = findRootElementsByType(eventDefinition, type);
+export function findRootElementById(businessObject, type, id) {
+  const elements = findRootElementsByType(businessObject, type);
+
   return elements.find(element => element.id === id);
 }

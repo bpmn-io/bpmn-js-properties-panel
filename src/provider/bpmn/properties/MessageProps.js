@@ -22,7 +22,7 @@ import {
 
 import {
   createElement,
-  findElementById,
+  findRootElementById,
   findRootElementsByType,
   getRoot,
   nextId
@@ -117,7 +117,7 @@ function MessageRef(props) {
     }
 
     // (2) update (or remove) messageRef
-    message = message || findElementById(messageEventDefinition, 'bpmn:Message', value);
+    message = message || findRootElementById(messageEventDefinition, 'bpmn:Message', value);
 
     commands.push({
       cmd: 'properties-panel.update-businessobject',

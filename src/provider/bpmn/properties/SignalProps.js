@@ -22,7 +22,7 @@ import {
 
 import {
   createElement,
-  findElementById,
+  findRootElementById,
   findRootElementsByType,
   getRoot,
   nextId
@@ -117,7 +117,7 @@ function SignalRef(props) {
     }
 
     // (2) update (or remove) signalRef
-    signal = signal || findElementById(signalEventDefinition, 'bpmn:Signal', value);
+    signal = signal || findRootElementById(signalEventDefinition, 'bpmn:Signal', value);
 
     commands.push({
       cmd: 'properties-panel.update-businessobject',

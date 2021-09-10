@@ -22,7 +22,7 @@ import {
 
 import {
   createElement,
-  findElementById,
+  findRootElementById,
   findRootElementsByType,
   getRoot,
   nextId
@@ -122,7 +122,7 @@ function EscalationRef(props) {
     }
 
     // (2) update (or remove) escalationRef
-    escalation = escalation || findElementById(escalationEventDefinition, 'bpmn:Escalation', value);
+    escalation = escalation || findRootElementById(escalationEventDefinition, 'bpmn:Escalation', value);
 
     commands.push({
       cmd: 'properties-panel.update-businessobject',
