@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.44.1
+
+* `DEPS`: update to `diagram-js@7.4.0` ([#479](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/479))
+
 ## 0.44.0
 
 * `FEAT`: allow independent configuration of variables and local in `camunda:in|out` element template bindings ([`5e5b2d6f`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/5e5b2d6f7a45fda4d46909ba21a52a66c12d6451))
