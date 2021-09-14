@@ -12,6 +12,11 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import {
+  EMPTY_OPTION,
+  CREATE_NEW_OPTION
+} from '../../../../src/provider/bpmn/properties/SignalProps';
+
 import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -126,24 +131,6 @@ describe('provider/bpmn - SignalProps', function() {
     }));
 
 
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const signalEvent = elementRegistry.get('SignalStartEvent_1');
-
-      await act(() => {
-        selection.select(signalEvent);
-      });
-
-      // when
-      const signalRefSelect = domQuery('select[name=signalRef]', container);
-      changeInput(signalRefSelect, 'signal2');
-
-      // then
-      expect(getSignal(signalEvent).get('id')).to.eql('signal2');
-    }));
-
-
     it('should create new signal', inject(async function(elementRegistry, selection) {
 
       // given
@@ -158,7 +145,7 @@ describe('provider/bpmn - SignalProps', function() {
 
       // when
       const signalRefSelect = domQuery('select[name=signalRef]', container);
-      changeInput(signalRefSelect, 'create-new');
+      changeInput(signalRefSelect, CREATE_NEW_OPTION);
 
       // then
       expect(getSignal(signalEvent)).to.exist;
@@ -186,28 +173,107 @@ describe('provider/bpmn - SignalProps', function() {
     }));
 
 
-    it('should update on external change',
-      inject(async function(elementRegistry, selection, commandStack) {
+    describe('update', function() {
 
-        // given
-        const signalEvent = elementRegistry.get('SignalStartEvent_1');
-        const originalValue = getSignal(signalEvent).get('id');
+      describe('<none> to signal', function() {
 
-        await act(() => {
-          selection.select(signalEvent);
-        });
-        const signalRefSelect = domQuery('select[name=signalRef]', container);
-        changeInput(signalRefSelect, 'signal2');
+        it('should update', inject(async function(elementRegistry, selection) {
 
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
+          // given
+          const signalEvent = elementRegistry.get('SignalStartEvent_2');
 
-        // then
-        expect(signalRefSelect.value).to.eql(originalValue);
-      })
-    );
+          await act(() => {
+            selection.select(signalEvent);
+          });
+
+          // when
+          const signalRefSelect = domQuery('select[name=signalRef]', container);
+          changeInput(signalRefSelect, 'signal2');
+
+          // then
+          expect(getSignal(signalEvent).get('id')).to.eql('signal2');
+
+          expect(signalRefSelect.value).to.eql('signal2');
+        }));
+
+
+        it('should update on external change',
+          inject(async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const signalEvent = elementRegistry.get('SignalStartEvent_2');
+
+            await act(() => {
+              selection.select(signalEvent);
+            });
+            const signalRefSelect = domQuery('select[name=signalRef]', container);
+            changeInput(signalRefSelect, 'signal2');
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            // then
+            expect(getSignal(signalEvent)).not.to.exist;
+
+            expect(signalRefSelect.value).to.eql(EMPTY_OPTION);
+          })
+        );
+
+      });
+
+
+      describe('signal to signal', function() {
+
+        it('should update', inject(async function(elementRegistry, selection) {
+
+          // given
+          const signalEvent = elementRegistry.get('SignalStartEvent_1');
+
+          await act(() => {
+            selection.select(signalEvent);
+          });
+
+          // when
+          const signalRefSelect = domQuery('select[name=signalRef]', container);
+          changeInput(signalRefSelect, 'signal2');
+
+          // then
+          expect(getSignal(signalEvent).get('id')).to.eql('signal2');
+
+          expect(signalRefSelect.value).to.eql('signal2');
+        }));
+
+
+        it('should update on external change',
+          inject(async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const signalEvent = elementRegistry.get('SignalStartEvent_1');
+            const originalValue = getSignal(signalEvent).get('id');
+
+            await act(() => {
+              selection.select(signalEvent);
+            });
+            const signalRefSelect = domQuery('select[name=signalRef]', container);
+            changeInput(signalRefSelect, 'signal2');
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            // then
+            expect(getSignal(signalEvent).get('id')).to.eql(originalValue);
+
+            expect(signalRefSelect.value).to.eql(originalValue);
+          })
+        );
+
+      });
+
+    });
 
   });
 
