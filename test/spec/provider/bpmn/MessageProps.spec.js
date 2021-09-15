@@ -12,6 +12,11 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import {
+  EMPTY_OPTION,
+  CREATE_NEW_OPTION
+} from 'src/provider/bpmn/properties/MessageProps';
+
 import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -110,24 +115,6 @@ describe('provider/bpmn - MessageProps', function() {
     }));
 
 
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const messageEvent = elementRegistry.get('MessageEvent_1');
-
-      await act(() => {
-        selection.select(messageEvent);
-      });
-
-      // when
-      const messageRefSelect = domQuery('select[name=messageRef]', container);
-      changeInput(messageRefSelect, 'Message_2');
-
-      // then
-      expect(getMessage(messageEvent).get('id')).to.eql('Message_2');
-    }));
-
-
     it('should create new message', inject(async function(elementRegistry, selection) {
 
       // given
@@ -170,28 +157,107 @@ describe('provider/bpmn - MessageProps', function() {
     }));
 
 
-    it('should update on external change',
-      inject(async function(elementRegistry, selection, commandStack) {
+    describe('update', function() {
 
-        // given
-        const messageEvent = elementRegistry.get('MessageEvent_1');
-        const originalValue = getMessage(messageEvent).get('id');
+      describe('<none> to message', function() {
 
-        await act(() => {
-          selection.select(messageEvent);
-        });
-        const messageRefSelect = domQuery('select[name=messageRef]', container);
-        changeInput(messageRefSelect, 'Message_2');
+        it('should update', inject(async function(elementRegistry, selection) {
 
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
+          // given
+          const messageEvent = elementRegistry.get('MessageEvent_empty');
 
-        // then
-        expect(messageRefSelect.value).to.eql(originalValue);
-      })
-    );
+          await act(() => {
+            selection.select(messageEvent);
+          });
+
+          // when
+          const messageRefSelect = domQuery('select[name=messageRef]', container);
+          changeInput(messageRefSelect, 'Message_2');
+
+          // then
+          expect(getMessage(messageEvent).get('id')).to.eql('Message_2');
+
+          expect(messageRefSelect.value).to.eql('Message_2');
+        }));
+
+
+        it('should update on external change',
+          inject(async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const messageEvent = elementRegistry.get('MessageEvent_empty');
+
+            await act(() => {
+              selection.select(messageEvent);
+            });
+            const messageRefSelect = domQuery('select[name=messageRef]', container);
+            changeInput(messageRefSelect, 'Message_2');
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            // then
+            expect(getMessage(messageEvent)).not.to.exist;
+
+            expect(messageRefSelect.value).to.eql(EMPTY_OPTION);
+          })
+        );
+
+      });
+
+
+      describe('message to message', function() {
+
+        it('should update', inject(async function(elementRegistry, selection) {
+
+          // given
+          const messageEvent = elementRegistry.get('MessageEvent_1');
+
+          await act(() => {
+            selection.select(messageEvent);
+          });
+
+          // when
+          const messageRefSelect = domQuery('select[name=messageRef]', container);
+          changeInput(messageRefSelect, 'Message_2');
+
+          // then
+          expect(getMessage(messageEvent).get('id')).to.eql('Message_2');
+
+          expect(messageRefSelect.value).to.eql('Message_2');
+        }));
+
+
+        it('should update on external change',
+          inject(async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const messageEvent = elementRegistry.get('MessageEvent_1');
+            const originalValue = getMessage(messageEvent).get('id');
+
+            await act(() => {
+              selection.select(messageEvent);
+            });
+            const messageRefSelect = domQuery('select[name=messageRef]', container);
+            changeInput(messageRefSelect, 'Message_2');
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            // then
+            expect(messageRefSelect.value).to.eql(originalValue);
+
+            expect(messageRefSelect.value).to.eql('Message_1');
+          })
+        );
+
+      });
+
+    });
 
   });
 
@@ -289,7 +355,7 @@ describe('provider/bpmn - MessageProps', function() {
 
       // when
       const messageRefSelect = domQuery('select[name=messageRef]', container);
-      changeInput(messageRefSelect, 'create-new');
+      changeInput(messageRefSelect, CREATE_NEW_OPTION);
 
       // then
       expect(getMessage(receiveTask)).to.exist;

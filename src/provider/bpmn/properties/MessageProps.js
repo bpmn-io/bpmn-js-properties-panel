@@ -28,7 +28,8 @@ import {
   nextId
 } from '../../../utils/ElementUtil';
 
-const CREATE_NEW_OPTION = 'create-new';
+export const EMPTY_OPTION = '';
+export const CREATE_NEW_OPTION = 'create-new';
 
 
 /**
@@ -83,7 +84,11 @@ function MessageRef(props) {
   const getValue = () => {
     const message = getMessage(element);
 
-    return message && message.get('id');
+    if (message) {
+      return message.get('id');
+    }
+
+    return EMPTY_OPTION;
   };
 
   const setValue = (value) => {
@@ -137,7 +142,7 @@ function MessageRef(props) {
   const getOptions = () => {
 
     let options = [
-      { value: '', label: translate('<none>') },
+      { value: EMPTY_OPTION, label: translate('<none>') },
       { value: CREATE_NEW_OPTION, label: translate('Create new ...') }
     ];
 
