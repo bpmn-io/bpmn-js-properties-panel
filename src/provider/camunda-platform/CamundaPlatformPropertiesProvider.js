@@ -5,6 +5,7 @@ import { findIndex } from 'min-dash';
 
 import {
   AsynchronousContinuationsProps,
+  BusinessKeyProps,
   CallActivityProps,
   CandidateStarterProps,
   ConditionProps,
@@ -109,6 +110,7 @@ export default class CamundaPlatformPropertiesProvider {
       ExternalTaskGroup(element),
       FieldInjectionGroup(element),
       FormDataGroup(element),
+      BusinessKeyGroup(element),
       FormKeyGroup(element),
       FormGroup(element),
       HistoryCleanupGroup(element),
@@ -503,6 +505,23 @@ function FormDataGroup(element) {
   };
 
   if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function BusinessKeyGroup(element) {
+  const group = {
+    label: 'Business key',
+    id: 'CamundaPlatform__BusinessKey',
+    component: Group,
+    entries: [
+      ...BusinessKeyProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
     return group;
   }
 

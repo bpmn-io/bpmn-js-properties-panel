@@ -1,4 +1,5 @@
 export { AsynchronousContinuationsProps } from './AsynchronousContinuationsProps';
+export { BusinessKeyProps } from './BusinessKeyProps';
 export { CallActivityProps } from './CallActivityProps';
 export { CandidateStarterProps } from './CandidateStarterProps';
 export { ConditionProps } from './ConditionProps';
