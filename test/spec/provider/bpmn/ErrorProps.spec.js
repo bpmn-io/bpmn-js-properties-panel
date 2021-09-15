@@ -12,6 +12,11 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import {
+  CREATE_NEW_OPTION,
+  EMPTY_OPTION
+} from 'src/provider/bpmn/properties/ErrorProps';
+
 import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -110,24 +115,6 @@ describe('provider/bpmn - ErrorProps', function() {
     }));
 
 
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const errorEvent = elementRegistry.get('ErrorEvent_1');
-
-      await act(() => {
-        selection.select(errorEvent);
-      });
-
-      // when
-      const errorRefSelect = domQuery('select[name=errorRef]', container);
-      changeInput(errorRefSelect, 'Error_2');
-
-      // then
-      expect(getError(errorEvent).get('id')).to.eql('Error_2');
-    }));
-
-
     it('should create new error', inject(async function(elementRegistry, selection) {
 
       // given
@@ -142,7 +129,7 @@ describe('provider/bpmn - ErrorProps', function() {
 
       // when
       const errorRefSelect = domQuery('select[name=errorRef]', container);
-      changeInput(errorRefSelect, 'create-new');
+      changeInput(errorRefSelect, CREATE_NEW_OPTION);
 
       // then
       expect(getError(errorEvent)).to.exist;
@@ -170,28 +157,107 @@ describe('provider/bpmn - ErrorProps', function() {
     }));
 
 
-    it('should update on external change',
-      inject(async function(elementRegistry, selection, commandStack) {
+    describe('update', function() {
 
-        // given
-        const errorEvent = elementRegistry.get('ErrorEvent_1');
-        const originalValue = getError(errorEvent).get('id');
+      describe('<none> to error', function() {
 
-        await act(() => {
-          selection.select(errorEvent);
-        });
-        const errorRefSelect = domQuery('select[name=errorRef]', container);
-        changeInput(errorRefSelect, 'Error_2');
+        it('should update', inject(async function(elementRegistry, selection) {
 
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
+          // given
+          const errorEvent = elementRegistry.get('ErrorEvent_empty');
 
-        // then
-        expect(errorRefSelect.value).to.eql(originalValue);
-      })
-    );
+          await act(() => {
+            selection.select(errorEvent);
+          });
+
+          // when
+          const errorRefSelect = domQuery('select[name=errorRef]', container);
+          changeInput(errorRefSelect, 'Error_2');
+
+          // then
+          expect(getError(errorEvent).get('id')).to.eql('Error_2');
+
+          expect(errorRefSelect.value).to.eql('Error_2');
+        }));
+
+
+        it('should update on external change',
+          inject(async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const errorEvent = elementRegistry.get('ErrorEvent_empty');
+
+            await act(() => {
+              selection.select(errorEvent);
+            });
+            const errorRefSelect = domQuery('select[name=errorRef]', container);
+            changeInput(errorRefSelect, 'Error_2');
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            // then
+            expect(getError(errorEvent)).not.to.exist;
+
+            expect(errorRefSelect.value).to.eql(EMPTY_OPTION);
+          })
+        );
+
+      });
+
+
+      describe('error to error', function() {
+
+        it('should update', inject(async function(elementRegistry, selection) {
+
+          // given
+          const errorEvent = elementRegistry.get('ErrorEvent_1');
+
+          await act(() => {
+            selection.select(errorEvent);
+          });
+
+          // when
+          const errorRefSelect = domQuery('select[name=errorRef]', container);
+          changeInput(errorRefSelect, 'Error_2');
+
+          // then
+          expect(getError(errorEvent).get('id')).to.eql('Error_2');
+
+          expect(errorRefSelect.value).to.eql('Error_2');
+        }));
+
+
+        it('should update on external change',
+          inject(async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const errorEvent = elementRegistry.get('ErrorEvent_1');
+            const originalValue = getError(errorEvent).get('id');
+
+            await act(() => {
+              selection.select(errorEvent);
+            });
+            const errorRefSelect = domQuery('select[name=errorRef]', container);
+            changeInput(errorRefSelect, 'Error_2');
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            // then
+            expect(getError(errorEvent).get('id')).to.eql('Error_1');
+
+            expect(errorRefSelect.value).to.eql(originalValue);
+          })
+        );
+
+      });
+
+    });
 
   });
 

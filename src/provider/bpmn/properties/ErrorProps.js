@@ -28,7 +28,8 @@ import {
   nextId
 } from '../../../utils/ElementUtil';
 
-const CREATE_NEW_OPTION = 'create-new';
+export const EMPTY_OPTION = '';
+export const CREATE_NEW_OPTION = 'create-new';
 
 
 /**
@@ -88,7 +89,11 @@ function ErrorRef(props) {
   const getValue = () => {
     const error = getError(element);
 
-    return error && error.get('id');
+    if (error) {
+      return error.get('id');
+    }
+
+    return EMPTY_OPTION;
   };
 
   const setValue = (value) => {
@@ -140,7 +145,7 @@ function ErrorRef(props) {
   const getOptions = () => {
 
     let options = [
-      { value: '', label: translate('<none>') },
+      { value: EMPTY_OPTION, label: translate('<none>') },
       { value: CREATE_NEW_OPTION, label: translate('Create new ...') }
     ];
 
