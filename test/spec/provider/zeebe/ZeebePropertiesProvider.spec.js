@@ -434,6 +434,27 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(getGroup(container, 'headers')).to.exist;
     }));
 
+    it('should NOT show message group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [
+        elementRegistry.get('MessageThrow_1'),
+        elementRegistry.get('MessageEnd_1')
+      ];
+
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
+
+        // when
+        const messageGroup = getGroup(container, 'message');
+
+        // then
+        expect(messageGroup).to.not.exist;
+      }
+    }));
+
   });
 
 

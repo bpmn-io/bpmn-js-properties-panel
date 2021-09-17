@@ -1,5 +1,10 @@
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
+import { is } from 'bpmn-js/lib/util/ModelUtil';
+
+import {
+  getMessageEventDefinition
+} from '../bpmn/utils/EventDefinitionUtil';
 
 import {
   ConditionProps,
@@ -155,6 +160,17 @@ function updateMultiInstanceGroup(groups, element) {
   ];
 }
 
+// remove message group from Message End Event & Message Throw Event
+function removeMessageGroup(groups, element) {
+  const messageGroup = findGroup(groups, 'message');
+
+  if (isMessageEndEvent(element) || isMessageThrowEvent(element)) {
+
+    groups = groups.filter(g => g != messageGroup);
+  }
+  return groups;
+}
+
 function getGroups(element) {
 
   const groups = [];
@@ -227,6 +243,9 @@ export default class ZeebePropertiesProvider {
       updateTimerGroup(groups, element);
       updateMultiInstanceGroup(groups, element);
 
+      // (3) remove message group when not applicable
+      groups = removeMessageGroup(groups, element);
+
       return groups;
     };
   }
@@ -240,4 +259,12 @@ ZeebePropertiesProvider.$inject = [ 'propertiesPanel' ];
 
 function findGroup(groups, id) {
   return groups.find(g => g.id === id);
+}
+
+function isMessageEndEvent(element) {
+  return is(element, 'bpmn:EndEvent') && !!getMessageEventDefinition(element);
+}
+
+function isMessageThrowEvent(element) {
+  return is(element, 'bpmn:IntermediateThrowEvent') && !!getMessageEventDefinition(element);
 }

@@ -76,6 +76,12 @@
     <bpmn:intermediateCatchEvent id="LinkEvent_1" name="LinkEvent_1">
       <bpmn:linkEventDefinition id="LinkEventDefinition_1" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="MessageThrow_1" name="MessageThrow_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0nqubrf" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="MessageEnd_1" name="MessageEnd_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0kzfqp4" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -148,6 +154,18 @@
         <dc:Bounds x="262" y="662" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="245" y="705" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0kputpn_di" bpmnElement="MessageThrow_1">
+        <dc:Bounds x="372" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="346" y="705" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e71pdm_di" bpmnElement="MessageEnd_1">
+        <dc:Bounds x="472" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="452" y="705" width="77" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ii3c12_di" bpmnElement="InterruptingTimerBoundaryEvent_1">
