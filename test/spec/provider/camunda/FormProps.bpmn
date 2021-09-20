@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08gp51z" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="StartEvent_1" />
+    <bpmn:startEvent id="StartEvent_FormKey" name="StartEvent_FormKey" camunda:formKey="embedded:deployment:FORM_NAME.html" />
+    <bpmn:startEvent id="StartEvent_FormRef" name="StartEvent_FormRef" camunda:formRef="invoice.form" camunda:formRefBinding="version" camunda:formRefVersion="1" />
+    <bpmn:userTask id="UserTask" name="UserTask" />
+    <bpmn:userTask id="UserTask_FormKey" name="UserTask_FormKey" camunda:formKey="embedded:deployment:FORM_NAME.html" />
+    <bpmn:userTask id="UserTask_FormRef" name="UserTask_FormRef" camunda:formRef="invoice.form" camunda:formRefBinding="version" camunda:formRefVersion="1" />
+    <bpmn:task id="Task_1" name="Task_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="239" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="282" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0j187ya_di" bpmnElement="StartEvent_FormKey">
+        <dc:Bounds x="179" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="425" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1et43v1_di" bpmnElement="StartEvent_FormRef">
+        <dc:Bounds x="179" y="522" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="155" y="565" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_150nx9l_di" bpmnElement="UserTask">
+        <dc:Bounds x="260" y="217" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04z06li_di" bpmnElement="UserTask_FormKey">
+        <dc:Bounds x="260" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t9fo4x_di" bpmnElement="UserTask_FormRef">
+        <dc:Bounds x="260" y="500" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_010fv3i_di" bpmnElement="Task_1">
+        <dc:Bounds x="260" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
