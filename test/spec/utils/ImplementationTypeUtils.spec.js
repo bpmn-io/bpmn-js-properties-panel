@@ -1,5 +1,6 @@
 import {
-  getServiceTaskLikeBusinessObject
+  getServiceTaskLikeBusinessObject,
+  getImplementationType
 } from '../../../src/provider/camunda-platform/utils/ImplementationTypeUtils';
 
 import BpmnModdle from 'bpmn-moddle';
@@ -48,10 +49,10 @@ describe('<ImplementationTypeUtils', function() {
     it('should return false for non-<camunda:ServiceTaskLike>', function() {
 
       // given
-      const serviceTask = moddle.create('bpmn:Task');
+      const noneTask = moddle.create('bpmn:Task');
 
       // when
-      const businessObject = getServiceTaskLikeBusinessObject(serviceTask);
+      const businessObject = getServiceTaskLikeBusinessObject(noneTask);
 
       // then
       expect(businessObject).to.be.false;
@@ -59,4 +60,134 @@ describe('<ImplementationTypeUtils', function() {
 
   });
 
+
+  describe('getImplementationType', function() {
+
+    it('should return dmn', function() {
+
+      // given
+      const businessRuleTask = moddle.create('bpmn:BusinessRuleTask', { 'camunda:decisionRef': 'DMN_1' });
+
+      // when
+      const type = getImplementationType(businessRuleTask);
+
+      // then
+      expect(type).to.eql('dmn');
+    });
+
+
+    it('should return connector', function() {
+
+      // given
+      const extensionElements = moddle.create('bpmn:ExtensionElements', {
+        values: [ moddle.create('camunda:Connector') ]
+      });
+      const serviceTask = moddle.create('bpmn:ServiceTask', { extensionElements });
+
+      // when
+      const type = getImplementationType(serviceTask);
+
+      // then
+      expect(type).to.eql('connector');
+    });
+
+
+    it('should return class', function() {
+
+      // given
+      const serviceTask = moddle.create('bpmn:ServiceTask', { 'camunda:class': 'com.test' });
+
+      // when
+      const type = getImplementationType(serviceTask);
+
+      // then
+      expect(type).to.eql('class');
+    });
+
+
+    it('should return delegate expression', function() {
+
+      // given
+      const serviceTask = moddle.create('bpmn:ServiceTask', { 'camunda:delegateExpression': '${42}' });
+
+      // when
+      const type = getImplementationType(serviceTask);
+
+      // then
+      expect(type).to.eql('delegateExpression');
+    });
+
+
+    it('should return expression', function() {
+
+      // given
+      const serviceTask = moddle.create('bpmn:ServiceTask', { 'camunda:expression': '${42}' });
+
+      // when
+      const type = getImplementationType(serviceTask);
+
+      // then
+      expect(type).to.eql('expression');
+    });
+
+
+    describe('on execution listener', function() {
+
+      function createListener(attributes) {
+        return moddle.create('camunda:ExecutionListener', attributes);
+      }
+
+
+      it('should return class', function() {
+
+        // given
+        const serviceTask = createListener({ 'camunda:class': 'com.test' });
+
+        // when
+        const type = getImplementationType(serviceTask);
+
+        // then
+        expect(type).to.eql('class');
+      });
+
+
+      it('should return script', function() {
+
+        // given
+        const listener = createListener({ script: 'return 42' });
+
+        // when
+        const type = getImplementationType(listener);
+
+        // then
+        expect(type).to.eql('script');
+      });
+
+
+      it('should return delegate expression', function() {
+
+        // given
+        const serviceTask = createListener({ 'camunda:delegateExpression': '${42}' });
+
+        // when
+        const type = getImplementationType(serviceTask);
+
+        // then
+        expect(type).to.eql('delegateExpression');
+      });
+
+
+      it('should return expression', function() {
+
+        // given
+        const serviceTask = createListener({ 'camunda:expression': '${42}' });
+
+        // when
+        const type = getImplementationType(serviceTask);
+
+        // then
+        expect(type).to.eql('expression');
+      });
+    });
+  });
 });

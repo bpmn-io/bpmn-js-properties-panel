@@ -81,6 +81,7 @@ export function getServiceTaskLikeBusinessObject(element) {
  * - class
  * - expression
  * - delegateExpression
+ * - script
  * - or undefined, when no matching implementation type is found
  *
  * @param  {djs.model.Base} element
@@ -89,7 +90,10 @@ export function getServiceTaskLikeBusinessObject(element) {
  */
 export function getImplementationType(element) {
 
-  const businessObject = getServiceTaskLikeBusinessObject(element);
+  const businessObject = (
+    getListenerBusinessObject(element) ||
+    getServiceTaskLikeBusinessObject(element)
+  );
 
   if (!businessObject) {
     return;
@@ -129,5 +133,16 @@ export function getImplementationType(element) {
   const delegateExpression = businessObject.get('camunda:delegateExpression');
   if (typeof delegateExpression !== 'undefined') {
     return 'delegateExpression';
+  }
+
+  const script = businessObject.get('script');
+  if (typeof script !== 'undefined') {
+    return 'script';
+  }
+}
+
+function getListenerBusinessObject(businessObject) {
+  if (is(businessObject, 'camunda:ExecutionListener')) {
+    return businessObject;
   }
 }
