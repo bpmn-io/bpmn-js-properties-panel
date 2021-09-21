@@ -1,9 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
 html, body, .modeler-container, .modeler-container > div {
   height: 100%;
   margin: 0;
-
-  font-family: sans-serif;
-  font-size: 16px;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .test-container {
@@ -30,6 +30,10 @@ html, body, .modeler-container, .modeler-container > div {
   position: relative;
   flex: none;
   height: 100%;
-  width: 250px;
+  width: 300px;
   border-left: solid 1px #cccccc;
+}
+
+.properties-container .bio-properties-panel {
+  --font-family: 'IBM Plex Sans', sans-serif !important;
 }
