@@ -119,7 +119,6 @@ export default class CamundaPlatformPropertiesProvider {
       JobExecutionGroup(element),
       ExecutionListenerGroup(element),
       TaskListenerGroup(element),
-      MultiInstanceGroup(element),
       TasklistGroup(element)
     ];
 
@@ -310,22 +309,6 @@ function ExternalTaskGroup(element) {
     entries: [
       ...ExternalTaskPriorityProps({ element })
     ]
-  };
-
-  if (group.entries.length) {
-    return group;
-  }
-
-  return null;
-}
-
-// @TODO: implement, hide with no entries in the meantime
-function MultiInstanceGroup(element) {
-  const group = {
-    label: 'Multi-instance',
-    id: 'CamundaPlatform__MultiInstance',
-    component: Group,
-    entries: []
   };
 
   if (group.entries.length) {

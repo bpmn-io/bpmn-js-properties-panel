@@ -113,7 +113,7 @@ function RemoveContainer(props) {
     };
 
     return (
-      <div onClick={ removeElement }>
+      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
         {
           children
         }
@@ -208,7 +208,7 @@ function AddInputParameter(props) {
   };
 
   return (
-    <div onClick={ addElement }>
+    <div class="bio-properties-panel-add-container" onClick={ addElement }>
       {
         children
       }

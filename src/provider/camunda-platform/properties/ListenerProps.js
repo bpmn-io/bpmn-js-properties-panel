@@ -247,7 +247,7 @@ function RemoveListenerContainer(props) {
     }
 
     return (
-      <div onClick={ removeListener }>
+      <div class="bio-properties-panel-remove-container" onClick={ removeListener }>
         { children }
       </div>
     );
@@ -498,7 +498,7 @@ function AddListener(props) {
   };
 
   return (
-    <div onClick={ addListener }>
+    <div class="bio-properties-panel-add-container" onClick={ addListener }>
       { children }
     </div>
   );
