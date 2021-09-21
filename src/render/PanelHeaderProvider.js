@@ -81,9 +81,8 @@ export const PanelHeaderProvider = {
     const concreteType = getConcreteType(element);
 
     return concreteType
-      .replace(/([A-Z])/g, ' $1')
-      .replace(/(\bNon Interrupting)/g, '($1)')
-      .toUpperCase();
+      .replace(/(\B[A-Z])/g, ' $1')
+      .replace(/(\bNon Interrupting)/g, '($1)');
   }
 };
 
