@@ -649,7 +649,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // when
         const heading = domQuery(
-          'div[data-entry-id=UserTask_4-formField-0-constraints] [title="Constraints (3 items)"]',
+          'div[data-entry-id=UserTask_4-formField-0-constraints] [title="Constraints"]',
           container
         );
         clickInput(heading);
@@ -829,7 +829,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // when
         const heading = domQuery(
-          'div[data-entry-id=UserTask_4-formField-0-properties] [title="Properties (3 items)"]',
+          'div[data-entry-id=UserTask_4-formField-0-properties] [title="Properties"]',
           container
         );
         clickInput(heading);
