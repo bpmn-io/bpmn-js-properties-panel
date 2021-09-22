@@ -1,10 +1,5 @@
 import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
-import { is } from 'bpmn-js/lib/util/ModelUtil';
-
-import {
-  getMessageEventDefinition
-} from '../bpmn/utils/EventDefinitionUtil';
 
 import {
   ConditionProps,
@@ -19,6 +14,7 @@ import {
   FormProps,
   TimerProps
 } from './properties';
+import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTaskUtil';
 
 const LOW_PRIORITY = 500;
 
@@ -259,12 +255,4 @@ ZeebePropertiesProvider.$inject = [ 'propertiesPanel' ];
 
 function findGroup(groups, id) {
   return groups.find(g => g.id === id);
-}
-
-function isMessageEndEvent(element) {
-  return is(element, 'bpmn:EndEvent') && !!getMessageEventDefinition(element);
-}
-
-function isMessageThrowEvent(element) {
-  return is(element, 'bpmn:IntermediateThrowEvent') && !!getMessageEventDefinition(element);
 }

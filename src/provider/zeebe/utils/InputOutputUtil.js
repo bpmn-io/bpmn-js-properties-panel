@@ -13,6 +13,7 @@ import {
 import {
   createElement
 } from '../../../utils/ElementUtil';
+import { isZeebeServiceTask } from './ZeebeServiceTaskUtil';
 
 function getElements(bo, type, prop) {
   const elems = getExtensionElementsList(bo, type);
@@ -63,11 +64,10 @@ export function getOutputParameters(element) {
 
 export function areInputParametersSupported(element) {
   return isAny(element, [
-    'zeebe:ZeebeServiceTask',
     'bpmn:UserTask',
     'bpmn:SubProcess',
     'bpmn:CallActivity'
-  ]);
+  ]) || isZeebeServiceTask(element);
 }
 
 export function areOutputParametersSupported(element) {

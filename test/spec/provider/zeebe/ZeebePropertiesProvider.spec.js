@@ -62,34 +62,45 @@ describe('<ZeebePropertiesProvider>', function() {
     it('should NOT show input group', inject(async function(elementRegistry, selection) {
 
       // given
-      const task = elementRegistry.get('Task_1');
+      const elements = [
+        elementRegistry.get('Task_1'),
+        elementRegistry.get('Event_1')
+      ];
 
-      await act(() => {
-        selection.select(task);
-      });
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
 
-      // when
-      const inputGroup = getGroup(container, 'inputs');
+        // when
+        const inputGroup = getGroup(container, 'inputs');
 
-      // then
-      expect(inputGroup).to.not.exist;
+        // then
+        expect(inputGroup).to.not.exist;
+      }
     }));
 
 
     it('should show input group', inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const elements = [
+        elementRegistry.get('MessageThrow_1'),
+        elementRegistry.get('MessageEnd_1'),
+        elementRegistry.get('ServiceTask_1')
+      ];
 
-      await act(() => {
-        selection.select(serviceTask);
-      });
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
 
-      // when
-      const inputGroup = getGroup(container, 'inputs');
+        // when
+        const inputGroup = getGroup(container, 'inputs');
 
-      // then
-      expect(inputGroup).to.exist;
+        // then
+        expect(inputGroup).to.exist;
+      }
     }));
 
 
@@ -147,17 +158,22 @@ describe('<ZeebePropertiesProvider>', function() {
     it('should show output group', inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const elements = [
+        elementRegistry.get('ServiceTask_1'),
+        elementRegistry.get('Event_1')
+      ];
 
-      await act(() => {
-        selection.select(serviceTask);
-      });
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
 
-      // when
-      const outputGroup = getGroup(container, 'outputs');
+        // when
+        const outputGroup = getGroup(container, 'outputs');
 
-      // then
-      expect(outputGroup).to.exist;
+        // then
+        expect(outputGroup).to.exist;
+      }
     }));
 
 
@@ -177,55 +193,88 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(headerGroup).to.not.exist;
     }));
 
-
     it('should show header group', inject(async function(elementRegistry, selection) {
 
       // given
-      const scriptTask = elementRegistry.get('ScriptTask_1');
+      const elements = [
+        elementRegistry.get('MessageThrow_1'),
+        elementRegistry.get('MessageEnd_1'),
+        elementRegistry.get('ScriptTask_1')
+      ];
 
-      await act(() => {
-        selection.select(scriptTask);
-      });
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
 
-      // when
-      const headerGroup = getGroup(container, 'headers');
+        // when
+        const headersGroup = getGroup(container, 'headers');
 
-      // then
-      expect(headerGroup).to.exist;
+        // then
+        expect(headersGroup).to.exist;
+      }
     }));
 
 
-    it('should NOT show task definition group', inject(async function(elementRegistry, selection) {
+    it('should not show header group', inject(async function(elementRegistry, selection) {
 
       // given
-      const task = elementRegistry.get('Task_1');
+      const noneEndEvent = elementRegistry.get('Event_1');
 
       await act(() => {
-        selection.select(task);
+        selection.select(noneEndEvent);
       });
 
       // when
-      const taskDefinitionGroup = getGroup(container, 'taskDefinition');
+      const headersGroup = getGroup(container, 'headers');
 
       // then
-      expect(taskDefinitionGroup).to.not.exist;
+      expect(headersGroup).to.not.exist;
     }));
 
 
     it('should show taskDefinition group', inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const elements = [
+        elementRegistry.get('MessageThrow_1'),
+        elementRegistry.get('MessageEnd_1'),
+        elementRegistry.get('ServiceTask_1')
+      ];
 
-      await act(() => {
-        selection.select(serviceTask);
-      });
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
 
-      // when
-      const taskDefinitionGroup = getGroup(container, 'taskDefinition');
+        // when
+        const taskDefinitionGroup = getGroup(container, 'taskDefinition');
 
-      // then
-      expect(taskDefinitionGroup).to.exist;
+        // then
+        expect(taskDefinitionGroup).to.exist;
+      }
+    }));
+
+
+    it('should not show taskDefinition group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [
+        elementRegistry.get('Event_1'),
+        elementRegistry.get('Task_1')
+      ];
+
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
+
+        // when
+        const taskDefinitionGroup = getGroup(container, 'taskDefinition');
+
+        // then
+        expect(taskDefinitionGroup).to.not.exist;
+      }
     }));
 
 

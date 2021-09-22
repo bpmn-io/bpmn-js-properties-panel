@@ -1,20 +1,15 @@
 import {
-  isAny
-} from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
-
-import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
   getExtensionElementsList
 } from './ExtensionElementsUtil';
+import { isZeebeServiceTask } from './ZeebeServiceTaskUtil';
 
 export function areHeadersSupported(element) {
-  return isAny(element, [
-    'zeebe:ZeebeServiceTask',
-    'bpmn:UserTask'
-  ]);
+  return is(element, 'bpmn:UserTask') || isZeebeServiceTask(element);
 }
 
 /**

@@ -1,6 +1,5 @@
 import {
-  getBusinessObject,
-  is
+  getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
@@ -17,13 +16,17 @@ import {
   useService
 } from '../../../hooks';
 
+import {
+  isZeebeServiceTask
+} from '../utils/ZeebeServiceTaskUtil';
+
 
 export function TaskDefinitionProps(props) {
   const {
     element
   } = props;
 
-  if (!is(element, 'zeebe:ZeebeServiceTask')) {
+  if (!isZeebeServiceTask(element)) {
     return [];
   }
 
