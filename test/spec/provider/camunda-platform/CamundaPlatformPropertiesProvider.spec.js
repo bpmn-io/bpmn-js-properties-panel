@@ -532,7 +532,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
-      it('should show formKey group', inject(async function(elementRegistry, selection) {
+      it('should show form group', inject(async function(elementRegistry, selection) {
 
         // given
         const task = elementRegistry.get('UserTask_1');
@@ -542,14 +542,14 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         });
 
         // when
-        const formKeyGroup = getGroup(container, 'CamundaPlatform__FormKey');
+        const formGroup = getGroup(container, 'CamundaPlatform__Form');
 
         // then
-        expect(formKeyGroup).to.exist;
+        expect(formGroup).to.exist;
       }));
 
 
-      it('should NOT show formKey group', inject(async function(elementRegistry, selection) {
+      it('should NOT show form group', inject(async function(elementRegistry, selection) {
 
         // given
         const group = elementRegistry.get('Task_1');
@@ -559,10 +559,10 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         });
 
         // when
-        const formKeyGroup = getGroup(container, 'CamundaPlatform__FormKey');
+        const formGroup = getGroup(container, 'CamundaPlatform__Form');
 
         // then
-        expect(formKeyGroup).to.not.exist;
+        expect(formGroup).to.not.exist;
       }));
 
 

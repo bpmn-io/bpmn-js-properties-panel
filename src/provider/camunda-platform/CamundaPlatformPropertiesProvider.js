@@ -111,7 +111,6 @@ export default class CamundaPlatformPropertiesProvider {
       FieldInjectionGroup(element),
       FormDataGroup(element),
       BusinessKeyGroup(element),
-      FormKeyGroup(element),
       FormGroup(element),
       HistoryCleanupGroup(element),
       JobExecutionGroup(element),
@@ -528,30 +527,14 @@ function BusinessKeyGroup(element) {
   return null;
 }
 
-function FormKeyGroup(element) {
+function FormGroup(element) {
   const group = {
     label: 'Forms',
-    id: 'CamundaPlatform__FormKey',
+    id: 'CamundaPlatform__Form',
     component: Group,
     entries: [
       ...FormProps({ element })
     ]
-  };
-
-  if (group.entries.length) {
-    return group;
-  }
-
-  return null;
-}
-
-// @TODO: implement, hide with no entries in the meantime
-function FormGroup(element) {
-  const group = {
-    label: 'Form',
-    id: 'CamundaPlatform__Form',
-    component: Group,
-    entries: []
   };
 
   if (group.entries.length) {
