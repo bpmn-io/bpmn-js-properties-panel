@@ -686,6 +686,27 @@ describe('properties-panel', function() {
       }
     ));
 
+
+    it('should ignore incompatible provider', inject(function(propertiesPanel) {
+
+      // assume
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+
+      // given
+      var incompatibleProvider = {
+        getGroups: function() {
+          return [];
+        }
+      };
+
+      // when
+      propertiesPanel.registerProvider(incompatibleProvider);
+
+      // then
+      // incompatible provider was not added
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+    }));
+
   });
 
 });
