@@ -66,6 +66,7 @@ export function MapProps(props) {
   }
 
   return List({
+    element,
     autoFocusEntry: true,
     compareFn,
     id: idPrefix + '-map',

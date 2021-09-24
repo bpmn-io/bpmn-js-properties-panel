@@ -183,6 +183,41 @@ describe('provider/camunda-platform - MapProps', function() {
         })
       );
 
+
+      it('should not randomly open items', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_1');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        const group = getGroup(container, 'CamundaPlatform__Input');
+        const list = domQuery('div[data-entry-id="ServiceTask_1-inputParameter-0-map"]', group);
+        const addEntry = domQuery('.bio-properties-panel-add-entry', list);
+
+        // when
+        await act(() => {
+          addEntry.click();
+          addEntry.click();
+          selection.select();
+        });
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // then
+        const groupAfter = getGroup(container, 'CamundaPlatform__Input');
+        const listAfter = domQuery('div[data-entry-id="ServiceTask_1-inputParameter-0-map"]', groupAfter);
+        const entries = domQueryAll('.bio-properties-panel-collapsible-entry', listAfter);
+        const openEntries = domQueryAll('.bio-properties-panel-collapsible-entry.open', listAfter);
+
+        expect(entries).to.have.length(5);
+        expect(openEntries).to.be.empty;
+      }));
+
     });
 
 
