@@ -615,7 +615,7 @@ describe('provider/camunda-platform - FormField', function() {
         // then
         const validation = getFormFieldValidation(task, 0);
         const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[0]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[1]);
 
         expect(validation.get('constraints')[0].name).to.equal(label.innerHTML);
       }));
@@ -632,7 +632,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[1]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[0]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');
       }));
@@ -795,7 +795,7 @@ describe('provider/camunda-platform - FormField', function() {
         // then
         const properties = getFormFieldProperties(task, 0);
         const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-properties] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[0]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[1]);
 
         expect(properties.get('values')[0].id).to.equal(label.innerHTML);
       }));
@@ -812,7 +812,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-properties] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[1]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[0]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');
       }));

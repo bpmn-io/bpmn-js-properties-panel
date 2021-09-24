@@ -319,6 +319,7 @@ function ValueList(props) {
   }
 
   return <ListEntry
+    element={ element }
     autoFocusEntry={ true }
     id={ id }
     label={ translate('Values') }
@@ -411,6 +412,7 @@ function ConstraintList(props) {
   }
 
   return <ListEntry
+    element={ element }
     autoFocusEntry={ true }
     compareFn={ createAlphanumericCompare('name') }
     id={ id }
@@ -503,6 +505,7 @@ function PropertiesList(props) {
   }
 
   return <ListEntry
+    element={ element }
     autoFocusEntry={ true }
     id={ id }
     compareFn={ createAlphanumericCompare('id') }

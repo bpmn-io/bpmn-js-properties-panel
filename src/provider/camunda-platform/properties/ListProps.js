@@ -65,6 +65,7 @@ export function ListProps(props) {
   }
 
   return List({
+    element,
     autoFocusEntry: true,
     compareFn,
     id: idPrefix + '-list',
