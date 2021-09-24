@@ -100,6 +100,14 @@ export default class BpmnPropertiesPanelRenderer {
       priority = DEFAULT_PRIORITY;
     }
 
+    if (typeof provider.getGroups !== 'function') {
+      console.error(
+        'Properties provider does not impement #getGroups(element) API'
+      );
+
+      return;
+    }
+
     this._eventBus.on('propertiesPanel.getProviders', priority, function(event) {
       event.providers.push(provider);
     });

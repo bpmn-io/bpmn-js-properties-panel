@@ -284,6 +284,50 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  describe('providers', function() {
+
+    const diagramXML = require('test/fixtures/simple.bpmn').default;
+
+    function inject(fn) {
+
+      return async function() {
+        const {
+          modeler
+        } = await createModeler(diagramXML, {
+          additionalModules: [
+            BpmnPropertiesPanel,
+            BpmnPropertiesProvider
+          ]
+        });
+
+        await modeler.invoke(fn);
+      };
+    }
+
+
+    it('should ignore incompatible provider', inject(function(propertiesPanel) {
+
+      // assume
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+
+      // given
+      const incompatibleProvider = {
+        getTabs: function() {
+          return [];
+        }
+      };
+
+      // when
+      propertiesPanel.registerProvider(incompatibleProvider);
+
+      // then
+      // incompatible provider was not added
+      expect(propertiesPanel._getProviders()).to.have.length(1);
+    }));
+
+  });
+
+
   describe('integration', function() {
 
     it('should ensure creating + importing -> attaching works', async function() {
