@@ -43,7 +43,7 @@
   "license": "MIT",
   "dependencies": {
     "@bpmn-io/extract-process-variables": "^0.4.3",
-    "@bpmn-io/properties-panel": "^0.4.0",
+    "@bpmn-io/properties-panel": "^0.4.1",
     "classnames": "^2.3.1",
     "ids": "^1.0.0",
     "min-dash": "^3.8.0",
