@@ -51,7 +51,7 @@ export function ErrorsProps(props) {
         element,
         errorEventDefinition
       }),
-      autoFocusEntry: id + '-expression',
+      autoFocusEntry: id + '-errorRef',
       remove: RemoveContainer({ errorEventDefinition })
     };
   });
