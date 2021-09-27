@@ -1,6 +1,7 @@
 import ListEntry from '@bpmn-io/properties-panel/lib/components/entries/List';
 import CollapsibleEntry from '@bpmn-io/properties-panel/lib/components/entries/Collapsible';
 import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 
 import {
@@ -39,6 +40,8 @@ import {
 } from './ImplementationProps';
 
 import { ScriptProps } from './ScriptProps';
+import { TimerProps } from '../../bpmn/properties';
+import { getTimerEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
 
 
 const LISTENER_ALLOWED_TYPES = [
@@ -75,6 +78,11 @@ const DEFAULT_PROPS = {
   ...DELEGATE_EXPRESSION_PROPS
 };
 
+const DEFAULT_EVENT_PROPS = {
+  'eventDefinitions' : undefined,
+  'event': undefined
+};
+
 const IMPLEMENTATION_TYPE_TO_LABEL = {
   class: 'Java class',
   expression: 'Expression',
@@ -85,7 +93,13 @@ const IMPLEMENTATION_TYPE_TO_LABEL = {
 const EVENT_TO_LABEL = {
   start: 'Start',
   end: 'End',
-  take: 'Take'
+  take: 'Take',
+  create:'Create',
+  assignment: 'Assignment',
+  complete: 'Complete',
+  delete: 'Delete',
+  update: 'Update',
+  timeout: 'Timeout'
 };
 
 /**
@@ -109,7 +123,7 @@ export function ExecutionListenerProps(props) {
 
   return {
     items: listeners.map((listener, index) => {
-      const id = `${element.id}-listener-${index}`;
+      const id = `${element.id}-executionListener-${index}`;
 
       // @TODO(barmac): Find a way to pass translate for internationalized label.
       return {
@@ -123,7 +137,7 @@ export function ExecutionListenerProps(props) {
         remove: RemoveListenerContainer({ listener })
       };
     }),
-    add: AddListener
+    add: AddExecutionListener
   };
 }
 
@@ -144,6 +158,69 @@ function ExecutionListener(props) {
     component: <ListenerType id={ `${idPrefix}-listenerType` } element={ element } listener={ listener } />
   },
   ...ImplementationDetails({ idPrefix, element, listener }),
+  {
+    id: `${idPrefix}-fields`,
+    component: <Fields id={ `${idPrefix}-fields` } element={ element } listener={ listener } />
+  }];
+}
+
+export function TaskListenerProps(props) {
+
+  const {
+    element
+  } = props;
+
+  if (!is(element, 'bpmn:UserTask')) {
+    return;
+  }
+
+  const businessObject = getListenersContainer(element);
+  const listeners = getExtensionElementsList(businessObject, 'camunda:TaskListener');
+
+  return {
+    items: listeners.map((listener, index) => {
+      const id = `${element.id}-taskListener-${index}`;
+
+      // @TODO(barmac): Find a way to pass translate for internationalized label.
+      return {
+        id,
+        label: getListenerLabel(listener),
+        entries: TaskListener({
+          idPrefix: id,
+          element,
+          listener
+        }),
+
+        remove: RemoveListenerContainer({ listener })
+      };
+    }),
+
+    add: AddTaskListener
+  };
+}
+
+function TaskListener(props) {
+  const {
+    idPrefix,
+    element,
+    listener
+  } = props;
+
+
+  return [{
+    id: `${idPrefix}-eventType`,
+    component: <EventType id={ `${idPrefix}-eventType` } element={ element } listener={ listener } />
+  },
+  {
+    id: `${idPrefix}-listenerId`,
+    component: <ListenerId id={ `${idPrefix}-listenerId` } element={ element } listener={ listener } />
+  },
+  {
+    id: `${idPrefix}-listenerType`,
+    component: <ListenerType id={ `${idPrefix}-listenerType` } element={ element } listener={ listener } />
+  },
+  ...ImplementationDetails({ idPrefix, element, listener }),
+  ...EventTypeDetails({ idPrefix, element, listener }),
   {
     id: `${idPrefix}-fields`,
     component: <Fields id={ `${idPrefix}-fields` } element={ element } listener={ listener } />
@@ -179,22 +256,37 @@ function RemoveListenerContainer(props) {
 
 function EventType({ id, element, listener }) {
 
-  const modeling = useService('modeling');
   const translate = useService('translate');
+  const bpmnFactory = useService('bpmnFactory');
+  const commandStack = useService('commandStack');
 
   function getValue() {
     return listener.get('event');
   }
 
   function setValue(value) {
-    modeling.updateModdleProperties(
-      element,
-      listener,
-      { event: value }
-    );
+    const properties = getDefaultEventTypeProperties(value, bpmnFactory);
+
+    commandStack.execute('properties-panel.update-businessobject', {
+      element: element,
+      businessObject: listener,
+      properties
+    });
   }
 
   function getOptions() {
+
+    if (is(listener, 'camunda:TaskListener')) {
+      return [
+        { value: 'create', label: translate('create') },
+        { value: 'assignment', label: translate('assignment') },
+        { value: 'complete', label: translate('complete') },
+        { value: 'delete', label: translate('delete') },
+        { value: 'update', label: translate('update') },
+        { value: 'timeout', label: translate('timeout') }
+      ];
+    }
+
     if (is(element, 'bpmn:SequenceFlow')) {
       return [ { value: 'take', label: translate('take') } ];
     }
@@ -212,6 +304,35 @@ function EventType({ id, element, listener }) {
     setValue={ setValue }
     getOptions={ getOptions }
   />;
+}
+
+function ListenerId({ id, element, listener }) {
+
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+  const commandStack = useService('commandStack');
+
+  let options = {
+    element,
+    id: id,
+    label: translate('Listener ID'),
+    debounce,
+    isEdited: textFieldIsEdited,
+    setValue: (value) => {
+      commandStack.execute('properties-panel.update-businessobject', {
+        element: element,
+        businessObject: listener,
+        properties: {
+          'camunda:id': value
+        }
+      });
+    },
+    getValue: () => {
+      return listener.get('camunda:id');
+    }
+  };
+
+  return TextField(options);
 }
 
 function ListenerType({ id, element, listener }) {
@@ -276,6 +397,22 @@ function ImplementationDetails(props) {
   }
 }
 
+function EventTypeDetails(props) {
+  const {
+    idPrefix,
+    element,
+    listener
+  } = props;
+
+  const type = listener.get('event');
+
+  if (type === 'timeout') {
+
+    return TimerProps({ element, listener, timerEventDefinition: getTimerEventDefinition(listener), idPrefix: idPrefix });
+  }
+  return [];
+}
+
 function Fields(props) {
   const {
     id,
@@ -336,7 +473,8 @@ function Fields(props) {
 function AddListener(props) {
 
   const {
-    children
+    children,
+    listenerGroup
   } = props;
 
   const {
@@ -349,8 +487,8 @@ function AddListener(props) {
   const addListener = event => {
     event.stopPropagation();
 
-    const listener = bpmnFactory.create('camunda:ExecutionListener', {
-      event: getDefaultEvent(element),
+    const listener = bpmnFactory.create(listenerGroup, {
+      event: getDefaultEvent(element, listenerGroup),
       class: ''
     });
 
@@ -364,6 +502,14 @@ function AddListener(props) {
       { children }
     </div>
   );
+}
+
+function AddTaskListener(props) {
+  return AddListener({ ...props, listenerGroup:'camunda:TaskListener' });
+}
+
+function AddExecutionListener(props) {
+  return AddListener({ ...props, listenerGroup:'camunda:ExecutionListener' });
 }
 
 // helper
@@ -393,7 +539,9 @@ function getListenerType(listener) {
   return getImplementationType(listener);
 }
 
-function getDefaultEvent(element) {
+function getDefaultEvent(element, listenerGroup) {
+  if (listenerGroup === 'camunda:TaskListener') return 'create';
+
   return is(element, 'bpmn:SequenceFlow') ? 'take' : 'start';
 }
 
@@ -407,6 +555,15 @@ function getDefaultImplementationProperties(type, bpmnFactory) {
     return { ...DEFAULT_PROPS, 'delegateExpression': '' };
   case 'script':
     return { ...DEFAULT_PROPS, 'script': bpmnFactory.create('camunda:Script') };
+  }
+}
+
+function getDefaultEventTypeProperties(type, bpmnFactory) {
+  switch (type) {
+  case 'timeout':
+    return { ...DEFAULT_EVENT_PROPS, eventDefinitions: [bpmnFactory.create('bpmn:TimerEventDefinition')], event:type };
+  default:
+    return { ...DEFAULT_EVENT_PROPS, event: type };
   }
 }
 

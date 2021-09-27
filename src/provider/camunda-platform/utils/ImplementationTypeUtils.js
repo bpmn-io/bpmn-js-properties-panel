@@ -4,6 +4,10 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
+  isAny
+} from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
+
+import {
   getMessageEventDefinition
 } from '../../bpmn/utils/EventDefinitionUtil';
 
@@ -142,7 +146,7 @@ export function getImplementationType(element) {
 }
 
 function getListenerBusinessObject(businessObject) {
-  if (is(businessObject, 'camunda:ExecutionListener') || is(businessObject,'camunda:TaskListener')) {
+  if (isAny(businessObject, ['camunda:ExecutionListener','camunda:TaskListener'])) {
     return businessObject;
   }
 }

@@ -56,21 +56,52 @@
     </bpmn:startEvent>
     <bpmn:userTask id="TaskListener" name="TaskListener">
       <bpmn:extensionElements>
-        <camunda:taskListener class="TaskListener" event="create" id="TaskListener" />
+        <camunda:taskListener class="TaskListener" event="timeout" id="TaskListener">
+          <bpmn:timerEventDefinition id="TimerEventDefinition_1x4a1oo">
+            <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT15S</bpmn:timeDuration>
+          </bpmn:timerEventDefinition>
+        </camunda:taskListener>
       </bpmn:extensionElements>
     </bpmn:userTask>
-    <bpmn:task id="OtherExtensions" name="OtherExtensions">
+    <bpmn:userTask id="EmptyUserTask" name="EmptyUserTask" />
+    <bpmn:userTask id="ExpressionTaskListener" name="ExpressionTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="" event="create" id="TaskListener" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="DelegateExpressionTaskListener" name="DelegateExpressionTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="" event="create" id="TaskListener" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="ScriptTaskListener" name="ScriptTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create" id="TaskListener">
+          <camunda:script />
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="FieldTaskListener" name="FieldTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="TaskListener" event="create" id="TaskListener">
+          <camunda:field name="1">
+            <camunda:string>expression</camunda:string>
+          </camunda:field>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="OtherExtensions" name="OtherExtensions">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="custom" value="extension" />
         </camunda:properties>
       </bpmn:extensionElements>
-    </bpmn:task>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
       <bpmndi:BPMNShape id="Participant_1r10nph_di" bpmnElement="Participant_1" isHorizontal="true">
-        <dc:Bounds x="160" y="120" width="600" height="250" />
+        <dc:Bounds x="160" y="120" width="880" height="340" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1nqgtic_di" bpmnElement="Flow_1nqgtic">
         <di:waypoint x="600" y="180" />
@@ -117,7 +148,22 @@
       <bpmndi:BPMNShape id="Activity_0u0o3lu_di" bpmnElement="TaskListener">
         <dc:Bounds x="340" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0lykf0n_di" bpmnElement="OtherExtensions">
+      <bpmndi:BPMNShape id="Activity_1nmj0fb_di" bpmnElement="EmptyUserTask">
+        <dc:Bounds x="670" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13clx9y_di" bpmnElement="ExpressionTaskListener">
+        <dc:Bounds x="340" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hni6pg_di" bpmnElement="DelegateExpressionTaskListener">
+        <dc:Bounds x="500" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07x1jxw_di" bpmnElement="ScriptTaskListener">
+        <dc:Bounds x="670" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d96ito_di" bpmnElement="FieldTaskListener">
+        <dc:Bounds x="840" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_081oeyv_di" bpmnElement="OtherExtensions">
         <dc:Bounds x="500" y="250" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

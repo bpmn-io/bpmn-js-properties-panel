@@ -1,5 +1,6 @@
 import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -25,15 +26,24 @@ import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-pa
  */
 export function TimerProps(props) {
   const {
-    element
+    element,
+    listener,
+    idPrefix
   } = props;
 
-  const businessObject = getBusinessObject(element),
-        timerEventDefinition = getTimerEventDefinition(businessObject),
-        timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition);
+  let {
+    timerEventDefinition
+  } = props;
+
+  if (!timerEventDefinition) {
+    const businessObject = getBusinessObject(element);
+    timerEventDefinition = getTimerEventDefinition(businessObject);
+  }
+
+  const timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition);
 
   // (1) Only show for supported elements
-  if (!isTimerSupported(element)) {
+  if (!isTimerSupported(element) && !isTimerSupportedOnListener(listener)) {
     return [];
   }
 
@@ -41,15 +51,15 @@ export function TimerProps(props) {
   const entries = [];
 
   entries.push({
-    id: 'timerEventDefinitionType',
-    component: <TimerEventDefinitionType element={ element } />,
+    id: getId(idPrefix, 'timerEventDefinitionType'),
+    component: <TimerEventDefinitionType element={ element } timerEventDefinition={ timerEventDefinition } timerEventDefinitionType={ timerEventDefinitionType } />,
     isEdited: selectIsEdited
   });
 
   if (timerEventDefinitionType) {
     entries.push({
-      id: 'timerEventDefinitionValue',
-      component: <TimerEventDefinitionValue element={ element } />,
+      id: getId(idPrefix, 'timerEventDefinitionValue'),
+      component: <TimerEventDefinitionValue element={ element } timerEventDefinition={ timerEventDefinition } timerEventDefinitionType={ timerEventDefinitionType } />,
       isEdited: textFieldIsEdited
     });
   }
@@ -67,16 +77,14 @@ export function TimerProps(props) {
  */
 function TimerEventDefinitionType(props) {
   const {
-    element
+    element,
+    timerEventDefinition,
+    timerEventDefinitionType
   } = props;
 
   const commandStack = useService('commandStack'),
         bpmnFactory = useService('bpmnFactory'),
         translate = useService('translate');
-
-  const businessObject = getBusinessObject(element),
-        timerEventDefinition = getTimerEventDefinition(businessObject),
-        timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition);
 
   const getValue = () => {
     return timerEventDefinitionType || '';
@@ -138,17 +146,16 @@ function TimerEventDefinitionType(props) {
  */
 function TimerEventDefinitionValue(props) {
   const {
-    element
+    element,
+    timerEventDefinition,
+    timerEventDefinitionType
   } = props;
 
   const commandStack = useService('commandStack'),
         translate = useService('translate'),
         debounce = useService('debounceInput');
 
-  const businessObject = getBusinessObject(element),
-        timerEventDefinition = getTimerEventDefinition(businessObject),
-        timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition),
-        timerEventFormalExpression = timerEventDefinition.get(timerEventDefinitionType);
+  const timerEventFormalExpression = timerEventDefinition.get(timerEventDefinitionType);
 
   const getValue = () => {
     return timerEventFormalExpression && timerEventFormalExpression.get('body');
@@ -211,4 +218,12 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
       <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-duration" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);
   }
+}
+
+function isTimerSupportedOnListener(listener) {
+  return listener && is(listener, 'camunda:TaskListener') && getTimerEventDefinition(listener);
+}
+
+function getId(idPrefix, id) {
+  return idPrefix ? idPrefix + id : id;
 }
