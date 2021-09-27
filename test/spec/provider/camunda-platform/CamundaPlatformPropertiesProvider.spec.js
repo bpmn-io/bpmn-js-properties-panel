@@ -566,6 +566,40 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
+      it('should show errors group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('ExternalServiceTask');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const formKeyGroup = getGroup(container, 'CamundaPlatform__Errors');
+
+        // then
+        expect(formKeyGroup).to.exist;
+      }));
+
+
+      it('should NOT show errors group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const group = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(group);
+        });
+
+        // when
+        const formKeyGroup = getGroup(container, 'CamundaPlatform__Errors');
+
+        // then
+        expect(formKeyGroup).to.not.exist;
+      }));
+
+
       it('should show in mapping group', inject(async function(elementRegistry, selection) {
 
         // given

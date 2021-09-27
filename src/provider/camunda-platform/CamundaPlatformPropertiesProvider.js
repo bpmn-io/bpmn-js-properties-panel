@@ -12,6 +12,7 @@ import {
   ConnectorInputProps,
   ConnectorOutputProps,
   ErrorProps,
+  ErrorsProps,
   EscalationProps,
   ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
@@ -91,6 +92,7 @@ export default class CamundaPlatformPropertiesProvider {
     const groups = [
       ProcessVariablesGroup(element),
       ImplementationGroup(element),
+      ErrorsGroup(element),
       UserAssignmentGroup(element),
       StartInitiatorGroup(element),
       ScriptGroup(element),
@@ -191,6 +193,21 @@ function ImplementationGroup(element) {
   };
 
   if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
+function ErrorsGroup(element) {
+  const group = {
+    label: 'Errors',
+    id: 'CamundaPlatform__Errors',
+    component: ListGroup,
+    ...ErrorsProps({ element })
+  };
+
+  if (group.items) {
     return group;
   }
 

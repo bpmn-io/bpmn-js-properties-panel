@@ -6,6 +6,7 @@ export { ConditionProps } from './ConditionProps';
 export { ConnectorInputProps } from './ConnectorInputProps';
 export { ConnectorOutputProps } from './ConnectorOutputProps';
 export { ErrorProps } from './ErrorProps';
+export { ErrorsProps } from './ErrorsProps';
 export { EscalationProps } from './EscalationProps';
 export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { ExternalTaskPriorityProps } from './ExternalTaskPriorityProps';

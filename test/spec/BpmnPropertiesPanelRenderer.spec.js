@@ -89,6 +89,12 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       ...options
     });
 
+    modeler.on('commandStack.changed', async () => {
+      const { xml } = await modeler.saveXML({ format: true });
+
+      console.log(xml);
+    });
+
     setBpmnJS(modeler);
 
     if (!shouldImport) {
