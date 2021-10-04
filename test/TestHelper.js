@@ -13,6 +13,8 @@ import {
 
 import Modeler from 'bpmn-js/lib/Modeler';
 
+let PROPERTIES_PANEL_CONTAINER;
+
 export * from 'bpmn-js/test/helper';
 
 export function bootstrapPropertiesPanel(diagram, options, locals) {
@@ -26,17 +28,26 @@ export function bootstrapPropertiesPanel(diagram, options, locals) {
     const createModeler = bootstrapBpmnJS(Modeler, diagram, options, locals);
     await act(() => createModeler.call(this));
 
-    // (2) attach properties panel
+    // (2) clean-up properties panel
+    clearPropertiesPanelContainer();
+
+    // (3) attach properties panel
     const attachPropertiesPanel = inject(function(propertiesPanel) {
-      const propertiesPanelContainer = document.createElement('div');
-      propertiesPanelContainer.classList.add('properties-container');
+      PROPERTIES_PANEL_CONTAINER = document.createElement('div');
+      PROPERTIES_PANEL_CONTAINER.classList.add('properties-container');
 
-      container.appendChild(propertiesPanelContainer);
+      container.appendChild(PROPERTIES_PANEL_CONTAINER);
 
-      return act(() => propertiesPanel.attachTo(propertiesPanelContainer));
+      return act(() => propertiesPanel.attachTo(PROPERTIES_PANEL_CONTAINER));
     });
     await attachPropertiesPanel();
   };
+}
+
+export function clearPropertiesPanelContainer() {
+  if (PROPERTIES_PANEL_CONTAINER) {
+    PROPERTIES_PANEL_CONTAINER.remove();
+  }
 }
 
 export function changeInput(input, value) {
