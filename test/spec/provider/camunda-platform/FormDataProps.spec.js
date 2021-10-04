@@ -185,7 +185,7 @@ describe('provider/camunda-platform - FormDataProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const event = elementRegistry.get('StartEvent_2');
+      const event = elementRegistry.get('UserTask_3');
 
       await act(() => {
         selection.select(event);
@@ -197,6 +197,24 @@ describe('provider/camunda-platform - FormDataProps', function() {
 
       // then
       expect(formFieldRemoveButton).to.exist;
+    }));
+
+
+    it('should not display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const event = elementRegistry.get('StartEvent_2');
+
+      await act(() => {
+        selection.select(event);
+      });
+
+      // when
+      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+      const formFieldRemoveButton = domQueryAll('.bio-properties-panel-remove-entry', formDataGroup)[0];
+
+      // then
+      expect(formFieldRemoveButton).to.not.exist;
     }));
 
 
