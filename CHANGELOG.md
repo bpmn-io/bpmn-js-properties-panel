@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.45.0
+
+* `FEAT`: allow configuring camunda forms ([#480](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/480))
+* `DEPS`: update to camunda-bpmn-moddle@6.1.0
+
 ## 0.44.1
 
 * `DEPS`: update to `diagram-js@7.4.0` ([#479](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/479))
