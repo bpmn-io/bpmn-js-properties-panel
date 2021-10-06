@@ -97,6 +97,27 @@ describe('provider/bpmn - TimerProps', function() {
           expect(definitionTypeSelect).not.to.exist;
         }));
 
+
+        it('should NOT attribute timer definition when type is not set', inject(async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('TimerStartEvent_1');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          // assume
+          const orginalTimer = getTimerEventDefinition(element);
+
+          // when
+          const select = domQuery('select[name*=timerEventDefinitionType]', container);
+          changeInput(select, 'timeout');
+          changeInput(select, '');
+
+          expect(orginalTimer.$attrs).to.be.empty;
+        }));
+
       });
 
 
