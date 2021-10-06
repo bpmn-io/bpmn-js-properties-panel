@@ -6,6 +6,14 @@ All notable changes to [`@bpmn-io/bpmn-properties-panel`](https://github.com/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.3.0
+
+* `FEAT`: Implemented Camunda Platform Properties Provider ([#2](https://github.com/bpmn-io/bpmn-properties-panel/issues/2))
+* `FEAT`: Support message throw and End Event in Zeebe Provider ([#114](https://github.com/bpmn-io/bpmn-properties-panel/pull/114))
+* `DEPS`: bump to `diagram-js@7.4.0`
+* `DEPS`: bump to `camunda-bpmn-moddle@6.1.0`
+* `DEPS`: bump to `@bpmn-io/properties-panel@0.4.2`
+
 ## 0.2.0
 
 * `FIX`: prevent auto focus list behavior when switching elements ([#65](https://github.com/bpmn-io/bpmn-properties-panel/issues/65))
