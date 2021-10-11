@@ -83,6 +83,11 @@ export function insertCoreStyles() {
   );
 
   insertCSS(
+    'element-templates.css',
+    require('../assets/element-templates.css').default
+  );
+
+  insertCSS(
     'test.css',
     require('./test.css').default
   );

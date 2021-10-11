@@ -27,7 +27,10 @@ describe('provider/element-template - ElementTemplates', function() {
     modules: [
       coreModule,
       elementTemplatesModule,
-      modelingModule
+      modelingModule,
+      {
+        propertiesPanel: [ 'value', { registerProvider() {} } ]
+      }
     ],
     moddleExtensions: {
       camunda: camundaModdlePackage

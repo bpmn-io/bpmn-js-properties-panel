@@ -37,7 +37,10 @@ const modules = [
   CoreModule,
   ElementTemplatesModule,
   ModelingModule,
-  PropertiesPanelCommandsModule
+  PropertiesPanelCommandsModule,
+  {
+    propertiesPanel: [ 'value', { registerProvider() {} } ]
+  }
 ];
 
 const moddleExtensions = {

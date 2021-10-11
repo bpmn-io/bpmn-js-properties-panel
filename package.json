@@ -16,6 +16,7 @@
     "start:cloud": "cross-env SINGLE_START=cloud npm run dev",
     "start:platform": "cross-env SINGLE_START=platform npm run dev",
     "start:bpmn": "cross-env SINGLE_START=bpmn npm run dev",
+    "start:templates": "cross-env SINGLE_START=templates npm run dev",
     "prepare": "run-s bundle"
   },
   "keywords": [

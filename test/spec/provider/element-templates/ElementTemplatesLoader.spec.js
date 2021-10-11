@@ -14,6 +14,17 @@ import diagramXML from './fixtures/empty-diagram.bpmn';
 import templateDescriptors from './fixtures/misc';
 
 
+const modules = [
+  coreModule,
+  modelingModule,
+  propertiesPanelCommandsModule,
+  elementTemplatesModule,
+  {
+    propertiesPanel: [ 'value', { registerProvider() {} } ]
+  }
+];
+
+
 describe('provider/element-template - ElementTemplatesLoader', function() {
 
   let container;
@@ -27,12 +38,7 @@ describe('provider/element-template - ElementTemplatesLoader', function() {
 
     beforeEach(bootstrapModeler(diagramXML, {
       container: container,
-      modules: [
-        coreModule,
-        modelingModule,
-        propertiesPanelCommandsModule,
-        elementTemplatesModule
-      ],
+      modules,
       moddleExtensions: {
         camunda: camundaModdlePackage
       },
@@ -76,12 +82,7 @@ describe('provider/element-template - ElementTemplatesLoader', function() {
 
     beforeEach(bootstrapModeler(diagramXML, {
       container: container,
-      modules: [
-        coreModule,
-        modelingModule,
-        propertiesPanelCommandsModule,
-        elementTemplatesModule
-      ],
+      modules,
       moddleExtensions: {
         camunda: camundaModdlePackage
       },

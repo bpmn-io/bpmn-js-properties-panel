@@ -24,6 +24,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPropertiesProvider from 'src/provider/camunda-platform';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
+import ElementTemplatesPropertiesProvider from 'src/provider/element-templates';
 
 import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
 import CamundaModdleExtension from 'camunda-bpmn-moddle/lib';
@@ -171,6 +172,33 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesPanel,
           BpmnPropertiesProvider
         ]
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
+  (singleStart === 'templates' ? it.only : it)('should import simple process (templates)', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          CamundaModdleExtension,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider,
+          CamundaPropertiesProvider,
+          ElementTemplatesPropertiesProvider
+        ],
+        moddleExtensions: {
+          camunda: CamundaModdle
+        }
       }
     );
 

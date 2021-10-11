@@ -1,0 +1,14 @@
+.bio-properties-panel-group-header-button.bio-properties-panel-select-template-button {
+  padding-left: 6px;
+  margin-right: 19px;
+
+  background-color: var(--add-entry-hover-background-color);
+  fill: var(--add-entry-hover-fill-color);
+  border-radius: 11px;
+}
+
+.bio-properties-panel-select-template-button .bio-properties-panel-select-template-button-label {
+  padding: 4px 6px 3px 2px;
+
+  color: var(--add-entry-label-color);
+}

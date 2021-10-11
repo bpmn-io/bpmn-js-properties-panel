@@ -4,6 +4,7 @@ import ElementTemplates from './ElementTemplates';
 import ElementTemplatesLoader from './ElementTemplatesLoader';
 import ReplaceBehavior from './ReplaceBehavior';
 import commandsModule from './cmd';
+import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';
 
 export default {
   __depends__: [
@@ -12,9 +13,11 @@ export default {
   ],
   __init__: [
     'elementTemplatesLoader',
-    'replaceBehavior'
+    'replaceBehavior',
+    'elementTemplatesPropertiesProvider'
   ],
   elementTemplates: [ 'type', ElementTemplates ],
   elementTemplatesLoader: [ 'type', ElementTemplatesLoader ],
-  replaceBehavior: [ 'type', ReplaceBehavior ]
+  replaceBehavior: [ 'type', ReplaceBehavior ],
+  elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ]
 };
