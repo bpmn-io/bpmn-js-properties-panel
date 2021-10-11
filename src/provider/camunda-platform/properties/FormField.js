@@ -414,7 +414,6 @@ function ConstraintList(props) {
   return <ListEntry
     element={ element }
     autoFocusEntry={ true }
-    compareFn={ createAlphanumericCompare('name') }
     id={ id }
     label={ translate('Constraints') }
     items={ constraints }

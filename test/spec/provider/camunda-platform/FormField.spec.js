@@ -560,6 +560,28 @@ describe('provider/camunda-platform - FormField', function() {
     }));
 
 
+    it('should add constraint to bottom', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('UserTask_1');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const constraintsEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-constraints]', container);
+      const addConstraintButton = domQuery('button.bio-properties-panel-add-entry', constraintsEntry);
+
+      clickInput(addConstraintButton);
+
+      // then
+      const contraintHeadings = domQueryAll('.bio-properties-panel-list-entry-item', constraintsEntry);
+      const bottomContraintHeading = domQuery('.bio-properties-panel-collapsible-entry-header-title', contraintHeadings[2]);
+      expect(bottomContraintHeading.innerHTML).to.equal('&lt;empty&gt;');
+    }));
+
+
     it('should remove constraint', inject(async function(elementRegistry, selection) {
 
       // given
@@ -615,7 +637,7 @@ describe('provider/camunda-platform - FormField', function() {
         // then
         const validation = getFormFieldValidation(task, 0);
         const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[1]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[0]);
 
         expect(validation.get('constraints')[0].name).to.equal(label.innerHTML);
       }));
@@ -632,13 +654,13 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[0]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[1]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');
       }));
 
 
-      it('should display in the right order', inject(async function(elementRegistry, selection) {
+      it('should NOT sort', inject(async function(elementRegistry, selection) {
 
         // given
         const task = elementRegistry.get('UserTask_4');
@@ -660,9 +682,9 @@ describe('provider/camunda-platform - FormField', function() {
           container)).map(e => e.innerHTML);
 
         expect(constraintEntries).to.eql([
+          'Constraint3',
           'Constraint1',
-          'Constraint2',
-          'Constraint3']);
+          'Constraint2']);
       }));
 
     });
