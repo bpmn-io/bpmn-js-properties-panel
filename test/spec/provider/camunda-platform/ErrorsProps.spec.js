@@ -262,6 +262,50 @@ describe('provider/camunda-platform - ErrorProps', function() {
         expect(errors).to.have.length(2);
       }));
 
+
+      it('should add new error to bottom', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_ErrorCode');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        const addErrorButton = getAddFieldButton(container);
+
+        // when
+        await clickInput(addErrorButton);
+
+        // then
+        const errorHeaderLabel = getErrorItemLabel(container, 0);
+
+        expect(errorHeaderLabel.innerHTML).to.equal(
+          'myOtherBusinessException (code = com.company.MyOtherBusinessException)'
+        );
+      }));
+
+
+      it('should autoOpen newly added error', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_ErrorCode');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        const addErrorButton = getAddFieldButton(container);
+
+        // when
+        await clickInput(addErrorButton);
+
+        // then
+        const addedErrorDiv = domQuery('[data-entry-id="ServiceTask_ErrorCode-error-1"]', container);
+
+        expect(addedErrorDiv.classList.contains('open')).to.be.true;
+      }));
+
     });
 
 

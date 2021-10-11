@@ -58,7 +58,8 @@ export function ErrorsProps(props) {
 
   return {
     items,
-    add: AddError
+    add: AddError,
+    shouldSort: false
   };
 }
 

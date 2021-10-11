@@ -177,6 +177,49 @@ describe('provider/camunda-platform - FormDataProps', function() {
       expect(extElements).to.have.length(2);
     }));
 
+
+    it('should add formField to bottom', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('UserTask_2');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+      const addFormFieldButton = domQuery('.bio-properties-panel-add-entry', formDataGroup);
+      clickInput(addFormFieldButton);
+
+      // then
+      const formFieldEntries = getFormFieldEntries(formDataGroup);
+      const bottomFormFieldHeader = domQuery('.bio-properties-panel-collapsible-entry-header-title',
+        formFieldEntries[1]);
+      expect(bottomFormFieldHeader.innerHTML).to.equal('&lt;empty&gt;');
+    }));
+
+
+    it('should autoOpen newly added formField', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('UserTask_2');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+      const addFormFieldButton = domQuery('.bio-properties-panel-add-entry', formDataGroup);
+      clickInput(addFormFieldButton);
+
+      // then
+      const formFieldEntries = getFormFieldEntries(formDataGroup);
+      const collapsbileEntry = domQuery('.bio-properties-panel-collapsible-entry', formFieldEntries[1]);
+      expect(collapsbileEntry.classList.contains('open')).to.be.true;
+    }));
+
   });
 
 
