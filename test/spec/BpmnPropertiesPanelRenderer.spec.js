@@ -104,7 +104,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     }
   }
 
-  ((singleStart && singleStart === 'cloud') ? it.only : it)('should import simple process (cloud)', async function() {
+
+  (singleStart === 'cloud' ? it.only : it)('should import simple process (cloud)', async function() {
 
     // given
     const diagramXml = require('test/fixtures/simple.bpmn').default;
@@ -130,7 +131,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
-  ((singleStart && singleStart === 'platform') ? it.only : it)('should import simple process (platform)', async function() {
+  (singleStart === 'platform' ? it.only : it)('should import simple process (platform)', async function() {
 
     // given
     const diagramXml = require('test/fixtures/simple.bpmn').default;
@@ -156,7 +157,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
-  ((singleStart && singleStart === 'bpmn') ? it.only : it)('should import simple process (bpmn)', async function() {
+  (singleStart === 'bpmn' ? it.only : it)('should import simple process (bpmn)', async function() {
 
     // given
     const diagramXml = require('test/fixtures/simple.bpmn').default;
