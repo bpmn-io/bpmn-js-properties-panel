@@ -100,11 +100,11 @@ describe('provider/camunda-platform - ImplementationTypeProps', function() {
     expect(asOptionNamesList(select)).to.eql([
       '<none>',
       'Connector',
-      'Delegate Expression',
+      'Delegate expression',
       'DMN',
       'Expression',
       'External',
-      'Java Class'
+      'Java class'
     ]);
   }));
 

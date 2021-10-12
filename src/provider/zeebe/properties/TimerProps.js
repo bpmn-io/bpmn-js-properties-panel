@@ -280,7 +280,7 @@ function TimerEventDefinitionDurationValue(props) {
   return TextField({
     element,
     id: 'timerEventDefinitionDurationValue',
-    label: translate('Timer Duration'),
+    label: translate('Timer duration'),
     getValue,
     setValue,
     debounce,

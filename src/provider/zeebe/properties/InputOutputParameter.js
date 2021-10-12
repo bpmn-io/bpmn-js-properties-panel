@@ -56,7 +56,7 @@ function TargetProperty(props) {
   return TextField({
     element: parameter,
     id: idPrefix + '-target',
-    label: translate((is(parameter, 'zeebe:Input') ? 'Local Variable Name' : 'Process Variable Name')),
+    label: translate((is(parameter, 'zeebe:Input') ? 'Local variable name' : 'Process variable name')),
     getValue,
     setValue,
     debounce
@@ -91,7 +91,7 @@ function SourceProperty(props) {
   return TextField({
     element: parameter,
     id: idPrefix + '-source',
-    label: translate('Variable Assignment Value'),
+    label: translate('Variable assignment value'),
     getValue,
     setValue,
     debounce

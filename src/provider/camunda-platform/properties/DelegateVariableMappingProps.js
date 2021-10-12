@@ -68,7 +68,7 @@ function DelegateVariableMappingType(props) {
   const getOptions = () => ([
     { value: 'none', label: translate('<none>') },
     { value: 'class', label: translate('Class') },
-    { value: 'delegateExpression', label: translate('Delegate Expression') }
+    { value: 'delegateExpression', label: translate('Delegate expression') }
   ]);
 
   return <Select

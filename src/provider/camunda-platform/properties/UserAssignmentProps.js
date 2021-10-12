@@ -114,7 +114,7 @@ function CandidateUsers(props) {
   return TextField({
     element,
     id: 'candidateUsers',
-    label: translate('Candidate Users'),
+    label: translate('Candidate users'),
     getValue,
     setValue,
     debounce
@@ -147,7 +147,7 @@ function CandidateGroups(props) {
   return TextField({
     element,
     id: 'candidateGroups',
-    label: translate('Candidate Groups'),
+    label: translate('Candidate groups'),
     getValue,
     setValue,
     debounce
@@ -180,7 +180,7 @@ function DueDate(props) {
   return TextField({
     element,
     id: 'dueDate',
-    label: translate('Due Date'),
+    label: translate('Due date'),
     description : translate('The due date as an EL expression (e.g. ${someDate}) or an ISO date (e.g. 2015-06-26T09:54:00).'),
     getValue,
     setValue,
@@ -214,7 +214,7 @@ function FollowUpDate(props) {
   return TextField({
     element,
     id: 'followUpDate',
-    label: translate('Follow Up Date'),
+    label: translate('Follow up date'),
     description : translate('The follow up date as an EL expression (e.g. ${someDate}) or an ' +
       'ISO date (e.g. 2015-06-26T09:54:00).'),
     getValue,

@@ -130,7 +130,7 @@ function ErrorCodeVariable(props) {
   return TextField({
     element,
     id: 'errorCodeVariable',
-    label: translate('Code Variable'),
+    label: translate('Code variable'),
     description: translate('Define the name of the variable that will contain the error code.'),
     getValue,
     setValue,
@@ -167,7 +167,7 @@ function ErrorMessageVariable(props) {
   return TextField({
     element,
     id: 'errorMessageVariable',
-    label: translate('Message Variable'),
+    label: translate('Message variable'),
     description: translate('Define the name of the variable that will contain the error message.'),
     getValue,
     setValue,

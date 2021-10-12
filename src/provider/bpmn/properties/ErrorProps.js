@@ -164,7 +164,7 @@ function ErrorRef(props) {
   return ReferenceSelect({
     element,
     id: 'errorRef',
-    label: translate('Global Error Reference'),
+    label: translate('Global error reference'),
     autoFocusEntry: 'errorName',
     getValue,
     setValue,

@@ -57,7 +57,7 @@ function VersionTag(props) {
   return TextField({
     element,
     id: 'versionTag',
-    label: translate('Version Tag'),
+    label: translate('Version tag'),
     getValue,
     setValue,
     debounce

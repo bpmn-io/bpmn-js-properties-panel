@@ -63,7 +63,7 @@ function ResultVariable(props) {
   return TextField({
     element,
     id: 'scriptResultVariable',
-    label: translate('Result Variable'),
+    label: translate('Result variable'),
     getValue,
     setValue,
     debounce

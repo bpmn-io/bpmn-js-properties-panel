@@ -112,7 +112,7 @@ function DecisionRef(props) {
   return TextField({
     element,
     id: 'decisionRef',
-    label: translate('Decision Ref'),
+    label: translate('Decision reference'),
     getValue,
     setValue,
     debounce
@@ -229,7 +229,7 @@ function VersionTag(props) {
   return TextField({
     element,
     id: 'decisionRefVersionTag',
-    label: translate('Version Tag'),
+    label: translate('Version tag'),
     getValue,
     setValue,
     debounce
@@ -297,7 +297,7 @@ function ResultVariable(props) {
   return TextField({
     element,
     id: 'decisionRefResultVariable',
-    label: translate('Result Variable'),
+    label: translate('Result variable'),
     getValue,
     setValue,
     debounce
@@ -342,7 +342,7 @@ function MapDecisionResult(props) {
   return Select({
     element,
     id: 'mapDecisionResult',
-    label: translate('Map Decision Result'),
+    label: translate('Map decision result'),
     getValue,
     setValue,
     getOptions

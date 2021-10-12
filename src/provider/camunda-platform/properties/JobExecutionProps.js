@@ -173,7 +173,7 @@ function RetryTimeCycle(props) {
   return TextField({
     element,
     id: 'retryTimeCycle',
-    label: translate('Retry Time Cycle'),
+    label: translate('Retry time cycle'),
     getValue,
     setValue,
     debounce

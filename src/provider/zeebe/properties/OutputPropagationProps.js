@@ -124,7 +124,7 @@ function PropagateAllChildVariables(props) {
 
   return ToggleSwitch({
     id: 'propagateAllChildVariables',
-    label: translate('Propagate all Child Process Variables'),
+    label: translate('Propagate all child process variables'),
     switcherLabel: propagateAllChildVariables ?
       translate('On') :
       translate('Off'),

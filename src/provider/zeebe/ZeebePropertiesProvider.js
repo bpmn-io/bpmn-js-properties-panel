@@ -27,7 +27,7 @@ function TaskDefinitionGroup(element) {
 
   return {
     id: 'taskDefinition',
-    label: 'Task Definition',
+    label: 'Task definition',
     entries,
     component: Group
   };
@@ -37,7 +37,7 @@ function InputGroup(element) {
 
   return {
     id: 'inputs',
-    label: 'Input',
+    label: 'Inputs',
     component: ListGroup,
     ...InputProps(element)
   };
@@ -46,7 +46,7 @@ function InputGroup(element) {
 function OutputGroup(element) {
   return {
     id: 'outputs',
-    label: 'Output',
+    label: 'Outputs',
     component: ListGroup,
     ...OutputProps(element)
   };
@@ -111,7 +111,7 @@ function OutputPropagationGroup(element) {
 
   return {
     id: 'outputPropagation',
-    label: 'Output Propagation',
+    label: 'Output propagation',
     entries,
     component: Group
   };
@@ -201,16 +201,16 @@ function getGroups(element) {
     groups.push(InputGroup(element));
   }
 
-  const outputGroup = OutputGroup(element);
-
-  if (outputGroup.items) {
-    groups.push(OutputGroup(element));
-  }
-
   const outputPropagationGroup = OutputPropagationGroup(element);
 
   if (outputPropagationGroup.entries.length) {
     groups.push(outputPropagationGroup);
+  }
+
+  const outputGroup = OutputGroup(element);
+
+  if (outputGroup.items) {
+    groups.push(OutputGroup(element));
   }
 
   const headerGroup = HeaderGroup(element);

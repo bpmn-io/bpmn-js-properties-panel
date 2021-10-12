@@ -61,7 +61,7 @@ function ElementDocumentationProperty(props) {
   return TextArea({
     element,
     id: 'documentation',
-    label: translate('Element Documentation'),
+    label: translate('Element documentation'),
     getValue,
     setValue,
     debounce
@@ -88,7 +88,7 @@ function ProcessDocumentationProperty(props) {
   return TextArea({
     element,
     id: 'processDocumentation',
-    label: translate('Process Documentation'),
+    label: translate('Process documentation'),
     getValue,
     setValue,
     debounce

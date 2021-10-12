@@ -63,7 +63,7 @@ function FormProperty(props) {
   return TextField({
     element,
     id: 'formConfiguration',
-    label: translate('Form JSON Configuration'),
+    label: translate('Form JSON configuration'),
     getValue,
     setValue,
     debounce

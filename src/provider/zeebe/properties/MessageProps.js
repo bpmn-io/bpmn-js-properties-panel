@@ -124,7 +124,7 @@ function SubscriptionCorrelationKey(props) {
   return TextField({
     element,
     id: 'messageSubscriptionCorrelationKey',
-    label: translate('Subscription Correlation Key'),
+    label: translate('Subscription correlation key'),
     getValue,
     setValue,
     debounce

@@ -173,9 +173,9 @@ function ImplementationType(props) {
 
     const options = [
       { value: '', label: translate('<none>') },
-      { value: 'class', label: translate('Java Class') },
+      { value: 'class', label: translate('Java class') },
       { value: 'expression', label: translate('Expression') },
-      { value: 'delegateExpression', label: translate('Delegate Expression') }
+      { value: 'delegateExpression', label: translate('Delegate expression') }
     ];
 
     if (isDmnCapable(element)) {

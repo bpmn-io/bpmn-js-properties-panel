@@ -161,7 +161,7 @@ function MessageRef(props) {
   return ReferenceSelect({
     element,
     id: 'messageRef',
-    label: translate('Global Message Reference'),
+    label: translate('Global message reference'),
     autoFocusEntry: 'messageName',
     getValue,
     setValue,

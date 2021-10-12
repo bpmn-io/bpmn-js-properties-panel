@@ -68,7 +68,7 @@ function ProcessName(props) {
   return TextField({
     element,
     id: 'processName',
-    label: translate('Process Name'),
+    label: translate('Process name'),
     getValue,
     setValue,
     debounce

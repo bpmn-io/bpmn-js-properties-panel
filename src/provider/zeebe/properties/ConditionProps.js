@@ -103,7 +103,7 @@ function ConditionExpression(props) {
   return TextField({
     element,
     id: 'conditionExpression',
-    label: translate('Condition Expression'),
+    label: translate('Condition expression'),
     getValue,
     setValue,
     debounce

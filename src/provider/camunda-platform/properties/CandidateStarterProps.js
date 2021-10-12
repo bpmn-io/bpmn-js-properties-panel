@@ -62,7 +62,7 @@ function CandidateStarterGroups(props) {
   return TextField({
     element,
     id: 'candidateStarterGroups',
-    label: translate('Candidate Starter Groups'),
+    label: translate('Candidate starter groups'),
     description: translate('Specify more than one group as a comma separated list.'),
     getValue,
     setValue,
@@ -96,7 +96,7 @@ function CandidateStarterUsers(props) {
   return TextField({
     element,
     id: 'candidateStarterUsers',
-    label: translate('Candidate Starter Users'),
+    label: translate('Candidate starter users'),
     description: translate('Specify more than one user as a comma separated list.'),
     getValue,
     setValue,

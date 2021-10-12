@@ -248,8 +248,8 @@ function ScriptType(props) {
   const getOptions = () => {
 
     const options = [
-      { value: 'resource', label: translate('External Resource') },
-      { value: 'script', label: translate('Inline Script') }
+      { value: 'resource', label: translate('External resource') },
+      { value: 'script', label: translate('Inline script') }
     ];
 
     return options;
@@ -258,7 +258,7 @@ function ScriptType(props) {
   return Select({
     element,
     id: 'conditionScriptType',
-    label: translate('Script Type'),
+    label: translate('Script type'),
     getValue,
     setValue,
     getOptions
