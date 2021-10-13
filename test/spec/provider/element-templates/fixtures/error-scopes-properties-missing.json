@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Invalid",
+    "id": "foo",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [],
+    "scopes": [
+      {
+        "type": "camunda:Connector"
+      }
+    ]
+  }
+]

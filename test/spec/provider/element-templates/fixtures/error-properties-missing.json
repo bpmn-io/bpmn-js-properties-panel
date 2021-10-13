@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Invalid",
+    "id": "foo",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ]
+  }
+]

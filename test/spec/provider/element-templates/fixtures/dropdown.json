@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Priority Task",
+    "id": "com.mycompany.whateverdomain.PriorityTask",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Priority",
+        "description": "The priority assigned to this task",
+        "type": "Dropdown",
+        "choices": [
+          { "name": "low", "value": "50" },
+          { "name": "medium", "value": "100" },
+          { "name": "high", "value": "150" }
+        ],
+        "value": "50",
+        "binding": {
+          "type": "property",
+          "name": "camunda:priority"
+        }
+      }
+    ]
+  }
+]

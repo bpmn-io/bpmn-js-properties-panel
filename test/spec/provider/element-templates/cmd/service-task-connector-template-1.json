@@ -1,0 +1,37 @@
+{
+  "name": "Service Task Template - Connector V1",
+  "id": "service-task-template-connector",
+  "version": 1,
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [],
+  "scopes": [
+    {
+      "type": "camunda:Connector",
+      "properties": [
+        {
+          "value": "foo",
+          "binding": {
+            "type": "property",
+            "name": "connectorId"
+          }
+        },
+        {
+          "value": "input-1-value",
+          "binding": {
+            "type": "camunda:inputParameter",
+            "name": "input-1-name"
+          }
+        },
+        {
+          "value": "output-1-value",
+          "binding": {
+            "type": "camunda:outputParameter",
+            "source": "output-1-source"
+          }
+        }
+      ]
+    }
+  ]
+}

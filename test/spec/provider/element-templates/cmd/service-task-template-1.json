@@ -1,0 +1,59 @@
+{
+  "name": "Service Task Template v1",
+  "id": "service-task-template",
+  "version": 1,
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "value": "${foo}",
+      "binding": {
+        "type": "property",
+        "name": "camunda:expression"
+      }
+    },
+    {
+      "value": "foo",
+      "binding": {
+        "type": "camunda:field",
+        "name": "foo"
+      }
+    },
+    {
+      "value": "${bar}",
+      "binding": {
+        "type": "camunda:field",
+        "name": "bar",
+        "expression": true
+      }
+    }
+  ],
+  "scopes": {
+    "camunda:Connector": {
+      "properties": [
+        {
+          "value": "foo",
+          "binding": {
+            "type": "property",
+            "name": "connectorId"
+          }
+        },
+        {
+          "value": "input-1-value",
+          "binding": {
+            "type": "camunda:inputParameter",
+            "name": "input-1-name"
+          }
+        },
+        {
+          "value": "output-1-value",
+          "binding": {
+            "type": "camunda:outputParameter",
+            "source": "output-1-source"
+          }
+        }
+      ]
+    }
+  }
+}

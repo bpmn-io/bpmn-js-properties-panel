@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Valid",
+    "id": "foo",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Sender",
+        "type": "String",
+        "value": "My Field Injection Value",
+        "binding": {
+          "type": "camunda:field",
+          "name": "sender",
+          "expression": false
+        }
+      }
+    ]
+  }
+]

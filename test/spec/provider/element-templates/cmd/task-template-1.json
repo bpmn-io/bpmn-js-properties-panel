@@ -1,0 +1,62 @@
+{
+  "name": "Task Template v1",
+  "version": 1,
+  "id": "task-template",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "properties": [
+    {
+      "value": true,
+      "binding": {
+        "type": "property",
+        "name": "camunda:asyncBefore"
+      }
+    },
+    {
+      "value": "bar",
+      "binding": {
+        "type": "camunda:executionListener",
+        "event": "start",
+        "scriptFormat": "foo"
+      }
+    },
+    {
+      "value": "input-1-value",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "input-1-name"
+      }
+    },
+    {
+      "value": "output-1-value",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "output-1-source"
+      }
+    },
+    {
+      "value": "${input-2-value}",
+      "binding": {
+        "type": "camunda:inputParameter",
+        "name": "input-2-name",
+        "scriptFormat": "foo"
+      }
+    },
+    {
+      "value": "output-2-value",
+      "binding": {
+        "type": "camunda:outputParameter",
+        "source": "${output-2-source}",
+        "scriptFormat": "foo"
+      }
+    },
+    {
+      "value": "bar",
+      "binding": {
+        "type": "camunda:property",
+        "name": "foo"
+      }
+    }
+  ]
+}
