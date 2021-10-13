@@ -201,9 +201,9 @@ function filteredSchemaErrors(schemaErrors) {
       return true;
     }
 
-    // (2) data type errors are relevant, except for
-    // (scope) root level data type errors due to basic schema errors
-    if (keyword === 'type' && dataPath && dataPath !== '/scopes') {
+    // (2) data type errors
+    // ignore type errors nested in scopes
+    if (keyword === 'type' && dataPath && !dataPath.startsWith('/scopes/')) {
       return true;
     }
 

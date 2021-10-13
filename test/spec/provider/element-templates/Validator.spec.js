@@ -389,8 +389,6 @@ describe('provider/element-template - Validator', function() {
       // when
       templates.addAll(templateDescriptors);
 
-      console.log(errors(templates));
-
       // then
       expect(errors(templates)).to.eql([
         'template(id: <foo>, name: <Invalid>): property.binding "property" requires name',
@@ -482,7 +480,7 @@ describe('provider/element-template - Validator', function() {
       });
 
 
-      it('should accept scopes as object descriptor (connectors)', function() {
+      it('should not accept scopes as object descriptor (connectors)', function() {
 
         // given
         const templates = new Validator();
@@ -493,24 +491,7 @@ describe('provider/element-template - Validator', function() {
         templates.addAll(templateDescriptors);
 
         // then
-        expect(errors(templates)).to.be.empty;
-
-        expect(valid(templates)).to.have.length(1);
-      });
-
-
-      it('should reject invalid scopes content', function() {
-
-        // given
-        const templates = new Validator();
-
-        const templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
-
-        // when
-        templates.addAll(templateDescriptors);
-
-        // then
-        expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): invalid scope "properties", object descriptor is only supported for "camunda:Connector"');
+        expect(errors(templates)).to.contain('template(id: <foo>, name: <Connector>): should be array');
 
         expect(valid(templates)).to.be.empty;
       });
@@ -571,7 +552,7 @@ describe('provider/element-template - Validator', function() {
           'camunda:outputParameter, camunda:in, camunda:out, ' +
           'camunda:in:businessKey, camunda:executionListener, ' +
           'camunda:field, camunda:errorEventDefinition ' +
-        '}'
+          '}'
         ]);
         expect(valid(templates)).to.be.empty;
       });
