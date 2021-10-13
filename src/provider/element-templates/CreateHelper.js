@@ -1,8 +1,7 @@
-'use strict';
+import { assign } from 'min-dash';
 
-var assign = require('lodash/assign');
+import { nextId } from '../../utils/ElementUtil';
 
-var nextId = require('../../../Utils').nextId;
 
 /**
  * Create an input parameter representing the given
@@ -14,28 +13,30 @@ var nextId = require('../../../Utils').nextId;
  *
  * @return {ModdleElement}
  */
-function createInputParameter(binding, value, bpmnFactory) {
-  var scriptFormat = binding.scriptFormat,
-      parameterValue,
+export function createInputParameter(binding, value, bpmnFactory) {
+  const {
+    name,
+    scriptFormat
+  } = binding;
+
+  let parameterValue,
       parameterDefinition;
 
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('camunda:Script', {
-      scriptFormat: scriptFormat,
-      value: value
+      scriptFormat,
+      value
     });
   } else {
     parameterValue = value;
   }
 
   return bpmnFactory.create('camunda:InputParameter', {
-    name: binding.name,
+    name,
     value: parameterValue,
     definition: parameterDefinition
   });
 }
-
-module.exports.createInputParameter = createInputParameter;
 
 
 /**
@@ -48,18 +49,22 @@ module.exports.createInputParameter = createInputParameter;
  *
  * @return {ModdleElement}
  */
-function createOutputParameter(binding, value, bpmnFactory) {
-  var scriptFormat = binding.scriptFormat,
-      parameterValue,
+export function createOutputParameter(binding, value, bpmnFactory) {
+  const {
+    scriptFormat,
+    source
+  } = binding;
+
+  let parameterValue,
       parameterDefinition;
 
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('camunda:Script', {
-      scriptFormat: scriptFormat,
-      value: binding.source
+      scriptFormat,
+      value: source
     });
   } else {
-    parameterValue = binding.source;
+    parameterValue = source;
   }
 
   return bpmnFactory.create('camunda:OutputParameter', {
@@ -68,8 +73,6 @@ function createOutputParameter(binding, value, bpmnFactory) {
     definition: parameterDefinition
   });
 }
-
-module.exports.createOutputParameter = createOutputParameter;
 
 
 /**
@@ -81,14 +84,14 @@ module.exports.createOutputParameter = createOutputParameter;
  *
  * @return {ModdleElement}
  */
-function createCamundaProperty(binding, value, bpmnFactory) {
+export function createCamundaProperty(binding, value = '', bpmnFactory) {
+  const { name } = binding;
+
   return bpmnFactory.create('camunda:Property', {
-    name: binding.name,
-    value: value || ''
+    name,
+    value
   });
 }
-
-module.exports.createCamundaProperty = createCamundaProperty;
 
 
 /**
@@ -100,32 +103,26 @@ module.exports.createCamundaProperty = createCamundaProperty;
  *
  * @return {ModdleElement}
  */
-function createCamundaIn(binding, value, bpmnFactory) {
+export function createCamundaIn(binding, value, bpmnFactory) {
+  const attrs = createCamundaInOutAttrs(binding, value);
 
-  var properties = createCamundaInOutAttrs(binding, value);
-
-  return bpmnFactory.create('camunda:In', properties);
+  return bpmnFactory.create('camunda:In', attrs);
 }
-
-module.exports.createCamundaIn = createCamundaIn;
 
 
 /**
  * Create camunda:in with businessKey element from given binding.
  *
- * @param {PropertyBinding} binding
  * @param {String} value
  * @param {BpmnFactory} bpmnFactory
  *
  * @return {ModdleElement}
  */
-function createCamundaInWithBusinessKey(binding, value, bpmnFactory) {
+export function createCamundaInWithBusinessKey(value, bpmnFactory) {
   return bpmnFactory.create('camunda:In', {
     businessKey: value
   });
 }
-
-module.exports.createCamundaInWithBusinessKey = createCamundaInWithBusinessKey;
 
 
 /**
@@ -137,13 +134,11 @@ module.exports.createCamundaInWithBusinessKey = createCamundaInWithBusinessKey;
  *
  * @return {ModdleElement}
  */
-function createCamundaOut(binding, value, bpmnFactory) {
-  var properties = createCamundaInOutAttrs(binding, value);
+export function createCamundaOut(binding, value, bpmnFactory) {
+  const attrs = createCamundaInOutAttrs(binding, value);
 
-  return bpmnFactory.create('camunda:Out', properties);
+  return bpmnFactory.create('camunda:Out', attrs);
 }
-
-module.exports.createCamundaOut = createCamundaOut;
 
 
 /**
@@ -155,28 +150,30 @@ module.exports.createCamundaOut = createCamundaOut;
  *
  * @return {ModdleElement}
  */
-function createCamundaExecutionListenerScript(binding, value, bpmnFactory) {
-  var scriptFormat = binding.scriptFormat,
-      parameterValue,
+export function createCamundaExecutionListenerScript(binding, value, bpmnFactory) {
+  const {
+    event,
+    scriptFormat
+  } = binding;
+
+  let parameterValue,
       parameterDefinition;
 
   if (scriptFormat) {
     parameterDefinition = bpmnFactory.create('camunda:Script', {
-      scriptFormat: scriptFormat,
-      value: value
+      scriptFormat,
+      value
     });
   } else {
     parameterValue = value;
   }
 
   return bpmnFactory.create('camunda:ExecutionListener', {
-    event: binding.event,
+    event,
     value: parameterValue,
     script: parameterDefinition
   });
 }
-
-module.exports.createCamundaExecutionListenerScript = createCamundaExecutionListenerScript;
 
 /**
  * Create camunda:field element containing string or expression from given binding.
@@ -187,54 +184,53 @@ module.exports.createCamundaExecutionListenerScript = createCamundaExecutionList
  *
  * @return {ModdleElement}
  */
-function createCamundaFieldInjection(binding, value, bpmnFactory) {
-  var DEFAULT_PROPS = {
+export function createCamundaFieldInjection(binding, value, bpmnFactory) {
+  const DEFAULT_PROPS = {
     'string': undefined,
     'expression': undefined,
     'name': undefined
   };
 
-  var props = assign({}, DEFAULT_PROPS);
+  const props = assign({}, DEFAULT_PROPS);
 
-  if (!binding.expression) {
+  const {
+    expression,
+    name
+  } = binding;
+
+  if (!expression) {
     props.string = value;
   } else {
     props.expression = value;
   }
-  props.name = binding.name;
+  props.name = name;
 
   return bpmnFactory.create('camunda:Field', props);
 }
 
-module.exports.createCamundaFieldInjection = createCamundaFieldInjection;
 
 /**
  * Create camunda:errorEventDefinition element containing expression and errorRef
  * from given binding.
  *
- * @param {PropertyBinding} binding
- * @param {String} value
- * @param {ModdleElement} error
+ * @param {String} expression
+ * @param {ModdleElement} errorRef
  * @param {ModdleElement} parent
  * @param {BpmnFactory} bpmnFactory
  *
  * @return {ModdleElement}
  */
-function createCamundaErrorEventDefinition(binding, value, error, parent, bpmnFactory) {
-  var errorRef = error,
-      expression = value;
-
-  var newErrorEventDefinition = bpmnFactory.create('camunda:ErrorEventDefinition', {
-    expression: expression,
-    errorRef: errorRef
+export function createCamundaErrorEventDefinition(expression, errorRef, parent, bpmnFactory) {
+  const errorEventDefinition = bpmnFactory.create('camunda:ErrorEventDefinition', {
+    errorRef,
+    expression
   });
 
-  newErrorEventDefinition.$parent = parent;
+  errorEventDefinition.$parent = parent;
 
-  return newErrorEventDefinition;
+  return errorEventDefinition;
 }
 
-module.exports.createCamundaErrorEventDefinition = createCamundaErrorEventDefinition;
 
 /**
  * Create bpmn:error element containing a specific error id given by a binding.
@@ -245,8 +241,8 @@ module.exports.createCamundaErrorEventDefinition = createCamundaErrorEventDefini
  *
  * @return { ModdleElement }
  */
-function createError(bindingErrorRef, parent, bpmnFactory) {
-  var error = bpmnFactory.create('bpmn:Error', {
+export function createError(bindingErrorRef, parent, bpmnFactory) {
+  const error = bpmnFactory.create('bpmn:Error', {
 
     // we need to later retrieve the error from a binding
     id: nextId('Error_' + bindingErrorRef + '_')
@@ -257,74 +253,81 @@ function createError(bindingErrorRef, parent, bpmnFactory) {
   return error;
 }
 
-module.exports.createError = createError;
 
-// helpers ////////////////////////////
+// helpers //////////
 
 /**
  * Create properties for camunda:in and camunda:out types.
  */
 function createCamundaInOutAttrs(binding, value) {
+  const properties = {};
 
-  var properties = {};
+  const {
+    expression,
+    source,
+    sourceExpression,
+    target,
+    type,
+    variables
+  } = binding;
 
-  // Explicitly cover all conditions as specified here:
+  // explicitly cover all conditions as specified here:
   // https://github.com/camunda/camunda-modeler/blob/develop/docs/element-templates/README.md#camundain
-  if (binding.type === 'camunda:in') {
-    if (binding.target && !binding.expression && !binding.variables) {
-      properties.target = binding.target;
+  if (type === 'camunda:in') {
+    if (target && !expression && !variables) {
+      properties.target = target;
       properties.source = value;
 
-    } else if (binding.target && binding.expression === true && !binding.variables) {
-      properties.target = binding.target;
+    } else if (target && expression === true && !variables) {
+      properties.target = target;
       properties.sourceExpression = value;
 
-    } else if (!binding.target && !binding.expression && binding.variables === 'local') {
+    } else if (!target && !expression && variables === 'local') {
       properties.local = true;
       properties.variables = 'all';
 
-    } else if (binding.target && !binding.expression && binding.variables === 'local') {
+    } else if (target && !expression && variables === 'local') {
       properties.local = true;
       properties.source = value;
-      properties.target = binding.target;
+      properties.target = target;
 
-    } else if (binding.target && binding.expression && binding.variables === 'local') {
+    } else if (target && expression && variables === 'local') {
       properties.local = true;
       properties.sourceExpression = value;
-      properties.target = binding.target;
+      properties.target = target;
 
-    } else if (!binding.target && !binding.expression && binding.variables === 'all') {
+    } else if (!target && !expression && variables === 'all') {
       properties.variables = 'all';
     } else {
       throw new Error('invalid configuration for camunda:in element template binding');
     }
   }
 
-  // Explicitly cover all conditions as specified here:
+  // explicitly cover all conditions as specified here:
   // https://github.com/camunda/camunda-modeler/blob/develop/docs/element-templates/README.md#camundaout
-  if (binding.type === 'camunda:out') {
-    if (binding.source && !binding.sourceExpression && !binding.variables) {
+  if (type === 'camunda:out') {
+    if (source && !sourceExpression && !variables) {
       properties.target = value;
-      properties.source = binding.source;
+      properties.source = source;
 
-    } else if (!binding.source && binding.sourceExpression && !binding.variables) {
+    } else if (!source && sourceExpression && !variables) {
       properties.target = value;
-      properties.sourceExpression = binding.sourceExpression;
+      properties.sourceExpression = sourceExpression;
 
-    } else if (!binding.source && !binding.sourceExpression && binding.variables === 'all') {
+    } else if (!source && !sourceExpression && variables === 'all') {
       properties.variables = 'all';
 
-    } else if (binding.source && !binding.sourceExpression && binding.variables === 'local') {
+    } else if (source && !sourceExpression && variables === 'local') {
       properties.local = true;
-      properties.source = binding.source;
+      properties.source = source;
       properties.target = value;
 
-    } else if (!binding.source && binding.sourceExpression && binding.variables === 'local') {
+    } else if (!source && sourceExpression && variables === 'local') {
       properties.local = true;
-      properties.sourceExpression = binding.sourceExpression;
+      properties.sourceExpression = sourceExpression;
       properties.target = value;
 
-    } else if (!binding.source && !binding.sourceExpression && binding.variables === 'local') {
+    } else if (!source && !sourceExpression && variables === 'local') {
       properties.local = true;
       properties.variables = 'all';
     } else {

@@ -1,29 +1,39 @@
-'use strict';
+import {
+  bootstrapModeler,
+  inject
+} from '../../../TestHelper';
 
-var bootstrapModeler = require('../../../../helper').bootstrapModeler,
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda'),
-    coreModule = require('bpmn-js/lib/core').default,
-    inject = require('../../../../helper').inject,
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesPanelModule = require('lib'),
-    propertiesProviderModule = require('lib/provider/camunda'),
-    replaceModule = require('bpmn-js/lib/features/replace').default;
+import BpmnPropertiesPanel from 'src/render';
+import BpmnPropertiesProvider from 'src/provider/bpmn';
+import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
+import ElementTemplatesModule from 'src/provider/element-templates';
+import CoreModule from 'bpmn-js/lib/core';
+import ModelingModule from 'bpmn-js/lib/features/modeling';
+import ReplaceModule from 'bpmn-js/lib/features/replace';
+
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
+
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+
+import diagramXML from './fixtures/replace-behavior.bpmn';
+
+import elementTemplates from './fixtures/replace-behavior.json';
 
 
-describe('element-templates - replace behavior', function() {
+describe('provider/element-template - ReplaceBehavior', function() {
 
-  var testModules = [
-    coreModule,
-    modelingModule,
-    replaceModule,
-    propertiesPanelModule,
-    propertiesProviderModule
+  const testModules = [
+    BpmnPropertiesPanel,
+    BpmnPropertiesProvider,
+    CamundaPlatformPropertiesProvider,
+    CoreModule,
+    ElementTemplatesModule,
+    ModelingModule,
+    ReplaceModule
   ];
 
-  var diagramXML = require('./fixtures/replace-behavior.bpmn');
-
   beforeEach(bootstrapModeler(diagramXML, {
-    elementTemplates: require('./fixtures/replace-behavior'),
+    elementTemplates,
     modules : testModules,
     moddleExtensions: { camunda: camundaModdlePackage }
   }));
@@ -32,51 +42,51 @@ describe('element-templates - replace behavior', function() {
   it('should not unlink if template can be applied to type', inject(function(elementRegistry, bpmnReplace) {
 
     // given
-    var task = elementRegistry.get('Task_1');
-    var newElementData = {
-      type: 'bpmn:CallActivity'
-    };
+    const task = elementRegistry.get('Task_1');
+
+    const newElementData = { type: 'bpmn:CallActivity' };
 
     // when
-    var newElement = bpmnReplace.replaceElement(task, newElementData);
+    const newElement = bpmnReplace.replaceElement(task, newElementData);
 
     // then
-    var businessObject = newElement.businessObject;
-    expect(businessObject.modelerTemplate).to.exist;
+    const businessObject = getBusinessObject(newElement);
+
+    expect(businessObject.get('camunda:modelerTemplate')).to.exist;
   }));
 
 
   it('should not unlink if template can be applied to parent type', inject(function(elementRegistry, bpmnReplace) {
 
     // given
-    var task = elementRegistry.get('Task_1');
-    var newElementData = {
-      type: 'bpmn:ServiceTask'
-    };
+    const task = elementRegistry.get('Task_1');
+
+    const newElementData = { type: 'bpmn:ServiceTask' };
 
     // when
-    var newElement = bpmnReplace.replaceElement(task, newElementData);
+    const newElement = bpmnReplace.replaceElement(task, newElementData);
 
     // then
-    var businessObject = newElement.businessObject;
-    expect(businessObject.modelerTemplate).to.exist;
+    const businessObject = getBusinessObject(newElement);
+
+    expect(businessObject.get('camunda:modelerTemplate')).to.exist;
   }));
 
 
   it('should unlink if template cannot be applied to type', inject(function(elementRegistry, bpmnReplace) {
 
     // given
-    var task = elementRegistry.get('Task_1');
-    var newElementData = {
-      type: 'bpmn:SubProcess'
-    };
+    const task = elementRegistry.get('Task_1');
+
+    const newElementData = { type: 'bpmn:SubProcess' };
 
     // when
-    var newElement = bpmnReplace.replaceElement(task, newElementData);
+    const newElement = bpmnReplace.replaceElement(task, newElementData);
 
     // then
-    var businessObject = newElement.businessObject;
-    expect(businessObject.modelerTemplate).not.to.exist;
+    const businessObject = getBusinessObject(newElement);
+
+    expect(businessObject.get('camunda:modelerTemplate')).not.to.exist;
   }));
 
 });

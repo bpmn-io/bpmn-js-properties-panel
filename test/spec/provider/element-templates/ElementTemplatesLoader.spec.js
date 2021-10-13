@@ -1,21 +1,22 @@
-'use strict';
+import TestContainer from 'mocha-test-container-support';
 
-require('../../../../TestHelper');
+import { bootstrapModeler, inject } from 'test/TestHelper';
 
-var TestContainer = require('mocha-test-container-support');
+import coreModule from 'bpmn-js/lib/core';
+import elementTemplatesModule from 'src/provider/element-templates';
+import modelingModule from 'bpmn-js/lib/features/modeling';
+import propertiesPanelCommandsModule from 'src/cmd';
 
-/* global bootstrapModeler, inject, sinon */
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
-var coreModule = require('bpmn-js/lib/core').default,
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesPanelCommandsModule = require('lib/cmd'),
-    elementTemplatesModule = require('lib/provider/camunda/element-templates'),
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+import diagramXML from './fixtures/empty-diagram.bpmn';
+
+import templateDescriptors from './fixtures/misc';
 
 
-describe('element-templates - ElementTemplatesLoader', function() {
+describe('provider/element-template - ElementTemplatesLoader', function() {
 
-  var container;
+  let container;
 
   beforeEach(function() {
     container = TestContainer.get(this);
@@ -23,10 +24,6 @@ describe('element-templates - ElementTemplatesLoader', function() {
 
 
   describe('init with Array<TemplateDescriptor>', function() {
-
-    var diagramXML = require('./fixtures/empty-diagram.bpmn');
-
-    var templateDescriptors = require('./fixtures/misc');
 
     beforeEach(bootstrapModeler(diagramXML, {
       container: container,
@@ -53,7 +50,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
     it('should emit <elementTemplates.changed> event', inject(function(elementTemplatesLoader, eventBus) {
 
       // given
-      var changedListener = sinon.spy(function() {});
+      const changedListener = sinon.spy(function() {});
 
       eventBus.on('elementTemplates.changed', changedListener);
 
@@ -69,16 +66,12 @@ describe('element-templates - ElementTemplatesLoader', function() {
 
   describe('init with node style callback', function() {
 
-    var diagramXML = require('./fixtures/empty-diagram.bpmn');
-
-    var templateDescriptors = require('./fixtures/misc');
-
-    var PROVIDER = function(done) {
+    let provider = function(done) {
       done(null, templateDescriptors);
     };
 
-    var templateProviderFn = function(done) {
-      PROVIDER(done);
+    const templateProviderFn = function(done) {
+      provider(done);
     };
 
     beforeEach(bootstrapModeler(diagramXML, {
@@ -109,7 +102,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
       inject(function(elementTemplatesLoader, eventBus) {
 
         // given
-        var changedListener = sinon.spy(function() {});
+        const changedListener = sinon.spy(function() {});
 
         eventBus.on('elementTemplates.changed', changedListener);
 
@@ -126,7 +119,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
       inject(function(elementTemplatesLoader, eventBus) {
 
         // given
-        var errorListener = sinon.spy(function() {
+        const errorListener = sinon.spy(function() {
           console.log(arguments);
         });
 
@@ -145,20 +138,20 @@ describe('element-templates - ElementTemplatesLoader', function() {
       function(elementTemplatesLoader, eventBus) {
 
         // given
-        PROVIDER = function(done) {
+        provider = function(done) {
           done(new Error('foo'));
         };
 
-        var errorListener = sinon.spy(function(e) {
+        const errorListener = sinon.spy(function(e) {
 
-          var errors = e.errors;
+          const errors = e.errors;
 
           expect(errors).to.have.length(1);
 
           expect(errors[0].message).to.eql('foo');
         });
 
-        var changedListener = sinon.spy(function() {});
+        const changedListener = sinon.spy(function() {});
 
         eventBus.on('elementTemplates.errors', errorListener);
         eventBus.on('elementTemplates.changed', changedListener);
@@ -177,7 +170,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
       inject(function(elementTemplatesLoader, eventBus) {
 
         // given
-        PROVIDER = function(done) {
+        provider = function(done) {
           done(null, [
             { name: 'Foo', id: 'foo', appliesTo: [ 'bpmn:Task' ], properties: [ ] },
             { name: 'Foo', id: 'foo' },
@@ -185,9 +178,9 @@ describe('element-templates - ElementTemplatesLoader', function() {
           ]);
         };
 
-        var errorListener = sinon.spy(function(e) {
+        const errorListener = sinon.spy(function(e) {
 
-          var errors = e.errors;
+          const errors = e.errors;
 
           expect(messages(errors)).to.eql([
             'template(id: <foo>, name: <Foo>): template id <foo> already used',
@@ -195,7 +188,7 @@ describe('element-templates - ElementTemplatesLoader', function() {
           ]);
         });
 
-        var changedListener = sinon.spy(function() {});
+        const changedListener = sinon.spy(function() {});
 
         eventBus.on('elementTemplates.errors', errorListener);
         eventBus.on('elementTemplates.changed', changedListener);

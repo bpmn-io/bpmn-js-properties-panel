@@ -1,35 +1,38 @@
-'use strict';
+import {
+  filter,
+  isArray,
+  isString
+} from 'min-dash';
 
-var isArray = require('min-dash').isArray,
-    filter = require('min-dash').filter;
+import semver from 'semver';
 
-var semver = require('semver');
+import {
+  validate as validateAgainstSchema,
+  getSchemaVersion as getTemplateSchemaVersion
+} from '@bpmn-io/element-templates-validator';
 
-var validateAgainstSchema = require('@bpmn-io/element-templates-validator').validate,
-    getTemplateSchemaVersion = require('@bpmn-io/element-templates-validator').getSchemaVersion;
-
-var SUPPORTED_SCHEMA_VERSION = getTemplateSchemaVersion();
+const SUPPORTED_SCHEMA_VERSION = getTemplateSchemaVersion();
 
 
 /**
  * A element template validator.
  */
-function Validator() {
+export class Validator {
+  constructor() {
+    this._templatesById = {};
 
-  this._templatesById = {};
-
-  this._validTemplates = [];
-  this._errors = [];
+    this._validTemplates = [];
+    this._errors = [];
+  }
 
   /**
    * Adds the templates.
    *
    * @param {Array<TemplateDescriptor>} templates
    *
-   * @return {Validator} self
+   * @return {Validator}
    */
-  this.addAll = function(templates) {
-
+  addAll(templates) {
     if (!isArray(templates)) {
       this._logError('templates must be []');
     } else {
@@ -37,20 +40,19 @@ function Validator() {
     }
 
     return this;
-  };
+  }
 
   /**
    * Add the given element template, if it is valid.
    *
    * @param {TemplateDescriptor} template
    *
-   * @return {Validator} self
+   * @return {Validator}
    */
-  this.add = function(template) {
+  add(template) {
+    const err = this._validateTemplate(template);
 
-    var err = this._validateTemplate(template);
-
-    var id, version;
+    let id, version;
 
     if (!err) {
       id = template.id;
@@ -66,7 +68,7 @@ function Validator() {
     }
 
     return this;
-  };
+  }
 
   /**
    * Validate given template and return error (if any).
@@ -75,46 +77,48 @@ function Validator() {
    *
    * @return {Error} validation error, if any
    */
-  this._validateTemplate = function(template) {
+  _validateTemplate(template) {
+    let err;
 
-    var err,
-        id = template.id,
-        version = template.version || '_',
-        schemaVersion = template.$schema && getSchemaVersion(template.$schema),
-        self = this;
+    const id = template.id,
+          version = template.version || '_',
+          schemaVersion = template.$schema && getSchemaVersion(template.$schema);
 
-    // (1) Compatibility
-    if (schemaVersion &&
-       (semver.compare(SUPPORTED_SCHEMA_VERSION, schemaVersion) < 0)) {
-      return this._logError('unsupported element template schema version <' + schemaVersion +
-        '>. Your installation only supports up to version <' + SUPPORTED_SCHEMA_VERSION +
-        '>. Please update your installation', template);
+    // (1) compatibility
+    if (schemaVersion && (semver.compare(SUPPORTED_SCHEMA_VERSION, schemaVersion) < 0)) {
+      return this._logError(
+        `unsupported element template schema version <${ schemaVersion }>. Your installation only supports up to version <${ SUPPORTED_SCHEMA_VERSION }>. Please update your installation`,
+        template
+      );
     }
 
-    // (2) Versioning
+    // (2) versioning
     if (this._templatesById[ id ] && this._templatesById[ id ][ version ]) {
       if (version === '_') {
-        return this._logError('template id <' + id + '> already used', template);
+        return this._logError(`template id <${ id }> already used`, template);
       } else {
-        return this._logError('template id <' + id + '> and version <' + version + '> already used', template);
+        return this._logError(`template id <${ id }> and version <${ version }> already used`, template);
       }
     }
 
-    // (3) JSON Schema compliant
-    var validationResult = validateAgainstSchema(template),
-        valid = validationResult.valid,
-        errors = validationResult.errors;
+    // (3) JSON schema compliance
+    const validationResult = validateAgainstSchema(template);
+
+    const {
+      errors,
+      valid
+    } = validationResult;
 
     if (!valid) {
       err = new Error('invalid template');
 
-      filteredSchemaErrors(errors).forEach(function(error) {
-        self._logError(error.message, template);
+      filteredSchemaErrors(errors).forEach((error) => {
+        this._logError(error.message, template);
       });
     }
 
     return err;
-  };
+  }
 
   /**
    * Log an error for the given template
@@ -124,12 +128,16 @@ function Validator() {
    *
    * @return {Error} logged validation errors
    */
-  this._logError = function(err, template) {
-
-    if (typeof err === 'string') {
+  _logError(err, template) {
+    if (isString(err)) {
 
       if (template) {
-        err = 'template(id: <' + template.id + '>, name: <' + template.name + '>): ' + err;
+        const {
+          id,
+          name
+        } = template;
+
+        err = `template(id: <${ id }>, name: <${ name }>): ${ err }`;
       }
 
       err = new Error(err);
@@ -138,21 +146,19 @@ function Validator() {
     this._errors.push(err);
 
     return err;
-  };
+  }
 
-  this.getErrors = function() {
+  getErrors() {
     return this._errors;
-  };
+  }
 
-  this.getValidTemplates = function() {
+  getValidTemplates() {
     return this._validTemplates;
-  };
+  }
 }
 
-module.exports = Validator;
 
-
-// helpers ///////////////////////////////////
+// helpers //////////
 
 /**
  * Extract schema version from schema URI
@@ -162,11 +168,11 @@ module.exports = Validator;
  * @return {String} for example '99.99.99'
  */
 function getSchemaVersion(schemaUri) {
-  var re = /\d+\.\d+\.\d+/g;
+  const re = /\d+\.\d+\.\d+/g;
 
-  var match = schemaUri.match(re);
+  const match = schemaUri.match(re);
 
-  return match === null ? undefined : match[0];
+  return match === null ? undefined : match[ 0 ];
 }
 
 /**
@@ -184,16 +190,20 @@ function getSchemaVersion(schemaUri) {
  * @return {Array}
  */
 function filteredSchemaErrors(schemaErrors) {
-  return filter(schemaErrors, function(err) {
+  return filter(schemaErrors, (err) => {
+    const {
+      dataPath,
+      keyword
+    } = err;
 
     // (1) regular errors are customized from the schema
-    if (err.keyword === 'errorMessage') {
+    if (keyword === 'errorMessage') {
       return true;
     }
 
     // (2) data type errors are relevant, except for
     // (scope) root level data type errors due to basic schema errors
-    if (err.keyword === 'type' && err.dataPath && err.dataPath !== '/scopes') {
+    if (keyword === 'type' && dataPath && dataPath !== '/scopes') {
       return true;
     }
 

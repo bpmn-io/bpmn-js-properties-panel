@@ -1,47 +1,54 @@
-'use strict';
+import {
+  bootstrapModeler,
+  inject
+} from 'test/TestHelper';
 
-var TestContainer = require('mocha-test-container-support');
+import TestContainer from 'mocha-test-container-support';
 
-/* global bootstrapModeler, inject */
+import CoreModule from 'bpmn-js/lib/core';
+import ElementTemplatesModule from 'src/provider/element-templates';
+import ModelingModule from 'bpmn-js/lib/features/modeling';
+import PropertiesPanelCommandsModule from 'src/cmd';
 
-var coreModule = require('bpmn-js/lib/core').default,
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesPanelCommandsModule = require('lib/cmd'),
-    elementTemplatesModule = require('lib/provider/camunda/element-templates'),
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
+
+const modules = [
+  CoreModule,
+  ElementTemplatesModule,
+  ModelingModule,
+  PropertiesPanelCommandsModule
+];
+
+const moddleExtensions = {
+  camunda: camundaModdlePackage
+};
 
 describe('default element templates', function() {
 
-  var container;
+  let container;
 
   beforeEach(function() {
     container = TestContainer.get(this);
   });
 
-  var diagramXML = require('./default-templates.bpmn');
+  const diagramXML = require('./default-templates.bpmn').default;
 
-  var templateDescriptors = require('./default-templates');
+  const elementTemplates = require('./default-templates');
 
   beforeEach(bootstrapModeler(diagramXML, {
     container: container,
-    modules: [
-      coreModule,
-      modelingModule,
-      propertiesPanelCommandsModule,
-      elementTemplatesModule
-    ],
-    moddleExtensions: {
-      camunda: camundaModdlePackage
-    },
-    elementTemplates: templateDescriptors
+    modules,
+    moddleExtensions,
+    elementTemplates
   }));
+
 
   it('should apply default element template on shape creation', inject(function(canvas, elementFactory, modeling) {
 
     // given
-    var element = elementFactory.createShape({
+    const element = elementFactory.createShape({
       id: 'Task_3',
       type: 'bpmn:Task'
     });
@@ -50,26 +57,23 @@ describe('default element templates', function() {
     modeling.createShape(element, { x: 100, y: 100 }, canvas.getRootElement());
 
     // then
-    expect(getBusinessObject(element).name).to.equal('DEFAULT FOO BAR');
-
+    expect(getBusinessObject(element).get('name')).to.equal('DEFAULT FOO BAR');
   }));
 
-  it('should apply default element template on connection creation', inject(function(elementFactory, elementRegistry, modeling) {
+
+  it('should apply default element template on connection creation', inject(function(elementRegistry, modeling) {
 
     // given
-    var task1 = elementRegistry.get('Task_1'),
-        task2 = elementRegistry.get('Task_2');
+    const task1 = elementRegistry.get('Task_1'),
+          task2 = elementRegistry.get('Task_2');
 
     // when
     modeling.connect(task1, task2);
 
-    var connection = elementRegistry.filter(function(element) {
-      return element.type === 'bpmn:SequenceFlow';
-    })[0];
+    const connection = elementRegistry.find((element) => is(element, 'bpmn:SequenceFlow'));
 
     // then
-    expect(getBusinessObject(connection).name).to.equal('DEFAULT FOO BAR FLOW');
-
+    expect(getBusinessObject(connection).get('name')).to.equal('DEFAULT FOO BAR FLOW');
   }));
 
 });

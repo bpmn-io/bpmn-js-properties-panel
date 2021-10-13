@@ -1,47 +1,53 @@
-'use strict';
+import {
+  bootstrapModeler,
+  getBpmnJS,
+  inject
+} from 'test/TestHelper';
 
-var TestHelper = require('../../../../../TestHelper');
+import TestContainer from 'mocha-test-container-support';
 
-var TestContainer = require('mocha-test-container-support');
+import CoreModule from 'bpmn-js/lib/core';
+import ElementTemplatesModule from 'src/provider/element-templates';
+import ModelingModule from 'bpmn-js/lib/features/modeling';
+import PropertiesPanelCommandsModule from 'src/cmd';
 
-/* global bootstrapModeler, inject */
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
-var coreModule = require('bpmn-js/lib/core').default,
-    elementTemplatesModule = require('lib/provider/camunda/element-templates'),
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    propertiesPanelCommandsModule = require('lib/cmd');
+import {
+  getBusinessObject,
+  is
+} from 'bpmn-js/lib/util/ModelUtil';
 
-var camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+import {
+  findCamundaErrorEventDefinition,
+  findExtension,
+  findExtensions
+} from 'src/provider/element-templates/Helper';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject,
-    is = require('bpmn-js/lib/util/ModelUtil').is;
+import { findRootElementsByType } from 'src/utils/ElementUtil';
 
-var findExtension = require('lib/provider/camunda/element-templates/Helper').findExtension,
-    findExtensions = require('lib/provider/camunda/element-templates/Helper').findExtensions,
-    findErrorEventDefinition = require('lib/provider/camunda/element-templates/Helper').findCamundaErrorEventDefinition;
+import {
+  find,
+  isArray,
+  isString,
+  isUndefined
+} from 'min-dash';
 
-var findRootElementsByType = require('lib/Utils').findRootElementsByType;
-
-var find = require('lodash/find'),
-    isArray = require('lodash/isArray'),
-    isString = require('lodash/isString'),
-    isUndefined = require('lodash/isUndefined');
-
-var modules = [
-  coreModule,
-  elementTemplatesModule,
-  modelingModule,
-  propertiesPanelCommandsModule
+const modules = [
+  CoreModule,
+  ElementTemplatesModule,
+  ModelingModule,
+  PropertiesPanelCommandsModule
 ];
 
-var moddleExtensions = {
+const moddleExtensions = {
   camunda: camundaModdlePackage
 };
 
 
 describe('element-templates - ChangeElementTemplateHandler', function() {
 
-  var container;
+  let container;
 
   beforeEach(function() {
     container = TestContainer.get(this);
@@ -49,9 +55,9 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
   function bootstrap(diagramXML) {
     return bootstrapModeler(diagramXML, {
-      container: container,
-      modules: modules,
-      moddleExtensions: moddleExtensions
+      container,
+      modules,
+      moddleExtensions
     });
   }
 
@@ -60,9 +66,9 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:modelerTemplate and camunda:modelerTemplateVersion', function() {
 
-      beforeEach(bootstrap(require('./task.bpmn')));
+      beforeEach(bootstrap(require('./task.bpmn').default));
 
-      var newTemplate = require('./task-template-1.json');
+      const newTemplate = require('./task-template-1.json');
 
 
       it('execute', inject(function(elementRegistry) {
@@ -115,7 +121,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('update bpmn:conditionExpression', function() {
 
-        beforeEach(bootstrap(require('./sequence-flow.bpmn')));
+        beforeEach(bootstrap(require('./sequence-flow.bpmn').default));
 
         var newTemplate = require('./sequence-flow-template-1.json');
 
@@ -189,7 +195,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('update camunda:asyncBefore', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn')));
+        beforeEach(bootstrap(require('./task.bpmn').default));
 
         var newTemplate = require('./task-template-1.json');
 
@@ -258,7 +264,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('update camunda:expression ', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
         var newTemplate = require('./service-task-template-1.json');
 
@@ -335,7 +341,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:ExecutionListener specified', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn')));
+        beforeEach(bootstrap(require('./task.bpmn').default));
 
         var newTemplate = require('./task-template-1.json');
 
@@ -418,7 +424,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:ExecutionListener not specified', function() {
 
-        beforeEach(bootstrap(require('./task-execution-listener.bpmn')));
+        beforeEach(bootstrap(require('./task-execution-listener.bpmn').default));
 
         var newTemplate = require('./task-template-no-properties.json');
 
@@ -455,7 +461,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Field specified', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
         var newTemplate = require('./service-task-template-1.json');
 
@@ -544,7 +550,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Field not specified', function() {
 
-        beforeEach(bootstrap(require('./service-task-field.bpmn')));
+        beforeEach(bootstrap(require('./service-task-field.bpmn').default));
 
         var newTemplate = require('./service-task-template-no-properties.json');
 
@@ -586,7 +592,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:In and camunda:Out specified', function() {
 
-        beforeEach(bootstrap(require('./call-activity.bpmn')));
+        beforeEach(bootstrap(require('./call-activity.bpmn').default));
 
         var newTemplate = require('./call-activity-template-1.json');
 
@@ -787,7 +793,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:In and camunda:Out not specified', function() {
 
-        beforeEach(bootstrap(require('./call-activity-ins-and-outs.bpmn')));
+        beforeEach(bootstrap(require('./call-activity-ins-and-outs.bpmn').default));
 
         var newTemplate = require('./call-activity-template-no-properties.json');
 
@@ -829,7 +835,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Input and camunda:Output specified', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn')));
+        beforeEach(bootstrap(require('./task.bpmn').default));
 
         var newTemplate = require('./task-template-1.json');
 
@@ -966,7 +972,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Input and camunda:Output not specified', function() {
 
-        beforeEach(bootstrap(require('./task-input-output.bpmn')));
+        beforeEach(bootstrap(require('./task-input-output.bpmn').default));
 
         var newTemplate = require('./task-template-no-properties.json');
 
@@ -1014,7 +1020,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Property specified', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn')));
+        beforeEach(bootstrap(require('./task.bpmn').default));
 
         var newTemplate = require('./task-template-1.json');
 
@@ -1089,7 +1095,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Property not specified', function() {
 
-        beforeEach(bootstrap(require('./task-property.bpmn')));
+        beforeEach(bootstrap(require('./task-property.bpmn').default));
 
         var newTemplate = require('./task-template-no-properties.json');
 
@@ -1124,7 +1130,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:ErrorEventDefinition specified', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
         var newTemplate = require('./error-template-1.json');
 
@@ -1140,7 +1146,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           // then
           expectElementTemplate(task, 'error-template', 1);
 
-          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1'),
+          var errorEventDefinition = findCamundaErrorEventDefinition(task, 'Error_1'),
               error = errorEventDefinition.errorRef;
 
           expect(errorEventDefinition).to.exist;
@@ -1164,7 +1170,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           // then
           expectNoElementTemplate(task);
 
-          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1');
+          var errorEventDefinition = findCamundaErrorEventDefinition(task, 'Error_1');
 
           expect(errorEventDefinition).to.not.exist;
         }));
@@ -1184,7 +1190,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           // then
           expectElementTemplate(task, 'error-template', 1);
 
-          var errorEventDefinition = findErrorEventDefinition(task, 'Error_1'),
+          var errorEventDefinition = findCamundaErrorEventDefinition(task, 'Error_1'),
               error = errorEventDefinition.errorRef;
 
 
@@ -1200,7 +1206,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:ErrorEventDefinition not specified', function() {
 
-        beforeEach(bootstrap(require('./service-task-error.bpmn')));
+        beforeEach(bootstrap(require('./service-task-error.bpmn').default));
 
         var newTemplate = require('./task-template-no-properties.json');
 
@@ -1216,7 +1222,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           // then
           expectElementTemplate(task, 'task-template-no-properties');
 
-          var errorEventDefinition = findErrorEventDefinition(task, 'fooError'),
+          var errorEventDefinition = findCamundaErrorEventDefinition(task, 'fooError'),
               error = errorEventDefinition.errorRef;
 
           expect(errorEventDefinition).to.exist;
@@ -1237,7 +1243,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
         describe('camunda:Connector specified (legacy)', function() {
 
-          beforeEach(bootstrap(require('./service-task.bpmn')));
+          beforeEach(bootstrap(require('./service-task.bpmn').default));
 
           var newTemplate = require('./service-task-template-1.json');
 
@@ -1336,7 +1342,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
         describe('camunda:Connector specified', function() {
 
-          beforeEach(bootstrap(require('./service-task.bpmn')));
+          beforeEach(bootstrap(require('./service-task.bpmn').default));
 
           var newTemplate = require('./service-task-connector-template-1.json');
 
@@ -1435,7 +1441,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
         describe('camunda:Connector not specified', function() {
 
-          beforeEach(bootstrap(require('./service-task-connector.bpmn')));
+          beforeEach(bootstrap(require('./service-task-connector.bpmn').default));
 
           var newTemplate = require('./service-task-template-no-properties.json');
 
@@ -1482,7 +1488,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
         describe('bpmn:Error specified', function() {
 
-          beforeEach(bootstrap(require('./service-task.bpmn')));
+          beforeEach(bootstrap(require('./service-task.bpmn').default));
 
           var newTemplate = require('./error-template-1.json');
 
@@ -1560,7 +1566,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
         describe('bpmn:Error not specified', function() {
 
-          beforeEach(bootstrap(require('./service-task-error.bpmn')));
+          beforeEach(bootstrap(require('./service-task-error.bpmn').default));
 
           var newTemplate = require('./service-task-template-no-properties.json');
 
@@ -1597,15 +1603,9 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:modelerTemplate and camunda:modelerTemplateVersion', function() {
 
-      var diagramXML = require('./task-template.bpmn');
+      beforeEach(bootstrap(require('./task-template.bpmn').default));
 
       var newTemplate = require('./task-template-2.json');
-
-      beforeEach(bootstrapModeler(diagramXML, {
-        container: container,
-        modules: modules,
-        moddleExtensions: moddleExtensions
-      }));
 
 
       it('execute', inject(function(elementRegistry) {
@@ -1627,7 +1627,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('update bpmn:conditionExpression', function() {
 
-        beforeEach(bootstrap(require('./sequence-flow.bpmn')));
+        beforeEach(bootstrap(require('./sequence-flow.bpmn').default));
 
 
         it('property changed', inject(function(elementRegistry) {
@@ -1719,7 +1719,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('update camunda:asyncBefore', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn')));
+        beforeEach(bootstrap(require('./task.bpmn').default));
 
         it('property changed', inject(function(elementRegistry) {
 
@@ -1795,7 +1795,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('update camunda:expression', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
 
         it('property changed', inject(function(elementRegistry) {
@@ -1874,7 +1874,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:ExecutionListener', function() {
 
-      beforeEach(bootstrap(require('./task.bpmn')));
+      beforeEach(bootstrap(require('./task.bpmn').default));
 
       // We assume that execution listeners cannot be edited through the properties panel and
       // therefore can always be overridden
@@ -1926,7 +1926,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:Field', function() {
 
-      beforeEach(bootstrap(require('./service-task.bpmn')));
+      beforeEach(bootstrap(require('./service-task.bpmn').default));
 
 
       it('property changed', inject(function(elementRegistry) {
@@ -2141,7 +2141,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:In and camunda:Out', function() {
 
-      beforeEach(bootstrap(require('./call-activity.bpmn')));
+      beforeEach(bootstrap(require('./call-activity.bpmn').default));
 
 
       describe('bpmn:CallActivity', function() {
@@ -2395,7 +2395,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:InputParameter and camunda:OutputParameter', function() {
 
-      beforeEach(bootstrap(require('./task.bpmn')));
+      beforeEach(bootstrap(require('./task.bpmn').default));
 
 
       it('property changed', inject(function(elementRegistry) {
@@ -2751,7 +2751,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:Property', function() {
 
-      beforeEach(bootstrap(require('./task.bpmn')));
+      beforeEach(bootstrap(require('./task.bpmn').default));
 
 
       it('property changed', inject(function(elementRegistry) {
@@ -2939,7 +2939,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('update camunda:ErrorEventDefinition', function() {
 
-      beforeEach(bootstrap(require('./service-task.bpmn')));
+      beforeEach(bootstrap(require('./service-task.bpmn').default));
 
 
       it('property changed', inject(function(elementRegistry) {
@@ -3032,7 +3032,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(serviceTask, oldTemplate);
 
         var errorEventDefinition =
-          findErrorEventDefinition(serviceTask, 'error-1');
+          findCamundaErrorEventDefinition(serviceTask, 'error-1');
 
         updateBusinessObject(serviceTask, errorEventDefinition, {
           expression: 'error-expression-updated-value'
@@ -3042,7 +3042,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(serviceTask, newTemplate, oldTemplate);
 
         errorEventDefinition =
-          findErrorEventDefinition(serviceTask, 'error-1');
+          findCamundaErrorEventDefinition(serviceTask, 'error-1');
 
         // then
         expect(errorEventDefinition.expression).to.eql('error-expression-updated-value');
@@ -3139,7 +3139,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(serviceTask, oldTemplate);
 
         var errorEventDefinition =
-          findErrorEventDefinition(serviceTask, 'error-1');
+          findCamundaErrorEventDefinition(serviceTask, 'error-1');
 
         updateBusinessObject(serviceTask, errorEventDefinition, {
           expression: 'error-expression-updated-value'
@@ -3255,7 +3255,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(serviceTask, newTemplate, oldTemplate);
 
         // then
-        var errorEventDefinition = findErrorEventDefinition(serviceTask, 'error-1');
+        var errorEventDefinition = findCamundaErrorEventDefinition(serviceTask, 'error-1');
 
         expect(errorEventDefinition).to.exist;
 
@@ -3356,7 +3356,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
         changeTemplate(serviceTask, oldTemplate);
 
-        var errorEventDefinition = findErrorEventDefinition(serviceTask, 'error-1');
+        var errorEventDefinition = findCamundaErrorEventDefinition(serviceTask, 'error-1');
 
         updateBusinessObject(serviceTask, errorEventDefinition, {
           expression: 'error-expression-updated-value'
@@ -3374,12 +3374,12 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         // Expect 2nd definition to have been updated
         // Expect 3rd definition to have been removed because it was removed from template
         // Expect 4th definition to have been added because it was added to template
-        expect(findErrorEventDefinition(serviceTask, 'error-1').expression)
+        expect(findCamundaErrorEventDefinition(serviceTask, 'error-1').expression)
           .to.equal('error-expression-updated-value');
-        expect(findErrorEventDefinition(serviceTask, 'error-2').expression)
+        expect(findCamundaErrorEventDefinition(serviceTask, 'error-2').expression)
           .to.equal('error-expression-new-value-2');
-        expect(findErrorEventDefinition(serviceTask, 'error-3')).to.not.exist;
-        expect(findErrorEventDefinition(serviceTask, 'error-4')).to.exist;
+        expect(findCamundaErrorEventDefinition(serviceTask, 'error-3')).to.not.exist;
+        expect(findCamundaErrorEventDefinition(serviceTask, 'error-4')).to.exist;
       }));
 
     });
@@ -3389,7 +3389,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Connector (legacy)', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
 
         it('properties changed', inject(function(elementRegistry) {
@@ -3566,7 +3566,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('camunda:Connector', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
 
         it('properties changed', inject(function(elementRegistry) {
@@ -3729,7 +3729,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
       describe('bpmn:Error', function() {
 
-        beforeEach(bootstrap(require('./service-task.bpmn')));
+        beforeEach(bootstrap(require('./service-task.bpmn').default));
 
 
         it('properties changed', inject(function(elementRegistry) {
@@ -4205,7 +4205,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     describe('should not remove properties', function() {
 
-      beforeEach(bootstrap(require('./task-template.bpmn')));
+      beforeEach(bootstrap(require('./task-template.bpmn').default));
 
 
       it('execute', inject(function(elementRegistry) {
@@ -4273,7 +4273,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
   describe('_getOrCreateExtensionElements', function() {
 
-    beforeEach(bootstrap(require('./task.bpmn')));
+    beforeEach(bootstrap(require('./task.bpmn').default));
 
     var newTemplate = require('./task-template-1.json');
 
@@ -4329,7 +4329,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 // helpers //////////
 
 function changeTemplate(element, newTemplate, oldTemplate) {
-  return TestHelper.getBpmnJS().invoke(function(commandStack, elementRegistry) {
+  return getBpmnJS().invoke(function(commandStack, elementRegistry) {
     if (isString(element)) {
       element = elementRegistry.get(element);
     }
@@ -4345,7 +4345,7 @@ function changeTemplate(element, newTemplate, oldTemplate) {
 }
 
 function expectElementTemplate(element, id, version) {
-  TestHelper.getBpmnJS().invoke(function(elementRegistry) {
+  getBpmnJS().invoke(function(elementRegistry) {
     if (isString(element)) {
       element = elementRegistry.get(element);
     }
@@ -4367,7 +4367,7 @@ function expectElementTemplate(element, id, version) {
 }
 
 function expectNoElementTemplate(element) {
-  TestHelper.getBpmnJS().invoke(function(elementRegistry) {
+  getBpmnJS().invoke(function(elementRegistry) {
     if (isString(element)) {
       element = elementRegistry.get(element);
     }
@@ -4448,7 +4448,7 @@ function getOutputParameter(element, source) {
 }
 
 function updateProperties(element, properties) {
-  TestHelper.getBpmnJS().invoke(function(elementRegistry, modeling) {
+  getBpmnJS().invoke(function(elementRegistry, modeling) {
     if (isString(element)) {
       element = elementRegistry.get(element);
     }
@@ -4460,7 +4460,7 @@ function updateProperties(element, properties) {
 }
 
 function updateBusinessObject(element, businessObject, properties) {
-  TestHelper.getBpmnJS().invoke(function(commandStack, elementRegistry) {
+  getBpmnJS().invoke(function(commandStack, elementRegistry) {
     if (isString(element)) {
       element = elementRegistry.get(element);
     }
@@ -4476,7 +4476,7 @@ function updateBusinessObject(element, businessObject, properties) {
 }
 
 function findErrorForEventDefinition(element, bindingErrorRef) {
-  var eventDefinition = findErrorEventDefinition(element, bindingErrorRef);
+  var eventDefinition = findCamundaErrorEventDefinition(element, bindingErrorRef);
 
   if (eventDefinition) {
     return eventDefinition.errorRef;

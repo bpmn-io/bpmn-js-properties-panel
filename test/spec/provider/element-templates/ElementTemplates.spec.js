@@ -1,23 +1,22 @@
-'use strict';
+import TestContainer from 'mocha-test-container-support';
 
-var TestContainer = require('mocha-test-container-support');
+import { bootstrapModeler, inject } from 'test/TestHelper';
 
-/* global bootstrapModeler, inject */
+import coreModule from 'bpmn-js/lib/core';
+import elementTemplatesModule from 'src/provider/element-templates';
+import modelingModule from 'bpmn-js/lib/features/modeling';
 
-var coreModule = require('bpmn-js/lib/core').default,
-    elementTemplatesModule = require('lib/provider/camunda/element-templates'),
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
-var diagramXML = require('./ElementTemplates.bpmn');
+import diagramXML from './ElementTemplates.bpmn';
 
-var templates = require('./fixtures/simple'),
-    falsyVersionTemplate = require('./fixtures/falsy-version');
+import templates from './fixtures/simple';
+import falsyVersionTemplate from './fixtures/falsy-version';
 
 
-describe('element-templates - ElementTemplates', function() {
+describe('provider/element-template - ElementTemplates', function() {
 
-  var container;
+  let container;
 
   beforeEach(function() {
     container = TestContainer.get(this);
@@ -45,7 +44,7 @@ describe('element-templates - ElementTemplates', function() {
     it('should get template by ID', inject(function(elementTemplates) {
 
       // when
-      var template = elementTemplates.get('foo');
+      const template = elementTemplates.get('foo');
 
       // then
       expect(template.id).to.equal('foo');
@@ -56,7 +55,7 @@ describe('element-templates - ElementTemplates', function() {
     it('should get template by ID and version', inject(function(elementTemplates) {
 
       // when
-      var template = elementTemplates.get('foo', 1);
+      const template = elementTemplates.get('foo', 1);
 
       // then
       expect(template.id).to.equal('foo');
@@ -67,10 +66,10 @@ describe('element-templates - ElementTemplates', function() {
     it('should get template by element (template ID)', inject(function(elementRegistry, elementTemplates) {
 
       // given
-      var task = elementRegistry.get('Task_1');
+      const task = elementRegistry.get('Task_1');
 
       // when
-      var template = elementTemplates.get(task);
+      const template = elementTemplates.get(task);
 
       // then
       expect(template.id).to.equal('foo');
@@ -81,10 +80,10 @@ describe('element-templates - ElementTemplates', function() {
     it('should get template by element (template ID and version)', inject(function(elementRegistry, elementTemplates) {
 
       // given
-      var task = elementRegistry.get('Task_2');
+      const task = elementRegistry.get('Task_2');
 
       // when
-      var template = elementTemplates.get(task);
+      const template = elementTemplates.get(task);
 
       // then
       expect(template.id).to.equal('foo');
@@ -95,7 +94,7 @@ describe('element-templates - ElementTemplates', function() {
     it('should not get template (no template with ID)', inject(function(elementTemplates) {
 
       // when
-      var template = elementTemplates.get('oof');
+      const template = elementTemplates.get('oof');
 
       // then
       expect(template).to.be.null;
@@ -105,7 +104,7 @@ describe('element-templates - ElementTemplates', function() {
     it('should not get template (no template with ID)', inject(function(elementTemplates) {
 
       // when
-      var template = elementTemplates.get('foo', 3);
+      const template = elementTemplates.get('foo', 3);
 
       // then
       expect(template).to.be.null;
@@ -115,10 +114,10 @@ describe('element-templates - ElementTemplates', function() {
     it('should not get template (no template applied to element)', inject(function(elementRegistry, elementTemplates) {
 
       // given
-      var task = elementRegistry.get('Task_3');
+      const task = elementRegistry.get('Task_3');
 
       // when
-      var template = elementTemplates.get(task);
+      const template = elementTemplates.get(task);
 
       // then
       expect(template).to.be.null;
@@ -132,10 +131,10 @@ describe('element-templates - ElementTemplates', function() {
     it('should get default template for element', inject(function(elementRegistry, elementTemplates) {
 
       // given
-      var task = elementRegistry.get('Task_1');
+      const task = elementRegistry.get('Task_1');
 
       // when
-      var template = elementTemplates.getDefault(task);
+      const template = elementTemplates.getDefault(task);
 
       // then
       expect(template.id).to.equal('foo');
@@ -159,7 +158,7 @@ describe('element-templates - ElementTemplates', function() {
     it('should get all templates with ID', inject(function(elementTemplates) {
 
       // when
-      var templates = elementTemplates.getAll('foo');
+      const templates = elementTemplates.getAll('foo');
 
       // then
       expect(templates).to.have.length(3);

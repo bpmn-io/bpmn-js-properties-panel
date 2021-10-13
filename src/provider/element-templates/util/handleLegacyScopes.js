@@ -1,9 +1,9 @@
-'use strict';
-
-var assign = require('min-dash').assign,
-    forEach = require('min-dash').forEach,
-    keys = require('min-dash').keys,
-    isObject = require('min-dash').isObject;
+import {
+  assign,
+  forEach,
+  isObject,
+  keys
+} from 'min-dash';
 
 /**
  * Converts legacy scopes descriptor to newer supported array structure.
@@ -29,8 +29,8 @@ var assign = require('min-dash').assign,
  *
  * @returns {Array}
  */
-module.exports = function handleLegacyScopes(scopes) {
-  var scopesAsArray = [];
+export default function handleLegacyScopes(scopes = []) {
+  const scopesAsArray = [];
 
   if (!isObject(scopes)) {
     return scopes;
@@ -43,4 +43,4 @@ module.exports = function handleLegacyScopes(scopes) {
   });
 
   return scopesAsArray;
-};
+}

@@ -1,15 +1,20 @@
-module.exports = {
+import translateModule from 'diagram-js/lib/i18n/translate';
+
+import ElementTemplates from './ElementTemplates';
+import ElementTemplatesLoader from './ElementTemplatesLoader';
+import ReplaceBehavior from './ReplaceBehavior';
+import commandsModule from './cmd';
+
+export default {
   __depends__: [
-    require('./cmd'),
-    require('diagram-js/lib/i18n/translate').default
+    commandsModule,
+    translateModule
   ],
   __init__: [
-    'customElementsPropertiesActivator',
     'elementTemplatesLoader',
     'replaceBehavior'
   ],
-  customElementsPropertiesActivator: [ 'type', require('./CustomElementsPropertiesActivator') ],
-  elementTemplates: [ 'type', require('./ElementTemplates') ],
-  elementTemplatesLoader: [ 'type', require('./ElementTemplatesLoader') ],
-  replaceBehavior: [ 'type', require('./ReplaceBehavior') ],
+  elementTemplates: [ 'type', ElementTemplates ],
+  elementTemplatesLoader: [ 'type', ElementTemplatesLoader ],
+  replaceBehavior: [ 'type', ReplaceBehavior ]
 };

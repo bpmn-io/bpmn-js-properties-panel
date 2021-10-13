@@ -1,6 +1,9 @@
-'use strict';
+import {
+  isFunction,
+  isUndefined
+} from 'min-dash';
 
-var Validator = require('./Validator');
+import { Validator } from './Validator';
 
 /**
  * The guy responsible for template loading.
@@ -15,82 +18,74 @@ var Validator = require('./Validator');
  * @param {EventBus} eventBus
  * @param {ElementTemplates} elementTemplates
  */
-function ElementTemplatesLoader(loadTemplates, eventBus, elementTemplates) {
-  this._loadTemplates = loadTemplates;
-  this._eventBus = eventBus;
-  this._elementTemplates = elementTemplates;
+export default class ElementTemplatesLoader {
+  constructor(loadTemplates, eventBus, elementTemplates) {
+    this._loadTemplates = loadTemplates;
+    this._eventBus = eventBus;
+    this._elementTemplates = elementTemplates;
 
-  var self = this;
+    eventBus.on('diagram.init', () => {
+      this.reload();
+    });
+  }
 
-  eventBus.on('diagram.init', function() {
-    self.reload();
-  });
+  reload() {
+    const loadTemplates = this._loadTemplates;
+
+    // no templates specified
+    if (isUndefined(loadTemplates)) {
+      return;
+    }
+
+    // template loader function specified
+    if (isFunction(loadTemplates)) {
+
+      return loadTemplates((err, templates) => {
+
+        if (err) {
+          return this.templateErrors([ err ]);
+        }
+
+        this.setTemplates(templates);
+      });
+    }
+
+    // templates array specified
+    if (loadTemplates.length) {
+      return this.setTemplates(loadTemplates);
+    }
+  }
+
+  setTemplates(templates) {
+    const elementTemplates = this._elementTemplates;
+
+    const validator = new Validator().addAll(templates);
+
+    const errors = validator.getErrors(),
+          validTemplates = validator.getValidTemplates();
+
+    elementTemplates.set(validTemplates);
+
+    if (errors.length) {
+      this.templateErrors(errors);
+    }
+
+    this.templatesChanged();
+  }
+
+  templatesChanged() {
+    this._eventBus.fire('elementTemplates.changed');
+  }
+
+  templateErrors(errors) {
+    this._eventBus.fire('elementTemplates.errors', {
+      errors: errors
+    });
+  }
 }
-
-module.exports = ElementTemplatesLoader;
 
 ElementTemplatesLoader.$inject = [
   'config.elementTemplates',
   'eventBus',
   'elementTemplates'
 ];
-
-
-ElementTemplatesLoader.prototype.reload = function() {
-
-  var self = this;
-
-  var loadTemplates = this._loadTemplates;
-
-  // no templates specified
-  if (typeof loadTemplates === 'undefined') {
-    return;
-  }
-
-  // template loader function specified
-  if (typeof loadTemplates === 'function') {
-
-    return loadTemplates(function(err, templates) {
-
-      if (err) {
-        return self.templateErrors([ err ]);
-      }
-
-      self.setTemplates(templates);
-    });
-  }
-
-  // templates array specified
-  if (loadTemplates.length) {
-    return this.setTemplates(loadTemplates);
-  }
-
-};
-
-ElementTemplatesLoader.prototype.setTemplates = function(templates) {
-
-  var elementTemplates = this._elementTemplates;
-
-  var validator = new Validator().addAll(templates);
-
-  var errors = validator.getErrors(),
-      validTemplates = validator.getValidTemplates();
-
-  elementTemplates.set(validTemplates);
-
-  if (errors.length) {
-    this.templateErrors(errors);
-  }
-
-  this.templatesChanged();
-};
-
-ElementTemplatesLoader.prototype.templatesChanged = function() {
-  this._eventBus.fire('elementTemplates.changed');
-};
-
-ElementTemplatesLoader.prototype.templateErrors = function(errors) {
-  this._eventBus.fire('elementTemplates.errors', {
-    errors: errors
-  });
-};

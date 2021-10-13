@@ -1,6 +1,4 @@
-'use strict';
-
-var Validator = require('../Validator');
+import { Validator } from '../Validator';
 
 /**
  * Validate the given template descriptors and
@@ -10,7 +8,6 @@ var Validator = require('../Validator');
  *
  * @return {Array<Error>}
  */
-module.exports = function validate(descriptors) {
-
+export default function validate(descriptors) {
   return new Validator().addAll(descriptors).getErrors();
-};
+}

@@ -1,38 +1,43 @@
-'use strict';
+import {
+  getBusinessObject,
+  is
+} from 'bpmn-js/lib/util/ModelUtil';
 
-var findExtension = require('../Helper').findExtension,
-    findExtensions = require('../Helper').findExtensions,
-    findCamundaErrorEventDefinition = require('../Helper').findCamundaErrorEventDefinition;
+import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
-var handleLegacyScopes = require('../util/handleLegacyScopes');
+import {
+  findCamundaErrorEventDefinition,
+  findExtension,
+  findExtensions
+} from '../Helper';
 
-var createCamundaExecutionListenerScript = require('../CreateHelper').createCamundaExecutionListenerScript,
-    createCamundaFieldInjection = require('../CreateHelper').createCamundaFieldInjection,
-    createCamundaIn = require('../CreateHelper').createCamundaIn,
-    createCamundaInWithBusinessKey = require('../CreateHelper').createCamundaInWithBusinessKey,
-    createCamundaOut = require('../CreateHelper').createCamundaOut,
-    createCamundaProperty = require('../CreateHelper').createCamundaProperty,
-    createInputParameter = require('../CreateHelper').createInputParameter,
-    createOutputParameter = require('../CreateHelper').createOutputParameter,
-    createCamundaErrorEventDefinition = require('../CreateHelper').createCamundaErrorEventDefinition,
-    createError = require('../CreateHelper').createError;
+import handleLegacyScopes from '../util/handleLegacyScopes';
 
-var EventDefinitionHelper = require('../../../../helper/EventDefinitionHelper');
+import {
+  createCamundaExecutionListenerScript,
+  createCamundaFieldInjection,
+  createCamundaIn,
+  createCamundaInWithBusinessKey,
+  createCamundaOut,
+  createCamundaProperty,
+  createInputParameter,
+  createOutputParameter,
+  createCamundaErrorEventDefinition,
+  createError
+} from '../CreateHelper';
 
-var getRoot = require('../../../../Utils').getRoot;
+import { getSignalEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+import { getRoot } from '../../../utils/ElementUtil';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
+import {
+  find,
+  isString,
+  isUndefined,
+  keys
+} from 'min-dash';
 
-var find = require('lodash/find'),
-    forEach = require('lodash/forEach'),
-    isString = require('lodash/isString'),
-    keys = require('lodash/keys'),
-    remove = require('lodash/remove');
-
-var CAMUNDA_SERVICE_TASK_LIKE = [
+const CAMUNDA_SERVICE_TASK_LIKE = [
   'camunda:class',
   'camunda:delegateExpression',
   'camunda:expression'
@@ -42,21 +47,14 @@ var CAMUNDA_SERVICE_TASK_LIKE = [
  * Applies an element template to an element. Sets `camunda:modelerTemplate` and
  * `camunda:modelerTemplateVersion`.
  */
-function ChangeElementTemplateHandler(bpmnFactory, commandStack, modeling) {
-  this._bpmnFactory = bpmnFactory;
-  this._commandStack = commandStack;
-  this._modeling = modeling;
-}
+export default class ChangeElementTemplateHandler {
+  constructor(bpmnFactory, commandStack, modeling) {
+    this._bpmnFactory = bpmnFactory;
+    this._commandStack = commandStack;
+    this._modeling = modeling;
+  }
 
-ChangeElementTemplateHandler.$inject = [
-  'bpmnFactory',
-  'commandStack',
-  'modeling'
-];
-
-module.exports = ChangeElementTemplateHandler;
-
-/**
+  /**
    * Change an element's template and update its properties as specified in `newTemplate`. Specify
    * `oldTemplate` to update from one template to another. If `newTemplate` isn't specified the
    * `camunda:modelerTemplate` and `camunda:modelerTemplateVersion` properties will be removed from
@@ -67,830 +65,833 @@ module.exports = ChangeElementTemplateHandler;
    * @param {Object} [context.oldTemplate]
    * @param {Object} [context.newTemplate]
    */
-ChangeElementTemplateHandler.prototype.preExecute = function(context) {
-  var element = context.element,
-      newTemplate = context.newTemplate,
-      oldTemplate = context.oldTemplate;
+  preExecute(context) {
+    const element = context.element,
+          newTemplate = context.newTemplate,
+          oldTemplate = context.oldTemplate;
 
-  var self = this;
+    // update camunda:modelerTemplate attribute
+    this._updateCamundaModelerTemplate(element, newTemplate);
 
-  // Update camunda:modelerTemplate attribute
-  this._updateCamundaModelerTemplate(element, newTemplate);
+    if (newTemplate) {
 
-  if (newTemplate) {
+      // update properties
+      this._updateProperties(element, oldTemplate, newTemplate);
 
-    // Update properties
-    this._updateProperties(element, oldTemplate, newTemplate);
+      // update camunda:ExecutionListener properties
+      this._updateCamundaExecutionListenerProperties(element, newTemplate);
 
-    // Update camunda:ExecutionListener properties
-    this._updateCamundaExecutionListenerProperties(element, newTemplate);
+      // update camunda:Field properties
+      this._updateCamundaFieldProperties(element, oldTemplate, newTemplate);
 
-    // Update camunda:Field properties
-    this._updateCamundaFieldProperties(element, oldTemplate, newTemplate);
+      // update camunda:In and camunda:Out properties
+      this._updateCamundaInOutProperties(element, oldTemplate, newTemplate);
 
-    // Update camunda:In and camunda:Out properties
-    this._updateCamundaInOutProperties(element, oldTemplate, newTemplate);
+      // update camunda:InputParameter and camunda:OutputParameter properties
+      this._updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate);
 
-    // Update camunda:InputParameter and camunda:OutputParameter properties
-    this._updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate);
+      // update camunda:Property properties
+      this._updateCamundaPropertyProperties(element, oldTemplate, newTemplate);
 
-    // Update camunda:Property properties
-    this._updateCamundaPropertyProperties(element, oldTemplate, newTemplate);
+      // update camunda:ErrorEventDefinition properties
+      this._updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate);
 
-    // Update camunda:ErrorEventDefinition properties
-    this._updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate);
+      // update properties for each scope
+      handleLegacyScopes(newTemplate.scopes).forEach((newScopeTemplate) => {
+        this._updateScopeProperties(element, oldTemplate, newScopeTemplate, newTemplate);
+      });
 
-    // Update properties for each scope
-    forEach(handleLegacyScopes(newTemplate.scopes), function(newScopeTemplate) {
-      self._updateScopeProperties(element, oldTemplate, newScopeTemplate, newTemplate);
-    });
-
-  }
-};
-
-ChangeElementTemplateHandler.prototype._getOrCreateExtensionElements = function(element) {
-  var bpmnFactory = this._bpmnFactory,
-      modeling = this._modeling;
-
-  var businessObject = getBusinessObject(element);
-
-  var extensionElements = businessObject.get('extensionElements');
-
-  if (!extensionElements) {
-    extensionElements = bpmnFactory.create('bpmn:ExtensionElements', {
-      values: []
-    });
-
-    extensionElements.$parent = businessObject;
-
-    modeling.updateProperties(element, {
-      extensionElements: extensionElements
-    });
+    }
   }
 
-  return extensionElements;
-};
+  _getOrCreateExtensionElements(element) {
+    const bpmnFactory = this._bpmnFactory,
+          modeling = this._modeling;
 
-/**
- * Update `camunda:ErrorEventDefinition` properties of specified business object. Event
- * definitions can only exist in `bpmn:ExtensionElements`.
- *
- * Ensures an bpmn:Error exists for the event definition.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldTemplate
- * @param {Object} newTemplate
- */
-ChangeElementTemplateHandler.prototype._updateCamundaErrorEventDefinitionProperties = function(element, oldTemplate, newTemplate) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
+    const businessObject = getBusinessObject(element);
 
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
+    let extensionElements = businessObject.get('extensionElements');
 
-    return newBindingType === 'camunda:errorEventDefinition';
-  });
+    if (!extensionElements) {
+      extensionElements = bpmnFactory.create('bpmn:ExtensionElements', {
+        values: []
+      });
 
-  // (1) Do not override if no updates
-  if (!newProperties.length) {
-    return;
+      extensionElements.$parent = businessObject;
+
+      modeling.updateProperties(element, {
+        extensionElements: extensionElements
+      });
+    }
+
+    return extensionElements;
   }
 
-  var businessObject = this._getOrCreateExtensionElements(element);
+  /**
+   * Update `camunda:ErrorEventDefinition` properties of specified business object. Event
+   * definitions can only exist in `bpmn:ExtensionElements`.
+   *
+   * Ensures an bpmn:Error exists for the event definition.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
 
-  var oldErrorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
 
-  newProperties.forEach(function(newProperty) {
-    var oldProperty = findOldProperty(oldTemplate, newProperty),
-        oldEventDefinition = oldProperty && findOldBusinessObject(businessObject, oldProperty),
-        newBinding = newProperty.binding;
+      return newBindingType === 'camunda:errorEventDefinition';
+    });
 
-    // (2) Update old event definitions
-    if (oldProperty && oldEventDefinition) {
+    // (1) do not override if no updates
+    if (!newProperties.length) {
+      return;
+    }
 
-      if (!propertyChanged(oldEventDefinition, oldProperty)) {
-        commandStack.execute('properties-panel.update-businessobject', {
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    const oldErrorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldEventDefinition = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newBinding = newProperty.binding;
+
+      // (2) update old event definitions
+      if (oldProperty && oldEventDefinition) {
+
+        if (!propertyChanged(oldEventDefinition, oldProperty)) {
+          commandStack.execute('properties-panel.update-businessobject', {
+            element: element,
+            businessObject: oldEventDefinition,
+            properties: {
+              expression: newProperty.value
+            }
+          });
+        }
+
+        remove(oldErrorEventDefinitions, oldEventDefinition);
+      }
+
+      // (3) create new event definition + error
+      else {
+        const rootElement = getRoot(getBusinessObject(element)),
+              newError = createError(newBinding.errorRef, rootElement, bpmnFactory),
+              newEventDefinition = createCamundaErrorEventDefinition(newProperty.value, newError, businessObject, bpmnFactory);
+
+        commandStack.execute('properties-panel.update-businessobject-list', {
           element: element,
-          businessObject: oldEventDefinition,
-          properties: {
-            expression: newProperty.value
-          }
+          currentObject: rootElement,
+          propertyName: 'rootElements',
+          objectsToAdd: [ newError ],
+          objectsToRemove: []
+        });
+
+        commandStack.execute('properties-panel.update-businessobject-list', {
+          element: element,
+          currentObject: businessObject,
+          propertyName: 'values',
+          objectsToAdd: [ newEventDefinition ],
+          objectsToRemove: []
         });
       }
 
-      remove(oldErrorEventDefinitions, oldEventDefinition);
-    }
+    });
 
-    // (3) Create new event definition + error
-    else {
-      var rootElement = getRoot(getBusinessObject(element)),
-          newError = createError(newBinding.errorRef, rootElement, bpmnFactory),
-          newEventDefinition =
-            createCamundaErrorEventDefinition(newBinding, newProperty.value, newError, businessObject, bpmnFactory);
-
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: rootElement,
-        propertyName: 'rootElements',
-        objectsToAdd: [ newError ],
-        objectsToRemove: []
-      });
-
+    // (4) remove old event definitions
+    if (oldErrorEventDefinitions.length) {
       commandStack.execute('properties-panel.update-businessobject-list', {
         element: element,
         currentObject: businessObject,
         propertyName: 'values',
-        objectsToAdd: [ newEventDefinition ],
-        objectsToRemove: []
+        objectsToAdd: [],
+        objectsToRemove: oldErrorEventDefinitions
       });
     }
+  }
 
-  });
+  /**
+   * Update `camunda:ExecutionListener` properties of specified business object. Execution listeners
+   * will always be overridden. Execution listeners can only exist in `bpmn:ExtensionElements`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} newTemplate
+   */
+  _updateCamundaExecutionListenerProperties(element, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
 
-  // (4) Remove old event definitions
-  if (oldErrorEventDefinitions.length) {
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      return newBindingType === 'camunda:executionListener';
+    });
+
+    // (1) do not override old execution listeners if no new execution listeners specified
+    if (!newProperties.length) {
+      return;
+    }
+
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    // (2) remove old execution listeners
+    const oldExecutionListeners = findExtensions(element, [ 'camunda:ExecutionListener' ]);
+
+    // (3) add new execution listeners
+    const newExecutionListeners = newProperties.map((newProperty) => {
+      const newBinding = newProperty.binding,
+            propertyValue = newProperty.value;
+
+      return createCamundaExecutionListenerScript(newBinding, propertyValue, bpmnFactory);
+    });
+
     commandStack.execute('properties-panel.update-businessobject-list', {
       element: element,
       currentObject: businessObject,
       propertyName: 'values',
-      objectsToAdd: [],
-      objectsToRemove: oldErrorEventDefinitions
+      objectsToAdd: newExecutionListeners,
+      objectsToRemove: oldExecutionListeners
     });
   }
-};
 
-/**
- * Update `camunda:ExecutionListener` properties of specified business object. Execution listeners
- * will always be overridden. Execution listeners can only exist in `bpmn:ExtensionElements`.
- *
- * @param {djs.model.Base} element
- * @param {Object} newTemplate
- */
-ChangeElementTemplateHandler.prototype._updateCamundaExecutionListenerProperties = function(element, newTemplate) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
+  /**
+   * Update `camunda:Field` properties of specified business object.
+   * If business object is `camunda:ExecutionListener` or `camunda:TaskListener` `fields` property
+   * will be updated. Otherwise `extensionElements.values` property will be updated.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   * @param {ModdleElement} businessObject
+   */
+  _updateCamundaFieldProperties(element, oldTemplate, newTemplate, businessObject) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
 
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
 
-    return newBindingType === 'camunda:executionListener';
-  });
+      return newBindingType === 'camunda:field';
+    });
 
-  // (1) Do not override old execution listeners if no new execution listeners specified
-  if (!newProperties.length) {
-    return;
-  }
-
-  var businessObject = this._getOrCreateExtensionElements(element);
-
-  // (2) Remove old execution listeners
-  var oldExecutionListeners = findExtensions(element, [ 'camunda:ExecutionListener' ]);
-
-  // (3) Add new execution listeners
-  var newExecutionListeners = newProperties.map(function(newProperty) {
-    var newBinding = newProperty.binding,
-        propertyValue = newProperty.value;
-
-    return createCamundaExecutionListenerScript(newBinding, propertyValue, bpmnFactory);
-  });
-
-  commandStack.execute('properties-panel.update-businessobject-list', {
-    element: element,
-    currentObject: businessObject,
-    propertyName: 'values',
-    objectsToAdd: newExecutionListeners,
-    objectsToRemove: oldExecutionListeners
-  });
-};
-
-/**
- * Update `camunda:Field` properties of specified business object.
- * If business object is `camunda:ExecutionListener` or `camunda:TaskListener` `fields` property
- * will be updated. Otherwise `extensionElements.values` property will be updated.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldTemplate
- * @param {Object} newTemplate
- * @param {ModdleElement} businessObject
- */
-ChangeElementTemplateHandler.prototype._updateCamundaFieldProperties = function(element, oldTemplate, newTemplate, businessObject) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
-
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
-
-    return newBindingType === 'camunda:field';
-  });
-
-  // (1) Do not override old fields if no new fields specified
-  if (!newProperties.length) {
-    return;
-  }
-
-  if (!businessObject) {
-    businessObject = this._getOrCreateExtensionElements(element);
-  }
-
-  var propertyName = isAny(businessObject, [ 'camunda:ExecutionListener', 'camunda:TaskListener' ])
-    ? 'fields'
-    : 'values';
-
-  var oldFields = findExtensions(element, [ 'camunda:Field' ]);
-
-  newProperties.forEach(function(newProperty) {
-    var oldProperty = findOldProperty(oldTemplate, newProperty),
-        oldField = oldProperty && findOldBusinessObject(businessObject, oldProperty),
-        newBinding = newProperty.binding;
-
-    // (2) Update old fields
-    if (oldProperty && oldField) {
-
-      if (!propertyChanged(oldField, oldProperty)) {
-        commandStack.execute('properties-panel.update-businessobject', {
-          element: element,
-          businessObject: oldField,
-          properties: {
-            string: newProperty.value
-          }
-        });
-      }
-
-      remove(oldFields, oldField);
+    // (1) do not override old fields if no new fields specified
+    if (!newProperties.length) {
+      return;
     }
 
-    // (3) Add new fields
-    else {
+    if (!businessObject) {
+      businessObject = this._getOrCreateExtensionElements(element);
+    }
+
+    const propertyName = isAny(businessObject, [ 'camunda:ExecutionListener', 'camunda:TaskListener' ])
+      ? 'fields'
+      : 'values';
+
+    const oldFields = findExtensions(element, [ 'camunda:Field' ]);
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldField = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newBinding = newProperty.binding;
+
+      // (2) update old fields
+      if (oldProperty && oldField) {
+
+        if (!propertyChanged(oldField, oldProperty)) {
+          commandStack.execute('properties-panel.update-businessobject', {
+            element: element,
+            businessObject: oldField,
+            properties: {
+              string: newProperty.value
+            }
+          });
+        }
+
+        remove(oldFields, oldField);
+      }
+
+      // (3) add new fields
+      else {
+        commandStack.execute('properties-panel.update-businessobject-list', {
+          element: element,
+          currentObject: businessObject,
+          propertyName: propertyName,
+          objectsToAdd: [ createCamundaFieldInjection(newBinding, newProperty.value, bpmnFactory) ],
+          objectsToRemove: []
+        });
+      }
+    });
+
+    // (4) remove old fields
+    if (oldFields.length) {
       commandStack.execute('properties-panel.update-businessobject-list', {
         element: element,
         currentObject: businessObject,
         propertyName: propertyName,
-        objectsToAdd: [ createCamundaFieldInjection(newBinding, newProperty.value, bpmnFactory) ],
-        objectsToRemove: []
+        objectsToAdd: [],
+        objectsToRemove: oldFields
       });
     }
-  });
-
-  // (4) Remove old fields
-  if (oldFields.length) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: businessObject,
-      propertyName: propertyName,
-      objectsToAdd: [],
-      objectsToRemove: oldFields
-    });
   }
-};
 
-/**
- * Update `camunda:In` and `camunda:Out` properties of specified business object. Only
- * `bpmn:CallActivity` and events with `bpmn:SignalEventDefinition` can have ins. Only
- * `camunda:CallActivity` can have outs.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldTemplate
- * @param {Object} newTemplate
- */
-ChangeElementTemplateHandler.prototype._updateCamundaInOutProperties = function(element, oldTemplate, newTemplate) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
+  /**
+   * Update `camunda:In` and `camunda:Out` properties of specified business object. Only
+   * `bpmn:CallActivity` and events with `bpmn:SignalEventDefinition` can have ins. Only
+   * `camunda:CallActivity` can have outs.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateCamundaInOutProperties(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
 
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
 
-    return newBindingType === 'camunda:in'
+      return newBindingType === 'camunda:in'
       || newBindingType === 'camunda:in:businessKey'
       || newBindingType === 'camunda:out';
-  });
-
-  // (1) Do not override old fields if no new fields specified
-  if (!newProperties.length) {
-    return;
-  }
-
-  // Get extension elements of either signal event definition or call activity
-  var businessObject = this._getOrCreateExtensionElements(
-    EventDefinitionHelper.getSignalEventDefinition(element) || element);
-
-  var oldInsAndOuts = findExtensions(businessObject, [ 'camunda:In', 'camunda:Out' ]);
-
-  newProperties.forEach(function(newProperty) {
-    var oldProperty = findOldProperty(oldTemplate, newProperty),
-        oldBinding = oldProperty && oldProperty.binding,
-        oldInOurOut = oldProperty && findOldBusinessObject(businessObject, oldProperty),
-        newPropertyValue = newProperty.value,
-        newBinding = newProperty.binding,
-        newBindingType = newBinding.type,
-        newInOrOut,
-        properties = {};
-
-    // (2) Update old ins and outs
-    if (oldProperty && oldInOurOut) {
-
-      if (!propertyChanged(oldInOurOut, oldProperty)) {
-        if (newBindingType === 'camunda:in') {
-          if (newBinding.expression) {
-            properties[ 'camunda:sourceExpression' ] = newPropertyValue;
-          } else {
-            properties[ 'camunda:source' ] = newPropertyValue;
-          }
-        } else if (newBindingType === 'camunda:in:businessKey') {
-          properties[ 'camunda:businessKey' ] = newPropertyValue;
-        } else if (newBindingType === 'camunda:out') {
-          properties[ 'camunda:target' ] = newPropertyValue;
-        }
-      }
-
-      // Update `camunda:local` property if it changed
-      if ((oldBinding.local && !newBinding.local) || !oldBinding.local && newBinding.local) {
-        properties.local = newBinding.local;
-      }
-
-      if (keys(properties)) {
-        commandStack.execute('properties-panel.update-businessobject', {
-          element: element,
-          businessObject: oldInOurOut,
-          properties: properties
-        });
-      }
-
-      remove(oldInsAndOuts, oldInOurOut);
-    }
-
-    // (3) Add new ins and outs
-    else {
-      if (newBindingType === 'camunda:in') {
-        newInOrOut = createCamundaIn(newBinding, newPropertyValue, bpmnFactory);
-      } else if (newBindingType === 'camunda:out') {
-        newInOrOut = createCamundaOut(newBinding, newPropertyValue, bpmnFactory);
-      } else if (newBindingType === 'camunda:in:businessKey') {
-        newInOrOut = createCamundaInWithBusinessKey(newBinding, newPropertyValue, bpmnFactory);
-      }
-
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: businessObject,
-        propertyName: 'values',
-        objectsToAdd: [ newInOrOut ],
-        objectsToRemove: []
-      });
-    }
-  });
-
-  // (4) Remove old ins and outs
-  if (oldInsAndOuts.length) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: businessObject,
-      propertyName: 'values',
-      objectsToAdd: [],
-      objectsToRemove: oldInsAndOuts
     });
-  }
-};
 
-/**
- * Update `camunda:InputParameter` and `camunda:OutputParameter` properties of specified business
- * object. Both can only exist in `camunda:InputOutput` which can exist in `bpmn:ExtensionElements`
- * or `camunda:Connector`.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldTemplate
- * @param {Object} newTemplate
- */
-ChangeElementTemplateHandler.prototype._updateCamundaInputOutputParameterProperties = function(element, oldTemplate, newTemplate, businessObject) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
-
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
-
-    return newBindingType === 'camunda:inputParameter' || newBindingType === 'camunda:outputParameter';
-  });
-
-  // (1) Do not override old inputs and outputs if no new inputs and outputs specified
-  if (!newProperties.length) {
-    return;
-  }
-
-  if (!businessObject) {
-    businessObject = this._getOrCreateExtensionElements(element);
-  }
-
-  var inputOutput;
-
-  if (is(businessObject, 'camunda:Connector')) {
-    inputOutput = businessObject.get('camunda:inputOutput');
-
-    if (!inputOutput) {
-      inputOutput = bpmnFactory.create('camunda:InputOutput');
-
-      commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
-        businessObject: businessObject,
-        properties: {
-          inputOutput: inputOutput
-        }
-      });
+    // (1) do not override old fields if no new fields specified
+    if (!newProperties.length) {
+      return;
     }
-  } else {
-    inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
-    if (!inputOutput) {
-      inputOutput = bpmnFactory.create('camunda:InputOutput');
+    // get extension elements of either signal event definition or call activity
+    const businessObject = this._getOrCreateExtensionElements(
+      getSignalEventDefinition(element) || element);
 
+    const oldInsAndOuts = findExtensions(businessObject, [ 'camunda:In', 'camunda:Out' ]);
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldBinding = oldProperty && oldProperty.binding,
+            oldInOurOut = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding,
+            newBindingType = newBinding.type,
+            properties = {};
+
+      let newInOrOut;
+
+      // (2) update old ins and outs
+      if (oldProperty && oldInOurOut) {
+
+        if (!propertyChanged(oldInOurOut, oldProperty)) {
+          if (newBindingType === 'camunda:in') {
+            if (newBinding.expression) {
+              properties[ 'camunda:sourceExpression' ] = newPropertyValue;
+            } else {
+              properties[ 'camunda:source' ] = newPropertyValue;
+            }
+          } else if (newBindingType === 'camunda:in:businessKey') {
+            properties[ 'camunda:businessKey' ] = newPropertyValue;
+          } else if (newBindingType === 'camunda:out') {
+            properties[ 'camunda:target' ] = newPropertyValue;
+          }
+        }
+
+        // update camunda:local property if it changed
+        if ((oldBinding.local && !newBinding.local) || !oldBinding.local && newBinding.local) {
+          properties.local = newBinding.local;
+        }
+
+        if (keys(properties)) {
+          commandStack.execute('properties-panel.update-businessobject', {
+            element: element,
+            businessObject: oldInOurOut,
+            properties: properties
+          });
+        }
+
+        remove(oldInsAndOuts, oldInOurOut);
+      }
+
+      // (3) add new ins and outs
+      else {
+        if (newBindingType === 'camunda:in') {
+          newInOrOut = createCamundaIn(newBinding, newPropertyValue, bpmnFactory);
+        } else if (newBindingType === 'camunda:out') {
+          newInOrOut = createCamundaOut(newBinding, newPropertyValue, bpmnFactory);
+        } else if (newBindingType === 'camunda:in:businessKey') {
+          newInOrOut = createCamundaInWithBusinessKey(newPropertyValue, bpmnFactory);
+        }
+
+        commandStack.execute('properties-panel.update-businessobject-list', {
+          element: element,
+          currentObject: businessObject,
+          propertyName: 'values',
+          objectsToAdd: [ newInOrOut ],
+          objectsToRemove: []
+        });
+      }
+    });
+
+    // (4) remove old ins and outs
+    if (oldInsAndOuts.length) {
       commandStack.execute('properties-panel.update-businessobject-list', {
         element: element,
         currentObject: businessObject,
         propertyName: 'values',
-        objectsToAdd: [ inputOutput ],
-        objectsToRemove: []
+        objectsToAdd: [],
+        objectsToRemove: oldInsAndOuts
       });
     }
   }
 
-  var oldInputs = inputOutput.get('camunda:inputParameters')
-    ? inputOutput.get('camunda:inputParameters').slice()
-    : [];
+  /**
+   * Update `camunda:InputParameter` and `camunda:OutputParameter` properties of specified business
+   * object. Both can only exist in `camunda:InputOutput` which can exist in `bpmn:ExtensionElements`
+   * or `camunda:Connector`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate, businessObject) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
 
-  var oldOutputs = inputOutput.get('camunda:outputParameters')
-    ? inputOutput.get('camunda:outputParameters').slice()
-    : [];
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
 
-  var propertyName;
+      return newBindingType === 'camunda:inputParameter' || newBindingType === 'camunda:outputParameter';
+    });
 
-  newProperties.forEach(function(newProperty) {
-    var oldProperty = findOldProperty(oldTemplate, newProperty),
-        oldInputOrOutput = oldProperty && findOldBusinessObject(businessObject, oldProperty),
-        newPropertyValue = newProperty.value,
-        newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
+    // (1) do not override old inputs and outputs if no new inputs and outputs specified
+    if (!newProperties.length) {
+      return;
+    }
 
-    var newInputOrOutput,
-        properties;
+    if (!businessObject) {
+      businessObject = this._getOrCreateExtensionElements(element);
+    }
 
-    // (2) Update old inputs and outputs
-    if (oldProperty && oldInputOrOutput) {
+    let inputOutput;
 
-      if (!propertyChanged(oldInputOrOutput, oldProperty)) {
-        if (is(oldInputOrOutput, 'camunda:InputParameter')) {
-          properties = {
-            value: newPropertyValue
-          };
-        } else {
-          properties = {
-            name: newPropertyValue
-          };
-        }
+    if (is(businessObject, 'camunda:Connector')) {
+      inputOutput = businessObject.get('camunda:inputOutput');
+
+      if (!inputOutput) {
+        inputOutput = bpmnFactory.create('camunda:InputOutput');
 
         commandStack.execute('properties-panel.update-businessobject', {
           element: element,
-          businessObject: oldInputOrOutput,
-          properties: properties
+          businessObject: businessObject,
+          properties: {
+            inputOutput: inputOutput
+          }
         });
       }
+    } else {
+      inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
-      if (is(oldInputOrOutput, 'camunda:InputParameter')) {
-        remove(oldInputs, oldInputOrOutput);
-      } else {
-        remove(oldOutputs, oldInputOrOutput);
+      if (!inputOutput) {
+        inputOutput = bpmnFactory.create('camunda:InputOutput');
+
+        commandStack.execute('properties-panel.update-businessobject-list', {
+          element: element,
+          currentObject: businessObject,
+          propertyName: 'values',
+          objectsToAdd: [ inputOutput ],
+          objectsToRemove: []
+        });
       }
     }
 
-    // (3) Add new inputs and outputs
-    else {
-      if (newBindingType === 'camunda:inputParameter') {
-        propertyName = 'inputParameters';
+    const oldInputs = inputOutput.get('camunda:inputParameters')
+      ? inputOutput.get('camunda:inputParameters').slice()
+      : [];
 
-        newInputOrOutput = createInputParameter(newBinding, newPropertyValue, bpmnFactory);
-      } else {
-        propertyName = 'outputParameters';
+    const oldOutputs = inputOutput.get('camunda:outputParameters')
+      ? inputOutput.get('camunda:outputParameters').slice()
+      : [];
 
-        newInputOrOutput = createOutputParameter(newBinding, newPropertyValue, bpmnFactory);
+    let propertyName;
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldInputOrOutput = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      let newInputOrOutput,
+          properties;
+
+      // (2) update old inputs and outputs
+      if (oldProperty && oldInputOrOutput) {
+
+        if (!propertyChanged(oldInputOrOutput, oldProperty)) {
+          if (is(oldInputOrOutput, 'camunda:InputParameter')) {
+            properties = {
+              value: newPropertyValue
+            };
+          } else {
+            properties = {
+              name: newPropertyValue
+            };
+          }
+
+          commandStack.execute('properties-panel.update-businessobject', {
+            element: element,
+            businessObject: oldInputOrOutput,
+            properties: properties
+          });
+        }
+
+        if (is(oldInputOrOutput, 'camunda:InputParameter')) {
+          remove(oldInputs, oldInputOrOutput);
+        } else {
+          remove(oldOutputs, oldInputOrOutput);
+        }
       }
 
+      // (3) add new inputs and outputs
+      else {
+        if (newBindingType === 'camunda:inputParameter') {
+          propertyName = 'inputParameters';
+
+          newInputOrOutput = createInputParameter(newBinding, newPropertyValue, bpmnFactory);
+        } else {
+          propertyName = 'outputParameters';
+
+          newInputOrOutput = createOutputParameter(newBinding, newPropertyValue, bpmnFactory);
+        }
+
+        commandStack.execute('properties-panel.update-businessobject-list', {
+          element: element,
+          currentObject: inputOutput,
+          propertyName: propertyName,
+          objectsToAdd: [ newInputOrOutput ],
+          objectsToRemove: []
+        });
+      }
+    });
+
+    // (4) remove old inputs and outputs
+    if (oldInputs.length) {
       commandStack.execute('properties-panel.update-businessobject-list', {
         element: element,
         currentObject: inputOutput,
-        propertyName: propertyName,
-        objectsToAdd: [ newInputOrOutput ],
+        propertyName: 'inputParameters',
+        objectsToAdd: [],
+        objectsToRemove: oldInputs
+      });
+    }
+
+    if (oldOutputs.length) {
+      commandStack.execute('properties-panel.update-businessobject-list', {
+        element: element,
+        currentObject: inputOutput,
+        propertyName: 'outputParameters',
+        objectsToAdd: [],
+        objectsToRemove: oldOutputs
+      });
+    }
+  }
+
+  _updateCamundaModelerTemplate(element, newTemplate) {
+    const modeling = this._modeling;
+
+    modeling.updateProperties(element, {
+      'camunda:modelerTemplate': newTemplate && newTemplate.id,
+      'camunda:modelerTemplateVersion': newTemplate && newTemplate.version
+    });
+  }
+
+  /**
+   * Update `camunda:Property` properties of specified business object. `camunda:Property` can only
+   * exist in `camunda:Properties`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   * @param {ModdleElement} businessObject
+   */
+  _updateCamundaPropertyProperties(element, oldTemplate, newTemplate, businessObject) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      return newBindingType === 'camunda:property';
+    });
+
+    // (1) do not override old properties if no new properties specified
+    if (!newProperties.length) {
+      return;
+    }
+
+    if (businessObject) {
+      businessObject = this._getOrCreateExtensionElements(businessObject);
+    } else {
+      businessObject = this._getOrCreateExtensionElements(element);
+    }
+
+    let camundaProperties = findExtension(businessObject, 'camunda:Properties');
+
+    if (!camundaProperties) {
+      camundaProperties = bpmnFactory.create('camunda:Properties');
+
+      commandStack.execute('properties-panel.update-businessobject-list', {
+        element: element,
+        currentObject: businessObject,
+        propertyName: 'values',
+        objectsToAdd: [ camundaProperties ],
         objectsToRemove: []
       });
     }
-  });
 
-  // (4) Remove old inputs and outputs
-  if (oldInputs.length) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: inputOutput,
-      propertyName: 'inputParameters',
-      objectsToAdd: [],
-      objectsToRemove: oldInputs
-    });
-  }
+    const oldCamundaProperties = camundaProperties.get('camunda:values')
+      ? camundaProperties.get('camunda:values').slice()
+      : [];
 
-  if (oldOutputs.length) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: inputOutput,
-      propertyName: 'outputParameters',
-      objectsToAdd: [],
-      objectsToRemove: oldOutputs
-    });
-  }
-};
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldCamundaProperty = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding;
 
-ChangeElementTemplateHandler.prototype._updateCamundaModelerTemplate = function(element, newTemplate) {
-  var modeling = this._modeling;
+      // (2) update old properties
+      if (oldProperty && oldCamundaProperty) {
 
-  modeling.updateProperties(element, {
-    'camunda:modelerTemplate': newTemplate && newTemplate.id,
-    'camunda:modelerTemplateVersion': newTemplate && newTemplate.version
-  });
-};
+        if (!propertyChanged(oldCamundaProperty, oldProperty)) {
+          commandStack.execute('properties-panel.update-businessobject', {
+            element: element,
+            businessObject: oldCamundaProperty,
+            properties: {
+              value: newPropertyValue
+            }
+          });
+        }
 
-/**
- * Update `camunda:Property` properties of specified business object. `camunda:Property` can only
- * exist in `camunda:Properties`.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldTemplate
- * @param {Object} newTemplate
- * @param {ModdleElement} businessObject
- */
-ChangeElementTemplateHandler.prototype._updateCamundaPropertyProperties = function(element, oldTemplate, newTemplate, businessObject) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
-
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
-
-    return newBindingType === 'camunda:property';
-  });
-
-  // (1) Do not override old properties if no new properties specified
-  if (!newProperties.length) {
-    return;
-  }
-
-  if (businessObject) {
-    businessObject = this._getOrCreateExtensionElements(businessObject);
-  } else {
-    businessObject = this._getOrCreateExtensionElements(element);
-  }
-
-  var camundaProperties = findExtension(businessObject, 'camunda:Properties');
-
-  if (!camundaProperties) {
-    camundaProperties = bpmnFactory.create('camunda:Properties');
-
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: businessObject,
-      propertyName: 'values',
-      objectsToAdd: [ camundaProperties ],
-      objectsToRemove: []
-    });
-  }
-
-  var oldCamundaProperties = camundaProperties.get('camunda:values')
-    ? camundaProperties.get('camunda:values').slice()
-    : [];
-
-  newProperties.forEach(function(newProperty) {
-    var oldProperty = findOldProperty(oldTemplate, newProperty),
-        oldCamundaProperty = oldProperty && findOldBusinessObject(businessObject, oldProperty),
-        newPropertyValue = newProperty.value,
-        newBinding = newProperty.binding;
-
-    // (2) Update old properties
-    if (oldProperty && oldCamundaProperty) {
-
-      if (!propertyChanged(oldCamundaProperty, oldProperty)) {
-        commandStack.execute('properties-panel.update-businessobject', {
-          element: element,
-          businessObject: oldCamundaProperty,
-          properties: {
-            value: newPropertyValue
-          }
-        });
+        remove(oldCamundaProperties, oldCamundaProperty);
       }
 
-      remove(oldCamundaProperties, oldCamundaProperty);
-    }
+      // (3) add new properties
+      else {
+        commandStack.execute('properties-panel.update-businessobject-list', {
+          element: element,
+          currentObject: camundaProperties,
+          propertyName: 'values',
+          objectsToAdd: [ createCamundaProperty(newBinding, newPropertyValue, bpmnFactory) ],
+          objectsToRemove: []
+        });
+      }
+    });
 
-    // (3) Add new properties
-    else {
+    // (4) remove old properties
+    if (oldCamundaProperties.length) {
       commandStack.execute('properties-panel.update-businessobject-list', {
         element: element,
         currentObject: camundaProperties,
         propertyName: 'values',
-        objectsToAdd: [ createCamundaProperty(newBinding, newPropertyValue, bpmnFactory) ],
-        objectsToRemove: []
+        objectsToAdd: [],
+        objectsToRemove: oldCamundaProperties
       });
     }
-  });
+  }
 
-  // (4) Remove old properties
-  if (oldCamundaProperties.length) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
+  /**
+   * Update `bpmn:conditionExpression` property of specified element. Since condition expression is
+   * is not primitive it needs special handling.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldProperty
+   * @param {Object} newProperty
+   */
+  _updateConditionExpression(element, oldProperty, newProperty) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack,
+          modeling = this._modeling;
+
+    const newBinding = newProperty.binding,
+          newPropertyValue = newProperty.value;
+
+    if (!oldProperty) {
+      modeling.updateProperties(element, {
+        conditionExpression: bpmnFactory.create('bpmn:FormalExpression', {
+          body: newPropertyValue,
+          language: newBinding.scriptFormat
+        })
+      });
+
+      return;
+    }
+
+    const oldBinding = oldProperty.binding,
+          oldPropertyValue = oldProperty.value;
+
+    const businessObject = getBusinessObject(element),
+          conditionExpression = businessObject.get('bpmn:conditionExpression');
+
+    const properties = {};
+
+    if (conditionExpression.get('body') === oldPropertyValue) {
+      properties.body = newPropertyValue;
+    }
+
+    if (conditionExpression.get('language') === oldBinding.scriptFormat) {
+      properties.language = newBinding.scriptFormat;
+    }
+
+    if (!keys(properties).length) {
+      return;
+    }
+
+    commandStack.execute('properties-panel.update-businessobject', {
       element: element,
-      currentObject: camundaProperties,
-      propertyName: 'values',
-      objectsToAdd: [],
-      objectsToRemove: oldCamundaProperties
+      businessObject: conditionExpression,
+      properties: properties
     });
   }
-};
 
-/**
- * Update `bpmn:conditionExpression` property of specified element. Since condition expression is
- * is not primitive it needs special handling.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldProperty
- * @param {Object} newProperty
- */
-ChangeElementTemplateHandler.prototype._updateConditionExpression = function(element, oldProperty, newProperty) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack,
-      modeling = this._modeling;
+  _updateProperties(element, oldTemplate, newTemplate, businessObject) {
+    const commandStack = this._commandStack;
 
-  var newBinding = newProperty.binding,
-      newPropertyValue = newProperty.value;
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
 
-  if (!oldProperty) {
-    modeling.updateProperties(element, {
-      conditionExpression: bpmnFactory.create('bpmn:FormalExpression', {
-        body: newPropertyValue,
-        language: newBinding.scriptFormat
-      })
+      return newBindingType === 'property';
     });
 
-    return;
-  }
+    if (!newProperties.length) {
+      return;
+    }
 
-  var oldBinding = oldProperty.binding,
-      oldPropertyValue = oldProperty.value;
+    if (!businessObject) {
+      businessObject = getBusinessObject(element);
+    }
 
-  var businessObject = getBusinessObject(element),
-      conditionExpression = businessObject.get('bpmn:conditionExpression');
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            newBinding = newProperty.binding,
+            newBindingName = newBinding.name,
+            newPropertyValue = newProperty.value;
 
-  var properties = {};
+      let changedElement,
+          properties;
 
-  if (conditionExpression.get('body') === oldPropertyValue) {
-    properties.body = newPropertyValue;
-  }
-
-  if (conditionExpression.get('language') === oldBinding.scriptFormat) {
-    properties.language = newBinding.scriptFormat;
-  }
-
-  if (!keys(properties).length) {
-    return;
-  }
-
-  commandStack.execute('properties-panel.update-businessobject', {
-    element: element,
-    businessObject: conditionExpression,
-    properties: properties
-  });
-};
-
-ChangeElementTemplateHandler.prototype._updateProperties = function(element, oldTemplate, newTemplate, businessObject) {
-  var self = this;
-
-  var commandStack = this._commandStack;
-
-  var newProperties = newTemplate.properties.filter(function(newProperty) {
-    var newBinding = newProperty.binding,
-        newBindingType = newBinding.type;
-
-    return newBindingType === 'property';
-  });
-
-  if (!newProperties.length) {
-    return;
-  }
-
-  if (!businessObject) {
-    businessObject = getBusinessObject(element);
-  }
-
-  newProperties.forEach(function(newProperty) {
-    var oldProperty = findOldProperty(oldTemplate, newProperty),
-        newBinding = newProperty.binding,
-        newBindingName = newBinding.name,
-        newPropertyValue = newProperty.value,
-        changedElement,
-        properties;
-
-    if (newBindingName === 'conditionExpression') {
-      self._updateConditionExpression(element, oldProperty, newProperty);
-    } else {
-
-      if (is(businessObject, 'bpmn:Error')) {
-        changedElement = businessObject;
+      if (newBindingName === 'conditionExpression') {
+        this._updateConditionExpression(element, oldProperty, newProperty);
       } else {
-        changedElement = element;
-      }
 
-      if (oldProperty && propertyChanged(changedElement, oldProperty)) {
-        return;
-      }
+        if (is(businessObject, 'bpmn:Error')) {
+          changedElement = businessObject;
+        } else {
+          changedElement = element;
+        }
 
-      properties = {};
+        if (oldProperty && propertyChanged(changedElement, oldProperty)) {
+          return;
+        }
 
-      properties[ newBindingName ] = newPropertyValue;
+        properties = {};
 
-      // Only one of `camunda:class`, `camunda:delegateExpression` and `camunda:expression` can be
-      // set
-      // TODO(philippfromme): ensuring only one of these properties is set at a time should be
-      // implemented in a behavior and not in this handler and properties panel UI
-      if (CAMUNDA_SERVICE_TASK_LIKE.indexOf(newBindingName) !== -1) {
-        CAMUNDA_SERVICE_TASK_LIKE.forEach(function(camundaServiceTaskLikeProperty) {
-          if (camundaServiceTaskLikeProperty !== newBindingName) {
-            properties[ camundaServiceTaskLikeProperty ] = undefined;
-          }
+        properties[ newBindingName ] = newPropertyValue;
+
+        // only one of `camunda:class`, `camunda:delegateExpression` and `camunda:expression` can be set
+        // TODO(philippfromme): ensuring only one of these properties is set at a time should be
+        // implemented in a behavior and not in this handler and properties panel UI
+        if (CAMUNDA_SERVICE_TASK_LIKE.indexOf(newBindingName) !== -1) {
+          CAMUNDA_SERVICE_TASK_LIKE.forEach((camundaServiceTaskLikeProperty) => {
+            if (camundaServiceTaskLikeProperty !== newBindingName) {
+              properties[ camundaServiceTaskLikeProperty ] = undefined;
+            }
+          });
+        }
+
+        commandStack.execute('properties-panel.update-businessobject', {
+          element: element,
+          businessObject: businessObject,
+          properties: properties
         });
       }
+    });
+  }
 
-      commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
-        businessObject: businessObject,
-        properties: properties
-      });
+  /**
+   * Update properties for a specified scope.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newScopeTemplate
+   * @param {Object} newTemplate
+   */
+  _updateScopeProperties(element, oldTemplate, newScopeTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const scopeName = newScopeTemplate.type;
+
+    let scopeElement;
+
+    scopeElement = findOldScopeElement(element, newScopeTemplate, newTemplate);
+
+    if (!scopeElement) {
+
+      scopeElement = bpmnFactory.create(scopeName);
     }
-  });
-};
 
-/**
- * Update properties for a specified scope.
- *
- * @param {djs.model.Base} element
- * @param {Object} oldTemplate
- * @param {Object} newScopeTemplate
- * @param {Object} newTemplate
- */
-ChangeElementTemplateHandler.prototype._updateScopeProperties = function(element, oldTemplate, newScopeTemplate, newTemplate) {
-  var bpmnFactory = this._bpmnFactory,
-      commandStack = this._commandStack;
+    const oldScopeTemplate = findOldScopeTemplate(newScopeTemplate, oldTemplate);
 
-  var scopeName = newScopeTemplate.type;
+    // update properties
+    this._updateProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
 
-  var scopeElement;
+    // update camunda:ExecutionListener properties
+    this._updateCamundaExecutionListenerProperties(element, newScopeTemplate);
 
-  scopeElement = findOldScopeElement(element, newScopeTemplate, newTemplate);
+    // update camunda:In and camunda:Out properties
+    this._updateCamundaInOutProperties(element, oldScopeTemplate, newScopeTemplate);
 
-  if (!scopeElement) {
+    // update camunda:InputParameter and camunda:OutputParameter properties
+    this._updateCamundaInputOutputParameterProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
 
-    scopeElement = bpmnFactory.create(scopeName);
+    // update camunda:Field properties
+    this._updateCamundaFieldProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
+
+    // update camunda:Property properties
+    this._updateCamundaPropertyProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
+
+    // assume that root elements were already created in root by referenced event definition binding
+    if (isRootElementScope(scopeName)) {
+      return;
+    }
+
+    const extensionElements = this._getOrCreateExtensionElements(element);
+
+    commandStack.execute('properties-panel.update-businessobject-list', {
+      element: element,
+      currentObject: extensionElements,
+      propertyName: 'values',
+      objectsToAdd: [ scopeElement ],
+      objectsToRemove: []
+    });
   }
+}
 
-  var oldScopeTemplate = findOldScopeTemplate(newScopeTemplate, oldTemplate);
+ChangeElementTemplateHandler.$inject = [
+  'bpmnFactory',
+  'commandStack',
+  'modeling'
+];
 
-  // Update properties
-  this._updateProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
-
-  // Update camunda:ExecutionListener properties
-  this._updateCamundaExecutionListenerProperties(element, newScopeTemplate);
-
-  // Update camunda:In and camunda:Out properties
-  this._updateCamundaInOutProperties(element, oldScopeTemplate, newScopeTemplate);
-
-  // Update camunda:InputParameter and camunda:OutputParameter properties
-  this._updateCamundaInputOutputParameterProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
-
-  // Update camunda:Field properties
-  this._updateCamundaFieldProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
-
-  // Update camunda:Property properties
-  this._updateCamundaPropertyProperties(element, oldScopeTemplate, newScopeTemplate, scopeElement);
-
-  // Assume: root elements were already been created in root by referenced event
-  // definition binding
-  if (isRootElementScope(scopeName)) {
-    return;
-  }
-
-  var extensionElements = this._getOrCreateExtensionElements(element);
-
-  commandStack.execute('properties-panel.update-businessobject-list', {
-    element: element,
-    currentObject: extensionElements,
-    propertyName: 'values',
-    objectsToAdd: [ scopeElement ],
-    objectsToRemove: []
-  });
-};
 
 // helpers //////////
 
@@ -903,11 +904,11 @@ ChangeElementTemplateHandler.prototype._updateScopeProperties = function(element
  * @returns {ModdleElement}
  */
 function findOldBusinessObject(element, oldProperty) {
-  var businessObject = getBusinessObject(element),
+  let businessObject = getBusinessObject(element),
       propertyName;
 
-  var oldBinding = oldProperty.binding,
-      oldBindingType = oldBinding.type;
+  const oldBinding = oldProperty.binding,
+        oldBindingType = oldBinding.type;
 
   if (oldBindingType === 'camunda:field') {
 
@@ -967,10 +968,8 @@ function findOldBusinessObject(element, oldProperty) {
       });
     } else {
       return find(businessObject.get('camunda:outputParameters'), function(oldBusinessObject) {
-        var definition;
-
         if (oldBinding.scriptFormat) {
-          definition = oldBusinessObject.get('camunda:definition');
+          const definition = oldBusinessObject.get('camunda:definition');
 
           return definition && definition.get('camunda:value') === oldBinding.source;
         } else {
@@ -1015,16 +1014,16 @@ function findOldProperty(oldTemplate, newProperty) {
     return;
   }
 
-  var oldProperties = oldTemplate.properties,
-      newBinding = newProperty.binding,
-      newBindingName = newBinding.name,
-      newBindingType = newBinding.type;
+  const oldProperties = oldTemplate.properties,
+        newBinding = newProperty.binding,
+        newBindingName = newBinding.name,
+        newBindingType = newBinding.type;
 
   if (newBindingType === 'property') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingName = oldBinding.name,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingName = oldBinding.name,
+            oldBindingType = oldBinding.type;
 
       return oldBindingType === 'property' && oldBindingName === newBindingName;
     });
@@ -1032,9 +1031,9 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:field') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingName = oldBinding.name,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingName = oldBinding.name,
+            oldBindingType = oldBinding.type;
 
       return oldBindingType === 'camunda:field' && oldBindingName === newBindingName;
     });
@@ -1042,14 +1041,14 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:in') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
 
       if (oldBindingType !== 'camunda:in') {
         return;
       }
 
-      // Always override if change from source to source expression or vice versa
+      // always override if change from source to source expression or vice versa
       if ((oldBinding.expression && !newBinding.expression) ||
         !oldBinding.expression && newBinding.expression) {
         return;
@@ -1061,8 +1060,8 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:in:businessKey') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
 
       return oldBindingType === 'camunda:in:businessKey';
     });
@@ -1070,8 +1069,8 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:out') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
 
       return oldBindingType === 'camunda:out' && (
         oldBinding.source === newBinding.source ||
@@ -1082,9 +1081,9 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:inputParameter') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingName = oldBinding.name,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingName = oldBinding.name,
+            oldBindingType = oldBinding.type;
 
       if (oldBindingType !== 'camunda:inputParameter') {
         return;
@@ -1097,8 +1096,8 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:outputParameter') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
 
       if (oldBindingType !== 'camunda:outputParameter') {
         return;
@@ -1111,9 +1110,9 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:property') {
     return find(oldProperties, function(oldProperty) {
-      var oldBinding = oldProperty.binding,
-          oldBindingName = oldBinding.name,
-          oldBindingType = oldBinding.type;
+      const oldBinding = oldProperty.binding,
+            oldBindingName = oldBinding.name,
+            oldBindingType = oldBinding.type;
 
       return oldBindingType === 'camunda:property' && oldBindingName === newBindingName;
     });
@@ -1121,10 +1120,10 @@ function findOldProperty(oldTemplate, newProperty) {
 
   if (newBindingType === 'camunda:errorEventDefinition') {
     return find(oldProperties, function(oldProperty) {
-      var newBindingRef = newBinding.errorRef,
-          oldBinding = oldProperty.binding,
-          oldBindingRef = oldBinding.errorRef,
-          oldBindingType = oldBinding.type;
+      const newBindingRef = newBinding.errorRef,
+            oldBinding = oldProperty.binding,
+            oldBindingRef = oldBinding.errorRef,
+            oldBindingType = oldBinding.type;
 
       return oldBindingType === 'camunda:errorEventDefinition'
         && oldBindingRef === newBindingRef;
@@ -1133,8 +1132,8 @@ function findOldProperty(oldTemplate, newProperty) {
 }
 
 function findOldScopeElement(element, scopeTemplate, template) {
-  var scopeName = scopeTemplate.type,
-      id = scopeTemplate.id;
+  const scopeName = scopeTemplate.type,
+        id = scopeTemplate.id;
 
   if (scopeName === 'camunda:Connector') {
     return findExtension(element, 'camunda:Connector');
@@ -1143,14 +1142,14 @@ function findOldScopeElement(element, scopeTemplate, template) {
   if (scopeName === 'bpmn:Error') {
 
     // (1) find by error event definition binding
-    var errorEventDefinitionBinding = findErrorEventDefinitionBinding(template, id);
+    const errorEventDefinitionBinding = findErrorEventDefinitionBinding(template, id);
 
     if (!errorEventDefinitionBinding) {
       return;
     }
 
     // (2) find error event definition
-    var errorEventDefinition = findOldBusinessObject(element, errorEventDefinitionBinding);
+    const errorEventDefinition = findOldBusinessObject(element, errorEventDefinitionBinding);
 
     if (!errorEventDefinition) {
       return;
@@ -1166,9 +1165,9 @@ function isRootElementScope(scopeName) {
 }
 
 function findOldScopeTemplate(scopeTemplate, oldTemplate) {
-  var scopeName = scopeTemplate.type,
-      scopeId = scopeTemplate.id,
-      scopes = oldTemplate && handleLegacyScopes(oldTemplate.scopes);
+  const scopeName = scopeTemplate.type,
+        scopeId = scopeTemplate.id,
+        scopes = oldTemplate && handleLegacyScopes(oldTemplate.scopes);
 
   return scopes && find(scopes, function(scope) {
 
@@ -1195,13 +1194,14 @@ function findErrorEventDefinitionBinding(template, templateErrorId) {
  * @returns {boolean}
  */
 function propertyChanged(element, oldProperty) {
-  var businessObject = getBusinessObject(element);
+  const businessObject = getBusinessObject(element);
 
-  var oldBinding = oldProperty.binding,
-      oldBindingName = oldBinding.name,
-      oldBindingType = oldBinding.type,
-      oldPropertyValue = oldProperty.value,
-      conditionExpression,
+  const oldBinding = oldProperty.binding,
+        oldBindingName = oldBinding.name,
+        oldBindingType = oldBinding.type,
+        oldPropertyValue = oldProperty.value;
+
+  let conditionExpression,
       definition;
 
   if (oldBindingType === 'property') {
@@ -1255,4 +1255,16 @@ function propertyChanged(element, oldProperty) {
   if (oldBindingType === 'camunda:errorEventDefinition') {
     return businessObject.get('expression') !== oldPropertyValue;
   }
+}
+
+function remove(array, item) {
+  const index = array.indexOf(item);
+
+  if (isUndefined(index)) {
+    return array;
+  }
+
+  array.splice(index, 1);
+
+  return array;
 }

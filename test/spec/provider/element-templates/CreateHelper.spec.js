@@ -1,29 +1,30 @@
-'use strict';
+import {
+  bootstrapModeler,
+  inject
+} from 'test/TestHelper';
 
-require('../../../../TestHelper');
+import { getRoot } from 'src/utils/ElementUtil';
 
-/* global bootstrapModeler, inject */
+import diagramXML from './CreateHelper.bpmn';
 
-var coreModule = require('bpmn-js/lib/core').default,
-    modelingModule = require('bpmn-js/lib/features/modeling').default,
-    camundaModdlePackage = require('camunda-bpmn-moddle/resources/camunda');
+import coreModule from 'bpmn-js/lib/core';
+import modelingModule from 'bpmn-js/lib/features/modeling';
 
-var getRoot = require('lib/Utils').getRoot;
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-var CreateHelper = require('lib/provider/camunda/element-templates/CreateHelper');
+import {
+  createCamundaExecutionListenerScript,
+  createCamundaIn,
+  createCamundaInWithBusinessKey,
+  createCamundaOut,
+  createError,
+  createInputParameter,
+  createOutputParameter
+} from 'src/provider/element-templates/CreateHelper';
 
-var createInputParameter = CreateHelper.createInputParameter,
-    createOutputParameter = CreateHelper.createOutputParameter,
-    createCamundaIn = CreateHelper.createCamundaIn,
-    createCamundaOut = CreateHelper.createCamundaOut,
-    createCamundaInWithBusinessKey = CreateHelper.createCamundaInWithBusinessKey,
-    createCamundaExecutionListenerScript = CreateHelper.createCamundaExecutionListenerScript,
-    createError = CreateHelper.createError;
-
-
-var testModules = [
+const testModules = [
   coreModule,
   modelingModule
 ];
@@ -41,9 +42,7 @@ function bootstrap(diagramXML) {
 }
 
 
-describe('element-templates - CreateHelper', function() {
-
-  var diagramXML = require('./CreateHelper.bpmn');
+describe('provider/element-template - CreateHelper', function() {
 
   beforeEach(bootstrap(diagramXML));
 
@@ -53,12 +52,12 @@ describe('element-templates - CreateHelper', function() {
     it('should create plain', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         name: 'foo'
       };
 
       // when
-      var inputParameter = createInputParameter(binding, '${ source }', bpmnFactory);
+      const inputParameter = createInputParameter(binding, '${ source }', bpmnFactory);
 
       // then
       expect(inputParameter).to.jsonEqual({
@@ -72,13 +71,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create script', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         name: 'bar',
         scriptFormat: 'freemarker'
       };
 
       // when
-      var inputParameter = createInputParameter(binding, '${ source }', bpmnFactory);
+      const inputParameter = createInputParameter(binding, '${ source }', bpmnFactory);
 
       // then
       expect(inputParameter).to.jsonEqual({
@@ -100,12 +99,12 @@ describe('element-templates - CreateHelper', function() {
     it('should create plain', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         source: '${ source }'
       };
 
       // when
-      var outputParameter = createOutputParameter(binding, 'bar', bpmnFactory);
+      const outputParameter = createOutputParameter(binding, 'bar', bpmnFactory);
 
       // then
       expect(outputParameter).to.jsonEqual({
@@ -119,13 +118,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create script', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         source: '${ source }',
         scriptFormat: 'freemarker'
       };
 
       // when
-      var outputParameter = createOutputParameter(binding, 'foo', bpmnFactory);
+      const outputParameter = createOutputParameter(binding, 'foo', bpmnFactory);
 
       // then
       expect(outputParameter).to.jsonEqual({
@@ -147,13 +146,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create source', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         target: 'var_called'
       };
 
       // when
-      var camundaIn = createCamundaIn(binding, 'var', bpmnFactory);
+      const camundaIn = createCamundaIn(binding, 'var', bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -167,14 +166,14 @@ describe('element-templates - CreateHelper', function() {
     it('should create sourceExpression', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         target: 'var_called',
         expression: true
       };
 
       // when
-      var camundaIn = createCamundaIn(binding, '${ var }', bpmnFactory);
+      const camundaIn = createCamundaIn(binding, '${ var }', bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -188,13 +187,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create variables="all"', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         variables: 'all'
       };
 
       // when
-      var camundaIn = createCamundaIn(binding, null, bpmnFactory);
+      const camundaIn = createCamundaIn(binding, null, bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -207,13 +206,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create variables="all" local="true"', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         variables: 'local'
       };
 
       // when
-      var camundaIn = createCamundaIn(binding, null, bpmnFactory);
+      const camundaIn = createCamundaIn(binding, null, bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -227,14 +226,14 @@ describe('element-templates - CreateHelper', function() {
     it('should create variables="local" and target', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         variables: 'local',
         target: 'var_called'
       };
 
       // when
-      var camundaIn = createCamundaIn(binding, 'foobar', bpmnFactory);
+      const camundaIn = createCamundaIn(binding, 'foobar', bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -249,7 +248,7 @@ describe('element-templates - CreateHelper', function() {
     it('should create variables="local", target and expression', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         variables: 'local',
         target: 'var_called',
@@ -257,7 +256,7 @@ describe('element-templates - CreateHelper', function() {
       };
 
       // when
-      var camundaIn = createCamundaIn(binding, 'foobar', bpmnFactory);
+      const camundaIn = createCamundaIn(binding, 'foobar', bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -271,11 +270,8 @@ describe('element-templates - CreateHelper', function() {
 
     it('should create businessKey', inject(function(bpmnFactory) {
 
-      // given
-      var binding = {};
-
       // when
-      var camundaIn = createCamundaInWithBusinessKey(binding, '${ key }', bpmnFactory);
+      const camundaIn = createCamundaInWithBusinessKey('${ key }', bpmnFactory);
 
       // then
       expect(camundaIn).to.jsonEqual({
@@ -288,14 +284,14 @@ describe('element-templates - CreateHelper', function() {
     it('should throw when configuration is invalid', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:in',
         variables: 'invalidValue',
         target: 'var_called',
         expression: true
       };
 
-      var err;
+      let err;
 
       // when
       try {
@@ -317,13 +313,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create source', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         source: 'var'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, 'var', bpmnFactory);
+      const camundaOut = createCamundaOut(binding, 'var', bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
@@ -337,13 +333,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create sourceExpression', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         sourceExpression: '${ var }'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, 'var_local_expr', bpmnFactory);
+      const camundaOut = createCamundaOut(binding, 'var_local_expr', bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
@@ -357,13 +353,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create variables="all"', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         variables: 'all'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, null, bpmnFactory);
+      const camundaOut = createCamundaOut(binding, null, bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
@@ -376,13 +372,13 @@ describe('element-templates - CreateHelper', function() {
     it('should create variables="all" local="true"', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         variables: 'local'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, null, bpmnFactory);
+      const camundaOut = createCamundaOut(binding, null, bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
@@ -396,14 +392,14 @@ describe('element-templates - CreateHelper', function() {
     it('should create local="true" and source', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         variables: 'local',
         source: 'mySource'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, 'foobar', bpmnFactory);
+      const camundaOut = createCamundaOut(binding, 'foobar', bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
@@ -418,14 +414,14 @@ describe('element-templates - CreateHelper', function() {
     it('should create local="true" and sourceExpression', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         variables: 'local',
         sourceExpression: '${ mySource }'
       };
 
       // when
-      var camundaOut = createCamundaOut(binding, 'foobar', bpmnFactory);
+      const camundaOut = createCamundaOut(binding, 'foobar', bpmnFactory);
 
       // then
       expect(camundaOut).to.jsonEqual({
@@ -440,13 +436,13 @@ describe('element-templates - CreateHelper', function() {
     it('should throw when configuration is invalid', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:out',
         variables: 'invalidValue',
         sourceExpression: '${ mySource }'
       };
 
-      var err;
+      let err;
 
       // when
       try {
@@ -468,14 +464,14 @@ describe('element-templates - CreateHelper', function() {
     it('should create script', inject(function(bpmnFactory) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:executionListener',
         event: 'end',
         scriptFormat: 'groovy'
       };
 
       // when
-      var listener = createCamundaExecutionListenerScript(binding, 'println execution.eventName', bpmnFactory);
+      const listener = createCamundaExecutionListenerScript(binding, 'println execution.eventName', bpmnFactory);
 
       // then
       expect(listener).to.jsonEqual({
@@ -497,17 +493,17 @@ describe('element-templates - CreateHelper', function() {
     it('should create error', inject(function(bpmnFactory, elementRegistry) {
 
       // given
-      var binding = {
+      const binding = {
         type: 'camunda:errorEventDefinition',
         errorRef: 'error-1'
       };
 
-      var process = elementRegistry.get('Process_1');
+      const process = elementRegistry.get('Process_1');
 
-      var rootElement = getRoot(getBusinessObject(process));
+      const rootElement = getRoot(getBusinessObject(process));
 
       // when
-      var error = createError(binding.errorRef, rootElement, bpmnFactory);
+      const error = createError(binding.errorRef, rootElement, bpmnFactory);
 
       // then
       expect(error).to.exist;

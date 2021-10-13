@@ -1,13 +1,11 @@
-'use strict';
+import { Validator } from 'src/provider/element-templates/Validator';
 
-var Validator = require('lib/provider/camunda/element-templates/Validator');
+import { getSchemaVersion as getTemplateSchemaVersion } from '@bpmn-io/element-templates-validator';
 
-var getTemplateSchemaVersion = require('@bpmn-io/element-templates-validator').getSchemaVersion;
-
-var ElementTemplateSchemaVersion = getTemplateSchemaVersion();
+const ElementTemplateSchemaVersion = getTemplateSchemaVersion();
 
 
-describe('element-templates - Validator', function() {
+describe('provider/element-template - Validator', function() {
 
   function errors(validator) {
     return validator.getErrors().map(function(e) {
@@ -24,9 +22,9 @@ describe('element-templates - Validator', function() {
     it('should accept when template and library have the same version', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple-same-schema-version.json');
+      const templateDescriptor = require('./fixtures/simple-same-schema-version.json');
 
       templateDescriptor.map(function(template) {
         template.$schema = 'https://unpkg.com/@camunda/element-templates-json-schema@' +
@@ -46,9 +44,9 @@ describe('element-templates - Validator', function() {
     it('should accept when template has lower version than library', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple-low-schema-version.json');
+      const templateDescriptor = require('./fixtures/simple-low-schema-version.json');
 
       // when
       templates.addAll(templateDescriptor);
@@ -63,9 +61,9 @@ describe('element-templates - Validator', function() {
     it('should reject when template has higher version than library', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple-high-schema-version.json');
+      const templateDescriptor = require('./fixtures/simple-high-schema-version.json');
 
       // when
       templates.addAll(templateDescriptor);
@@ -80,9 +78,9 @@ describe('element-templates - Validator', function() {
     it('should accept when template has no version', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple.json');
+      const templateDescriptor = require('./fixtures/simple.json');
 
       // when
       templates.addAll(templateDescriptor);
@@ -97,9 +95,9 @@ describe('element-templates - Validator', function() {
     it('should accept when template has latest version', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple-latest-schema-version.json');
+      const templateDescriptor = require('./fixtures/simple-latest-schema-version.json');
 
       // when
       templates.addAll(templateDescriptor);
@@ -114,9 +112,9 @@ describe('element-templates - Validator', function() {
     it('should accept and reject when some templates have unsupported version', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple-mixed-schema-version.json');
+      const templateDescriptor = require('./fixtures/simple-mixed-schema-version.json');
 
       // when
       templates.addAll(templateDescriptor);
@@ -131,9 +129,9 @@ describe('element-templates - Validator', function() {
     it('should provide correct error details when rejecting', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptor = require('./fixtures/simple-high-schema-version.json');
+      const templateDescriptor = require('./fixtures/simple-high-schema-version.json');
 
       // when
       templates.addAll(templateDescriptor);
@@ -152,9 +150,9 @@ describe('element-templates - Validator', function() {
     it('should accept simple example template', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/simple');
+      const templateDescriptors = require('./fixtures/simple');
 
       // when
       templates.addAll(templateDescriptors);
@@ -169,9 +167,9 @@ describe('element-templates - Validator', function() {
     it('should accept misc example template', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/misc');
+      const templateDescriptors = require('./fixtures/misc');
 
       // when
       templates.addAll(templateDescriptors);
@@ -186,9 +184,9 @@ describe('element-templates - Validator', function() {
     it('should accept call-activity-variables template', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/call-activity-variables');
+      const templateDescriptors = require('./fixtures/call-activity-variables');
 
       // when
       templates.addAll(templateDescriptors);
@@ -203,9 +201,9 @@ describe('element-templates - Validator', function() {
     it('should accept dropdown example template', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/dropdown');
+      const templateDescriptors = require('./fixtures/dropdown');
 
       // when
       templates.addAll(templateDescriptors);
@@ -220,9 +218,9 @@ describe('element-templates - Validator', function() {
     it('should reject missing name', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-name-missing');
+      const templateDescriptors = require('./fixtures/error-name-missing');
 
       // when
       templates.addAll(templateDescriptors);
@@ -237,9 +235,9 @@ describe('element-templates - Validator', function() {
     it('should reject missing id', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-id-missing');
+      const templateDescriptors = require('./fixtures/error-id-missing');
 
       // when
       templates.addAll(templateDescriptors);
@@ -254,9 +252,9 @@ describe('element-templates - Validator', function() {
     it('should reject duplicate id', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-id-duplicate');
+      const templateDescriptors = require('./fixtures/error-id-duplicate');
 
       // when
       templates.addAll(templateDescriptors);
@@ -271,9 +269,9 @@ describe('element-templates - Validator', function() {
     it('should reject duplicate id and version', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-id-version-duplicate');
+      const templateDescriptors = require('./fixtures/error-id-version-duplicate');
 
       // when
       templates.addAll(templateDescriptors);
@@ -288,9 +286,9 @@ describe('element-templates - Validator', function() {
     it('should reject missing appliesTo', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-appliesTo-missing');
+      const templateDescriptors = require('./fixtures/error-appliesTo-missing');
 
       // when
       templates.addAll(templateDescriptors);
@@ -305,9 +303,9 @@ describe('element-templates - Validator', function() {
     it('should reject missing properties', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-properties-missing');
+      const templateDescriptors = require('./fixtures/error-properties-missing');
 
       // when
       templates.addAll(templateDescriptors);
@@ -322,9 +320,9 @@ describe('element-templates - Validator', function() {
     it('should reject missing dropdown choices', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-dropdown-choices-missing');
+      const templateDescriptors = require('./fixtures/error-dropdown-choices-missing');
 
       // when
       templates.addAll(templateDescriptors);
@@ -341,9 +339,9 @@ describe('element-templates - Validator', function() {
     it('should reject invalid dropdown choices', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-dropdown-choices-invalid');
+      const templateDescriptors = require('./fixtures/error-dropdown-choices-invalid');
 
       // when
       templates.addAll(templateDescriptors);
@@ -360,9 +358,9 @@ describe('element-templates - Validator', function() {
     it('should reject invalid property', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-property-invalid');
+      const templateDescriptors = require('./fixtures/error-property-invalid');
 
       // when
       templates.addAll(templateDescriptors);
@@ -384,12 +382,14 @@ describe('element-templates - Validator', function() {
     it('should reject invalid bindings', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-bindings-invalid');
+      const templateDescriptors = require('./fixtures/error-bindings-invalid');
 
       // when
       templates.addAll(templateDescriptors);
+
+      console.log(errors(templates));
 
       // then
       expect(errors(templates)).to.eql([
@@ -409,9 +409,9 @@ describe('element-templates - Validator', function() {
     it('should accept type "hidden" for execution listeners', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/execution-listener');
+      const templateDescriptors = require('./fixtures/execution-listener');
 
       // when
       templates.addAll(templateDescriptors);
@@ -426,9 +426,9 @@ describe('element-templates - Validator', function() {
     it('should accept missing type', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/missing-types');
+      const templateDescriptors = require('./fixtures/missing-types');
 
       // when
       templates.addAll(templateDescriptors);
@@ -443,9 +443,9 @@ describe('element-templates - Validator', function() {
     it('should reject invalid types for execution listeners', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-execution-listener-invalid-type');
+      const templateDescriptors = require('./fixtures/error-execution-listener-invalid-type');
 
       // when
       templates.addAll(templateDescriptors);
@@ -468,9 +468,9 @@ describe('element-templates - Validator', function() {
       it('should accept scopes as array', function() {
 
         // given
-        var templates = new Validator();
+        const templates = new Validator();
 
-        var templateDescriptors = require('./fixtures/scopes-array');
+        const templateDescriptors = require('./fixtures/scopes-array');
 
         // when
         templates.addAll(templateDescriptors);
@@ -485,9 +485,9 @@ describe('element-templates - Validator', function() {
       it('should accept scopes as object descriptor (connectors)', function() {
 
         // given
-        var templates = new Validator();
+        const templates = new Validator();
 
-        var templateDescriptors = require('./fixtures/scopes-single-connector');
+        const templateDescriptors = require('./fixtures/scopes-single-connector');
 
         // when
         templates.addAll(templateDescriptors);
@@ -502,9 +502,9 @@ describe('element-templates - Validator', function() {
       it('should reject invalid scopes content', function() {
 
         // given
-        var templates = new Validator();
+        const templates = new Validator();
 
-        var templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
+        const templateDescriptors = require('./fixtures/error-scopes-invalid-scope');
 
         // when
         templates.addAll(templateDescriptors);
@@ -519,9 +519,9 @@ describe('element-templates - Validator', function() {
       it('should reject missing scope properties', function() {
 
         // given
-        var templates = new Validator();
+        const templates = new Validator();
 
-        var templateDescriptors = require('./fixtures/error-scopes-properties-missing');
+        const templateDescriptors = require('./fixtures/error-scopes-properties-missing');
 
         // when
         templates.addAll(templateDescriptors);
@@ -538,9 +538,9 @@ describe('element-templates - Validator', function() {
       it('should reject missing scope type', function() {
 
         // given
-        var templates = new Validator();
+        const templates = new Validator();
 
-        var templateDescriptors = require('./fixtures/error-scopes-type-missing');
+        const templateDescriptors = require('./fixtures/error-scopes-type-missing');
 
         // when
         templates.addAll(templateDescriptors);
@@ -557,9 +557,9 @@ describe('element-templates - Validator', function() {
       it('should reject scope with invalid property', function() {
 
         // given
-        var templates = new Validator();
+        const templates = new Validator();
 
-        var templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+        const templateDescriptors = require('./fixtures/error-scopes-property-invalid');
 
         // when
         templates.addAll(templateDescriptors);
@@ -582,9 +582,9 @@ describe('element-templates - Validator', function() {
     it('should accept field injections example template', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/field-injections');
+      const templateDescriptors = require('./fixtures/field-injections');
 
       // when
       templates.addAll(templateDescriptors);
@@ -599,9 +599,9 @@ describe('element-templates - Validator', function() {
     it('should accept errors example template', function() {
 
       // given
-      var templates = new Validator();
+      const templates = new Validator();
 
-      var templateDescriptors = require('./fixtures/error-templates');
+      const templateDescriptors = require('./fixtures/error-templates');
 
       // when
       templates.addAll(templateDescriptors);

@@ -1,6 +1,4 @@
-'use strict';
-
-var ChangeElementTemplateHandler = require('./ChangeElementTemplateHandler');
+import ChangeElementTemplateHandler from './ChangeElementTemplateHandler';
 
 function registerHandlers(commandStack, elementTemplates, eventBus) {
   commandStack.registerHandler(
@@ -22,7 +20,7 @@ function registerHandlers(commandStack, elementTemplates, eventBus) {
 registerHandlers.$inject = [ 'commandStack', 'elementTemplates', 'eventBus' ];
 
 
-module.exports = {
+export default {
   __init__: [ registerHandlers ]
 };
 
@@ -31,8 +29,8 @@ function applyDefaultTemplate(element, elementTemplates, commandStack) {
 
   if (!elementTemplates.get(element) && elementTemplates.getDefault(element)) {
 
-    var command = 'propertiesPanel.camunda.changeTemplate';
-    var commandContext = {
+    const command = 'propertiesPanel.camunda.changeTemplate';
+    const commandContext = {
       element: element,
       newTemplate: elementTemplates.getDefault(element)
     };

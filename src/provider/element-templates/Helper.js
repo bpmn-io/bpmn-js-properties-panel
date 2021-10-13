@@ -1,14 +1,8 @@
-'use strict';
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-var getBusinessObject = require('bpmn-js/lib/util/ModelUtil').getBusinessObject;
+import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-var is = require('bpmn-js/lib/util/ModelUtil').is,
-    isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
-
-var find = require('lodash/find');
-
-var TEMPLATE_ID_ATTR = 'camunda:modelerTemplate',
-    TEMPLATE_VERSION_ATTR = 'camunda:modelerTemplateVersion';
+import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 /**
  * The BPMN 2.0 extension attribute name under
@@ -16,7 +10,7 @@ var TEMPLATE_ID_ATTR = 'camunda:modelerTemplate',
  *
  * @type {String}
  */
-module.exports.TEMPLATE_ID_ATTR = TEMPLATE_ID_ATTR;
+export const TEMPLATE_ID_ATTR = 'camunda:modelerTemplate';
 
 /**
  * The BPMN 2.0 extension attribute name under
@@ -24,7 +18,7 @@ module.exports.TEMPLATE_ID_ATTR = TEMPLATE_ID_ATTR;
  *
  * @type {String}
  */
-module.exports.TEMPLATE_VERSION_ATTR = TEMPLATE_VERSION_ATTR;
+export const TEMPLATE_VERSION_ATTR = 'camunda:modelerTemplateVersion';
 
 
 /**
@@ -34,16 +28,13 @@ module.exports.TEMPLATE_VERSION_ATTR = TEMPLATE_VERSION_ATTR;
  *
  * @return {String}
  */
-function getTemplateId(element) {
+export function getTemplateId(element) {
+  const businessObject = getBusinessObject(element);
 
-  var bo = getBusinessObject(element);
-
-  if (bo) {
-    return bo.get(TEMPLATE_ID_ATTR);
+  if (businessObject) {
+    return businessObject.get(TEMPLATE_ID_ATTR);
   }
 }
-
-module.exports.getTemplateId = getTemplateId;
 
 /**
  * Get template version for a given diagram element.
@@ -52,17 +43,13 @@ module.exports.getTemplateId = getTemplateId;
  *
  * @return {String}
  */
-function getTemplateVersion(element) {
+export function getTemplateVersion(element) {
+  const businessObject = getBusinessObject(element);
 
-  var bo = getBusinessObject(element);
-
-  if (bo) {
-    return bo.get(TEMPLATE_VERSION_ATTR);
+  if (businessObject) {
+    return businessObject.get(TEMPLATE_VERSION_ATTR);
   }
 }
-
-module.exports.getTemplateVersion = getTemplateVersion;
-
 
 /**
  * Find extension with given type in
@@ -73,145 +60,127 @@ module.exports.getTemplateVersion = getTemplateVersion;
  *
  * @return {ModdleElement} the extension
  */
-function findExtension(element, type) {
-  var bo = getBusinessObject(element);
+export function findExtension(element, type) {
+  const businessObject = getBusinessObject(element);
 
-  var extensionElements;
+  let extensionElements;
 
-  if (is(bo, 'bpmn:ExtensionElements')) {
-    extensionElements = bo;
+  if (is(businessObject, 'bpmn:ExtensionElements')) {
+    extensionElements = businessObject;
   } else {
-    extensionElements = bo.extensionElements;
+    extensionElements = businessObject.get('extensionElements');
   }
 
   if (!extensionElements) {
     return null;
   }
 
-  return find(extensionElements.get('values'), function(e) {
-    return is(e, type);
+  return extensionElements.get('values').find((value) => {
+    return is(value, type);
   });
 }
 
-module.exports.findExtension = findExtension;
-
-
-function findExtensions(element, types) {
-  var extensionElements = getExtensionElements(element);
+export function findExtensions(element, types) {
+  const extensionElements = getExtensionElements(element);
 
   if (!extensionElements) {
     return [];
   }
 
-  return extensionElements.get('values').filter(function(e) {
-    return isAny(e, types);
+  return extensionElements.get('values').filter((value) => {
+    return isAny(value, types);
   });
 }
 
-module.exports.findExtensions = findExtensions;
-
-
-function findCamundaInOut(element, binding) {
-
-  var extensionElements = getExtensionElements(element);
+export function findCamundaInOut(element, binding) {
+  const extensionElements = getExtensionElements(element);
 
   if (!extensionElements) {
     return;
   }
 
-  var matcher;
+  const { type } = binding;
 
-  if (binding.type === 'camunda:in') {
-    matcher = function(e) {
-      return is(e, 'camunda:In') && isInOut(e, binding);
+  let matcher;
+
+  if (type === 'camunda:in') {
+    matcher = (element) => {
+      return is(element, 'camunda:In') && isInOut(element, binding);
     };
   } else
-  if (binding.type === 'camunda:out') {
-    matcher = function(e) {
-      return is(e, 'camunda:Out') && isInOut(e, binding);
+  if (type === 'camunda:out') {
+    matcher = (element) => {
+      return is(element, 'camunda:Out') && isInOut(element, binding);
     };
   } else
-  if (binding.type === 'camunda:in:businessKey') {
-    matcher = function(e) {
-      return is(e, 'camunda:In') && 'businessKey' in e;
+  if (type === 'camunda:in:businessKey') {
+    matcher = (element) => {
+      return is(element, 'camunda:In') && 'businessKey' in element;
     };
   }
 
-  return find(extensionElements.get('values'), matcher);
+  return extensionElements.get('values').find(matcher);
 }
 
-module.exports.findCamundaInOut = findCamundaInOut;
-
-function findCamundaProperty(camundaProperties, binding) {
-  return find(camundaProperties.get('values'), function(p) {
-    return p.name === binding.name;
+export function findCamundaProperty(camundaProperties, binding) {
+  return camundaProperties.get('values').find((value) => {
+    return value.name === binding.name;
   });
 }
 
-module.exports.findCamundaProperty = findCamundaProperty;
+export function findInputParameter(inputOutput, binding) {
+  const parameters = inputOutput.get('inputParameters');
 
-
-function findInputParameter(inputOutput, binding) {
-  var parameters = inputOutput.get('inputParameters');
-
-  return find(parameters, function(p) {
-    return p.name === binding.name;
+  return parameters.find((parameter) => {
+    return parameter.name === binding.name;
   });
 }
 
-module.exports.findInputParameter = findInputParameter;
+export function findOutputParameter(inputOutput, binding) {
+  const parameters = inputOutput.get('outputParameters');
 
-
-function findOutputParameter(inputOutput, binding) {
-  var parameters = inputOutput.get('outputParameters');
-
-  return find(parameters, function(p) {
-    var value = p.value;
+  return parameters.find(function(parameter) {
+    const { value } = parameter;
 
     if (!binding.scriptFormat) {
       return value === binding.source;
     }
 
-    var definition = p.definition;
+    const definition = parameter.get('camunda:definition');
 
-    if (!definition || binding.scriptFormat !== definition.scriptFormat) {
+    if (!definition || binding.scriptFormat !== definition.get('camunda:scriptFormat')) {
       return false;
     }
 
-    return definition.value === binding.source;
+    return definition.get('camunda:value') === binding.source;
   });
 }
 
-module.exports.findOutputParameter = findOutputParameter;
+export function findCamundaErrorEventDefinition(element, bindingErrorRef) {
+  const errorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
 
-
-function findCamundaErrorEventDefinition(element, bindingErrorRef) {
-  var errorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]),
-      error;
+  let error;
 
   // error id has to start with <Error_${binding.errorRef}_>
-  return find(errorEventDefinitions, function(definition) {
-    error = definition.errorRef;
+  return errorEventDefinitions.find((definition) => {
+    error = definition.get('bpmn:errorRef');
 
     if (error) {
-      return error.id.indexOf('Error_' + bindingErrorRef) == 0;
+      return error.get('bpmn:id').indexOf(`Error_${ bindingErrorRef }`) === 0;
     }
   });
 }
 
-module.exports.findCamundaErrorEventDefinition = findCamundaErrorEventDefinition;
 
-
-
-// helpers /////////////////////////////////
+// helpers //////////
 
 function getExtensionElements(element) {
-  var bo = getBusinessObject(element);
+  const businessObject = getBusinessObject(element);
 
-  if (is(bo, 'bpmn:ExtensionElements')) {
-    return bo;
+  if (is(businessObject, 'bpmn:ExtensionElements')) {
+    return businessObject;
   } else {
-    return bo.extensionElements;
+    return businessObject.get('extensionElements');
   }
 }
 

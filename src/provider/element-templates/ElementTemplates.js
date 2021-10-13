@@ -1,103 +1,104 @@
-'use strict';
+import {
+  find,
+  flatten,
+  isString,
+  isUndefined,
+  values
+} from 'min-dash';
 
-var flatten = require('lodash/flatten'),
-    find = require('lodash/find'),
-    isString = require('lodash/isString'),
-    isUndefined = require('lodash/isUndefined'),
-    values = require('lodash/values');
+import {
+  getTemplateId,
+  getTemplateVersion
+} from './Helper';
 
-var getTemplateId = require('./Helper').getTemplateId,
-    getTemplateVersion = require('./Helper').getTemplateVersion;
-
-var isAny = require('bpmn-js/lib/features/modeling/util/ModelingUtil').isAny;
+import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 /**
  * Registry for element templates.
  */
-function ElementTemplates() {
-  this._templates = {};
-}
+export default class ElementTemplates {
+  constructor() {
+    this._templates = {};
+  }
 
-/**
- * Get template with given ID and optional version or for element.
- *
- * @param {String|djs.model.Base} id
- * @param {number} [version]
- *
- * @return {ElementTemplate}
- */
-ElementTemplates.prototype.get = function(id, version) {
-  var templates = this._templates,
-      element;
+  /**
+   * Get template with given ID and optional version or for element.
+   *
+   * @param {String|djs.model.Base} id
+   * @param {number} [version]
+   *
+   * @return {ElementTemplate}
+   */
+  get(id, version) {
+    const templates = this._templates;
 
-  if (isUndefined(id)) {
-    return null;
-  } else if (isString(id)) {
+    let element;
 
-    if (isUndefined(version)) {
-      version = '_';
-    }
-
-    if (templates[ id ] && templates[ id ][ version ]) {
-      return templates[ id ][ version ];
-    } else {
+    if (isUndefined(id)) {
       return null;
+    } else if (isString(id)) {
+
+      if (isUndefined(version)) {
+        version = '_';
+      }
+
+      if (templates[ id ] && templates[ id ][ version ]) {
+        return templates[ id ][ version ];
+      } else {
+        return null;
+      }
+    } else {
+      element = id;
+
+      return this.get(getTemplateId(element), getTemplateVersion(element));
     }
-  } else {
-    element = id;
-
-    return this.get(getTemplateId(element), getTemplateVersion(element));
-  }
-};
-
-/**
- * Get default template for given element.
- *
- * @param {djs.model.Base} element
- *
- * @return {ElementTemplate}
- */
-ElementTemplates.prototype.getDefault = function(element) {
-  return find(this.getAll(), function(template) {
-    return isAny(element, template.appliesTo) && template.isDefault;
-  }) || null;
-};
-
-/**
- * Get all templates (with given ID).
- *
- * @param {string} [id]
- *
- * @return {Array<ElementTemplate>}
- */
-ElementTemplates.prototype.getAll = function(id) {
-  if (!isUndefined(id) && this._templates[ id ]) {
-    return values(this._templates[ id ]);
   }
 
-  return flatten(values(this._templates).map(values));
-};
+  /**
+   * Get default template for given element.
+   *
+   * @param {djs.model.Base} element
+   *
+   * @return {ElementTemplate}
+   */
+  getDefault(element) {
+    return find(this.getAll(), function(template) {
+      return isAny(element, template.appliesTo) && template.isDefault;
+    }) || null;
+  }
 
-/**
- * Set templates.
- *
- * @param {Array<ElementTemplate>} templates
- */
-ElementTemplates.prototype.set = function(templates) {
-  var self = this;
-
-  this._templates = {};
-
-  templates.forEach(function(template) {
-    var id = template.id,
-        version = isUndefined(template.version) ? '_' : template.version;
-
-    if (!self._templates[ id ]) {
-      self._templates[ id ] = {};
+  /**
+   * Get all templates (with given ID).
+   *
+   * @param {string} [id]
+   *
+   * @return {Array<ElementTemplate>}
+   */
+  getAll(id) {
+    if (!isUndefined(id) && this._templates[ id ]) {
+      return values(this._templates[ id ]);
     }
 
-    self._templates[ id ][ version ] = template;
-  });
-};
+    return flatten(values(this._templates).map(values));
+  }
 
-module.exports = ElementTemplates;
+  /**
+   * Set templates.
+   *
+   * @param {Array<ElementTemplate>} templates
+   */
+  set(templates) {
+    this._templates = {};
+
+    templates.forEach((template) => {
+      const id = template.id,
+            version = isUndefined(template.version) ? '_' : template.version;
+
+      if (!this._templates[ id ]) {
+        this._templates[ id ] = {};
+      }
+
+      this._templates[ id ][ version ] = template;
+    });
+  }
+}
