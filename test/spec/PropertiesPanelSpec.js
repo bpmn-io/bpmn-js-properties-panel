@@ -11,6 +11,7 @@ var TestContainer = require('mocha-test-container-support');
 var propertiesPanelModule = require('lib'),
     coreModule = require('bpmn-js/lib/core').default,
     selectionModule = require('diagram-js/lib/features/selection').default,
+    keyboardModule = require('diagram-js/lib/features/keyboard').default,
     modelingModule = require('bpmn-js/lib/features/modeling').default,
     propertiesProviderModule = require('./properties');
 
@@ -27,8 +28,8 @@ describe('properties-panel', function() {
   var diagramXML = require('./test.bpmn');
 
   var testModules = [
-    coreModule, selectionModule, modelingModule,
-    propertiesPanelModule,
+    coreModule, selectionModule, keyboardModule,
+    modelingModule, propertiesPanelModule,
     propertiesProviderModule
   ];
 
@@ -643,6 +644,40 @@ describe('properties-panel', function() {
 
 
     });
+
+
+    describe('input handling', function() {
+
+      it('should emit keyboard events for undo/redo when editing', inject(
+        function(eventBus, propertiesPanel, keyboard) {
+
+          // given
+          var spy = sinon.spy();
+
+          var inputField = propertiesPanel._container.querySelector('input');
+
+          eventBus.on('keyboard.keydown', spy);
+
+          // when
+          // select all
+          keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField });
+
+          // then
+          // use browser default
+          expect(spy).to.not.be.called;
+
+          // when
+          // undo/redo
+          keyboard._keyHandler({ key: 'z', metaKey: true, target: inputField });
+          keyboard._keyHandler({ key: 'y', ctrlKey: true, target: inputField });
+
+          // then
+          // fire events
+          expect(spy).to.have.been.calledTwice;
+        }));
+
+    });
+
   });
 
 
