@@ -565,6 +565,41 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       expect(spy).to.have.been.calledOnce;
     });
 
+
+    it('should emit keyboard events for undo/redo when editing', async function() {
+
+      // given
+      const spy = sinon.spy();
+
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const eventBus = modeler.get('eventBus');
+      const propertiesPanel = modeler.get('propertiesPanel');
+      const keyboard = modeler.get('keyboard');
+      const inputField = propertiesPanel._container.querySelector('input');
+
+      eventBus.on('keyboard.keydown', 10000, spy);
+
+      // when
+      // select all
+      keyboard._keyHandler({ key: 'a', ctrlKey: true, target: inputField, preventDefault: () => {} });
+
+      // then
+      // use browser default
+      expect(spy).to.not.be.called;
+
+      // when
+      // undo/redo
+      keyboard._keyHandler({ key: 'z', metaKey: true, target: inputField, preventDefault: () => {} });
+      keyboard._keyHandler({ key: 'y', ctrlKey: true, target: inputField, preventDefault: () => {} });
+
+      // then
+      // fire events
+      expect(spy).to.have.been.calledTwice;
+    });
+
   });
 
 });

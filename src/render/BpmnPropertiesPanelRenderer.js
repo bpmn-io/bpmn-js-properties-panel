@@ -29,7 +29,7 @@ export default class BpmnPropertiesPanelRenderer {
     this._injector = injector;
     this._layoutConfig = layoutConfig;
 
-    this._container = domify('<div style="height: 100%" class="bio-properties-panel-container"></div>');
+    this._container = domify('<div style="height: 100%" class="bio-properties-panel-container" input-handle-modified-keys="y,z"></div>');
 
     this._eventBus.on('root.added', (event) => {
 
