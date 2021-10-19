@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.46.0
+
+* `FEAT`: graceful handle incompatible properties providers ([#482](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/482))
+* `FIX`: don't use browser defaults for undo/redo ([#483](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/483))
+* `DEPS`: bump to `diagram-js@7.5.0`
+* `DEPS`: bump to `bpmn-js@8.8.1`
+
 ## 0.45.0
 
 * `FEAT`: allow configuring camunda forms ([#480](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/480))
