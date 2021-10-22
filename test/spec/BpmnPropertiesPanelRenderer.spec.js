@@ -193,7 +193,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CamundaModdleExtension,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          CamundaPropertiesProvider,
           ElementTemplatesPropertiesProvider
         ],
         moddleExtensions: {

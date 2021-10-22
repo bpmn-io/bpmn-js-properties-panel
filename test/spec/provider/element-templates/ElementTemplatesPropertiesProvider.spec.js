@@ -18,7 +18,6 @@ import {
 } from 'test/TestHelper';
 
 import BpmnPropertiesPanel from 'src/render';
-import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 import elementTemplatesModule from 'src/provider/element-templates';
 
 import diagramXML from './ElementTemplates.bpmn';
@@ -37,7 +36,6 @@ describe('provider/element-template - ElementTemplates', function() {
     modules: [
       BpmnPropertiesPanel,
       coreModule,
-      CamundaPlatformPropertiesProvider,
       elementTemplatesModule,
       modelingModule
     ],

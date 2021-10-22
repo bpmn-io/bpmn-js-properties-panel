@@ -6,10 +6,13 @@ import ReplaceBehavior from './ReplaceBehavior';
 import commandsModule from './cmd';
 import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';
 
+import camundaPlatformPropertiesProviderModule from '../camunda-platform';
+
 export default {
   __depends__: [
     commandsModule,
-    translateModule
+    translateModule,
+    camundaPlatformPropertiesProviderModule
   ],
   __init__: [
     'elementTemplatesLoader',

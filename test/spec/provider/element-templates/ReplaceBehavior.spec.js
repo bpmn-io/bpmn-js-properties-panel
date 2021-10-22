@@ -5,7 +5,6 @@ import {
 
 import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
-import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 import ElementTemplatesModule from 'src/provider/element-templates';
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -25,7 +24,6 @@ describe('provider/element-template - ReplaceBehavior', function() {
   const testModules = [
     BpmnPropertiesPanel,
     BpmnPropertiesProvider,
-    CamundaPlatformPropertiesProvider,
     CoreModule,
     ElementTemplatesModule,
     ModelingModule,
