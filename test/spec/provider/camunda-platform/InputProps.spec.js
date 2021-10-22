@@ -95,7 +95,7 @@ describe('provider/camunda-platform - InputProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -121,7 +121,7 @@ describe('provider/camunda-platform - InputProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -148,7 +148,7 @@ describe('provider/camunda-platform - InputProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -172,7 +172,7 @@ describe('provider/camunda-platform - InputProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -194,7 +194,7 @@ describe('provider/camunda-platform - InputProps', function() {
         const group = getGroup(container, 'CamundaPlatform__Input');
         const addEntry = domQuery('.bio-properties-panel-add-entry', group);
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // when

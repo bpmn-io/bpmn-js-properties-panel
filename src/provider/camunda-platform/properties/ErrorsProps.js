@@ -3,18 +3,6 @@ import {
 } from '../utils/ImplementationTypeUtils';
 
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
-
-import {
   createElement
 } from '../../../utils/ElementUtil';
 
@@ -27,10 +15,7 @@ import Error from './Error';
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
 
 
-export function ErrorsProps(props) {
-  const {
-    element
-  } = props;
+export function ErrorsProps({ element, injector }) {
 
   const businessObject = getBusinessObject(element);
 
@@ -39,6 +24,9 @@ export function ErrorsProps(props) {
   }
 
   const errorEventDefinitions = getExtensionElementsList(businessObject, 'camunda:ErrorEventDefinition');
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = errorEventDefinitions.map((errorEventDefinition, index) => {
     const id = element.id + '-error-' + index;
@@ -52,72 +40,36 @@ export function ErrorsProps(props) {
         errorEventDefinition
       }),
       autoFocusEntry: id + '-errorRef',
-      remove: RemoveContainer({ errorEventDefinition })
+      remove: removeFactory({ commandStack, element, errorEventDefinition })
     };
   });
 
   return {
     items,
-    add: AddError,
+    add: addFactory({ bpmnFactory, commandStack, element }),
     shouldSort: false
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    errorEventDefinition
-  } = props;
+function removeFactory({ commandStack, element, errorEventDefinition }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveError(props) {
-    const {
-      children
-    } = props;
+    const businessObject = getBusinessObject(element),
+          extensionElements = businessObject.get('extensionElements');
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
-
-    const commandStack = useService('commandStack');
-
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      const businessObject = getBusinessObject(element),
-            extensionElements = businessObject.get('extensionElements');
-
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        referencePropertyName: 'extensionElements',
-        objectsToRemove: [ errorEventDefinition ]
-      });
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.update-businessobject-list', {
+      element: element,
+      currentObject: extensionElements,
+      propertyName: 'values',
+      referencePropertyName: 'extensionElements',
+      objectsToRemove: [ errorEventDefinition ]
+    });
   };
 }
 
-function AddError(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack');
-
-  const addElement = (event) => {
-
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
     event.stopPropagation();
 
     const commands = [];
@@ -166,14 +118,6 @@ function AddError(props) {
     // (3) execute the commands
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }
 
 // helpers //////////

@@ -1,8 +1,4 @@
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
   getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
@@ -12,29 +8,20 @@ import {
 } from '../utils/ExtensionElementsUtil';
 
 import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
   createElement
 } from '../../../utils/ElementUtil';
 
-import {
-  useService
-} from '../../../hooks';
-
 import FormField from './FormField';
 
-export function FormDataProps(props) {
-  const {
-    element
-  } = props;
-
+export function FormDataProps({ element, injector }) {
   if (!isFormDataSupported(element)) {
     return;
   }
 
   const formFields = getFormFieldsList(element) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = formFields.map((formField, index) => {
     const id = element.id + '-formField-' + index;
@@ -48,30 +35,19 @@ export function FormDataProps(props) {
         formField
       }),
       autoFocusEntry: id + '-formFieldID',
-      remove: RemoveContainer({ formField })
+      remove: removeFactory({ commandStack, element, formField })
     };
   });
 
   return {
     items,
-    add: AddFormField,
+    add: addFactory({ bpmnFactory, commandStack, element }),
     shouldSort: false
   };
 }
 
-function AddFormField(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-  const commandStack = useService('commandStack');
-
-  const addElement = (event) => {
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
 
     event.stopPropagation();
 
@@ -139,78 +115,46 @@ function AddFormField(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
 
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }
 
-function RemoveContainer(props) {
-  const {
-    formField
-  } = props;
+function removeFactory({ commandStack, element, formField }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveFormField(props) {
-    const {
-      children
-    } = props;
+    const commands = [];
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
+    const formData = getFormData(element),
+          formFields = getFormFieldsList(element);
 
-    const commandStack = useService('commandStack');
+    if (!formFields || !formFields.length) {
+      return;
+    }
 
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      const commands = [];
-
-      const formData = getFormData(element),
-            formFields = getFormFieldsList(element);
-
-      if (!formFields || !formFields.length) {
-        return;
+    commands.push({
+      cmd: 'properties-panel.update-businessobject-list',
+      context: {
+        element: element,
+        currentObject: formData,
+        propertyName: 'fields',
+        objectsToRemove: [ formField ]
       }
+    });
 
+    // remove camunda:formData if there are no formFields anymore
+    if (formFields.length === 1) {
       commands.push({
         cmd: 'properties-panel.update-businessobject-list',
         context: {
           element: element,
-          currentObject: formData,
-          propertyName: 'fields',
-          objectsToRemove: [ formField ]
+          currentObject: getBusinessObject(element).get('extensionElements'),
+          propertyName: 'values',
+          referencePropertyName: 'extensionElements',
+          objectsToRemove: [ formData ]
         }
       });
+    }
 
-      // remove camunda:formData if there are no formFields anymore
-      if (formFields.length === 1) {
-        commands.push({
-          cmd: 'properties-panel.update-businessobject-list',
-          context: {
-            element: element,
-            currentObject: getBusinessObject(element).get('extensionElements'),
-            propertyName: 'values',
-            referencePropertyName: 'extensionElements',
-            objectsToRemove: [ formData ]
-          }
-        });
-      }
-
-      commandStack.execute('properties-panel.multi-command-executor', commands);
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 }
 

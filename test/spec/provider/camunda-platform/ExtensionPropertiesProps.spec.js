@@ -95,7 +95,7 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -121,7 +121,7 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -148,7 +148,7 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -172,7 +172,7 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -199,7 +199,7 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
 
         // when
         await act(() => {
-          removeEntry.parentNode.click();
+          removeEntry.click();
         });
 
         // then
@@ -221,7 +221,7 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
 
         const addEntry = domQuery('.bio-properties-panel-add-entry', container);
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // when

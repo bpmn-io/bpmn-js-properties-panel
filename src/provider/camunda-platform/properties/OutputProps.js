@@ -1,15 +1,3 @@
-import {
-  useContext
-} from 'preact/hooks';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
-
 import InputOutputParameter from './InputOutputParameter';
 
 import {
@@ -20,16 +8,16 @@ import {
 } from '../utils/InputOutputUtil';
 
 
-export function OutputProps(props) {
-  const {
-    element
-  } = props;
+export function OutputProps({ element, injector }) {
 
   if (!areOutputParametersSupported(element)) {
     return null;
   }
 
   const outputParameters = getOutputParameters(element) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = outputParameters.map((parameter, index) => {
     const id = element.id + '-outputParameter-' + index;
@@ -43,73 +31,37 @@ export function OutputProps(props) {
         parameter
       }),
       autoFocusEntry: id + '-name',
-      remove: RemoveContainer({ parameter })
+      remove: removeFactory({ commandStack, element, parameter })
     };
   });
 
   return {
     items,
-    add: AddOutputParameter
+    add: addFactory({ bpmnFactory, commandStack, element })
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    parameter
-  } = props;
+function removeFactory({ commandStack, element, parameter }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveOutputParameter(props) {
-    const {
-      children
-    } = props;
+    const inputOutput = getInputOutput(element);
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
+    if (!inputOutput) {
+      return;
+    }
 
-    const commandStack = useService('commandStack');
-
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      const inputOutput = getInputOutput(element);
-
-      if (!inputOutput) {
-        return;
-      }
-
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: inputOutput,
-        propertyName: 'outputParameters',
-        objectsToRemove: [ parameter ]
-      });
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.update-businessobject-list', {
+      element: element,
+      currentObject: inputOutput,
+      propertyName: 'outputParameters',
+      objectsToRemove: [ parameter ]
+    });
   };
 }
 
-function AddOutputParameter(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-
-  const commandStack = useService('commandStack');
-
-  const addElement = (event) => {
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
     event.stopPropagation();
 
     commandStack.execute(
@@ -117,12 +69,4 @@ function AddOutputParameter(props) {
       AddParameterCmd(element, 'camunda:OutputParameter', bpmnFactory)
     );
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }

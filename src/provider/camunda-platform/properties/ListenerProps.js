@@ -4,10 +4,6 @@ import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select
 import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 
-import {
-  useContext
-} from 'preact/hooks';
-
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 import {
   getBusinessObject,
@@ -23,10 +19,6 @@ import {
 } from '../utils/ExtensionElementsUtil';
 
 import { getImplementationType } from '../utils/ImplementationTypeUtils';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
 
 import {
   useService
@@ -105,14 +97,15 @@ const EVENT_TO_LABEL = {
 /**
  * Cf. https://docs.camunda.org/manual/latest/user-guide/process-engine/delegation-code/#execution-listener
  */
-export function ExecutionListenerProps(props) {
-  const {
-    element
-  } = props;
+export function ExecutionListenerProps({ element, injector }) {
 
   if (!isAny(element, LISTENER_ALLOWED_TYPES)) {
     return;
   }
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack'),
+        modeling = injector.get('modeling');
 
   if (is(element, 'bpmn:Participant') && !element.businessObject.processRef) {
     return;
@@ -134,10 +127,10 @@ export function ExecutionListenerProps(props) {
           element,
           listener
         }),
-        remove: RemoveListenerContainer({ listener })
+        remove: removeListenerFactory({ element, listener, modeling })
       };
     }),
-    add: AddExecutionListener
+    add: addExecutionListenerFactory({ bpmnFactory, commandStack, element })
   };
 }
 
@@ -164,15 +157,15 @@ function ExecutionListener(props) {
   }];
 }
 
-export function TaskListenerProps(props) {
-
-  const {
-    element
-  } = props;
+export function TaskListenerProps({ element, injector }) {
 
   if (!is(element, 'bpmn:UserTask')) {
     return;
   }
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack'),
+        modeling = injector.get('modeling');
 
   const businessObject = getListenersContainer(element);
   const listeners = getExtensionElementsList(businessObject, 'camunda:TaskListener');
@@ -191,11 +184,11 @@ export function TaskListenerProps(props) {
           listener
         }),
 
-        remove: RemoveListenerContainer({ listener })
+        remove: removeListenerFactory({ element, listener, modeling })
       };
     }),
 
-    add: AddTaskListener
+    add: addTaskListenerFactory({ bpmnFactory, commandStack, element })
   };
 }
 
@@ -227,30 +220,10 @@ function TaskListener(props) {
   }];
 }
 
-function RemoveListenerContainer(props) {
-  const { listener } = props;
-
-  return function RemoveListener(props) {
-    const {
-      children
-    } = props;
-
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
-
-    const modeling = useService('modeling');
-
-    function removeListener(event) {
-      event.stopPropagation();
-      removeExtensionElement(element, getListenersContainer(element), listener, modeling);
-    }
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeListener }>
-        { children }
-      </div>
-    );
+function removeListenerFactory({ element, listener, modeling }) {
+  return function removeListener(event) {
+    event.stopPropagation();
+    removeExtensionElement(element, getListenersContainer(element), listener, modeling);
   };
 }
 
@@ -470,21 +443,8 @@ function Fields(props) {
   />;
 }
 
-function AddListener(props) {
-
-  const {
-    children,
-    listenerGroup
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-  const commandStack = useService('commandStack');
-
-  const addListener = event => {
+function addListenerFactory({ bpmnFactory, commandStack, element, listenerGroup }) {
+  return function(event) {
     event.stopPropagation();
 
     const listener = bpmnFactory.create(listenerGroup, {
@@ -496,20 +456,14 @@ function AddListener(props) {
 
     addExtensionElement(element, businessObject, listener, bpmnFactory, commandStack);
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addListener }>
-      { children }
-    </div>
-  );
 }
 
-function AddTaskListener(props) {
-  return AddListener({ ...props, listenerGroup:'camunda:TaskListener' });
+function addTaskListenerFactory(props) {
+  return addListenerFactory({ ...props, listenerGroup:'camunda:TaskListener' });
 }
 
-function AddExecutionListener(props) {
-  return AddListener({ ...props, listenerGroup:'camunda:ExecutionListener' });
+function addExecutionListenerFactory(props) {
+  return addListenerFactory({ ...props, listenerGroup:'camunda:ExecutionListener' });
 }
 
 // helper

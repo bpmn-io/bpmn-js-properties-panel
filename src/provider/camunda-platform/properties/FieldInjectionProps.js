@@ -3,18 +3,6 @@ import {
 } from '../utils/ImplementationTypeUtils';
 
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
-
-import {
   createElement
 } from '../../../utils/ElementUtil';
 
@@ -25,10 +13,7 @@ import {
 import FieldInjection from './FieldInjection';
 
 
-export function FieldInjectionProps(props) {
-  const {
-    element
-  } = props;
+export function FieldInjectionProps({ element, injector }) {
 
   const businessObject = getServiceTaskLikeBusinessObject(element);
 
@@ -37,6 +22,9 @@ export function FieldInjectionProps(props) {
   }
 
   const fieldInjections = getExtensionElementsList(businessObject, 'camunda:Field');
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = fieldInjections.map((field, index) => {
     const id = element.id + '-fieldInjection-' + index;
@@ -50,70 +38,35 @@ export function FieldInjectionProps(props) {
         field
       }),
       autoFocusEntry: id + '-name',
-      remove: RemoveContainer({ field })
+      remove: removeFactory({ commandStack, element, field })
     };
   });
 
   return {
     items,
-    add: AddFieldInjection
+    add: addFactory({ bpmnFactory, commandStack, element })
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    field
-  } = props;
+function removeFactory({ commandStack, element, field }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveFieldInjection(props) {
-    const {
-      children
-    } = props;
+    const businessObject = getServiceTaskLikeBusinessObject(element),
+          extensionElements = businessObject.get('extensionElements');
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
-
-    const commandStack = useService('commandStack');
-
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      const businessObject = getServiceTaskLikeBusinessObject(element),
-            extensionElements = businessObject.get('extensionElements');
-
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        referencePropertyName: 'extensionElements',
-        objectsToRemove: [ field ]
-      });
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.update-businessobject-list', {
+      element: element,
+      currentObject: extensionElements,
+      propertyName: 'values',
+      referencePropertyName: 'extensionElements',
+      objectsToRemove: [ field ]
+    });
   };
 }
 
-function AddFieldInjection(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack');
-
-  const addElement = (event) => {
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
 
     event.stopPropagation();
 
@@ -167,14 +120,6 @@ function AddFieldInjection(props) {
     // (3) execute the commands
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }
 
 // helper ///////////////

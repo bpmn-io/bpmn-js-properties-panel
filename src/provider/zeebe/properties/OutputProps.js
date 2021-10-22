@@ -1,18 +1,6 @@
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
 
 import InputOutputParameter from './InputOutputParameter';
 
@@ -29,13 +17,16 @@ import {
 } from '../../../utils/ElementUtil';
 
 
-export function OutputProps(element) {
+export function OutputProps({ element, injector }) {
 
   if (!areOutputParametersSupported(element)) {
     return null;
   }
 
   const outputParameters = getOutputParameters(element) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = outputParameters.map((parameter, index) => {
     const id = element.id + '-output-' + index;
@@ -49,94 +40,57 @@ export function OutputProps(element) {
         parameter
       }),
       autoFocusEntry: id + '-target',
-      remove: RemoveContainer({ parameter })
+      remove: removeFactory({ commandStack, element, parameter })
     };
   });
 
   return {
     items,
-    add: AddOutputParameter
+    add: addFactory({ element, bpmnFactory, commandStack })
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    parameter
-  } = props;
+function removeFactory({ commandStack, element, parameter }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveOutputParameter(props) {
-    const {
-      children
-    } = props;
+    let commands = [];
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
+    const ioMapping = getIoMapping(element);
 
-    const commandStack = useService('commandStack');
+    if (!ioMapping) {
+      return;
+    }
 
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      let commands = [];
-
-      const ioMapping = getIoMapping(element);
-
-      if (!ioMapping) {
-        return;
+    commands.push({
+      cmd: 'properties-panel.update-businessobject-list',
+      context: {
+        element: element,
+        currentObject: ioMapping,
+        propertyName: 'outputParameters',
+        objectsToRemove: [ parameter ]
       }
+    });
 
+    // remove ioMapping if there are no input/output parameters anymore
+    if (ioMapping.get('inputParameters').length + ioMapping.get('outputParameters').length === 1) {
       commands.push({
         cmd: 'properties-panel.update-businessobject-list',
         context: {
           element: element,
-          currentObject: ioMapping,
-          propertyName: 'outputParameters',
-          objectsToRemove: [ parameter ]
+          currentObject: getBusinessObject(element).get('extensionElements'),
+          propertyName: 'values',
+          objectsToRemove: [ ioMapping ]
         }
       });
+    }
 
-      // remove ioMapping if there are no input/output parameters anymore
-      if (ioMapping.get('inputParameters').length + ioMapping.get('outputParameters').length === 1) {
-        commands.push({
-          cmd: 'properties-panel.update-businessobject-list',
-          context: {
-            element: element,
-            currentObject: getBusinessObject(element).get('extensionElements'),
-            propertyName: 'values',
-            objectsToRemove: [ ioMapping ]
-          }
-        });
-      }
-
-      commandStack.execute('properties-panel.multi-command-executor', commands);
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 }
 
-function AddOutputParameter(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-
-  const commandStack = useService('commandStack');
-
-  const addElement = (event) => {
-
+function addFactory({ element, bpmnFactory, commandStack }) {
+  return function(event) {
     event.stopPropagation();
 
     let commands = [];
@@ -205,12 +159,4 @@ function AddOutputParameter(props) {
 
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }

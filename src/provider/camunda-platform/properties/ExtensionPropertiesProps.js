@@ -1,19 +1,7 @@
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
   getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
 
 import ExtensionProperty from './ExtensionProperty';
 
@@ -26,11 +14,7 @@ import {
 } from '../utils/ExtensionElementsUtil';
 
 
-export function ExtensionPropertiesProps(props) {
-
-  const {
-    element
-  } = props;
+export function ExtensionPropertiesProps({ element, injector }) {
 
   let businessObject = getRelevantBusinessObject(element);
 
@@ -40,6 +24,9 @@ export function ExtensionPropertiesProps(props) {
   }
 
   const properties = getPropertiesList(businessObject) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = properties.map((property, index) => {
     const id = element.id + '-extensionProperty-' + index;
@@ -53,94 +40,58 @@ export function ExtensionPropertiesProps(props) {
         property
       }),
       autoFocusEntry: id + '-name',
-      remove: RemoveContainer({ property })
+      remove: removeFactory({ commandStack, element, property })
     };
   });
 
   return {
     items,
-    add: AddExtensionProperty
+    add: addFactory({ bpmnFactory, commandStack, element })
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    property
-  } = props;
+function removeFactory({ commandStack, element, property }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveExtensionProperty(props) {
-    const {
-      children
-    } = props;
+    const commands = [];
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
+    const businessObject = getRelevantBusinessObject(element);
+    const properties = getProperties(businessObject);
 
-    const commandStack = useService('commandStack');
+    if (!properties) {
+      return;
+    }
 
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      const commands = [];
-
-      const businessObject = getRelevantBusinessObject(element);
-      const properties = getProperties(businessObject);
-
-      if (!properties) {
-        return;
+    commands.push({
+      cmd: 'properties-panel.update-businessobject-list',
+      context: {
+        element: element,
+        currentObject: properties,
+        propertyName: 'values',
+        objectsToRemove: [ property ]
       }
+    });
 
+    // remove camunda:Properties if there are no properties anymore
+    if (properties.get('values').length === 1) {
       commands.push({
         cmd: 'properties-panel.update-businessobject-list',
         context: {
           element: element,
-          currentObject: properties,
+          currentObject: getBusinessObject(element).get('extensionElements'),
           propertyName: 'values',
-          objectsToRemove: [ property ]
+          objectsToRemove: [ properties ]
         }
       });
+    }
 
-      // remove camunda:Properties if there are no properties anymore
-      if (properties.get('values').length === 1) {
-        commands.push({
-          cmd: 'properties-panel.update-businessobject-list',
-          context: {
-            element: element,
-            currentObject: getBusinessObject(element).get('extensionElements'),
-            propertyName: 'values',
-            objectsToRemove: [ properties ]
-          }
-        });
-      }
-
-      commandStack.execute('properties-panel.multi-command-executor', commands);
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 }
 
-function AddExtensionProperty(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-
-  const commandStack = useService('commandStack');
-
-  const addElement = (event) => {
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
 
     event.stopPropagation();
 
@@ -208,14 +159,6 @@ function AddExtensionProperty(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
 
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }
 
 

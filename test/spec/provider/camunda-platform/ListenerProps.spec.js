@@ -131,7 +131,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -157,7 +157,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -184,7 +184,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -208,7 +208,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -230,7 +230,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
         const group = getGroup(container, 'CamundaPlatform__ExecutionListener');
         const addEntry = domQuery('.bio-properties-panel-add-entry', group);
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // when
@@ -620,7 +620,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -646,7 +646,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -673,7 +673,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -697,7 +697,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -719,7 +719,7 @@ describe('provider/camunda-platform - ListenerProps', function() {
         const group = getGroup(container, 'CamundaPlatform__TaskListener');
         const addEntry = domQuery('.bio-properties-panel-add-entry', group);
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // when

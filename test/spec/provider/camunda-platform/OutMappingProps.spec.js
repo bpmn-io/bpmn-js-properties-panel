@@ -124,7 +124,7 @@ describe('provider/camunda-platform - OutMappingProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -150,7 +150,7 @@ describe('provider/camunda-platform - OutMappingProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -177,7 +177,7 @@ describe('provider/camunda-platform - OutMappingProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -201,7 +201,7 @@ describe('provider/camunda-platform - OutMappingProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -223,7 +223,7 @@ describe('provider/camunda-platform - OutMappingProps', function() {
         const group = getGroup(container, 'CamundaPlatform__OutMapping');
         const addEntry = domQuery('.bio-properties-panel-add-entry', group);
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // when

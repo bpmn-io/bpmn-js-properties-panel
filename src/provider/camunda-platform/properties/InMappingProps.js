@@ -1,8 +1,4 @@
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
   filter
 } from 'min-dash';
 
@@ -14,14 +10,6 @@ import {
 import {
   isAny
 } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
 
 import {
   getSignalEventDefinition
@@ -40,17 +28,15 @@ import InOutMapping from './InOutMapping';
 /**
  * Cf. https://docs.camunda.org/manual/latest/reference/bpmn20/custom-extensions/extension-elements/#in
  */
-export function InMappingProps(props) {
-  const {
-    element
-  } = props;
-
-
+export function InMappingProps({ element, injector }) {
   if (!areInMappingsSupported(element)) {
     return null;
   }
 
   const variableMappings = getInMappings(element) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = variableMappings.map((mapping, index) => {
     const id = element.id + '-inMapping-' + index;
@@ -64,70 +50,34 @@ export function InMappingProps(props) {
         mapping
       }),
       autoFocusEntry: id + '-target',
-      remove: RemoveContainer({ mapping })
+      remove: removeFactory({ commandStack, element, mapping })
     };
   });
 
   return {
     items,
-    add: AddInMapping
+    add: addFactory({ bpmnFactory, commandStack, element })
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    mapping
-  } = props;
+function removeFactory({ commandStack, element, mapping }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveInMapping(props) {
-    const {
-      children
-    } = props;
+    const businessObject = getSignalEventDefinition(element) || getBusinessObject(element);
+    const extensionElements = businessObject.get('extensionElements');
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
-
-    const commandStack = useService('commandStack');
-
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      const businessObject = getSignalEventDefinition(element) || getBusinessObject(element);
-      const extensionElements = businessObject.get('extensionElements');
-
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToRemove: [ mapping ]
-      });
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.update-businessobject-list', {
+      element: element,
+      currentObject: extensionElements,
+      propertyName: 'values',
+      objectsToRemove: [ mapping ]
+    });
   };
 }
 
-function AddInMapping(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-
-  const commandStack = useService('commandStack');
-
-  const addElement = (event) => {
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
 
     event.stopPropagation();
 
@@ -175,14 +125,6 @@ function AddInMapping(props) {
     // (4) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }
 
 // helper ///////////////

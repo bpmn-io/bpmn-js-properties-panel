@@ -42,6 +42,38 @@ import {
 
 const LOW_PRIORITY = 500;
 
+const CAMUNDA_PLATFORM_GROUPS = [
+  ProcessVariablesGroup,
+  ImplementationGroup,
+  ErrorsGroup,
+  UserAssignmentGroup,
+  StartInitiatorGroup,
+  ScriptGroup,
+  AsynchronousContinuationsGroup,
+  CallActivityGroup,
+  InMappingPropagationGroup,
+  InMappingGroup,
+  InputGroup,
+  ConnectorInputGroup,
+  OutMappingPropagationGroup,
+  OutMappingGroup,
+  OutputGroup,
+  ConnectorOutputGroup,
+  CandidateStarterGroup,
+  ConditionGroup,
+  ExtensionPropertiesGroup,
+  ExternalTaskGroup,
+  FieldInjectionGroup,
+  FormGroup,
+  FormDataGroup,
+  BusinessKeyGroup,
+  HistoryCleanupGroup,
+  JobExecutionGroup,
+  ExecutionListenerGroup,
+  TaskListenerGroup,
+  TasklistGroup
+];
+
 /**
  * Provides `camunda` namespace properties.
  *
@@ -69,8 +101,10 @@ const LOW_PRIORITY = 500;
  */
 export default class CamundaPlatformPropertiesProvider {
 
-  constructor(propertiesPanel) {
+  constructor(propertiesPanel, injector) {
     propertiesPanel.registerProvider(LOW_PRIORITY, this);
+
+    this._injector = injector;
   }
 
   getGroups(element) {
@@ -90,44 +124,14 @@ export default class CamundaPlatformPropertiesProvider {
   }
 
   _getGroups(element) {
-    const groups = [
-      ProcessVariablesGroup(element),
-      ImplementationGroup(element),
-      ErrorsGroup(element),
-      UserAssignmentGroup(element),
-      StartInitiatorGroup(element),
-      ScriptGroup(element),
-      AsynchronousContinuationsGroup(element),
-      CallActivityGroup(element),
-      InMappingPropagationGroup(element),
-      InMappingGroup(element),
-      InputGroup(element),
-      ConnectorInputGroup(element),
-      OutMappingPropagationGroup(element),
-      OutMappingGroup(element),
-      OutputGroup(element),
-      ConnectorOutputGroup(element),
-      CandidateStarterGroup(element),
-      ConditionGroup(element),
-      ExtensionPropertiesGroup(element),
-      ExternalTaskGroup(element),
-      FieldInjectionGroup(element),
-      FormGroup(element),
-      FormDataGroup(element),
-      BusinessKeyGroup(element),
-      HistoryCleanupGroup(element),
-      JobExecutionGroup(element),
-      ExecutionListenerGroup(element),
-      TaskListenerGroup(element),
-      TasklistGroup(element)
-    ];
+    const groups = CAMUNDA_PLATFORM_GROUPS.map(createGroup => createGroup(element, this._injector));
 
     // contract: if a group returns null, it should not be displayed at all
     return groups.filter(group => group !== null);
   }
 }
 
-CamundaPlatformPropertiesProvider.$inject = [ 'propertiesPanel' ];
+CamundaPlatformPropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
 function updateGeneralGroup(groups, element) {
 
@@ -200,12 +204,12 @@ function ImplementationGroup(element) {
   return null;
 }
 
-function ErrorsGroup(element) {
+function ErrorsGroup(element, injector) {
   const group = {
     label: 'Errors',
     id: 'CamundaPlatform__Errors',
     component: ListGroup,
-    ...ErrorsProps({ element })
+    ...ErrorsProps({ element, injector })
   };
 
   if (group.items) {
@@ -369,12 +373,12 @@ function CandidateStarterGroup(element) {
   return null;
 }
 
-function FieldInjectionGroup(element) {
+function FieldInjectionGroup(element, injector) {
   const group = {
     label: 'Field injections',
     id: 'CamundaPlatform__FieldInjection',
     component: ListGroup,
-    ...FieldInjectionProps({ element })
+    ...FieldInjectionProps({ element, injector })
   };
 
   if (group.items) {
@@ -418,12 +422,12 @@ function TasklistGroup(element) {
   return null;
 }
 
-function InMappingGroup(element) {
+function InMappingGroup(element, injector) {
   const group = {
     label: 'In mappings',
     id: 'CamundaPlatform__InMapping',
     component: ListGroup,
-    ...InMappingProps({ element })
+    ...InMappingProps({ element, injector })
   };
 
   if (group.items) {
@@ -450,12 +454,12 @@ function InMappingPropagationGroup(element) {
   return null;
 }
 
-function OutMappingGroup(element) {
+function OutMappingGroup(element, injector) {
   const group = {
     label: 'Out mappings',
     id: 'CamundaPlatform__OutMapping',
     component: ListGroup,
-    ...OutMappingProps({ element })
+    ...OutMappingProps({ element, injector })
   };
 
   if (group.items) {
@@ -482,12 +486,12 @@ function OutMappingPropagationGroup(element) {
   return null;
 }
 
-function ProcessVariablesGroup(element) {
+function ProcessVariablesGroup(element, injector) {
   const group = {
     label: 'Process variables',
     id: 'CamundaPlatform__ProcessVariables',
     component: ListGroup,
-    ...ProcessVariablesProps({ element })
+    ...ProcessVariablesProps({ element, injector })
   };
 
   if (group.items) {
@@ -497,12 +501,12 @@ function ProcessVariablesGroup(element) {
   return null;
 }
 
-function FormDataGroup(element) {
+function FormDataGroup(element, injector) {
   const group = {
     label: 'Generated task form',
     id: 'CamundaPlatform__FormData',
     component: ListGroup,
-    ...FormDataProps({ element })
+    ...FormDataProps({ element, injector })
   };
 
   if (group.items) {
@@ -546,12 +550,12 @@ function FormGroup(element) {
   return null;
 }
 
-function ExecutionListenerGroup(element) {
+function ExecutionListenerGroup(element, injector) {
   const group = {
     label: 'Execution listeners',
     id: 'CamundaPlatform__ExecutionListener',
     component: ListGroup,
-    ...ExecutionListenerProps({ element })
+    ...ExecutionListenerProps({ element, injector })
   };
 
   if (group.items) {
@@ -561,12 +565,12 @@ function ExecutionListenerGroup(element) {
   return null;
 }
 
-function TaskListenerGroup(element) {
+function TaskListenerGroup(element, injector) {
   const group = {
     label: 'Task listeners',
     id: 'CamundaPlatform__TaskListener',
     component: ListGroup,
-    ...TaskListenerProps({ element })
+    ...TaskListenerProps({ element, injector })
   };
 
   if (group.items) {
@@ -576,12 +580,12 @@ function TaskListenerGroup(element) {
   return null;
 }
 
-function InputGroup(element) {
+function InputGroup(element, injector) {
   const group = {
     label: 'Inputs',
     id: 'CamundaPlatform__Input',
     component: ListGroup,
-    ...InputProps({ element })
+    ...InputProps({ element, injector })
   };
 
   if (group.items) {
@@ -591,12 +595,12 @@ function InputGroup(element) {
   return null;
 }
 
-function OutputGroup(element) {
+function OutputGroup(element, injector) {
   const group = {
     label: 'Outputs',
     id: 'CamundaPlatform__Output',
     component: ListGroup,
-    ...OutputProps({ element })
+    ...OutputProps({ element, injector })
   };
 
   if (group.items) {
@@ -606,12 +610,12 @@ function OutputGroup(element) {
   return null;
 }
 
-function ConnectorInputGroup(element) {
+function ConnectorInputGroup(element, injector) {
   const group = {
     label: 'Connector inputs',
     id: 'CamundaPlatform__ConnectorInput',
     component: ListGroup,
-    ...ConnectorInputProps({ element })
+    ...ConnectorInputProps({ element, injector })
   };
 
   if (group.items) {
@@ -621,12 +625,12 @@ function ConnectorInputGroup(element) {
   return null;
 }
 
-function ConnectorOutputGroup(element) {
+function ConnectorOutputGroup(element, injector) {
   const group = {
     label: 'Connector outputs',
     id: 'CamundaPlatform__ConnectorOutput',
     component: ListGroup,
-    ...ConnectorOutputProps({ element })
+    ...ConnectorOutputProps({ element, injector })
   };
 
   if (group.items) {
@@ -636,12 +640,12 @@ function ConnectorOutputGroup(element) {
   return null;
 }
 
-function ExtensionPropertiesGroup(element) {
+function ExtensionPropertiesGroup(element, injector) {
   const group = {
     label: 'Extension properties',
     id: 'CamundaPlatform__ExtensionProperties',
     component: ListGroup,
-    ...ExtensionPropertiesProps({ element })
+    ...ExtensionPropertiesProps({ element, injector })
   };
 
   if (group.items) {

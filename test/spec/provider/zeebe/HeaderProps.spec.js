@@ -113,7 +113,7 @@ describe('provider/zeebe - HeaderProps', function() {
 
       // when
       await act(() => {
-        addEntry.parentNode.click();
+        addEntry.click();
       });
 
       // then
@@ -139,7 +139,7 @@ describe('provider/zeebe - HeaderProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -166,7 +166,7 @@ describe('provider/zeebe - HeaderProps', function() {
 
         // when
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // then
@@ -189,7 +189,7 @@ describe('provider/zeebe - HeaderProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -214,7 +214,7 @@ describe('provider/zeebe - HeaderProps', function() {
 
       // when
       await act(() => {
-        removeEntry.parentNode.click();
+        removeEntry.click();
       });
 
       // then
@@ -235,7 +235,7 @@ describe('provider/zeebe - HeaderProps', function() {
 
         const addEntry = domQuery('.bio-properties-panel-add-entry', container);
         await act(() => {
-          addEntry.parentNode.click();
+          addEntry.click();
         });
 
         // when

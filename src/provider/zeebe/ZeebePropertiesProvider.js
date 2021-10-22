@@ -18,103 +18,150 @@ import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTask
 
 const LOW_PRIORITY = 500;
 
+const ZEEBE_GROUPS = [
+  TaskDefinitionGroup,
+  FormGroup,
+  ConditionGroup,
+  TargetGroup,
+  InputGroup,
+  OutputPropagationGroup,
+  OutputGroup,
+  HeaderGroup
+];
 
-function TaskDefinitionGroup(element) {
+export default class ZeebePropertiesProvider {
 
-  const entries = [
-    ...TaskDefinitionProps({ element })
-  ];
+  constructor(propertiesPanel, injector) {
+    propertiesPanel.registerProvider(LOW_PRIORITY, this);
 
-  return {
-    id: 'taskDefinition',
-    label: 'Task definition',
-    entries,
-    component: Group
-  };
+    this._injector = injector;
+  }
+
+  getGroups(element) {
+    return (groups) => {
+
+      // (1) add zeebe specific groups
+      groups = groups.concat(this._getGroups(element));
+
+      // (2) update existing groups with zeebe specific properties
+      updateMessageGroup(groups, element);
+      updateTimerGroup(groups, element);
+      updateMultiInstanceGroup(groups, element);
+
+      // (3) remove message group when not applicable
+      groups = removeMessageGroup(groups, element);
+
+      return groups;
+    };
+  }
+
+  _getGroups(element) {
+    const groups = ZEEBE_GROUPS.map(createGroup => createGroup(element, this._injector));
+
+    return groups.filter(group => group !== null);
+  }
+
 }
 
-function InputGroup(element) {
+ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
-  return {
+
+function TaskDefinitionGroup(element) {
+  const group = {
+    id: 'taskDefinition',
+    label: 'Task definition',
+    entries: [
+      ...TaskDefinitionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function InputGroup(element, injector) {
+  const group = {
     id: 'inputs',
     label: 'Inputs',
     component: ListGroup,
-    ...InputProps(element)
+    ...InputProps({ element, injector })
   };
+
+  return group.items ? group : null;
 }
 
-function OutputGroup(element) {
-  return {
+function OutputGroup(element, injector) {
+  const group = {
     id: 'outputs',
     label: 'Outputs',
     component: ListGroup,
-    ...OutputProps(element)
+    ...OutputProps({ element, injector })
   };
+
+  return group.items ? group : null;
 }
 
 function ConditionGroup(element) {
-
-  const entries = [
-    ...ConditionProps({ element })
-  ];
-
-  return {
+  const group = {
     id: 'condition',
     label: 'Condition',
-    entries,
+    entries: [
+      ...ConditionProps({ element })
+    ],
     component: Group
   };
+
+  return group.entries.length ? group : null;
 }
 
 function FormGroup(element) {
-
-  const entries = [
-    ...FormProps({ element })
-  ];
-
-  return {
+  const group = {
     id: 'form',
     label: 'Form',
-    entries,
+    entries: [
+      ...FormProps({ element })
+    ],
     component: Group
   };
+
+  return group.entries.length ? group : null;
 }
 
 function TargetGroup(element) {
-
-  const entries = [
-    ...TargetProps({ element })
-  ];
-
-  return {
+  const group = {
     id: 'target',
     label: 'Target',
-    entries,
+    entries: [
+      ...TargetProps({ element })
+    ],
     component: Group
   };
+
+  return group.entries.length ? group : null;
 }
 
-function HeaderGroup(element) {
-  return {
+function HeaderGroup(element, injector) {
+  const group = {
     id: 'headers',
     label: 'Header',
     component: ListGroup,
-    ...HeaderProps(element)
+    ...HeaderProps({ element, injector })
   };
+
+  return group.items ? group : null;
 }
 
 function OutputPropagationGroup(element) {
-
-  const entries = [
-    ...OutputPropagationProps({ element })
-  ];
-
-  return {
+  const group = {
     id: 'outputPropagation',
     label: 'Output propagation',
-    entries,
+    entries: [
+      ...OutputPropagationProps({ element })
+    ],
     component: Group
   };
+
+  return group.entries.length ? group : null;
 }
 
 function updateMessageGroup(groups, element) {
@@ -166,89 +213,6 @@ function removeMessageGroup(groups, element) {
   }
   return groups;
 }
-
-function getGroups(element) {
-
-  const groups = [];
-
-  const taskDefinitionGroup = TaskDefinitionGroup(element);
-
-  if (taskDefinitionGroup.entries.length) {
-    groups.push(taskDefinitionGroup);
-  }
-
-  const formGroup = FormGroup(element);
-
-  if (formGroup.entries.length) {
-    groups.push(formGroup);
-  }
-
-  const conditionGroup = ConditionGroup(element);
-
-  if (conditionGroup.entries.length) {
-    groups.push(conditionGroup);
-  }
-
-  const targetGroup = TargetGroup(element);
-
-  if (targetGroup.entries.length) {
-    groups.push(targetGroup);
-  }
-
-  const inputGroup = InputGroup(element);
-
-  if (inputGroup.items) {
-    groups.push(InputGroup(element));
-  }
-
-  const outputPropagationGroup = OutputPropagationGroup(element);
-
-  if (outputPropagationGroup.entries.length) {
-    groups.push(outputPropagationGroup);
-  }
-
-  const outputGroup = OutputGroup(element);
-
-  if (outputGroup.items) {
-    groups.push(OutputGroup(element));
-  }
-
-  const headerGroup = HeaderGroup(element);
-
-  if (headerGroup.items) {
-    groups.push(HeaderGroup(element));
-  }
-
-  return groups;
-}
-
-export default class ZeebePropertiesProvider {
-
-  constructor(propertiesPanel) {
-    propertiesPanel.registerProvider(LOW_PRIORITY, this);
-  }
-
-  getGroups(element) {
-    return (groups) => {
-
-      // (1) add zeebe specific groups
-      groups = groups.concat(getGroups(element));
-
-      // (2) update existing groups with zeebe specific properties
-      updateMessageGroup(groups, element);
-      updateTimerGroup(groups, element);
-      updateMultiInstanceGroup(groups, element);
-
-      // (3) remove message group when not applicable
-      groups = removeMessageGroup(groups, element);
-
-      return groups;
-    };
-  }
-
-}
-
-ZeebePropertiesProvider.$inject = [ 'propertiesPanel' ];
 
 
 // helper /////////////////////

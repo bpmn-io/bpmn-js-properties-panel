@@ -1,18 +1,6 @@
 import {
-  useContext
-} from 'preact/hooks';
-
-import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
-
-import {
-  BpmnPropertiesPanelContext
-} from '../../../context';
-
-import {
-  useService
-} from '../../../hooks';
 
 import Header from './Header';
 
@@ -27,13 +15,16 @@ import {
 } from '../../../utils/ElementUtil';
 
 
-export function HeaderProps(element) {
+export function HeaderProps({ element, injector }) {
 
   if (!areHeadersSupported(element)) {
     return null;
   }
 
   const headers = getHeaders(element) || [];
+
+  const bpmnFactory = injector.get('bpmnFactory'),
+        commandStack = injector.get('commandStack');
 
   const items = headers.map((header, index) => {
     const id = element.id + '-header-' + index;
@@ -47,93 +38,57 @@ export function HeaderProps(element) {
         header
       }),
       autoFocusEntry: id + '-key',
-      remove: RemoveContainer({ header })
+      remove: removeFactory({ commandStack, element, header })
     };
   });
 
   return {
     items,
-    add: AddHeader
+    add: addFactory({ bpmnFactory, commandStack, element })
   };
 }
 
-function RemoveContainer(props) {
-  const {
-    header
-  } = props;
+function removeFactory({ commandStack, element, header }) {
+  return function(event) {
+    event.stopPropagation();
 
-  return function RemoveHeader(props) {
-    const {
-      children
-    } = props;
+    let commands = [];
 
-    const {
-      selectedElement: element
-    } = useContext(BpmnPropertiesPanelContext);
+    const taskHeaders = getTaskHeaders(element);
 
-    const commandStack = useService('commandStack');
+    if (!taskHeaders) {
+      return;
+    }
 
-    const removeElement = (event) => {
-      event.stopPropagation();
-
-      let commands = [];
-
-      const taskHeaders = getTaskHeaders(element);
-
-      if (!taskHeaders) {
-        return;
+    commands.push({
+      cmd: 'properties-panel.update-businessobject-list',
+      context: {
+        element: element,
+        currentObject: taskHeaders,
+        propertyName: 'values',
+        objectsToRemove: [ header ]
       }
+    });
 
+    // remove zeebe:TaskHeaders if there are no headers anymore
+    if (taskHeaders.get('values').length === 1) {
       commands.push({
         cmd: 'properties-panel.update-businessobject-list',
         context: {
           element: element,
-          currentObject: taskHeaders,
+          currentObject: getBusinessObject(element).get('extensionElements'),
           propertyName: 'values',
-          objectsToRemove: [ header ]
+          objectsToRemove: [ taskHeaders ]
         }
       });
+    }
 
-      // remove zeebe:TaskHeaders if there are no headers anymore
-      if (taskHeaders.get('values').length === 1) {
-        commands.push({
-          cmd: 'properties-panel.update-businessobject-list',
-          context: {
-            element: element,
-            currentObject: getBusinessObject(element).get('extensionElements'),
-            propertyName: 'values',
-            objectsToRemove: [ taskHeaders ]
-          }
-        });
-      }
-
-      commandStack.execute('properties-panel.multi-command-executor', commands);
-    };
-
-    return (
-      <div class="bio-properties-panel-remove-container" onClick={ removeElement }>
-        {
-          children
-        }
-      </div>
-    );
+    commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 }
 
-function AddHeader(props) {
-  const {
-    children
-  } = props;
-
-  const {
-    selectedElement: element
-  } = useContext(BpmnPropertiesPanelContext);
-
-  const bpmnFactory = useService('bpmnFactory');
-
-  const commandStack = useService('commandStack');
-
-  const addElement = (event) => {
+function addFactory({ bpmnFactory, commandStack, element }) {
+  return function(event) {
 
     event.stopPropagation();
 
@@ -200,12 +155,4 @@ function AddHeader(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
 
   };
-
-  return (
-    <div class="bio-properties-panel-add-container" onClick={ addElement }>
-      {
-        children
-      }
-    </div>
-  );
 }
