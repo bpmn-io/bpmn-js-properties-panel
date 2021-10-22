@@ -55,6 +55,11 @@ For proper styling include the necessary stylesheets:
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/bpmn-properties-panel@0.3.0/dist/assets/properties-panel.css">
+```
+
+If you use the `ElementTemplatesProviderModule`, include also its stylesheet:
+
+```html
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/bpmn-properties-panel@0.3.0/dist/assets/element-templates.css">
 ```
 
