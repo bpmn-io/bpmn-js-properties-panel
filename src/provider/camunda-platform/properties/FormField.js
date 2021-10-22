@@ -413,7 +413,7 @@ function ConstraintList(props) {
 
   return <ListEntry
     element={ element }
-    autoFocusEntry={ true }
+    autoFocusEntry={ `[data-entry-id="${id}-constraint-${constraints.length - 1}"] input` }
     id={ id }
     label={ translate('Constraints') }
     items={ constraints }
