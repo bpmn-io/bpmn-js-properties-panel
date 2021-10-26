@@ -42,7 +42,7 @@ function bootstrap(diagramXML) {
 }
 
 
-describe('provider/element-template - CreateHelper', function() {
+describe('provider/element-templates - CreateHelper', function() {
 
   beforeEach(bootstrap(diagramXML));
 

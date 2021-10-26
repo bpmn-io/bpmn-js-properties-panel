@@ -25,7 +25,7 @@ const modules = [
 ];
 
 
-describe('provider/element-template - ElementTemplatesLoader', function() {
+describe('provider/element-templates - ElementTemplatesLoader', function() {
 
   let container;
 

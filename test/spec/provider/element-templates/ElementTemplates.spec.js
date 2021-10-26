@@ -14,7 +14,7 @@ import templates from './fixtures/simple';
 import falsyVersionTemplate from './fixtures/falsy-version';
 
 
-describe('provider/element-template - ElementTemplates', function() {
+describe('provider/element-templates - ElementTemplates', function() {
 
   let container;
 

@@ -19,7 +19,7 @@ import diagramXML from './fixtures/replace-behavior.bpmn';
 import elementTemplates from './fixtures/replace-behavior.json';
 
 
-describe('provider/element-template - ReplaceBehavior', function() {
+describe('provider/element-templates - ReplaceBehavior', function() {
 
   const testModules = [
     BpmnPropertiesPanel,

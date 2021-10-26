@@ -23,7 +23,7 @@ import elementTemplatesModule from 'src/provider/element-templates';
 import diagramXML from './ElementTemplates.bpmn';
 
 
-describe('provider/element-template - ElementTemplates', function() {
+describe('provider/element-templates - ElementTemplates', function() {
 
   let container;
 

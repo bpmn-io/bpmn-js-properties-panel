@@ -5,7 +5,7 @@ import { getSchemaVersion as getTemplateSchemaVersion } from '@bpmn-io/element-t
 const ElementTemplateSchemaVersion = getTemplateSchemaVersion();
 
 
-describe('provider/element-template - Validator', function() {
+describe('provider/element-templates - Validator', function() {
 
   function errors(validator) {
     return validator.getErrors().map(function(e) {
