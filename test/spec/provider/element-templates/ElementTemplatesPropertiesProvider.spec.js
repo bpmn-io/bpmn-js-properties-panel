@@ -75,7 +75,7 @@ describe('provider/element-templates - ElementTemplates', function() {
 
         // given
         const spy = sinon.spy();
-        const element = elementRegistry.get('Task_1');
+        const element = elementRegistry.get('Task_3');
 
         eventBus.on('elementTemplates.select', spy);
 

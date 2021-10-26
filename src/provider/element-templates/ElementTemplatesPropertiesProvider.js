@@ -1,4 +1,7 @@
-import ElementTemplatesGroup from './components/ElementTemplatesGroup';
+import {
+  ElementTemplatesGroup,
+  TemplateProps
+} from './components';
 
 import {
   CustomProperties,
@@ -33,7 +36,7 @@ export default class ElementTemplatesPropertiesProvider {
         id: 'template',
         label: 'Template',
         component: ElementTemplatesGroup,
-        entries: []
+        entries: TemplateProps({ element, elementTemplates: this._elementTemplates })
       };
 
       // (1) Add templates group
