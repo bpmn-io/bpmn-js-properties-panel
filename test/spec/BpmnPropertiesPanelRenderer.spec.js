@@ -183,9 +183,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'templates' ? it.only : it)('should import simple process (templates)', async function() {
 
     // given
-    const diagramXml = require('test/spec/provider/element-templates/ElementTemplates.bpmn').default;
+    const diagramXml = require('test/spec/provider/element-templates/fixtures/complex.bpmn').default;
 
-    const elementTemplates = require('test/spec/provider/element-templates/fixtures/simple.json');
+    const elementTemplates = require('test/spec/provider/element-templates/fixtures/complex.json');
 
     // when
     const result = await createModeler(

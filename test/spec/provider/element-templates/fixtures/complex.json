@@ -1,0 +1,609 @@
+[
+  {
+    "name": "ConnectorTask",
+    "id": "my.connector.Task",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "scopes": [
+      {
+        "type": "camunda:Connector",
+        "properties": [
+          {
+            "label": "ConnectorId",
+            "type": "String",
+            "value": "My Connector HTTP",
+            "binding": {
+              "type": "property",
+              "name": "connectorId"
+            },
+            "constraints": {
+              "notEmpty": true
+            }
+          },
+          {
+            "label": "URL",
+            "type": "String",
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "url"
+            },
+            "constraints": {
+              "notEmpty": true
+            }
+          },
+          {
+            "label": "Method",
+            "type": "Dropdown",
+            "choices": [
+              {
+                "value": "GET",
+                "name":"GET"
+              },
+              {
+                "value": "POST",
+                "name": "POST"
+              },
+              {
+                "value": "PUT",
+                "name": "PUT"
+              },
+              {
+                "value": "PATCH",
+                "name": "PATCH"
+              },
+              {
+                "value": "DELETE",
+                "name": "DELETE"
+              }
+            ],
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "method"
+            },
+            "constraints": {
+              "notEmpty": true
+            }
+          },
+          {
+            "type": "Hidden",
+            "value": "Camunda",
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "agent"
+            }
+          },
+          {
+            "label": "Template",
+            "type": "Text",
+            "description": "By the way, you can use freemarker templates ${...} here",
+            "value": "Hello ${firstName}!",
+            "binding": {
+              "type": "camunda:inputParameter",
+              "name": "messageBody",
+              "scriptFormat": "freemarker"
+            }
+          },
+          {
+            "label": "Response",
+            "type": "String",
+            "value": "${S(response)}",
+            "binding": {
+              "type": "camunda:outputParameter",
+              "name": "wsResponse",
+              "source": "wsResponse"
+            }
+          },
+        {
+          "label": "Result",
+          "type": "String",
+          "value": "httpResult",
+          "binding": {
+            "type": "camunda:outputParameter",
+            "source": "${httpResult}",
+            "scriptFormat": "freemarker"
+          }
+        }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "MailTask",
+    "id": "my.mail.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Recipient",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "recipient"
+        }
+      },
+      {
+        "label": "Template",
+        "type": "Text",
+        "description": "By the way, you can use freemarker templates ${...} here",
+        "value": "Hello ${firstName}!",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "messageBody",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "label": "Ergebnisvariable",
+        "type": "String",
+        "value": "mailResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${mailResult}",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "SECRET",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "hiddenField"
+        }
+      }
+    ]
+  },
+  {
+    "name": "AsyncAwesomeTask",
+    "id": "my.awesome.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "id": "1",
+        "label": "Are you awesome?",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ],
+    "entriesVisible": true
+  },
+  {
+    "name": "Custom ServiceTask",
+    "id": "my.custom.ServiceTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "STUFF TO CALL",
+        "type": "String",
+        "editable": false,
+        "value": "com.my.custom.Foo",
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      }
+    ],
+    "entriesVisible": true
+  },
+  {
+    "name": "VIP-Order Path",
+    "id": "e.com.merce.FastPath",
+    "appliesTo": [
+      "bpmn:SequenceFlow"
+    ],
+    "properties": [
+      {
+        "label": "VIP-Ordering",
+        "type": "String",
+        "editable": false,
+        "value": "${ customer.vip }",
+        "binding": {
+          "type": "property",
+          "name": "conditionExpression"
+        }
+      },
+      {
+        "label": "Label",
+        "type": "Text",
+        "value": "YEY YEA!",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "name": "WS Caller Task",
+    "id": "com.mycompany.WsCaller",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "webServiceUrl"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "https://.*",
+            "message": "Must be https URL"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Priority Task",
+    "id": "my.priority.Task",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Priority",
+        "description": "The priority assigned to this task",
+        "type": "Dropdown",
+        "choices": [
+          { "name": "low", "value": "50" },
+          { "name": "medium", "value": "100" },
+          { "name": "high", "value": "150" }
+        ],
+        "value": "50",
+        "binding": {
+          "type": "property",
+          "name": "camunda:priority"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Validated Inputs Task",
+    "id": "com.validated-inputs.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "NotEmpty",
+        "description": "Must not be empty",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "MinLength",
+        "description": "Must have min length 5",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "minLength": 5
+        }
+      },
+      {
+        "label": "MaxLength",
+        "description": "Must have max length 5",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "maxLength": 5
+        }
+      },
+      {
+        "label": "Pattern (String)",
+        "description": "Must match /A+B/",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "pattern": "A+B"
+        }
+      },
+      {
+        "label": "Pattern (String + Message)",
+        "description": "Must be https url",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must start with https://",
+            "value": "https://.*"
+          }
+        }
+      },
+      {
+        "label": "Pattern (Integer)",
+        "description": "Must be integer",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "prop"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must be positive integer",
+            "value": "\\d+"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Caller",
+    "id": "my.Caller",
+    "appliesTo": [
+      "bpmn:CallActivity"
+    ],
+    "properties": [
+      {
+        "label": "Called Process",
+        "type": "String",
+        "editable": false,
+        "value": "calledProcess",
+        "binding": {
+          "type": "property",
+          "name": "calledElement"
+        }
+      },
+      {
+        "label": "Input source variable",
+        "type": "String",
+        "value": "var_local",
+        "binding": {
+          "type": "camunda:in",
+          "target": "var_called_source"
+        }
+      },
+      {
+        "label": "Output target (source variable)",
+        "type": "String",
+        "value": "var_called",
+        "binding": {
+          "type": "camunda:out",
+          "source": "var_local_source"
+        }
+      },
+      {
+        "label": "Input sourceExpression",
+        "type": "String",
+        "value": "${expr_local}",
+        "binding": {
+          "type": "camunda:in",
+          "target": "var_called_expr",
+          "expression": true
+        }
+      },
+      {
+        "label": "Output target (sourceExpression)",
+        "type": "String",
+        "value": "var_local_expr",
+        "binding": {
+          "type": "camunda:out",
+          "sourceExpression": "${expr_called}"
+        }
+      },
+      {
+        "label": "Input all",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:in",
+          "variables": "all"
+        }
+      },
+      {
+        "label": "Output all",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:out",
+          "variables": "all"
+        }
+      },
+      {
+        "label": "Input all local",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:in",
+          "variables": "local"
+        }
+      },
+      {
+        "label": "Output all local",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:out",
+          "variables": "local"
+        }
+      },
+      {
+        "label": "Input business key",
+        "description": "Provide the expression retrieving the business key.",
+        "type": "String",
+        "value": "${execution.processBusinessKey}",
+        "binding": {
+          "type": "camunda:in:businessKey"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Execution Listener",
+    "id": "my.execution.listener.task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "value": "println execution.eventName",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "start",
+          "scriptFormat": "groovy"
+        }
+      },
+      {
+        "value": "println end",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:executionListener",
+          "event": "end",
+          "scriptFormat": "groovy"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Valid",
+    "id": "com.camunda.example.CustomServiceTaskFieldInjection",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Sender",
+        "type": "String",
+        "value": "My Field Injection Value",
+        "binding": {
+          "type": "camunda:field",
+          "name": "sender",
+          "expression": false
+        }
+      }
+    ]
+  },
+  {
+    "name": "ExternalErrorTask",
+    "id": "com.camunda.example.ExternalErrorTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "external",
+        "binding": {
+          "type": "property",
+          "name": "camunda:type"
+        }
+      },
+      {
+        "label": "Error Expression",
+        "value": "error-expression",
+        "type": "String",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-1"
+        }
+      }
+    ],
+    "scopes": [
+      {
+        "type": "bpmn:Error",
+        "id": "error-1",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "String",
+            "value": "my-code",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "String",
+            "value": "error-message",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "String",
+            "value": "error-name",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "SimpleErrorScope",
+    "id": "com.camunda.example.SimpleErrorScope",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "scopes": [
+      {
+        "type": "bpmn:Error",
+        "id": "error-simple",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "String",
+            "value": "my-code",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "String",
+            "value": "error-message",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "String",
+            "value": "error-name",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
