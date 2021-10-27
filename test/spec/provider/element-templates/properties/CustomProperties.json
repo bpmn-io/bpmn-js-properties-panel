@@ -170,6 +170,15 @@
           "type": "property",
           "name": "camunda:asyncBefore"
         }
+      },
+      {
+        "label": "Priority",
+        "type": "String",
+        "value": "1000",
+        "binding": {
+          "type": "property",
+          "name": "camunda:jobPriority"
+        }
       }
     ],
     "entriesVisible": true

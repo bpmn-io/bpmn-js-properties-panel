@@ -83,6 +83,45 @@ describe('provider/element-templates - CustomProperties', function() {
     });
 
 
+    it('should display (bpmn:conditionExpression)', async function() {
+
+      // when
+      await expectSelected('VipOrderPath');
+
+      // then
+      const entry = findEntry('custom-entry-e.com.merce.FastPath-0', container);
+
+      expect(entry).to.exist;
+
+      const input = findInput('text', entry);
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('${ customer.vip }');
+    });
+
+
+    // TODO(philippfromme): does it make sense to display a value that isn't set on the element?
+    it('should display (default value)', async function() {
+
+      // when
+      const task = await expectSelected('AsyncTask'),
+            businessObject = getBusinessObject(task);
+
+      // assume
+      expect(businessObject.get('camunda:jobPriority')).not.to.exist;
+
+      // then
+      const entry = findEntry('custom-entry-my.awesome.Task-1', container);
+
+      expect(entry).to.exist;
+
+      const input = findInput('text', entry);
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('1000');
+    });
+
+
     it('should change, updating Boolean property', async function() {
 
       // given
