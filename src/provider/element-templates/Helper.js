@@ -171,6 +171,16 @@ export function findCamundaErrorEventDefinition(element, bindingErrorRef) {
   });
 }
 
+export function findError(element, errorRef) {
+  const root = getRoot(getBusinessObject(element)),
+        rootElements = root.get('rootElements');
+
+  return rootElements.find((rootElement) => {
+    return is(rootElement, 'bpmn:Error')
+      && rootElement.get('id').startsWith(`Error_${ errorRef }`);
+  });
+}
+
 
 // helpers //////////
 
@@ -213,4 +223,14 @@ function isInOut(element, binding) {
       binding.variables !== 'local' || element.local
     );
   }
+}
+
+function getRoot(businessObject) {
+  let parent = businessObject;
+
+  while (parent.$parent) {
+    parent = parent.$parent;
+  }
+
+  return parent;
 }

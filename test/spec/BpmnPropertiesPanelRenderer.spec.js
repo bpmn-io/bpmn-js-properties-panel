@@ -183,7 +183,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'templates' ? it.only : it)('should import simple process (templates)', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/spec/provider/element-templates/ElementTemplates.bpmn').default;
+
+    const elementTemplates = require('test/spec/provider/element-templates/fixtures/simple.json');
 
     // when
     const result = await createModeler(
@@ -197,7 +199,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         ],
         moddleExtensions: {
           camunda: CamundaModdle
-        }
+        },
+        elementTemplates
       }
     );
 

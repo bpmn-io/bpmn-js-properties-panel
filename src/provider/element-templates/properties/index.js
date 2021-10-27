@@ -1,0 +1,1 @@
+export { CustomProperties } from './CustomProperties';

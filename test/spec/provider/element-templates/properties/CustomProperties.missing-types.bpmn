@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_09nd6tu" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.3.0-nightly.20200924">
+  <bpmn:process id="Process_1crj3nb" isExecutable="true">
+    <bpmn:serviceTask id="SimpleTask" camunda:modelerTemplate="com.mycompany.whateverdomain.DefaultTypes">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="input" />
+          <camunda:outputParameter>${output}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:field name="field" />
+        <camunda:properties>
+          <camunda:property name="camundaProperty" value="" />
+        </camunda:properties>
+        <camunda:in target="input" />
+        <camunda:in />
+        <camunda:out source="output" />
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy" />
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1crj3nb">
+      <bpmndi:BPMNShape id="Activity_0yators_di" bpmnElement="SimpleTask">
+        <dc:Bounds x="200" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

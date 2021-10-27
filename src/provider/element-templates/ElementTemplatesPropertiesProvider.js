@@ -1,12 +1,16 @@
 import ElementTemplatesGroup from './components/ElementTemplatesGroup';
 
+import { CustomProperties } from './properties';
+
 const LOWER_PRIORITY = 300;
 
 
 export default class ElementTemplatesPropertiesProvider {
 
-  constructor(propertiesPanel, elementTemplates) {
+  constructor(elementTemplates, propertiesPanel) {
     propertiesPanel.registerProvider(LOWER_PRIORITY, this);
+
+    this._elementTemplates = elementTemplates;
   }
 
   getGroups(element) {
@@ -19,11 +23,14 @@ export default class ElementTemplatesPropertiesProvider {
         element,
         id: 'template',
         label: 'Template',
-        component: ElementTemplatesGroup
+        component: ElementTemplatesGroup,
+        entries: []
       };
 
+      const customPropertiesGroups = CustomProperties({ element, elementTemplates: this._elementTemplates });
+
       // (1) Add templates group
-      addGroupsAfter('documentation', groups, [ templatesGroup ]);
+      addGroupsAfter('documentation', groups, [ templatesGroup, ...customPropertiesGroups ]);
 
       // @TODO(barmac): add template-specific groups and remove according to entriesVisible
 
@@ -33,7 +40,7 @@ export default class ElementTemplatesPropertiesProvider {
 
 }
 
-ElementTemplatesPropertiesProvider.$inject = [ 'propertiesPanel' ];
+ElementTemplatesPropertiesProvider.$inject = [ 'elementTemplates', 'propertiesPanel' ];
 
 
 // helper /////////////////////
