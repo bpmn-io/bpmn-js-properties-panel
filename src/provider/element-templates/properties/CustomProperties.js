@@ -391,6 +391,8 @@ function propertyGetter(element, property, scope) {
       let camundaProperties;
 
       if (scope) {
+
+        // TODO(philippfromme): as ony bpmn:Error and camunda:Connector are supported this code is practically dead
         camundaProperties = businessObject.get('properties');
       } else {
         camundaProperties = findExtension(businessObject, 'camunda:Properties');
