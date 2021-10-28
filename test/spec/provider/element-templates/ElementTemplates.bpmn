@@ -4,6 +4,8 @@
     <bpmn:task id="Task_1" camunda:modelerTemplate="foo" />
     <bpmn:task id="Task_2" camunda:modelerTemplate="foo" camunda:modelerTemplateVersion="1" />
     <bpmn:task id="Task_3" />
+    <bpmn:task id="UnknownTemplateTask" camunda:modelerTemplate="unknown" />
+    <bpmn:serviceTask id="ServiceTask" camunda:modelerTemplate="default" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -15,6 +17,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1m5rz19_di" bpmnElement="Task_3">
         <dc:Bounds x="390" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UnknownTemplateTask_di" bpmnElement="UnknownTemplateTask">
+        <dc:Bounds x="390" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_di" bpmnElement="ServiceTask">
+        <dc:Bounds x="150" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

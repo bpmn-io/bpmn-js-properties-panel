@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:serviceTask id="ConnectorTask_legacy" name="Connector Task (Legacy)" camunda:modelerTemplate="my.connector.legacy.Task">
       <bpmn:extensionElements>
@@ -30,7 +30,7 @@
         </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:task>
-    <bpmn:task id="AsyncTask" name="AsyncTask" camunda:modelerTemplate="my.awesome.Task" camunda:asyncBefore="true" />
+    <bpmn:task id="AsyncTask" name="AsyncTask" camunda:modelerTemplate="my.awesome.Task" camunda:modelerTemplateVersion="2" camunda:asyncBefore="true" />
     <bpmn:task id="WebserviceTask" name="Webservice Task" camunda:modelerTemplate="com.mycompany.WsCaller">
       <bpmn:extensionElements>
         <camunda:properties>
@@ -109,82 +109,93 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ExternalErrorTask_NoData" name="External Error Task NoData" camunda:modelerTemplate="com.camunda.example.ExternalErrorTask" />
     <bpmn:serviceTask id="ExternalErrorTask_NoError" name="External Error Task NoError" camunda:modelerTemplate="com.camunda.example.SimpleErrorScope" />
+    <bpmn:serviceTask id="MissingTemplate" name="Missing Template" camunda:modelerTemplate="missing" />
+    <bpmn:task id="OldAsyncTask" name="Outdated Template" camunda:modelerTemplate="my.awesome.Task" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true" />
   </bpmn:process>
   <bpmn:error id="Error_error-1_xyz" name="error-name" errorCode="my-code" camunda:errorMessage="foo" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNEdge id="SequenceFlow_13jfpgw_di" bpmnElement="VipOrderPath">
-        <di:waypoint x="259" y="247" />
-        <di:waypoint x="449" y="247" />
+        <di:waypoint x="259" y="387" />
+        <di:waypoint x="449" y="387" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="333" y="256" width="51" height="14" />
+          <dc:Bounds x="333" y="396" width="51" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Task_0zadlf1_di" bpmnElement="ConnectorTask_legacy">
-        <dc:Bounds x="690" y="53" width="100" height="80" />
+        <dc:Bounds x="690" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0zadlf2_di" bpmnElement="ConnectorTask_NoData">
-        <dc:Bounds x="654" y="207" width="100" height="80" />
+        <dc:Bounds x="654" y="347" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0zadlfo_di" bpmnElement="MailTask">
-        <dc:Bounds x="159" y="53" width="100" height="80" />
+        <dc:Bounds x="159" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1nlqdin_di" bpmnElement="AsyncTask">
-        <dc:Bounds x="291" y="53" width="100" height="80" />
+        <dc:Bounds x="291" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1vmddbe_di" bpmnElement="WebserviceTask">
-        <dc:Bounds x="424" y="53" width="100" height="80" />
+        <dc:Bounds x="424" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0pfsj2a_di" bpmnElement="MailTask_NoData">
-        <dc:Bounds x="554" y="53" width="100" height="80" />
+        <dc:Bounds x="554" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0owamzf_di" bpmnElement="Task_0owamzf">
-        <dc:Bounds x="159" y="207" width="100" height="80" />
+        <dc:Bounds x="159" y="347" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_04yuwdv_di" bpmnElement="ExclusiveGateway_04yuwdv" isMarkerVisible="true">
-        <dc:Bounds x="449" y="222" width="50" height="50" />
+        <dc:Bounds x="449" y="362" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="349" y="272" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1kj4b4i_di" bpmnElement="DelegateTask">
-        <dc:Bounds x="159" y="353" width="100" height="80" />
+        <dc:Bounds x="159" y="493" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1p93nau_di" bpmnElement="WebserviceTask_NoData">
-        <dc:Bounds x="800" y="207" width="100" height="80" />
+        <dc:Bounds x="800" y="347" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_0pnk8c1_di" bpmnElement="ValidateTask">
-        <dc:Bounds x="291" y="353" width="100" height="80" />
+        <dc:Bounds x="291" y="493" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_16ib2yl_di" bpmnElement="CallActivity">
-        <dc:Bounds x="159" y="465" width="100" height="80" />
+        <dc:Bounds x="159" y="605" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="CallActivity_1nz6vft_di" bpmnElement="CallActivity_NoData">
-        <dc:Bounds x="291" y="465" width="100" height="80" />
+        <dc:Bounds x="291" y="605" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1b49o1e_di" bpmnElement="ExecutionListenerTask">
-        <dc:Bounds x="821" y="53" width="100" height="80" />
+        <dc:Bounds x="821" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1yvdqua_di" bpmnElement="ServiceTask_FieldInjection">
-        <dc:Bounds x="955" y="53" width="100" height="80" />
+        <dc:Bounds x="955" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1p5xb8u_di" bpmnElement="ServiceTask_FieldInjection_NoData">
-        <dc:Bounds x="1067" y="53" width="100" height="80" />
+        <dc:Bounds x="1067" y="193" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0m3yc93_di" bpmnElement="ConnectorTask">
-        <dc:Bounds x="654" y="310" width="100" height="80" />
+        <dc:Bounds x="654" y="450" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1yvd1h6_di" bpmnElement="ConnectorTask_NoData_legacy">
-        <dc:Bounds x="654" y="430" width="100" height="80" />
+        <dc:Bounds x="654" y="570" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0epmlyl_di" bpmnElement="ExternalErrorTask">
-        <dc:Bounds x="800" y="310" width="100" height="80" />
+        <dc:Bounds x="800" y="450" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0kfraj6_di" bpmnElement="ExternalErrorTask_NoData">
-        <dc:Bounds x="800" y="430" width="100" height="80" />
+        <dc:Bounds x="800" y="570" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1cex61n_di" bpmnElement="ExternalErrorTask_NoError">
-        <dc:Bounds x="800" y="530" width="100" height="80" />
+        <dc:Bounds x="800" y="670" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1j1ijxo_di" bpmnElement="MissingTemplate">
+        <dc:Bounds x="955" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0eujva4_di" bpmnElement="OldAsyncTask">
+        <dc:Bounds x="291" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wfgb1n_di" bpmnElement="Activity_0wfgb1n">
+        <dc:Bounds x="955" y="570" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

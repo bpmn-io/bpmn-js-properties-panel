@@ -156,6 +156,27 @@
     ]
   },
   {
+    "name": "OldAsyncAwesomeTask",
+    "id": "my.awesome.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "id": "1",
+        "label": "Are you awesome?",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ],
+    "entriesVisible": true,
+    "version": 1
+  },
+  {
     "name": "AsyncAwesomeTask",
     "id": "my.awesome.Task",
     "appliesTo": [
@@ -173,7 +194,8 @@
         }
       }
     ],
-    "entriesVisible": true
+    "entriesVisible": true,
+    "version": 2
   },
   {
     "name": "Custom ServiceTask",

@@ -134,13 +134,13 @@ describe('provider/element-templates - ElementTemplates', function() {
     it('should get default template for element', inject(function(elementRegistry, elementTemplates) {
 
       // given
-      const task = elementRegistry.get('Task_1');
+      const task = elementRegistry.get('ServiceTask');
 
       // when
       const template = elementTemplates.getDefault(task);
 
       // then
-      expect(template.id).to.equal('foo');
+      expect(template.id).to.equal('default');
       expect(template.version).to.equal(1);
       expect(template.isDefault).to.be.true;
     }));
@@ -154,7 +154,7 @@ describe('provider/element-templates - ElementTemplates', function() {
 
       // when
       // then
-      expect(elementTemplates.getAll()).to.have.length(6);
+      expect(elementTemplates.getAll()).to.have.length(7);
     }));
 
 

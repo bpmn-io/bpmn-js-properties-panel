@@ -9,7 +9,6 @@
     "id": "foo",
     "name":"Foo 1",
     "version": 1,
-    "isDefault": true,
     "appliesTo": [ "bpmn:Task" ],
     "properties": []
   },
@@ -38,6 +37,14 @@
     "id": "baz",
     "name":"Baz",
     "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "default",
+    "name": "Default Template",
+    "version": 1,
+    "isDefault": true,
+    "appliesTo": [ "bpmn:ServiceTask" ],
     "properties": []
   }
 ]
