@@ -85,16 +85,10 @@ const PRIMITIVE_MODDLE_TYPES = [
 export function CustomProperties(props) {
   const {
     element,
-    elementTemplates
+    elementTemplate
   } = props;
 
   const groups = [];
-
-  const elementTemplate = elementTemplates.get(element);
-
-  if (!elementTemplate) {
-    return groups;
-  }
 
   const {
     id,
