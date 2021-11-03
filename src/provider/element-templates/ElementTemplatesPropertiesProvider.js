@@ -2,11 +2,13 @@ import ElementTemplatesGroup from './components/ElementTemplatesGroup';
 
 import {
   CustomProperties,
+  ErrorProperties,
   InputProperties,
   OutputProperties
 } from './properties';
 
-const CAMUNDA_INPUT_PARAMETER_TYPE = 'camunda:inputParameter',
+const CAMUNDA_ERROR_EVENT_DEFINITION_TYPE = 'camunda:errorEventDefinition',
+      CAMUNDA_INPUT_PARAMETER_TYPE = 'camunda:inputParameter',
       CAMUNDA_OUTPUT_PARAMETER_TYPE = 'camunda:outputParameter';
 
 const LOWER_PRIORITY = 300;
@@ -48,6 +50,7 @@ export default class ElementTemplatesPropertiesProvider {
         // (3) update existing groups with element template specific properties
         updateInputGroup(groups, element, elementTemplate);
         updateOutputGroup(groups, element, elementTemplate);
+        updateErrorsGroup(groups, element, elementTemplate);
       }
 
       // @TODO(barmac): add template-specific groups and remove according to entriesVisible
@@ -125,6 +128,30 @@ function updateOutputGroup(groups, element, elementTemplate) {
 
     if (item) {
       outputGroup.items.push(item);
+    }
+  });
+}
+
+function updateErrorsGroup(groups, element, elementTemplate) {
+  const errorsGroup = findGroup(groups, 'CamundaPlatform__Errors');
+
+  if (!errorsGroup) {
+    return;
+  }
+
+  delete errorsGroup.add;
+
+  errorsGroup.items = [];
+
+  const properties = elementTemplate.properties.filter(({ binding, type }) => {
+    return !type && binding.type === CAMUNDA_ERROR_EVENT_DEFINITION_TYPE;
+  });
+
+  properties.forEach((property, index) => {
+    const item = ErrorProperties({ element, index, property });
+
+    if (item) {
+      errorsGroup.items.push(item);
     }
   });
 }

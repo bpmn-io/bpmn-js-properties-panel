@@ -156,17 +156,17 @@ export function findOutputParameter(inputOutput, binding) {
   });
 }
 
-export function findCamundaErrorEventDefinition(element, bindingErrorRef) {
+export function findCamundaErrorEventDefinition(element, errorRef) {
   const errorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
 
   let error;
 
-  // error id has to start with <Error_${binding.errorRef}_>
+  // error ID has to start with <Error_${ errorRef }_>
   return errorEventDefinitions.find((definition) => {
     error = definition.get('bpmn:errorRef');
 
     if (error) {
-      return error.get('bpmn:id').indexOf(`Error_${ bindingErrorRef }`) === 0;
+      return error.get('bpmn:id').startsWith(`Error_${ errorRef }`);
     }
   });
 }

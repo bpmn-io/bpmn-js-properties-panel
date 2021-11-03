@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1jhfqto" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.14.0">
+  <bpmn:process id="Process_0jg7qce" isExecutable="true">
+    <bpmn:serviceTask id="ServiceTask_1" camunda:modelerTemplate="com.example.ExternalTaskWorker" camunda:type="external">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_1x790hf" errorRef="Error_error-1_19uan50" expression="${error.expression1}" />
+        <camunda:errorEventDefinition id="ErrorEventDefinition_1mfya2c" errorRef="Error_error-2_160l0k8" expression="${error.expression2}" />
+        <camunda:errorEventDefinition id="ErrorEventDefinition_0wrs1j5" errorRef="Error_error-3_05nhsr3" expression="${error.expression3}" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_empty" camunda:modelerTemplate="com.example.EmptyTemplate" />
+  </bpmn:process>
+  <bpmn:error id="Error_error-1_19uan50" name="error-name-1" errorCode="error-code-1" camunda:errorMessage="error-message-1" />
+  <bpmn:error id="Error_error-2_160l0k8" name="error-name-2" errorCode="error-code-2" camunda:errorMessage="error-message-2" />
+  <bpmn:error id="Error_error-3_05nhsr3" name="error-name-3" errorCode="error-code-3" camunda:errorMessage="error-message-3" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0jg7qce">
+      <bpmndi:BPMNShape id="Activity_07xpg3x_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="200" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qhu82r_di" bpmnElement="ServiceTask_empty">
+        <dc:Bounds x="200" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
