@@ -1,4 +1,5 @@
 import {
+  getVersionOrDateFromTemplate,
   removeTemplate,
   unlinkTemplate,
   updateTemplate
@@ -115,6 +116,61 @@ describe('provider/element-template - templateUtil', function() {
     expect(taskBo.modelerTemplate).to.eql('foo');
     expect(taskBo.modelerTemplateVersion).to.eql(2);
   }));
+
+
+  describe('#getVersionOrDateFromTemplate', function() {
+
+    it('should return readable date from metadata.created', function() {
+
+      // given
+      const template = { metadata: { created: 0 } };
+
+      // when
+      const date = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(date).to.eql('01.01.1970');
+    });
+
+
+    it('should return readable date from metadata.updated', function() {
+
+      // given
+      const template = { metadata: { updated: 0 } };
+
+      // when
+      const date = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(date).to.eql('01.01.1970');
+    });
+
+
+    it('should return version if metadata is not present', function() {
+
+      // given
+      const template = { version: 0 };
+
+      // when
+      const version = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(version).to.eql(0);
+    });
+
+
+    it('should return null if neither version nor metadate is present', function() {
+
+      // given
+      const template = {};
+
+      // when
+      const result = getVersionOrDateFromTemplate(template);
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
 
 
   describe('selection', function() {

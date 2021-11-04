@@ -1,6 +1,6 @@
-import { isUndefined } from 'min-dash';
-
 import { useService } from '../../../hooks';
+
+import { getVersionOrDateFromTemplate } from '../util/templateUtil';
 
 export function TemplateProps({ element, elementTemplates }) {
   const template = elementTemplates.get(element);
@@ -54,45 +54,4 @@ function TextEntry({ id, label, content }) {
     <span class="bio-properties-panel-label">{ label }</span>
     <span class="bio-properties-panel-text-entry__content">{ content }</span>
   </div>;
-}
-
-
-// helper //////
-function getVersionOrDateFromTemplate(template) {
-  var metadata = template.metadata,
-      version = template.version;
-
-  if (metadata) {
-    if (!isUndefined(metadata.created)) {
-      return toDateString(metadata.created);
-    } else if (!isUndefined(metadata.updated)) {
-      return toDateString(metadata.updated);
-    }
-  }
-
-  if (isUndefined(version)) {
-    return null;
-  }
-
-  return version;
-}
-
-function toDateString(timestamp) {
-  var date = new Date(timestamp);
-
-  var year = date.getFullYear();
-
-  var month = leftPad(String(date.getMonth() + 1), 2, '0');
-
-  var day = leftPad(String(date.getDate()), 2, '0');
-
-  return day + '.' + month + '.' + year;
-}
-
-function leftPad(string, length, character) {
-  while (string.length < length) {
-    string = character + string;
-  }
-
-  return string;
 }
