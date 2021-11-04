@@ -71,6 +71,27 @@ describe('provider/element-templates - TemplateProps', function() {
     );
 
 
+    it('should display for an outdated template', inject(
+      async function(elementRegistry, selection, elementTemplates) {
+
+        // given
+        const element = elementRegistry.get('Template_3');
+        const template = elementTemplates.get(element);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-name"]', container);
+
+        expect(entry).to.exist;
+        expect(entry.children[1].textContent).to.eql(template.name);
+      })
+    );
+
+
     it('should NOT display if no template is applied', inject(
       async function(elementRegistry, selection) {
 
@@ -109,6 +130,26 @@ describe('provider/element-templates - TemplateProps', function() {
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql('02.01.2000');
+      })
+    );
+
+
+    it('should display for an outdated template', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Template_3');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-version"]', container);
+
+        expect(entry).to.exist;
+        expect(entry.children[1].textContent).to.eql('01.01.2000');
       })
     );
 
@@ -180,6 +221,27 @@ describe('provider/element-templates - TemplateProps', function() {
 
         // given
         const element = elementRegistry.get('Template_2');
+        const template = elementTemplates.get(element);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-description"]', container);
+
+        expect(entry).to.exist;
+        expect(entry.children[1].textContent).to.eql(template.description);
+      })
+    );
+
+
+    it('should display for an outdated template', inject(
+      async function(elementRegistry, selection, elementTemplates) {
+
+        // given
+        const element = elementRegistry.get('Template_3');
         const template = elementTemplates.get(element);
 
         // when
