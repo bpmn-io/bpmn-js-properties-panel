@@ -1,0 +1,418 @@
+import TestContainer from 'mocha-test-container-support';
+
+import {
+  bootstrapPropertiesPanel,
+  changeInput,
+  getBpmnJS,
+  inject
+} from 'test/TestHelper';
+
+import {
+  act
+} from '@testing-library/preact';
+
+import { query as domQuery } from 'min-dom';
+
+import {
+  findExtension,
+  findOutputParameter
+} from '../../../../../src/provider/element-templates/Helper';
+
+import coreModule from 'bpmn-js/lib/core';
+import modelingModule from 'bpmn-js/lib/features/modeling';
+import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
+
+import BpmnPropertiesPanel from 'src/render';
+import elementTemplatesModule from 'src/provider/element-templates';
+
+import diagramXML from './OutputProperties.bpmn';
+import elementTemplates from './OutputProperties.json';
+
+
+describe('provider/element-templates - OutputProperties', function() {
+
+  let container;
+
+  beforeEach(function() {
+    container = TestContainer.get(this);
+  });
+
+  beforeEach(bootstrapPropertiesPanel(diagramXML, {
+    container,
+    debounceInput: false,
+    elementTemplates,
+    moddleExtensions: {
+      camunda: camundaModdlePackage
+    },
+    modules: [
+      BpmnPropertiesPanel,
+      coreModule,
+      elementTemplatesModule,
+      modelingModule
+    ]
+  }));
+
+
+  it('should not display add button', async function() {
+
+    // when
+    await expectSelected('SimpleTask');
+
+    // then
+    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Output\']', container),
+          button = domQuery('.bio-properties-panel-add-entry', group);
+
+    expect(button).not.to.exist;
+  });
+
+
+  it('should not display remove button', async function() {
+
+    // when
+    await expectSelected('SimpleTask');
+
+    // then
+    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Output\']', container),
+          button = domQuery('.bio-properties-panel-remove-entry', group);
+
+    expect(button).not.to.exist;
+  });
+
+
+  describe('label', function() {
+
+    it('should display label as label', async function() {
+
+      // when
+      await expectSelected('SimpleTask');
+
+      // then
+      const entry = findEntry('SimpleTask-outputParameter-0', container);
+
+      expect(entry).to.exist;
+
+      const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', entry);
+
+      expect(label).to.exist;
+      expect(label.innerText).to.equal('resultStatus');
+    });
+
+  });
+
+
+  describe('description entry', function() {
+
+    it('should display description entry', async function() {
+
+      // when
+      await expectSelected('SimpleTask');
+
+      // then
+      const entry = findEntry('SimpleTask-outputParameter-1', container);
+
+      expect(entry).to.exist;
+
+      const description = findEntry('SimpleTask-outputParameter-1-description', entry);
+
+      expect(description).to.exist;
+      expect(description.innerText).to.equal('foo bar');
+    });
+
+  });
+
+
+  describe('local variable assignment entry', function() {
+
+    describe('toggle on', function() {
+
+      let input;
+
+      beforeEach(async function() {
+        await expectSelected('SimpleTask');
+
+        expandGroup('group-CamundaPlatform__Output', container);
+
+        expandCollapsibleEntry('SimpleTask-outputParameter-4', container);
+
+        const entry = findEntry('SimpleTask-outputParameter-4-local-variable-assignment', container);
+
+        input = findInput('checkbox', entry);
+
+        // assume
+        expect(input.checked).to.be.false;
+      });
+
+
+      it('should <do>', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('SimpleTask');
+
+        // when
+        input.click();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: 'notCreated' });
+
+        expect(outputParameter).to.exist;
+        expect(outputParameter.get('camunda:name')).to.equal('foo');
+        expect(outputParameter.get('camunda:value')).to.equal('notCreated');
+      }));
+
+
+      it('should <undo>', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('SimpleTask');
+
+        input.click();
+
+        // when
+        commandStack.undo();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: 'notCreated' });
+
+        expect(outputParameter).not.to.exist;
+      }));
+
+
+      it('should <redo>', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('SimpleTask');
+
+        input.click();
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: 'notCreated' });
+
+        expect(outputParameter).to.exist;
+        expect(outputParameter.get('camunda:name')).to.equal('foo');
+        expect(outputParameter.get('camunda:value')).to.equal('notCreated');
+      }));
+
+    });
+
+
+    describe('toggle off', function() {
+
+      let input;
+
+      beforeEach(async function() {
+        await expectSelected('SimpleTask');
+
+        expandGroup('group-CamundaPlatform__Output', container);
+
+        expandCollapsibleEntry('SimpleTask-outputParameter-0', container);
+
+        const entry = findEntry('SimpleTask-outputParameter-0-local-variable-assignment', container);
+
+        input = findInput('checkbox', entry);
+
+        // assume
+        expect(input.checked).to.be.true;
+      });
+
+
+      it('should <do>', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('SimpleTask');
+
+        // when
+        input.click();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+
+        expect(outputParameter).not.to.exist;
+      }));
+
+
+      it('should <undo>', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('SimpleTask');
+
+        input.click();
+
+        // when
+        commandStack.undo();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+
+        expect(outputParameter).to.exist;
+        expect(outputParameter.get('camunda:name')).to.equal('resultStatus');
+        expect(outputParameter.get('camunda:value')).to.equal('${resultStatus}');
+      }));
+
+
+      it('should <redo>', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('SimpleTask');
+
+        input.click();
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+
+        expect(outputParameter).not.to.exist;
+      }));
+
+    });
+
+  });
+
+
+  describe('assign to process variable entry', function() {
+
+    it('should display', async function() {
+
+      // when
+      await expectSelected('SimpleTask');
+
+      // then
+      const entry = findEntry('SimpleTask-outputParameter-0-assign-to-process-variable', container);
+
+      expect(entry).to.exist;
+
+      const input = findInput('text', entry);
+
+      expect(input).to.exist;
+      expect(input.value).to.equal('resultStatus');
+    });
+
+
+    it('should update', async function() {
+
+      // given
+      const task = await expectSelected('SimpleTask');
+
+      // when
+      const entry = findEntry('SimpleTask-outputParameter-0-assign-to-process-variable', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'bar');
+
+      // then
+      expect(input.value).to.equal('bar');
+
+      const inputOutput = findExtension(task, 'camunda:InputOutput'),
+            outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+
+      expect(outputParameter.get('camunda:name')).to.equal('bar');
+    });
+
+
+    describe('validation', function() {
+
+      it('empty name', async function() {
+
+        // given
+        const task = await expectSelected('SimpleTask');
+
+        // when
+        const entry = findEntry('SimpleTask-outputParameter-0-assign-to-process-variable', container),
+              input = findInput('text', entry);
+
+        changeInput(input, '');
+
+        // then
+        expect(input.value).to.equal('');
+
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+
+        expect(outputParameter.get('camunda:name')).to.equal('resultStatus');
+
+        expectError(entry, 'Process variable name must not be empty.');
+      });
+
+
+      it('spaces', async function() {
+
+        // given
+        const task = await expectSelected('SimpleTask');
+
+        // when
+        const entry = findEntry('SimpleTask-outputParameter-0-assign-to-process-variable', container),
+              input = findInput('text', entry);
+
+        changeInput(input, 'foo bar');
+
+        // then
+        expect(input.value).to.equal('foo bar');
+
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              outputParameter = findOutputParameter(inputOutput, { source: '${resultStatus}' });
+
+        expect(outputParameter.get('camunda:name')).to.equal('resultStatus');
+
+        expectError(entry, 'Process variable name must not contain spaces.');
+      });
+
+    });
+
+  });
+
+});
+
+
+// helpers //////////
+
+function expectError(entry, message) {
+  const errorMessage = domQuery('.bio-properties-panel-error', entry);
+
+  const error = errorMessage && errorMessage.textContent;
+
+  expect(error).to.equal(message);
+}
+
+function expectSelected(id) {
+  return getBpmnJS().invoke(async function(elementRegistry, selection) {
+    const element = elementRegistry.get(id);
+
+    await act(() => {
+      selection.select(element);
+    });
+
+    return element;
+  });
+}
+
+function expandGroup(id, container) {
+  const header = domQuery(`[data-group-id='${ id }'] .bio-properties-panel-group-header`, container);
+
+  header.click();
+}
+
+function expandCollapsibleEntry(id, container) {
+  const header = domQuery(`[data-entry-id='${ id }'] .bio-properties-panel-collapsible-entry-header`, container);
+
+  header.click();
+}
+
+function findEntry(id, container) {
+  return domQuery(`[data-entry-id='${ id }']`, container);
+}
+
+function findInput(type, container) {
+  return domQuery(`input[type='${ type }']`, container);
+}
