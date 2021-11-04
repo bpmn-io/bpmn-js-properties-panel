@@ -193,9 +193,9 @@ describe('provider/camunda-platform - FormDataProps', function() {
       clickInput(addFormFieldButton);
 
       // then
-      const formFieldEntries = getFormFieldEntries(formDataGroup);
+      const formFieldEntries = getFormFieldEntries(container);
       const bottomFormFieldHeader = domQuery('.bio-properties-panel-collapsible-entry-header-title',
-        formFieldEntries[1]);
+        formFieldEntries[0]);
       expect(bottomFormFieldHeader.innerHTML).to.equal('&lt;empty&gt;');
     }));
 
@@ -215,8 +215,8 @@ describe('provider/camunda-platform - FormDataProps', function() {
       clickInput(addFormFieldButton);
 
       // then
-      const formFieldEntries = getFormFieldEntries(formDataGroup);
-      const collapsbileEntry = domQuery('.bio-properties-panel-collapsible-entry', formFieldEntries[1]);
+      const formFieldEntries = getFormFieldEntries(container);
+      const collapsbileEntry = domQuery('.bio-properties-panel-collapsible-entry', formFieldEntries[0]);
       expect(collapsbileEntry.classList.contains('open')).to.be.true;
     }));
 
