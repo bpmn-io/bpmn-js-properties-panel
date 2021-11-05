@@ -1,3 +1,4 @@
+export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { InputProps } from './InputProps';
 export { OutputProps } from './OutputProps';
 export { ConditionProps } from './ConditionProps';

@@ -2,6 +2,7 @@ import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import {
+  BusinessRuleImplementationProps,
   ConditionProps,
   HeaderProps,
   InputProps,
@@ -19,6 +20,7 @@ import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTask
 const LOW_PRIORITY = 500;
 
 const ZEEBE_GROUPS = [
+  BusinessRuleImplementationGroup,
   TaskDefinitionGroup,
   FormGroup,
   ConditionGroup,
@@ -157,6 +159,19 @@ function OutputPropagationGroup(element) {
     label: 'Output propagation',
     entries: [
       ...OutputPropagationProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function BusinessRuleImplementationGroup(element) {
+  const group = {
+    id: 'businessRuleImplementation',
+    label: 'Implementation',
+    entries: [
+      ...BusinessRuleImplementationProps({ element })
     ],
     component: Group
   };
