@@ -1,8 +1,8 @@
 .bio-properties-panel {
-  --select-template-background-color: var(--add-entry-hover-background-color);
+  --select-template-background-color: var(--color-blue-205-100-50);
   --select-template-hover-background-color: var(--color-blue-205-100-45);
-  --select-template-fill-color: var(--add-entry-hover-fill-color);
-  --select-template-label-color: var(--add-entry-label-color);
+  --select-template-fill-color: var(--color-white);
+  --select-template-label-color: var(--color-white);
 }
 
 .bio-properties-panel-group-header-button.bio-properties-panel-select-template-button {
