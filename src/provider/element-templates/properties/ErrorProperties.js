@@ -1,3 +1,5 @@
+import { without } from 'min-dash';
+
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
@@ -49,10 +51,12 @@ export function ErrorProperties(props) {
   });
 
   // (1) remove global error referenced entry
-  entries.shift();
+  // entries.shift();
+  entries = removeEntry(entries, '-errorRef');
 
   // (2) remove throw expression input
-  entries.pop();
+  // entries.pop();
+  entries = removeEntry(entries, '-expression');
 
   // (3) add disabled throw expression input
   entries.push({
@@ -93,4 +97,10 @@ function Expression(props) {
     debounce,
     disabled: true
   });
+}
+
+function removeEntry(entries, suffix) {
+  const entry = entries.find(({ id }) => id.endsWith(suffix));
+
+  return without(entries, entry);
 }

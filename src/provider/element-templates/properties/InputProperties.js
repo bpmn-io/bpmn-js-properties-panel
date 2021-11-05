@@ -54,7 +54,7 @@ export function InputProperties(props) {
     });
 
     // (1) remove name entry
-    entries.shift();
+    entries = removeEntry(entries, '-name');
   }
 
   // (2) add local variable assignment entry
@@ -216,4 +216,10 @@ function removeInputParameter(element, binding, commandStack) {
     moddleElement: inputOutput,
     properties: { inputParameters: without(inputParameters, inputParameter) }
   });
+}
+
+function removeEntry(entries, suffix) {
+  const entry = entries.find(({ id }) => id.endsWith(suffix));
+
+  return without(entries, entry);
 }
