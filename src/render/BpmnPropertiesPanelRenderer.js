@@ -102,7 +102,7 @@ export default class BpmnPropertiesPanelRenderer {
 
     if (typeof provider.getGroups !== 'function') {
       console.error(
-        'Properties provider does not impement #getGroups(element) API'
+        'Properties provider does not implement #getGroups(element) API'
       );
 
       return;
