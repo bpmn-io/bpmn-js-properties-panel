@@ -45,7 +45,7 @@
   "dependencies": {
     "@bpmn-io/element-templates-validator": "^0.3.0",
     "@bpmn-io/extract-process-variables": "^0.4.3",
-    "@bpmn-io/properties-panel": "^0.6.1",
+    "@bpmn-io/properties-panel": "^0.7.0",
     "classnames": "^2.3.1",
     "ids": "^1.0.0",
     "min-dash": "^3.8.0",
