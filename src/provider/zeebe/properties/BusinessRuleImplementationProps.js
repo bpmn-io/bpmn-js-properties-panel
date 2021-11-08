@@ -134,7 +134,7 @@ function BusinessRuleImplementation(props) {
   const getOptions = () => {
 
     const options = [
-      { value: DMN_IMPLEMENTATION_OPTION, label: translate('DMN Decision') },
+      { value: DMN_IMPLEMENTATION_OPTION, label: translate('DMN decision') },
       { value: JOB_WORKER_IMPLEMENTATION_OPTION, label: translate('Job worker') }
     ];
 
