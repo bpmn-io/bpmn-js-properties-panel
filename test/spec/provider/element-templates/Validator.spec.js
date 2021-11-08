@@ -37,7 +37,7 @@ describe('provider/element-templates - Validator', function() {
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(6);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -54,7 +54,7 @@ describe('provider/element-templates - Validator', function() {
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(6);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -71,7 +71,7 @@ describe('provider/element-templates - Validator', function() {
       // then
       expect(valid(templates)).to.be.empty;
 
-      expect(errors(templates)).to.have.length(6);
+      expect(errors(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -88,7 +88,7 @@ describe('provider/element-templates - Validator', function() {
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(6);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -105,7 +105,7 @@ describe('provider/element-templates - Validator', function() {
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(6);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -152,15 +152,15 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/simple');
+      const templateDescriptor = require('./fixtures/simple');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(6);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -169,15 +169,15 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/misc');
+      const templateDescriptor = require('./fixtures/misc');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(1);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -186,15 +186,15 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/call-activity-variables');
+      const templateDescriptor = require('./fixtures/call-activity-variables');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(1);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -203,15 +203,15 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/dropdown');
+      const templateDescriptor = require('./fixtures/dropdown');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(1);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -220,10 +220,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-name-missing');
+      const templateDescriptor = require('./fixtures/error-name-missing');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.contain('template(id: <invalid>, name: <undefined>): missing template name');
@@ -237,10 +237,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-id-missing');
+      const templateDescriptor = require('./fixtures/error-id-missing');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.contain('template(id: <undefined>, name: <Invalid>): missing template id');
@@ -254,10 +254,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-id-duplicate');
+      const templateDescriptor = require('./fixtures/error-id-duplicate');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.contain('template(id: <foo>, name: <Foo 2>): template id <foo> already used');
@@ -271,10 +271,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-id-version-duplicate');
+      const templateDescriptor = require('./fixtures/error-id-version-duplicate');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.contain('template(id: <foo>, name: <Foo 2>): template id <foo> and version <1> already used');
@@ -288,10 +288,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-appliesTo-missing');
+      const templateDescriptor = require('./fixtures/error-appliesTo-missing');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): missing appliesTo=[]');
@@ -305,10 +305,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-properties-missing');
+      const templateDescriptor = require('./fixtures/error-properties-missing');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.contain('template(id: <foo>, name: <Invalid>): missing properties=[]');
@@ -322,10 +322,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-dropdown-choices-missing');
+      const templateDescriptor = require('./fixtures/error-dropdown-choices-missing');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.eql([
@@ -341,10 +341,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-dropdown-choices-invalid');
+      const templateDescriptor = require('./fixtures/error-dropdown-choices-invalid');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.eql([
@@ -360,10 +360,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-property-invalid');
+      const templateDescriptor = require('./fixtures/error-property-invalid');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.eql([
@@ -384,10 +384,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-bindings-invalid');
+      const templateDescriptor = require('./fixtures/error-bindings-invalid');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.eql([
@@ -409,10 +409,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/execution-listener');
+      const templateDescriptor = require('./fixtures/execution-listener');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
@@ -426,10 +426,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/missing-types');
+      const templateDescriptor = require('./fixtures/missing-types');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
@@ -443,10 +443,10 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-execution-listener-invalid-type');
+      const templateDescriptor = require('./fixtures/error-execution-listener-invalid-type');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.eql([
@@ -457,7 +457,7 @@ describe('provider/element-templates - Validator', function() {
         'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Dropdown" for binding type "camunda:executionListener"; must be "Hidden"',
       ]);
 
-      expect(valid(templates)).to.have.length(0);
+      expect(valid(templates)).to.be.empty;
     });
 
 
@@ -468,15 +468,15 @@ describe('provider/element-templates - Validator', function() {
         // given
         const templates = new Validator();
 
-        const templateDescriptors = require('./fixtures/scopes-array');
+        const templateDescriptor = require('./fixtures/scopes-array');
 
         // when
-        templates.addAll(templateDescriptors);
+        templates.addAll(templateDescriptor);
 
         // then
         expect(errors(templates)).to.be.empty;
 
-        expect(valid(templates)).to.have.length(1);
+        expect(valid(templates)).to.have.length(templateDescriptor.length);
       });
 
 
@@ -485,10 +485,10 @@ describe('provider/element-templates - Validator', function() {
         // given
         const templates = new Validator();
 
-        const templateDescriptors = require('./fixtures/scopes-single-connector');
+        const templateDescriptor = require('./fixtures/scopes-single-connector');
 
         // when
-        templates.addAll(templateDescriptors);
+        templates.addAll(templateDescriptor);
 
         // then
         expect(errors(templates)).to.contain('template(id: <foo>, name: <Connector>): should be array');
@@ -502,10 +502,10 @@ describe('provider/element-templates - Validator', function() {
         // given
         const templates = new Validator();
 
-        const templateDescriptors = require('./fixtures/error-scopes-properties-missing');
+        const templateDescriptor = require('./fixtures/error-scopes-properties-missing');
 
         // when
-        templates.addAll(templateDescriptors);
+        templates.addAll(templateDescriptor);
 
         // then
         expect(errors(templates)).to.contain(
@@ -521,10 +521,10 @@ describe('provider/element-templates - Validator', function() {
         // given
         const templates = new Validator();
 
-        const templateDescriptors = require('./fixtures/error-scopes-type-missing');
+        const templateDescriptor = require('./fixtures/error-scopes-type-missing');
 
         // when
-        templates.addAll(templateDescriptors);
+        templates.addAll(templateDescriptor);
 
         // then
         expect(errors(templates)).to.contain(
@@ -540,10 +540,10 @@ describe('provider/element-templates - Validator', function() {
         // given
         const templates = new Validator();
 
-        const templateDescriptors = require('./fixtures/error-scopes-property-invalid');
+        const templateDescriptor = require('./fixtures/error-scopes-property-invalid');
 
         // when
-        templates.addAll(templateDescriptors);
+        templates.addAll(templateDescriptor);
 
         // then
         expect(errors(templates)).to.eql([
@@ -565,15 +565,15 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/field-injections');
+      const templateDescriptor = require('./fixtures/field-injections');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(1);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
@@ -582,15 +582,15 @@ describe('provider/element-templates - Validator', function() {
       // given
       const templates = new Validator();
 
-      const templateDescriptors = require('./fixtures/error-templates');
+      const templateDescriptor = require('./fixtures/error-templates');
 
       // when
-      templates.addAll(templateDescriptors);
+      templates.addAll(templateDescriptor);
 
       // then
       expect(errors(templates)).to.be.empty;
 
-      expect(valid(templates)).to.have.length(1);
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
     });
 
 
