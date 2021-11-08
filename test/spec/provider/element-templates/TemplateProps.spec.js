@@ -63,7 +63,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-name"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-name"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql(template.name);
@@ -84,7 +84,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-name"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-name"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql(template.name);
@@ -104,7 +104,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-name"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-name"]', container);
 
         expect(entry).not.to.exist;
       })
@@ -126,7 +126,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-version"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql('02.01.2000');
@@ -146,7 +146,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-version"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql('01.01.2000');
@@ -167,7 +167,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-version"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql(String(template.version));
@@ -187,7 +187,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-version"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).not.to.exist;
       })
@@ -206,7 +206,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-version"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).not.to.exist;
       })
@@ -229,7 +229,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-description"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-description"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql(template.description);
@@ -250,7 +250,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-description"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-description"]', container);
 
         expect(entry).to.exist;
         expect(entry.children[1].textContent).to.eql(template.description);
@@ -270,7 +270,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-description"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-description"]', container);
 
         expect(entry).not.to.exist;
       })
@@ -289,7 +289,7 @@ describe('provider/element-templates - TemplateProps', function() {
         });
 
         // then
-        const entry = domQuery('[data-group-id="group-template"] [data-entry-id="template-description"]', container);
+        const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-description"]', container);
 
         expect(entry).not.to.exist;
       })

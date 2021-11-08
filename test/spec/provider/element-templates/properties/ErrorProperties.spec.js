@@ -25,6 +25,9 @@ import diagramXML from './ErrorProperties.bpmn';
 import elementTemplates from './ErrorProperties.json';
 
 
+const ERROR_GROUP_ID = 'group-ElementTemplates__Error';
+
+
 describe('provider/element-templates - ErrorProperties', function() {
 
   let container;
@@ -55,7 +58,7 @@ describe('provider/element-templates - ErrorProperties', function() {
     await expectSelected('ServiceTask_1');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+    const group = findErrorGroup(container),
           headerTitles = domQueryAll(
             '.bio-properties-panel-list .bio-properties-panel-collapsible-entry-header-title', group);
 
@@ -69,7 +72,7 @@ describe('provider/element-templates - ErrorProperties', function() {
     await expectSelected('ServiceTask_1');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+    const group = findErrorGroup(container),
           headerTitles = domQueryAll(
             '.bio-properties-panel-list .bio-properties-panel-collapsible-entry-header-title', group);
 
@@ -83,7 +86,7 @@ describe('provider/element-templates - ErrorProperties', function() {
     await expectSelected('ServiceTask_1');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+    const group = findErrorGroup(container),
           headerTitle = domQuery(
             '.bio-properties-panel-list .bio-properties-panel-collapsible-entry-header-title', group);
 
@@ -97,7 +100,7 @@ describe('provider/element-templates - ErrorProperties', function() {
     await expectSelected('ServiceTask_1');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+    const group = findErrorGroup(container),
           button = domQuery('.bio-properties-panel-add-entry', group);
 
     expect(button).not.to.exist;
@@ -110,7 +113,7 @@ describe('provider/element-templates - ErrorProperties', function() {
     await expectSelected('ServiceTask_1');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+    const group = findErrorGroup(container),
           button = domQuery('.bio-properties-panel-remove-entry', group);
 
     expect(button).not.to.exist;
@@ -193,4 +196,8 @@ function findEntry(id, container) {
 
 function findInput(type, container) {
   return domQuery(`input[type='${ type }']`, container);
+}
+
+function findErrorGroup(container) {
+  return domQuery(`[data-group-id='${ERROR_GROUP_ID}']`, container);
 }

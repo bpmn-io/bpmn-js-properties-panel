@@ -96,7 +96,7 @@ export function CustomProperties(props) {
   } = elementTemplate;
 
   const customPropertiesGroup = {
-    id: 'custom-properties',
+    id: 'ElementTemplates__CustomProperties',
     label: 'Custom properties',
     component: Group,
     entries: []
@@ -121,7 +121,7 @@ export function CustomProperties(props) {
       const id = type.replace(/:/g, '-');
 
       const scopeGroup = {
-        id: `custom-group-${ id }`,
+        id: `ElementTemplates__CustomGroup-${ id }`,
         label: `Custom properties for scope <${ type }>`,
         component: Group,
         entries: []

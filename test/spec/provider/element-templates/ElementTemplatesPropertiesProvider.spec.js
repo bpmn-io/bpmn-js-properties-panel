@@ -9,6 +9,8 @@ import {
   queryAll as domQueryAll
 } from 'min-dom';
 
+import { map } from 'min-dash';
+
 import coreModule from 'bpmn-js/lib/core';
 import modelingModule from 'bpmn-js/lib/features/modeling';
 import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
@@ -16,14 +18,18 @@ import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 import {
   bootstrapPropertiesPanel,
   clickInput as click,
+  getBpmnJS,
   inject
 } from 'test/TestHelper';
 
 import BpmnPropertiesPanel from 'src/render';
 import elementTemplatesModule from 'src/provider/element-templates';
+import bpmnPropertiesProvider from 'src/provider/bpmn';
 
-import diagramXML from './ElementTemplates.bpmn';
+import diagramXML from './ElementTemplatesPropertiesProvider.bpmn';
 import templates from './fixtures/simple.json';
+import entriesVisibleDiagramXML from './fixtures/entries-visible.bpmn';
+import entriesVisibleTemplates from './fixtures/entries-visible.json';
 
 
 describe('provider/element-templates - ElementTemplates', function() {
@@ -39,6 +45,7 @@ describe('provider/element-templates - ElementTemplates', function() {
     modules: [
       BpmnPropertiesPanel,
       coreModule,
+      bpmnPropertiesProvider,
       elementTemplatesModule,
       modelingModule
     ],
@@ -64,7 +71,7 @@ describe('provider/element-templates - ElementTemplates', function() {
         });
 
         // then
-        const group = domQuery('[data-group-id="group-template"]', container);
+        const group = domQuery('[data-group-id="group-ElementTemplates__Template"]', container);
 
         expect(group).to.exist;
       })
@@ -83,7 +90,7 @@ describe('provider/element-templates - ElementTemplates', function() {
         });
 
         // then
-        const group = domQuery('[data-group-id="group-template"]', container);
+        const group = domQuery('[data-group-id="group-ElementTemplates__Template"]', container);
 
         expect(group).not.to.exist;
       })
@@ -129,6 +136,145 @@ describe('provider/element-templates - ElementTemplates', function() {
   });
 
 
+  describe('template#entriesVisible', function() {
+
+    beforeEach(bootstrapPropertiesPanel(entriesVisibleDiagramXML, {
+      container,
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        bpmnPropertiesProvider,
+        elementTemplatesModule,
+        modelingModule
+      ],
+      moddleExtensions: {
+        camunda: camundaModdlePackage
+      },
+      debounceInput: false,
+      elementTemplates: entriesVisibleTemplates
+    }));
+
+
+    it('should show only general group, and template-related entries when entriesVisible is unset',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('ServiceTask');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        expectOnlyGroups(container, [
+          'general',
+          'ElementTemplates__Template'
+        ]);
+      })
+    );
+
+
+    it('should show only general group, and template-related entries when entriesVisible=false',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_2');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        expectOnlyGroups(container, [
+          'general',
+          'ElementTemplates__Template'
+        ]);
+      })
+    );
+
+
+    it('should show inputs, outputs, and errors if set in template',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('ServiceTaskWithInputOutputError');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        expectOnlyGroups(container, [
+          'general',
+          'ElementTemplates__Template',
+          'ElementTemplates__Input',
+          'ElementTemplates__Output',
+          'ElementTemplates__Error'
+        ]);
+      })
+    );
+
+
+    it('should show inputs and outputs even if toggled off', async function() {
+
+      // when
+      await expectSelected('VirtualInputOutput');
+
+      // then
+      expectOnlyGroups(container, [
+        'general',
+        'ElementTemplates__Template',
+        'ElementTemplates__Input',
+        'ElementTemplates__Output'
+      ]);
+    });
+
+
+    it('should show only general group, and template group when template is unknown',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('UnknownTemplateTask');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        expectOnlyGroups(container, [
+          'general',
+          'ElementTemplates__Template'
+        ]);
+      })
+    );
+
+
+    it('should show all available groups when entriesVisible=true',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_1');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const groups = getGroupIds(container);
+
+        expect(groups).to.contain('general');
+        expect(groups).to.contain('ElementTemplates__Template');
+        expect(groups).to.contain('documentation');
+      })
+    );
+  });
+
+
   describe('template#select', function() {
 
     it('should fire `elementTemplates.select` when button is clicked template group', inject(
@@ -143,7 +289,7 @@ describe('provider/element-templates - ElementTemplates', function() {
         await act(() => {
           selection.select(element);
         });
-        const group = domQuery('[data-group-id="group-template"]', container);
+        const group = domQuery('[data-group-id="group-ElementTemplates__Template"]', container);
         const selectButton = domQuery('.bio-properties-panel-select-template-button', group);
 
         // when
@@ -356,4 +502,52 @@ function clickDropdownItemWhere(container, predicate) {
   }
 
   throw new Error('button is missing');
+}
+
+/**
+ * Check if rendered groups match the provided ids.
+ *
+ * @param {Element} container
+ * @param {string[]} expectedGroupIds
+ */
+function expectOnlyGroups(container, expectedGroupIds) {
+  const groupIds = getGroupIds(container);
+
+  expect(groupIds).to.deep.equal(expectedGroupIds);
+}
+
+/**
+ * Get ids of rendered groups.
+ *
+ * @param {Element} container
+ */
+function getGroupIds(container) {
+  if (!container) {
+    throw new Error('container is missing');
+  }
+
+  const groups = domQueryAll('[data-group-id]', container);
+  const groupIds = map(groups, group => withoutPrefix(group.dataset.groupId));
+
+  return groupIds;
+}
+
+/**
+ * @param {`group-${string}`} groupId
+ * @returns {string}
+ */
+function withoutPrefix(groupId) {
+  return groupId.slice(6);
+}
+
+function expectSelected(id) {
+  return getBpmnJS().invoke(async function(elementRegistry, selection) {
+    const element = elementRegistry.get(id);
+
+    await act(() => {
+      selection.select(element);
+    });
+
+    return element;
+  });
 }

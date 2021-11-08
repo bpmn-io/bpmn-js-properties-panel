@@ -1,5 +1,7 @@
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
+import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
+
 import {
   ElementTemplatesGroup,
   TemplateProps
@@ -32,6 +34,7 @@ export default class ElementTemplatesPropertiesProvider {
 
   getGroups(element) {
     return (groups) => {
+      const injector = this._injector;
 
       if (!this._shouldShowTemplateProperties(element)) {
         return groups;
@@ -42,7 +45,7 @@ export default class ElementTemplatesPropertiesProvider {
 
       const templatesGroup = {
         element,
-        id: 'template',
+        id: 'ElementTemplates__Template',
         label: 'Template',
         component: ElementTemplatesGroup,
         entries: TemplateProps({ element, elementTemplates: this._elementTemplates })
@@ -54,18 +57,21 @@ export default class ElementTemplatesPropertiesProvider {
       const elementTemplate = this._elementTemplates.get(element);
 
       if (elementTemplate) {
-        const customPropertiesGroups = CustomProperties({ element, elementTemplate });
+        const templateSpecificGroups = [].concat(
+          createInputGroup(element, elementTemplate, injector) || [],
+          createOutputGroup(element, elementTemplate, injector) || [],
+          createErrorGroup(element, elementTemplate, injector) || [],
+          CustomProperties({ element, elementTemplate })
+        );
 
-        // (2) add custom properties groups
-        addGroupsAfter('template', groups, [ ...customPropertiesGroups ]);
-
-        // (3) update existing groups with element template specific properties
-        updateInputGroup(groups, element, elementTemplate);
-        updateOutputGroup(groups, element, elementTemplate, this._injector);
-        updateErrorsGroup(groups, element, elementTemplate);
+        // (2) add template-specific properties groups
+        addGroupsAfter('ElementTemplates__Template', groups, templateSpecificGroups);
       }
 
-      // @TODO(barmac): add template-specific groups and remove according to entriesVisible
+      // (3) apply entries visible
+      if (getTemplateId(element)) {
+        groups = filterWithEntriesVisible(elementTemplate || {}, groups);
+      }
 
       return groups;
     };
@@ -87,16 +93,15 @@ ElementTemplatesPropertiesProvider.$inject = [
 
 // helper /////////////////////
 
-function updateInputGroup(groups, element, elementTemplate) {
-  const inputGroup = findGroup(groups, 'CamundaPlatform__Input');
+function createInputGroup(element, elementTemplate, injector) {
+  const translate = injector.get('translate');
 
-  if (!inputGroup) {
-    return;
-  }
-
-  delete inputGroup.add;
-
-  inputGroup.items = [];
+  const group = {
+    label: translate('Inputs'),
+    id: 'ElementTemplates__Input',
+    component: ListGroup,
+    items: []
+  };
 
   const properties = elementTemplate.properties.filter(({ binding, type }) => {
     return !type && binding.type === CAMUNDA_INPUT_PARAMETER_TYPE;
@@ -106,21 +111,27 @@ function updateInputGroup(groups, element, elementTemplate) {
     const item = InputProperties({ element, index, property });
 
     if (item) {
-      inputGroup.items.push(item);
+      group.items.push(item);
     }
   });
-}
 
-function updateOutputGroup(groups, element, elementTemplate, injector) {
-  const outputGroup = findGroup(groups, 'CamundaPlatform__Output');
-
-  if (!outputGroup) {
-    return;
+  // remove if empty
+  if (!group.items.length) {
+    return null;
   }
 
-  delete outputGroup.add;
+  return group;
+}
 
-  outputGroup.items = [];
+function createOutputGroup(element, elementTemplate, injector) {
+  const translate = injector.get('translate');
+
+  const group = {
+    label: translate('Outputs'),
+    id: 'ElementTemplates__Output',
+    component: ListGroup,
+    items: []
+  };
 
   const properties = elementTemplate.properties.filter(({ binding, type }) => {
     return !type && binding.type === CAMUNDA_OUTPUT_PARAMETER_TYPE;
@@ -130,21 +141,27 @@ function updateOutputGroup(groups, element, elementTemplate, injector) {
     const item = OutputProperties({ element, index, property, injector });
 
     if (item) {
-      outputGroup.items.push(item);
+      group.items.push(item);
     }
   });
-}
 
-function updateErrorsGroup(groups, element, elementTemplate) {
-  const errorsGroup = findGroup(groups, 'CamundaPlatform__Errors');
-
-  if (!errorsGroup) {
-    return;
+  // remove if empty
+  if (!group.items.length) {
+    return null;
   }
 
-  delete errorsGroup.add;
+  return group;
+}
 
-  errorsGroup.items = [];
+function createErrorGroup(element, elementTemplate, injector) {
+  const translate = injector.get('translate');
+
+  const group = {
+    label: translate('Errors'),
+    id: 'ElementTemplates__Error',
+    component: ListGroup,
+    items: []
+  };
 
   const properties = elementTemplate.properties.filter(({ binding, type }) => {
     return !type && binding.type === CAMUNDA_ERROR_EVENT_DEFINITION_TYPE;
@@ -154,9 +171,16 @@ function updateErrorsGroup(groups, element, elementTemplate) {
     const item = ErrorProperties({ element, index, property });
 
     if (item) {
-      errorsGroup.items.push(item);
+      group.items.push(item);
     }
   });
+
+  // remove if empty
+  if (!group.items.length) {
+    return null;
+  }
+
+  return group;
 }
 
 /**
@@ -169,7 +193,7 @@ function addGroupsAfter(id, groups, groupsToAdd) {
   const index = groups.findIndex(group => group.id === id);
 
   if (index !== -1) {
-    groups.splice(index, 0, ...groupsToAdd);
+    groups.splice(index + 1, 0, ...groupsToAdd);
   } else {
 
     // add in the beginning if group with provided id is missing
@@ -177,6 +201,15 @@ function addGroupsAfter(id, groups, groupsToAdd) {
   }
 }
 
-function findGroup(groups, id) {
-  return groups.find((group) => group.id === id);
+function filterWithEntriesVisible(template, groups) {
+  if (!template.entriesVisible) {
+    return groups.filter(group => {
+      return (
+        group.id === 'general' ||
+        group.id.startsWith('ElementTemplates__')
+      );
+    });
+  }
+
+  return groups;
 }

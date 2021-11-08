@@ -1,0 +1,123 @@
+[
+  {
+    "id": "foo",
+    "name":"EntriesVisible=true",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": [],
+    "entriesVisible": true
+  },
+  {
+    "id": "foo",
+    "name":"EntriesVisible=false",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "default",
+    "name": "EntriesVisible unset",
+    "isDefault": true,
+    "appliesTo": [ "bpmn:ServiceTask" ],
+    "properties": []
+  },
+  {
+    "id": "virtualInputOutput",
+    "name": "virtual input output",
+    "appliesTo": [ "bpmn:ServiceTask" ],
+    "properties": [
+      {
+        "value": "input-1-value",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "input-1-name"
+        }
+      },
+      {
+        "value": "output-1-value",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "output-1-source"
+        }
+      }
+    ]
+  },
+  {
+    "name": "input-output-error template",
+    "version": 1,
+    "id": "input-output-error",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "external",
+        "binding": {
+          "type": "property",
+          "name": "camunda:type"
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "topic",
+        "binding": {
+          "type": "property",
+          "name": "camunda:topic"
+        }
+      },
+      {
+        "value": "expression-value",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-1"
+        }
+      },
+      {
+        "value": "input-1-value",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "input-1-name"
+        }
+      },
+      {
+        "value": "output-1-value",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "output-1-source"
+        }
+      }
+    ],
+    "scopes": [
+      {
+        "type": "bpmn:Error",
+        "id": "error-1",
+        "properties": [
+          {
+            "value": "error-code",
+            "type": "Hidden",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "value": "error-message",
+            "type": "Hidden",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "value": "error-name",
+            "type": "Hidden",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

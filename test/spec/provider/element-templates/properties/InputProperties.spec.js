@@ -27,6 +27,8 @@ import elementTemplatesModule from 'src/provider/element-templates';
 import diagramXML from './InputProperties.bpmn';
 import elementTemplates from './InputProperties.json';
 
+const INPUT_GROUP_ID = 'group-ElementTemplates__Input';
+
 
 describe('provider/element-templates - InputProperties', function() {
 
@@ -58,7 +60,7 @@ describe('provider/element-templates - InputProperties', function() {
     await expectSelected('SimpleTask');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Input\']', container),
+    const group = findInputGroup(container),
           button = domQuery('.bio-properties-panel-add-entry', group);
 
     expect(button).not.to.exist;
@@ -71,10 +73,22 @@ describe('provider/element-templates - InputProperties', function() {
     await expectSelected('SimpleTask');
 
     // then
-    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Input\']', container),
+    const group = findInputGroup(container),
           button = domQuery('.bio-properties-panel-remove-entry', group);
 
     expect(button).not.to.exist;
+  });
+
+
+  it('should display even if all properties are toggled off', async function() {
+
+    // when
+    await expectSelected('SimpleTaskWithoutInputOutput');
+
+    // then
+    const group = findInputGroup(container);
+
+    expect(group).to.exist;
   });
 
 
@@ -162,7 +176,7 @@ describe('provider/element-templates - InputProperties', function() {
       beforeEach(async function() {
         await expectSelected('SimpleTask');
 
-        expandGroup('group-CamundaPlatform__Input', container);
+        expandGroup(INPUT_GROUP_ID, container);
 
         expandCollapsibleEntry('SimpleTask-inputParameter-4', container);
 
@@ -241,7 +255,7 @@ describe('provider/element-templates - InputProperties', function() {
       beforeEach(async function() {
         await expectSelected('SimpleTask');
 
-        expandGroup('group-CamundaPlatform__Input', container);
+        expandGroup(INPUT_GROUP_ID, container);
 
         expandCollapsibleEntry('SimpleTask-inputParameter-0', container);
 
@@ -365,4 +379,8 @@ function findEntry(id, container) {
 
 function findInput(type, container) {
   return domQuery(`input[type='${ type }']`, container);
+}
+
+function findInputGroup(container) {
+  return domQuery(`[data-group-id='${INPUT_GROUP_ID}']`, container);
 }

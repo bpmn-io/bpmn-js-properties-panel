@@ -36,11 +36,7 @@ export function InputProperties(props) {
   const businessObject = getBusinessObject(element),
         inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
-  if (!inputOutput) {
-    return;
-  }
-
-  const inputParameter = findInputParameter(inputOutput, binding);
+  const inputParameter = inputOutput && findInputParameter(inputOutput, binding);
 
   const id = `${ element.id }-inputParameter-${ index }`;
 
@@ -60,7 +56,11 @@ export function InputProperties(props) {
   // (2) add local variable assignment entry
   entries.unshift({
     id: `${ id }-local-variable-assignment`,
-    component: <LocalVariableAssignment element={ element } id={ `${ id }-local-variable-assignment` } property={ property } />
+    component: <LocalVariableAssignment
+      element={ element }
+      id={ `${ id }-local-variable-assignment` }
+      inputParameter={ inputParameter }
+      property={ property } />
   });
 
   // (3) add description entry
@@ -97,7 +97,8 @@ function LocalVariableAssignment(props) {
   const {
     element,
     id,
-    property
+    property,
+    inputParameter
   } = props;
 
   const { binding } = property;
@@ -106,13 +107,8 @@ function LocalVariableAssignment(props) {
         commandStack = useService('commandStack'),
         translate = useService('translate');
 
-  const businessObject = getBusinessObject(element),
-        inputOutput = findExtension(businessObject, 'camunda:InputOutput');
-
-  const inputParameter = findInputParameter(inputOutput, binding);
-
   const getValue = () => {
-    return findInputParameter(inputOutput, binding);
+    return inputParameter;
   };
 
   const setValue = (value) => {

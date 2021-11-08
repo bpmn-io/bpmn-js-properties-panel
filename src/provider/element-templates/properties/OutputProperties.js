@@ -38,13 +38,9 @@ export function OutputProperties(props) {
   const businessObject = getBusinessObject(element),
         inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
-  if (!inputOutput) {
-    return;
-  }
-
   const translate = injector.get('translate');
 
-  const outputParameter = findOutputParameter(inputOutput, binding);
+  const outputParameter = inputOutput && findOutputParameter(inputOutput, binding);
 
   const id = `${ element.id }-outputParameter-${ index }`;
 
@@ -61,7 +57,11 @@ export function OutputProperties(props) {
   // (2) add local variable assignment entry
   entries.push({
     id: `${ id }-local-variable-assignment`,
-    component: <ProcessVariableAssignment element={ element } id={ `${ id }-local-variable-assignment` } property={ property } />
+    component: <ProcessVariableAssignment
+      element={ element }
+      id={ `${ id }-local-variable-assignment` }
+      outputParameter={ outputParameter }
+      property={ property } />
   });
 
   if (outputParameter) {
@@ -98,7 +98,8 @@ function ProcessVariableAssignment(props) {
   const {
     element,
     id,
-    property
+    property,
+    outputParameter
   } = props;
 
   const { binding } = property;
@@ -107,13 +108,8 @@ function ProcessVariableAssignment(props) {
         commandStack = useService('commandStack'),
         translate = useService('translate');
 
-  const businessObject = getBusinessObject(element),
-        inputOutput = findExtension(businessObject, 'camunda:InputOutput');
-
-  const outputParameter = findOutputParameter(inputOutput, binding);
-
   const getValue = () => {
-    return findOutputParameter(inputOutput, binding);
+    return outputParameter;
   };
 
   const setValue = (value) => {
