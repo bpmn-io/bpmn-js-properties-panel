@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_0k89tne" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_0k89tne" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_1" name="service task">
       <bpmn:extensionElements>
@@ -11,6 +11,12 @@
       <bpmn:extensionElements />
     </bpmn:serviceTask>
     <bpmn:receiveTask id="ReceiveTask_1" name="receive task" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_1" name="BusinessRuleTask_1" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_2" name="BusinessRuleTask_2">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foobar" />
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -25,6 +31,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1syrz9e_di" bpmnElement="ReceiveTask_1">
         <dc:Bounds x="390" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wr9zfv_di" bpmnElement="BusinessRuleTask_1">
+        <dc:Bounds x="590" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01ge5q8_di" bpmnElement="BusinessRuleTask_2">
+        <dc:Bounds x="740" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
