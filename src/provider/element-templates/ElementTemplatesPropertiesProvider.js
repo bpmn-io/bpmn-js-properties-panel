@@ -69,24 +69,6 @@ ElementTemplatesPropertiesProvider.$inject = [ 'elementTemplates', 'propertiesPa
 
 // helper /////////////////////
 
-/**
- *
- * @param {string} id
- * @param {Array<{ id: string }} groups
- * @param {Array<{ id: string }>} groupsToAdd
- */
-function addGroupsAfter(id, groups, groupsToAdd) {
-  const index = groups.findIndex(group => group.id === id);
-
-  if (index !== -1) {
-    groups.splice(index, 0, ...groupsToAdd);
-  } else {
-
-    // add in the beginning if group with provided id is missing
-    groups.unshift(...groupsToAdd);
-  }
-}
-
 function updateInputGroup(groups, element, elementTemplate) {
   const inputGroup = findGroup(groups, 'CamundaPlatform__Input');
 
@@ -159,7 +141,23 @@ function updateErrorsGroup(groups, element, elementTemplate) {
   });
 }
 
-// helpers //////////
+/**
+ *
+ * @param {string} id
+ * @param {Array<{ id: string }} groups
+ * @param {Array<{ id: string }>} groupsToAdd
+ */
+function addGroupsAfter(id, groups, groupsToAdd) {
+  const index = groups.findIndex(group => group.id === id);
+
+  if (index !== -1) {
+    groups.splice(index, 0, ...groupsToAdd);
+  } else {
+
+    // add in the beginning if group with provided id is missing
+    groups.unshift(...groupsToAdd);
+  }
+}
 
 function findGroup(groups, id) {
   return groups.find((group) => group.id === id);
