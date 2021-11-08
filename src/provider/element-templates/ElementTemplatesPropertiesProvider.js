@@ -1,3 +1,5 @@
+import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
+
 import {
   ElementTemplatesGroup,
   TemplateProps
@@ -9,6 +11,8 @@ import {
   InputProperties,
   OutputProperties
 } from './properties';
+
+import { getTemplateId } from './Helper';
 
 const CAMUNDA_ERROR_EVENT_DEFINITION_TYPE = 'camunda:errorEventDefinition',
       CAMUNDA_INPUT_PARAMETER_TYPE = 'camunda:inputParameter',
@@ -27,6 +31,10 @@ export default class ElementTemplatesPropertiesProvider {
 
   getGroups(element) {
     return (groups) => {
+
+      if (!this._shouldShowTemplateProperties(element)) {
+        return groups;
+      }
 
       // (0) Copy provided groups
       groups = groups.slice();
@@ -62,6 +70,11 @@ export default class ElementTemplatesPropertiesProvider {
     };
   }
 
+  _shouldShowTemplateProperties(element) {
+    return getTemplateId(element) || this._elementTemplates.getAll().some(template => {
+      return isAny(element, template.appliesTo);
+    });
+  }
 }
 
 ElementTemplatesPropertiesProvider.$inject = [ 'elementTemplates', 'propertiesPanel' ];

@@ -69,6 +69,25 @@ describe('provider/element-templates - ElementTemplates', function() {
         expect(group).to.exist;
       })
     );
+
+
+    it('should NOT display template group if no templates are available for element', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Process_1');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const group = domQuery('[data-group-id="group-template"]', container);
+
+        expect(group).not.to.exist;
+      })
+    );
   });
 
 
