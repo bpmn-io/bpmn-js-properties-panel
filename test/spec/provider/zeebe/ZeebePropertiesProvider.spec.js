@@ -465,7 +465,7 @@ describe('<ZeebePropertiesProvider>', function() {
     }));
 
 
-    it('should show for businessRuleTasks', inject(async function(selection, elementRegistry) {
+    it('should show for businessRuleTasks with taskDefinition', inject(async function(selection, elementRegistry) {
 
       // given
       const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
@@ -481,7 +481,31 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(getGroup(container, 'multiInstance')).to.exist;
       expect(getGroup(container, 'taskDefinition')).to.exist;
       expect(getGroup(container, 'headers')).to.exist;
+      expect(getGroup(container, 'businessRuleImplementation')).to.exist;
+      expect(getGroup(container, 'calledDecision')).to.not.exist;
     }));
+
+
+    it('should show for businessRuleTasks with calledDecision', inject(async function(selection, elementRegistry) {
+
+      // given
+      const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
+
+      // when
+      await act(() => {
+        selection.select(businessRuleTask);
+      });
+
+      // then
+      expect(getGroup(container, 'inputs')).to.exist;
+      expect(getGroup(container, 'outputs')).to.exist;
+      expect(getGroup(container, 'multiInstance')).to.exist;
+      expect(getGroup(container, 'taskDefinition')).to.not.exist;
+      expect(getGroup(container, 'headers')).to.exist;
+      expect(getGroup(container, 'businessRuleImplementation')).to.exist;
+      expect(getGroup(container, 'calledDecision')).to.exist;
+    }));
+
 
     it('should NOT show message group', inject(async function(elementRegistry, selection) {
 

@@ -3,16 +3,17 @@ import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import {
   BusinessRuleImplementationProps,
+  CalledDecisionProps,
   ConditionProps,
+  FormProps,
   HeaderProps,
   InputProps,
   MessageProps,
   MultiInstanceProps,
   OutputPropagationProps,
-  TargetProps,
   OutputProps,
+  TargetProps,
   TaskDefinitionProps,
-  FormProps,
   TimerProps
 } from './properties';
 import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTaskUtil';
@@ -21,6 +22,7 @@ const LOW_PRIORITY = 500;
 
 const ZEEBE_GROUPS = [
   BusinessRuleImplementationGroup,
+  CalledDecisionGroup,
   TaskDefinitionGroup,
   FormGroup,
   ConditionGroup,
@@ -67,6 +69,19 @@ export default class ZeebePropertiesProvider {
 
 ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
+
+function CalledDecisionGroup(element) {
+  const group = {
+    id: 'calledDecision',
+    label: 'Called decision',
+    entries: [
+      ...CalledDecisionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
 
 function TaskDefinitionGroup(element) {
   const group = {
