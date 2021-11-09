@@ -104,8 +104,6 @@ function BusinessRuleImplementation(props) {
     } else if (value === JOB_WORKER_IMPLEMENTATION_OPTION) {
       extensionElement = getTaskDefinition(element);
       extensionElementType = 'zeebe:TaskDefinition';
-    } else {
-      return;
     }
 
     if (!extensionElement) {
