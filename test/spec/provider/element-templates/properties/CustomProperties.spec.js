@@ -140,6 +140,25 @@ describe('provider/element-templates - CustomProperties', function() {
       expect(businessObject.get('camunda:asyncBefore')).to.be.false;
     });
 
+
+    it('should change String property to empty string when erased', async function() {
+
+      // given
+      const task = await expectSelected('AsyncTask_2'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-my.awesome.Task_2-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      expect(input.value).to.eql('');
+
+      expect(businessObject.get('camunda:jobPriority')).to.be.eql('');
+    });
+
   });
 
 

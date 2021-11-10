@@ -578,7 +578,9 @@ function propertySetter(bpmnFactory, commandStack, element, property, scope) {
             propertyValue = undefined;
           }
         } else {
-          propertyValue = value;
+
+          // make sure we don't remove the property
+          propertyValue = value || '';
         }
       }
 

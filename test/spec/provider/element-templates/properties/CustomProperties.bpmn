@@ -31,6 +31,7 @@
       </bpmn:extensionElements>
     </bpmn:task>
     <bpmn:task id="AsyncTask" name="AsyncTask" camunda:modelerTemplate="my.awesome.Task" camunda:asyncBefore="true" />
+    <bpmn:task id="AsyncTask_2" name="AsyncTask_2" camunda:modelerTemplate="my.awesome.Task_2" camunda:asyncBefore="true" camunda:jobPriority="1200" />
     <bpmn:task id="WebserviceTask" name="Webservice Task" camunda:modelerTemplate="com.mycompany.WsCaller">
       <bpmn:extensionElements>
         <camunda:properties>
@@ -131,6 +132,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1nlqdin_di" bpmnElement="AsyncTask">
         <dc:Bounds x="291" y="53" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AsyncTask_2_di" bpmnElement="AsyncTask_2">
+        <dc:Bounds x="291" y="143" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_1vmddbe_di" bpmnElement="WebserviceTask">
         <dc:Bounds x="424" y="53" width="100" height="80" />
