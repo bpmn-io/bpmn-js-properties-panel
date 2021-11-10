@@ -151,7 +151,7 @@ function ErrorRef(props) {
     sortByName(errors).forEach(error => {
       options.push({
         value: error.get('id'),
-        label: error.get('name')
+        label: error.get('name') || error.get('id')
       });
     });
 

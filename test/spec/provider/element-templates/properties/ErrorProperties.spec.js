@@ -9,7 +9,10 @@ import {
   act
 } from '@testing-library/preact';
 
-import { query as domQuery } from 'min-dom';
+import {
+  query as domQuery,
+  queryAll as domQueryAll
+} from 'min-dom';
 
 import coreModule from 'bpmn-js/lib/core';
 import modelingModule from 'bpmn-js/lib/features/modeling';
@@ -44,6 +47,48 @@ describe('provider/element-templates - ErrorProperties', function() {
       modelingModule
     ]
   }));
+
+
+  it('should display given label', async function() {
+
+    // when
+    await expectSelected('ServiceTask_1');
+
+    // then
+    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+          headerTitles = domQueryAll(
+            '.bio-properties-panel-list .bio-properties-panel-collapsible-entry-header-title', group);
+
+    expect(headerTitles[1].textContent).to.eql('error-name-2');
+  });
+
+
+  it('should display placeholder label if neither label nor code is set', async function() {
+
+    // when
+    await expectSelected('ServiceTask_1');
+
+    // then
+    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+          headerTitles = domQueryAll(
+            '.bio-properties-panel-list .bio-properties-panel-collapsible-entry-header-title', group);
+
+    expect(headerTitles[3].textContent).to.eql('<unnamed>');
+  });
+
+
+  it('should display label based on error name and code', async function() {
+
+    // when
+    await expectSelected('ServiceTask_1');
+
+    // then
+    const group = domQuery('[data-group-id=\'group-CamundaPlatform__Errors\']', container),
+          headerTitle = domQuery(
+            '.bio-properties-panel-list .bio-properties-panel-collapsible-entry-header-title', group);
+
+    expect(headerTitle.textContent).to.eql('error-name-1 (code = error-code-1)');
+  });
 
 
   it('should not display add button', async function() {

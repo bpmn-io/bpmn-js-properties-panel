@@ -5,6 +5,7 @@ import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
 
 import Error from '../../camunda-platform/properties/Error';
+import { getErrorLabel } from '../../camunda-platform/properties/ErrorsProps';
 
 import {
   findCamundaErrorEventDefinition,
@@ -27,8 +28,7 @@ export function ErrorProperties(props) {
   } = property;
 
   const {
-    errorRef,
-    name
+    errorRef
   } = binding;
 
   const businessObject = getBusinessObject(element),
@@ -66,7 +66,7 @@ export function ErrorProperties(props) {
 
   const item = {
     id,
-    label: label || name,
+    label: label || getErrorLabel(errorEventDefinition),
     entries
   };
 

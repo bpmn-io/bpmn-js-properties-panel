@@ -15,7 +15,6 @@
         }
       },
       {
-        "label": "error-name-1",
         "value": "${error.expression1}",
         "binding": {
           "type": "camunda:errorEventDefinition",
@@ -36,6 +35,13 @@
         "binding": {
           "type": "camunda:errorEventDefinition",
           "errorRef": "error-3"
+        }
+      },
+      {
+        "value": "${error.expression4}",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-4"
         }
       }
     ],
@@ -132,6 +138,21 @@
             "label": "Error Name",
             "type": "Hidden",
             "value": "error-name-3",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      },
+      {
+        "type": "bpmn:Error",
+        "id": "error-4",
+        "properties": [
+          {
+            "label": "Error Name",
+            "type": "Hidden",
+            "value": "error-name-4",
             "binding": {
               "type": "property",
               "name": "name"

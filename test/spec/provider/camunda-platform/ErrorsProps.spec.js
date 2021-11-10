@@ -176,6 +176,25 @@ describe('provider/camunda-platform - ErrorProps', function() {
         expect(fieldInjectionHeaderLabel.innerText).to.eql('<no reference>');
       }));
 
+
+      it('should show placeholder label if only code is set',
+        inject(async function(elementRegistry, selection) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_ErrorEventDefinitionCodeNoName');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          // when
+          const fieldInjectionHeaderLabel = getErrorItemLabel(container, 0);
+
+          // then
+          expect(fieldInjectionHeaderLabel.innerText).to.eql('<unnamed> (code = 404)');
+        })
+      );
+
     });
 
 

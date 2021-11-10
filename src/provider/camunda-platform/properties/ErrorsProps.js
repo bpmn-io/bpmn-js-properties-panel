@@ -122,7 +122,7 @@ function addFactory({ bpmnFactory, commandStack, element }) {
 
 // helpers //////////
 
-function getErrorLabel(errorEventDefinition) {
+export function getErrorLabel(errorEventDefinition) {
   const error = errorEventDefinition.get('errorRef');
 
   if (!error) {
@@ -130,7 +130,7 @@ function getErrorLabel(errorEventDefinition) {
   }
 
   const errorCode = error.get('errorCode'),
-        name = error.get('name');
+        name = error.get('name') || '<unnamed>';
 
   if (errorCode) {
     return `${ name } (code = ${ errorCode })`;

@@ -219,6 +219,7 @@ describe('provider/camunda-platform - Error', function() {
       expect(asOptionNamesList(select)).to.eql([
         '<none>',
         'Create new ...',
+        'Error_3',
         'myBusinessException',
         'myOtherBusinessException'
       ]);

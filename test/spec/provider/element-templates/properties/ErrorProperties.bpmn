@@ -6,6 +6,7 @@
         <camunda:errorEventDefinition id="ErrorEventDefinition_1x790hf" errorRef="Error_error-1_19uan50" expression="${error.expression1}" />
         <camunda:errorEventDefinition id="ErrorEventDefinition_1mfya2c" errorRef="Error_error-2_160l0k8" expression="${error.expression2}" />
         <camunda:errorEventDefinition id="ErrorEventDefinition_0wrs1j5" errorRef="Error_error-3_05nhsr3" expression="${error.expression3}" />
+        <camunda:errorEventDefinition id="ErrorEventDefinition_0wrs1j3" errorRef="Error_error-4_05nhsr3" expression="${error.expression4}" />
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ServiceTask_empty" camunda:modelerTemplate="com.example.EmptyTemplate" />
@@ -13,6 +14,7 @@
   <bpmn:error id="Error_error-1_19uan50" name="error-name-1" errorCode="error-code-1" camunda:errorMessage="error-message-1" />
   <bpmn:error id="Error_error-2_160l0k8" name="error-name-2" errorCode="error-code-2" camunda:errorMessage="error-message-2" />
   <bpmn:error id="Error_error-3_05nhsr3" name="error-name-3" errorCode="error-code-3" camunda:errorMessage="error-message-3" />
+  <bpmn:error id="Error_error-4_05nhsr3" name="" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0jg7qce">
       <bpmndi:BPMNShape id="Activity_07xpg3x_di" bpmnElement="ServiceTask_1">
