@@ -88,6 +88,44 @@ describe('provider/element-templates - ElementTemplates', function() {
         expect(group).not.to.exist;
       })
     );
+
+
+    it('should display update template button update is available', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_2');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const updateAvailable = domQuery('.bio-properties-panel-template-update-available', container);
+
+        expect(updateAvailable).to.exist;
+      })
+    );
+
+
+    it('should NOT display update template button when no update is available', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('ServiceTask');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const updateAvailable = domQuery('.bio-properties-panel-template-update-available', container);
+
+        expect(updateAvailable).not.to.exist;
+      })
+    );
   });
 
 
@@ -259,7 +297,7 @@ describe('provider/element-templates - ElementTemplates', function() {
         const template = elementTemplates.get(task);
 
         expect(template).to.have.property('id', 'foo');
-        expect(template).to.have.property('version', 2);
+        expect(template).to.have.property('version', 3);
       })
     );
   });

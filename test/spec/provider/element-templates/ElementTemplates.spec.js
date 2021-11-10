@@ -107,7 +107,7 @@ describe('provider/element-templates - ElementTemplates', function() {
     it('should not get template (no template with ID)', inject(function(elementTemplates) {
 
       // when
-      const template = elementTemplates.get('foo', 3);
+      const template = elementTemplates.get('foo', -1);
 
       // then
       expect(template).to.be.null;
@@ -154,7 +154,7 @@ describe('provider/element-templates - ElementTemplates', function() {
 
       // when
       // then
-      expect(elementTemplates.getAll()).to.have.length(7);
+      expect(elementTemplates.getAll()).to.have.length(templates.length);
     }));
 
 
@@ -164,10 +164,11 @@ describe('provider/element-templates - ElementTemplates', function() {
       const templates = elementTemplates.getAll('foo');
 
       // then
-      expect(templates).to.have.length(3);
+      expect(templates).to.have.length(4);
       expect(templates[ 0 ].id).to.equal('foo');
       expect(templates[ 1 ].id).to.equal('foo');
       expect(templates[ 2 ].id).to.equal('foo');
+      expect(templates[ 3 ].id).to.equal('foo');
     }));
 
   });

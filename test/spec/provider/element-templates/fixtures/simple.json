@@ -20,6 +20,13 @@
     "properties": []
   },
   {
+    "id": "foo",
+    "name":"Foo 3",
+    "version": 3,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
     "id": "bar",
     "name":"Bar 1",
     "version": 1,

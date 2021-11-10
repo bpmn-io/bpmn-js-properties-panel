@@ -9,6 +9,8 @@ import { HeaderButton } from '@bpmn-io/properties-panel/lib/components/HeaderBut
 
 import classnames from 'classnames';
 
+import { isUndefined } from 'min-dash';
+
 import {
   useService
 } from '../../../hooks';
@@ -263,7 +265,7 @@ function getTemplateState(elementTemplates, element) {
     return { type: 'UNKNOWN_TEMPLATE', templateId };
   }
 
-  const newerTemplate = findNewerTemplate(elementTemplates, template);
+  const newerTemplate = findNewestElementTemplate(elementTemplates, template);
   if (newerTemplate) {
     return { type: 'OUTDATED_TEMPLATE', template, newerTemplate };
   }
@@ -271,8 +273,25 @@ function getTemplateState(elementTemplates, element) {
   return { type: 'KNOWN_TEMPLATE', template };
 }
 
-function findNewerTemplate(elementTemplates, template) {
-  const templates = elementTemplates.getAll();
+function findNewestElementTemplate(elementTemplates, currentElementTemplate) {
+  if (isUndefined(currentElementTemplate.version)) {
+    return null;
+  }
 
-  return templates.find(currentTemplate => currentTemplate.version > template.version);
+  return elementTemplates
+    .getAll()
+    .filter(function(elementTemplate) {
+      return currentElementTemplate.id === elementTemplate.id && !isUndefined(elementTemplate.version);
+    })
+    .reduce(function(newestElementTemplate, elementTemplate) {
+      if (currentElementTemplate.version < elementTemplate.version) {
+        return elementTemplate;
+      }
+
+      if (newestElementTemplate && newestElementTemplate.version < elementTemplate.version) {
+        return elementTemplate;
+      }
+
+      return newestElementTemplate;
+    }, null);
 }

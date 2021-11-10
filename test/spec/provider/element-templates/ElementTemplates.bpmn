@@ -5,7 +5,7 @@
     <bpmn:task id="Task_2" camunda:modelerTemplate="foo" camunda:modelerTemplateVersion="1" />
     <bpmn:task id="Task_3" />
     <bpmn:task id="UnknownTemplateTask" camunda:modelerTemplate="unknown" />
-    <bpmn:serviceTask id="ServiceTask" camunda:modelerTemplate="default" />
+    <bpmn:serviceTask id="ServiceTask" camunda:modelerTemplate="default" camunda:modelerTemplateVersion="1" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
