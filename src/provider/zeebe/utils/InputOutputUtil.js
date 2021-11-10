@@ -66,7 +66,8 @@ export function areInputParametersSupported(element) {
   return isAny(element, [
     'bpmn:UserTask',
     'bpmn:SubProcess',
-    'bpmn:CallActivity'
+    'bpmn:CallActivity',
+    'bpmn:BusinessRuleTask'
   ]) || isZeebeServiceTask(element);
 }
 
@@ -77,7 +78,8 @@ export function areOutputParametersSupported(element) {
     'bpmn:SubProcess',
     'bpmn:ReceiveTask',
     'bpmn:CallActivity',
-    'bpmn:Event'
+    'bpmn:Event',
+    'bpmn:BusinessRuleTask'
   ]);
 }
 

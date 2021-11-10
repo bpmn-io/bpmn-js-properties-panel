@@ -1,6 +1,5 @@
 import {
-  getBusinessObject,
-  is
+  getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
@@ -28,13 +27,6 @@ export function TaskDefinitionProps(props) {
   } = props;
 
   if (!isZeebeServiceTask(element)) {
-    return [];
-  }
-
-  // Only show for BusinessRuleTasks if a taskDefinition exists (ie. when
-  // the businessRuleTask is NOT implemented via referenced DMN)
-  if (is(element, 'bpmn:BusinessRuleTask') &&
-      !getTaskDefinition(element)) {
     return [];
   }
 
