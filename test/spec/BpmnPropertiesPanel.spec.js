@@ -175,6 +175,25 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
+    it('should update on element templates changed', function() {
+
+      // given
+      const updateSpy = sinon.spy();
+
+      const eventBus = new eventBusMock();
+
+      eventBus.on('propertiesPanel.updated', updateSpy);
+
+      createBpmnPropertiesPanel({ container, eventBus });
+
+      // when
+      eventBus.fire('elementTemplates.changed');
+
+      // then
+      expect(updateSpy).to.have.been.calledOnce;
+    });
+
+
     it('should notify on layout changed', function() {
 
       // given

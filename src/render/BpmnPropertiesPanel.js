@@ -120,6 +120,19 @@ export default function BpmnPropertiesPanel(props) {
     };
   }, [ selectedElement ]);
 
+  // (2d) element templates changed
+  useEffect(() => {
+    const onTemplatesChanged = () => {
+      _update(selectedElement);
+    };
+
+    eventBus.on('elementTemplates.changed', onTemplatesChanged);
+
+    return () => {
+      eventBus.off('elementTemplates.changed', onTemplatesChanged);
+    };
+  }, [ selectedElement ]);
+
   // (3) create properties panel context
   const bpmnPropertiesPanelContext = {
     selectedElement,
