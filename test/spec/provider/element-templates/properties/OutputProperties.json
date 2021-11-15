@@ -43,6 +43,21 @@
           "type": "camunda:outputParameter",
           "source": "notCreated"
         }
+      },
+      {
+        "value": "foo",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "name": "missingLabel",
+          "source": "notCreated_1"
+        }
+      },
+      {
+        "value": "foo",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "notCreated_2"
+        }
       }
     ]
   }

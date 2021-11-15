@@ -71,6 +71,7 @@ export function InputProperties(props) {
     });
   }
 
+  // @barmac: binding#name is required so there is no third option
   const item = {
     id,
     label: label || name,

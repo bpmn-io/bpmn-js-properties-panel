@@ -97,6 +97,39 @@ describe('provider/element-templates - OutputProperties', function() {
       expect(label.innerText).to.equal('resultStatus');
     });
 
+
+    it('should display binding name as label', async function() {
+
+      // when
+      await expectSelected('SimpleTask');
+
+      // then
+      const entry = findEntry('SimpleTask-outputParameter-5', container);
+
+      expect(entry).to.exist;
+
+      const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', entry);
+
+      expect(label).to.exist;
+      expect(label.innerText).to.equal('missingLabel');
+    });
+
+
+    it('should display <unnamed> if both label and name are missing', async function() {
+
+      // when
+      await expectSelected('SimpleTask');
+
+      // then
+      const entry = findEntry('SimpleTask-outputParameter-6', container);
+
+      expect(entry).to.exist;
+
+      const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', entry);
+
+      expect(label).to.exist;
+      expect(label.innerText).to.equal('<unnamed>');
+    });
   });
 
 

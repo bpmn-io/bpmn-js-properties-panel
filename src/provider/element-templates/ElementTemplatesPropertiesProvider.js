@@ -23,10 +23,11 @@ const LOWER_PRIORITY = 300;
 
 export default class ElementTemplatesPropertiesProvider {
 
-  constructor(elementTemplates, propertiesPanel) {
+  constructor(elementTemplates, propertiesPanel, injector) {
     propertiesPanel.registerProvider(LOWER_PRIORITY, this);
 
     this._elementTemplates = elementTemplates;
+    this._injector = injector;
   }
 
   getGroups(element) {
@@ -60,7 +61,7 @@ export default class ElementTemplatesPropertiesProvider {
 
         // (3) update existing groups with element template specific properties
         updateInputGroup(groups, element, elementTemplate);
-        updateOutputGroup(groups, element, elementTemplate);
+        updateOutputGroup(groups, element, elementTemplate, this._injector);
         updateErrorsGroup(groups, element, elementTemplate);
       }
 
@@ -77,7 +78,11 @@ export default class ElementTemplatesPropertiesProvider {
   }
 }
 
-ElementTemplatesPropertiesProvider.$inject = [ 'elementTemplates', 'propertiesPanel' ];
+ElementTemplatesPropertiesProvider.$inject = [
+  'elementTemplates',
+  'propertiesPanel',
+  'injector'
+];
 
 
 // helper /////////////////////
@@ -106,7 +111,7 @@ function updateInputGroup(groups, element, elementTemplate) {
   });
 }
 
-function updateOutputGroup(groups, element, elementTemplate) {
+function updateOutputGroup(groups, element, elementTemplate, injector) {
   const outputGroup = findGroup(groups, 'CamundaPlatform__Output');
 
   if (!outputGroup) {
@@ -122,7 +127,7 @@ function updateOutputGroup(groups, element, elementTemplate) {
   });
 
   properties.forEach((property, index) => {
-    const item = OutputProperties({ element, index, property });
+    const item = OutputProperties({ element, index, property, injector });
 
     if (item) {
       outputGroup.items.push(item);

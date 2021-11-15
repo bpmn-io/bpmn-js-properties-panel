@@ -23,6 +23,7 @@ export function OutputProperties(props) {
   const {
     element,
     index,
+    injector,
     property
   } = props;
 
@@ -32,12 +33,16 @@ export function OutputProperties(props) {
     label
   } = property;
 
+  const { name } = binding;
+
   const businessObject = getBusinessObject(element),
         inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
   if (!inputOutput) {
     return;
   }
+
+  const translate = injector.get('translate');
 
   const outputParameter = findOutputParameter(inputOutput, binding);
 
@@ -70,7 +75,7 @@ export function OutputProperties(props) {
 
   const item = {
     id,
-    label,
+    label: label || name || translate('<unnamed>'),
     entries
   };
 
