@@ -213,7 +213,10 @@ function BooleanProperty(props) {
     scope
   } = props;
 
-  const { label } = property;
+  const {
+    description,
+    label
+  } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack');
@@ -223,6 +226,7 @@ function BooleanProperty(props) {
     getValue: propertyGetter(element, property, scope),
     id,
     label,
+    description,
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope)
   });
 }
@@ -235,7 +239,10 @@ function DropdownProperty(props) {
     scope
   } = props;
 
-  const { label } = property;
+  const {
+    description,
+    label
+  } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack');
@@ -256,6 +263,7 @@ function DropdownProperty(props) {
     id,
     label,
     getOptions,
+    description,
     getValue: propertyGetter(element, property, scope),
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope)
   });
@@ -269,7 +277,10 @@ function StringProperty(props) {
     scope
   } = props;
 
-  const { label } = property;
+  const {
+    description,
+    label
+  } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack'),
@@ -282,6 +293,7 @@ function StringProperty(props) {
     getValue: propertyGetter(element, property, scope),
     id,
     label,
+    description,
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
     validate: propertyValidator(translate, property)
   });
@@ -295,7 +307,10 @@ function TextAreaProperty(props) {
     scope
   } = props;
 
-  const { label } = property;
+  const {
+    description,
+    label
+  } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack'),
@@ -306,6 +321,7 @@ function TextAreaProperty(props) {
     element,
     id,
     label,
+    description,
     getValue: propertyGetter(element, property, scope),
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope)
   });

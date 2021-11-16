@@ -39,6 +39,9 @@ import elementTemplatesModule from 'src/provider/element-templates';
 import diagramXML from './CustomProperties.bpmn';
 import elementTemplates from './CustomProperties.json';
 
+import descriptionDiagramXML from './CustomProperties.description.bpmn';
+import descriptionElementTemplates from './CustomProperties.description.json';
+
 
 describe('provider/element-templates - CustomProperties', function() {
 
@@ -1297,6 +1300,73 @@ describe('provider/element-templates - CustomProperties', function() {
 
     });
 
+  });
+
+
+  describe('description', function() {
+
+    beforeEach(bootstrapPropertiesPanel(descriptionDiagramXML, {
+      container,
+      debounceInput: false,
+      elementTemplates: descriptionElementTemplates,
+      moddleExtensions: {
+        camunda: camundaModdlePackage
+      },
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        elementTemplatesModule,
+        modelingModule
+      ]
+    }));
+
+
+    it('should display description for string property', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.description-0', container);
+
+      expect(entry.textContent).to.contain('STRING_DESCRIPTION');
+    });
+
+
+    it('should display description for textarea property', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.description-1', container);
+
+      expect(entry.textContent).to.contain('TEXT_DESCRIPTION');
+    });
+
+
+    it('should display description for boolean property', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.description-2', container);
+
+      expect(entry.textContent).to.contain('BOOLEAN_DESCRIPTION');
+    });
+
+
+    it('should display description for dropdown property', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.description-3', container);
+
+      expect(entry.textContent).to.contain('DROPDOWN_DESCRIPTION');
+    });
   });
 
 
