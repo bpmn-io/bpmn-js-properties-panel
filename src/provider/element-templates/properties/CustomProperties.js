@@ -215,6 +215,7 @@ function BooleanProperty(props) {
 
   const {
     description,
+    editable,
     label
   } = property;
 
@@ -227,7 +228,8 @@ function BooleanProperty(props) {
     id,
     label,
     description,
-    setValue: propertySetter(bpmnFactory, commandStack, element, property, scope)
+    setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
+    disabled: editable === false
   });
 }
 
@@ -241,6 +243,7 @@ function DropdownProperty(props) {
 
   const {
     description,
+    editable,
     label
   } = property;
 
@@ -265,7 +268,8 @@ function DropdownProperty(props) {
     getOptions,
     description,
     getValue: propertyGetter(element, property, scope),
-    setValue: propertySetter(bpmnFactory, commandStack, element, property, scope)
+    setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
+    disabled: editable === false
   });
 }
 
@@ -279,6 +283,7 @@ function StringProperty(props) {
 
   const {
     description,
+    editable,
     label
   } = property;
 
@@ -295,7 +300,8 @@ function StringProperty(props) {
     label,
     description,
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
-    validate: propertyValidator(translate, property)
+    validate: propertyValidator(translate, property),
+    disabled: editable === false
   });
 }
 
@@ -309,6 +315,7 @@ function TextAreaProperty(props) {
 
   const {
     description,
+    editable,
     label
   } = property;
 
@@ -323,7 +330,8 @@ function TextAreaProperty(props) {
     label,
     description,
     getValue: propertyGetter(element, property, scope),
-    setValue: propertySetter(bpmnFactory, commandStack, element, property, scope)
+    setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
+    disabled: editable === false
   });
 }
 

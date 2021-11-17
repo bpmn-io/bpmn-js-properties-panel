@@ -42,6 +42,9 @@ import elementTemplates from './CustomProperties.json';
 import descriptionDiagramXML from './CustomProperties.description.bpmn';
 import descriptionElementTemplates from './CustomProperties.description.json';
 
+import editableDiagramXML from './CustomProperties.editable.bpmn';
+import editableElementTemplates from './CustomProperties.editable.json';
+
 
 describe('provider/element-templates - CustomProperties', function() {
 
@@ -1366,6 +1369,103 @@ describe('provider/element-templates - CustomProperties', function() {
       const entry = findEntry('custom-entry-com.camunda.example.description-3', container);
 
       expect(entry.textContent).to.contain('DROPDOWN_DESCRIPTION');
+    });
+  });
+
+
+  describe('editable', function() {
+
+    beforeEach(bootstrapPropertiesPanel(editableDiagramXML, {
+      container,
+      debounceInput: false,
+      elementTemplates: editableElementTemplates,
+      moddleExtensions: {
+        camunda: camundaModdlePackage
+      },
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        elementTemplatesModule,
+        modelingModule
+      ]
+    }));
+
+
+    it('should NOT disable input when editable is NOT set', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.editable-4', container),
+            input = findInput('text', entry);
+
+      expect(input).not.to.have.property('disabled', true);
+    });
+
+
+    it('should NOT disable input when editable=true', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.editable-5', container),
+            input = findInput('text', entry);
+
+      expect(input).not.to.have.property('disabled', true);
+    });
+
+
+    it('should disable string input when editable=false', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.editable-0', container),
+            input = findInput('text', entry);
+
+      expect(input).to.have.property('disabled', true);
+    });
+
+
+    it('should disable textarea input when editable=false', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.editable-1', container),
+            input = findTextarea(entry);
+
+      expect(input).to.have.property('disabled', true);
+    });
+
+
+    it('should disable boolean input when editable=false', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.editable-2', container),
+            input = findInput('checkbox', entry);
+
+      expect(input).to.have.property('disabled', true);
+    });
+
+
+    it('should disable dropdown input when editable=false', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.editable-3', container),
+            input = findSelect(entry);
+
+      expect(input).to.have.property('disabled', true);
     });
   });
 
