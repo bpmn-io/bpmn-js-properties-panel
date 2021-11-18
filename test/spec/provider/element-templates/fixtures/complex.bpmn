@@ -1,57 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1-entries-visible">
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:serviceTask id="ConnectorTask_legacy" name="Connector Task (Legacy)" camunda:modelerTemplate="my.connector.legacy.Task">
+    <bpmn:task id="Activity_07u0i6l" name="AsyncAwesomeTask" camunda:modelerTemplate="my.awesome.Task" camunda:modelerTemplateVersion="2" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_08c5khp</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_1daj3wj" name="OutdatedAsyncAwesomeTask" camunda:modelerTemplate="my.awesome.Task" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_0a88kem</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Activity_0vb4ca2" name="ExecutionListener" camunda:modelerTemplate="my.execution.listener.task">
       <bpmn:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="messageBody">
-              <camunda:script scriptFormat="freemarker">Hello ${firstName}!</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="url" />
-            <camunda:inputParameter name="method" />
-            <camunda:outputParameter name="${S(response)}">wsResponse</camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>My Connector HTTP</camunda:connectorId>
-        </camunda:connector>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">println execution.eventName</camunda:script>
+        </camunda:executionListener>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">println end</camunda:script>
+        </camunda:executionListener>
       </bpmn:extensionElements>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ConnectorTask_NoData" name="Connector Task NoData" camunda:modelerTemplate="my.connector.Task" />
-    <bpmn:task id="MailTask" name="Mail Task" camunda:modelerTemplate="my.mail.Task">
+      <bpmn:incoming>Flow_08c5khp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nbwi07</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_08c5khp" sourceRef="Activity_07u0i6l" targetRef="Activity_0vb4ca2" />
+    <bpmn:task id="Activity_0cvp7zz" name="MailTask" camunda:modelerTemplate="my.mail.Task">
       <bpmn:extensionElements>
         <camunda:inputOutput>
+          <camunda:inputParameter name="recipient" />
           <camunda:inputParameter name="messageBody">
             <camunda:script scriptFormat="freemarker">Hello ${firstName}!</camunda:script>
           </camunda:inputParameter>
-          <camunda:inputParameter name="recipient">asdasd</camunda:inputParameter>
+          <camunda:inputParameter name="hiddenField">SECRET</camunda:inputParameter>
           <camunda:outputParameter name="mailResult">
             <camunda:script scriptFormat="freemarker">${mailResult}</camunda:script>
           </camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0nbwi07</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h3q9f3</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="AsyncTask" name="AsyncTask" camunda:modelerTemplate="my.awesome.Task" camunda:modelerTemplateVersion="2" camunda:asyncBefore="true" />
-    <bpmn:task id="WebserviceTask" name="Webservice Task" camunda:modelerTemplate="com.mycompany.WsCaller">
+    <bpmn:sequenceFlow id="Flow_0nbwi07" sourceRef="Activity_0vb4ca2" targetRef="Activity_0cvp7zz" />
+    <bpmn:sequenceFlow id="Flow_0h3q9f3" sourceRef="Activity_0cvp7zz" targetRef="Activity_0t66hf8" />
+    <bpmn:task id="Activity_1nnqz7a" name="WS Caller Task" camunda:modelerTemplate="com.mycompany.WsCaller">
       <bpmn:extensionElements>
         <camunda:properties>
-          <camunda:property name="webServiceUrl" value="https://foo.bar" />
+          <camunda:property name="webServiceUrl" value="" />
         </camunda:properties>
       </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dqo4rp</bpmn:incoming>
     </bpmn:task>
-    <bpmn:task id="MailTask_NoData" name="Mail Task NoData" camunda:modelerTemplate="my.mail.Task" />
-    <bpmn:task id="Task_0owamzf" name="Unknown Task" camunda:modelerTemplate="not.known.Task">
-      <bpmn:outgoing>VipOrderPath</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_04yuwdv">
-      <bpmn:incoming>VipOrderPath</bpmn:incoming>
-    </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="VipOrderPath" name="YEY YEA!" camunda:modelerTemplate="e.com.merce.FastPath" sourceRef="Task_0owamzf" targetRef="ExclusiveGateway_04yuwdv">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ customer.vip }</bpmn:conditionExpression>
-    </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="DelegateTask" name="Delegate Task" camunda:modelerTemplate="my.custom.ServiceTask" camunda:delegateExpression="com.my.custom.Foo" />
-    <bpmn:task id="WebserviceTask_NoData" name="Webservice Task NoData" camunda:modelerTemplate="com.mycompany.WsCaller" />
-    <bpmn:task id="ValidateTask" name="Validate Task" camunda:modelerTemplate="com.validated-inputs.Task" />
-    <bpmn:callActivity id="CallActivity" name="Call Activity" camunda:modelerTemplate="my.Caller" calledElement="calledProcess">
+    <bpmn:sequenceFlow id="Flow_0a88kem" sourceRef="Activity_1daj3wj" targetRef="Activity_0ybx4dm" />
+    <bpmn:serviceTask id="Activity_0ybx4dm" name="Connector Task" camunda:modelerTemplate="my.connector.Task">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url" />
+            <camunda:inputParameter name="method" />
+            <camunda:inputParameter name="agent">Camunda</camunda:inputParameter>
+            <camunda:inputParameter name="messageBody">
+              <camunda:script scriptFormat="freemarker">Hello ${firstName}!</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="${S(response)}">wsResponse</camunda:outputParameter>
+            <camunda:outputParameter name="httpResult">
+              <camunda:script scriptFormat="freemarker">${httpResult}</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>My Connector HTTP</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0a88kem</bpmn:incoming>
+      <bpmn:outgoing>Flow_1spgaq1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1spgaq1" sourceRef="Activity_0ybx4dm" targetRef="Activity_1jobwy4" />
+    <bpmn:serviceTask id="Activity_1jobwy4" name="Custom Service Task" camunda:modelerTemplate="my.custom.ServiceTask" camunda:delegateExpression="com.my.custom.Foo">
+      <bpmn:incoming>Flow_1spgaq1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xprklu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1xprklu" sourceRef="Activity_1jobwy4" targetRef="Activity_1crdq27" />
+    <bpmn:serviceTask id="Activity_1crdq27" name="External Error Task" camunda:modelerTemplate="com.camunda.example.ExternalErrorTask" camunda:type="external">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_0lq3q3p" errorRef="Error_error-1_20b3oqr" expression="error-expression" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xprklu</bpmn:incoming>
+      <bpmn:outgoing>Flow_05m3g87</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_05m3g87" sourceRef="Activity_1crdq27" targetRef="Activity_1a5hzus" />
+    <bpmn:serviceTask id="Activity_1a5hzus" name="Simple Error Scope" camunda:modelerTemplate="com.camunda.example.SimpleErrorScope">
+      <bpmn:incoming>Flow_05m3g87</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_10moby5" name="Valid" camunda:modelerTemplate="com.camunda.example.CustomServiceTaskFieldInjection">
+      <bpmn:extensionElements>
+        <camunda:field name="sender">
+          <camunda:string>My Field Injection Value</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_1mnuywf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1mnuywf" sourceRef="Activity_10moby5" targetRef="Activity_01vr3dd" />
+    <bpmn:serviceTask id="Activity_01vr3dd" name="Validated Inputs Task" camunda:modelerTemplate="com.validated-inputs.Task">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1mnuywf</bpmn:incoming>
+      <bpmn:outgoing>Flow_10mgmi5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_10mgmi5" sourceRef="Activity_01vr3dd" targetRef="Activity_0hf8j3r" />
+    <bpmn:callActivity id="Activity_0hf8j3r" name="Caller" camunda:modelerTemplate="my.Caller" calledElement="calledProcess">
       <bpmn:extensionElements>
         <camunda:in source="var_local" target="var_called_source" />
         <camunda:out source="var_local_source" target="var_called" />
@@ -63,139 +121,152 @@
         <camunda:out local="true" variables="all" />
         <camunda:in businessKey="${execution.processBusinessKey}" />
       </bpmn:extensionElements>
+      <bpmn:incoming>Flow_10mgmi5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0s9gmd7</bpmn:outgoing>
     </bpmn:callActivity>
-    <bpmn:callActivity id="CallActivity_NoData" name="Call Activity&#10;NoData" camunda:modelerTemplate="my.Caller" />
-    <bpmn:task id="ExecutionListenerTask" name="Execution Listener Task" camunda:modelerTemplate="my.execution.listener.task">
+    <bpmn:sequenceFlow id="Flow_0s9gmd7" sourceRef="Activity_0hf8j3r" targetRef="Activity_0pgqx99" />
+    <bpmn:task id="Activity_0pgqx99" name="Unknown Task" camunda:modelerTemplate="com.mycompany.Unknown">
       <bpmn:extensionElements>
-        <camunda:executionListener event="start">
-          <camunda:script scriptFormat="groovy">println execution.eventName</camunda:script>
-        </camunda:executionListener>
-        <camunda:executionListener event="end">
-          <camunda:script scriptFormat="groovy">println end</camunda:script>
-        </camunda:executionListener>
+        <camunda:properties>
+          <camunda:property name="webServiceUrl" value="" />
+        </camunda:properties>
       </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0s9gmd7</bpmn:incoming>
+      <bpmn:outgoing>Flow_14l7z7l</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:serviceTask id="ServiceTask_FieldInjection" name="Field Injection Task" camunda:modelerTemplate="com.camunda.example.CustomServiceTaskFieldInjection">
+    <bpmn:sequenceFlow id="Flow_14l7z7l" name="YEY YEA!" camunda:modelerTemplate="e.com.merce.FastPath" sourceRef="Activity_0pgqx99" targetRef="Activity_0538n0s">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ customer.vip }</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:task id="Activity_0t66hf8" name="ValidatedInputsTask" camunda:modelerTemplate="com.validated-inputs.Task">
       <bpmn:extensionElements>
-        <camunda:field name="sender">
-          <camunda:string>buhh</camunda:string>
-        </camunda:field>
-        <camunda:field name="sender2">
-          <camunda:string>buhh1</camunda:string>
-        </camunda:field>
+        <camunda:properties>
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+          <camunda:property name="prop" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0h3q9f3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dqo4rp</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0dqo4rp" sourceRef="Activity_0t66hf8" targetRef="Activity_1nnqz7a" />
+    <bpmn:serviceTask id="Activity_0538n0s" name="Input Output Disabled" camunda:modelerTemplate="com.camunda.example.DefaultRendering">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_14l7z7l</bpmn:incoming>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1cut0pe" name="Input Output Enabled" camunda:modelerTemplate="com.camunda.example.DefaultRendering">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="processVar" />
+          <camunda:outputParameter>outputParam</camunda:outputParameter>
+        </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_FieldInjection_NoData" name="Field Injection Task No Data" camunda:modelerTemplate="com.camunda.example.CustomServiceTaskFieldInjection" />
-    <bpmn:serviceTask id="ConnectorTask" name="Connector Task" camunda:modelerTemplate="my.connector.Task">
-      <bpmn:extensionElements>
-        <camunda:connector>
-          <camunda:inputOutput>
-            <camunda:inputParameter name="messageBody">
-              <camunda:script scriptFormat="freemarker">Hello ${firstName}!</camunda:script>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="url" />
-            <camunda:inputParameter name="method" />
-            <camunda:outputParameter name="${S(response)}">wsResponse</camunda:outputParameter>
-          </camunda:inputOutput>
-          <camunda:connectorId>My Connector HTTP</camunda:connectorId>
-        </camunda:connector>
-      </bpmn:extensionElements>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ConnectorTask_NoData_legacy" name="Connector Task NoData" camunda:modelerTemplate="my.connector.legacy.Task" />
-    <bpmn:serviceTask id="ExternalErrorTask" name="External Error Task" camunda:modelerTemplate="com.camunda.example.ExternalErrorTask" camunda:type="external">
-      <bpmn:extensionElements>
-        <camunda:errorEventDefinition id="ErrorEventDefinition_1bt7x0x" errorRef="Error_error-1_xyz" expression="error-expression" />
-      </bpmn:extensionElements>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="ExternalErrorTask_NoData" name="External Error Task NoData" camunda:modelerTemplate="com.camunda.example.ExternalErrorTask" />
-    <bpmn:serviceTask id="ExternalErrorTask_NoError" name="External Error Task NoError" camunda:modelerTemplate="com.camunda.example.SimpleErrorScope" />
-    <bpmn:serviceTask id="MissingTemplate" name="Missing Template" camunda:modelerTemplate="missing" />
-    <bpmn:task id="OldAsyncTask" name="Outdated Template" camunda:modelerTemplate="my.awesome.Task" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true" />
   </bpmn:process>
   <bpmn:error id="Error_error-1_xyz" name="error-name" errorCode="my-code" camunda:errorMessage="foo" />
+  <bpmn:error id="Error_error-1_20b3oqr" name="error-name" errorCode="my-code" camunda:errorMessage="error-message" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNEdge id="SequenceFlow_13jfpgw_di" bpmnElement="VipOrderPath">
-        <di:waypoint x="259" y="387" />
-        <di:waypoint x="449" y="387" />
+      <bpmndi:BPMNEdge id="Flow_0dqo4rp_di" bpmnElement="Flow_0dqo4rp">
+        <di:waypoint x="710" y="120" />
+        <di:waypoint x="760" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14l7z7l_di" bpmnElement="Flow_14l7z7l">
+        <di:waypoint x="710" y="380" />
+        <di:waypoint x="760" y="380" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="333" y="396" width="51" height="14" />
+          <dc:Bounds x="702" y="353" width="51" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Task_0zadlf1_di" bpmnElement="ConnectorTask_legacy">
-        <dc:Bounds x="690" y="193" width="100" height="80" />
+      <bpmndi:BPMNEdge id="Flow_0s9gmd7_di" bpmnElement="Flow_0s9gmd7">
+        <di:waypoint x="560" y="380" />
+        <di:waypoint x="610" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10mgmi5_di" bpmnElement="Flow_10mgmi5">
+        <di:waypoint x="410" y="380" />
+        <di:waypoint x="460" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mnuywf_di" bpmnElement="Flow_1mnuywf">
+        <di:waypoint x="260" y="380" />
+        <di:waypoint x="310" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05m3g87_di" bpmnElement="Flow_05m3g87">
+        <di:waypoint x="710" y="250" />
+        <di:waypoint x="760" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xprklu_di" bpmnElement="Flow_1xprklu">
+        <di:waypoint x="560" y="250" />
+        <di:waypoint x="610" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1spgaq1_di" bpmnElement="Flow_1spgaq1">
+        <di:waypoint x="410" y="250" />
+        <di:waypoint x="460" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a88kem_di" bpmnElement="Flow_0a88kem">
+        <di:waypoint x="260" y="250" />
+        <di:waypoint x="310" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h3q9f3_di" bpmnElement="Flow_0h3q9f3">
+        <di:waypoint x="560" y="120" />
+        <di:waypoint x="610" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nbwi07_di" bpmnElement="Flow_0nbwi07">
+        <di:waypoint x="410" y="120" />
+        <di:waypoint x="460" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08c5khp_di" bpmnElement="Flow_08c5khp">
+        <di:waypoint x="260" y="120" />
+        <di:waypoint x="310" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_07u0i6l_di" bpmnElement="Activity_07u0i6l">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0zadlf2_di" bpmnElement="ConnectorTask_NoData">
-        <dc:Bounds x="654" y="347" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1daj3wj_di" bpmnElement="Activity_1daj3wj" bioc:stroke="#fb8c00" bioc:fill="#ffe0b2" color:background-color="#ffe0b2" color:border-color="#fb8c00">
+        <dc:Bounds x="160" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0zadlfo_di" bpmnElement="MailTask">
-        <dc:Bounds x="159" y="193" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0vb4ca2_di" bpmnElement="Activity_0vb4ca2">
+        <dc:Bounds x="310" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1nlqdin_di" bpmnElement="AsyncTask">
-        <dc:Bounds x="291" y="193" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0cvp7zz_di" bpmnElement="Activity_0cvp7zz">
+        <dc:Bounds x="460" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1vmddbe_di" bpmnElement="WebserviceTask">
-        <dc:Bounds x="424" y="193" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1nnqz7a_di" bpmnElement="Activity_1nnqz7a">
+        <dc:Bounds x="760" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0pfsj2a_di" bpmnElement="MailTask_NoData">
-        <dc:Bounds x="554" y="193" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0079tiv_di" bpmnElement="Activity_0ybx4dm">
+        <dc:Bounds x="310" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0owamzf_di" bpmnElement="Task_0owamzf">
-        <dc:Bounds x="159" y="347" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_1mq7bg8_di" bpmnElement="Activity_1jobwy4">
+        <dc:Bounds x="460" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ExclusiveGateway_04yuwdv_di" bpmnElement="ExclusiveGateway_04yuwdv" isMarkerVisible="true">
-        <dc:Bounds x="449" y="362" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="349" y="272" width="90" height="20" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_1cidheu_di" bpmnElement="Activity_1crdq27">
+        <dc:Bounds x="610" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1kj4b4i_di" bpmnElement="DelegateTask">
-        <dc:Bounds x="159" y="493" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_01bx1fu_di" bpmnElement="Activity_1a5hzus">
+        <dc:Bounds x="760" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1p93nau_di" bpmnElement="WebserviceTask_NoData">
-        <dc:Bounds x="800" y="347" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0rlnvyd_di" bpmnElement="Activity_10moby5">
+        <dc:Bounds x="160" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_0pnk8c1_di" bpmnElement="ValidateTask">
-        <dc:Bounds x="291" y="493" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_05eltgc_di" bpmnElement="Activity_01vr3dd">
+        <dc:Bounds x="310" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_16ib2yl_di" bpmnElement="CallActivity">
-        <dc:Bounds x="159" y="605" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_05zh7pf_di" bpmnElement="Activity_0hf8j3r">
+        <dc:Bounds x="460" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="CallActivity_1nz6vft_di" bpmnElement="CallActivity_NoData">
-        <dc:Bounds x="291" y="605" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0pgqx99_di" bpmnElement="Activity_0pgqx99" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
+        <dc:Bounds x="610" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_1b49o1e_di" bpmnElement="ExecutionListenerTask">
-        <dc:Bounds x="821" y="193" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0t66hf8_di" bpmnElement="Activity_0t66hf8">
+        <dc:Bounds x="610" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1yvdqua_di" bpmnElement="ServiceTask_FieldInjection">
-        <dc:Bounds x="955" y="193" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0d0lcbf_di" bpmnElement="Activity_0538n0s">
+        <dc:Bounds x="760" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1p5xb8u_di" bpmnElement="ServiceTask_FieldInjection_NoData">
-        <dc:Bounds x="1067" y="193" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0m3yc93_di" bpmnElement="ConnectorTask">
-        <dc:Bounds x="654" y="450" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1yvd1h6_di" bpmnElement="ConnectorTask_NoData_legacy">
-        <dc:Bounds x="654" y="570" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0epmlyl_di" bpmnElement="ExternalErrorTask">
-        <dc:Bounds x="800" y="450" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0kfraj6_di" bpmnElement="ExternalErrorTask_NoData">
-        <dc:Bounds x="800" y="570" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1cex61n_di" bpmnElement="ExternalErrorTask_NoError">
-        <dc:Bounds x="800" y="670" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1j1ijxo_di" bpmnElement="MissingTemplate">
-        <dc:Bounds x="955" y="450" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0eujva4_di" bpmnElement="OldAsyncTask">
-        <dc:Bounds x="291" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0wfgb1n_di" bpmnElement="Activity_0wfgb1n">
-        <dc:Bounds x="955" y="570" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_03q2cpk_di" bpmnElement="Activity_1cut0pe">
+        <dc:Bounds x="760" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

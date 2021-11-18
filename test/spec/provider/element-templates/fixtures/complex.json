@@ -627,5 +627,29 @@
         ]
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema@0.4.0/resources/schema.json",
+    "name": "Default Rendering",
+    "id": "com.camunda.example.DefaultRendering",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Input Parameter",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "processVar"
+        }
+      },
+      {
+        "label": "Output Parameter",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "outputParam"
+        }
+      }
+    ]
   }
 ]
