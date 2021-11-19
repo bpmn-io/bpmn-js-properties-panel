@@ -105,7 +105,7 @@ function ProcessVariableAssignment(props) {
   const { binding } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack'),
+        modeling = useService('modeling'),
         translate = useService('translate');
 
   const getValue = () => {
@@ -114,9 +114,9 @@ function ProcessVariableAssignment(props) {
 
   const setValue = (value) => {
     if (value) {
-      addOutputParameter(element, property, bpmnFactory, commandStack);
+      addOutputParameter(element, property, bpmnFactory, modeling);
     } else {
-      removeOutputParameter(element, binding, commandStack);
+      removeOutputParameter(element, binding, modeling);
     }
   };
 
@@ -181,74 +181,46 @@ function AssignToProcessVariable(props) {
   });
 }
 
-function addOutputParameter(element, property, bpmnFactory, commandStack) {
+function addOutputParameter(element, property, bpmnFactory, modeling) {
   const {
     binding,
     value
   } = property;
 
-  const commands = [];
-
   const businessObject = getBusinessObject(element);
 
-  let extensionElements = businessObject.get('extensionElements');
+  const extensionElements = businessObject.get('extensionElements');
+  const inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
-  // (1) ensure bpmn:ExtensionElements
+  let updatedBusinessObject, update;
+
   if (!extensionElements) {
-    extensionElements = createElement(
-      'bpmn:ExtensionElements',
-      { values: [] },
-      businessObject,
-      bpmnFactory
-    );
+    updatedBusinessObject = businessObject;
 
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: businessObject,
-        properties: { extensionElements }
-      }
-    });
+    const extensionElements = createExtensionElements(businessObject, bpmnFactory),
+          inputOutput = createInputOutput(binding, value, bpmnFactory, extensionElements);
+    extensionElements.values.push(inputOutput);
+
+    update = { extensionElements };
+  } else if (!inputOutput) {
+    updatedBusinessObject = extensionElements;
+
+    const inputOutput = createInputOutput(binding, value, bpmnFactory, extensionElements);
+
+    update = { values: extensionElements.get('values').concat(inputOutput) };
+  } else {
+    updatedBusinessObject = inputOutput;
+
+    const outputParameter = createOutputParameter(binding, value, bpmnFactory);
+    outputParameter.$parent = inputOutput;
+
+    update = { outputParameters: inputOutput.get('camunda:outputParameters').concat(outputParameter) };
   }
 
-  // (2) ensure camunda:InputOutput
-  let inputOutput = findExtension(businessObject, 'camunda:InputOutput');
-
-  if (!inputOutput) {
-    inputOutput = createElement('camunda:InputOutput', {
-      inputParameters: [],
-      outputParameters: []
-    }, extensionElements, bpmnFactory);
-
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: extensionElements,
-        properties: { values: [ ...extensionElements.get('values'), inputOutput ] }
-      }
-    });
-  }
-
-  // (3) add camunda:InputParameter
-  const outputParamter = createOutputParameter(binding, value, bpmnFactory);
-
-  outputParamter.$parent = inputOutput;
-
-  commands.push({
-    cmd: 'element.updateModdleProperties',
-    context: {
-      element,
-      moddleElement: inputOutput,
-      properties: { outputParameters: [ ...inputOutput.get('camunda:outputParameters'), outputParamter ] }
-    }
-  });
-
-  commandStack.execute('properties-panel.multi-command-executor', commands);
+  modeling.updateModdleProperties(element, updatedBusinessObject, update);
 }
 
-function removeOutputParameter(element, binding, commandStack) {
+function removeOutputParameter(element, binding, modeling) {
   const businessObject = getBusinessObject(element);
 
   const inputOutput = findExtension(businessObject, 'camunda:InputOutput'),
@@ -256,9 +228,27 @@ function removeOutputParameter(element, binding, commandStack) {
 
   const outputParameter = findOutputParameter(inputOutput, binding);
 
-  commandStack.execute('element.updateModdleProperties', {
-    element,
-    moddleElement: inputOutput,
-    properties: { outputParameters: without(outputParameters, outputParameter) }
+  modeling.updateModdleProperties(element, inputOutput, {
+    outputParameters: without(outputParameters, outputParameter)
   });
+}
+
+function createExtensionElements(businessObject, bpmnFactory) {
+  return createElement(
+    'bpmn:ExtensionElements',
+    { values: [] },
+    businessObject,
+    bpmnFactory
+  );
+}
+
+function createInputOutput(binding, value, bpmnFactory, extensionElements) {
+  const outputParameter = createOutputParameter(binding, value, bpmnFactory);
+  const inputOutput = createElement('camunda:InputOutput', {
+    inputParameters: [],
+    outputParameters: [ outputParameter ],
+  }, extensionElements, bpmnFactory);
+
+  outputParameter.$parent = inputOutput;
+  return inputOutput;
 }

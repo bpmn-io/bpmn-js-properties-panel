@@ -104,7 +104,7 @@ function LocalVariableAssignment(props) {
   const { binding } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack'),
+        modeling = useService('modeling'),
         translate = useService('translate');
 
   const getValue = () => {
@@ -113,9 +113,9 @@ function LocalVariableAssignment(props) {
 
   const setValue = (value) => {
     if (value) {
-      addInputParameter(element, property, bpmnFactory, commandStack);
+      addInputParameter(element, property, bpmnFactory, modeling);
     } else {
-      removeInputParameter(element, binding, commandStack);
+      removeInputParameter(element, binding, modeling);
     }
   };
 
@@ -133,74 +133,46 @@ function LocalVariableAssignment(props) {
   });
 }
 
-function addInputParameter(element, property, bpmnFactory, commandStack) {
+function addInputParameter(element, property, bpmnFactory, modeling) {
   const {
     binding,
     value
   } = property;
 
-  const commands = [];
-
   const businessObject = getBusinessObject(element);
 
-  let extensionElements = businessObject.get('extensionElements');
+  const extensionElements = businessObject.get('extensionElements');
+  const inputOutput = findExtension(businessObject, 'camunda:InputOutput');
 
-  // (1) ensure bpmn:ExtensionElements
+  let updatedBusinessObject, update;
+
   if (!extensionElements) {
-    extensionElements = createElement(
-      'bpmn:ExtensionElements',
-      { values: [] },
-      businessObject,
-      bpmnFactory
-    );
+    updatedBusinessObject = businessObject;
 
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: businessObject,
-        properties: { extensionElements }
-      }
-    });
+    const extensionElements = createExtensionElements(businessObject, bpmnFactory),
+          inputOutput = createInputOutput(binding, value, bpmnFactory, extensionElements);
+    extensionElements.values.push(inputOutput);
+
+    update = { extensionElements };
+  } else if (!inputOutput) {
+    updatedBusinessObject = extensionElements;
+
+    const inputOutput = createInputOutput(binding, value, bpmnFactory, extensionElements);
+
+    update = { values: extensionElements.get('values').concat(inputOutput) };
+  } else {
+    updatedBusinessObject = inputOutput;
+
+    const inputParameter = createInputParameter(binding, value, bpmnFactory);
+    inputParameter.$parent = inputOutput;
+
+    update = { inputParameters: inputOutput.get('camunda:inputParameters').concat(inputParameter) };
   }
 
-  // (2) ensure camunda:InputOutput
-  let inputOutput = findExtension(businessObject, 'camunda:InputOutput');
-
-  if (!inputOutput) {
-    inputOutput = createElement('camunda:InputOutput', {
-      inputParameters: [],
-      outputParameters: []
-    }, extensionElements, bpmnFactory);
-
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: extensionElements,
-        properties: { values: [ ...extensionElements.get('values'), inputOutput ] }
-      }
-    });
-  }
-
-  // (3) add camunda:InputParameter
-  const inputParameter = createInputParameter(binding, value, bpmnFactory);
-
-  inputParameter.$parent = inputOutput;
-
-  commands.push({
-    cmd: 'element.updateModdleProperties',
-    context: {
-      element,
-      moddleElement: inputOutput,
-      properties: { inputParameters: [ ...inputOutput.get('camunda:inputParameters'), inputParameter ] }
-    }
-  });
-
-  commandStack.execute('properties-panel.multi-command-executor', commands);
+  modeling.updateModdleProperties(element, updatedBusinessObject, update);
 }
 
-function removeInputParameter(element, binding, commandStack) {
+function removeInputParameter(element, binding, modeling) {
   const businessObject = getBusinessObject(element);
 
   const inputOutput = findExtension(businessObject, 'camunda:InputOutput'),
@@ -208,10 +180,8 @@ function removeInputParameter(element, binding, commandStack) {
 
   const inputParameter = findInputParameter(inputOutput, binding);
 
-  commandStack.execute('element.updateModdleProperties', {
-    element,
-    moddleElement: inputOutput,
-    properties: { inputParameters: without(inputParameters, inputParameter) }
+  modeling.updateModdleProperties(element, inputOutput, {
+    inputParameters: without(inputParameters, inputParameter)
   });
 }
 
@@ -219,4 +189,24 @@ function removeEntry(entries, suffix) {
   const entry = entries.find(({ id }) => id.endsWith(suffix));
 
   return without(entries, entry);
+}
+
+function createExtensionElements(businessObject, bpmnFactory) {
+  return createElement(
+    'bpmn:ExtensionElements',
+    { values: [] },
+    businessObject,
+    bpmnFactory
+  );
+}
+
+function createInputOutput(binding, value, bpmnFactory, extensionElements) {
+  const inputParameter = createInputParameter(binding, value, bpmnFactory);
+  const inputOutput = createElement('camunda:InputOutput', {
+    inputParameters: [inputParameter],
+    outputParameters: []
+  }, extensionElements, bpmnFactory);
+
+  inputParameter.$parent = inputOutput;
+  return inputOutput;
 }
