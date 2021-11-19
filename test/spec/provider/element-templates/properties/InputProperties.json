@@ -43,5 +43,59 @@
         }
       }
     ]
+  },
+  {
+    "name": "SimpleWorkerTaskWithCamundaProperty",
+    "id": "my.domain.SimpleWorkerTaskWithCamundaProperty",
+    "appliesTo": ["bpmn:Task"],
+    "properties": [
+      {
+        "label": "recipient",
+        "value": "recipient",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "recipient"
+        }
+      },
+      {
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "noLabel"
+        }
+      },
+      {
+        "label": "withDescription",
+        "description": "foo bar",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "withDescription"
+        }
+      },
+      {
+        "label": "template",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "template",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "label": "notCreated",
+        "value": "${foo}",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "notCreated"
+        }
+      },
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "webServiceUrl"
+        }
+      }
+    ]
   }
 ]

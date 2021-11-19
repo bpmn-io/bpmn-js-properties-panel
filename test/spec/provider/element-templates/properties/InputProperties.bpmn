@@ -11,7 +11,14 @@
         </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:task>
-    <bpmn:task id="SimpleTaskWithoutInputOutput" name="Simple Task without input output" camunda:modelerTemplate="my.domain.SimpleWorkerTask" />
+    <bpmn:task id="SimpleTaskWithoutInputOutput" name="Simple Task without input output" camunda:modelerTemplate="my.domain.SimpleWorkerTaskWithCamundaProperty">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="webServiceUrl" value="https://foo.bar" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="SimpleTaskWithoutExtensionElements" name="Simple Task without extension elements" camunda:modelerTemplate="my.domain.SimpleWorkerTask" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -20,6 +27,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SimpleTask_di" bpmnElement="SimpleTaskWithoutInputOutput">
         <dc:Bounds x="79" y="153" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SimpleTask_1_di" bpmnElement="SimpleTaskWithoutExtensionElements">
+        <dc:Bounds x="79" y="253" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

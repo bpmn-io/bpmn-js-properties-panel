@@ -173,25 +173,27 @@ describe('provider/element-templates - InputProperties', function() {
 
       let input;
 
-      beforeEach(async function() {
-        await expectSelected('SimpleTask');
+      async function setup(elementId, propertyIndex) {
+        await expectSelected(elementId);
 
         expandGroup(INPUT_GROUP_ID, container);
 
-        expandCollapsibleEntry('SimpleTask-inputParameter-4', container);
+        expandCollapsibleEntry(`${elementId}-inputParameter-${propertyIndex}`, container);
 
-        const entry = findEntry('SimpleTask-inputParameter-4-local-variable-assignment', container);
+        const entry = findEntry(
+          `${elementId}-inputParameter-${propertyIndex}-local-variable-assignment`, container);
 
         input = findInput('checkbox', entry);
 
         // assume
         expect(input.checked).to.be.false;
-      });
+      }
 
 
-      it('should <do>', inject(function(elementRegistry) {
+      it('should <do>', inject(async function(elementRegistry) {
 
         // given
+        await setup('SimpleTask', 4);
         const task = elementRegistry.get('SimpleTask');
 
         // when
@@ -207,9 +209,10 @@ describe('provider/element-templates - InputProperties', function() {
       }));
 
 
-      it('should <undo>', inject(function(commandStack, elementRegistry) {
+      it('should <undo>', inject(async function(commandStack, elementRegistry) {
 
         // given
+        await setup('SimpleTask', 4);
         const task = elementRegistry.get('SimpleTask');
 
         input.click();
@@ -225,9 +228,10 @@ describe('provider/element-templates - InputProperties', function() {
       }));
 
 
-      it('should <redo>', inject(function(commandStack, elementRegistry) {
+      it('should <redo>', inject(async function(commandStack, elementRegistry) {
 
         // given
+        await setup('SimpleTask', 4);
         const task = elementRegistry.get('SimpleTask');
 
         input.click();
@@ -245,6 +249,43 @@ describe('provider/element-templates - InputProperties', function() {
         expect(inputParameter.get('camunda:value')).to.equal('${foo}');
       }));
 
+
+      it('should work if inputOutput is missing', inject(async function(elementRegistry) {
+
+        // given
+        await setup('SimpleTaskWithoutInputOutput', 4);
+        const task = elementRegistry.get('SimpleTaskWithoutInputOutput');
+
+        // when
+        input.click();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              inputParameter = findInputParameter(inputOutput, { name: 'notCreated' });
+
+        expect(inputParameter).to.exist;
+        expect(inputParameter.get('camunda:name')).to.equal('notCreated');
+        expect(inputParameter.get('camunda:value')).to.equal('${foo}');
+      }));
+
+
+      it('should work if extension elements are missing', inject(async function(elementRegistry) {
+
+        // given
+        await setup('SimpleTaskWithoutExtensionElements', 4);
+        const task = elementRegistry.get('SimpleTaskWithoutExtensionElements');
+
+        // when
+        input.click();
+
+        // then
+        const inputOutput = findExtension(task, 'camunda:InputOutput'),
+              inputParameter = findInputParameter(inputOutput, { name: 'notCreated' });
+
+        expect(inputParameter).to.exist;
+        expect(inputParameter.get('camunda:name')).to.equal('notCreated');
+        expect(inputParameter.get('camunda:value')).to.equal('${foo}');
+      }));
     });
 
 

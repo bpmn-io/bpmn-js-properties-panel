@@ -60,5 +60,76 @@
         }
       }
     ]
+  },
+  {
+    "name": "SimpleWorkerTaskWithCamundaProperty",
+    "id": "my.domain.SimpleWorkerTaskWithCamundaProperty",
+    "appliesTo": ["bpmn:Task"],
+    "properties": [
+      {
+        "label": "resultStatus",
+        "value": "resultStatus",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${resultStatus}"
+        }
+      },
+      {
+        "label": "withDescription",
+        "description": "foo bar",
+        "value": "foo",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "foo"
+        }
+      },
+      {
+        "label": "emptyName",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "emptyName"
+        }
+      },
+      {
+        "label": "spaces",
+        "value": "foo bar",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "spaces"
+        }
+      },
+      {
+        "label": "notCreated",
+        "value": "foo",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "notCreated"
+        }
+      },
+      {
+        "value": "foo",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "name": "missingLabel",
+          "source": "notCreated_1"
+        }
+      },
+      {
+        "value": "foo",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "notCreated_2"
+        }
+      },
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "webServiceUrl"
+        }
+      }
+    ]
   }
 ]
