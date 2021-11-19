@@ -6,6 +6,21 @@ All notable changes to [`@bpmn-io/bpmn-properties-panel`](https://github.com/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 0.4.0
+
+* `FEAT`: add provider for element templates ([#109](https://github.com/bpmn-io/bpmn-properties-panel/issues/109))
+* `FEAT`: support Camunda Cloud 1.3 ([#153](https://github.com/bpmn-io/bpmn-properties-panel/issues/153), [#162](https://github.com/bpmn-io/bpmn-properties-panel/issues/162))
+* `FEAT`: ensure constraints are added to bottom ([#96](https://github.com/bpmn-io/bpmn-properties-panel/issues/96))
+* `FEAT`: handle incompatible properties provider gracefully ([#119](https://github.com/bpmn-io/bpmn-properties-panel/pull/119))
+* `FIX`: correct typo in console error message ([`a4027916`](https://github.com/bpmn-io/bpmn-properties-panel/commit/a402791662d2ea8e9b7ba1108ddf40d243e201a5))
+* `FIX`: autoFocus first input for added constraints ([`e8ca4eca1`](https://github.com/bpmn-io/bpmn-properties-panel/commit/e8ca4eca1db02732b50265aa51f062607474bc39))
+* `FIX`: ensure new errors are added to bottom ([`a93a703e`](https://github.com/bpmn-io/bpmn-properties-panel/commit/a93a703eafe39de068fe0d5ccc1bc8f4c9b0bb83))
+* `FIX`: don't use browser defaults for undo/redo ([#135](https://github.com/bpmn-io/bpmn-properties-panel/pull/135))
+* `DEPS`: bump to `zeebe-bpmn-moddle@0.9.0`
+* `DEPS`: bump to `@bpmn-io/properties-panel@0.8.0`
+* `DEPS`: bump to `diagram-js@7.5.0`
+* `DEPS`: bump to `bpmn-js@8.8.2`
+
 ## 0.3.0
 
 * `FEAT`: Implemented Camunda Platform Properties Provider ([#2](https://github.com/bpmn-io/bpmn-properties-panel/issues/2))
