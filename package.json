@@ -1,6 +1,6 @@
 {
   "name": "@bpmn-io/bpmn-properties-panel",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Properties panel for bpmn-js, built on top of @bpmn-io/properties-panel.",
   "scripts": {
     "all": "run-s lint test distro",
