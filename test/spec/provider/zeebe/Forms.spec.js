@@ -169,7 +169,7 @@ describe('provider/zeebe - Forms', function() {
 // helpers /////////////////////
 
 function getFormInput(container) {
-  return domQuery('input[name=formConfiguration]', container);
+  return domQuery('textarea[name=formConfiguration]', container);
 }
 
 function expectForm(element, body) {

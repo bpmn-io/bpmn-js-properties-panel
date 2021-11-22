@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import TextArea, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
 
 import {
   createElement
@@ -60,10 +60,11 @@ function FormProperty(props) {
 
   const setValue = (value) => formHelper.set(element, value);
 
-  return TextField({
+  return TextArea({
     element,
     id: 'formConfiguration',
     label: translate('Form JSON configuration'),
+    rows: 4,
     getValue,
     setValue,
     debounce

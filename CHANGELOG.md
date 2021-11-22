@@ -5,6 +5,7 @@ All notable changes to [`@bpmn-io/bpmn-properties-panel`](https://github.com/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
+* `CHORE`: replace textField with textArea for zeebe:userTaskForm input
 
 ## 0.5.0
 
