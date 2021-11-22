@@ -5,6 +5,7 @@ All notable changes to [`@bpmn-io/bpmn-properties-panel`](https://github.com/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
+* `FEAT`: support zeebe:assignmentDefinition for Camunda Cloud 1.3 ([#192](https://github.com/bpmn-io/bpmn-properties-panel/pull/192))
 
 ## 0.4.0
 

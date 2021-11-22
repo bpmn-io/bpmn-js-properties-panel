@@ -528,6 +528,36 @@ describe('<ZeebePropertiesProvider>', function() {
       }
     }));
 
+
+    it('should show assignment definition group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_1');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // then
+      expect(getGroup(container, 'assignmentDefinition')).to.exist;
+    }));
+
+
+    it('should NOT show assignment definition group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(task);
+      });
+
+      // then
+      expect(getGroup(container, 'assignmentDefinition')).to.not.exist;
+    }));
+
   });
 
 

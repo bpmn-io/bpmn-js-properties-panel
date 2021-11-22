@@ -2,6 +2,7 @@ import Group from '@bpmn-io/properties-panel/lib/components/Group';
 import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import {
+  AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
   ConditionProps,
@@ -24,6 +25,7 @@ const ZEEBE_GROUPS = [
   BusinessRuleImplementationGroup,
   CalledDecisionGroup,
   TaskDefinitionGroup,
+  AssignmentDefinitionGroup,
   FormGroup,
   ConditionGroup,
   TargetGroup,
@@ -187,6 +189,19 @@ function BusinessRuleImplementationGroup(element) {
     label: 'Implementation',
     entries: [
       ...BusinessRuleImplementationProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function AssignmentDefinitionGroup(element) {
+  const group = {
+    id: 'assignmentDefinition',
+    label: 'Assignment',
+    entries: [
+      ...AssignmentDefinitionProps({ element })
     ],
     component: Group
   };

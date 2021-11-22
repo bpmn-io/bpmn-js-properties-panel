@@ -1,3 +1,4 @@
+export { AssignmentDefinitionProps } from './AssignmentDefinitionProps';
 export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { CalledDecisionProps } from './CalledDecisionProps';
 export { ConditionProps } from './ConditionProps';
