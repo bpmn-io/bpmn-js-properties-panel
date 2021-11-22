@@ -120,7 +120,7 @@ function Assignee(props) {
   return TextField({
     element,
     id: 'assignmentDefinitionAssignee',
-    label: translate('assignmentDefinitionAssignee'),
+    label: translate('Assignee'),
     getValue,
     setValue,
     debounce
