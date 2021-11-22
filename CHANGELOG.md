@@ -9,7 +9,7 @@ ___Note:__ Yet to be released changes appear here._
 ## 0.4.0
 
 * `FEAT`: add provider for element templates ([#109](https://github.com/bpmn-io/bpmn-properties-panel/issues/109))
-* `FEAT`: support Camunda Cloud 1.3 ([#153](https://github.com/bpmn-io/bpmn-properties-panel/issues/153), [#162](https://github.com/bpmn-io/bpmn-properties-panel/issues/162))
+* `FEAT`: support zeebe:calledDecision for Camunda Cloud 1.3 ([#153](https://github.com/bpmn-io/bpmn-properties-panel/issues/153), [#162](https://github.com/bpmn-io/bpmn-properties-panel/issues/162))
 * `FEAT`: ensure constraints are added to bottom ([#96](https://github.com/bpmn-io/bpmn-properties-panel/issues/96))
 * `FEAT`: handle incompatible properties provider gracefully ([#119](https://github.com/bpmn-io/bpmn-properties-panel/pull/119))
 * `FIX`: correct typo in console error message ([`a4027916`](https://github.com/bpmn-io/bpmn-properties-panel/commit/a402791662d2ea8e9b7ba1108ddf40d243e201a5))
