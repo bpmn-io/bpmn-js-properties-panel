@@ -5,7 +5,11 @@ All notable changes to [`@bpmn-io/bpmn-properties-panel`](https://github.com/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
-* `CHORE`: replace textField with textArea for zeebe:userTaskForm input
+
+## 0.5.1
+
+* `CHORE`: replace textField with textArea for zeebe:userTaskForm input ([bfbe37d](https://github.com/bpmn-io/bpmn-properties-panel/commit/bfbe37d61095e235ce4a27d738cb638dcd69f991))
+* `FIX`: fix label for zeebe:assignmentDefinition assignee input field ([0d44a1](https://github.com/bpmn-io/bpmn-properties-panel/commit/0d44a1e3d35d54b8d9c857c93d3d1818f707e45d))
 
 ## 0.5.0
 
