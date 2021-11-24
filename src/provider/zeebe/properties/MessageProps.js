@@ -127,7 +127,8 @@ function SubscriptionCorrelationKey(props) {
     label: translate('Subscription correlation key'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    description: getCorrelationKeyDocumentation(element, translate)
   });
 }
 
@@ -170,4 +171,22 @@ function getSubscription(element) {
 function getSubscriptions(message) {
   const extensionElements = getExtensionElementsList(message, 'zeebe:Subscription');
   return extensionElements;
+}
+
+function getCorrelationKeyDocumentation(element, translate) {
+  if (is(element, 'bpmn:ReceiveTask')) {
+    return (
+      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/receive-tasks/receive-tasks/#messages" target="_blank" rel="noopener" title={ translate('Receive task documentation') }>
+        { translate('How to configure a receive task') }
+      </a>
+    );
+  }
+
+  if (is(element, 'bpmn:IntermediateCatchEvent') || is(element, 'bpmn:BoundaryEvent') || is(element, 'bpmn:StartEvent')) {
+    return (
+      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/message-events/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
+        { translate('How to configure a message event') }
+      </a>
+    );
+  }
 }

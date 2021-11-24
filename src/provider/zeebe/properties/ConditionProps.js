@@ -106,7 +106,12 @@ function ConditionExpression(props) {
     label: translate('Condition expression'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    description:(
+      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/exclusive-gateways/exclusive-gateways#conditions" target="_blank" rel="noopener" title={ translate('Conditions documentation') }>
+        { translate('How to define conditions') }
+      </a>
+    )
   });
 }
 

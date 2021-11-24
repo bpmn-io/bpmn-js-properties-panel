@@ -120,6 +120,11 @@ function TargetProcessId(props) {
     label: translate('Process ID'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    description: (
+      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/call-activities/call-activities" target="_blank" rel="noopener" title={ translate('Call activity documentation') }>
+        { translate('How to call another process') }
+      </a>
+    )
   });
 }

@@ -220,6 +220,78 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
       })
     );
 
+
+    it('should display correct documentation for ServiceTask', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const documentationLink = domQuery('div[data-entry-id=taskDefinitionType] a', container);
+
+      // then
+      expect(documentationLink).to.exist;
+      expect(documentationLink.title).to.equal('Service task documentation');
+    }));
+
+
+    it('should display correct documentation for BusinessRuleTask', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('BusinessRuleTask_2');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const documentationLink = domQuery('div[data-entry-id=taskDefinitionType] a', container);
+
+      // then
+      expect(documentationLink).to.exist;
+      expect(documentationLink.title).to.equal('Business rule task documentation');
+    }));
+
+
+    it('should display correct documentation for ScriptTask', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ScriptTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const documentationLink = domQuery('div[data-entry-id=taskDefinitionType] a', container);
+
+      // then
+      expect(documentationLink).to.exist;
+      expect(documentationLink.title).to.equal('Script task documentation');
+    }));
+
+
+    it('should display correct documentation for SendTask', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('SendTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const documentationLink = domQuery('div[data-entry-id=taskDefinitionType] a', container);
+
+      // then
+      expect(documentationLink).to.exist;
+      expect(documentationLink.title).to.equal('Send task documentation');
+    }));
+
   });
 
 

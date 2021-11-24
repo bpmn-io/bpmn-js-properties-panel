@@ -188,6 +188,42 @@ describe('provider/zeebe - MessageProps', function() {
       })
     );
 
+
+    it('should display correct documentation for events', inject(async function(elementRegistry, selection) {
+
+      // given
+      const startEvent = elementRegistry.get('StartEvent_1');
+
+      await act(() => {
+        selection.select(startEvent);
+      });
+
+      // when
+      const documentationLink = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+
+      // then
+      expect(documentationLink).to.exist;
+      expect(documentationLink.title).to.equal('Message event documentation');
+    }));
+
+
+    it('should display correct documentation for receive tasks', inject(async function(elementRegistry, selection) {
+
+      // given
+      const startEvent = elementRegistry.get('ReceiveTask_empty');
+
+      await act(() => {
+        selection.select(startEvent);
+      });
+
+      // when
+      const documentationLink = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+
+      // then
+      expect(documentationLink).to.exist;
+      expect(documentationLink.title).to.equal('Receive task documentation');
+    }));
+
   });
 
 });
