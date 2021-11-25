@@ -5,6 +5,8 @@ All notable changes to [`@bpmn-io/bpmn-properties-panel`](https://github.com/bpm
 ## Unreleased
 
 ___Note:__ Yet to be released changes appear here._
+* `CHORE`: temporarily disable zeebe:calledDecision (since zeebe will not
+  support this for 1.3 release). To be re-enabled later
 
 ## 0.5.1
 

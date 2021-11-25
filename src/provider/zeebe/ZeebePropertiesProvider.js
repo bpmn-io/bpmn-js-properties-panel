@@ -3,8 +3,12 @@ import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import {
   AssignmentDefinitionProps,
-  BusinessRuleImplementationProps,
-  CalledDecisionProps,
+
+  // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+  // TODO: re-enable for Zeebe 1.4 release
+  // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+  // BusinessRuleImplementationProps,
+  // CalledDecisionProps,
   ConditionProps,
   FormProps,
   HeaderProps,
@@ -22,8 +26,12 @@ import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTask
 const LOW_PRIORITY = 500;
 
 const ZEEBE_GROUPS = [
-  BusinessRuleImplementationGroup,
-  CalledDecisionGroup,
+
+  // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+  // TODO: re-enable for Zeebe 1.4 release
+  // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+  // BusinessRuleImplementationGroup,
+  // CalledDecisionGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
   FormGroup,
@@ -71,8 +79,10 @@ export default class ZeebePropertiesProvider {
 
 ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
-
-function CalledDecisionGroup(element) {
+// Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+// TODO: re-enable for Zeebe 1.4 release
+// Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+/* function CalledDecisionGroup(element) {
   const group = {
     id: 'calledDecision',
     label: 'Called decision',
@@ -83,7 +93,7 @@ function CalledDecisionGroup(element) {
   };
 
   return group.entries.length ? group : null;
-}
+}*/
 
 function TaskDefinitionGroup(element) {
   const group = {
@@ -183,7 +193,10 @@ function OutputPropagationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function BusinessRuleImplementationGroup(element) {
+// Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+// TODO: re-enable for Zeebe 1.4 release
+// Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+/* function BusinessRuleImplementationGroup(element) {
   const group = {
     id: 'businessRuleImplementation',
     label: 'Implementation',
@@ -194,7 +207,7 @@ function BusinessRuleImplementationGroup(element) {
   };
 
   return group.entries.length ? group : null;
-}
+}*/
 
 function AssignmentDefinitionGroup(element) {
   const group = {

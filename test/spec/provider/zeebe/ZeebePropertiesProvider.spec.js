@@ -465,7 +465,10 @@ describe('<ZeebePropertiesProvider>', function() {
     }));
 
 
-    it('should show for businessRuleTasks with taskDefinition', inject(async function(selection, elementRegistry) {
+    // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+    // TODO: re-enable for Zeebe 1.4 release
+    // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+    it.skip('should show for businessRuleTasks with taskDefinition', inject(async function(selection, elementRegistry) {
 
       // given
       const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
@@ -486,7 +489,10 @@ describe('<ZeebePropertiesProvider>', function() {
     }));
 
 
-    it('should show for businessRuleTasks with calledDecision', inject(async function(selection, elementRegistry) {
+    // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+    // TODO: re-enable for Zeebe 1.4 release
+    // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+    it.skip('should show for businessRuleTasks with calledDecision', inject(async function(selection, elementRegistry) {
 
       // given
       const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');

@@ -79,7 +79,10 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
     }));
 
 
-    it('should NOT display for businessRuleTask without taskDefinition', inject(async function(elementRegistry, selection) {
+    // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+    // TODO: re-enable for Zeebe 1.4 release
+    // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+    it.skip('should NOT display for businessRuleTask without taskDefinition', inject(async function(elementRegistry, selection) {
 
       // given
       const task = elementRegistry.get('BusinessRuleTask_1');

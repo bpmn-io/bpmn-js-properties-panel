@@ -32,8 +32,10 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './CalledDecisionProps.bpmn';
 
-
-describe('provider/zeebe - TargetProps', function() {
+// Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
+// TODO: re-enable for Zeebe 1.4 release
+// Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
+describe.skip('provider/zeebe - TargetProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,
