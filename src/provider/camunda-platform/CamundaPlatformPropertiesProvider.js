@@ -84,7 +84,7 @@ const CAMUNDA_PLATFORM_GROUPS = [
  *   BpmnPropertiesPanelModule,
  *   BpmnPropertiesProviderModule,
  *   CamundaPlatformPropertiesProviderModule
- * } from '@bpmn-io/bpmn-properties-panel';
+ * } from 'bpmn-js-properties-panel';
  *
  * const modeler = new BpmnModeler({
  *   container: '#canvas',
