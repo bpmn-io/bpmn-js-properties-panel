@@ -1,9 +1,0 @@
-[
-  {
-    "id": "invalid",
-    "appliesTo": [
-      "bpmn:UserTask"
-    ],
-    "properties": []
-  }
-]
