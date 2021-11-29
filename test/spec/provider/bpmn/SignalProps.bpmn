@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ytbk2o" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_0y4daxx" isExecutable="true">
+    <bpmn:task id="Activity_0i862q6" />
+    <bpmn:startEvent id="SignalStartEvent_1" name="SignalStartEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_073xqe3" signalRef="signal1" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="SignalEndEvent_1" name="SignalEndEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_19fhbfg" signalRef="signal3" />
+    </bpmn:endEvent>
+    <bpmn:startEvent id="SignalStartEvent_2" name="SignalStartEvent_2">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_07e0jc0" />
+    </bpmn:startEvent>
+    <bpmn:startEvent id="StartEvent_1" name="StartEvent_1" />
+    <bpmn:boundaryEvent id="BoundaryEvent_1" name="BoundaryEvent_1" attachedToRef="Activity_0i862q6" />
+    <bpmn:boundaryEvent id="SignalBoundaryEvent_2" name="SignalBoundaryEvent_2" attachedToRef="Activity_0i862q6">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0iz1rum" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="EndEvent_1" name="EndEvent_1" />
+    <bpmn:intermediateCatchEvent id="SignalBoundaryEvent_1" name="SignalBoundaryEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1rjrz3a" signalRef="signal2" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="SignalEndEvent_2" name="SignalEndEvent_2">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1y1ob4m" />
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_1" name="IntermediateThrowEvent_1" />
+    <bpmn:intermediateCatchEvent id="SignalCatchEvent_1" name="SignalCatchEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0fbqtzj" signalRef="signal1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="SignalThrowEvent_1" name="SignalThrowEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1vc9yng" signalRef="signal1" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateCatchEvent id="SignalCatchEvent_2" name="SignalCatchEvent_2">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_153geea" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="SignalThrowEvent_2" name="SignalThrowEvent_2">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_037dbxs" />
+    </bpmn:intermediateThrowEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_00y3j78" name="Message_1qeju4u" />
+  <bpmn:error id="Error_1cogjkl" name="Error_14n06l3" errorCode="a" camunda:errorMessage="b" />
+  <bpmn:signal id="signal2" name="signal2_name" />
+  <bpmn:escalation id="Escalation_1sgnxx2" name="Escalation_34o1qjv" escalationCode="a" />
+  <bpmn:signal id="signal1" name="signal1_name" />
+  <bpmn:signal id="signal3" name="signal3_name" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0y4daxx">
+      <bpmndi:BPMNShape id="Event_1oymhql_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="92" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="168" y="135" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0w2px1p_di" bpmnElement="SignalStartEvent_1">
+        <dc:Bounds x="182" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="225" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ko9bf2_di" bpmnElement="SignalStartEvent_2">
+        <dc:Bounds x="182" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="325" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0i862q6_di" bpmnElement="Activity_0i862q6">
+        <dc:Bounds x="310" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qx12oo_di" bpmnElement="SignalBoundaryEvent_1">
+        <dc:Bounds x="312" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="287" y="285" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_15ha829_di" bpmnElement="SignalEndEvent_1">
+        <dc:Bounds x="522" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="497" y="325" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0gh1ibc_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="522" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="510" y="225" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1c6mp8d_di" bpmnElement="SignalEndEvent_2">
+        <dc:Bounds x="522" y="392" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="497" y="435" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1lsufww_di" bpmnElement="SignalCatchEvent_1">
+        <dc:Bounds x="642" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="325" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1chb3w0_di" bpmnElement="SignalThrowEvent_1">
+        <dc:Bounds x="752" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="727" y="325" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1e5ysr3_di" bpmnElement="SignalCatchEvent_2">
+        <dc:Bounds x="642" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="425" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07kgpu0_di" bpmnElement="SignalThrowEvent_2">
+        <dc:Bounds x="752" y="382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="727" y="425" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ly3pss_di" bpmnElement="IntermediateThrowEvent_1">
+        <dc:Bounds x="642" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="621" y="235" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1tgvy8y_di" bpmnElement="SignalBoundaryEvent_2">
+        <dc:Bounds x="392" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="367" y="285" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n6om0y_di" bpmnElement="BoundaryEvent_1">
+        <dc:Bounds x="342" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="316" y="132" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

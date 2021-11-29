@@ -1,0 +1,40 @@
+[
+  {
+    "name": "mailtask",
+    "id": "my.mail.Task",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "connector": "com.my.connector.MailConnector",
+    "properties": [
+      {
+        "label": "Empfänger",
+        "type": "String",
+        "binding": {
+          "type": "camunda:connectorInputParameter",
+          "name": "FOO"
+        }
+      },
+      {
+        "label": "Template",
+        "type": "Text",
+        "description": "Übrigens, hier kannst du freemarke templates ${...} benutzen",
+        "value": "Hello ${firstName}!",
+        "binding": {
+          "type": "camunda:connectorInputParameter",
+          "name": "messageBody",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "label": "VOLL KRASS",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:async"
+        }
+      }
+    ]
+  }
+]

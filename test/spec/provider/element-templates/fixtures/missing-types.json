@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Missing type",
+    "id": "com.mycompany.whateverdomain.MissingType",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "foo",
+        "value": "45",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "foo"
+        }
+      },
+      {
+        "label": "bar",
+        "visible": false,
+        "editable": true,
+        "value": "shoeResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${bar}"
+        }
+      }
+    ]
+  }
+]

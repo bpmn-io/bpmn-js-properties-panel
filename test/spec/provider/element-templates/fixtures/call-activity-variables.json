@@ -1,0 +1,99 @@
+[
+  {
+    "name": "Caller",
+    "id": "my.Caller",
+    "appliesTo": [
+      "bpmn:CallActivity"
+    ],
+    "properties": [
+      {
+        "label": "Called Process",
+        "type": "String",
+        "editable": false,
+        "value": "calledProcess",
+        "binding": {
+          "type": "property",
+          "name": "calledElement"
+        }
+      },
+      {
+        "label": "Input source variable",
+        "type": "String",
+        "value": "var_local",
+        "binding": {
+          "type": "camunda:in",
+          "target": "var_called_source"
+        }
+      },
+      {
+        "label": "Output target (source variable)",
+        "type": "String",
+        "value": "var_called",
+        "binding": {
+          "type": "camunda:out",
+          "source": "var_local_source"
+        }
+      },
+      {
+        "label": "Input sourceExpression",
+        "type": "String",
+        "value": "${expr_local}",
+        "binding": {
+          "type": "camunda:in",
+          "target": "var_called_expr",
+          "expression": true
+        }
+      },
+      {
+        "label": "Output target (sourceExpression)",
+        "type": "String",
+        "value": "var_local_expr",
+        "binding": {
+          "type": "camunda:out",
+          "sourceExpression": "${expr_called}"
+        }
+      },
+      {
+        "label": "Input all",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:in",
+          "variables": "all"
+        }
+      },
+      {
+        "label": "Output all",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:out",
+          "variables": "all"
+        }
+      },
+      {
+        "label": "Input all local",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:in",
+          "variables": "local"
+        }
+      },
+      {
+        "label": "Output all local",
+        "type": "Hidden",
+        "binding": {
+          "type": "camunda:out",
+          "variables": "local"
+        }
+      },
+      {
+        "label": "Input business key",
+        "description": "Provide the expression retrieving the business key.",
+        "type": "String",
+        "value": "${execution.processBusinessKey}",
+        "binding": {
+          "type": "camunda:in:businessKey"
+        }
+      }
+    ]
+  }
+]

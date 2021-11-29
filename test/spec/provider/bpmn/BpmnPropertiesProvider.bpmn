@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1jjb961" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0">
+  <bpmn:process id="Process_1j5bpos" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="StartEvent_1" />
+    <bpmn:task id="Task_1" />
+    <bpmn:boundaryEvent id="BoundaryEvent_1" attachedToRef="Task_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0rixkva" />
+    </bpmn:boundaryEvent>
+    <bpmn:startEvent id="MessageEvent_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1j4k787" />
+    </bpmn:startEvent>
+    <bpmn:receiveTask id="ReceiveTask_1" />
+    <bpmn:intermediateThrowEvent id="SignalThrowEvent_1">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1rxez75" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:boundaryEvent id="EscalationEvent_1" attachedToRef="ReceiveTask_1">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_02obpqc" />
+    </bpmn:boundaryEvent>
+    <bpmn:startEvent id="TimerStartEvent_1" name="TimerStartEvent_1">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_00r7hqs" />
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="CompensationEvent_1">
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_0lmdpa9" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:subProcess id="SubProcess_1" name="SubProcess_1">
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_2" name="SubProcess_2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1j5bpos">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="202" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hzk0s5_di" bpmnElement="Task_1">
+        <dc:Bounds x="290" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0axv63h_di" bpmnElement="MessageEvent_1">
+        <dc:Bounds x="212" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17nav0i_di" bpmnElement="ReceiveTask_1">
+        <dc:Bounds x="360" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1knk6fp_di" bpmnElement="SignalThrowEvent_1">
+        <dc:Bounds x="542" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jh4iew_di" bpmnElement="TimerStartEvent_1">
+        <dc:Bounds x="179" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="154" y="395" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00gi6gj_di" bpmnElement="CompensationEvent_1">
+        <dc:Bounds x="212" y="352" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ej25yw_di" bpmnElement="BoundaryEvent_1">
+        <dc:Bounds x="322" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09ghys0_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="470" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0omjspj_di" bpmnElement="SubProcess_2" isExpanded="true">
+        <dc:Bounds x="830" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09ghys0_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="470" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0omjspj_di" bpmnElement="SubProcess_2" isExpanded="true">
+        <dc:Bounds x="830" y="380" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0j62yi6_di" bpmnElement="EscalationEvent_1">
+        <dc:Bounds x="392" y="302" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ej25yw_di" bpmnElement="BoundaryEvent_1">
+        <dc:Bounds x="322" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

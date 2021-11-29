@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1is5iby" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_1" processRef="Process_1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:extensionElements>
+      <camunda:executionListener class="myClass" event="start" />
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="JavaClass" name="JavaClass">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="com.java" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Empty</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Expression" name="Expression">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="Expression" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Empty</bpmn:incoming>
+      <bpmn:outgoing>Flow</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="Script" name="Script">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="javascript">return 42;</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1nqgtic</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="DelegateExpression" name="DelegateExpression">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="delegate" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nqgtic</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Empty" name="Empty" sourceRef="JavaClass" targetRef="Expression" />
+    <bpmn:sequenceFlow id="Flow" name="Flow" sourceRef="Expression" targetRef="DelegateExpression">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="Flow" event="take" />
+      </bpmn:extensionElements>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1nqgtic" sourceRef="DelegateExpression" targetRef="Script" />
+    <bpmn:startEvent id="FieldInjected" name="FieldInjected">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="start">
+          <camunda:field name="expression">
+            <camunda:expression>expression</camunda:expression>
+          </camunda:field>
+          <camunda:field name="string">
+            <camunda:string>string</camunda:string>
+          </camunda:field>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:userTask id="TaskListener" name="TaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="TaskListener" event="timeout" id="TaskListener">
+          <bpmn:timerEventDefinition id="TimerEventDefinition_1x4a1oo">
+            <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT15S</bpmn:timeDuration>
+          </bpmn:timerEventDefinition>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="EmptyUserTask" name="EmptyUserTask" />
+    <bpmn:userTask id="ExpressionTaskListener" name="ExpressionTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener expression="" event="create" id="TaskListener" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="DelegateExpressionTaskListener" name="DelegateExpressionTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="" event="create" id="TaskListener" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="ScriptTaskListener" name="ScriptTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create" id="TaskListener">
+          <camunda:script />
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="FieldTaskListener" name="FieldTaskListener">
+      <bpmn:extensionElements>
+        <camunda:taskListener class="TaskListener" event="create" id="TaskListener">
+          <camunda:field name="1">
+            <camunda:string>expression</camunda:string>
+          </camunda:field>
+        </camunda:taskListener>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="OtherExtensions" name="OtherExtensions">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="custom" value="extension" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Participant_1r10nph_di" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds x="160" y="120" width="880" height="340" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1nqgtic_di" bpmnElement="Flow_1nqgtic">
+        <di:waypoint x="600" y="180" />
+        <di:waypoint x="642" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f7y7l4_di" bpmnElement="Flow">
+        <di:waypoint x="440" y="180" />
+        <di:waypoint x="500" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="458" y="162" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Empty_di" bpmnElement="Empty">
+        <di:waypoint x="288" y="180" />
+        <di:waypoint x="340" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="298" y="162" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1ezyak1_di" bpmnElement="JavaClass">
+        <dc:Bounds x="252" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="245" y="205" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yuqfb2_di" bpmnElement="Expression">
+        <dc:Bounds x="340" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0t7aacr_di" bpmnElement="Script">
+        <dc:Bounds x="642" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="646" y="205" width="29" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0fxiqag_di" bpmnElement="DelegateExpression">
+        <dc:Bounds x="500" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1r6ijwo_di" bpmnElement="FieldInjected">
+        <dc:Bounds x="252" y="262" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="239" y="305" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u0o3lu_di" bpmnElement="TaskListener">
+        <dc:Bounds x="340" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nmj0fb_di" bpmnElement="EmptyUserTask">
+        <dc:Bounds x="670" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13clx9y_di" bpmnElement="ExpressionTaskListener">
+        <dc:Bounds x="340" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hni6pg_di" bpmnElement="DelegateExpressionTaskListener">
+        <dc:Bounds x="500" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07x1jxw_di" bpmnElement="ScriptTaskListener">
+        <dc:Bounds x="670" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d96ito_di" bpmnElement="FieldTaskListener">
+        <dc:Bounds x="840" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_081oeyv_di" bpmnElement="OtherExtensions">
+        <dc:Bounds x="500" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

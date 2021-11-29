@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0p7e1s5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:serviceTask id="ServiceTask_JavaClass" name="ServiceTask_JavaClass" camunda:class="Foo.java" />
+    <bpmn:serviceTask id="ServiceTask_External" name="ServiceTask_External" camunda:type="external" camunda:topic="" />
+    <bpmn:serviceTask id="ServiceTask_ErrorEventDefinition" name="ServiceTask_ErrorEventDefinition" camunda:type="external" camunda:topic="">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_1cvn0p8" expression="${externalTask.getErrorDetails().contains(&#39;address error found&#39;)}" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_ErrorEventDefinitionCodeNoName" name="ServiceTask_ErrorEventDefinition" camunda:type="external" camunda:topic="">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_CodeNoName" errorRef="Error_3" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_Error" name="ServiceTask_Error" camunda:type="external" camunda:topic="">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_1ltlp0q" errorRef="Error_1" expression="${externalTask.getErrorDetails().contains(&#39;address error found&#39;)}" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:task id="Task" name="Task" />
+    <bpmn:serviceTask id="ServiceTask_ErrorCode" name="ServiceTask_ErrorCode" camunda:type="external" camunda:topic="">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_0fnfvu0" errorRef="Error_2" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_1" name="myBusinessException" camunda:errorMessage="foo" />
+  <bpmn:error id="Error_2" name="myOtherBusinessException" errorCode="com.company.MyOtherBusinessException" />
+  <bpmn:error id="Error_3" errorCode="404" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Activity_024zx18_di" bpmnElement="ServiceTask_JavaClass">
+        <dc:Bounds x="190" y="180" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cuf5u4_di" bpmnElement="ServiceTask_External">
+        <dc:Bounds x="190" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mbuo7u_di" bpmnElement="ServiceTask_ErrorEventDefinition">
+        <dc:Bounds x="190" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_ErrorEventDefinitionCodeNoName_di" bpmnElement="ServiceTask_ErrorEventDefinitionCodeNoName">
+        <dc:Bounds x="290" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03nej2a_di" bpmnElement="ServiceTask_Error">
+        <dc:Bounds x="190" y="480" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jbkxl7_di" bpmnElement="Task">
+        <dc:Bounds x="190" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dwbw6e_di" bpmnElement="ServiceTask_ErrorCode">
+        <dc:Bounds x="190" y="580" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

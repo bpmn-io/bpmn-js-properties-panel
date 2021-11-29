@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1rbwnua" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210823" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:subProcess id="EventSubProcess_1" triggeredByEvent="true">
+      <bpmn:startEvent id="CompensationStartEvent_1">
+        <bpmn:compensateEventDefinition id="CompensateEventDefinition_0czj8ig" />
+      </bpmn:startEvent>
+      <bpmn:intermediateThrowEvent id="CompensationThrowEvent_1">
+        <bpmn:compensateEventDefinition id="CompensateEventDefinition_1typjmv" />
+      </bpmn:intermediateThrowEvent>
+      <bpmn:task id="Task_5" name="Task 5" />
+      <bpmn:boundaryEvent id="CompensationBoundaryEvent_5" attachedToRef="Task_5">
+        <bpmn:compensateEventDefinition id="CompensateEventDefinition_1c4jvyh" />
+      </bpmn:boundaryEvent>
+    </bpmn:subProcess>
+    <bpmn:endEvent id="CompensationEndEvent_1">
+      <bpmn:incoming>Flow_1r5pr2g</bpmn:incoming>
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_08xho7p" activityRef="Task_1" />
+    </bpmn:endEvent>
+    <bpmn:task id="Task_2" name="Task 2">
+      <bpmn:incoming>Flow_0w7qfxq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qnb5uu</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_1" name="Task 1">
+      <bpmn:outgoing>Flow_0w7qfxq</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:boundaryEvent id="CompensationBoundaryEvent_1" attachedToRef="Task_1">
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_1u6d8fx" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="CompensationBoundaryEvent_2" attachedToRef="Task_2">
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_15rw088" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Task_3">
+      <bpmn:incoming>Flow_1qnb5uu</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r5pr2g</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:boundaryEvent id="CompensationBoundaryEvent_3" attachedToRef="Task_3">
+      <bpmn:compensateEventDefinition id="CompensateEventDefinition_0rvi1vg" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0w7qfxq" sourceRef="Task_1" targetRef="Task_2" />
+    <bpmn:sequenceFlow id="Flow_1qnb5uu" sourceRef="Task_2" targetRef="Task_3" />
+    <bpmn:callActivity id="CallActivity_1" name="Call Activity 1" />
+    <bpmn:subProcess id="SubProcess_1" name="Sub Process 1">
+      <bpmn:intermediateThrowEvent id="CompensationThrowEvent_2">
+        <bpmn:compensateEventDefinition id="CompensateEventDefinition_15g6b3b" />
+      </bpmn:intermediateThrowEvent>
+      <bpmn:task id="Task_4" name="Task 4" />
+      <bpmn:boundaryEvent id="CompensationBoundaryEvent_4" attachedToRef="Task_4">
+        <bpmn:compensateEventDefinition id="CompensateEventDefinition_1xytngt" />
+      </bpmn:boundaryEvent>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="SubProcess_3" name="SubProcess 3" isForCompensation="true" />
+    <bpmn:sequenceFlow id="Flow_1r5pr2g" sourceRef="Task_3" targetRef="CompensationEndEvent_1" />
+    <bpmn:association id="Association_0mxyumv" associationDirection="One" sourceRef="CompensationBoundaryEvent_1" targetRef="SubProcess_3" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNEdge id="Flow_1qnb5uu_di" bpmnElement="Flow_1qnb5uu">
+        <di:waypoint x="600" y="270" />
+        <di:waypoint x="660" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0w7qfxq_di" bpmnElement="Flow_0w7qfxq">
+        <di:waypoint x="425" y="270" />
+        <di:waypoint x="500" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r5pr2g_di" bpmnElement="Flow_1r5pr2g">
+        <di:waypoint x="760" y="270" />
+        <di:waypoint x="842" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_07ikkha_di" bpmnElement="CompensationEndEvent_1">
+        <dc:Bounds x="842" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xdcvkn_di" bpmnElement="Task_2">
+        <dc:Bounds x="500" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yvf9yn_di" bpmnElement="Task_1">
+        <dc:Bounds x="325" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18nkl8g_di" bpmnElement="Task_3">
+        <dc:Bounds x="660" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0udilz3_di" bpmnElement="CallActivity_1">
+        <dc:Bounds x="310" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14yqucf_di" bpmnElement="EventSubProcess_1" isExpanded="true">
+        <dc:Bounds x="185" y="750" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1v8lyjg_di" bpmnElement="CompensationStartEvent_1">
+        <dc:Bounds x="225" y="832" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17vzo7v_di" bpmnElement="CompensationThrowEvent_1">
+        <dc:Bounds x="297" y="832" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yc5gco_di" bpmnElement="Task_5">
+        <dc:Bounds x="390" y="810" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1r6g8eq_di" bpmnElement="CompensationBoundaryEvent_5">
+        <dc:Bounds x="397" y="872" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p8n2ou_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="185" y="510" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1pdcpkh_di" bpmnElement="CompensationThrowEvent_2">
+        <dc:Bounds x="227" y="592" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bbb0ig_di" bpmnElement="Task_4">
+        <dc:Bounds x="365" y="570" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0pufllm_di" bpmnElement="CompensationBoundaryEvent_4">
+        <dc:Bounds x="372" y="632" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qhnmb3_di" bpmnElement="SubProcess_3">
+        <dc:Bounds x="420" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0mxyumv_di" bpmnElement="Association_0mxyumv">
+        <di:waypoint x="350" y="328" />
+        <di:waypoint x="350" y="430" />
+        <di:waypoint x="420" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1tgsqir_di" bpmnElement="CompensationBoundaryEvent_3">
+        <dc:Bounds x="667" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_03dvdgd_di" bpmnElement="CompensationBoundaryEvent_2">
+        <dc:Bounds x="507" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ed7l82_di" bpmnElement="CompensationBoundaryEvent_1">
+        <dc:Bounds x="332" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

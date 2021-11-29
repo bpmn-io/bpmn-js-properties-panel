@@ -17,4 +17,3 @@ updates:
     commit-message:
       prefix: "deps:"
     versioning-strategy: "increase"
-    

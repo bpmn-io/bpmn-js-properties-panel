@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210721">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:serviceTask id="ServiceTask_class" name="Class" camunda:class="foo" />
+    <bpmn:serviceTask id="ServiceTask_expression" name="Expression" camunda:expression="foo" camunda:resultVariable="bar" />
+    <bpmn:serviceTask id="ServiceTask_delegateExpression" name="Delegate Expression" camunda:delegateExpression="foo" />
+    <bpmn:serviceTask id="ServiceTask_external" name="External" camunda:type="external" camunda:topic="foo" />
+    <bpmn:serviceTask id="ServiceTask_connector" name="Connector">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="BusinessRuleTask_dmn" name="DMN" camunda:decisionRef="foo" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_class" name="Class" camunda:class="foo" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_expression" name="Expression" camunda:expression="foo" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_delegateExpression" name="Delegate Expression" camunda:delegateExpression="foo" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_external" name="External" camunda:type="external" camunda:topic="foo" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_connector" name="Connector">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:connectorId>foo</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
+    <bpmn:serviceTask id="ServiceTask_error" name="With ErrorEventDefinition" camunda:type="external" camunda:topic="foo">
+      <bpmn:extensionElements>
+        <camunda:errorEventDefinition id="ErrorEventDefinition_0uzcomu" errorRef="Error_1" expression="foo" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_1" name="Error_1" errorCode="foo" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="ServiceTask_05myv93_di" bpmnElement="ServiceTask_class">
+        <dc:Bounds x="158" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1umdg9t_di" bpmnElement="ServiceTask_expression">
+        <dc:Bounds x="310" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0f5revy_di" bpmnElement="ServiceTask_delegateExpression">
+        <dc:Bounds x="450" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_19csnox_di" bpmnElement="ServiceTask_external">
+        <dc:Bounds x="590" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0bvt4w3_di" bpmnElement="ServiceTask_connector">
+        <dc:Bounds x="729" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_139j051_di" bpmnElement="BusinessRuleTask_dmn">
+        <dc:Bounds x="865" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0jyqff8_di" bpmnElement="BusinessRuleTask_class">
+        <dc:Bounds x="158" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_1szdz9t_di" bpmnElement="BusinessRuleTask_expression">
+        <dc:Bounds x="310" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0cqjf24_di" bpmnElement="BusinessRuleTask_delegateExpression">
+        <dc:Bounds x="450" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00rqsap_di" bpmnElement="BusinessRuleTask_external">
+        <dc:Bounds x="590" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_11woi3e_di" bpmnElement="BusinessRuleTask_connector">
+        <dc:Bounds x="729" y="209" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bbom46_di" bpmnElement="ServiceTask_error">
+        <dc:Bounds x="158" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

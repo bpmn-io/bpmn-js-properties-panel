@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210721">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:businessRuleTask id="BusinessRuleTask_dmn" name="DMN" camunda:decisionRef="foo" camunda:decisionRefBinding="deployment" camunda:decisionRefTenantId="tenantId" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_class" name="Class" camunda:class="foo" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_version" name="version" camunda:decisionRef="foo" camunda:decisionRefBinding="version" camunda:decisionRefVersion="version" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_versionTag" name="versionTag" camunda:decisionRef="foo" camunda:decisionRefBinding="versionTag" camunda:decisionRefVersionTag="versionTag" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_resultVariable" name="resultVariable" camunda:resultVariable="resultVariable" camunda:decisionRef="foo" camunda:mapDecisionResult="collectEntries" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_versionAndVersionTag" name="version and versionTag" camunda:decisionRef="foo" camunda:decisionRefBinding="version" camunda:decisionRefVersion="version" camunda:decisionRefVersionTag="versionTag" />
+  </bpmn:process>
+  <bpmn:error id="Error_1" name="Error_1" errorCode="foo" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="BusinessRuleTask_0jyqff8_di" bpmnElement="BusinessRuleTask_class">
+        <dc:Bounds x="158" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_139j051_di" bpmnElement="BusinessRuleTask_dmn">
+        <dc:Bounds x="300" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mnq286_di" bpmnElement="BusinessRuleTask_version">
+        <dc:Bounds x="430" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bvrsxg_di" bpmnElement="BusinessRuleTask_versionTag">
+        <dc:Bounds x="560" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_195u06n_di" bpmnElement="BusinessRuleTask_resultVariable">
+        <dc:Bounds x="700" y="90" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xp38pi_di" bpmnElement="BusinessRuleTask_versionAndVersionTag">
+        <dc:Bounds x="430" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

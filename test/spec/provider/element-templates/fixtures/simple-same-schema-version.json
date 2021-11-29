@@ -1,0 +1,49 @@
+[
+  {
+    "$schema": "<define during runtime>",
+    "id": "foo",
+    "name":"Foo",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "<define during runtime>",
+    "id": "foo",
+    "name":"Foo 1",
+    "version": 1,
+    "isDefault": true,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "<define during runtime>",
+    "id": "foo",
+    "name":"Foo 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "<define during runtime>",
+    "id": "bar",
+    "name":"Bar 1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "<define during runtime>",
+    "id": "bar",
+    "name":"Bar 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "<define during runtime>",
+    "id": "baz",
+    "name":"Baz",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "name": "Call Activity Template v1",
+  "id": "call-activity-template",
+  "version": 1,
+  "appliesTo": [
+    "bpmn:CallActivity"
+  ],
+  "properties": [
+    {
+      "value": "in-1-value",
+      "binding": {
+        "type": "camunda:in",
+        "target": "in-1-target"
+      }
+    },
+    {
+      "value": "out-1-value",
+      "binding": {
+        "type": "camunda:out",
+        "source": "out-1-source"
+      }
+    },
+    {
+      "value": "${in-2-value}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "in-2-target",
+        "expression": true
+      }
+    },
+    {
+      "value": "out-2-value",
+      "binding": {
+        "type": "camunda:out",
+        "sourceExpression": "${out-2-source-expression}"
+      }
+    },
+    {
+      "value": "${in-3-value}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "in-3-target",
+        "variables": "local"
+      }
+    },
+    {
+      "value": "${in-4-value}",
+      "binding": {
+        "type": "camunda:in",
+        "target": "in-4-target",
+        "variables": "local",
+        "expression": true
+      }
+    },
+    {
+      "value": "out-3-value",
+      "binding": {
+        "type": "camunda:out",
+        "variables": "local",
+        "source": "out-3-source"
+      }
+    },
+    {
+      "value": "out-4-value",
+      "binding": {
+        "type": "camunda:out",
+        "variables": "local",
+        "sourceExpression": "${ out-4-source-expression }"
+      }
+    },
+    {
+      "binding": {
+        "type": "camunda:in",
+        "variables": "all"
+      }
+    },
+    {
+      "binding": {
+        "type": "camunda:out",
+        "variables": "all"
+      }
+    },
+    {
+      "binding": {
+        "type": "camunda:in",
+        "variables": "local"
+      }
+    },
+    {
+      "binding": {
+        "type": "camunda:out",
+        "variables": "local"
+      }
+    },
+    {
+      "value": "${in-business-key-value}",
+      "binding": {
+        "type": "camunda:in:businessKey"
+      }
+    }
+  ]
+}

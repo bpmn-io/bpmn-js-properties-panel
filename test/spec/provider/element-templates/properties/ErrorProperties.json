@@ -1,0 +1,173 @@
+[
+  {
+    "name": "External Task Worker",
+    "id": "com.example.ExternalTaskWorker",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "external",
+        "binding": {
+          "type": "property",
+          "name": "camunda:type"
+        }
+      },
+      {
+        "value": "${error.expression1}",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-1"
+        }
+      },
+      {
+        "label": "error-name-2",
+        "value": "${error.expression2}",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-2"
+        }
+      },
+      {
+        "label": "error-name-3",
+        "value": "${error.expression3}",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-3"
+        }
+      },
+      {
+        "value": "${error.expression4}",
+        "binding": {
+          "type": "camunda:errorEventDefinition",
+          "errorRef": "error-4"
+        }
+      }
+    ],
+    "scopes": [
+      {
+        "type": "bpmn:Error",
+        "id": "error-1",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "Hidden",
+            "value": "error-code-1",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "Hidden",
+            "value": "error-message-1",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "Hidden",
+            "value": "error-name-1",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      },
+      {
+        "type": "bpmn:Error",
+        "id": "error-2",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "Hidden",
+            "value": "error-code-2",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "Hidden",
+            "value": "error-message-2",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "Hidden",
+            "value": "error-name-2",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      },
+      {
+        "type": "bpmn:Error",
+        "id": "error-3",
+        "properties": [
+          {
+            "label": "Error Code",
+            "type": "Hidden",
+            "value": "error-code-3",
+            "binding": {
+              "type": "property",
+              "name": "errorCode"
+            }
+          },
+          {
+            "label": "Error Message",
+            "type": "Hidden",
+            "value": "error-message-3",
+            "binding": {
+              "type": "property",
+              "name": "camunda:errorMessage"
+            }
+          },
+          {
+            "label": "Error Name",
+            "type": "Hidden",
+            "value": "error-name-3",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      },
+      {
+        "type": "bpmn:Error",
+        "id": "error-4",
+        "properties": [
+          {
+            "label": "Error Name",
+            "type": "Hidden",
+            "value": "error-name-4",
+            "binding": {
+              "type": "property",
+              "name": "name"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Empty Template",
+    "id": "com.example.EmptyTemplate",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": []
+  }
+]

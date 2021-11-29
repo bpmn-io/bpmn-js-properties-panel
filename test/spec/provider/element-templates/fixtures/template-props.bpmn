@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0qan2d1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1c8xca4" sourceRef="Template_1" targetRef="Template_2" />
+    <bpmn:sequenceFlow id="Flow_0iz55eq" sourceRef="Template_2" targetRef="Template_3" />
+    <bpmn:serviceTask id="Template_1" name="A template is available for this task" camunda:type="external" camunda:topic="">
+      <bpmn:outgoing>Flow_1c8xca4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Template_2" name="I&#39;m a template" camunda:modelerTemplate="0a7096fb-47e8-4b4c-9da0-ecaee7af225e" camunda:modelerTemplateVersion="946771200000" camunda:type="external" camunda:topic="">
+      <bpmn:incoming>Flow_1c8xca4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iz55eq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1g84gcn" sourceRef="Template_3" targetRef="Template_4" />
+    <bpmn:serviceTask id="Template_4" name="My template was not found" camunda:modelerTemplate="none-existing" camunda:type="external" camunda:topic="">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="groovy">println execution.eventName</camunda:script>
+        </camunda:executionListener>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="groovy">println end</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1g84gcn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f80kur</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1" name="End">
+      <bpmn:incoming>Flow_0f80kur</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0f80kur" sourceRef="Template_4" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="Template_3" name="I&#39;m an outdated template" camunda:modelerTemplate="0a7096fb-47e8-4b4c-9da0-ecaee7af225e" camunda:modelerTemplateVersion="946684800000">
+      <bpmn:incoming>Flow_0iz55eq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g84gcn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="TemplateWithoutVersion" name="Template without version" camunda:modelerTemplate="without-version" />
+    <bpmn:serviceTask id="TemplateWithoutDescription" name="Template without description" camunda:modelerTemplate="without-description" />
+    <bpmn:serviceTask id="TemplateWithoutMetadata" name="Template without metadata" camunda:modelerTemplate="without-metadata" camunda:modelerTemplateVersion="1" />
+    <bpmn:textAnnotation id="TextAnnotation_1">
+      <bpmn:text>See the section "Template" with the button to open the catalog</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0lef6ks" sourceRef="Template_1" targetRef="TextAnnotation_1" />
+    <bpmn:textAnnotation id="TextAnnotation_3">
+      <bpmn:text>See the status on the section button and the message and actions in the dropdown</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0qqqwyl" sourceRef="Template_3" targetRef="TextAnnotation_3" />
+    <bpmn:textAnnotation id="TextAnnotation_4">
+      <bpmn:text>See the status on the section button. All template data is hidden</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0t49xwf" sourceRef="Template_4" targetRef="TextAnnotation_4" />
+    <bpmn:group id="Group_08095qf" categoryValueRef="CategoryValue_0tkk8v3" />
+  </bpmn:process>
+  <bpmn:category id="Category_0ap45m9">
+    <bpmn:categoryValue id="CategoryValue_0tkk8v3" value="Templates" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNEdge id="Flow_0f80kur_di" bpmnElement="Flow_0f80kur">
+        <di:waypoint x="780" y="300" />
+        <di:waypoint x="832" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g84gcn_di" bpmnElement="Flow_1g84gcn">
+        <di:waypoint x="630" y="300" />
+        <di:waypoint x="680" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iz55eq_di" bpmnElement="Flow_0iz55eq">
+        <di:waypoint x="480" y="300" />
+        <di:waypoint x="530" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1c8xca4_di" bpmnElement="Flow_1c8xca4">
+        <di:waypoint x="330" y="300" />
+        <di:waypoint x="380" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0oz28qa_di" bpmnElement="Template_1">
+        <dc:Bounds x="230" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06wgrx8_di" bpmnElement="Template_2">
+        <dc:Bounds x="380" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1336etm_di" bpmnElement="Template_4">
+        <dc:Bounds x="680" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19rzs0t_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="832" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="841" y="325" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1u71csy_di" bpmnElement="Template_3">
+        <dc:Bounds x="530" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ksp31o_di" bpmnElement="TemplateWithoutVersion">
+        <dc:Bounds x="230" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TemplateWithoutDescription_di" bpmnElement="TemplateWithoutDescription">
+        <dc:Bounds x="370" y="430" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_07cevnr_di" bpmnElement="TextAnnotation_1">
+        <dc:Bounds x="300" y="136" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_08qrr33_di" bpmnElement="TextAnnotation_3">
+        <dc:Bounds x="600" y="122" width="100" height="96" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_09wm9du_di" bpmnElement="TextAnnotation_4">
+        <dc:Bounds x="750" y="136" width="100" height="82" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TemplateWithoutMetadata_di" bpmnElement="TemplateWithoutMetadata">
+        <dc:Bounds x="230" y="530" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_08095qf_di" bpmnElement="Group_08095qf">
+        <dc:Bounds x="150" y="83" width="790" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="100" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0lef6ks_di" bpmnElement="Association_0lef6ks">
+        <di:waypoint x="298" y="260" />
+        <di:waypoint x="317" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0qqqwyl_di" bpmnElement="Association_0qqqwyl">
+        <di:waypoint x="597" y="260" />
+        <di:waypoint x="615" y="218" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0t49xwf_di" bpmnElement="Association_0t49xwf">
+        <di:waypoint x="748" y="260" />
+        <di:waypoint x="767" y="218" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

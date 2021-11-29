@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.4.0-dev">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:task id="SimpleTask" name="Simple Task" camunda:modelerTemplate="my.domain.SimpleWorkerTask">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="recipient">recipient</camunda:inputParameter>
+          <camunda:inputParameter name="noLabel" />
+          <camunda:inputParameter name="withDescription" />
+          <camunda:inputParameter name="template"><camunda:script scriptFormat="freemaker" /></camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="SimpleTaskWithoutInputOutput" name="Simple Task without input output" camunda:modelerTemplate="my.domain.SimpleWorkerTaskWithCamundaProperty">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="webServiceUrl" value="https://foo.bar" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:task id="SimpleTaskWithoutExtensionElements" name="Simple Task without extension elements" camunda:modelerTemplate="my.domain.SimpleWorkerTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Task_0zadlfo_di" bpmnElement="SimpleTask">
+        <dc:Bounds x="79" y="53" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SimpleTask_di" bpmnElement="SimpleTaskWithoutInputOutput">
+        <dc:Bounds x="79" y="153" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SimpleTask_1_di" bpmnElement="SimpleTaskWithoutExtensionElements">
+        <dc:Bounds x="79" y="253" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

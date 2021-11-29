@@ -1,8 +1,0 @@
-.github
-docs
-tasks
-test/*
-!test/helper
-!dist/*
-.eslintrc
-karma.conf.js

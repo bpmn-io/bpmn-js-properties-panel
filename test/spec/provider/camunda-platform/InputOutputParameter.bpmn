@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1y626cn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210902" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:serviceTask id="ServiceTask_1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="input1">${expression}</camunda:inputParameter>
+          <camunda:inputParameter name="input2">
+            <camunda:script scriptFormat="javascript">script</camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="input3">
+            <camunda:list>
+              <camunda:value>value1</camunda:value>
+              <camunda:value>value2</camunda:value>
+              <camunda:value>value3</camunda:value>
+              <camunda:value>value4</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="input4">
+            <camunda:map>
+              <camunda:entry key="entry1">value1</camunda:entry>
+              <camunda:entry key="entry2">value2</camunda:entry>
+              <camunda:entry key="entry3">value3</camunda:entry>
+              <camunda:entry key="entry4">value4</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="StartEvent_1" />
+    <bpmn:serviceTask id="ServiceTask_empty" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Activity_18weu7p_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10r874j_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a3o1z9_di" bpmnElement="ServiceTask_empty">
+        <dc:Bounds x="160" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

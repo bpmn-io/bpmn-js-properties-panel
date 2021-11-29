@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Task",
+    "id": "bar",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "FOO",
+        "type": "Dropdown",
+        "value": "50",
+        "choices": [
+          { "name": "low", "x": "50" },
+          { "name": "medium", "value": "100" },
+          { "name": "high", "value": "150" }
+        ],
+        "binding": {
+          "type": "property",
+          "name": "camunda:priority"
+        }
+      }
+    ]
+  }
+]

@@ -4,7 +4,7 @@
 
 A properties panel extension for [bpmn-js](https://github.com/bpmn-io/bpmn-js) that adds the ability to edit technical properties (generic and [Camunda](https://camunda.com)).
 
-[![bpmn-js-properties-panel screenshot](https://raw.githubusercontent.com/bpmn-io/bpmn-js-properties-panel/master/docs/screenshot.png "Screenshot of the bpmn-js modeler + properties panel")](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
+[![bpmn-js-properties-panel screenshot](https://raw.githubusercontent.com/bpmn-io/bpmn-js-properties-panel/master/docs/screenshot.png "Screenshot of the bpmn-js modeler with properties panel")](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
 
 
 ## Features
@@ -29,23 +29,40 @@ Provide two HTML elements, one for the properties panel and one for the BPMN dia
 </div>
 ```
 
-Bootstrap [bpmn-js](https://github.com/bpmn-io/bpmn-js) with the properties panel and a [properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/lib/provider):
+Bootstrap [bpmn-js](https://github.com/bpmn-io/bpmn-js) with the properties panel and a [properties provider](https://github.com/bpmn-io/bpmn-properties-panel/tree/master/src/provider):
+
 
 ```javascript
-var BpmnJS = require('bpmn-js/lib/Modeler'),
-    propertiesPanelModule = require('bpmn-js-properties-panel'),
-    propertiesProviderModule = require('bpmn-js-properties-panel/lib/provider/bpmn');
+import BpmnModeler from 'bpmn-js/lib/Modeler';
+import {
+  BpmnPropertiesPanelModule,
+  BpmnPropertiesProviderModule,
+} from '@bpmn-io/bpmn-properties-panel';
 
-var bpmnJS = new BpmnJS({
-  additionalModules: [
-    propertiesPanelModule,
-    propertiesProviderModule
-  ],
+const modeler = new BpmnModeler({
   container: '#canvas',
   propertiesPanel: {
     parent: '#properties'
-  }
+  },
+  additionalModules: [
+    BpmnPropertiesPanelModule,
+    BpmnPropertiesProviderModule
+  ]
 });
+```
+
+### Styling
+
+For proper styling include the necessary stylesheets:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/bpmn-js-properties-panel/dist/assets/properties-panel.css">
+```
+
+If you use the `ElementTemplatesProviderModule`, include also its stylesheet:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/bpmn-js-properties-panel/dist/assets/element-templates.css">
 ```
 
 
@@ -96,6 +113,51 @@ var bpmnJS = new BpmnJS({
 ...
 ```
 
+### API
+
+#### `BpmnPropertiesPanelRenderer#attachTo(container: HTMLElement) => void`
+
+Attach the properties panel to a parent node.
+
+```javascript
+const propertiesPanel = modeler.get('propertiesPanel');
+
+propertiesPanel.attachTo('#other-properties');
+```
+
+#### `BpmnPropertiesPanelRenderer#detach() => void`
+
+Detach the properties panel from its parent node.
+
+```javascript
+const propertiesPanel = modeler.get('propertiesPanel');
+
+propertiesPanel.detach();
+```
+
+#### `BpmnPropertiesPanelRenderer#registerProvider(priority: Number, provider: PropertiesProvider) => void`
+
+Register a new properties provider to the properties panel.
+
+```javascript
+class ExamplePropertiesProvider {
+  constructor(propertiesPanel) {
+    propertiesPanel.registerProvider(500, this);
+  }
+
+  getGroups(element) {
+    return (groups) => {
+
+      // add, modify or remove groups
+      // ...
+
+      return groups;
+    };
+  }
+}
+
+ExamplePropertiesProvider.$inject = [ 'propertiesPanel' ];
+```
 
 ## Additional Resources
 
@@ -106,15 +168,24 @@ var bpmnJS = new BpmnJS({
 
 ## Development
 
-### Running the tests
+Prepare the project by installing all dependencies:
 
-```bash
+```sh
 npm install
-
-export TEST_BROWSERS=Chrome
-npm run all
 ```
 
+Then, depending on your use-case, you may run any of the following commands:
+
+```sh
+# build the library and run all tests
+npm run all
+
+# spin up a single local modeler instance
+npm start
+
+# run the full development setup
+npm run dev
+```
 
 ## License
 

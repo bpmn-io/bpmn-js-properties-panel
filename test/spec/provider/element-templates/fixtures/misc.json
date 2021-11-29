@@ -1,0 +1,115 @@
+[
+  {
+    "name": "Custom Whatever",
+    "id": "com.mycompany.whateverdomain.ShoeTask",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Schuhgröße",
+        "type": "String",
+        "value": "45",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "shoeSize"
+        },
+        "constraints": {
+          "mandatory": true,
+          "minLength": 10,
+          "maxLength": 20,
+          "pattern": {
+            "message": "Must be valid shoe size (>20 && <49)",
+            "match": "/[2-4][0-9]/"
+          }
+        }
+      },
+      {
+        "label": "Prüfungsergebnis (aus Script)",
+        "type": "String",
+        "visible": false,
+        "editable": true,
+        "value": "shoeResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "scriptFormat": "freemarker",
+          "source": "${shoeSizeResult}"
+        }
+      },
+      {
+        "label": "Prüfungsergebnis (aus Variable / EL-Expression)",
+        "type": "String",
+        "visible": false,
+        "editable": true,
+        "value": "shoeResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "shoeSizeResult"
+        }
+      },
+      {
+        "label": "Email Template",
+        "type": "Text",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "template"
+        }
+      },
+      {
+        "label": "Label",
+        "description": "Add a nice (we love you <3) name for people to admire",
+        "type": "Text",
+        "binding": {
+          "type": "property",
+          "name": "bpmn:name"
+        }
+      },
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "webServiceUrl"
+        }
+      },
+      {
+        "label": "Web Service URL",
+        "description": "Specify the url of the web service to talk to",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "webServiceUrl"
+        }
+      },
+      {
+        "label": "Custom Delivery Condition",
+        "description": "FOO BAR",
+        "type": "Text",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "customDelivery"
+        }
+      },
+      {
+        "label": "Krass",
+        "description": "ALTER WILLST DU DAS TUN?",
+        "type": "Boolean",
+        "binding": {
+          "type": "property",
+          "name": "camunda:async"
+        }
+      },
+      {
+        "label": "Java Delegate",
+        "type": "String",
+        "value": "com.foo.bar.XXXDelegate",
+        "editable": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:javaDelegate"
+        }
+      }
+    ]
+  }
+]
