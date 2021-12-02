@@ -114,7 +114,7 @@ describe('<ZeebePropertiesProvider>', function() {
       });
 
       // when
-      const targetGroup = getGroup(container, 'target');
+      const targetGroup = getGroup(container, 'calledElement');
 
       // then
       expect(targetGroup).to.not.exist;
@@ -131,7 +131,7 @@ describe('<ZeebePropertiesProvider>', function() {
       });
 
       // when
-      const targetGroup = getGroup(container, 'target');
+      const targetGroup = getGroup(container, 'calledElement');
 
       // then
       expect(targetGroup).to.exist;

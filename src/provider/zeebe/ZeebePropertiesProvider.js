@@ -158,8 +158,8 @@ function FormGroup(element) {
 
 function TargetGroup(element) {
   const group = {
-    id: 'target',
-    label: 'Target',
+    id: 'calledElement',
+    label: 'Called element',
     entries: [
       ...TargetProps({ element })
     ],
