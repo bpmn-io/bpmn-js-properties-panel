@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210721">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:serviceTask id="ServiceTask_class" name="Class" camunda:class="foo" />
     <bpmn:serviceTask id="ServiceTask_expression" name="Expression" camunda:expression="foo" camunda:resultVariable="bar" />
@@ -29,45 +29,79 @@
         <camunda:errorEventDefinition id="ErrorEventDefinition_0uzcomu" errorRef="Error_1" expression="foo" />
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:endEvent id="MessageEndEvent_Class" name="MessageEndEvent_Class">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1w3egsr" messageRef="Message_18c59ym" camunda:class="foo" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="MessageEndEvent_External" name="MessageEndEvent_External">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1653msr" messageRef="Message_18c59ym" camunda:type="external" camunda:topic="foo" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="MessageEndEvent_Connector" name="MessageEndEvent_Connector">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0dwiyvd" messageRef="Message_18c59ym">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:connectorId>myConnector</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+      </bpmn:messageEventDefinition>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:error id="Error_1" name="Error_1" errorCode="foo" />
+  <bpmn:message id="Message_18c59ym" name="asdf" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="ServiceTask_05myv93_di" bpmnElement="ServiceTask_class">
-        <dc:Bounds x="158" y="80" width="100" height="80" />
+        <dc:Bounds x="158" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1umdg9t_di" bpmnElement="ServiceTask_expression">
-        <dc:Bounds x="310" y="80" width="100" height="80" />
+        <dc:Bounds x="310" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0f5revy_di" bpmnElement="ServiceTask_delegateExpression">
-        <dc:Bounds x="450" y="80" width="100" height="80" />
+        <dc:Bounds x="450" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_19csnox_di" bpmnElement="ServiceTask_external">
-        <dc:Bounds x="590" y="80" width="100" height="80" />
+        <dc:Bounds x="590" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0bvt4w3_di" bpmnElement="ServiceTask_connector">
-        <dc:Bounds x="729" y="80" width="100" height="80" />
+        <dc:Bounds x="729" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_139j051_di" bpmnElement="BusinessRuleTask_dmn">
-        <dc:Bounds x="865" y="209" width="100" height="80" />
+        <dc:Bounds x="865" y="339" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_0jyqff8_di" bpmnElement="BusinessRuleTask_class">
-        <dc:Bounds x="158" y="209" width="100" height="80" />
+        <dc:Bounds x="158" y="339" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_1szdz9t_di" bpmnElement="BusinessRuleTask_expression">
-        <dc:Bounds x="310" y="209" width="100" height="80" />
+        <dc:Bounds x="310" y="339" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_0cqjf24_di" bpmnElement="BusinessRuleTask_delegateExpression">
-        <dc:Bounds x="450" y="209" width="100" height="80" />
+        <dc:Bounds x="450" y="339" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_00rqsap_di" bpmnElement="BusinessRuleTask_external">
-        <dc:Bounds x="590" y="209" width="100" height="80" />
+        <dc:Bounds x="590" y="339" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_11woi3e_di" bpmnElement="BusinessRuleTask_connector">
-        <dc:Bounds x="729" y="209" width="100" height="80" />
+        <dc:Bounds x="729" y="339" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1bbom46_di" bpmnElement="ServiceTask_error">
-        <dc:Bounds x="158" y="350" width="100" height="80" />
+        <dc:Bounds x="158" y="480" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jmwbsd_di" bpmnElement="MessageEndEvent_Class">
+        <dc:Bounds x="190" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="163" y="165" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qm96yq_di" bpmnElement="MessageEndEvent_External">
+        <dc:Bounds x="622" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="595" y="125" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0v7qzz0_di" bpmnElement="MessageEndEvent_Connector">
+        <dc:Bounds x="761" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="734" y="125" width="90" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
