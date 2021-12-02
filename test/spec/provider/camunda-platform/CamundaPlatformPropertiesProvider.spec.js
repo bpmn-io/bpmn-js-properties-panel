@@ -501,34 +501,47 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       it('should show implementation group', inject(async function(elementRegistry, selection) {
 
         // given
-        const task = elementRegistry.get('ExternalTaskServiceTask_1');
+        const elements = [
+          elementRegistry.get('ExternalTaskServiceTask_1'),
+          elementRegistry.get('MessageEndEvent_1'),
+          elementRegistry.get('MessageIntermediateThrowEvent_1')
+        ];
 
-        await act(() => {
-          selection.select(task);
-        });
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
 
-        // when
-        const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
+          // when
+          const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
 
-        // then
-        expect(implementationGroup).to.exist;
+          // then
+          expect(implementationGroup).to.exist;
+        }
       }));
 
 
       it('should NOT show implementation group', inject(async function(elementRegistry, selection) {
 
         // given
-        const group = elementRegistry.get('Group_1');
+        const elements = [
+          elementRegistry.get('Group_1'),
+          elementRegistry.get('MessageBoundaryEvent_1'),
+          elementRegistry.get('MessageIntermediateCatchEvent_1'),
+          elementRegistry.get('SignalIntermediateThrowEvent_1')
+        ];
 
-        await act(() => {
-          selection.select(group);
-        });
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
 
-        // when
-        const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
+          // when
+          const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
 
-        // then
-        expect(implementationGroup).to.not.exist;
+          // then
+          expect(implementationGroup).to.not.exist;
+        }
       }));
 
 

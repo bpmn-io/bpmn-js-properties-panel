@@ -1,8 +1,4 @@
 import {
-  getBusinessObject
-} from 'bpmn-js/lib/util/ModelUtil';
-
-import {
   sortBy
 } from 'min-dash';
 
@@ -24,7 +20,8 @@ import {
   getImplementationType,
   isDmnCapable,
   isExternalCapable,
-  isServiceTaskLike
+  isServiceTaskLike,
+  getServiceTaskLikeBusinessObject
 } from '../utils/ImplementationTypeUtils';
 
 const DELEGATE_PROPS = {
@@ -77,7 +74,7 @@ function ImplementationType(props) {
   const setValue = (value) => {
 
     const oldType = getImplementationType(element);
-    const businessObject = getBusinessObject(element);
+    const businessObject = getServiceTaskLikeBusinessObject(element);
     const commands = [];
 
     let updatedProperties = DELEGATE_PROPS;
@@ -94,7 +91,7 @@ function ImplementationType(props) {
     }
 
     // (2) dmn
-    if (isDmnCapable(element)) {
+    if (isDmnCapable(businessObject)) {
       updatedProperties = {
         ...updatedProperties,
         ...DMN_CAPABLE_PROPS
@@ -111,7 +108,7 @@ function ImplementationType(props) {
     // (3) external
     // Note: error event definition elements got cleaned up in modeling behavior
     // cf. https://github.com/camunda/camunda-bpmn-js/blob/main/lib/camunda-platform/features/modeling/behavior/DeleteErrorEventDefinitionBehavior.js
-    if (isExternalCapable(element)) {
+    if (isExternalCapable(businessObject)) {
       updatedProperties = {
         ...updatedProperties,
         ...EXTERNAL_CAPABLE_PROPS
@@ -127,7 +124,7 @@ function ImplementationType(props) {
     }
 
     // (4) connector
-    if (isServiceTaskLike(element)) {
+    if (isServiceTaskLike(businessObject)) {
 
       // (4.1) remove all connectors on type change
       const connectors = getConnectors(businessObject);
@@ -170,6 +167,7 @@ function ImplementationType(props) {
   };
 
   const getOptions = () => {
+    const businessObject = getServiceTaskLikeBusinessObject(element);
 
     const options = [
       { value: '', label: translate('<none>') },
@@ -178,15 +176,15 @@ function ImplementationType(props) {
       { value: 'delegateExpression', label: translate('Delegate expression') }
     ];
 
-    if (isDmnCapable(element)) {
+    if (isDmnCapable(businessObject)) {
       options.push({ value: 'dmn', label: translate('DMN') });
     }
 
-    if (isExternalCapable(element)) {
+    if (isExternalCapable(businessObject)) {
       options.push({ value: 'external', label: translate('External') });
     }
 
-    if (isServiceTaskLike(element)) {
+    if (isServiceTaskLike(businessObject)) {
       options.push({ value: 'connector', label: translate('Connector') });
     }
 

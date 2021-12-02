@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dbphwf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dbphwf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_1" isExecutable="true" camunda:taskPriority="DefaultPriority">
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:extensionElements>
@@ -72,6 +72,21 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ExternalServiceTask" name="ExternalServiceTask" camunda:type="external" camunda:topic="" />
+    <bpmn:endEvent id="MessageEndEvent_1" name="MessageEndEvent_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0o82b7z" />
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="MessageIntermediateThrowEvent_1" name="MessageIntermediateThrowEvent_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0j20iwu" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:boundaryEvent id="MessageBoundaryEvent_1" name="MessageBoundaryEvent_1" attachedToRef="ExternalServiceTask">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1da2f24" />
+    </bpmn:boundaryEvent>
+    <bpmn:intermediateCatchEvent id="MessageIntermediateCatchEvent_1" name="MessageIntermediateCatchEvent_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0w7dvz4" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="SignalIntermediateThrowEvent_1" name="SignalIntermediateThrowEvent_1">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0u105f4" />
+    </bpmn:intermediateThrowEvent>
     <bpmn:group id="Group_181txdl" categoryValueRef="CategoryValue_0gchis2" />
     <bpmn:group id="Group_1k1ibga" categoryValueRef="CategoryValue_1nalfj2" />
     <bpmn:group id="Group_1" categoryValueRef="CategoryValue_0vucc3u" />
@@ -195,23 +210,53 @@
       <bpmndi:BPMNShape id="Activity_16pxchs_di" bpmnElement="UserTask_1">
         <dc:Bounds x="270" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oyu2ja_di" bpmnElement="ScriptTask_1">
+        <dc:Bounds x="560" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1cc7m4t_di" bpmnElement="MultiInstanceTask_1">
         <dc:Bounds x="560" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0uj92vh_di" bpmnElement="CallActivity_1">
-        <dc:Bounds x="570" y="190" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0go5ee0_di" bpmnElement="ServiceTask_external">
-        <dc:Bounds x="560" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_17w48u0_di" bpmnElement="ServiceTask_connector">
         <dc:Bounds x="700" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1oyu2ja_di" bpmnElement="ScriptTask_1">
-        <dc:Bounds x="560" y="190" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0go5ee0_di" bpmnElement="ServiceTask_external">
+        <dc:Bounds x="760" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0uj92vh_di" bpmnElement="CallActivity_1">
+        <dc:Bounds x="420" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0pu98ap_di" bpmnElement="ExternalServiceTask">
-        <dc:Bounds x="720" y="190" width="100" height="80" />
+        <dc:Bounds x="880" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1j7q285_di" bpmnElement="MessageEndEvent_1">
+        <dc:Bounds x="1062" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1035" y="165" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1e4namg_di" bpmnElement="MessageIntermediateThrowEvent_1">
+        <dc:Bounds x="932" y="92" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="906" y="135" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uyjhxo_di" bpmnElement="MessageIntermediateCatchEvent_1">
+        <dc:Bounds x="1142" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1116" y="255" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11h38xu_di" bpmnElement="SignalIntermediateThrowEvent_1">
+        <dc:Bounds x="1072" y="62" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1048" y="105" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0k32k21_di" bpmnElement="MessageBoundaryEvent_1">
+        <dc:Bounds x="962" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="937" y="295" width="87" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_1k1ibga_di" bpmnElement="Group_1k1ibga">
         <dc:Bounds x="700" y="330" width="650" height="300" />
