@@ -333,7 +333,9 @@ function Resource(props) {
 
 const CONDITIONAL_SOURCES = [
   'bpmn:Activity',
-  'bpmn:ExclusiveGateway'
+  'bpmn:ExclusiveGateway',
+  'bpmn:InclusiveGateway',
+  'bpmn:ComplexGateway'
 ];
 
 function isConditionalSource(element) {

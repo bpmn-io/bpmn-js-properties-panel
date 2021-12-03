@@ -64,7 +64,13 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const elements = [ 'Flow3', 'ConditionalIntermediateEvent', 'ConditionalStartEvent' ];
+      const elements = [
+        'Flow3',
+        'ConditionalIntermediateEvent',
+        'ConditionalStartEvent',
+        'Flow_5',
+        'Flow_6'
+      ];
 
       for (const id of elements) {
         const element = elementRegistry.get(id);
@@ -85,7 +91,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const elements = [ 'Flow1', 'NoneEvent' ];
+      const elements = [ 'Flow1', 'NoneEvent', 'Flow_4' ];
 
       for (const id of elements) {
         const element = elementRegistry.get(id);
