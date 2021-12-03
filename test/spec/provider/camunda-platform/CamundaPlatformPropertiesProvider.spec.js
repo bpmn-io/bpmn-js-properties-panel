@@ -953,6 +953,53 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(connectorOutputGroup).to.not.exist;
       }));
 
+
+      it('should show condition group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const elements = [
+          elementRegistry.get('Flow_2'),
+          elementRegistry.get('Flow_3'),
+          elementRegistry.get('Flow_5'),
+          elementRegistry.get('Flow_6')
+        ];
+
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const conditionGroup = getGroup(container, 'CamundaPlatform__Condition');
+
+          // then
+          expect(conditionGroup).to.exist;
+        }
+      }));
+
+
+      it('should NOT show condition group', inject(async function(elementRegistry, selection) {
+
+        // given
+        const elements = [
+          elementRegistry.get('Flow_1'),
+          elementRegistry.get('Flow_4'),
+          elementRegistry.get('Flow_7')
+        ];
+
+        for (const element of elements) {
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const conditionGroup = getGroup(container, 'CamundaPlatform__Condition');
+
+          // then
+          expect(conditionGroup).to.not.exist;
+        }
+      }));
+
     });
 
 
