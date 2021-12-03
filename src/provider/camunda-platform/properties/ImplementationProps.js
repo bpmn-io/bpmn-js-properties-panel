@@ -22,7 +22,7 @@ import {
 
 
 export function ImplementationProps(props) {
-  let {
+  const {
     element
   } = props;
 
