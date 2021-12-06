@@ -28,13 +28,13 @@ export function UserAssignmentProps(props) {
       isEdited: textFieldIsEdited
     },
     {
-      id: 'candidateUsers',
-      component: <CandidateUsers element={ element } />,
+      id: 'candidateGroups',
+      component: <CandidateGroups element={ element } />,
       isEdited: textFieldIsEdited
     },
     {
-      id: 'candidateGroups',
-      component: <CandidateGroups element={ element } />,
+      id: 'candidateUsers',
+      component: <CandidateUsers element={ element } />,
       isEdited: textFieldIsEdited
     },
     {
