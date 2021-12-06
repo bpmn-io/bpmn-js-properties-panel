@@ -2,7 +2,7 @@ import BpmnPropertiesPanel from './BpmnPropertiesPanel';
 
 import {
   render
-} from 'preact';
+} from '@bpmn-io/properties-panel/preact';
 
 import {
   domify,
