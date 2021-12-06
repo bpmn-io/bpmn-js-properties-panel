@@ -31,7 +31,18 @@ export function JobExecutionProps(props) {
 
   const entries = [];
 
-  // (1) add jobPriority field for camunda:jobPriorized with async enabled
+  // (1) add retryTimeCycle field for camunda:asyncCapable enabled Elements
+  // or TimerEvents
+  if ((is(element, 'camunda:AsyncCapable') && isAsync(businessObject)) ||
+      isTimerEvent(element)) {
+    entries.push({
+      id: 'retryTimeCycle',
+      component: <RetryTimeCycle element={ element } />,
+      isEdited: textFieldIsEdited
+    });
+  }
+
+  // (2) add jobPriority field for camunda:jobPriorized with async enabled
   //  or Processes
   //  or Processes referred to by participants
   //  or TimerEvents
@@ -42,17 +53,6 @@ export function JobExecutionProps(props) {
     entries.push({
       id: 'jobPriority',
       component: <JobPriority element={ element } />,
-      isEdited: textFieldIsEdited
-    });
-  }
-
-  // (2) add retryTimeCycle field for camunda:asyncCapable enabled Elements
-  // or TimerEvents
-  if ((is(element, 'camunda:AsyncCapable') && isAsync(businessObject)) ||
-      isTimerEvent(element)) {
-    entries.push({
-      id: 'retryTimeCycle',
-      component: <RetryTimeCycle element={ element } />,
       isEdited: textFieldIsEdited
     });
   }
