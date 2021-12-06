@@ -1,6 +1,6 @@
 import {
   createContext
-} from 'preact';
+} from '@bpmn-io/properties-panel/preact';
 
 const BpmnPropertiesPanelContext = createContext({
   selectedElement: null,

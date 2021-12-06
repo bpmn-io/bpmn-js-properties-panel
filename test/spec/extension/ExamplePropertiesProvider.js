@@ -2,7 +2,7 @@ import {
   useState,
   useContext,
   useMemo
-} from 'preact/hooks';
+} from '@bpmn-io/properties-panel/preact/hooks';
 
 import {
   useService
