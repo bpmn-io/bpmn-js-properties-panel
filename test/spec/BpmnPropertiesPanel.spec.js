@@ -211,6 +211,23 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
+    it('should notify on description loaded', function() {
+
+      // given
+      const loadedSpy = sinon.spy();
+
+      const eventBus = new eventBusMock();
+
+      eventBus.on('propertiesPanel.descriptionLoaded', loadedSpy);
+
+      // when
+      createBpmnPropertiesPanel({ container, eventBus });
+
+      // then
+      expect(loadedSpy).to.have.been.calledOnce;
+    });
+
+
     it('should notify on properties panel changed', function() {
 
       // given
@@ -282,6 +299,8 @@ function createBpmnPropertiesPanel(options = {}) {
     element = noopElement,
     getProviders = getProvidersMock,
     layoutConfig,
+    descriptionConfig,
+    descriptionLoaded,
     container
   } = options;
 
@@ -305,6 +324,8 @@ function createBpmnPropertiesPanel(options = {}) {
       injector={ injector }
       getProviders={ getProviders }
       layoutConfig={ layoutConfig }
+      descriptionConfig={ descriptionConfig }
+      descriptionLoaded={ descriptionLoaded }
     />,
     {
       container

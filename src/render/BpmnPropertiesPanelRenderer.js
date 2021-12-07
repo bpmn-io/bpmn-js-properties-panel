@@ -22,12 +22,14 @@ export default class BpmnPropertiesPanelRenderer {
   constructor(config, injector, eventBus) {
     const {
       parent,
-      layout: layoutConfig
+      layout: layoutConfig,
+      description: descriptionConfig
     } = config || {};
 
     this._eventBus = eventBus;
     this._injector = injector;
     this._layoutConfig = layoutConfig;
+    this._descriptionConfig = descriptionConfig;
 
     this._container = domify('<div style="height: 100%" class="bio-properties-panel-container" input-handle-modified-keys="y,z"></div>');
 
@@ -143,6 +145,7 @@ export default class BpmnPropertiesPanelRenderer {
         injector={ this._injector }
         getProviders={ this._getProviders.bind(this) }
         layoutConfig={ this._layoutConfig }
+        descriptionConfig={ this._descriptionConfig }
       />,
       this._container
     );
