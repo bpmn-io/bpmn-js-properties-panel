@@ -23,13 +23,15 @@ import { PanelHeaderProvider } from './PanelHeaderProvider';
  * @param {Injector} props.injector
  * @param { (ModdleElement) => Array<PropertiesProvider> } props.getProviders
  * @param {Object} props.layoutConfig
+ * @param {Object} props.descriptionConfig
  */
 export default function BpmnPropertiesPanel(props) {
   const {
     element,
     injector,
     getProviders,
-    layoutConfig
+    layoutConfig,
+    descriptionConfig
   } = props;
 
   const canvas = injector.get('canvas');
@@ -158,6 +160,12 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // (6) notify description changes
+  const onDescriptionLoaded = (description) => {
+    eventBus.fire('propertiesPanel.descriptionLoaded', {
+      description
+    });
+  };
 
   return <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
     <PropertiesPanel
@@ -165,7 +173,9 @@ export default function BpmnPropertiesPanel(props) {
       headerProvider={ PanelHeaderProvider }
       groups={ groups }
       layoutConfig={ layoutConfig }
-      layoutChanged={ onLayoutChanged } />
+      layoutChanged={ onLayoutChanged }
+      descriptionConfig={ descriptionConfig }
+      descriptionLoaded={ onDescriptionLoaded } />
   </BpmnPropertiesPanelContext.Provider>;
 }
 

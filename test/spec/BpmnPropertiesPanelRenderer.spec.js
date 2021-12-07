@@ -34,6 +34,8 @@ import ZeebeModdleExtension from 'zeebe-bpmn-moddle/lib';
 
 import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
+import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
+
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
 insertCoreStyles();
@@ -72,7 +74,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       ],
       moddleExtensions = {
         zeebe: ZeebeModdle
-      }
+      },
+      description = {}
     } = options;
 
     clearBpmnJS();
@@ -85,7 +88,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       additionalModules,
       moddleExtensions,
       propertiesPanel: {
-        parent: propertiesContainer
+        parent: propertiesContainer,
+        description
       },
       ...options
     });
@@ -123,7 +127,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
-        }
+        },
+        description: DescriptionProvider
       }
     );
 
