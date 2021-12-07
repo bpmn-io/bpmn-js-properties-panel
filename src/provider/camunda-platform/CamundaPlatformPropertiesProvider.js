@@ -3,6 +3,8 @@ import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
 
 import { findIndex } from 'min-dash';
 
+import { mutate as arrayMove } from 'array-move';
+
 import {
   AsynchronousContinuationsProps,
   BusinessKeyProps,
@@ -119,6 +121,9 @@ export default class CamundaPlatformPropertiesProvider {
       updateEscalationGroup(groups, element);
       updateMultiInstanceGroup(groups, element);
 
+      // (3) move groups given specific priorities
+      moveImplementationGroup(groups);
+
       return groups;
     };
   }
@@ -132,6 +137,19 @@ export default class CamundaPlatformPropertiesProvider {
 }
 
 CamundaPlatformPropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
+
+/**
+ * This ensures the <Implementation> group always locates after <Documentation>
+ */
+function moveImplementationGroup(groups) {
+  const documentationGroupIdx = findGroupIndex(groups, 'documentation');
+
+  if (documentationGroupIdx < 0) {
+    return;
+  }
+
+  return moveGroup(groups, 'CamundaPlatform__Implementation', documentationGroupIdx + 1);
+}
 
 function updateGeneralGroup(groups, element) {
 
@@ -660,4 +678,18 @@ function ExtensionPropertiesGroup(element, injector) {
 
 function findGroup(groups, id) {
   return groups.find(g => g.id === id);
+}
+
+function findGroupIndex(groups, id) {
+  return findIndex(groups, g => g.id === id);
+}
+
+function moveGroup(groups, id, position) {
+  const groupIndex = findGroupIndex(groups, id);
+
+  if (position < 0 || groupIndex < 0) {
+    return;
+  }
+
+  return arrayMove(groups, groupIndex, position);
 }

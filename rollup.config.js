@@ -24,6 +24,7 @@ export default [
       }
     ],
     external: [
+      'array-move',
       'min-dash',
       'preact',
       'preact/jsx-runtime',
