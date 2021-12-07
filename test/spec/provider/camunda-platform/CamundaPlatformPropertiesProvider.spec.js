@@ -1362,6 +1362,32 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         expect(elementVariableInput).to.exist;
       }));
 
+
+      it('should show implementation group at correct position',
+        inject(async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('MessageIntermediateThrowEvent_1');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          // when
+          const implementationGroup = getGroup(container, 'CamundaPlatform__Implementation');
+
+          /**
+           * - General
+           * - Documentation
+           * - Implementation
+           */
+          const expectedGroup = getGroupAt(container, 2);
+
+          // then
+          expect(expectedGroup).to.eql(implementationGroup);
+        })
+      );
+
     });
 
   });
@@ -1372,6 +1398,11 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
 function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
+}
+
+function getGroupAt(container, position) {
+  const groups = domQueryAll('.bio-properties-panel-group', container);
+  return groups.item(position);
 }
 
 function getAllGroups(container, id) {
