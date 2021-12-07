@@ -28,6 +28,8 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
+
 import {
   getExtensionElementsList
 } from 'src/provider/zeebe/utils/ExtensionElementsUtil';
@@ -56,6 +58,9 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
   beforeEach(bootstrapPropertiesPanel(diagramXML, {
     modules: testModules,
     moddleExtensions,
+    propertiesPanel: {
+      description: DescriptionProvider
+    },
     debounceInput: false
   }));
 

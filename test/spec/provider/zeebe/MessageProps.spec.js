@@ -24,6 +24,8 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
+import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
+
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import {
@@ -61,6 +63,9 @@ describe('provider/zeebe - MessageProps', function() {
   beforeEach(bootstrapPropertiesPanel(diagramXML, {
     modules: testModules,
     moddleExtensions,
+    propertiesPanel: {
+      description: DescriptionProvider
+    },
     debounceInput: false
   }));
 
@@ -189,21 +194,68 @@ describe('provider/zeebe - MessageProps', function() {
     );
 
 
-    it('should display correct documentation for events', inject(async function(elementRegistry, selection) {
+    it('should display correct documentation for startEvents', inject(async function(elementRegistry, selection) {
 
       // given
-      const startEvent = elementRegistry.get('StartEvent_1');
+      const startEvent = elementRegistry.get('StartEvent_2');
 
       await act(() => {
         selection.select(startEvent);
       });
 
       // when
-      const documentationLink = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+      const documentationLink = domQuery('div[data-entry-id=messageName] a', container);
 
       // then
       expect(documentationLink).to.exist;
       expect(documentationLink.title).to.equal('Message event documentation');
+    }));
+
+
+    it('should display correct documentation for catchEvents', inject(async function(elementRegistry, selection) {
+
+      // given
+      const startEvent = elementRegistry.get('StartEvent_noSubscription');
+
+      await act(() => {
+        selection.select(startEvent);
+      });
+
+      // when
+      const documentationLinkMessageName = domQuery('div[data-entry-id=messageName] a', container);
+      const documentationLinkMessageCorrelation = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+
+      // then
+      expect(documentationLinkMessageName).to.not.exist;
+
+      expect(documentationLinkMessageCorrelation).to.exist;
+      expect(documentationLinkMessageCorrelation.title).to.equal('Message event documentation');
+    }));
+
+
+    it('should display correct documentation for startEvents in eventSubProcess', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [
+        elementRegistry.get('StartEvent_1'),
+        elementRegistry.get('StartEvent_3')];
+
+      for (const element of elements) {
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const documentationLinkMessageName = domQuery('div[data-entry-id=messageName] a', container);
+        const documentationLinkMessageCorrelation = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+
+        // then
+        expect(documentationLinkMessageName).to.not.exist;
+
+        expect(documentationLinkMessageCorrelation).to.exist;
+        expect(documentationLinkMessageCorrelation.title).to.equal('Message event documentation');
+      }
     }));
 
 
