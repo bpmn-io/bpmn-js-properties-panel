@@ -24,7 +24,7 @@ import { getEventDefinition } from 'src/provider/bpmn/utils/EventDefinitionUtil'
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
-import SelectionModule from 'diagram-js/lib/features/selection';
+import SelectEntryionModule from 'diagram-js/lib/features/selection';
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 
 import camundaModdleExtension from 'camunda-bpmn-moddle/resources/camunda';
@@ -38,7 +38,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
     BpmnPropertiesPanel,
     CoreModule,
     ModelingModule,
-    SelectionModule,
+    SelectEntryionModule,
     CamundaPlatformPropertiesProvider
   ];
 

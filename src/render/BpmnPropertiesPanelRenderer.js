@@ -12,8 +12,8 @@ import {
 const DEFAULT_PRIORITY = 1000;
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').GroupDefinition } GroupDefinition
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').ListGroupDefinition } ListGroupDefinition
+ * @typedef { import('@bpmn-io/properties-panel').GroupDefinition } GroupDefinition
+ * @typedef { import('@bpmn-io/properties-panel').ListGroupDefinition } ListGroupDefinition
  * @typedef { { getGroups: (ModdleElement) => (Array{GroupDefinition|ListGroupDefinition}) => Array{GroupDefinition|ListGroupDefinition}) } PropertiesProvider
  */
 

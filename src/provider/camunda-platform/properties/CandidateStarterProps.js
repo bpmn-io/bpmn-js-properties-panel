@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -26,12 +26,12 @@ export function CandidateStarterProps(props) {
     {
       id: 'candidateStarterGroups',
       component: <CandidateStarterGroups element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'candidateStarterUsers',
       component: <CandidateStarterUsers element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -59,7 +59,7 @@ function CandidateStarterGroups(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'candidateStarterGroups',
     label: translate('Candidate starter groups'),
@@ -93,7 +93,7 @@ function CandidateStarterUsers(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'candidateStarterUsers',
     label: translate('Candidate starter users'),

@@ -1,5 +1,4 @@
-import Group from '@bpmn-io/properties-panel/lib/components/Group';
-import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
+import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
 import {
   AssignmentDefinitionProps,

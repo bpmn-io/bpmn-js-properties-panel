@@ -15,9 +15,14 @@ import {
   useService
 } from '../../../hooks';
 
-import Checkbox, { isEdited as checkboxIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  CheckboxEntry,
+  isCheckboxEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import { CalledBpmnProps } from './CalledBpmnProps';
 import { CalledCmmnProps } from './CalledCmmnProps';
@@ -39,7 +44,7 @@ export function CallActivityProps(props) {
   entries.push({
     id: 'calledElementType',
     component: <CalledElementType element={ element } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   });
 
   const calledElementType = getCalledElementType(element);
@@ -107,7 +112,7 @@ function CalledElementType(props) {
     { value: 'cmmn', label: translate('CMMN') }
   ]);
 
-  return <Select
+  return <SelectEntry
     element={ element }
     id="calledElementType"
     label={ translate('Type') }
@@ -124,7 +129,7 @@ function BusinessKeyProps(props) {
     {
       id: 'calledElementBusinessKey',
       component: <BusinessKey element={ element } />,
-      isEdited: checkboxIsEdited
+      isEdited: isCheckboxEntryEdited
     }
   ];
 
@@ -132,7 +137,7 @@ function BusinessKeyProps(props) {
     entries.push({
       id: 'calledElementBusinessKeyExpression',
       component: <BusinessKeyExpression element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -212,7 +217,7 @@ function BusinessKey(props) {
     });
   }
 
-  return <Checkbox
+  return <CheckboxEntry
     element={ element }
     id="calledElementBusinessKey"
     label={ translate('Business key') }
@@ -241,7 +246,7 @@ function BusinessKeyExpression(props) {
     });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementBusinessKeyExpression"
     label={ translate('Business key expression') }

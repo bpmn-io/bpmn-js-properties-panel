@@ -21,7 +21,7 @@ import {
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
-import SelectionModule from 'diagram-js/lib/features/selection';
+import SelectEntryionModule from 'diagram-js/lib/features/selection';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
@@ -34,7 +34,7 @@ describe('provider/bpmn - TimerProps', function() {
     BpmnPropertiesPanel,
     CoreModule,
     ModelingModule,
-    SelectionModule,
+    SelectEntryionModule,
     BpmnPropertiesProvider
   ];
 

@@ -2,7 +2,7 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -30,22 +30,22 @@ export function MultiInstanceProps(props) {
     {
       id: 'multiInstance-inputCollection',
       component: <InputCollection element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-inputElement',
       component: <InputElement element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-outputCollection',
       component: <OutputCollection element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-outputElement',
       component: <OutputElement element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -68,7 +68,7 @@ function InputCollection(props) {
     return setProperty(element, 'inputCollection', value, commandStack, bpmnFactory);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
@@ -96,7 +96,7 @@ function InputElement(props) {
     return setProperty(element, 'inputElement', value, commandStack, bpmnFactory);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'multiInstance-inputElement',
     label: translate('Input element'),
@@ -124,7 +124,7 @@ function OutputCollection(props) {
     return setProperty(element, 'outputCollection', value, commandStack, bpmnFactory);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'multiInstance-outputCollection',
     label: translate('Output collection'),
@@ -152,7 +152,7 @@ function OutputElement(props) {
     return setProperty(element, 'outputElement', value, commandStack, bpmnFactory);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'multiInstance-outputElement',
     label: translate('Output element'),

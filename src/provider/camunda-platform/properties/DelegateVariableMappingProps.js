@@ -1,5 +1,9 @@
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -14,7 +18,7 @@ export function DelegateVariableMappingProps(props) {
     {
       id: 'calledElementDelegateVariableMappingType',
       component: <DelegateVariableMappingType element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 
@@ -23,13 +27,13 @@ export function DelegateVariableMappingProps(props) {
     entries.push({
       id: 'calledElementVariableMappingClass',
       component: <VariableMappingClass element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   } else if (type === 'delegateExpression') {
     entries.push({
       id: 'calledElementVariableMappingDelegateExpression',
       component: <VariableMappingDelegateExpression element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -71,7 +75,7 @@ function DelegateVariableMappingType(props) {
     { value: 'delegateExpression', label: translate('Delegate expression') }
   ]);
 
-  return <Select
+  return <SelectEntry
     element={ element }
     id="calledElementDelegateVariableMappingType"
     label={ translate('Delegate Variable Mapping') }
@@ -99,7 +103,7 @@ function VariableMappingDelegateExpression(props) {
     });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementVariableMappingDelegateExpression"
     label={ translate('Delegate Expression') }
@@ -127,7 +131,7 @@ function VariableMappingClass(props) {
     });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementVariableMappingClass"
     label={ translate('Delegate Class') }

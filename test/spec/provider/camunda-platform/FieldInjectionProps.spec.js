@@ -24,7 +24,7 @@ import {
 } from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
 
 import CoreModule from 'bpmn-js/lib/core';
-import SelectionModule from 'diagram-js/lib/features/selection';
+import SelectEntryionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
 import BpmnPropertiesPanel from 'src/render';
@@ -45,7 +45,7 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectEntryionModule
   ];
 
   const moddleExtensions = {

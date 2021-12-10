@@ -12,7 +12,7 @@ import {
 } from 'min-dom';
 
 import CoreModule from 'bpmn-js/lib/core';
-import SelectionModule from 'diagram-js/lib/features/selection';
+import SelectEntryionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
 import BpmnPropertiesPanel from 'src/render';
@@ -34,7 +34,7 @@ import diagramXML from './InputOutputParameter.bpmn';
 describe('provider/bpmn - InputOutputParameter', function() {
 
   const testModules = [
-    CoreModule, SelectionModule, ModelingModule,
+    CoreModule, SelectEntryionModule, ModelingModule,
     BpmnPropertiesPanel,
     BpmnPropertiesProvider,
     ZeebePropertiesProvider

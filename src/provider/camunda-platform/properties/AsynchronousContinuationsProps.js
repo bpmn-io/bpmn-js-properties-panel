@@ -3,9 +3,10 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Checkbox, {
-  isEdited as checkboxIsEdited
-} from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import {
+  CheckboxEntry,
+  isCheckboxEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -30,12 +31,12 @@ export function AsynchronousContinuationsProps(props) {
       {
         id: 'asynchronousContinuationBefore',
         component: <AsynchronousContinuationBefore element={ element } />,
-        isEdited: checkboxIsEdited
+        isEdited: isCheckboxEntryEdited
       },
       {
         id: 'asynchronousContinuationAfter',
         component: <AsynchronousContinuationAfter element={ element } />,
-        isEdited: checkboxIsEdited
+        isEdited: isCheckboxEntryEdited
       }
     );
 
@@ -81,7 +82,7 @@ function AsynchronousContinuationBefore(props) {
 
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'asynchronousContinuationBefore',
     label: translate('Before'),
@@ -112,7 +113,7 @@ function AsynchronousContinuationAfter(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'asynchronousContinuationAfter',
     label: translate('After'),
@@ -143,7 +144,7 @@ function Exclusive(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'exclusive',
     label: translate('Exclusive'),

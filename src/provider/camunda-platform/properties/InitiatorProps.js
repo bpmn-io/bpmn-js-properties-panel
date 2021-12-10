@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -23,7 +23,7 @@ export function InitiatorProps(props) {
     {
       id: 'initiator',
       component: <Initiator element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     },
   ];
 }
@@ -51,7 +51,7 @@ function Initiator(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'initiator',
     label: translate('Initiator'),

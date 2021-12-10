@@ -3,8 +3,12 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Checkbox, { isEdited as checkboxIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  CheckboxEntry,
+  isCheckboxEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -20,7 +24,7 @@ import {
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -43,22 +47,22 @@ export function MultiInstanceProps(props) {
     {
       id: 'collection',
       component: <Collection element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'elementVariable',
       component: <ElementVariable element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstanceAsynchronousBefore',
       component: <MultiInstanceAsynchronousBefore element={ element } />,
-      isEdited: checkboxIsEdited
+      isEdited: isCheckboxEntryEdited
     },
     {
       id: 'multiInstanceAsynchronousAfter',
       component: <MultiInstanceAsynchronousAfter element={ element } />,
-      isEdited: checkboxIsEdited
+      isEdited: isCheckboxEntryEdited
     });
 
   if (isAsync(loopCharacteristics)) {
@@ -71,7 +75,7 @@ export function MultiInstanceProps(props) {
       {
         id: 'multiInstanceRetryTimeCycle',
         component: <MultiInstanceRetryTimeCycle element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   }
@@ -105,7 +109,7 @@ function Collection(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'collection',
     label: translate('Collection'),
@@ -141,7 +145,7 @@ function ElementVariable(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'elementVariable',
     label: translate('Element variable'),
@@ -178,7 +182,7 @@ function MultiInstanceAsynchronousBefore(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'multiInstanceAsynchronousBefore',
     label: translate('Asynchronous before'),
@@ -209,7 +213,7 @@ function MultiInstanceAsynchronousAfter(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'multiInstanceAsynchronousAfter',
     label: translate('Asynchronous after'),
@@ -240,7 +244,7 @@ function MultiInstanceExclusive(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'multiInstanceExclusive',
     label: translate('Exclusive'),
@@ -326,7 +330,7 @@ function MultiInstanceRetryTimeCycle(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'multiInstanceRetryTimeCycle',
     label: translate('Retry time cycle'),

@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -14,7 +14,7 @@ import {
 } from '../../../utils/ElementUtil';
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -33,12 +33,12 @@ export function MultiInstanceProps(props) {
     {
       id: 'loopCardinality',
       component: <LoopCardinality element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'completionCondition',
       component: <CompletionCondition element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 
@@ -64,7 +64,7 @@ function LoopCardinality(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'loopCardinality',
     label: translate('Loop cardinality'),
@@ -93,7 +93,7 @@ function CompletionCondition(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'completionCondition',
     label: translate('Completion condition'),

@@ -1,4 +1,4 @@
-import Group from '@bpmn-io/properties-panel/lib/components/Group';
+import { Group } from '@bpmn-io/properties-panel';
 
 import {
   CompensationProps,

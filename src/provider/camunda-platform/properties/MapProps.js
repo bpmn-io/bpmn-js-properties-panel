@@ -1,6 +1,4 @@
-import Collapsible from '@bpmn-io/properties-panel/lib/components/entries/Collapsible';
-import List from '@bpmn-io/properties-panel/lib/components/entries/List';
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { CollapsibleEntry, ListEntry, TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   is
@@ -32,7 +30,7 @@ export function MapProps(props) {
     const entryId = `${idPrefix}-mapEntry-${index}`;
 
     return (
-      <Collapsible
+      <CollapsibleEntry
         id={ entryId }
         entries={ MapEntry({ idPrefix: entryId, element, entry }) }
         label={ entry.get('key') || translate('<empty>') }
@@ -65,7 +63,7 @@ export function MapProps(props) {
     return key === anotherKey ? 0 : key > anotherKey ? 1 : -1;
   }
 
-  return List({
+  return ListEntry({
     element,
     autoFocusEntry: true,
     compareFn,
@@ -121,7 +119,7 @@ function MapKey(props) {
     return entry.get('key');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: entry,
     id: idPrefix + '-key',
     label: translate('Key'),
@@ -167,7 +165,7 @@ function MapValue(props) {
     return entry.get('value');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: entry,
     id: idPrefix + '-value',
     label: translate('Value'),

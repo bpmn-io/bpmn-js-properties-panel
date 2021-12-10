@@ -2,7 +2,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Checkbox, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import { CheckboxEntry, isCheckboxEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -10,7 +10,7 @@ import {
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -29,7 +29,7 @@ export function ExecutableProps(props) {
     {
       id: 'isExecutable',
       component: <Executable element={ element } />,
-      isEdited
+      isEdited: isCheckboxEntryEdited
     }
   ];
 }
@@ -79,7 +79,7 @@ function Executable(props) {
 
   }
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'isExecutable',
     label: translate('Executable'),

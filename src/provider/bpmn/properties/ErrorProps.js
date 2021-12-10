@@ -6,9 +6,12 @@ import {
   sortBy
 } from 'min-dash';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import {
+  TextFieldEntry,
+  isSelectEntryEdited,
+  isTextFieldEntryEdited
+} from '@bpmn-io/properties-panel';
 import ReferenceSelect from '../../../entries/ReferenceSelect';
-import { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
 
 import {
   useService
@@ -33,7 +36,7 @@ export const CREATE_NEW_OPTION = 'create-new';
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -54,7 +57,7 @@ export function ErrorProps(props) {
     {
       id: 'errorRef',
       component: <ErrorRef element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 
@@ -64,12 +67,12 @@ export function ErrorProps(props) {
       {
         id: 'errorName',
         component: <ErrorName element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       },
       {
         id: 'errorCode',
         component: <ErrorCode element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     ];
   }
@@ -198,7 +201,7 @@ function ErrorName(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'errorName',
     label: translate('Name'),
@@ -234,7 +237,7 @@ function ErrorCode(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'errorCode',
     label: translate('Code'),

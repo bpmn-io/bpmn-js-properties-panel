@@ -1,4 +1,4 @@
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -49,7 +49,7 @@ function KeyProperty(props) {
     return header.key;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: header,
     id: idPrefix + '-key',
     label: translate('Key'),
@@ -84,7 +84,7 @@ function ValueProperty(props) {
     return header.value;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: header,
     id: idPrefix + '-value',
     label: translate('Value'),

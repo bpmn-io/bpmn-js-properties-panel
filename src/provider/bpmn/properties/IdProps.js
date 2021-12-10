@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -15,7 +15,7 @@ import {
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -30,7 +30,7 @@ export function IdProps(props) {
     {
       id: 'id',
       component: <Id element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -60,7 +60,7 @@ function Id(props) {
     return isIdValid(businessObject, value, translate);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'id',
     label: translate(is(element, 'bpmn:Participant') ? 'Participant ID' : 'ID'),

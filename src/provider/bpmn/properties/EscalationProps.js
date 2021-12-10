@@ -6,9 +6,12 @@ import {
   sortBy
 } from 'min-dash';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 import ReferenceSelect from '../../../entries/ReferenceSelect';
-import { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
 
 import {
   useService
@@ -32,7 +35,7 @@ const CREATE_NEW_OPTION = 'create-new';
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -53,7 +56,7 @@ export function EscalationProps(props) {
     {
       id: 'escalationRef',
       component: <EscalationRef element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 
@@ -63,12 +66,12 @@ export function EscalationProps(props) {
       {
         id: 'escalationName',
         component: <EscalationName element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       },
       {
         id: 'escalationCode',
         component: <EscalationCode element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     ];
   }
@@ -195,7 +198,7 @@ function EscalationName(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'escalationName',
     label: translate('Name'),
@@ -231,7 +234,7 @@ function EscalationCode(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'escalationCode',
     label: translate('Code'),

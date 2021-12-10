@@ -6,7 +6,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -39,7 +39,7 @@ export function ErrorProps(props) {
     entries.splice(idx, 0, {
       id: 'errorMessage',
       component: <ErrorMessage element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -53,12 +53,12 @@ export function ErrorProps(props) {
     {
       id: 'errorCodeVariable',
       component: <ErrorCodeVariable element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'errorMessageVariable',
       component: <ErrorMessageVariable element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     }
   );
 
@@ -91,7 +91,7 @@ function ErrorMessage(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'errorMessage',
     label: translate('Message'),
@@ -127,7 +127,7 @@ function ErrorCodeVariable(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'errorCodeVariable',
     label: translate('Code variable'),
@@ -164,7 +164,7 @@ function ErrorMessageVariable(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'errorMessageVariable',
     label: translate('Message variable'),

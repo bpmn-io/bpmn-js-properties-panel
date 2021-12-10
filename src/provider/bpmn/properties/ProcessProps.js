@@ -1,6 +1,6 @@
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -11,7 +11,7 @@ import {
 } from '../utils/ValidationUtil';
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -30,12 +30,12 @@ export function ProcessProps(props) {
     {
       id: 'processId',
       component: <ProcessId element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'processName',
       component: <ProcessName element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -65,7 +65,7 @@ function ProcessName(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'processName',
     label: translate('Process name'),
@@ -104,7 +104,7 @@ function ProcessId(props) {
     return isIdValid(process, value, translate);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'processId',
     label: translate('Process ID'),

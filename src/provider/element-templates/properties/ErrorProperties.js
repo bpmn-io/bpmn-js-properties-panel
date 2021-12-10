@@ -2,7 +2,7 @@ import { without } from 'min-dash';
 
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import Error from '../../camunda-platform/properties/Error';
 import { getErrorLabel } from '../../camunda-platform/properties/ErrorsProps';
@@ -88,7 +88,7 @@ function Expression(props) {
     return errorEventDefinition.get('camunda:expression');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: errorEventDefinition,
     id,
     label: translate('Throw expression'),

@@ -1,6 +1,6 @@
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
-import ListGroup from '@bpmn-io/properties-panel/lib/components/ListGroup';
+import { ListGroup } from '@bpmn-io/properties-panel';
 
 import {
   ElementTemplatesGroup,

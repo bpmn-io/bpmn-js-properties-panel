@@ -18,7 +18,7 @@ import {
 } from 'src/provider/bpmn/properties/ErrorProps';
 
 import CoreModule from 'bpmn-js/lib/core';
-import SelectionModule from 'diagram-js/lib/features/selection';
+import SelectEntryionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
 import BpmnPropertiesPanel from 'src/render';
@@ -36,7 +36,7 @@ describe('provider/bpmn - ErrorProps', function() {
 
   const testModules = [
     CoreModule,
-    SelectionModule,
+    SelectEntryionModule,
     ModelingModule,
     BpmnPropertiesPanel,
     BpmnPropertiesProvider

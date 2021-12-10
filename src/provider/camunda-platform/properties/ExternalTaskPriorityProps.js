@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -31,7 +31,7 @@ export function ExternalTaskPriorityProps(props) {
     {
       id: 'externalTaskPriority',
       component: <ExternalTaskPriority element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
   ];
 }
@@ -67,7 +67,7 @@ function ExternalTaskPriority(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'externalTaskPriority',
     label: translate('Priority'),

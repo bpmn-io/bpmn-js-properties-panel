@@ -6,9 +6,8 @@ import {
   sortBy
 } from 'min-dash';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 import ReferenceSelect from '../../../entries/ReferenceSelect';
-import { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
 
 import {
   useService
@@ -33,7 +32,7 @@ export const CREATE_NEW_OPTION = 'create-new';
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -54,7 +53,7 @@ export function MessageProps(props) {
     {
       id: 'messageRef',
       component: <MessageRef element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 
@@ -64,7 +63,7 @@ export function MessageProps(props) {
       {
         id: 'messageName',
         component: <MessageName element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       },
     ];
   }
@@ -195,7 +194,7 @@ function MessageName(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'messageName',
     label: translate('Name'),

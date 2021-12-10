@@ -30,7 +30,7 @@ import {
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
-import SelectionModule from 'diagram-js/lib/features/selection';
+import SelectEntryionModule from 'diagram-js/lib/features/selection';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
@@ -44,7 +44,7 @@ describe('provider/zeebe - TargetProps', function() {
     BpmnPropertiesPanel,
     CoreModule,
     ModelingModule,
-    SelectionModule,
+    SelectEntryionModule,
     ZeebePropertiesProvider
   ];
 
