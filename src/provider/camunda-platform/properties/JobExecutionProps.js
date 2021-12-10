@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -38,7 +38,7 @@ export function JobExecutionProps(props) {
     entries.push({
       id: 'retryTimeCycle',
       component: <RetryTimeCycle element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -53,7 +53,7 @@ export function JobExecutionProps(props) {
     entries.push({
       id: 'jobPriority',
       component: <JobPriority element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -85,7 +85,7 @@ function JobPriority(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'jobPriority',
     label: translate('Priority'),
@@ -170,7 +170,7 @@ function RetryTimeCycle(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'retryTimeCycle',
     label: translate('Retry time cycle'),

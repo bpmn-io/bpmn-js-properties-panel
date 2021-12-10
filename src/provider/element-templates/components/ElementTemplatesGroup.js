@@ -1,11 +1,10 @@
 import {
   ArrowIcon,
-  CreateIcon
-} from '@bpmn-io/properties-panel/lib/components/icons';
-
-import { useLayoutState } from '@bpmn-io/properties-panel/lib/hooks';
-import { DropdownButton } from '@bpmn-io/properties-panel/lib/components/DropdownButton';
-import { HeaderButton } from '@bpmn-io/properties-panel/lib/components/HeaderButton';
+  CreateIcon,
+  DropdownButton,
+  HeaderButton,
+  useLayoutState
+} from '@bpmn-io/properties-panel';
 
 import classnames from 'classnames';
 
@@ -116,7 +115,7 @@ function TemplateGroupButtons({ element }) {
   const templateState = getTemplateState(elementTemplates, element);
 
   if (templateState.type === 'NO_TEMPLATE') {
-    return <SelectTemplate element={ element } />;
+    return <SelectEntryTemplate element={ element } />;
   } else if (templateState.type === 'KNOWN_TEMPLATE') {
     return <AppliedTemplate element={ element } />;
   } else if (templateState.type === 'UNKNOWN_TEMPLATE') {
@@ -126,7 +125,7 @@ function TemplateGroupButtons({ element }) {
   }
 }
 
-function SelectTemplate({ element }) {
+function SelectEntryTemplate({ element }) {
   const translate = useService('translate');
   const eventBus = useService('eventBus');
 
@@ -134,7 +133,7 @@ function SelectTemplate({ element }) {
 
   return (
     <HeaderButton
-      title="Select a template"
+      title="SelectEntry a template"
       class="bio-properties-panel-select-template-button"
       onClick={ selectTemplate }
     >

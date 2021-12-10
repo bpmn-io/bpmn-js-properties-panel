@@ -17,9 +17,14 @@ import {
   useService
 } from '../../../hooks';
 
-import TextArea, { isEdited as textAreaIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited,
+  TextAreaEntry,
+  isTextAreaEntryEdited
+} from '@bpmn-io/properties-panel';
 
 /**
  * Defines condition properties for conditional sequence flow.
@@ -40,7 +45,7 @@ export function ConditionProps(props) {
   entries.push({
     id: 'conditionType',
     component: <ConditionType element={ element } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   });
 
   const conditionType = getConditionType(element);
@@ -53,7 +58,7 @@ export function ConditionProps(props) {
     entries.push({
       id: 'conditionExpression',
       component: <ConditionExpression element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -98,7 +103,7 @@ function ConditionType(props) {
     { value: 'expression', label: translate('Expression') }
   ]);
 
-  return <Select
+  return <SelectEntry
     element={ element }
     id="conditionType"
     label={ translate('Type') }
@@ -135,7 +140,7 @@ function ConditionExpression(props) {
     updateCondition(element, commandStack, conditionExpression);
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="conditionExpression"
     label={ translate('Condition Expression') }
@@ -155,14 +160,14 @@ function ConditionScriptProps(props) {
   entries.push({
     id: 'conditionScriptLanguage',
     component: <Language element={ element } />,
-    isEdited: textFieldIsEdited
+    isEdited: isTextFieldEntryEdited
   });
 
   // (2) type
   entries.push({
     id: 'conditionScriptType',
     component: <ScriptType element={ element } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   });
 
   // (3) script
@@ -170,7 +175,7 @@ function ConditionScriptProps(props) {
     entries.push({
       id: 'conditionScriptValue',
       component: <Script element={ element } />,
-      isEdited: textAreaIsEdited
+      isEdited: isTextAreaEntryEdited
     });
   } else if (scriptType === 'resource') {
 
@@ -178,7 +183,7 @@ function ConditionScriptProps(props) {
     entries.push({
       id: 'conditionScriptResource',
       component: <Resource element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -208,7 +213,7 @@ function Language(props) {
     });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="conditionScriptLanguage"
     label={ translate('Format') }
@@ -255,7 +260,7 @@ function ScriptType(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'conditionScriptType',
     label: translate('Script type'),
@@ -286,7 +291,7 @@ function Script(props) {
     });
   };
 
-  return <TextArea
+  return <TextAreaEntry
     element={ element }
     id="conditionScriptValue"
     label={ translate('Script') }
@@ -318,7 +323,7 @@ function Resource(props) {
     });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element
     id="conditionScriptResource"
     label={ translate('Resource') }

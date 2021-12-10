@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -25,32 +25,32 @@ export function UserAssignmentProps(props) {
     {
       id: 'assignee',
       component: <Assignee element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'candidateGroups',
       component: <CandidateGroups element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'candidateUsers',
       component: <CandidateUsers element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'dueDate',
       component: <DueDate element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'followUpDate',
       component: <FollowUpDate element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'priority',
       component: <Priority element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -78,7 +78,7 @@ function Assignee(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'assignee',
     label: translate('Assignee'),
@@ -111,7 +111,7 @@ function CandidateUsers(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'candidateUsers',
     label: translate('Candidate users'),
@@ -144,7 +144,7 @@ function CandidateGroups(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'candidateGroups',
     label: translate('Candidate groups'),
@@ -177,7 +177,7 @@ function DueDate(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'dueDate',
     label: translate('Due date'),
@@ -211,7 +211,7 @@ function FollowUpDate(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'followUpDate',
     label: translate('Follow up date'),
@@ -246,7 +246,7 @@ function Priority(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'priority',
     label: translate('Priority'),

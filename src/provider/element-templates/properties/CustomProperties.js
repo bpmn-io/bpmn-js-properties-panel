@@ -8,12 +8,13 @@ import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { useService } from '../../../hooks';
 
-import Group from '@bpmn-io/properties-panel/lib/components/Group';
-
-import Checkbox, { isEdited as checkboxIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextArea, { isEdited as textAreaIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import {
+  Group,
+  SelectEntry, isSelectEntryEdited,
+  CheckboxEntry, isCheckboxEntryEdited,
+  TextAreaEntry, isTextAreaEntryEdited,
+  TextFieldEntry, isTextFieldEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   findCamundaErrorEventDefinition,
@@ -155,7 +156,7 @@ function createCustomEntry(id, element, property, scope) {
     return {
       id,
       component: <BooleanProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: checkboxIsEdited
+      isEdited: isCheckboxEntryEdited
     };
   }
 
@@ -163,7 +164,7 @@ function createCustomEntry(id, element, property, scope) {
     return {
       id,
       component: <DropdownProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     };
   }
 
@@ -171,7 +172,7 @@ function createCustomEntry(id, element, property, scope) {
     return {
       id,
       component: <StringProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     };
   }
 
@@ -179,7 +180,7 @@ function createCustomEntry(id, element, property, scope) {
     return {
       id,
       component: <TextAreaProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: textAreaIsEdited
+      isEdited: isTextAreaEntryEdited
     };
   }
 }
@@ -222,7 +223,7 @@ function BooleanProperty(props) {
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack');
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     getValue: propertyGetter(element, property, scope),
     id,
@@ -261,7 +262,7 @@ function DropdownProperty(props) {
     });
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id,
     label,
@@ -292,7 +293,7 @@ function StringProperty(props) {
         debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  return TextField({
+  return TextFieldEntry({
     debounce,
     element,
     getValue: propertyGetter(element, property, scope),
@@ -323,7 +324,7 @@ function TextAreaProperty(props) {
         commandStack = useService('commandStack'),
         debounce = useService('debounceInput');
 
-  return TextArea({
+  return TextAreaEntry({
     debounce,
     element,
     id,

@@ -1,7 +1,10 @@
-import ListEntry from '@bpmn-io/properties-panel/lib/components/entries/List';
-import CollapsibleEntry from '@bpmn-io/properties-panel/lib/components/entries/Collapsible';
-import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import {
+  CollapsibleEntry,
+  ListEntry,
+  SelectEntry,
+  TextFieldEntry,
+  isTextFieldEntryEdited
+} from '@bpmn-io/properties-panel';
 
 
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
@@ -290,7 +293,7 @@ function ListenerId({ id, element, listener }) {
     id: id,
     label: translate('Listener ID'),
     debounce,
-    isEdited: textFieldIsEdited,
+    isEdited: isTextFieldEntryEdited,
     setValue: (value) => {
       commandStack.execute('properties-panel.update-businessobject', {
         element: element,
@@ -305,7 +308,7 @@ function ListenerId({ id, element, listener }) {
     }
   };
 
-  return TextField(options);
+  return TextFieldEntry(options);
 }
 
 function ListenerType({ id, element, listener }) {

@@ -1,5 +1,4 @@
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import { TextFieldEntry, isTextFieldEntryEdited, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 import ReferenceSelect from '../../../entries/ReferenceSelect';
 
@@ -36,7 +35,7 @@ export default function Error(props) {
   let entries = [{
     id: idPrefix + '-errorRef',
     component: <ErrorRef element={ element } errorEventDefinition={ errorEventDefinition } idPrefix={ idPrefix } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   }];
 
   const error = errorEventDefinition.get('errorRef');
@@ -47,17 +46,17 @@ export default function Error(props) {
       {
         id: idPrefix + '-errorName',
         component: <ErrorName element={ element } error={ error } idPrefix={ idPrefix } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       },
       {
         id: idPrefix + '-errorCode',
         component: <ErrorCode element={ element } error={ error } idPrefix={ idPrefix } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       },
       {
         id: idPrefix + '-errorMessage',
         component: <ErrorMessage element={ element } error={ error } idPrefix={ idPrefix } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     ];
   }
@@ -197,7 +196,7 @@ function ErrorName(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: idPrefix + '-errorName',
     label: translate('Name'),
@@ -235,7 +234,7 @@ function ErrorCode(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: idPrefix + '-errorCode',
     label: translate('Code'),
@@ -273,7 +272,7 @@ function ErrorMessage(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: idPrefix + '-errorMessage',
     label: translate('Message'),
@@ -308,7 +307,7 @@ function Expression(props) {
     return errorEventDefinition.get('camunda:expression');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: errorEventDefinition,
     id: idPrefix + '-expression',
     label: translate('Throw expression'),

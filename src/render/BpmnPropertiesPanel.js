@@ -9,7 +9,7 @@ import {
   reduce
 } from 'min-dash';
 
-import PropertiesPanel from '@bpmn-io/properties-panel/lib/PropertiesPanel';
+import { PropertiesPanel } from '@bpmn-io/properties-panel';
 
 import {
   BpmnPropertiesPanelContext

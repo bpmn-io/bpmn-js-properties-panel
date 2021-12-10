@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -26,7 +26,7 @@ export function VersionTagProps(props) {
     {
       id: 'versionTag',
       component: <VersionTag element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
   ];
 }
@@ -54,7 +54,7 @@ function VersionTag(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'versionTag',
     label: translate('Version tag'),

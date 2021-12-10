@@ -1,4 +1,4 @@
-import Checkbox, { isEdited as checkboxIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import { CheckboxEntry, isCheckboxEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   getBusinessObject,
@@ -38,7 +38,7 @@ export function OutMappingPropagationProps(props) {
     {
       id: 'outMapping-propagation',
       component: <PropagateAll element={ element } />,
-      isEdited: checkboxIsEdited
+      isEdited: isCheckboxEntryEdited
     }
   ];
 
@@ -46,7 +46,7 @@ export function OutMappingPropagationProps(props) {
     entries.push({
       id: 'outMapping-propagation-local',
       component: <Local element={ element } />,
-      isEdited: checkboxIsEdited
+      isEdited: isCheckboxEntryEdited
     });
   }
 
@@ -137,7 +137,7 @@ function PropagateAll(props) {
     });
   }
 
-  return Checkbox({
+  return CheckboxEntry({
     id: 'outMapping-propagation',
     label: translate('Propagate all variables'),
     getValue,
@@ -169,7 +169,7 @@ function Local(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'outMapping-propagation-local',
     label: translate('Local'),

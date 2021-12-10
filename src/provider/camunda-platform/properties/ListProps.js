@@ -1,5 +1,4 @@
-import List from '@bpmn-io/properties-panel/lib/components/entries/List';
-import Simple from '@bpmn-io/properties-panel/lib/components/entries/Simple';
+import { ListEntry, SimpleEntry } from '@bpmn-io/properties-panel';
 
 import {
   is
@@ -64,7 +63,7 @@ export function ListProps(props) {
     return value === anotherValue ? 0 : value > anotherValue ? 1 : -1;
   }
 
-  return List({
+  return ListEntry({
     element,
     autoFocusEntry: true,
     compareFn,
@@ -130,7 +129,7 @@ function ListValue(props) {
   const debounce = useService('debounceInput', true);
 
   return (
-    <Simple
+    <SimpleEntry
       id={ id }
       getValue={ getValue }
       setValue={ setValue }

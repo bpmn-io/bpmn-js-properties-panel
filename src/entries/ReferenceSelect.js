@@ -7,10 +7,9 @@ import {
 } from 'min-dom';
 
 import {
+  SelectEntry,
   usePrevious
-} from '@bpmn-io/properties-panel/lib/hooks';
-
-import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select';
+} from '@bpmn-io/properties-panel';
 
 
 export default function ReferenceSelectEntry(props) {

@@ -2,9 +2,14 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextArea, { isEdited as textAreaIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  SelectEntry,
+  isSelectEntryEdited,
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  TextAreaEntry,
+  isTextAreaEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   ScriptProps
@@ -49,12 +54,12 @@ export default function InputOutputParameter(props) {
     {
       id: idPrefix + '-name',
       component: <Name idPrefix={ idPrefix } element={ element } parameter={ parameter } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: idPrefix + '-type',
       component: <Type idPrefix={ idPrefix } element={ element } parameter={ parameter } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 
@@ -64,7 +69,7 @@ export default function InputOutputParameter(props) {
     entries.push({
       id: idPrefix + '-stringOrExpression',
       component: <StringOrExpression idPrefix={ idPrefix } element={ element } parameter={ parameter } />,
-      isEdited: textAreaIsEdited
+      isEdited: isTextAreaEntryEdited
     });
 
   // (2) Script
@@ -119,7 +124,7 @@ function Name(props) {
     return parameter.get('name');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: parameter,
     id: idPrefix + '-name',
     label: translate(isInput(parameter) ? 'Local variable name' : 'Process variable name'),
@@ -181,7 +186,7 @@ function Type(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element: parameter,
     id: idPrefix + '-type',
     label: translate('Assignment type'),
@@ -216,7 +221,7 @@ function StringOrExpression(props) {
     return parameter.get('value');
   };
 
-  return TextArea({
+  return TextAreaEntry({
     element: parameter,
     id: idPrefix + '-stringOrExpression',
     label: translate('Value'),

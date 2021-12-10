@@ -1,7 +1,7 @@
 import BpmnPropertiesPanelRenderer from './BpmnPropertiesPanelRenderer';
 
 import Commands from '../cmd';
-import DebounceInputModule from '@bpmn-io/properties-panel/lib/features/debounce-input';
+import { DebounceInputModule } from '@bpmn-io/properties-panel';
 
 export default {
   __depends__: [

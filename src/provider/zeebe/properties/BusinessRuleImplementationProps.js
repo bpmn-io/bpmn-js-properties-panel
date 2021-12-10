@@ -6,7 +6,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Select from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import { SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -139,7 +139,7 @@ function BusinessRuleImplementation(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'businessRuleImplementation',
     label: translate('Implementation'),

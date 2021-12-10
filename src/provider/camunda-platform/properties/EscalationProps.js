@@ -2,7 +2,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -14,7 +14,7 @@ import {
 } from '../../bpmn/utils/EventDefinitionUtil';
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -34,7 +34,7 @@ export function EscalationProps(props) {
     {
       id: 'escalationCodeVariable',
       component: <EscalationCodeVariable element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     }
   );
 
@@ -67,7 +67,7 @@ function EscalationCodeVariable(props) {
     );
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'escalationCodeVariable',
     label: translate('Code variable'),

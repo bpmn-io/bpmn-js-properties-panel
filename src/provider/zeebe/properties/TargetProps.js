@@ -16,7 +16,7 @@ import {
   useService
 } from '../../../hooks';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export function TargetProps(props) {
@@ -32,7 +32,7 @@ export function TargetProps(props) {
     {
       id: 'targetProcessId',
       component: <TargetProcessId element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -114,7 +114,7 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'targetProcessId',
     label: translate('Process ID'),

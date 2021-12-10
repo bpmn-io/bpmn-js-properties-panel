@@ -1,6 +1,4 @@
-import Checkbox from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
-import Select from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { CheckboxEntry, SelectEntry, TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -102,7 +100,7 @@ function Type(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element: mapping,
     id: idPrefix + '-type',
     label: translate('Type'),
@@ -137,7 +135,7 @@ function Source(props) {
     return mapping.get('camunda:source');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: mapping,
     id: idPrefix + '-source',
     label: translate('Source'),
@@ -172,7 +170,7 @@ function SourceExpression(props) {
     return mapping.get('camunda:sourceExpression');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: mapping,
     id: idPrefix + '-sourceExpression',
     label: translate('Source expression'),
@@ -207,7 +205,7 @@ function Target(props) {
     return mapping.get('camunda:target');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: mapping,
     id: idPrefix + '-target',
     label: translate('Target'),
@@ -241,7 +239,7 @@ function Local(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: idPrefix + '-local',
     label: translate('Local'),

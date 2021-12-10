@@ -1,7 +1,4 @@
-import CollapsibleEntry from '@bpmn-io/properties-panel/lib/components/entries/Collapsible';
-import ListEntry from '@bpmn-io/properties-panel/lib/components/entries/List';
-import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { CollapsibleEntry, ListEntry, TextFieldEntry, SelectEntry } from '@bpmn-io/properties-panel';
 
 import FormFieldConstraint from './FormFieldConstraint';
 import FormFieldProperty from './FormFieldProperty';
@@ -95,7 +92,7 @@ function Id(props) {
     return formField.get('id');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: formField,
     id: idPrefix + '-formFieldID',
     label: translate('ID'),
@@ -131,7 +128,7 @@ function Label(props) {
     return formField.get('label');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: formField,
     id: idPrefix + '-formFieldLabel',
     label: translate('Label'),
@@ -224,7 +221,7 @@ function CustomType(props) {
     return formField.get('type');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: formField,
     id: idPrefix + '-formFieldCustomType',
     label: translate('Custom type'),
@@ -259,7 +256,7 @@ function DefaultValue(props) {
     return formField.get('defaultValue');
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: formField,
     id: idPrefix + '-formFieldDefaultValue',
     label: translate('Default value'),

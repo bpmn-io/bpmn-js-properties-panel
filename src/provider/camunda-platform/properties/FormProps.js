@@ -1,7 +1,6 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited, SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 import { FormTypeProps } from './FormTypeProps';
 
@@ -38,24 +37,24 @@ export function FormProps(props) {
     entries.push({
       id: 'formKey',
       component: <FormKey element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   } else if (formType === 'formRef') {
     entries.push({
       id: 'formRef',
       component: <FormRef element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }, {
       id: 'formRefBinding',
       component: <Binding element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     });
 
     if (bindingType === 'version') {
       entries.push({
         id: 'formRefVersion',
         component: <Version element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       });
     }
   }
@@ -82,7 +81,7 @@ function FormKey(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'formKey',
     label: translate('Form key'),
@@ -111,7 +110,7 @@ function FormRef(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'formRef',
     label: translate('Form reference'),
@@ -150,7 +149,7 @@ function Binding(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'formRefBinding',
     label: translate('Binding'),
@@ -179,7 +178,7 @@ function Version(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'formRefVersion',
     label: translate('Version'),

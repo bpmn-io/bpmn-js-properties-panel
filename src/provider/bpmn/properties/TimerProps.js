@@ -13,12 +13,16 @@ import {
   getTimerDefinitionType
 } from '../utils/EventDefinitionUtil';
 
-import SelectEntry, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import {
+  SelectEntry,
+  isSelectEntryEdited,
+  TextFieldEntry,
+  isTextFieldEntryEdited
+} from '@bpmn-io/properties-panel';
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -53,14 +57,14 @@ export function TimerProps(props) {
   entries.push({
     id: getId(idPrefix, 'timerEventDefinitionType'),
     component: <TimerEventDefinitionType element={ element } timerEventDefinition={ timerEventDefinition } timerEventDefinitionType={ timerEventDefinitionType } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   });
 
   if (timerEventDefinitionType) {
     entries.push({
       id: getId(idPrefix, 'timerEventDefinitionValue'),
       component: <TimerEventDefinitionValue element={ element } timerEventDefinition={ timerEventDefinition } timerEventDefinitionType={ timerEventDefinitionType } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -145,7 +149,7 @@ function TimerEventDefinitionType(props) {
  * together with timerEventDefinitionType.
  *
  * @param  {type} props
- * @return {TextField}
+ * @return {TextFieldEntry}
  */
 function TimerEventDefinitionValue(props) {
   const {
@@ -174,7 +178,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'timerEventDefinitionValue',
     label: translate('Value'),

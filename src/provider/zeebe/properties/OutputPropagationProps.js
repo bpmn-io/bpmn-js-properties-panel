@@ -23,7 +23,7 @@ import {
   useService
 } from '../../../hooks';
 
-import ToggleSwitch, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/ToggleSwitch';
+import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export function OutputPropagationProps(props) {
@@ -39,7 +39,7 @@ export function OutputPropagationProps(props) {
     {
       id: 'propagateAllChildVariables',
       component: <PropagateAllChildVariables element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isToggleSwitchEntryEdited
     }
   ];
 }
@@ -122,7 +122,7 @@ function PropagateAllChildVariables(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return ToggleSwitch({
+  return ToggleSwitchEntry({
     id: 'propagateAllChildVariables',
     label: translate('Propagate all child process variables'),
     switcherLabel: propagateAllChildVariables ?

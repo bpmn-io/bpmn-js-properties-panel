@@ -2,7 +2,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -53,7 +53,7 @@ function TargetProperty(props) {
     return parameter.target;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: parameter,
     id: idPrefix + '-target',
     label: translate((is(parameter, 'zeebe:Input') ? 'Local variable name' : 'Process variable name')),
@@ -88,7 +88,7 @@ function SourceProperty(props) {
     return parameter.source;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: parameter,
     id: idPrefix + '-source',
     label: translate('Variable assignment value'),
