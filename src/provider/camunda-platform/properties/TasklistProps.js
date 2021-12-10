@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Checkbox from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+import { CheckboxEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -57,7 +57,7 @@ function Startable(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'isStartableInTasklist',
     label: translate('Startable'),

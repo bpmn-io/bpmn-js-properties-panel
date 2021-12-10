@@ -1,4 +1,4 @@
-import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -10,7 +10,7 @@ import {
 } from '../utils/EventDefinitionUtil';
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -29,7 +29,7 @@ export function LinkProps(props) {
     {
       id: 'linkName',
       component: <LinkName element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     },
   ];
 }
@@ -57,7 +57,7 @@ function LinkName(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'linkName',
     label: translate('Name'),

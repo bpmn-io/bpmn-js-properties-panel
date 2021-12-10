@@ -1,4 +1,4 @@
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -51,7 +51,7 @@ function Name(props) {
     return constraint.name;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: constraint,
     id: idPrefix + '-name',
     label: translate('Name'),
@@ -86,7 +86,7 @@ function Config(props) {
     return constraint.config;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: constraint,
     id: idPrefix + '-config',
     label: translate('Config'),

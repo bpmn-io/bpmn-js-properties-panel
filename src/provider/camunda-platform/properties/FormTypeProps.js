@@ -2,7 +2,7 @@ import { isDefined } from 'min-dash';
 
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -27,7 +27,7 @@ export function FormTypeProps(props) {
     {
       id: 'formType',
       component: <FormType element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 }
@@ -75,7 +75,7 @@ function FormType(props) {
     ];
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'formType',
     label: translate('Type'),

@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextArea, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
+import { TextAreaEntry, isTextAreaEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   createElement
@@ -39,7 +39,7 @@ export function FormProps(props) {
     {
       id: 'formConfiguration',
       component: <FormProperty element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextAreaEntryEdited
     }
   ];
 }
@@ -60,7 +60,7 @@ function FormProperty(props) {
 
   const setValue = (value) => formHelper.set(element, value);
 
-  return TextArea({
+  return TextAreaEntry({
     element,
     id: 'formConfiguration',
     label: translate('Form JSON configuration'),

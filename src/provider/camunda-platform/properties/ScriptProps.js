@@ -3,9 +3,14 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextArea, { isEdited as textAreaIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextAreaEntry,
+  isTextAreaEntryEdited,
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -30,7 +35,7 @@ export function ScriptProps(props) {
   entries.push({
     id: idPrefix + 'scriptFormat',
     component: <Format element={ element } idPrefix={ idPrefix } script={ script } />,
-    isEdited: textFieldIsEdited
+    isEdited: isTextFieldEntryEdited
   });
 
 
@@ -38,7 +43,7 @@ export function ScriptProps(props) {
   entries.push({
     id: idPrefix + 'scriptType',
     component: <Type element={ element } idPrefix={ idPrefix } script={ script } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   });
 
   // (3) script
@@ -46,7 +51,7 @@ export function ScriptProps(props) {
     entries.push({
       id: idPrefix + 'scriptValue',
       component: <Script element={ element } idPrefix={ idPrefix } script={ script } />,
-      isEdited: textAreaIsEdited
+      isEdited: isTextAreaEntryEdited
     });
   }
 
@@ -55,7 +60,7 @@ export function ScriptProps(props) {
     entries.push({
       id: idPrefix + 'scriptResource',
       component: <Resource element={ element } idPrefix={ idPrefix } script={ script } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -89,7 +94,7 @@ function Format(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: idPrefix + 'scriptFormat',
     label: translate('Format'),
@@ -142,7 +147,7 @@ function Type(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: idPrefix + 'scriptType',
     label: translate('Type'),
@@ -180,7 +185,7 @@ function Script(props) {
     });
   };
 
-  return TextArea({
+  return TextAreaEntry({
     element,
     id: idPrefix + 'scriptValue',
     label: translate('Script'),
@@ -218,7 +223,7 @@ function Resource(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: idPrefix + 'scriptResource',
     label: translate('Resource'),

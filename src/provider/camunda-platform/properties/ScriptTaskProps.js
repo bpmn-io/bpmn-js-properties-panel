@@ -3,7 +3,7 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -30,7 +30,7 @@ export function ScriptTaskProps(props) {
   entries.push({
     id: 'scriptResultVariable',
     component: <ResultVariable element={ element } />,
-    isEdited: textFieldIsEdited
+    isEdited: isTextFieldEntryEdited
   });
 
   return entries;
@@ -60,7 +60,7 @@ function ResultVariable(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'scriptResultVariable',
     label: translate('Result variable'),

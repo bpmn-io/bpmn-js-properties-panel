@@ -6,8 +6,12 @@ import {
   useService
 } from '../../../hooks';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 
 /**
  * Defines entries for calling a CMMN diagram.
@@ -20,17 +24,17 @@ export function CalledCmmnProps(props) {
     {
       id: 'calledElementCaseRef',
       component: <CaseRef element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'calledElementCaseBinding',
       component: <CaseBinding element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     },
     {
       id: 'calledElementCaseTenantId',
       component: <CaseTenantId element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 
@@ -39,7 +43,7 @@ export function CalledCmmnProps(props) {
       {
         id: 'calledElementCaseVersion',
         component: <CaseVersion element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   }
@@ -62,7 +66,7 @@ function CaseRef(props) {
     modeling.updateProperties(element, { caseRef: value || '' });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementCaseRef"
     label={ translate('Case ref') }
@@ -98,7 +102,7 @@ function CaseBinding(props) {
   ]);
 
 
-  return <Select
+  return <SelectEntry
     element={ element }
     id="calledElementCaseBinding"
     label={ translate('Binding') }
@@ -123,7 +127,7 @@ function CaseVersion(props) {
     modeling.updateProperties(element, { caseVersion: value });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementCaseVersion"
     label={ translate('Version') }
@@ -148,7 +152,7 @@ function CaseTenantId(props) {
     modeling.updateProperties(element, { caseTenantId: value });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementCaseTenantId"
     label={ translate('Tenant ID') }

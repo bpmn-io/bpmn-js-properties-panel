@@ -7,14 +7,14 @@ import {
   add as collectionAdd
 } from 'diagram-js/lib/util/Collections';
 
-import TextField, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
 } from '../../../hooks';
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -33,7 +33,7 @@ export function NameProps(props) {
     {
       id: 'name',
       component: <Name element={ element } />,
-      isEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -109,7 +109,7 @@ function Name(props) {
   }
 
 
-  return TextField(options);
+  return TextFieldEntry(options);
 }
 
 

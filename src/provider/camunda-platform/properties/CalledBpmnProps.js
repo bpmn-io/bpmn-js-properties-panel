@@ -6,8 +6,12 @@ import {
   useService
 } from '../../../hooks';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 
 
 /**
@@ -21,17 +25,17 @@ export function CalledBpmnProps(props) {
     {
       id: 'calledElement',
       component: <CalledElement element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     },
     {
       id: 'calledElementBinding',
       component: <CalledElementBinding element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     },
     {
       id: 'calledElementTenantId',
       component: <CalledElementTenantId element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     }
   ];
 
@@ -41,7 +45,7 @@ export function CalledBpmnProps(props) {
       {
         id: 'calledElementVersion',
         component: <CalledElementVersion element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   } else if (binding === 'versionTag') {
@@ -49,7 +53,7 @@ export function CalledBpmnProps(props) {
       {
         id: 'calledElementVersionTag',
         component: <CalledElementVersionTag element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   }
@@ -72,7 +76,7 @@ function CalledElement(props) {
     modeling.updateProperties(element, { calledElement: value || '' });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElement"
     label={ translate('Called element') }
@@ -110,7 +114,7 @@ function CalledElementBinding(props) {
   ]);
 
 
-  return <Select
+  return <SelectEntry
     element={ element }
     id="calledElementBinding"
     label={ translate('Binding') }
@@ -135,7 +139,7 @@ function CalledElementVersion(props) {
     modeling.updateProperties(element, { calledElementVersion: value });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementVersion"
     label={ translate('Version') }
@@ -160,7 +164,7 @@ function CalledElementVersionTag(props) {
     modeling.updateProperties(element, { calledElementVersionTag: value });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementVersionTag"
     label={ translate('Version tag') }
@@ -185,7 +189,7 @@ function CalledElementTenantId(props) {
     modeling.updateProperties(element, { calledElementTenantId: value });
   };
 
-  return <TextField
+  return <TextFieldEntry
     element={ element }
     id="calledElementTenantId"
     label={ translate('Tenant ID') }

@@ -13,12 +13,16 @@ import {
   getTimerDefinitionType
 } from '../../bpmn/utils/EventDefinitionUtil';
 
-import SelectEntry, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import {
+  SelectEntry,
+  TextFieldEntry,
+  isSelectEntryEdited,
+  isTextFieldEntryEdited
+} from '@bpmn-io/properties-panel';
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -50,20 +54,20 @@ export function TimerProps(props) {
     entries.push({
       id: 'timerEventDefinitionDurationValue',
       component: <TimerEventDefinitionDurationValue element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   } else {
     entries.push({
       id: 'timerEventDefinitionType',
       component: <TimerEventDefinitionType element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     });
 
     if (timerEventDefinitionType) {
       entries.push({
         id: 'timerEventDefinitionValue',
         component: <TimerEventDefinitionValue element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       });
     }
   }
@@ -167,7 +171,7 @@ function TimerEventDefinitionType(props) {
  * together with timerEventDefinitionType.
  *
  * @param  {type} props
- * @return {TextField}
+ * @return {TextFieldEntry}
  */
 function TimerEventDefinitionValue(props) {
   const {
@@ -197,7 +201,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'timerEventDefinitionValue',
     label: translate('Value'),
@@ -213,7 +217,7 @@ function TimerEventDefinitionValue(props) {
  * duration value. This is to be used stand-alone, without the TimerEventDefinitionType
  *
  * @param  {type} props
- * @return {TextField}
+ * @return {TextFieldEntry}
  */
 function TimerEventDefinitionDurationValue(props) {
   const {
@@ -277,7 +281,7 @@ function TimerEventDefinitionDurationValue(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'timerEventDefinitionDurationValue',
     label: translate('Timer duration'),

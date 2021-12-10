@@ -8,11 +8,10 @@ import {
   useService
 } from 'src/hooks';
 
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-
 import {
-  LayoutContext
-} from '@bpmn-io/properties-panel/lib/context';
+  LayoutContext,
+  TextFieldEntry
+} from '@bpmn-io/properties-panel';
 
 import {
   is
@@ -100,7 +99,7 @@ function SimpleInputEntry(props) {
     return element.businessObject.$attrs.foo;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'foo',
     label: 'Some custom <Foo> Entry',

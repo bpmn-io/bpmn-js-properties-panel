@@ -2,8 +2,12 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import {
+  TextFieldEntry,
+  isTextFieldEntryEdited,
+  SelectEntry,
+  isSelectEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -31,7 +35,7 @@ export function DmnImplementationProps(props) {
   entries.push({
     id: 'decisionRef',
     component: <DecisionRef element={ element } />,
-    isEdited: textFieldIsEdited
+    isEdited: isTextFieldEntryEdited
   });
 
 
@@ -39,7 +43,7 @@ export function DmnImplementationProps(props) {
   entries.push({
     id: 'decisionRefBinding',
     component: <Binding element={ element } />,
-    isEdited: selectIsEdited
+    isEdited: isSelectEntryEdited
   });
 
   // (3) version
@@ -47,7 +51,7 @@ export function DmnImplementationProps(props) {
     entries.push({
       id: 'decisionRefVersion',
       component: <Version element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -56,7 +60,7 @@ export function DmnImplementationProps(props) {
     entries.push({
       id: 'decisionRefVersionTag',
       component: <VersionTag element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -64,14 +68,14 @@ export function DmnImplementationProps(props) {
   entries.push({
     id: 'decisionRefTenantId',
     component: <TenantId element={ element } />,
-    isEdited: textFieldIsEdited
+    isEdited: isTextFieldEntryEdited
   });
 
   // (6) resultVariable
   entries.push({
     id: 'decisionRefResultVariable',
     component: <ResultVariable element={ element } />,
-    isEdited: textFieldIsEdited
+    isEdited: isTextFieldEntryEdited
   });
 
   // (7) mapDecisionResult
@@ -79,7 +83,7 @@ export function DmnImplementationProps(props) {
     entries.push({
       id: 'mapDecisionResult',
       component: <MapDecisionResult element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     });
   }
 
@@ -109,7 +113,7 @@ function DecisionRef(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'decisionRef',
     label: translate('Decision reference'),
@@ -160,7 +164,7 @@ function Binding(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'decisionRefBinding',
     label: translate('Binding'),
@@ -193,7 +197,7 @@ function Version(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'decisionRefVersion',
     label: translate('Version'),
@@ -226,7 +230,7 @@ function VersionTag(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'decisionRefVersionTag',
     label: translate('Version tag'),
@@ -259,7 +263,7 @@ function TenantId(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'decisionRefTenantId',
     label: translate('Tenant ID'),
@@ -294,7 +298,7 @@ function ResultVariable(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'decisionRefResultVariable',
     label: translate('Result variable'),
@@ -339,7 +343,7 @@ function MapDecisionResult(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'mapDecisionResult',
     label: translate('Map decision result'),

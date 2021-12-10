@@ -15,7 +15,7 @@ import {
   useService
 } from '../../../hooks';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export function ConditionProps(props) {
@@ -33,7 +33,7 @@ export function ConditionProps(props) {
     conditionProps.push({
       id: 'conditionExpression',
       component: <ConditionExpression element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   }
 
@@ -100,7 +100,7 @@ function ConditionExpression(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'conditionExpression',
     label: translate('Condition expression'),

@@ -3,7 +3,10 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextArea, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextArea';
+import {
+  TextAreaEntry,
+  isTextAreaEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -13,7 +16,7 @@ const DOCUMENTATION_TEXT_FORMAT = 'text/plain';
 
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -28,7 +31,7 @@ export function DocumentationProps(props) {
     {
       id: 'documentation',
       component: <ElementDocumentationProperty element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextAreaEntryEdited
     }
   ];
 
@@ -36,7 +39,7 @@ export function DocumentationProps(props) {
     entries.push({
       id: 'processDocumentation',
       component: <ProcessDocumentationProperty element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextAreaEntryEdited
     });
   }
 
@@ -58,7 +61,7 @@ function ElementDocumentationProperty(props) {
   const setValue =
     setDocumentation(element, getBusinessObject(element), bpmnFactory, commandStack);
 
-  return TextArea({
+  return TextAreaEntry({
     element,
     id: 'documentation',
     label: translate('Element documentation'),
@@ -85,7 +88,7 @@ function ProcessDocumentationProperty(props) {
   const setValue =
     setDocumentation(element, processRef, bpmnFactory, commandStack);
 
-  return TextArea({
+  return TextAreaEntry({
     element,
     id: 'processDocumentation',
     label: translate('Process documentation'),

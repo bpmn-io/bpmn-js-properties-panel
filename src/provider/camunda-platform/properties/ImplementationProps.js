@@ -2,7 +2,7 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField, { isEdited as textFieldIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import { DmnImplementationProps } from './DmnImplementationProps';
 import { ImplementationTypeProps } from './ImplementationTypeProps';
@@ -42,19 +42,19 @@ export function ImplementationProps(props) {
     entries.push({
       id: 'javaClass',
       component: <JavaClass element={ element } />,
-      isEdited: textFieldIsEdited
+      isEdited: isTextFieldEntryEdited
     });
   } else if (implementationType === 'expression') {
     entries.push(
       {
         id: 'expression',
         component: <Expression element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       },
       {
         id: 'expressionResultVariable',
         component: <ResultVariable element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   } else if (implementationType === 'delegateExpression') {
@@ -62,7 +62,7 @@ export function ImplementationProps(props) {
       {
         id: 'delegateExpression',
         component: <DelegateExpression element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   } else if (implementationType === 'dmn') {
@@ -72,7 +72,7 @@ export function ImplementationProps(props) {
       {
         id: 'externalTopic',
         component: <Topic element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   } else if (implementationType === 'connector') {
@@ -80,7 +80,7 @@ export function ImplementationProps(props) {
       {
         id: 'connectorId',
         component: <ConnectorId element={ element } />,
-        isEdited: textFieldIsEdited
+        isEdited: isTextFieldEntryEdited
       }
     );
   }
@@ -113,7 +113,7 @@ export function JavaClass(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id,
     label: translate('Java class'),
@@ -148,7 +148,7 @@ export function Expression(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id,
     label: translate('Expression'),
@@ -181,7 +181,7 @@ function ResultVariable(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'expressionResultVariable',
     label: translate('Result variable'),
@@ -216,7 +216,7 @@ export function DelegateExpression(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id,
     label: translate('Delegate expression'),
@@ -249,7 +249,7 @@ function Topic(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'externalTopic',
     label: translate('Topic'),
@@ -282,7 +282,7 @@ function ConnectorId(props) {
     });
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'connectorId',
     label: translate('Connector ID'),

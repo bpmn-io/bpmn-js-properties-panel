@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import Select, { isEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -29,7 +29,7 @@ export function BusinessKeyProps(props) {
     {
       id: 'businessKey',
       component: <BusinessKey element={ element } />,
-      isEdited
+      isEdited: isSelectEntryEdited
     },
   ];
 }
@@ -78,7 +78,7 @@ function BusinessKey(props) {
     return options;
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'businessKey',
     label: translate('Key'),

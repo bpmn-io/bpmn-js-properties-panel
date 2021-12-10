@@ -1,7 +1,6 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import ToggleSwitch from '@bpmn-io/properties-panel/lib/components/entries/ToggleSwitch';
+import { TextFieldEntry, ToggleSwitchEntry } from '@bpmn-io/properties-panel';
 
 import { containsSpace } from '../../bpmn/utils/ValidationUtil';
 
@@ -120,7 +119,7 @@ function ProcessVariableAssignment(props) {
     }
   };
 
-  return ToggleSwitch({
+  return ToggleSwitchEntry({
     id,
     label: translate('Process variable assignment'),
     switcherLabel: outputParameter ?
@@ -170,7 +169,7 @@ function AssignToProcessVariable(props) {
     }
   };
 
-  return TextField({
+  return TextFieldEntry({
     debounce,
     element: outputParameter,
     id,

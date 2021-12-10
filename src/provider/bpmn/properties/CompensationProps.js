@@ -9,10 +9,10 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  isEdited as selectIsEdited
-} from '@bpmn-io/properties-panel/lib/components/entries/Select';
-
-import Checkbox from '@bpmn-io/properties-panel/lib/components/entries/Checkbox';
+  isSelectEntryEdited,
+  isCheckboxEntryEdited,
+  CheckboxEntry
+} from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -27,7 +27,7 @@ import {
 } from '../utils/EventDefinitionUtil';
 
 /**
- * @typedef { import('@bpmn-io/properties-panel/lib/PropertiesPanel').EntryDefinition } Entry
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
 /**
@@ -42,20 +42,16 @@ export function CompensationProps(props) {
     return [];
   }
 
-  const isCheckboxEdited = (node) => {
-    return node && !node.checked;
-  };
-
   return [
     {
       id: 'waitForCompletion',
       component: <WaitForCompletion element={ element } />,
-      isEdited: isCheckboxEdited
+      isEdited: isCheckboxEntryEdited
     },
     {
       id: 'activityRef',
       component: <ActivityRef element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     }
   ];
 }
@@ -82,7 +78,7 @@ function WaitForCompletion(props) {
     });
   };
 
-  return Checkbox({
+  return CheckboxEntry({
     element,
     id: 'waitForCompletion',
     label: translate('Wait for completion'),

@@ -1,5 +1,4 @@
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
-import SelectEntry from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import { TextFieldEntry, SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -59,7 +58,7 @@ function NameProperty(props) {
     return field.name;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: field,
     id: idPrefix + '-name',
     label: translate('Name'),
@@ -147,7 +146,7 @@ function ValueProperty(props) {
     return field.string || field.stringValue || field.expression;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: field,
     id: idPrefix + '-value',
     label: translate('Value'),

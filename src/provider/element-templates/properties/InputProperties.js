@@ -1,6 +1,6 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import ToggleSwitch from '@bpmn-io/properties-panel/lib/components/entries/ToggleSwitch';
+import { ToggleSwitchEntry } from '@bpmn-io/properties-panel';
 
 import InputOutputParameter from '../../camunda-platform/properties/InputOutputParameter';
 
@@ -119,7 +119,7 @@ function LocalVariableAssignment(props) {
     }
   };
 
-  return ToggleSwitch({
+  return ToggleSwitchEntry({
     id,
     label: translate('Local variable assignment'),
     switcherLabel: inputParameter ?

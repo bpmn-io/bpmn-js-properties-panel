@@ -2,7 +2,7 @@ import {
   sortBy
 } from 'min-dash';
 
-import Select, { isEdited as selectIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/Select';
+import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -54,7 +54,7 @@ export function ImplementationTypeProps(props) {
     {
       id: 'implementationType',
       component: <ImplementationType element={ element } />,
-      isEdited: selectIsEdited
+      isEdited: isSelectEntryEdited
     },
   ];
 }
@@ -191,7 +191,7 @@ function ImplementationType(props) {
     return sortByName(options);
   };
 
-  return Select({
+  return SelectEntry({
     element,
     id: 'implementationType',
     label: translate('Type'),

@@ -6,7 +6,7 @@ import {
   isEventSubProcess
 } from 'bpmn-js/lib/util/DiUtil';
 
-import TextField, { isEdited as defaultIsEdited } from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -40,7 +40,7 @@ export function MessageProps(props) {
     {
       id: 'messageSubscriptionCorrelationKey',
       component: <SubscriptionCorrelationKey element={ element } />,
-      isEdited: defaultIsEdited
+      isEdited: isTextFieldEntryEdited
     },
   ];
 
@@ -121,7 +121,7 @@ function SubscriptionCorrelationKey(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextField({
+  return TextFieldEntry({
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),

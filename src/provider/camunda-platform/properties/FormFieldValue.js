@@ -1,4 +1,4 @@
-import TextField from '@bpmn-io/properties-panel/lib/components/entries/TextField';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -51,7 +51,7 @@ function Id(props) {
     return value.id;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: value,
     id: idPrefix + '-id',
     label: translate('ID'),
@@ -86,7 +86,7 @@ function Name(props) {
     return value.name;
   };
 
-  return TextField({
+  return TextFieldEntry({
     element: value,
     id: idPrefix + '-name',
     label: translate('Name'),
