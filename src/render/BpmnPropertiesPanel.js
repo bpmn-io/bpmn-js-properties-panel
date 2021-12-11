@@ -2,7 +2,7 @@ import {
   useState,
   useMemo,
   useEffect
-} from '@bpmn-io/properties-panel/preact/hooks';
+} from 'preact/hooks';
 
 import {
   find,

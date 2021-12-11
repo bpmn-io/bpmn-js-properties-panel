@@ -23,15 +23,16 @@ export default [
         file: pkg.module
       }
     ],
-    external: id => ([
+    external: [
       'array-move',
       'min-dash',
+      'preact',
       '@bpmn-io/properties-panel'
-    ].includes(id) || /^@bpmn-io\/properties-panel/.test(id)),
+    ],
     plugins: [
       alias({
         entries: [
-          { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' }
+          { find: 'react', replacement: 'preact/compat' }
         ]
       }),
       reactSvg(),
@@ -39,7 +40,7 @@ export default [
         babelHelpers: 'bundled',
         plugins: [
           [ '@babel/plugin-transform-react-jsx', {
-            'importSource': '@bpmn-io/properties-panel/preact',
+            'importSource': 'preact',
             'runtime': 'automatic'
           } ]
         ]

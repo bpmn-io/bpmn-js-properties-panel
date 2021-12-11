@@ -1,6 +1,6 @@
 import {
   useContext
-} from '@bpmn-io/properties-panel/preact/hooks';
+} from 'preact/hooks';
 
 import { BpmnPropertiesPanelContext } from '../context';
 
