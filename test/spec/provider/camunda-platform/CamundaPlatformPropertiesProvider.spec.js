@@ -1390,6 +1390,58 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
 
     });
 
+
+    describe('layout config', function() {
+
+      let container;
+
+      function expectOpen(id, open) {
+        const group = getGroup(container, id);
+        const header = domQuery('.bio-properties-panel-group-header', group);
+
+        expect(header.classList.contains('open')).to.equal(open);
+      }
+
+      beforeEach(function() {
+        container = TestContainer.get(this);
+      });
+
+      beforeEach(bootstrapPropertiesPanel(processDiagramXML, {
+        modules: testModules.concat(BpmnPropertiesProvider),
+        moddleExtensions,
+        debounceInput: false,
+        propertiesPanel: {
+          layout: {
+            groups: {
+              'general': { open: true },
+              'documentation': { open: false },
+              'CamundaPlatform__UserAssignment': { open: true }
+            }
+          }
+        }
+      }));
+
+
+      it('should pre-open configured groups', inject(
+        async function(elementRegistry, selection) {
+
+          // given
+          const task = elementRegistry.get('UserTask_1');
+
+          // when
+          await act(() => {
+            selection.select(task);
+          });
+
+          // then
+          expectOpen('general', true);
+          expectOpen('documentation', false);
+          expectOpen('CamundaPlatform__UserAssignment', true);
+          expectOpen('CamundaPlatform__Form', false);
+        })
+      );
+    });
+
   });
 });
 
