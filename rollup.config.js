@@ -23,11 +23,11 @@ export default [
         file: pkg.module
       }
     ],
-    external: id => ([
+    external: [
       'array-move',
       'min-dash',
-      '@bpmn-io/properties-panel'
-    ].includes(id) || /^@bpmn-io\/properties-panel/.test(id)),
+      /^@bpmn-io\/properties-panel'/
+    ],
     plugins: [
       alias({
         entries: [
