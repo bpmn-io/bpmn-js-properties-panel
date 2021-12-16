@@ -1,6 +1,6 @@
 {
   "name": "bpmn-js-properties-panel",
-  "version": "0.46.0",
+  "version": "1.0.0-alpha.0",
   "description": "A simple properties panel for bpmn-js",
   "files": [
     "dist"
