@@ -8,6 +8,8 @@ import resolve from '@rollup/plugin-node-resolve';
 
 import pkg from './package.json';
 
+const nonbundledDependencies = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
+
 export default [
   {
     input: 'src/index.js',
@@ -23,11 +25,7 @@ export default [
         file: pkg.module
       }
     ],
-    external: [
-      'array-move',
-      'min-dash',
-      /^@bpmn-io\/properties-panel'/
-    ],
+    external: id => nonbundledDependencies.find(dep => id.startsWith(dep)),
     plugins: [
       alias({
         entries: [
