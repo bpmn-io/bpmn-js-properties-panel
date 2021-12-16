@@ -46,6 +46,11 @@ export function MultiInstanceProps(props) {
       id: 'multiInstance-outputElement',
       component: <OutputElement element={ element } />,
       isEdited: isTextFieldEntryEdited
+    },
+    {
+      id: 'multiInstance-completionCondition',
+      component: <CompletionCondition element={ element } />,
+      isEdited: isTextFieldEntryEdited
     }
   ];
 }
@@ -162,6 +167,45 @@ function OutputElement(props) {
   });
 }
 
+function CompletionCondition(props) {
+  const {
+    element
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const bpmnFactory = useService('bpmnFactory');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const getValue = () => {
+    const completionCondition = getCompletionCondition(element);
+    return completionCondition && completionCondition.get('body');
+  };
+
+  const setValue = (value) => {
+    if (value && value !== '') {
+      const loopCharacteristics = getLoopCharacteristics(element);
+      const completionCondition = createElement(
+        'bpmn:FormalExpression',
+        { body: value },
+        loopCharacteristics,
+        bpmnFactory
+      );
+      setCompletionCondition(element, commandStack, completionCondition);
+    } else {
+      setCompletionCondition(element, commandStack, undefined);
+    }
+  };
+
+  return TextFieldEntry({
+    element,
+    id: 'multiInstance-completionCondition',
+    label: translate('Completion condition'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
 
 // helper ///////////////////////
 
@@ -178,6 +222,20 @@ function getZeebeLoopCharacteristics(loopCharacteristics) {
 
 function supportsMultiInstances(element) {
   return !!getLoopCharacteristics(element);
+}
+
+function getCompletionCondition(element) {
+  return getLoopCharacteristics(element).get('completionCondition');
+}
+
+function setCompletionCondition(element, commandStack, completionCondition = undefined) {
+  commandStack.execute('properties-panel.update-businessobject', {
+    element,
+    businessObject: getLoopCharacteristics(element),
+    properties: {
+      completionCondition
+    }
+  });
 }
 
 function getProperty(element, propertyName) {

@@ -583,6 +583,58 @@ describe('provider/zeebe - MultiInstanceProps', function() {
 
   });
 
+
+  describe('bpmn:ServiceTask#completionCondition', function() {
+
+    it('should create non existing completion condition',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_noCompletionCondition');
+
+        // assume
+        expect(getCompletionCondition(serviceTask)).not.to.exist;
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // when
+        const input = domQuery('input[name=multiInstance-completionCondition]', container);
+        changeInput(input, '= newValue');
+
+        // then
+        expect(getCompletionCondition(serviceTask).get('body')).to.eql('= newValue');
+      })
+    );
+
+
+    it('should remove completion condition',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_noCompletionCondition');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        const input = domQuery('input[name=multiInstance-completionCondition]', container);
+
+        // assume
+        changeInput(input, '= newValue');
+        expect(getCompletionCondition(serviceTask)).to.exist;
+
+        // when
+        changeInput(input, '');
+
+        // then
+        expect(getCompletionCondition(serviceTask)).not.to.exist;
+      })
+    );
+
+  });
+
 });
 
 
@@ -599,4 +651,8 @@ function getZeebeLoopCharacteristics(element) {
   const extensionElements = getExtensionElementsList(loopCharacteristics, 'zeebe:LoopCharacteristics');
 
   return extensionElements && extensionElements[0];
+}
+
+function getCompletionCondition(element) {
+  return getLoopCharacteristics(element).get('completionCondition');
 }
