@@ -4,7 +4,7 @@
 
 A properties panel extension for [bpmn-js](https://github.com/bpmn-io/bpmn-js) that adds the ability to edit technical properties (generic and [Camunda](https://camunda.com)).
 
-[![bpmn-js-properties-panel screenshot](https://raw.githubusercontent.com/bpmn-io/bpmn-js-properties-panel/master/docs/screenshot.png "Screenshot of the bpmn-js modeler with properties panel")](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
+[![bpmn-js-properties-panel screenshot](./docs/screenshot.png "Screenshot of the bpmn-js modeler with properties panel")](https://github.com/bpmn-io/bpmn-js-examples/tree/master/properties-panel)
 
 
 ## Features
