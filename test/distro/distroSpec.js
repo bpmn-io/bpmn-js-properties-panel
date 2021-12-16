@@ -9,23 +9,8 @@ const DIST_DIR = path.join(__dirname, '../../dist');
 
 describe('modules', function() {
 
-  it('should expose CJS bundle', function() {
+  it('should expose CJS bundle', verifyExists('index.js'));
 
-    // given
-    const {
-      BpmnPropertiesPanelModule,
-      BpmnPropertiesProviderModule,
-      ZeebePropertiesProviderModule,
-      useService
-    } = require(DIST_DIR);
-
-    // then
-    expect(BpmnPropertiesPanelModule).to.exist;
-    expect(BpmnPropertiesProviderModule).to.exist;
-    expect(ZeebePropertiesProviderModule).to.exist;
-
-    expect(useService).to.exist;
-  });
 });
 
 
