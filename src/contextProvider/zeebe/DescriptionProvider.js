@@ -94,6 +94,16 @@ const DescriptionProvider = {
         </a>
       );
     }
+  },
+
+  errorCode: (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/error-events/error-events/#defining-the-error" target="_blank" rel="noopener" title={ translate('Error event documentation') }>
+        { translate('How to configure an error event') }
+      </a>
+    );
   }
 };
 
