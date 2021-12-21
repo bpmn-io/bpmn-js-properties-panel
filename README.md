@@ -1,3 +1,5 @@
+> Extending the properties panel changed significantly with `bpmn-js-properties-panel>=1`. For the `0.x` version of the library, check out [the 0.x branch](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/0.x). Read more on the changes [in the changelog](https://github.com/bpmn-io/bpmn-js-properties-panel/blob/master/CHANGELOG.md#100-alpha0).
+
 # bpmn-js-properties-panel
 
 [![CI](https://github.com/bpmn-io/bpmn-js-properties-panel/workflows/CI/badge.svg)](https://github.com/bpmn-io/bpmn-js-properties-panel/actions?query=workflow%3ACI)
