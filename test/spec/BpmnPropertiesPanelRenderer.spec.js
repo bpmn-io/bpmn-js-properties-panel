@@ -320,6 +320,23 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it.only('should render with correct element selected', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const { modeler } = await createModeler(diagramXml);
+    await act(() => {
+      const shape = modeler.get('elementRegistry').get('StartEvent_1');
+      modeler.get('selection').select(shape);
+    });
+
+    // then
+    expect(domQuery('.bio-properties-panel-header-type').textContent).to.equal('Start Event');
+  });
+
+
   describe('providers', function() {
 
     const diagramXML = require('test/fixtures/simple.bpmn').default;
