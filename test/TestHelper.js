@@ -15,6 +15,18 @@ import semver from 'semver';
 
 import Modeler from 'bpmn-js/lib/Modeler';
 
+import axe from 'axe-core';
+
+/**
+ * https://www.deque.com/axe/core-documentation/api-documentation/#axe-core-tags
+ */
+const DEFAULT_AXE_RULES = [
+  'best-practice',
+  'wcag2a',
+  'wcag2aa',
+  'cat.semantics'
+];
+
 let PROPERTIES_PANEL_CONTAINER;
 
 global.chai.use(function(chai, utils) {
@@ -166,4 +178,19 @@ function propertiesPanelSatisfies(versionRange) {
   const version = require('@bpmn-io/properties-panel/package.json').version;
 
   return semver.satisfies(version, versionRange, { includePrerelease: true });
+}
+
+export async function expectNoViolations(node, options = {}) {
+  const {
+    rules,
+    ...rest
+  } = options;
+
+  const results = await axe.run(node, {
+    runOnly: rules || DEFAULT_AXE_RULES,
+    ...rest
+  });
+
+  expect(results.passes).to.be.not.empty;
+  expect(results.violations).to.be.empty;
 }
