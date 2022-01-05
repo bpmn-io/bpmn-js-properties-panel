@@ -117,9 +117,9 @@ function TimerEventDefinitionType(props) {
     }
 
     // (4) Execute businessObject update
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: timerEventDefinition,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: timerEventDefinition,
       properties: newProps
     });
   };
@@ -169,9 +169,9 @@ function TimerEventDefinitionValue(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: timerEventFormalExpression,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: timerEventFormalExpression,
       properties: {
         body: value
       }

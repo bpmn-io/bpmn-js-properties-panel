@@ -114,12 +114,13 @@ function EscalationRef(props) {
       value = escalation.get('id');
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
           element,
-          currentObject: root,
-          propertyName: 'rootElements',
-          objectsToAdd: [ escalation ]
+          moddleElement: root,
+          properties: {
+            rootElements: [ ...root.get('rootElements'), escalation ]
+          }
         }
       });
     }
@@ -128,10 +129,10 @@ function EscalationRef(props) {
     escalation = escalation || findRootElementById(escalationEventDefinition, 'bpmn:Escalation', value);
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
         element,
-        businessObject: escalationEventDefinition,
+        moddleElement: escalationEventDefinition,
         properties: {
           escalationRef: escalation
         }
@@ -187,10 +188,10 @@ function EscalationName(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: escalation,
+        moddleElement: escalation,
         properties: {
           name: value
         }
@@ -223,10 +224,10 @@ function EscalationCode(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: escalation,
+        moddleElement: escalation,
         properties: {
           escalationCode: value
         }

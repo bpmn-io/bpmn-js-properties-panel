@@ -59,7 +59,7 @@ function LoopCardinality(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       updateFormalExpression(element, 'loopCardinality', value, bpmnFactory)
     );
   };
@@ -88,7 +88,7 @@ function CompletionCondition(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       updateFormalExpression(element, 'completionCondition', value, bpmnFactory)
     );
   };
@@ -182,10 +182,11 @@ function updateFormalExpression(element, propertyName, newValue, bpmnFactory) {
   if (!newValue) {
 
     // remove formal expression
-    expressionProps[propertyName] = undefined;
+    expressionProps[ propertyName ] = undefined;
+
     return {
       element,
-      businessObject: loopCharacteristics,
+      moddleElement: loopCharacteristics,
       properties: expressionProps
     };
   }
@@ -195,10 +196,11 @@ function updateFormalExpression(element, propertyName, newValue, bpmnFactory) {
   if (!existingExpression) {
 
     // add formal expression
-    expressionProps[propertyName] = createFormalExpression(loopCharacteristics, newValue, bpmnFactory);
+    expressionProps[ propertyName ] = createFormalExpression(loopCharacteristics, newValue, bpmnFactory);
+
     return {
       element,
-      businessObject: loopCharacteristics,
+      moddleElement: loopCharacteristics,
       properties: expressionProps
     };
   }
@@ -206,7 +208,7 @@ function updateFormalExpression(element, propertyName, newValue, bpmnFactory) {
   // edit existing formal expression
   return {
     element,
-    businessObject: existingExpression,
+    moddleElement: existingExpression,
     properties: {
       body: newValue
     }

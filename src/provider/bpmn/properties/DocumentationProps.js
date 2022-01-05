@@ -12,6 +12,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { without } from 'min-dash';
+
 const DOCUMENTATION_TEXT_FORMAT = 'text/plain';
 
 
@@ -136,7 +138,7 @@ function getDocumentation(businessObject) {
 function setDocumentation(element, businessObject, bpmnFactory, commandStack) {
   return function(value) {
 
-    const documentation = findDocumentation(
+    let documentation = findDocumentation(
       businessObject && businessObject.get('documentation')
     );
 
@@ -144,35 +146,36 @@ function setDocumentation(element, businessObject, bpmnFactory, commandStack) {
     if (documentation) {
 
       if (value) {
-        return commandStack.execute('properties-panel.update-businessobject', {
-          element: element,
-          businessObject: documentation,
+        return commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: documentation,
           properties: {
             text: value
           }
         });
       } else {
-        return commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: businessObject,
-          propertyName: 'documentation',
-          objectsToRemove: [ documentation ]
+        return commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
+          properties: {
+            documentation: without(businessObject.get('documentation'), documentation)
+          }
         });
       }
     }
 
     // (2) create new documentation entry
     if (value) {
+      documentation = bpmnFactory.create('bpmn:Documentation', {
+        text: value
+      });
 
-      return commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: businessObject,
-        propertyName: 'documentation',
-        objectsToAdd: [
-          bpmnFactory.create('bpmn:Documentation', {
-            text: value
-          })
-        ]
+      return commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          documentation: [ ...businessObject.get('documentation'), documentation ]
+        }
       });
     }
   };

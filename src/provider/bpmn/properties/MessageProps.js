@@ -110,12 +110,13 @@ function MessageRef(props) {
       value = message.get('id');
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
           element,
-          currentObject: root,
-          propertyName: 'rootElements',
-          objectsToAdd: [ message ]
+          moddleElement: root,
+          properties: {
+            rootElements: [ ...root.get('rootElements'), message ]
+          }
         }
       });
     }
@@ -124,10 +125,10 @@ function MessageRef(props) {
     message = message || findRootElementById(messageEventDefinition, 'bpmn:Message', value);
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
         element,
-        businessObject: messageEventDefinition,
+        moddleElement: messageEventDefinition,
         properties: {
           messageRef: message
         }
@@ -183,10 +184,10 @@ function MessageName(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: message,
+        moddleElement: message,
         properties: {
           name: value
         }

@@ -62,10 +62,10 @@ function Executable(props) {
 
     setValue = (value) => {
       commandStack.execute(
-        'properties-panel.update-businessobject',
+        'element.updateModdleProperties',
         {
           element,
-          businessObject: process,
+          moddleElement: process,
           properties: {
             isExecutable: value
           }

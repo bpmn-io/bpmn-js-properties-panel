@@ -69,11 +69,11 @@ function WaitForCompletion(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: compensateEventDefinition,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: compensateEventDefinition,
       properties: {
-        'waitForCompletion': value
+        waitForCompletion: value
       }
     });
   };
@@ -107,9 +107,9 @@ function ActivityRef(props) {
     // update (or remove) activityRef
     const activityRef = value ? getBusinessObject(elementRegistry.get(value)) : undefined;
 
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: compensateEventDefinition,
+      moddleElement: compensateEventDefinition,
       properties: {
         activityRef
       }
