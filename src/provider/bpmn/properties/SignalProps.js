@@ -110,12 +110,13 @@ function SignalRef(props) {
       value = signal.get('id');
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
           element,
-          currentObject: root,
-          propertyName: 'rootElements',
-          objectsToAdd: [ signal ]
+          moddleElement: root,
+          properties: {
+            rootElements: [ ...root.get('rootElements'), signal ]
+          }
         }
       });
     }
@@ -124,10 +125,10 @@ function SignalRef(props) {
     signal = signal || findRootElementById(signalEventDefinition, 'bpmn:Signal', value);
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
         element,
-        businessObject: signalEventDefinition,
+        moddleElement: signalEventDefinition,
         properties: {
           signalRef: signal
         }
@@ -183,10 +184,10 @@ function SignalName(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: signal,
+        moddleElement: signal,
         properties: {
           name: value
         }

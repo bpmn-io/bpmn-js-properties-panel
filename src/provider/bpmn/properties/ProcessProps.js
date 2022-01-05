@@ -54,10 +54,10 @@ function ProcessName(props) {
 
   const setValue = (value) => {
     commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: process,
+        moddleElement: process,
         properties: {
           name: value
         }
@@ -89,10 +89,10 @@ function ProcessId(props) {
 
   const setValue = (value) => {
     commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: process,
+        moddleElement: process,
         properties: {
           id: value
         }
