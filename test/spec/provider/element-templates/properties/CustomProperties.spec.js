@@ -46,7 +46,7 @@ import editableDiagramXML from './CustomProperties.editable.bpmn';
 import editableElementTemplates from './CustomProperties.editable.json';
 
 
-describe('provider/element-templates - CustomProperties', function() {
+describe.only('provider/element-templates - CustomProperties', function() {
 
   let container;
 
@@ -147,7 +147,7 @@ describe('provider/element-templates - CustomProperties', function() {
     });
 
 
-    it('should change String property to empty string when erased', async function() {
+    it('should change String property to empty string when erased given not-optional', async function() {
 
       // given
       const task = await expectSelected('AsyncTask_2'),
@@ -163,6 +163,28 @@ describe('provider/element-templates - CustomProperties', function() {
       expect(input.value).to.eql('');
 
       expect(businessObject.get('camunda:jobPriority')).to.be.eql('');
+    });
+
+
+    it('should not serialize non-empty String property when set to empty given optional', async function() {
+
+      // given
+      const task = await expectSelected('AsyncTask_3'),
+            businessObject = getBusinessObject(task);
+
+      // assume
+      expect(businessObject.get('camunda:jobPriority')).to.exist;
+
+      // when
+      const entry = findEntry('custom-entry-my.awesome.Task_3-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      expect(input.value).to.eql('');
+
+      expect(businessObject.get('camunda:jobPriority')).to.not.exist;
     });
 
   });

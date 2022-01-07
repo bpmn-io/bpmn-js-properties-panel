@@ -211,6 +211,26 @@
     "entriesVisible": true
   },
   {
+    "name": "AsyncAwesomeTask3",
+    "id": "my.awesome.Task_3",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+
+      {
+        "label": "Priority",
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:jobPriority"
+        }
+      }
+    ],
+    "entriesVisible": true
+  },
+  {
     "name": "Custom ServiceTask",
     "id": "my.custom.ServiceTask",
     "appliesTo": [

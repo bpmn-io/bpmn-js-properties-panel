@@ -508,7 +508,10 @@ function propertySetter(bpmnFactory, commandStack, element, property, scope) {
   return function setValue(value) {
     let businessObject = getBusinessObject(element);
 
-    const { binding } = property;
+    const {
+      binding,
+      optional
+    } = property;
 
     const {
       name,
@@ -575,7 +578,9 @@ function propertySetter(bpmnFactory, commandStack, element, property, scope) {
     // property
     if (type === 'property') {
 
-      if (name === 'conditionExpression') {
+      if ((typeof value === 'undefined') && optional) {
+        propertyValue = undefined;
+      } else if (name === 'conditionExpression') {
         const { scriptFormat } = binding;
 
         propertyValue = createElement('bpmn:FormalExpression', {
@@ -595,13 +600,7 @@ function propertySetter(bpmnFactory, commandStack, element, property, scope) {
         if (propertyType === 'Boolean') {
           propertyValue = !!value;
         } else if (propertyType === 'Integer') {
-          propertyValue = parseInt(value, 10);
-
-          if (isNaN(propertyValue)) {
-
-            // do not set NaN value
-            propertyValue = undefined;
-          }
+          propertyValue = parseInt(value, 10) || '';
         } else {
 
           // make sure we don't remove the property
@@ -609,16 +608,14 @@ function propertySetter(bpmnFactory, commandStack, element, property, scope) {
         }
       }
 
-      if (!isUndefined(propertyValue)) {
-        commands.push({
-          cmd: 'element.updateModdleProperties',
-          context: {
-            element,
-            moddleElement: businessObject,
-            properties: { [ name ]: propertyValue }
-          }
-        });
-      }
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: businessObject,
+          properties: { [ name ]: propertyValue }
+        }
+      });
     }
 
     // camunda:ErrorEventDefinition
