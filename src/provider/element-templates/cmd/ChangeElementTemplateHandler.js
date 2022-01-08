@@ -34,7 +34,8 @@ import {
   find,
   isString,
   isUndefined,
-  keys
+  keys,
+  without
 } from 'min-dash';
 
 const CAMUNDA_SERVICE_TASK_LIKE = [
@@ -153,22 +154,22 @@ export default class ChangeElementTemplateHandler {
       return;
     }
 
-    const businessObject = this._getOrCreateExtensionElements(element);
+    const extensionElements = this._getOrCreateExtensionElements(element);
 
     const oldErrorEventDefinitions = findExtensions(element, [ 'camunda:ErrorEventDefinition' ]);
 
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
-            oldEventDefinition = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            oldEventDefinition = oldProperty && findOldBusinessObject(extensionElements, oldProperty),
             newBinding = newProperty.binding;
 
       // (2) update old event definitions
       if (oldProperty && oldEventDefinition) {
 
         if (!propertyChanged(oldEventDefinition, oldProperty)) {
-          commandStack.execute('properties-panel.update-businessobject', {
-            element: element,
-            businessObject: oldEventDefinition,
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldEventDefinition,
             properties: {
               expression: newProperty.value
             }
@@ -182,22 +183,22 @@ export default class ChangeElementTemplateHandler {
       else {
         const rootElement = getRoot(getBusinessObject(element)),
               newError = createError(newBinding.errorRef, rootElement, bpmnFactory),
-              newEventDefinition = createCamundaErrorEventDefinition(newProperty.value, newError, businessObject, bpmnFactory);
+              newEventDefinition = createCamundaErrorEventDefinition(newProperty.value, newError, extensionElements, bpmnFactory);
 
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: rootElement,
-          propertyName: 'rootElements',
-          objectsToAdd: [ newError ],
-          objectsToRemove: []
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: rootElement,
+          properties: {
+            rootElements: [ ...rootElement.get('rootElements'), newError ]
+          }
         });
 
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: businessObject,
-          propertyName: 'values',
-          objectsToAdd: [ newEventDefinition ],
-          objectsToRemove: []
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), newEventDefinition ]
+          }
         });
       }
 
@@ -205,12 +206,12 @@ export default class ChangeElementTemplateHandler {
 
     // (4) remove old event definitions
     if (oldErrorEventDefinitions.length) {
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: businessObject,
-        propertyName: 'values',
-        objectsToAdd: [],
-        objectsToRemove: oldErrorEventDefinitions
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: extensionElements,
+        properties: {
+          values: without(extensionElements.get('values'), value => oldErrorEventDefinitions.includes(value))
+        }
       });
     }
   }
@@ -238,7 +239,7 @@ export default class ChangeElementTemplateHandler {
       return;
     }
 
-    const businessObject = this._getOrCreateExtensionElements(element);
+    const extensionElements = this._getOrCreateExtensionElements(element);
 
     // (2) remove old execution listeners
     const oldExecutionListeners = findExtensions(element, [ 'camunda:ExecutionListener' ]);
@@ -251,12 +252,15 @@ export default class ChangeElementTemplateHandler {
       return createCamundaExecutionListenerScript(newBinding, propertyValue, bpmnFactory);
     });
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: businessObject,
-      propertyName: 'values',
-      objectsToAdd: newExecutionListeners,
-      objectsToRemove: oldExecutionListeners
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: extensionElements,
+      properties: {
+        values: [
+          ...without(extensionElements.get('values'), value => oldExecutionListeners.includes(value)),
+          ...newExecutionListeners
+        ]
+      }
     });
   }
 
@@ -305,9 +309,9 @@ export default class ChangeElementTemplateHandler {
       if (oldProperty && oldField) {
 
         if (!propertyChanged(oldField, oldProperty)) {
-          commandStack.execute('properties-panel.update-businessobject', {
-            element: element,
-            businessObject: oldField,
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldField,
             properties: {
               string: newProperty.value
             }
@@ -319,24 +323,26 @@ export default class ChangeElementTemplateHandler {
 
       // (3) add new fields
       else {
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: businessObject,
-          propertyName: propertyName,
-          objectsToAdd: [ createCamundaFieldInjection(newBinding, newProperty.value, bpmnFactory) ],
-          objectsToRemove: []
+        const newCamundaFieldInjection = createCamundaFieldInjection(newBinding, newProperty.value, bpmnFactory);
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
+          properties: {
+            [ propertyName ]: [ ...businessObject.get(propertyName), newCamundaFieldInjection ]
+          }
         });
       }
     });
 
     // (4) remove old fields
     if (oldFields.length) {
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: businessObject,
-        propertyName: propertyName,
-        objectsToAdd: [],
-        objectsToRemove: oldFields
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          [ propertyName ]: without(businessObject.get(propertyName), value => oldFields.includes(value))
+        }
       });
     }
   }
@@ -369,15 +375,14 @@ export default class ChangeElementTemplateHandler {
     }
 
     // get extension elements of either signal event definition or call activity
-    const businessObject = this._getOrCreateExtensionElements(
-      getSignalEventDefinition(element) || element);
+    const extensionElements = this._getOrCreateExtensionElements(getSignalEventDefinition(element) || element);
 
-    const oldInsAndOuts = findExtensions(businessObject, [ 'camunda:In', 'camunda:Out' ]);
+    const oldInsAndOuts = findExtensions(extensionElements, [ 'camunda:In', 'camunda:Out' ]);
 
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             oldBinding = oldProperty && oldProperty.binding,
-            oldInOurOut = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            oldInOurOut = oldProperty && findOldBusinessObject(extensionElements, oldProperty),
             newPropertyValue = newProperty.value,
             newBinding = newProperty.binding,
             newBindingType = newBinding.type,
@@ -408,10 +413,10 @@ export default class ChangeElementTemplateHandler {
         }
 
         if (keys(properties)) {
-          commandStack.execute('properties-panel.update-businessobject', {
-            element: element,
-            businessObject: oldInOurOut,
-            properties: properties
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldInOurOut,
+            properties
           });
         }
 
@@ -428,24 +433,24 @@ export default class ChangeElementTemplateHandler {
           newInOrOut = createCamundaInWithBusinessKey(newPropertyValue, bpmnFactory);
         }
 
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: businessObject,
-          propertyName: 'values',
-          objectsToAdd: [ newInOrOut ],
-          objectsToRemove: []
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), newInOrOut ]
+          }
         });
       }
     });
 
     // (4) remove old ins and outs
     if (oldInsAndOuts.length) {
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: businessObject,
-        propertyName: 'values',
-        objectsToAdd: [],
-        objectsToRemove: oldInsAndOuts
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: extensionElements,
+        properties: {
+          values: without(extensionElements.get('values'), value => oldInsAndOuts.includes(value))
+        }
       });
     }
   }
@@ -487,11 +492,11 @@ export default class ChangeElementTemplateHandler {
       if (!inputOutput) {
         inputOutput = bpmnFactory.create('camunda:InputOutput');
 
-        commandStack.execute('properties-panel.update-businessobject', {
-          element: element,
-          businessObject: businessObject,
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
           properties: {
-            inputOutput: inputOutput
+            inputOutput
           }
         });
       }
@@ -501,12 +506,12 @@ export default class ChangeElementTemplateHandler {
       if (!inputOutput) {
         inputOutput = bpmnFactory.create('camunda:InputOutput');
 
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: businessObject,
-          propertyName: 'values',
-          objectsToAdd: [ inputOutput ],
-          objectsToRemove: []
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
+          properties: {
+            values: [ ...businessObject.get('values'), inputOutput ]
+          }
         });
       }
     }
@@ -545,10 +550,10 @@ export default class ChangeElementTemplateHandler {
             };
           }
 
-          commandStack.execute('properties-panel.update-businessobject', {
-            element: element,
-            businessObject: oldInputOrOutput,
-            properties: properties
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldInputOrOutput,
+            properties
           });
         }
 
@@ -571,34 +576,34 @@ export default class ChangeElementTemplateHandler {
           newInputOrOutput = createOutputParameter(newBinding, newPropertyValue, bpmnFactory);
         }
 
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: inputOutput,
-          propertyName: propertyName,
-          objectsToAdd: [ newInputOrOutput ],
-          objectsToRemove: []
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: inputOutput,
+          properties: {
+            [ propertyName ]: [ ...inputOutput.get(propertyName), newInputOrOutput ]
+          }
         });
       }
     });
 
     // (4) remove old inputs and outputs
     if (oldInputs.length) {
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: inputOutput,
-        propertyName: 'inputParameters',
-        objectsToAdd: [],
-        objectsToRemove: oldInputs
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: inputOutput,
+        properties: {
+          inputParameters: without(inputOutput.get('inputParameters'), inputParameter => oldInputs.includes(inputParameter))
+        }
       });
     }
 
     if (oldOutputs.length) {
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: inputOutput,
-        propertyName: 'outputParameters',
-        objectsToAdd: [],
-        objectsToRemove: oldOutputs
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: inputOutput,
+        properties: {
+          outputParameters: without(inputOutput.get('outputParameters'), outputParameter => oldOutputs.includes(outputParameter))
+        }
       });
     }
   }
@@ -648,12 +653,12 @@ export default class ChangeElementTemplateHandler {
     if (!camundaProperties) {
       camundaProperties = bpmnFactory.create('camunda:Properties');
 
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: businessObject,
-        propertyName: 'values',
-        objectsToAdd: [ camundaProperties ],
-        objectsToRemove: []
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: [ ...businessObject.get('values'), camundaProperties ]
+        }
       });
     }
 
@@ -671,9 +676,9 @@ export default class ChangeElementTemplateHandler {
       if (oldProperty && oldCamundaProperty) {
 
         if (!propertyChanged(oldCamundaProperty, oldProperty)) {
-          commandStack.execute('properties-panel.update-businessobject', {
-            element: element,
-            businessObject: oldCamundaProperty,
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldCamundaProperty,
             properties: {
               value: newPropertyValue
             }
@@ -685,24 +690,26 @@ export default class ChangeElementTemplateHandler {
 
       // (3) add new properties
       else {
-        commandStack.execute('properties-panel.update-businessobject-list', {
-          element: element,
-          currentObject: camundaProperties,
-          propertyName: 'values',
-          objectsToAdd: [ createCamundaProperty(newBinding, newPropertyValue, bpmnFactory) ],
-          objectsToRemove: []
+        const newCamundaProperty = createCamundaProperty(newBinding, newPropertyValue, bpmnFactory);
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: camundaProperties,
+          properties: {
+            values: [ ...camundaProperties.get('values'), newCamundaProperty ]
+          }
         });
       }
     });
 
     // (4) remove old properties
     if (oldCamundaProperties.length) {
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element: element,
-        currentObject: camundaProperties,
-        propertyName: 'values',
-        objectsToAdd: [],
-        objectsToRemove: oldCamundaProperties
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: camundaProperties,
+        properties: {
+          values: without(camundaProperties.get('values'), value => oldCamundaProperties.includes(value))
+        }
       });
     }
   }
@@ -754,10 +761,10 @@ export default class ChangeElementTemplateHandler {
       return;
     }
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: conditionExpression,
-      properties: properties
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: conditionExpression,
+      properties
     });
   }
 
@@ -817,10 +824,10 @@ export default class ChangeElementTemplateHandler {
           });
         }
 
-        commandStack.execute('properties-panel.update-businessobject', {
-          element: element,
-          businessObject: businessObject,
-          properties: properties
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
+          properties
         });
       }
     });
@@ -876,12 +883,12 @@ export default class ChangeElementTemplateHandler {
 
     const extensionElements = this._getOrCreateExtensionElements(element);
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: extensionElements,
-      propertyName: 'values',
-      objectsToAdd: [ scopeElement ],
-      objectsToRemove: []
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: extensionElements,
+      properties: {
+        values: [ ...extensionElements.get('values'), scopeElement ]
+      }
     });
   }
 }
