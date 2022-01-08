@@ -4470,10 +4470,10 @@ function updateBusinessObject(element, businessObject, properties) {
 
     expect(element).to.exist;
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
-      properties: properties
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
+      properties
     });
   });
 }
