@@ -2,13 +2,9 @@ import {
   forEach
 } from 'min-dash';
 
-import UpdateBusinessObjectHandler from './UpdateBusinessObjectHandler';
-import UpdateBusinessObjectListHandler from './UpdateBusinessObjectListHandler';
 import MultiCommandHandler from './MultiCommandHandler';
 
 const HANDLERS = {
-  'properties-panel.update-businessobject': UpdateBusinessObjectHandler,
-  'properties-panel.update-businessobject-list': UpdateBusinessObjectListHandler,
   'properties-panel.multi-command-executor': MultiCommandHandler
 };
 
