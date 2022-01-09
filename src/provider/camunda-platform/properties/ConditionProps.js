@@ -204,9 +204,9 @@ function Language(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      businessObject: getConditionExpression(element),
+      moddleElement: getConditionExpression(element),
       properties: {
         language: value || ''
       }
@@ -243,9 +243,9 @@ function ScriptType(props) {
       'camunda:resource': value === 'resource' ? '' : undefined
     };
 
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      businessObject: getConditionExpression(element),
+      moddleElement: getConditionExpression(element),
       properties: updatedProperties
     });
   };
@@ -282,9 +282,9 @@ function Script(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      businessObject: getConditionExpression(element),
+      moddleElement: getConditionExpression(element),
       properties: {
         'body': value || ''
       }
@@ -314,9 +314,9 @@ function Resource(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      businessObject: getConditionExpression(element),
+      moddleElement: getConditionExpression(element),
       properties: {
         'camunda:resource': value || ''
       }
@@ -402,9 +402,9 @@ function updateCondition(element, commandStack, condition = undefined) {
       }
     });
   } else {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: getConditionalEventDefinition(element),
+      moddleElement: getConditionalEventDefinition(element),
       properties: {
         condition
       }

@@ -104,9 +104,9 @@ export function JavaClass(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:class': value
       }
@@ -139,9 +139,9 @@ export function Expression(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:expression': value
       }
@@ -172,9 +172,9 @@ function ResultVariable(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:resultVariable': value
       }
@@ -207,9 +207,9 @@ export function DelegateExpression(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:delegateExpression': value
       }
@@ -240,9 +240,9 @@ function Topic(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:topic': value
       }
@@ -273,9 +273,9 @@ function ConnectorId(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: connector,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: connector,
       properties: {
         'camunda:connectorId': value
       }

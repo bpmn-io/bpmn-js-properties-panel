@@ -76,9 +76,9 @@ function JobPriority(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:jobPriority': value
       }
@@ -125,10 +125,10 @@ function RetryTimeCycle(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: businessObject,
+          element,
+          moddleElement: businessObject,
           properties: { extensionElements }
         }
       });
@@ -146,23 +146,26 @@ function RetryTimeCycle(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ failedJobRetryTimeCycle ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), failedJobRetryTimeCycle ]
+          }
         }
       });
     }
 
     // (3) update failedJobRetryTimeCycle value
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: failedJobRetryTimeCycle,
-        properties: { body: value }
+        element,
+        moddleElement: failedJobRetryTimeCycle,
+        properties: {
+          body: value
+        }
       }
     });
 

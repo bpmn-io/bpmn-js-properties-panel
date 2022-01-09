@@ -38,9 +38,9 @@ function Name(props) {
         debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: constraint,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: constraint,
       properties: {
         name: value
       }
@@ -73,9 +73,9 @@ function Config(props) {
         debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: constraint,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: constraint,
       properties: {
         config: value
       }

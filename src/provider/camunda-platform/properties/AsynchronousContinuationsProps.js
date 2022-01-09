@@ -74,9 +74,9 @@ function AsynchronousContinuationBefore(props) {
       'camunda:async': undefined
     };
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: props
     });
 
@@ -104,9 +104,9 @@ function AsynchronousContinuationAfter(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:asyncAfter': value,
       }
@@ -135,9 +135,9 @@ function Exclusive(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:exclusive': value,
       }

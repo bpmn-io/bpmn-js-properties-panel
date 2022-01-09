@@ -72,15 +72,15 @@ function Type(props) {
   };
 
   const setValue = (value) => {
-    let props = {
+    const properties = {
       ...DEFAULT_PROPS,
-      [value]: ''
+      [ value ]: ''
     };
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: mapping,
-      properties: props
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: mapping,
+      properties
     });
   };
 
@@ -122,9 +122,9 @@ function Source(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: mapping,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: mapping,
       properties: {
         source: value
       }
@@ -157,9 +157,9 @@ function SourceExpression(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: mapping,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: mapping,
       properties: {
         sourceExpression: value
       }
@@ -192,9 +192,9 @@ function Target(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: mapping,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: mapping,
       properties: {
         target: value
       }
@@ -230,11 +230,11 @@ function Local(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: mapping,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: mapping,
       properties: {
-        'local': value
+        local: value
       }
     });
   };

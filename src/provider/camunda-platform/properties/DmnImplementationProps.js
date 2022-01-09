@@ -104,9 +104,9 @@ function DecisionRef(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:decisionRef': value
       }
@@ -143,9 +143,9 @@ function Binding(props) {
       'camunda:decisionRefBinding': value
     };
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: updatedProperties
     });
   };
@@ -188,9 +188,9 @@ function Version(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:decisionRefVersion': value
       }
@@ -221,9 +221,9 @@ function VersionTag(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:decisionRefVersionTag': value
       }
@@ -254,9 +254,9 @@ function TenantId(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:decisionRefTenantId': value
       }
@@ -289,9 +289,9 @@ function ResultVariable(props) {
   // Note: camunda:mapDecisionResult got cleaned up in modeling behavior
   // cf. https://github.com/camunda/camunda-bpmn-js/blob/main/lib/camunda-platform/features/modeling/behavior/UpdateResultVariableBehavior.js
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:resultVariable': value
       }
@@ -321,9 +321,9 @@ function MapDecisionResult(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:mapDecisionResult': value
       }

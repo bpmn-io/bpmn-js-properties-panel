@@ -7,7 +7,9 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  getExtensionElementsList
+  addExtensionElements,
+  getExtensionElementsList,
+  removeExtensionElements
 } from '../utils/ExtensionElementsUtil';
 
 import Error from './Error';
@@ -55,16 +57,9 @@ function removeFactory({ commandStack, element, errorEventDefinition }) {
   return function(event) {
     event.stopPropagation();
 
-    const businessObject = getBusinessObject(element),
-          extensionElements = businessObject.get('extensionElements');
+    const businessObject = getBusinessObject(element);
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: extensionElements,
-      propertyName: 'values',
-      referencePropertyName: 'extensionElements',
-      objectsToRemove: [ errorEventDefinition ]
-    });
+    removeExtensionElements(element, businessObject, errorEventDefinition, commandStack);
   };
 }
 
@@ -72,51 +67,16 @@ function addFactory({ bpmnFactory, commandStack, element }) {
   return function(event) {
     event.stopPropagation();
 
-    const commands = [];
-
     const businessObject = getBusinessObject(element);
 
-    let extensionElements = businessObject.get('extensionElements');
-
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'properties-panel.update-businessobject',
-        context: {
-          element: element,
-          businessObject: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) create empty camunda:Error extensionElement
     const error = createElement(
       'camunda:ErrorEventDefinition',
       {},
-      extensionElements,
+      undefined,
       bpmnFactory
     );
 
-    commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
-      context: {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToAdd: [ error ]
-      }
-    });
-
-    // (3) execute the commands
-    commandStack.execute('properties-panel.multi-command-executor', commands);
+    addExtensionElements(element, businessObject, error, bpmnFactory, commandStack);
   };
 }
 

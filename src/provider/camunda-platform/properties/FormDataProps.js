@@ -13,6 +13,8 @@ import {
 
 import FormField from './FormField';
 
+import { without } from 'min-dash';
+
 export function FormDataProps({ element, injector }) {
   if (!isFormDataSupported(element)) {
     return;
@@ -48,7 +50,6 @@ export function FormDataProps({ element, injector }) {
 
 function addFactory({ bpmnFactory, commandStack, element }) {
   return function(event) {
-
     event.stopPropagation();
 
     const commands = [];
@@ -67,10 +68,10 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: businessObject,
+          element,
+          moddleElement: businessObject,
           properties: { extensionElements }
         }
       });
@@ -87,12 +88,13 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       }, parent, bpmnFactory);
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ formData ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), formData ]
+          }
         }
       });
     }
@@ -102,18 +104,18 @@ function addFactory({ bpmnFactory, commandStack, element }) {
 
     // (4) add formField to list
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: formData,
-        propertyName: 'fields',
-        objectsToAdd: [ formField ]
+        element,
+        moddleElement: formData,
+        properties: {
+          fields: [ ...formData.get('fields'), formField ]
+        }
       }
     });
 
     // (5) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
-
   };
 }
 
@@ -130,28 +132,48 @@ function removeFactory({ commandStack, element, formField }) {
       return;
     }
 
+    const fields = without(formData.get('fields'), formField);
+
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: formData,
-        propertyName: 'fields',
-        objectsToRemove: [ formField ]
+        element,
+        moddleElement: formData,
+        properties: {
+          fields
+        }
       }
     });
 
     // remove camunda:formData if there are no formFields anymore
-    if (formFields.length === 1) {
+    if (!fields.length) {
+      const businessObject = getBusinessObject(element),
+            extensionElements = businessObject.get('extensionElements'),
+            values = without(extensionElements.get('values'), formData);
+
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: getBusinessObject(element).get('extensionElements'),
-          propertyName: 'values',
-          referencePropertyName: 'extensionElements',
-          objectsToRemove: [ formData ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values
+          }
         }
       });
+
+      if (!values.length) {
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element,
+            moddleElement: businessObject,
+            properties: {
+              extensionElements: undefined
+            }
+          }
+        });
+      }
     }
 
     commandStack.execute('properties-panel.multi-command-executor', commands);

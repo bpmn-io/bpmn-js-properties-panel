@@ -1,5 +1,5 @@
 import {
-  sortBy
+  sortBy, without
 } from 'min-dash';
 
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
@@ -128,8 +128,18 @@ function ImplementationType(props) {
 
       // (4.1) remove all connectors on type change
       const connectors = getConnectors(businessObject);
+
       if (connectors.length) {
-        commands.push(RemoveFromListCmd(element, extensionElements, 'values', 'extensionElements', connectors));
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element,
+            moddleElement: extensionElements,
+            properties: {
+              values: without(extensionElements.get('values'), value => connectors.includes(value))
+            }
+          }
+        });
       }
 
       // (4.2) create connector
@@ -144,7 +154,7 @@ function ImplementationType(props) {
             bpmnFactory
           );
 
-          commands.push(UpdateBusinessObjectCmd(element, businessObject, { extensionElements }));
+          commands.push(UpdateModdlePropertiesCommand(element, businessObject, { extensionElements }));
         }
 
         const connector = createElement(
@@ -154,13 +164,22 @@ function ImplementationType(props) {
           bpmnFactory
         );
 
-        commands.push(AddToListCmd(element, extensionElements, 'values', 'extensionElements', [ connector ]));
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element,
+            moddleElement: extensionElements,
+            properties: {
+              values: [ ...extensionElements.get('values'), connector ]
+            }
+          }
+        });
       }
 
     }
 
     // (5) collect all property updates
-    commands.push(UpdateBusinessObjectCmd(element, businessObject, updatedProperties));
+    commands.push(UpdateModdlePropertiesCommand(element, businessObject, updatedProperties));
 
     // (6) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
@@ -212,39 +231,13 @@ function getConnectors(businessObject) {
   return getExtensionElementsList(businessObject, 'camunda:Connector');
 }
 
-function UpdateBusinessObjectCmd(element, businessObject, newProperties) {
+function UpdateModdlePropertiesCommand(element, businessObject, newProperties) {
   return {
-    cmd: 'properties-panel.update-businessobject',
+    cmd: 'element.updateModdleProperties',
     context: {
-      element: element,
-      businessObject: businessObject,
+      element,
+      moddleElement: businessObject,
       properties: newProperties
-    }
-  };
-}
-
-function AddToListCmd(element, businessObject, listPropertyName, referencePropertyName, objectsToAdd) {
-  return {
-    cmd: 'properties-panel.update-businessobject-list',
-    context: {
-      element: element,
-      currentObject: businessObject,
-      propertyName: listPropertyName,
-      referencePropertyName: referencePropertyName,
-      objectsToAdd: objectsToAdd
-    }
-  };
-}
-
-function RemoveFromListCmd(element, businessObject, listPropertyName, referencePropertyName, objectsToRemove) {
-  return {
-    cmd: 'properties-panel.update-businessobject-list',
-    context: {
-      element: element,
-      currentObject: businessObject,
-      propertyName: listPropertyName,
-      referencePropertyName: referencePropertyName,
-      objectsToRemove: objectsToRemove
     }
   };
 }

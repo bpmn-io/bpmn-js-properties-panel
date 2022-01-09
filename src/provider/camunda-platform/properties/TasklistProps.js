@@ -48,9 +48,9 @@ function Startable(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: process,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: process,
       properties: {
         'camunda:isStartableInTasklist': value
       }

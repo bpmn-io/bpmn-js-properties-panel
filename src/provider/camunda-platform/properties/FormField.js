@@ -16,6 +16,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { without } from 'min-dash';
+
 
 const CUSTOM_TYPE_VALUE = '',
       DEFINED_TYPE_VALUES = [ 'boolean', 'date', 'enum', 'long', 'string', undefined ];
@@ -79,9 +81,9 @@ function Id(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: formField,
+      moddleElement: formField,
       properties: {
         id: value
       }
@@ -115,9 +117,9 @@ function Label(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: formField,
+      moddleElement: formField,
       properties: {
         label: value
       }
@@ -149,9 +151,9 @@ function Type(props) {
   const translate = useService('translate');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: formField,
+      moddleElement: formField,
       properties: {
         type: value
       }
@@ -208,9 +210,9 @@ function CustomType(props) {
   const setValue = (value) => {
     const type = value || '';
 
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: formField,
+      moddleElement: formField,
       properties: {
         type
       }
@@ -243,9 +245,9 @@ function DefaultValue(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: formField,
+      moddleElement: formField,
       properties: {
         defaultValue: value
       }
@@ -298,20 +300,22 @@ function ValueList(props) {
       bpmnFactory
     );
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      currentObject: formField,
-      objectsToAdd: [ value ],
-      propertyName: 'values'
+      moddleElement: formField,
+      properties: {
+        values: [ ...formField.get('values'), value ]
+      }
     });
   }
 
   function removeValue(value) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      currentObject: formField,
-      objectsToRemove: [ value ],
-      propertyName: 'values'
+      moddleElement: formField,
+      properties: {
+        values: without(formField.get('values'), value)
+      }
     });
   }
 
@@ -368,10 +372,10 @@ function ConstraintList(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: formField,
+          element,
+          moddleElement: formField,
           properties: { validation }
         }
       });
@@ -386,12 +390,13 @@ function ConstraintList(props) {
     );
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: validation,
-        objectsToAdd: [ constraint ],
-        propertyName: 'constraints'
+        element,
+        moddleElement: validation,
+        properties: {
+          constraints: [ ...validation.get('constraints'), constraint ]
+        }
       }
     });
 
@@ -400,11 +405,12 @@ function ConstraintList(props) {
   }
 
   function removeConstraint(constraint) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: validation,
-      objectsToRemove: [ constraint ],
-      propertyName: 'constraints'
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: validation,
+      properties: {
+        constraints: without(validation.get('constraints'), constraint)
+      }
     });
   }
 
@@ -460,10 +466,10 @@ function PropertiesList(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: formField,
+          element,
+          moddleElement: formField,
           properties: { properties }
         }
       });
@@ -478,12 +484,13 @@ function PropertiesList(props) {
     );
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: properties,
-        objectsToAdd: [ property ],
-        propertyName: 'values'
+        element,
+        moddleElement: properties,
+        properties: {
+          values: [ ...properties.get('values'), property ]
+        }
       }
     });
 
@@ -492,11 +499,12 @@ function PropertiesList(props) {
   }
 
   function removeProperty(property) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: properties,
-      objectsToRemove: [ property ],
-      propertyName: 'values'
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: properties,
+      properties: {
+        values: without(properties.get('values'), property)
+      }
     });
   }
 

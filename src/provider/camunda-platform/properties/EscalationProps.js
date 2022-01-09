@@ -56,10 +56,10 @@ function EscalationCodeVariable(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: escalationEventDefinition,
+        moddleElement: escalationEventDefinition,
         properties: {
           'camunda:escalationCodeVariable': value
         }

@@ -85,11 +85,11 @@ function Format(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
-        'scriptFormat': value
+        scriptFormat: value
       }
     });
   };
@@ -124,15 +124,15 @@ function Type(props) {
   const setValue = (value) => {
 
     // reset script properties on type change
-    const updatedProperties = {
-      [scriptProperty]: value === 'script' ? '' : undefined,
+    const properties = {
+      [ scriptProperty ]: value === 'script' ? '' : undefined,
       'camunda:resource': value === 'resource' ? '' : undefined
     };
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
-      properties: updatedProperties
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
+      properties
     });
   };
 
@@ -176,11 +176,11 @@ function Script(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
-        [scriptProperty]: value || ''
+        [ scriptProperty ]: value || ''
       }
     });
   };
@@ -214,9 +214,9 @@ function Resource(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: businessObject,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: businessObject,
       properties: {
         'camunda:resource': value || ''
       }
