@@ -98,10 +98,10 @@ function Collection(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: loopCharacteristics,
+        moddleElement: loopCharacteristics,
         properties: {
           'camunda:collection': value
         }
@@ -134,10 +134,10 @@ function ElementVariable(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: loopCharacteristics,
+        moddleElement: loopCharacteristics,
         properties: {
           'camunda:elementVariable': value
         }
@@ -170,15 +170,15 @@ function MultiInstanceAsynchronousBefore(props) {
   const setValue = (value) => {
 
     // overwrite the legacy `async` property, we will use the more explicit `asyncBefore`
-    const props = {
+    const properties = {
       'camunda:asyncBefore': value,
       'camunda:async': undefined
     };
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: loopCharacteristics,
-      properties: props
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: loopCharacteristics,
+      properties
     });
   };
 
@@ -204,9 +204,9 @@ function MultiInstanceAsynchronousAfter(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: loopCharacteristics,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: loopCharacteristics,
       properties: {
         'camunda:asyncAfter': value,
       }
@@ -235,11 +235,11 @@ function MultiInstanceExclusive(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: loopCharacteristics,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: loopCharacteristics,
       properties: {
-        'camunda:exclusive': value,
+        'camunda:exclusive': value
       }
     });
   };
@@ -284,10 +284,10 @@ function MultiInstanceRetryTimeCycle(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: loopCharacteristics,
+          element,
+          moddleElement: loopCharacteristics,
           properties: { extensionElements }
         }
       });
@@ -306,22 +306,23 @@ function MultiInstanceRetryTimeCycle(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
           element: loopCharacteristics,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ failedJobRetryTimeCycle ]
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), failedJobRetryTimeCycle ]
+          }
         }
       });
     }
 
     // (3) update failedJobRetryTimeCycle value
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: failedJobRetryTimeCycle,
+        element,
+        moddleElement: failedJobRetryTimeCycle,
         properties: { body: value }
       }
     });

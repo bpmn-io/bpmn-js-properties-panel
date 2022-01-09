@@ -111,9 +111,9 @@ function Name(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: parameter,
+      moddleElement: parameter,
       properties: {
         name: value
       }
@@ -168,10 +168,10 @@ function Type(props) {
       properties.definition = createDefinitionElement('camunda:Map');
     }
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: parameter,
-      properties: properties
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: parameter,
+      properties
     });
   };
 
@@ -208,9 +208,9 @@ function StringOrExpression(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: parameter,
+      moddleElement: parameter,
       properties: {
         value
       }

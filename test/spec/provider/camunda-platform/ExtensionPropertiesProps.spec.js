@@ -208,6 +208,34 @@ describe('provider/camunda-platform - ExtensionPropertiesProps', function() {
     );
 
 
+    it('should remove empty extension elements', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_2');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // assume
+        expect(getProperties(serviceTask)).to.exist;
+
+        const group = getGroup(container, 'CamundaPlatform__ExtensionProperties');
+        const listItems = getPropertiesListItems(group);
+        const removeEntry = domQuery('.bio-properties-panel-remove-entry', listItems[0]);
+
+        // when
+        await act(() => {
+          removeEntry.click();
+        });
+
+        // then
+        expect(getBusinessObject(serviceTask).get('extensionElements')).not.to.exist;
+      })
+    );
+
+
     it('should update on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 

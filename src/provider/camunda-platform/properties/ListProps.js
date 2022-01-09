@@ -4,6 +4,8 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
+import { without } from 'min-dash';
+
 import {
   useService
 } from '../../../hooks';
@@ -40,20 +42,24 @@ export function ListProps(props) {
   }
 
   function addItem() {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: list,
-      objectsToAdd: [ createElement('camunda:Value', {}, parameter, bpmnFactory) ],
-      propertyName: 'items'
+    const value = createElement('camunda:Value', {}, parameter, bpmnFactory);
+
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: list,
+      properties: {
+        items: [ ...list.get('items'), value ]
+      }
     });
   }
 
   function removeItem(item) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: list,
-      objectsToRemove: [ item ],
-      propertyName: 'items'
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: list,
+      properties: {
+        items: without(list.get('items'), item)
+      }
     });
   }
 
@@ -101,9 +107,9 @@ function ListItem(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: item,
+      moddleElement: item,
       properties: {
         value
       }

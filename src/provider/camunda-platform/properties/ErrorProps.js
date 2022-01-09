@@ -80,10 +80,10 @@ function ErrorMessage(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: error,
+        moddleElement: error,
         properties: {
           'camunda:errorMessage': value
         }
@@ -116,10 +116,10 @@ function ErrorCodeVariable(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: errorEventDefinition,
+        moddleElement: errorEventDefinition,
         properties: {
           'camunda:errorCodeVariable': value
         }
@@ -153,10 +153,10 @@ function ErrorMessageVariable(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: errorEventDefinition,
+        moddleElement: errorEventDefinition,
         properties: {
           'camunda:errorMessageVariable': value
         }

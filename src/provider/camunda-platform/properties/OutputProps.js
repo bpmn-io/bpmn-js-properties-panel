@@ -7,6 +7,8 @@ import {
   getInputOutput
 } from '../utils/InputOutputUtil';
 
+import { without } from 'min-dash';
+
 
 export function OutputProps({ element, injector }) {
 
@@ -51,11 +53,12 @@ function removeFactory({ commandStack, element, parameter }) {
       return;
     }
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: inputOutput,
-      propertyName: 'outputParameters',
-      objectsToRemove: [ parameter ]
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: inputOutput,
+      properties: {
+        outputParameters: without(inputOutput.get('outputParameters'), parameter)
+      }
     });
   };
 }

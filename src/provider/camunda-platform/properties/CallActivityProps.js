@@ -8,7 +8,9 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  getExtensionElementsList
+  addExtensionElements,
+  getExtensionElementsList,
+  removeExtensionElements
 } from '../utils/ExtensionElementsUtil';
 
 import {
@@ -180,13 +182,7 @@ function BusinessKey(props) {
       // (2) Otherwise, add camunda:In to the existing values
       const businessKeyItem = createBusinessKey(extensionElements);
 
-      commandStack.execute('properties-panel.update-businessobject-list', {
-        element,
-        currentObject: extensionElements,
-        referencePropertyName: 'extensionElements',
-        propertyName: 'values',
-        objectsToAdd: [ businessKeyItem ]
-      });
+      addExtensionElements(element, businessObject, businessKeyItem, bpmnFactory, commandStack);
     }
   }
 
@@ -208,13 +204,7 @@ function BusinessKey(props) {
       camundaIn => camundaIn.get('businessKey') !== undefined
     );
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element,
-      currentObject: businessObject.get('extensionElements'),
-      referencePropertyName: 'extensionElements',
-      propertyName: 'values',
-      objectsToRemove: businessKeyItems
-    });
+    removeExtensionElements(element, businessObject, businessKeyItems, commandStack);
   }
 
   return <CheckboxEntry
@@ -237,9 +227,9 @@ function BusinessKeyExpression(props) {
   const setValue = value => {
     const camundaIn = findCamundaInWithBusinessKey(element);
 
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: camundaIn,
+      moddleElement: camundaIn,
       properties: {
         businessKey: value || ''
       }

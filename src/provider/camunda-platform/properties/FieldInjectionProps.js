@@ -7,7 +7,9 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  getExtensionElementsList
+  addExtensionElements,
+  getExtensionElementsList,
+  removeExtensionElements
 } from '../utils/ExtensionElementsUtil';
 
 import FieldInjection from './FieldInjection';
@@ -52,50 +54,18 @@ function removeFactory({ commandStack, element, field }) {
   return function(event) {
     event.stopPropagation();
 
-    const businessObject = getServiceTaskLikeBusinessObject(element),
-          extensionElements = businessObject.get('extensionElements');
+    const businessObject = getServiceTaskLikeBusinessObject(element);
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: extensionElements,
-      propertyName: 'values',
-      referencePropertyName: 'extensionElements',
-      objectsToRemove: [ field ]
-    });
+    removeExtensionElements(element, businessObject, field, commandStack);
   };
 }
 
 function addFactory({ bpmnFactory, commandStack, element }) {
   return function(event) {
-
     event.stopPropagation();
-
-    const commands = [];
 
     const businessObject = getServiceTaskLikeBusinessObject(element);
 
-    let extensionElements = businessObject.get('extensionElements');
-
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'properties-panel.update-businessobject',
-        context: {
-          element: element,
-          businessObject: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) create empty camunda:Field extensionElement
     const fieldInjection = createElement(
       'camunda:Field',
       {
@@ -103,22 +73,11 @@ function addFactory({ bpmnFactory, commandStack, element }) {
         string: '', // string is the default type
         stringValue: undefined
       },
-      extensionElements,
+      null,
       bpmnFactory
     );
 
-    commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
-      context: {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToAdd: [ fieldInjection ]
-      }
-    });
-
-    // (3) execute the commands
-    commandStack.execute('properties-panel.multi-command-executor', commands);
+    addExtensionElements(element, businessObject, fieldInjection, bpmnFactory, commandStack);
   };
 }
 

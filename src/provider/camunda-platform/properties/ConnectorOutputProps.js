@@ -15,6 +15,8 @@ import {
   createElement
 } from '../../../utils/ElementUtil';
 
+import { without } from 'min-dash';
+
 
 export function ConnectorOutputProps(props) {
   const {
@@ -64,10 +66,10 @@ export function ConnectorOutputProps(props) {
       }, connector, bpmnFactory);
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
           element: element,
-          businessObject: connector,
+          moddleElement: connector,
           properties: {
             inputOutput
           }
@@ -107,11 +109,12 @@ function removeFactory(props) {
       return;
     }
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      currentObject: inputOutput,
-      propertyName: 'outputParameters',
-      objectsToRemove: [ parameter ]
+      moddleElement: inputOutput,
+      properties: {
+        outputParameters: without(inputOutput.get('outputParameters'), parameter)
+      }
     });
   };
 }

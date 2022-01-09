@@ -50,9 +50,9 @@ function CandidateStarterGroups(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      businessObject: process,
+      moddleElement: process,
       properties: {
         'camunda:candidateStarterGroups': value
       }
@@ -84,9 +84,9 @@ function CandidateStarterUsers(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element: element,
-      businessObject: process,
+      moddleElement: process,
       properties: {
         'camunda:candidateStarterUsers': value
       }

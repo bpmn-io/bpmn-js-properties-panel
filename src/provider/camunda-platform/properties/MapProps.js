@@ -4,6 +4,8 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
+import { without } from 'min-dash';
+
 import {
   useService
 } from '../../../hooks';
@@ -40,20 +42,24 @@ export function MapProps(props) {
   }
 
   function addEntry() {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: map,
-      objectsToAdd: [ createElement('camunda:Entry', {}, parameter, bpmnFactory) ],
-      propertyName: 'entries'
+    const entry = createElement('camunda:Entry', {}, parameter, bpmnFactory);
+
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: map,
+      properties: {
+        entries: [ ...map.get('entries'), entry ]
+      }
     });
   }
 
   function removeEntry(entry) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: map,
-      objectsToRemove: [ entry ],
-      propertyName: 'entries'
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: map,
+      properties: {
+        entries: without(map.get('entries'), entry)
+      }
     });
   }
 
@@ -106,9 +112,9 @@ function MapKey(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: entry,
+      moddleElement: entry,
       properties: {
         key: value
       }
@@ -148,9 +154,9 @@ function MapValue(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: entry,
+      moddleElement: entry,
       properties: {
         value
       }

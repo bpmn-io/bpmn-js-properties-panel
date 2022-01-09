@@ -8,7 +8,8 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  getExtensionElementsList
+  addExtensionElements,
+  getExtensionElementsList, removeExtensionElements
 } from '../utils/ExtensionElementsUtil';
 
 import {
@@ -58,65 +59,22 @@ function removeFactory({ commandStack, element, mapping }) {
     event.stopPropagation();
 
     const businessObject = getBusinessObject(element);
-    const extensionElements = businessObject.get('extensionElements');
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: extensionElements,
-      propertyName: 'values',
-      objectsToRemove: [ mapping ]
-    });
+    removeExtensionElements(element, businessObject, mapping, commandStack);
   };
 }
 
 function addFactory({ bpmnFactory, commandStack, element }) {
   return function(event) {
-
     event.stopPropagation();
-
-    let commands = [];
 
     const businessObject = getBusinessObject(element);
 
-    let extensionElements = businessObject.get('extensionElements');
-
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'properties-panel.update-businessobject',
-        context: {
-          element: element,
-          businessObject: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) create out mapping
     const newMapping = createElement('camunda:Out', {
       source: '', // source is the default type
-    }, extensionElements, bpmnFactory);
+    }, null, bpmnFactory);
 
-    // (3) add mapping to list
-    commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
-      context: {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToAdd: [ newMapping ]
-      }
-    });
-
-    // (4) commit all updates
-    commandStack.execute('properties-panel.multi-command-executor', commands);
+    addExtensionElements(element, businessObject, newMapping, bpmnFactory, commandStack);
   };
 }
 

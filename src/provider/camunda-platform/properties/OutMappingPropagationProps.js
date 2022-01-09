@@ -18,7 +18,9 @@ import {
 } from '../../../hooks';
 
 import {
-  getExtensionElementsList
+  addExtensionElements,
+  getExtensionElementsList,
+  removeExtensionElements
 } from '../utils/ExtensionElementsUtil';
 
 
@@ -75,66 +77,25 @@ function PropagateAll(props) {
   };
 
   function addOutMapping() {
-    const commands = [];
-
     const businessObject = getBusinessObject(element);
 
-    // (1) Ensure extension elements
-    let extensionElements = businessObject.get('extensionElements');
-
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'properties-panel.update-businessobject',
-        context: {
-          element: element,
-          businessObject: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) Add camunda:Out mapping
     const mapping = createElement(
       'camunda:Out',
       {
         variables: 'all'
       },
-      parent,
+      null,
       bpmnFactory
     );
 
-    commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
-      context: {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToAdd: [ mapping ]
-      }
-    });
-
-    // (3) Commit all updates
-    commandStack.execute('properties-panel.multi-command-executor', commands);
+    addExtensionElements(element, businessObject, mapping, bpmnFactory, commandStack);
   }
 
   function removeOutMapping() {
     const businessObject = getBusinessObject(element);
     const mappings = findRelevantOutMappings(element);
 
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element,
-      currentObject: businessObject.get('extensionElements'),
-      referencePropertyName: 'extensionElements',
-      propertyName: 'values',
-      objectsToRemove: mappings
-    });
+    removeExtensionElements(element, businessObject, mappings, commandStack);
   }
 
   return CheckboxEntry({
@@ -160,11 +121,11 @@ function Local(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: mapping,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: mapping,
       properties: {
-        'local': value
+        local: value
       }
     });
   };

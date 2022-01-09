@@ -16,9 +16,9 @@ import {
 import FieldInjection from './FieldInjection';
 
 import {
-  addExtensionElement,
+  addExtensionElements,
   getExtensionElementsList,
-  removeExtensionElement
+  removeExtensionElements
 } from '../utils/ExtensionElementsUtil';
 
 import { getImplementationType } from '../utils/ImplementationTypeUtils';
@@ -37,6 +37,8 @@ import {
 import { ScriptProps } from './ScriptProps';
 import { TimerProps } from '../../bpmn/properties';
 import { getTimerEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
+
+import { without } from 'min-dash';
 
 
 const LISTENER_ALLOWED_TYPES = [
@@ -107,8 +109,7 @@ export function ExecutionListenerProps({ element, injector }) {
   }
 
   const bpmnFactory = injector.get('bpmnFactory'),
-        commandStack = injector.get('commandStack'),
-        modeling = injector.get('modeling');
+        commandStack = injector.get('commandStack');
 
   if (is(element, 'bpmn:Participant') && !element.businessObject.processRef) {
     return;
@@ -130,7 +131,7 @@ export function ExecutionListenerProps({ element, injector }) {
           element,
           listener
         }),
-        remove: removeListenerFactory({ element, listener, modeling })
+        remove: removeListenerFactory({ element, listener, commandStack })
       };
     }),
     add: addExecutionListenerFactory({ bpmnFactory, commandStack, element })
@@ -167,8 +168,7 @@ export function TaskListenerProps({ element, injector }) {
   }
 
   const bpmnFactory = injector.get('bpmnFactory'),
-        commandStack = injector.get('commandStack'),
-        modeling = injector.get('modeling');
+        commandStack = injector.get('commandStack');
 
   const businessObject = getListenersContainer(element);
   const listeners = getExtensionElementsList(businessObject, 'camunda:TaskListener');
@@ -187,7 +187,7 @@ export function TaskListenerProps({ element, injector }) {
           listener
         }),
 
-        remove: removeListenerFactory({ element, listener, modeling })
+        remove: removeListenerFactory({ element, listener, commandStack })
       };
     }),
 
@@ -223,10 +223,11 @@ function TaskListener(props) {
   } ];
 }
 
-function removeListenerFactory({ element, listener, modeling }) {
+function removeListenerFactory({ element, listener, commandStack }) {
   return function removeListener(event) {
     event.stopPropagation();
-    removeExtensionElement(element, getListenersContainer(element), listener, modeling);
+
+    removeExtensionElements(element, getListenersContainer(element), listener, commandStack);
   };
 }
 
@@ -243,9 +244,9 @@ function EventType({ id, element, listener }) {
   function setValue(value) {
     const properties = getDefaultEventTypeProperties(value, bpmnFactory);
 
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: listener,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: listener,
       properties
     });
   }
@@ -295,9 +296,9 @@ function ListenerId({ id, element, listener }) {
     debounce,
     isEdited: isTextFieldEntryEdited,
     setValue: (value) => {
-      commandStack.execute('properties-panel.update-businessobject', {
-        element: element,
-        businessObject: listener,
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: listener,
         properties: {
           'camunda:id': value
         }
@@ -416,20 +417,24 @@ function Fields(props) {
   }
 
   function addField() {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: listener,
-      objectsToAdd: [ createElement('camunda:Field', {}, listener, bpmnFactory) ],
-      propertyName: 'fields'
+    const field = createElement('camunda:Field', {}, listener, bpmnFactory);
+
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: listener,
+      properties: {
+        fields: [ ...listener.get('fields'), field ]
+      }
     });
   }
 
   function removeField(field) {
-    commandStack.execute('properties-panel.update-businessobject-list', {
-      element: element,
-      currentObject: listener,
-      objectsToRemove: [ field ],
-      propertyName: 'fields'
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: listener,
+      properties: {
+        fields: without(listener.get('fields'), field)
+      }
     });
   }
 
@@ -457,7 +462,7 @@ function addListenerFactory({ bpmnFactory, commandStack, element, listenerGroup 
 
     const businessObject = getListenersContainer(element);
 
-    addExtensionElement(element, businessObject, listener, bpmnFactory, commandStack);
+    addExtensionElements(element, businessObject, listener, bpmnFactory, commandStack);
   };
 }
 
@@ -535,7 +540,7 @@ function compareName(field, anotherField) {
 }
 
 function getListenersContainer(element) {
-  const bo = getBusinessObject(element);
+  const businessObject = getBusinessObject(element);
 
-  return bo.get('processRef') || bo;
+  return businessObject.get('processRef') || businessObject;
 }

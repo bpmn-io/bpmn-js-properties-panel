@@ -118,13 +118,16 @@ export function CreateParameterCmd(element, type, parent, bpmnFactory) {
     name: nextId(isInput ? 'Input_' : 'Output_')
   }, parent, bpmnFactory);
 
+  const propertyName = isInput ? 'inputParameters' : 'outputParameters';
+
   return {
-    cmd: 'properties-panel.update-businessobject-list',
+    cmd: 'element.updateModdleProperties',
     context: {
-      element: element,
-      currentObject: parent,
-      propertyName: isInput ? 'inputParameters' : 'outputParameters',
-      objectsToAdd: [ newParameter ]
+      element,
+      moddleElement: parent,
+      properties: {
+        [ propertyName ]: [ ...parent.get(propertyName), newParameter ]
+      }
     }
   };
 }
@@ -145,10 +148,10 @@ export function AddParameterCmd(element, type, bpmnFactory) {
     );
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: businessObject,
+        element,
+        moddleElement: businessObject,
         properties: { extensionElements }
       }
     });
@@ -166,12 +169,13 @@ export function AddParameterCmd(element, type, bpmnFactory) {
     }, parent, bpmnFactory);
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToAdd: [ inputOutput ]
+        element,
+        moddleElement: extensionElements,
+        properties: {
+          values: [ ...extensionElements.get('values'), inputOutput ]
+        }
       }
     });
   }

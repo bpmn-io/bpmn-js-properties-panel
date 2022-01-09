@@ -110,12 +110,13 @@ function ErrorRef(props) {
       value = error.get('id');
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
           element,
-          currentObject: root,
-          propertyName: 'rootElements',
-          objectsToAdd: [ error ]
+          moddleElement: root,
+          properties: {
+            rootElements: [ ...root.get('rootElements'), error ]
+          }
         }
       });
     }
@@ -124,10 +125,10 @@ function ErrorRef(props) {
     error = error || findRootElementById(businessObject, 'bpmn:Error', value);
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
         element,
-        businessObject: errorEventDefinition,
+        moddleElement: errorEventDefinition,
         properties: {
           errorRef: error
         }
@@ -185,10 +186,10 @@ function ErrorName(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: error,
+        moddleElement: error,
         properties: {
           name: value
         }
@@ -223,10 +224,10 @@ function ErrorCode(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: error,
+        moddleElement: error,
         properties: {
           errorCode: value
         }
@@ -261,10 +262,10 @@ function ErrorMessage(props) {
 
   const setValue = (value) => {
     return commandStack.execute(
-      'properties-panel.update-businessobject',
+      'element.updateModdleProperties',
       {
         element,
-        businessObject: error,
+        moddleElement: error,
         properties: {
           errorMessage: value
         }
@@ -294,9 +295,9 @@ function Expression(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: errorEventDefinition,
+      moddleElement: errorEventDefinition,
       properties: {
         'camunda:expression': value
       }
