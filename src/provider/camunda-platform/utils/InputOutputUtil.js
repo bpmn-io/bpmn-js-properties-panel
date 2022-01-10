@@ -14,7 +14,7 @@ import {
 
 import {
   getExtensionElementsList
-} from './ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 
 function getElements(businessObject, type, property) {

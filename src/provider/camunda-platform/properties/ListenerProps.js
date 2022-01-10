@@ -19,7 +19,7 @@ import {
   addExtensionElements,
   getExtensionElementsList,
   removeExtensionElements
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import { getImplementationType } from '../utils/ImplementationTypeUtils';
 

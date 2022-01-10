@@ -30,7 +30,7 @@ import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
 import diagramXML from './ListenerProps.bpmn';
-import { getExtensionElementsList } from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
+import { getExtensionElementsList } from 'src/utils/ExtensionElementsUtil';
 import { getTimerEventDefinition } from '../../../../src/provider/bpmn/utils/EventDefinitionUtil';
 
 

@@ -34,7 +34,7 @@ import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json'
 
 import {
   getExtensionElementsList
-} from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
+} from 'src/utils/ExtensionElementsUtil';
 
 import diagramXML from './OutMappingProps.bpmn';
 

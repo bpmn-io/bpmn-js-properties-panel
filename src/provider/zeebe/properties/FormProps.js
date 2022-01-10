@@ -11,7 +11,7 @@ import {
 
 import {
   getExtensionElementsList
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import {
   nextId

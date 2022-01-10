@@ -25,7 +25,7 @@ import {
 
 import {
   getExtensionElementsList
-} from 'src/provider/zeebe/utils/ExtensionElementsUtil.js';
+} from 'src/utils/ExtensionElementsUtil.js';
 
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';

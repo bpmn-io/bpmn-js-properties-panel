@@ -16,7 +16,7 @@ import { EMPTY_OPTION } from 'src/provider/camunda-platform/properties/BusinessK
 
 import {
   getExtensionElementsList
-} from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
+} from 'src/utils/ExtensionElementsUtil';
 
 import {
   getBusinessObject

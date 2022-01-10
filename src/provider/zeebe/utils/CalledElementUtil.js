@@ -4,7 +4,7 @@ import {
 
 import {
   getExtensionElementsList
-} from './ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 
 export function getPropagateAllChildVariables(element) {

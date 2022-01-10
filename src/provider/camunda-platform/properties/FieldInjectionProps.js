@@ -10,7 +10,7 @@ import {
   addExtensionElements,
   getExtensionElementsList,
   removeExtensionElements
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import FieldInjection from './FieldInjection';
 

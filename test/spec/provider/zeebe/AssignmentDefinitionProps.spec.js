@@ -30,7 +30,7 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import {
   getExtensionElementsList
-} from 'src/provider/zeebe/utils/ExtensionElementsUtil';
+} from 'src/utils/ExtensionElementsUtil';
 
 import diagramXML from './AssignmentDefinitionProps.bpmn';
 

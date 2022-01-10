@@ -32,7 +32,7 @@ import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
 
 import {
   getExtensionElementsList
-} from 'src/provider/zeebe/utils/ExtensionElementsUtil';
+} from 'src/utils/ExtensionElementsUtil';
 
 import diagramXML from './TaskDefinitionProps.bpmn';
 

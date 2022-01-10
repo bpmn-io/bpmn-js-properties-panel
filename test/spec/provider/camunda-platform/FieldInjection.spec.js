@@ -7,7 +7,7 @@ import {
 
 import {
   getExtensionElementsList
-} from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
+} from 'src/utils/ExtensionElementsUtil';
 
 import {
   bootstrapPropertiesPanel,

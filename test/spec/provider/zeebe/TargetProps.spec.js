@@ -20,7 +20,7 @@ import {
 
 import {
   getExtensionElementsList
-} from 'src/provider/zeebe/utils/ExtensionElementsUtil.js';
+} from 'src/utils/ExtensionElementsUtil.js';
 
 import {
   getCalledElement,

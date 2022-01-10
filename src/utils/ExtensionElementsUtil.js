@@ -1,6 +1,6 @@
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-import { createElement } from '../../../utils/ElementUtil';
+import { createElement } from './ElementUtil';
 
 import { isArray } from 'min-dash';
 

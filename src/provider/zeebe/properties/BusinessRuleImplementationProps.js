@@ -10,7 +10,7 @@ import { SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import {
   createElement
@@ -20,7 +20,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { addExtensionElements } from '../utils/ExtensionElementsUtil';
+import { addExtensionElements } from '../../../utils/ExtensionElementsUtil';
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',

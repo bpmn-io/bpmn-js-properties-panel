@@ -9,7 +9,7 @@ import {
 
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import { getExtensionElementsList } from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
+import { getExtensionElementsList } from 'src/utils/ExtensionElementsUtil';
 
 import {
   EMPTY_OPTION,

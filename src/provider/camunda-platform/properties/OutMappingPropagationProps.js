@@ -21,7 +21,7 @@ import {
   addExtensionElements,
   getExtensionElementsList,
   removeExtensionElements
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 
 /**

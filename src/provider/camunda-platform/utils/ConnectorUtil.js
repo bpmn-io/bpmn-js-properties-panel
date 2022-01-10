@@ -1,6 +1,6 @@
 import {
   getExtensionElementsList
-} from './ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import {
   getImplementationType,

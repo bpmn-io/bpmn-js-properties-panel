@@ -27,7 +27,7 @@ import {
 
 import {
   getExtensionElementsList
-} from 'src/provider/camunda-platform/utils/ExtensionElementsUtil';
+} from 'src/utils/ExtensionElementsUtil';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
