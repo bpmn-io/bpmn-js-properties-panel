@@ -7,7 +7,7 @@ import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-pane
 
 import {
   getExtensionElementsList
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import {
   createElement

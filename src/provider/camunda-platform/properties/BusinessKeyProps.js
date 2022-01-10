@@ -7,7 +7,7 @@ import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 import {
   useService

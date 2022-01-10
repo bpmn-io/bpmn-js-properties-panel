@@ -5,7 +5,8 @@ import {
 
 import {
   getExtensionElementsList
-} from './ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
+
 import { isZeebeServiceTask } from './ZeebeServiceTaskUtil';
 
 export function areHeadersSupported(element) {
