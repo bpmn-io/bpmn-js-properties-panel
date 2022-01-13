@@ -206,17 +206,23 @@ function getGroups(element) {
 
 export default class BpmnPropertiesProvider {
 
-  constructor(propertiesPanel) {
+  constructor(propertiesPanel,translate) {
+    BpmnPropertiesProvider.prototype.translate=translate
     propertiesPanel.registerProvider(this);
   }
 
   getGroups(element) {
+    const translate=this.translate
     return (groups) => {
       groups = groups.concat(getGroups(element));
+      // translate group name
+      groups.map(function(group){
+        group.label=translate(group.label)
+      })
       return groups;
     };
   }
 
 }
 
-BpmnPropertiesProvider.$inject = [ 'propertiesPanel' ];
+BpmnPropertiesProvider.$inject = [ 'propertiesPanel','translate' ];
