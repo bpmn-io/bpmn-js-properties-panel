@@ -206,7 +206,7 @@ function getGroups(element) {
 
 export default class BpmnPropertiesProvider {
 
-  constructor(propertiesPanel,translate) {
+  constructor(propertiesPanel, translate) {
     BpmnPropertiesProvider.prototype.translate=translate
     propertiesPanel.registerProvider(this);
   }
