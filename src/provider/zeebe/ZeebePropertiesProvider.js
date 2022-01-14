@@ -2,12 +2,8 @@ import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
 import {
   AssignmentDefinitionProps,
-
-  // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
-  // TODO: re-enable for Zeebe 1.4 release
-  // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
-  // BusinessRuleImplementationProps,
-  // CalledDecisionProps,
+  BusinessRuleImplementationProps,
+  CalledDecisionProps,
   ConditionProps,
   FormProps,
   HeaderProps,
@@ -25,12 +21,8 @@ import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTask
 const LOW_PRIORITY = 500;
 
 const ZEEBE_GROUPS = [
-
-  // Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
-  // TODO: re-enable for Zeebe 1.4 release
-  // Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
-  // BusinessRuleImplementationGroup,
-  // CalledDecisionGroup,
+  BusinessRuleImplementationGroup,
+  CalledDecisionGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
   FormGroup,
@@ -78,10 +70,8 @@ export default class ZeebePropertiesProvider {
 
 ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
-// Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
-// TODO: re-enable for Zeebe 1.4 release
-// Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
-/* function CalledDecisionGroup(element) {
+
+function CalledDecisionGroup(element) {
   const group = {
     id: 'calledDecision',
     label: 'Called decision',
@@ -92,7 +82,7 @@ ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
   };
 
   return group.entries.length ? group : null;
-}*/
+}
 
 function TaskDefinitionGroup(element) {
   const group = {
@@ -192,10 +182,7 @@ function OutputPropagationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-// Due to delayed Zeebe 1.3 implementation, temporarily unbuild this
-// TODO: re-enable for Zeebe 1.4 release
-// Cf. https://github.com/camunda/camunda-modeler/issues/2524#issuecomment-979049379
-/* function BusinessRuleImplementationGroup(element) {
+function BusinessRuleImplementationGroup(element) {
   const group = {
     id: 'businessRuleImplementation',
     label: 'Implementation',
@@ -206,7 +193,7 @@ function OutputPropagationGroup(element) {
   };
 
   return group.entries.length ? group : null;
-}*/
+}
 
 function AssignmentDefinitionGroup(element) {
   const group = {
