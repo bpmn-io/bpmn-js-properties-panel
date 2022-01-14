@@ -225,4 +225,4 @@ export default class BpmnPropertiesProvider {
 
 }
 
-BpmnPropertiesProvider.$inject = [ 'propertiesPanel','translate' ];
+BpmnPropertiesProvider.$inject = [ 'propertiesPanel', 'translate' ];
