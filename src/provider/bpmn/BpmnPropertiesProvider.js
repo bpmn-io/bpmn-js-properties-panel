@@ -217,7 +217,7 @@ export default class BpmnPropertiesProvider {
       groups = groups.concat(getGroups(element));
       // translate group name
       groups.map(function(group){
-        group.label=translate(group.label)
+        group.label = translate(group.label);
       })
       return groups;
     };
