@@ -3,6 +3,10 @@ import {
 } from 'bpmn-js/lib/features/label-editing/LabelUtil';
 
 import {
+  useService
+} from '../hooks';
+
+import {
   is,
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
@@ -79,10 +83,10 @@ export const PanelHeaderProvider = {
 
   getTypeLabel: (element) => {
     const concreteType = getConcreteType(element);
-
-    return concreteType
+    const translate = useService('translate');
+    return translate(concreteType
       .replace(/(\B[A-Z])/g, ' $1')
-      .replace(/(\bNon Interrupting)/g, '($1)');
+      .replace(/(\bNon Interrupting)/g, '($1)'));
   }
 };
 
