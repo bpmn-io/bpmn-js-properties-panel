@@ -39,10 +39,12 @@ export default function BpmnPropertiesPanel(props) {
   const eventBus = injector.get('eventBus');
 
   const [ state, setState ] = useState({
-    selectedElement: element
+    selectedElement: element,
+    layout: layoutConfig
   });
 
   const selectedElement = state.selectedElement;
+  const layout = state.layout;
 
   const _update = (element) => {
 
@@ -160,6 +162,29 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // (5a) listen on layout changes
+  useEffect(() => {
+    const onUpdateLayout = (event) => {
+      const {
+        layout: overrides
+      } = event;
+
+      setState({
+        ...state,
+        layout: {
+          ...layout,
+          ...overrides
+        }
+      });
+    };
+
+    eventBus.on('propertiesPanel.updateLayout', onUpdateLayout);
+
+    return () => {
+      eventBus.off('propertiesPanel.updateLayout', onUpdateLayout);
+    };
+  });
+
   // (6) notify description changes
   const onDescriptionLoaded = (description) => {
     eventBus.fire('propertiesPanel.descriptionLoaded', {
@@ -172,7 +197,7 @@ export default function BpmnPropertiesPanel(props) {
       element={ selectedElement }
       headerProvider={ PanelHeaderProvider }
       groups={ groups }
-      layoutConfig={ layoutConfig }
+      layoutConfig={ layout }
       layoutChanged={ onLayoutChanged }
       descriptionConfig={ descriptionConfig }
       descriptionLoaded={ onDescriptionLoaded } />
