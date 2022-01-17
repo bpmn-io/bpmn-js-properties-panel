@@ -173,9 +173,9 @@ function UnknownTemplate({ element }) {
         injector = useService('injector');
 
   const menuItems = [
-    { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
     { entry: <NotFoundText /> },
     { separator: true },
+    { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
     { entry: <RemoveTemplate />, action: () => removeTemplate(element, injector) }
   ];
 
@@ -214,9 +214,9 @@ function OutdatedTemplate({ element, templateState }) {
         injector = useService('injector');
 
   const menuItems = [
-    { entry: translate('Update'), action: () => updateTemplate(element, newerTemplate, injector) },
     { entry: <UpdateAvailableText newerTemplate={ newerTemplate } /> },
     { separator: true },
+    { entry: translate('Update'), action: () => updateTemplate(element, newerTemplate, injector) },
     { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
     { entry: <RemoveTemplate />, action: () => removeTemplate(element, injector) }
   ];
