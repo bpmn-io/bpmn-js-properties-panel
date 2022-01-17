@@ -7,7 +7,7 @@
   --unknown-template-background-color: var(--color-red-360-100-45);
   --unknown-template-hover-background-color: var(--color-red-360-100-40);
 
-  --update-available-text-color: var(--color-grey-225-10-55);
+  --select-template-information-text-color: var(--color-grey-225-10-55);
 }
 
 .bio-properties-panel-templates-group .bio-properties-panel-group-header-button:not(.bio-properties-panel-arrow) {
@@ -50,7 +50,6 @@
   margin-right: 32px;
 }
 
-.bio-properties-panel-template-not-found-text,
 .bio-properties-panel-remove-template {
   color: var(--text-error-color);
 }
@@ -65,8 +64,9 @@
   background-color: var(--unknown-template-hover-background-color);
 }
 
+.bio-properties-panel-template-not-found-text,
 .bio-properties-panel-template-update-available-text {
-  color: var(--update-available-text-color);
+  color: var(--select-template-information-text-color);
 }
 
 .bio-properties-panel-template-not-found-text,
