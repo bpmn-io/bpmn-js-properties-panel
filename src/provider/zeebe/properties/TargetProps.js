@@ -9,7 +9,8 @@ import {
 
 import {
   getCalledElement,
-  getProcessId
+  getProcessId,
+  isIdValid
 } from '../utils/CalledElementUtil.js';
 
 import {
@@ -114,12 +115,17 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
+  const validate = (value) => {
+    return isIdValid(value, translate);
+  };
+
   return TextFieldEntry({
     element,
     id: 'targetProcessId',
     label: translate('Process ID'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    validate
   });
 }

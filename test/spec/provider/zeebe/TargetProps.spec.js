@@ -222,6 +222,26 @@ describe('provider/zeebe - TargetProps', function() {
       })
     );
 
+    it('should NOT set invalid QName', inject(async function(elementRegistry, selection) {
+
+      // given
+      // given
+      const callActivity = elementRegistry.get('CallActivity_1'),
+            originalValue = getProcessId(callActivity);
+
+      await act(() => {
+        selection.select(callActivity);
+      });
+
+      // when
+      const targetProcessIdInput = domQuery('input[name=targetProcessId]', container);
+      changeInput(targetProcessIdInput, '::foo');
+
+      // then
+      expect(getCalledElement(callActivity).processId).to.eql(originalValue);
+    }));
+
+
   });
 
 });
