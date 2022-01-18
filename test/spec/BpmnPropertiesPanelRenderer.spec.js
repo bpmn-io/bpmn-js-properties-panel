@@ -214,7 +214,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
-  it('should render properties panel when root element was added', async function() {
+  it('should attach on diagram.init', async function() {
 
     // given
     const diagramXml = require('test/fixtures/simple.bpmn').default;
@@ -223,11 +223,11 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     await createModeler(diagramXml);
 
     // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+    expect(domQuery('.bio-properties-panel-container', propertiesContainer)).to.exist;
   });
 
 
-  it('should remove properties panel when root element was deleted', async function() {
+  it('should detach on diagram.destroy', async function() {
 
     // given
     const diagramXml = require('test/fixtures/simple.bpmn').default;
@@ -237,10 +237,23 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     const eventBus = modeler.get('eventBus');
 
     // when
-    eventBus.fire('root.removed');
+    eventBus.fire('diagram.destroy');
 
     // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
+    expect(domQuery('.bio-properties-panel-container', propertiesContainer)).to.not.exist;
+  });
+
+
+  it('should render on root.added', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    await createModeler(diagramXml);
+
+    // then
+    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
   });
 
 
