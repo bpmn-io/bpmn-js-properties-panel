@@ -109,7 +109,22 @@ export default function BpmnPropertiesPanel(props) {
     };
   }, [ selectedElement ]);
 
-  // (2c) provided entries changed
+  // (2c) root element changed
+  useEffect(() => {
+    const onRootAdded = (e) => {
+      const element = e.element;
+
+      _update(element);
+    };
+
+    eventBus.on('root.added', onRootAdded);
+
+    return () => {
+      eventBus.off('root.added', onRootAdded);
+    };
+  }, [ selectedElement ]);
+
+  // (2d) provided entries changed
   useEffect(() => {
     const onProvidersChanged = () => {
       _update(selectedElement);
@@ -122,7 +137,7 @@ export default function BpmnPropertiesPanel(props) {
     };
   }, [ selectedElement ]);
 
-  // (2d) element templates changed
+  // (2e) element templates changed
   useEffect(() => {
     const onTemplatesChanged = () => {
       _update(selectedElement);

@@ -33,21 +33,20 @@ export default class BpmnPropertiesPanelRenderer {
 
     this._container = domify('<div style="height: 100%" class="bio-properties-panel-container" input-handle-modified-keys="y,z"></div>');
 
-    this._eventBus.on('root.added', (event) => {
-
-      const { element } = event;
-
-      this._render(element);
-
+    eventBus.on('diagram.init', () => {
       if (parent) {
         this.attachTo(parent);
       }
-
-      return;
     });
 
-    eventBus.on('root.removed', () => {
-      this._destroy();
+    eventBus.on('diagram.destroy', () => {
+      this.detach();
+    });
+
+    eventBus.on('root.added', (event) => {
+      const { element } = event;
+
+      this._render(element);
     });
   }
 

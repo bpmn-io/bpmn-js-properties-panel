@@ -156,6 +156,27 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
+    it('should update on root element changed', function() {
+
+      // given
+      const updateSpy = sinon.spy();
+
+      const eventBus = new eventBusMock();
+
+      eventBus.on('propertiesPanel.updated', updateSpy);
+
+      createBpmnPropertiesPanel({ container, eventBus });
+
+      // when
+      eventBus.fire('root.added', { element: noopElement });
+
+      // then
+      expect(updateSpy).to.have.been.calledWith({
+        element: noopElement
+      });
+    });
+
+
     it('should update on providers changed', function() {
 
       // given
