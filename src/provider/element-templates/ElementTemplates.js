@@ -13,6 +13,8 @@ import {
 
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
+/** @typedef {import('../../types').TemplateDescriptor} TemplateDescriptor */
+
 /**
  * Registry for element templates.
  */
@@ -24,10 +26,10 @@ export default class ElementTemplates {
   /**
    * Get template with given ID and optional version or for element.
    *
-   * @param {String|djs.model.Base} id
-   * @param {number} [version]
+   * @param {String|any} id
+   * @param {number|string} [version]
    *
-   * @return {ElementTemplate}
+   * @return {TemplateDescriptor}
    */
   get(id, version) {
     const templates = this._templates;
@@ -57,9 +59,9 @@ export default class ElementTemplates {
   /**
    * Get default template for given element.
    *
-   * @param {djs.model.Base} element
+   * @param {any} element
    *
-   * @return {ElementTemplate}
+   * @return {TemplateDescriptor}
    */
   getDefault(element) {
     return find(this.getAll(), function(template) {
@@ -72,7 +74,7 @@ export default class ElementTemplates {
    *
    * @param {string} [id]
    *
-   * @return {Array<ElementTemplate>}
+   * @return {Array<TemplateDescriptor>}
    */
   getAll(id) {
     if (!isUndefined(id) && this._templates[ id ]) {
@@ -85,7 +87,7 @@ export default class ElementTemplates {
   /**
    * Set templates.
    *
-   * @param {Array<ElementTemplate>} templates
+   * @param {Array<TemplateDescriptor>} templates
    */
   set(templates) {
     this._templates = {};

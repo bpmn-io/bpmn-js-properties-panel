@@ -28,9 +28,9 @@ function getParameters(element, prop) {
 /**
  * Get a ioMapping from the business object
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
- * @return {ModdleElement} the ioMapping object
+ * @return {any} the ioMapping object
  */
 export function getIoMapping(element) {
   const bo = getBusinessObject(element);
@@ -42,7 +42,7 @@ export function getIoMapping(element) {
  * Return all input parameters existing in the business object, and
  * an empty array if none exist.
  *
- * @param  {djs.model.Base} element
+ * @param  {any} element
  *
  * @return {Array} a list of input parameter objects
  */
@@ -54,7 +54,7 @@ export function getInputParameters(element) {
  * Return all output parameters existing in the business object, and
  * an empty array if none exist.
  *
- * @param  {djs.model.Base} element
+ * @param  {any} element
  *
  * @return {Array} a list of output parameter objects
  */

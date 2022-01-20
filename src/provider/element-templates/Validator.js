@@ -14,6 +14,8 @@ import {
 const SUPPORTED_SCHEMA_VERSION = getTemplateSchemaVersion();
 
 
+/** @typedef {import('../../types').TemplateDescriptor} TemplateDescriptor */
+
 /**
  * A element template validator.
  */
@@ -163,9 +165,9 @@ export class Validator {
 /**
  * Extract schema version from schema URI
  *
- * @param {String} schemaUri - for example https://unpkg.com/@camunda/element-templates-json-schema@99.99.99/resources/schema.json
+ * @param {string} schemaUri - for example https://unpkg.com/@camunda/element-templates-json-schema@99.99.99/resources/schema.json
  *
- * @return {String} for example '99.99.99'
+ * @return {string} for example '99.99.99'
  */
 function getSchemaVersion(schemaUri) {
   const re = /\d+\.\d+\.\d+/g;

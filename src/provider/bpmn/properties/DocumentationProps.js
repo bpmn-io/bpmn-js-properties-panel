@@ -114,9 +114,9 @@ function findDocumentation(docs) {
 /**
  * Retrieves a documentation element from a given moddle element.
  *
- * @param {ModdleElement} businessObject
+ * @param {any} businessObject
  *
- * @returns {ModdleElement} documentation element inside the given moddle element.
+ * @returns {any} documentation element inside the given moddle element.
  */
 function getDocumentation(businessObject) {
   return function() {
@@ -131,7 +131,7 @@ function getDocumentation(businessObject) {
 /**
  * Sets a documentation element for a given moddle element.
  *
- * @param {ModdleElement} businessObject
+ * @param {any} businessObject
  */
 function setDocumentation(element, businessObject, bpmnFactory, commandStack) {
   return function(value) {

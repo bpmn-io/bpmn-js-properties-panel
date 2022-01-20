@@ -18,12 +18,12 @@ import {
 import { PanelHeaderProvider } from './PanelHeaderProvider';
 
 /**
- * @param {Object} props
- * @param {ModdleElement} [props.element]
- * @param {Injector} props.injector
- * @param { (ModdleElement) => Array<PropertiesProvider> } props.getProviders
- * @param {Object} props.layoutConfig
- * @param {Object} props.descriptionConfig
+ * @param {object} props
+ * @param {any} [props.element]
+ * @param {import('didi').Injector} props.injector
+ * @param { (any) => Array<PropertiesProvider> } props.getProviders
+ * @param {object} props.layoutConfig
+ * @param {object} props.descriptionConfig
  */
 export default function BpmnPropertiesPanel(props) {
   const {

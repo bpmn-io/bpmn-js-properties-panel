@@ -19,7 +19,7 @@ import {
 /**
  * Check whether an element is camunda:ServiceTaskLike
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {boolean} a boolean value
  */
@@ -30,7 +30,7 @@ export function isServiceTaskLike(element) {
 /**
  * Returns 'true' if the given element is 'camunda:DmnCapable'
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {boolean} a boolean value
  */
@@ -41,7 +41,7 @@ export function isDmnCapable(element) {
 /**
  * Returns 'true' if the given element is 'camunda:ExternalCapable'
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {boolean} a boolean value
  */
@@ -55,8 +55,8 @@ export function isExternalCapable(element) {
  * If the given element is not a 'camunda:ServiceTaskLike', then 'false'
  * is returned.
  *
- * @param {djs.model.Base} element
- * @return {ModdleElement} the 'camunda:ServiceTaskLike' business object
+ * @param {any} element
+ * @return {any} the 'camunda:ServiceTaskLike' business object
  */
 export function getServiceTaskLikeBusinessObject(element) {
 
@@ -88,9 +88,9 @@ export function getServiceTaskLikeBusinessObject(element) {
  * - script
  * - or undefined, when no matching implementation type is found
  *
- * @param  {djs.model.Base} element
+ * @param  {any} element
  *
- * @return {String} the implementation type
+ * @return {string} the implementation type
  */
 export function getImplementationType(element) {
 

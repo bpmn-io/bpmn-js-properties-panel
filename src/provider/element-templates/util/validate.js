@@ -4,7 +4,7 @@ import { Validator } from '../Validator';
  * Validate the given template descriptors and
  * return a list of errors.
  *
- * @param {Array<TemplateDescriptor>} descriptors
+ * @param {Array<import('../../../types').TemplateDescriptor>} templates
  *
  * @return {Array<Error>}
  */

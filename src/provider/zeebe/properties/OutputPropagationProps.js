@@ -141,7 +141,7 @@ function PropagateAllChildVariables(props) {
 
 /**
   * Determine default value for propagateAllChildVariables attribute
-  * @param {Object} element representing a bpmn:CallActivity
+  * @param {object} element representing a bpmn:CallActivity
   *
   * @returns {boolean}
   */
@@ -156,7 +156,7 @@ function determinePropAllChildVariablesDefault(element) {
 /**
   * Check whether the propagateAllChildVariables attribute is set on an element.
   * Note that a default logic will be determine if it is not explicitly set.
-  * @param {Object} element
+  * @param {object} element
   *
   * @returns {boolean}
   */

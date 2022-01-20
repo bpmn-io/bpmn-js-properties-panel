@@ -14,9 +14,9 @@ import { Validator } from './Validator';
  * descriptors or a node style callback to retrieve
  * the templates asynchronously.
  *
- * @param {Array<TemplateDescriptor>|Function} loadTemplates
- * @param {EventBus} eventBus
- * @param {ElementTemplates} elementTemplates
+ * @param {Array<import('../../types').TemplateDescriptor>|Function} loadTemplates
+ * @param {any} eventBus
+ * @param {import('./ElementTemplates')} elementTemplates
  */
 export default class ElementTemplatesLoader {
   constructor(loadTemplates, eventBus, elementTemplates) {

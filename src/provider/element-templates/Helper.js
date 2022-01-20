@@ -8,7 +8,7 @@ import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
  * The BPMN 2.0 extension attribute name under
  * which the element template ID is stored.
  *
- * @type {String}
+ * @type {string}
  */
 export const TEMPLATE_ID_ATTR = 'camunda:modelerTemplate';
 
@@ -16,7 +16,7 @@ export const TEMPLATE_ID_ATTR = 'camunda:modelerTemplate';
  * The BPMN 2.0 extension attribute name under
  * which the element template version is stored.
  *
- * @type {String}
+ * @type {string}
  */
 export const TEMPLATE_VERSION_ATTR = 'camunda:modelerTemplateVersion';
 
@@ -24,9 +24,9 @@ export const TEMPLATE_VERSION_ATTR = 'camunda:modelerTemplateVersion';
 /**
  * Get template id for a given diagram element.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
- * @return {String}
+ * @return {string}
  */
 export function getTemplateId(element) {
   const businessObject = getBusinessObject(element);
@@ -39,9 +39,9 @@ export function getTemplateId(element) {
 /**
  * Get template version for a given diagram element.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
- * @return {String}
+ * @return {number}
  */
 export function getTemplateVersion(element) {
   const businessObject = getBusinessObject(element);
@@ -55,10 +55,10 @@ export function getTemplateVersion(element) {
  * Find extension with given type in
  * BPMN element, diagram element or ExtensionElement.
  *
- * @param {ModdleElement|djs.model.Base} element
- * @param {String} type
+ * @param {any|any} element
+ * @param {string} type
  *
- * @return {ModdleElement} the extension
+ * @return {any} the extension
  */
 export function findExtension(element, type) {
   const businessObject = getBusinessObject(element);

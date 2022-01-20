@@ -76,7 +76,7 @@ export function TimerProps(props) {
  * TimerEventDefinitionType - Generic select entry allowing to select a specific
  * timerEventDefintionType. To be used together with timerEventDefinitionValue.
  *
- * @param  {type} props
+ * @param  {object} props
  * @return {SelectEntry}
  */
 function TimerEventDefinitionType(props) {
@@ -148,7 +148,7 @@ function TimerEventDefinitionType(props) {
  * timerEventDefintionValue based on the set timerEventDefintionType. To be used
  * together with timerEventDefinitionType.
  *
- * @param  {type} props
+ * @param  {object} props
  * @return {TextFieldEntry}
  */
 function TimerEventDefinitionValue(props) {

@@ -111,7 +111,7 @@ function CandidateStarterUsers(props) {
  * getProcess - get the businessObject of the process referred to by a bpmn:Process
  * or by a bpmn:Participant
  *
- * @param  {ModdleElement} element either a bpmn:Process or a bpmn:Participant
+ * @param  {any} element either a bpmn:Process or a bpmn:Participant
  * @return {BusinessObject}
  */
 function getProcess(element) {

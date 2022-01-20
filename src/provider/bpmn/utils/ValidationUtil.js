@@ -9,11 +9,11 @@ const ID_REGEX = /^[a-z_][\w-.]*$/i;
 /**
  * checks whether the id value is valid
  *
- * @param {ModdleElement} element
- * @param {String} idValue
+ * @param {any} element
+ * @param {string} idValue
  * @param {Function} translate
  *
- * @return {String} error message
+ * @return {string} error message
  */
 export function isIdValid(element, idValue, translate) {
   const assigned = element.$model.ids.assigned(idValue);

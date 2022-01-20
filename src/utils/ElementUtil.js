@@ -7,12 +7,12 @@ import {
 /**
  * Create a new element and set its parent.
  *
- * @param {String} elementType of the new element
- * @param {Object} properties of the new element in key-value pairs
- * @param {moddle.object} parent of the new element
- * @param {BpmnFactory} factory which creates the new element
+ * @param {string} elementType of the new element
+ * @param {object} properties of the new element in key-value pairs
+ * @param {any} parent of the new element
+ * @param {any} factory which creates the new element
  *
- * @returns {djs.model.Base} element which is created
+ * @returns {any} element which is created
  */
 export function createElement(elementType, properties, parent, factory) {
   const element = factory.create(elementType, properties);

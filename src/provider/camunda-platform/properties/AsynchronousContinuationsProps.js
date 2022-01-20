@@ -160,7 +160,7 @@ function Exclusive(props) {
  * Returns true if the attribute 'camunda:asyncBefore' is set
  * to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  *
  * @return {boolean} a boolean value
  */
@@ -172,7 +172,7 @@ function isAsyncBefore(bo) {
  * Returns true if the attribute 'camunda:asyncAfter' is set
  * to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  *
  * @return {boolean} a boolean value
  */
@@ -184,7 +184,7 @@ function isAsyncAfter(bo) {
  * Returns true if the attribute 'camunda:exclusive' is set
  * to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  *
  * @return {boolean} a boolean value
  */

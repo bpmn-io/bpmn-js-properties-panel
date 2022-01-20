@@ -297,7 +297,7 @@ describe('provider/bpmn - MultiInstanceProps', function() {
 /**
  * getProperty - get a property value of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  * @param {string} propertyName
  *
  * @return {any} the property value
@@ -310,8 +310,8 @@ function getProperty(element, propertyName) {
 /**
  * getLoopCharacteristics - get loopCharacteristics of a given element.
  *
- * @param {djs.model.Base} element
- * @return {ModdleElement<bpmn:MultiInstanceLoopCharacteristics> | undefined}
+ * @param {any} element
+ * @return {any<bpmn:MultiInstanceLoopCharacteristics> | undefined}
  */
 function getLoopCharacteristics(element) {
   const bo = getBusinessObject(element);
@@ -321,9 +321,9 @@ function getLoopCharacteristics(element) {
 /**
  * getLoopCardinality - get the loop cardinality of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
- * @return {ModdleElement<bpmn:FormalExpression>} an expression representing the loop cardinality
+ * @return {any<bpmn:FormalExpression>} an expression representing the loop cardinality
  */
 function getLoopCardinality(element) {
   return getProperty(element, 'loopCardinality');
@@ -332,7 +332,7 @@ function getLoopCardinality(element) {
 /**
  * getLoopCardinalityValue - get the loop cardinality value of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {string} the loop cardinality value
  */
@@ -344,7 +344,7 @@ function getLoopCardinalityValue(element) {
 /**
  * getBody - get the body of a given expression.
  *
- * @param {ModdleElement<bpmn:FormalExpression>} expression
+ * @param {any<bpmn:FormalExpression>} expression
  * @return {string} the body (value) of the expression
  */
 function getBody(expression) {
@@ -354,9 +354,9 @@ function getBody(expression) {
 /**
  * getCompletionCondition - get the completion condition of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
- * @return {ModdleElement<bpmn:FormalExpression>} an expression representing the completion condition
+ * @return {any<bpmn:FormalExpression>} an expression representing the completion condition
  */
 function getCompletionCondition(element) {
   return getProperty(element, 'completionCondition');
@@ -365,7 +365,7 @@ function getCompletionCondition(element) {
 /**
  * getCompletionConditionValue - get the completion condition value of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {string} the completion condition value
  */

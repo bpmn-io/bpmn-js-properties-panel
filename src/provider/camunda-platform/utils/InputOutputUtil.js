@@ -30,9 +30,9 @@ function getParameters(element, prop) {
 /**
  * Get a camunda:inputOutput from the business object
  *
- * @param {djs.model.Base | ModdleElement} element
+ * @param {any | any} element
  *
- * @return {ModdleElement} the inputOutput object
+ * @return {any} the inputOutput object
  */
 export function getInputOutput(element) {
   if (is(element, 'camunda:Connector')) {
@@ -49,7 +49,7 @@ export function getInputOutput(element) {
  * Return all input parameters existing in the business object, and
  * an empty array if none exist.
  *
- * @param  {djs.model.Base} element
+ * @param  {any} element
  *
  * @return {Array} a list of input parameter objects
  */
@@ -61,7 +61,7 @@ export function getInputParameters(element) {
  * Return all output parameters existing in the business object, and
  * an empty array if none exist.
  *
- * @param  {djs.model.Base} element
+ * @param  {any} element
  *
  * @return {Array} a list of output parameter objects
  */

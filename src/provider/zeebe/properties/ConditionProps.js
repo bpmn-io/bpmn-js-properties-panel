@@ -125,7 +125,7 @@ function isConditionalSource(element) {
 /**
  * getConditionExpression - get the body value of a condition expression for a given element
  *
- * @param  {ModdleElement} element
+ * @param  {any} element
  *
  * @return {string|undefined}
  */

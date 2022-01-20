@@ -80,7 +80,7 @@ export function TimerProps(props) {
  * TimerEventDefinitionType - Generic select entry allowing to select a specific
  * timerEventDefintionType. To be used together with timerEventDefinitionValue.
  *
- * @param  {type} props
+ * @param  {object} props
  * @return {SelectEntry}
  */
 function TimerEventDefinitionType(props) {
@@ -170,7 +170,7 @@ function TimerEventDefinitionType(props) {
  * timerEventDefintionValue based on the set timerEventDefintionType. To be used
  * together with timerEventDefinitionType.
  *
- * @param  {type} props
+ * @param  {object} props
  * @return {TextFieldEntry}
  */
 function TimerEventDefinitionValue(props) {
@@ -216,7 +216,7 @@ function TimerEventDefinitionValue(props) {
  * TimerEventDefinitionDurationValue - textField entry allowing to specify the
  * duration value. This is to be used stand-alone, without the TimerEventDefinitionType
  *
- * @param  {type} props
+ * @param  {object} props
  * @return {TextFieldEntry}
  */
 function TimerEventDefinitionDurationValue(props) {
@@ -300,7 +300,7 @@ function TimerEventDefinitionDurationValue(props) {
  * is supported for a given element
  *
  * @param  {string} timerDefinitionType
- * @param  {ModdleElement} element
+ * @param  {any} element
  *
  * @return {boolean}
  */

@@ -164,7 +164,7 @@ function ValueProperty(props) {
  * determineType - get the type of a fieldInjection based on the attributes
  * set on it
  *
- * @param  {ModdleElement} field
+ * @param  {any} field
  * @return {('string'|'expression')}
  */
 function determineType(field) {

@@ -34,7 +34,7 @@ export function isTimerSupported(element) {
 /**
  * Get the timer definition type for a given timer event definition.
  *
- * @param {ModdleElement<bpmn:TimerEventDefinition>} timer
+ * @param {any<bpmn:TimerEventDefinition>} timer
  *
  * @return {string|undefined} the timer definition type
  */

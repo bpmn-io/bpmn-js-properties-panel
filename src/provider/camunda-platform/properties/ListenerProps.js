@@ -474,7 +474,7 @@ function addExecutionListenerFactory(props) {
 /**
  * Get a readable label for a listener.
  *
- * @param {ModdleElement} listener
+ * @param {any} listener
  * @param {string => string} [translate]
  */
 function getListenerLabel(listener, translate = value => value) {

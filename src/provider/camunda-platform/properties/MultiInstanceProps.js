@@ -349,7 +349,7 @@ function MultiInstanceRetryTimeCycle(props) {
  * isMultiInstanceSupported - check whether given element supports camunda specific props
  * for multiInstance (ref. <camunda:Cllectable>).
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  * @return {boolean}
  */
 function isMultiInstanceSupported(element) {
@@ -360,7 +360,7 @@ function isMultiInstanceSupported(element) {
 /**
  * getProperty - get a property value of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  * @param {string} propertyName
  *
  * @return {any} the property value
@@ -373,8 +373,8 @@ function getProperty(element, propertyName) {
 /**
  * getLoopCharacteristics - get loopCharacteristics of a given element.
  *
- * @param {djs.model.Base} element
- * @return {ModdleElement<bpmn:MultiInstanceLoopCharacteristics> | undefined}
+ * @param {any} element
+ * @return {any<bpmn:MultiInstanceLoopCharacteristics> | undefined}
  */
 function getLoopCharacteristics(element) {
   const bo = getBusinessObject(element);
@@ -386,7 +386,7 @@ function getLoopCharacteristics(element) {
 /**
  * getCollection - get the 'camunda:collection' attribute value of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {string} the 'camunda:collection' value
  */
@@ -399,7 +399,7 @@ function getCollection(element) {
 /**
  * getElementVariable - get the 'camunda:elementVariable' attribute value of the loop characteristics.
  *
- * @param {djs.model.Base} element
+ * @param {any} element
  *
  * @return {string} the 'camunda:elementVariable' value
  */
@@ -413,7 +413,7 @@ function getElementVariable(element) {
  * Returns true if the attribute 'camunda:asyncBefore' is set
  * to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  *
  * @return {boolean} a boolean value
  */
@@ -425,7 +425,7 @@ function isAsyncBefore(bo) {
  * Returns true if the attribute 'camunda:asyncAfter' is set
  * to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  *
  * @return {boolean} a boolean value
  */
@@ -437,7 +437,7 @@ function isAsyncAfter(bo) {
  * Returns true if the attribute 'camunda:exclusive' is set
  * to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  *
  * @return {boolean} a boolean value
  */
@@ -449,7 +449,7 @@ function isExclusive(bo) {
  * isAsync - returns true if the attribute 'camunda:asyncAfter' or 'camunda:asyncBefore'
  * is set to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  * @return {boolean}
  */
 function isAsync(bo) {

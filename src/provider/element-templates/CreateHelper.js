@@ -8,10 +8,10 @@ import { nextId } from '../../utils/ElementUtil';
  * binding and value.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createInputParameter(binding, value, bpmnFactory) {
   const {
@@ -44,10 +44,10 @@ export function createInputParameter(binding, value, bpmnFactory) {
  * binding and value.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createOutputParameter(binding, value, bpmnFactory) {
   const {
@@ -79,10 +79,10 @@ export function createOutputParameter(binding, value, bpmnFactory) {
  * Create camunda property from the given binding.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaProperty(binding, value = '', bpmnFactory) {
   const { name } = binding;
@@ -98,10 +98,10 @@ export function createCamundaProperty(binding, value = '', bpmnFactory) {
  * Create camunda:in element from given binding.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaIn(binding, value, bpmnFactory) {
   const attrs = createCamundaInOutAttrs(binding, value);
@@ -113,10 +113,10 @@ export function createCamundaIn(binding, value, bpmnFactory) {
 /**
  * Create camunda:in with businessKey element from given binding.
  *
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaInWithBusinessKey(value, bpmnFactory) {
   return bpmnFactory.create('camunda:In', {
@@ -129,10 +129,10 @@ export function createCamundaInWithBusinessKey(value, bpmnFactory) {
  * Create camunda:out element from given binding.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaOut(binding, value, bpmnFactory) {
   const attrs = createCamundaInOutAttrs(binding, value);
@@ -145,10 +145,10 @@ export function createCamundaOut(binding, value, bpmnFactory) {
  * Create camunda:executionListener element containing an inline script from given binding.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaExecutionListenerScript(binding, value, bpmnFactory) {
   const {
@@ -179,10 +179,10 @@ export function createCamundaExecutionListenerScript(binding, value, bpmnFactory
  * Create camunda:field element containing string or expression from given binding.
  *
  * @param {PropertyBinding} binding
- * @param {String} value
+ * @param {string} value
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaFieldInjection(binding, value, bpmnFactory) {
   const DEFAULT_PROPS = {
@@ -213,12 +213,12 @@ export function createCamundaFieldInjection(binding, value, bpmnFactory) {
  * Create camunda:errorEventDefinition element containing expression and errorRef
  * from given binding.
  *
- * @param {String} expression
- * @param {ModdleElement} errorRef
- * @param {ModdleElement} parent
+ * @param {string} expression
+ * @param {any} errorRef
+ * @param {any} parent
  * @param {BpmnFactory} bpmnFactory
  *
- * @return {ModdleElement}
+ * @return {any}
  */
 export function createCamundaErrorEventDefinition(expression, errorRef, parent, bpmnFactory) {
   const errorEventDefinition = bpmnFactory.create('camunda:ErrorEventDefinition', {
@@ -235,11 +235,11 @@ export function createCamundaErrorEventDefinition(expression, errorRef, parent, 
 /**
  * Create bpmn:error element containing a specific error id given by a binding.
  *
- * @param {String} bindingErrorRef
- * @param {ModdleElement} parent
+ * @param {string} bindingErrorRef
+ * @param {any} parent
  * @param {BpmnFactory} bpmnFactory
  *
- * @return { ModdleElement }
+ * @return { any }
  */
 export function createError(bindingErrorRef, parent, bpmnFactory) {
   const error = bpmnFactory.create('bpmn:Error', {

@@ -60,10 +60,10 @@ export default class ChangeElementTemplateHandler {
    * `camunda:modelerTemplate` and `camunda:modelerTemplateVersion` properties will be removed from
    * the element.
    *
-   * @param {Object} context
-   * @param {Object} context.element
-   * @param {Object} [context.oldTemplate]
-   * @param {Object} [context.newTemplate]
+   * @param {object} context
+   * @param {object} context.element
+   * @param {object} [context.oldTemplate]
+   * @param {object} [context.newTemplate]
    */
   preExecute(context) {
     const element = context.element,
@@ -133,9 +133,9 @@ export default class ChangeElementTemplateHandler {
    *
    * Ensures an bpmn:Error exists for the event definition.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
+   * @param {any} element
+   * @param {object} oldTemplate
+   * @param {object} newTemplate
    */
   _updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
@@ -219,8 +219,8 @@ export default class ChangeElementTemplateHandler {
    * Update `camunda:ExecutionListener` properties of specified business object. Execution listeners
    * will always be overridden. Execution listeners can only exist in `bpmn:ExtensionElements`.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} newTemplate
+   * @param {any} element
+   * @param {object} newTemplate
    */
   _updateCamundaExecutionListenerProperties(element, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
@@ -265,10 +265,10 @@ export default class ChangeElementTemplateHandler {
    * If business object is `camunda:ExecutionListener` or `camunda:TaskListener` `fields` property
    * will be updated. Otherwise `extensionElements.values` property will be updated.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   * @param {ModdleElement} businessObject
+   * @param {any} element
+   * @param {object} oldTemplate
+   * @param {object} newTemplate
+   * @param {any} businessObject
    */
   _updateCamundaFieldProperties(element, oldTemplate, newTemplate, businessObject) {
     const bpmnFactory = this._bpmnFactory,
@@ -346,9 +346,9 @@ export default class ChangeElementTemplateHandler {
    * `bpmn:CallActivity` and events with `bpmn:SignalEventDefinition` can have ins. Only
    * `camunda:CallActivity` can have outs.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
+   * @param {any} element
+   * @param {object} oldTemplate
+   * @param {object} newTemplate
    */
   _updateCamundaInOutProperties(element, oldTemplate, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
@@ -455,9 +455,9 @@ export default class ChangeElementTemplateHandler {
    * object. Both can only exist in `camunda:InputOutput` which can exist in `bpmn:ExtensionElements`
    * or `camunda:Connector`.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
+   * @param {any} element
+   * @param {object} oldTemplate
+   * @param {object} newTemplate
    */
   _updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate, businessObject) {
     const bpmnFactory = this._bpmnFactory,
@@ -616,10 +616,10 @@ export default class ChangeElementTemplateHandler {
    * Update `camunda:Property` properties of specified business object. `camunda:Property` can only
    * exist in `camunda:Properties`.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   * @param {ModdleElement} businessObject
+   * @param {any} element
+   * @param {object} oldTemplate
+   * @param {object} newTemplate
+   * @param {any} businessObject
    */
   _updateCamundaPropertyProperties(element, oldTemplate, newTemplate, businessObject) {
     const bpmnFactory = this._bpmnFactory,
@@ -711,9 +711,9 @@ export default class ChangeElementTemplateHandler {
    * Update `bpmn:conditionExpression` property of specified element. Since condition expression is
    * is not primitive it needs special handling.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldProperty
-   * @param {Object} newProperty
+   * @param {any} element
+   * @param {object} oldProperty
+   * @param {object} newProperty
    */
   _updateConditionExpression(element, oldProperty, newProperty) {
     const bpmnFactory = this._bpmnFactory,
@@ -829,10 +829,10 @@ export default class ChangeElementTemplateHandler {
   /**
    * Update properties for a specified scope.
    *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newScopeTemplate
-   * @param {Object} newTemplate
+   * @param {any} element
+   * @param {object} oldTemplate
+   * @param {object} newScopeTemplate
+   * @param {object} newTemplate
    */
   _updateScopeProperties(element, oldTemplate, newScopeTemplate, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
@@ -898,10 +898,10 @@ ChangeElementTemplateHandler.$inject = [
 /**
  * Find old business object matching specified old property.
  *
- * @param {djs.model.Base|ModdleElement} element
- * @param {Object} oldProperty
+ * @param {any|any} element
+ * @param {object} oldProperty
  *
- * @returns {ModdleElement}
+ * @returns {any}
  */
 function findOldBusinessObject(element, oldProperty) {
   let businessObject = getBusinessObject(element),
@@ -1004,10 +1004,10 @@ function findOldBusinessObject(element, oldProperty) {
 /**
  * Find old property matching specified new property.
  *
- * @param {Object} oldTemplate
- * @param {Object} newProperty
+ * @param {object} oldTemplate
+ * @param {object} newProperty
  *
- * @returns {Object}
+ * @returns {object}
  */
 function findOldProperty(oldTemplate, newProperty) {
   if (!oldTemplate) {
@@ -1188,8 +1188,8 @@ function findErrorEventDefinitionBinding(template, templateErrorId) {
 /**
  * Check whether property was changed after being set by template.
  *
- * @param {djs.model.Base|ModdleElement} element
- * @param {Object} oldProperty
+ * @param {any|any} element
+ * @param {object} oldProperty
  *
  * @returns {boolean}
  */

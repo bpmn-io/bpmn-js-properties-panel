@@ -165,8 +165,8 @@ function getContainedBoundaryEvents(element) {
 /**
  * Checks whether an Activity is attaching a CompensateEvent of the parent container.
  *
- * @param {ModdleElement} activity
- * @param {Array<ModdleElement>} boundaryEvents
+ * @param {any} activity
+ * @param {Array<any>} boundaryEvents
  * @returns {Boolean}
  */
 function hasCompensationEventAttached(activity, boundaryEvents) {
@@ -186,8 +186,8 @@ function hasCompensationEventAttached(activity, boundaryEvents) {
  * b) a SubProcess, when it is not event based and not a compensation
  * c) any other Activity, when it is attaching a CompensateEvent of the parent container
  *
- * @param {ModdleElement} activity
- * @param {Array<ModdleElement>} boundaryEvents
+ * @param {any} activity
+ * @param {Array<any>} boundaryEvents
  * @returns {Boolean}
  */
 function canBeCompensated(activity, boundaryEvents) {
@@ -208,8 +208,8 @@ function getActivitiesForCompensation(element) {
 /**
  * Retrieves all possible activities to reference for a Compensation.
  *
- * @param {djs.model.Base} element
- * @returns {Array<ModdleElement>}
+ * @param {any} element
+ * @returns {Array<any>}
  */
 function findActivityRefs(element) {
   const businessObject = getBusinessObject(element);
@@ -240,8 +240,8 @@ function findActivityRefs(element) {
  * a) with name: "my Task (id=Task_1)"
  * b) without name: "(id=Task_1)"
  *
- * @param {ModdleElement} activity
- * @returns {String}
+ * @param {any} activity
+ * @returns {string}
  */
 function createOptionLabel(activity) {
   const { id, name } = activity;

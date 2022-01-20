@@ -184,7 +184,7 @@ function RetryTimeCycle(props) {
 // helper //////////////////
 
 /**
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  * @return {boolean} a boolean value
  */
 function isAsyncBefore(bo) {
@@ -192,7 +192,7 @@ function isAsyncBefore(bo) {
 }
 
 /**
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  * @return {boolean}
  */
 function isAsyncAfter(bo) {
@@ -203,7 +203,7 @@ function isAsyncAfter(bo) {
  * isAsync - returns true if the attribute 'camunda:asyncAfter' or 'camunda:asyncBefore'
  * is set to true.
  *
- * @param  {ModdleElement} bo
+ * @param  {any} bo
  * @return {boolean}
  */
 function isAsync(bo) {
@@ -213,7 +213,7 @@ function isAsync(bo) {
 /**
  * isTimerEvent - returns true if the element is a bpmn:Event with a timerEventDefinition
  *
- * @param  {ModdleElement} element
+ * @param  {any} element
  * @return {boolean}
  */
 function isTimerEvent(element) {

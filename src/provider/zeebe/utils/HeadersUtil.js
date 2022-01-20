@@ -15,9 +15,9 @@ export function areHeadersSupported(element) {
 /**
  * Get first zeebe:TaskHeaders element for a specific element.
  *
- * @param  {ModdleElement} element
+ * @param  {any} element
  *
- * @return {ModdleElement} a zeebe:TaskHeader element
+ * @return {any} a zeebe:TaskHeader element
  */
 export function getTaskHeaders(element) {
   const businessObject = getBusinessObject(element);
@@ -28,9 +28,9 @@ export function getTaskHeaders(element) {
 /**
  * Retrieve all zeebe:Header elements for a specific element.
  *
- * @param  {ModdleElement} element
+ * @param  {any} element
  *
- * @return {Array<ModdleElement>} a list of zeebe:Header elements
+ * @return {Array<any>} a list of zeebe:Header elements
  */
 export function getHeaders(element) {
   const taskHeaders = getTaskHeaders(element);
