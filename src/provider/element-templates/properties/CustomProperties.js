@@ -16,6 +16,8 @@ import {
   TextFieldEntry, isTextFieldEntryEdited
 } from '@bpmn-io/properties-panel';
 
+import { PropertyDescription } from '../components/PropertyDescription';
+
 import {
   findCamundaErrorEventDefinition,
   findCamundaInOut,
@@ -42,6 +44,7 @@ import {
   createInputParameter,
   createOutputParameter
 } from '../CreateHelper';
+
 
 const CAMUNDA_ERROR_EVENT_DEFINITION_TYPE = 'camunda:errorEventDefinition',
       CAMUNDA_EXECUTION_LISTENER_TYPE = 'camunda:executionListener',
@@ -228,7 +231,7 @@ function BooleanProperty(props) {
     getValue: propertyGetter(element, property, scope),
     id,
     label,
-    description,
+    description: PropertyDescription({ description }),
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
     disabled: editable === false
   });
@@ -267,7 +270,7 @@ function DropdownProperty(props) {
     id,
     label,
     getOptions,
-    description,
+    description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property, scope),
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
     disabled: editable === false
@@ -299,7 +302,7 @@ function StringProperty(props) {
     getValue: propertyGetter(element, property, scope),
     id,
     label,
-    description,
+    description: PropertyDescription({ description }),
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
     validate: propertyValidator(translate, property),
     disabled: editable === false
@@ -329,7 +332,7 @@ function TextAreaProperty(props) {
     element,
     id,
     label,
-    description,
+    description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property, scope),
     setValue: propertySetter(bpmnFactory, commandStack, element, property, scope),
     disabled: editable === false

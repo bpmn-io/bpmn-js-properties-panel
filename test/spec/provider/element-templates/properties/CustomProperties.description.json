@@ -65,6 +65,15 @@
           "type": "camunda:inputParameter",
           "name": "dropdown"
         }
+      },
+      {
+        "label": "string",
+        "description": "By the way, you can use <a target='_blank' href=\"https://freemarker.apache.org/\">freemarker templates</a> here",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "string"
+        }
       }
     ]
   }
