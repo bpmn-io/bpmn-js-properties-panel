@@ -41,6 +41,14 @@
           "type": "camunda:inputParameter",
           "name": "notCreated"
         }
+      },
+      {
+        "label": "withHtmlDescription",
+        "description": "By the way, you can use <a target='_blank' href=\"https://freemarker.apache.org/\">freemarker templates</a> here",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "withHtmlDescription"
+        }
       }
     ]
   },
