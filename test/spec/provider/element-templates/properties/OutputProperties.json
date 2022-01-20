@@ -58,6 +58,14 @@
           "type": "camunda:outputParameter",
           "source": "notCreated_2"
         }
+      },
+      {
+        "label": "withHtmlDescription",
+        "description": "By the way, you can use <a target='_blank' href=\"https://freemarker.apache.org/\">freemarker templates</a> here",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "html"
+        }
       }
     ]
   },

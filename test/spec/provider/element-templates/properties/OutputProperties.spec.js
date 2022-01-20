@@ -165,6 +165,33 @@ describe('provider/element-templates - OutputProperties', function() {
       expect(description.innerText).to.equal('foo bar');
     });
 
+
+    it('should render HTML description', async function() {
+
+      // when
+      await expectSelected('SimpleTask');
+
+      // then
+      const entry = findEntry('SimpleTask-outputParameter-7', container);
+
+      expect(entry).to.exist;
+
+      const description = findEntry('SimpleTask-outputParameter-7-description', entry);
+
+      expect(description).to.exist;
+      expect(description.innerHTML).to.eql(
+        '<div class="bio-properties-panel-description">' +
+          '<div class="markup">' +
+            '<div xmlns="http://www.w3.org/1999/xhtml">' +
+              'By the way, you can use ' +
+              '<a href="https://freemarker.apache.org/" target="_blank" rel="noopener">freemarker templates</a> '+
+              'here' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    });
+
   });
 
 
