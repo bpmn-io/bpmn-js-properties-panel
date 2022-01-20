@@ -1370,6 +1370,28 @@ describe('provider/element-templates - CustomProperties', function() {
 
       expect(entry.textContent).to.contain('DROPDOWN_DESCRIPTION');
     });
+
+
+    it('should display HTML descriptions', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.description-4', container);
+      const description = domQuery('.bio-properties-panel-description', entry);
+
+      expect(description).to.exist;
+      expect(description.innerHTML).to.eql(
+        '<div class="markup">' +
+          '<div xmlns="http://www.w3.org/1999/xhtml">' +
+            'By the way, you can use ' +
+            '<a href="https://freemarker.apache.org/" target="_blank" rel="noopener">freemarker templates</a> '+
+            'here' +
+          '</div>' +
+        '</div>'
+      );
+    });
   });
 
 
