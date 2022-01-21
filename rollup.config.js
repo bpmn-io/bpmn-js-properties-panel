@@ -9,6 +9,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import pkg from './package.json';
 
 const nonbundledDependencies = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
+const nonExternalDependencies = [ 'preact-markup' ];
 
 export default [
   {
@@ -25,11 +26,12 @@ export default [
         file: pkg.module
       }
     ],
-    external: id => nonbundledDependencies.find(dep => id.startsWith(dep)),
+    external: externalDependencies(),
     plugins: [
       alias({
         entries: [
-          { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' }
+          { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' },
+          { find: 'preact', replacement: '@bpmn-io/properties-panel/preact' }
         ]
       }),
       reactSvg(),
@@ -54,3 +56,11 @@ export default [
     ]
   }
 ];
+
+
+function externalDependencies() {
+  return id => {
+    return nonbundledDependencies.find(dep => id.startsWith(dep)) &&
+      !nonExternalDependencies.find(dep => id.startsWith(dep));
+  };
+}
