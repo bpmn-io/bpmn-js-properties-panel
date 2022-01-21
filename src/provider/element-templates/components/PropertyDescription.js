@@ -8,7 +8,7 @@ export function PropertyDescription(props) {
     description
   } = props;
 
-  return (
+  return description && (
     <Markup
       markup={ sanitizeHTML(description) }
       trim={ false } />

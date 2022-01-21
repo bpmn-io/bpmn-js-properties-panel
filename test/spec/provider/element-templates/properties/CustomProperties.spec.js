@@ -1392,6 +1392,19 @@ describe('provider/element-templates - CustomProperties', function() {
         '</div>'
       );
     });
+
+
+    it('should NOT display empty descriptions', async function() {
+
+      // when
+      await expectSelected('Task');
+
+      // then
+      const entry = findEntry('custom-entry-com.camunda.example.description-5', container);
+      const description = domQuery('.bio-properties-panel-description', entry);
+
+      expect(description).to.not.exist;
+    });
   });
 
 
