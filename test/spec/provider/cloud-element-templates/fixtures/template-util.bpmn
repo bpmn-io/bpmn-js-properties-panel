@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220123">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:task id="Task_1" name="foo" zeebe:modelerTemplate="foo" zeebe:modelerTemplateVersion="1" />
+    <bpmn:startEvent id="ConditionalEvent" zeebe:modelerTemplate="foo" zeebe:modelerTemplateVersion="1">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0jsqwvo">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">myExpression == true</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Activity_1srimyz_di" bpmnElement="Task_1">
+        <dc:Bounds x="150" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1688xoq_di" bpmnElement="ConditionalEvent">
+        <dc:Bounds x="182" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="193" y="275" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
