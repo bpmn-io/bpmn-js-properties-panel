@@ -1,0 +1,93 @@
+[
+  {
+    "name": "Editable Task",
+    "id": "com.zeebe.example.editable",
+    "description": "Shows editable for each type of property",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "string editable=false",
+        "editable": false,
+        "value": "string editable=false",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "string"
+        }
+      },
+      {
+        "label": "text editable=false",
+        "editable": false,
+        "value": "text editable=false",
+        "type": "Text",
+        "binding": {
+          "type": "property",
+          "name": "text"
+        }
+      },
+      {
+        "label": "boolean editable=false",
+        "editable": false,
+        "value": true,
+        "type": "Boolean",
+        "binding": {
+          "type": "property",
+          "name": "boolean"
+        }
+      },
+      {
+        "label": "dropdown",
+        "editable": false,
+        "value": "GET",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "value": "GET",
+            "name": "GET"
+          },
+          {
+            "value": "POST",
+            "name": "POST"
+          },
+          {
+            "value": "PUT",
+            "name": "PUT"
+          },
+          {
+            "value": "PATCH",
+            "name": "PATCH"
+          },
+          {
+            "value": "DELETE",
+            "name": "DELETE"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "dropdown"
+        }
+      },
+      {
+        "label": "string editable unset",
+        "type": "String",
+        "value": "string editable unset",
+        "binding": {
+          "type": "property",
+          "name": "string-editable-unset"
+        }
+      },
+      {
+        "label": "string editable=true",
+        "type": "String",
+        "value": "string editable=true",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "string-editable-true"
+        }
+      }
+    ]
+  }
+]

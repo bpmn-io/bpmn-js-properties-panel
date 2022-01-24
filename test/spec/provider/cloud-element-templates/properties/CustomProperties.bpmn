@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_00cqa19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220123">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:serviceTask id="RestTask" name="REST Task" zeebe:modelerTemplate="com.example.rest">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="task-type" />
+        <zeebe:ioMapping>
+          <zeebe:input source="input-1-source" target="input-1-target" />
+          <zeebe:output source="output-1-source" target="output-1-target" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="header-1-key" value="header-1-value" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:task id="Task_1" name="My task" zeebe:modelerTemplate="my.example.template" />
+    <bpmn:userTask id="DropdownTask" name="low" zeebe:modelerTemplate="my.example.dropdown" />
+    <bpmn:task id="ValidateTask" zeebe:modelerTemplate="com.validated-inputs.Task" />
+    <bpmn:serviceTask id="RestTask_noData" name="REST Task no data" zeebe:modelerTemplate="com.example.rest" />
+    <bpmn:serviceTask id="RestTask_hidden" name="Hidden Task Type" zeebe:modelerTemplate="com.example.rest-hidden">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="task-type" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Activity_1d5ac68_di" bpmnElement="RestTask">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0tip4qx_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sxtp96_di" bpmnElement="DropdownTask">
+        <dc:Bounds x="220" y="480" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p6pet6_di" bpmnElement="ValidateTask">
+        <dc:Bounds x="310" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hbryo1_di" bpmnElement="RestTask_noData">
+        <dc:Bounds x="300" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sz43pp_di" bpmnElement="RestTask_hidden">
+        <dc:Bounds x="470" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

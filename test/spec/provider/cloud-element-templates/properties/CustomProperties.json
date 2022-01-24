@@ -1,0 +1,209 @@
+[
+  {
+    "name": "Rest Template",
+    "id": "com.example.rest",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "String",
+        "value": "task-type",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "type": "String",
+        "value": "header-1-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-1-key"
+        }
+      },
+      {
+        "type": "String",
+        "value": "header-2-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-2-key"
+        }
+      },
+      {
+        "value": "input-1-source",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1-target"
+        }
+      },
+      {
+        "value": "input-2-source",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2-target"
+        }
+      },
+      {
+        "value": "output-1-target",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1-source"
+        }
+      },
+      {
+        "value": "output-2-target",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2-source"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Rest Template (hidden)",
+    "id": "com.example.rest-hidden",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "task-type",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Task Template",
+    "id": "my.example.template",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "type": "String",
+        "value": "my Task",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Task Template 2",
+    "id": "my.example.dropdown",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": [
+      {
+        "label": "Name",
+        "type": "Dropdown",
+        "choices": [
+          { "name": "low", "value": "low" },
+          { "name": "medium", "value": "medium" },
+          { "name": "high", "value": "high" }
+        ],
+        "value": "low",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Validated Inputs Task",
+    "id": "com.validated-inputs.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "NotEmpty",
+        "description": "Must not be empty",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "MinLength",
+        "description": "Must have min length 5",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "minLength": 5
+        }
+      },
+      {
+        "label": "MaxLength",
+        "description": "Must have max length 5",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "maxLength": 5
+        }
+      },
+      {
+        "label": "Pattern (String)",
+        "description": "Must match /A+B/",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": "A+B"
+        }
+      },
+      {
+        "label": "Pattern (String + Message)",
+        "description": "Must be https url",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must start with https://",
+            "value": "https://.*"
+          }
+        }
+      },
+      {
+        "label": "Pattern (Integer)",
+        "description": "Must be integer",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must be positive integer",
+            "value": "\\d+"
+          }
+        }
+      }
+    ]
+  }
+]

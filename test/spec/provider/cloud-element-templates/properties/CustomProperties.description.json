@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Description Task",
+    "id": "com.zeebe.example.description",
+    "description": "Shows description for each type of property",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "label": "string",
+        "description": "STRING_DESCRIPTION",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "string"
+        }
+      },
+      {
+        "label": "text",
+        "description": "TEXT_DESCRIPTION",
+        "type": "Text",
+        "binding": {
+          "type": "property",
+          "name": "text"
+        }
+      },
+      {
+        "label": "boolean",
+        "description": "BOOLEAN_DESCRIPTION",
+        "type": "Boolean",
+        "binding": {
+          "type": "property",
+          "name": "boolean"
+        }
+      },
+      {
+        "label": "dropdown",
+        "description": "DROPDOWN_DESCRIPTION",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "value": "GET",
+            "name": "GET"
+          },
+          {
+            "value": "POST",
+            "name": "POST"
+          },
+          {
+            "value": "PUT",
+            "name": "PUT"
+          },
+          {
+            "value": "PATCH",
+            "name": "PATCH"
+          },
+          {
+            "value": "DELETE",
+            "name": "DELETE"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "dropdown"
+        }
+      },
+      {
+        "label": "withHTML",
+        "description": "By the way, you can use <a target='_blank' href=\"https://freemarker.apache.org/\">freemarker templates</a> here",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "string"
+        }
+      },
+      {
+        "label": "empty",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "string"
+        }
+      }
+    ]
+  }
+]
