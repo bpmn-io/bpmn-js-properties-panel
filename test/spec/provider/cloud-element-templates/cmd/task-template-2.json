@@ -1,0 +1,73 @@
+{
+  "name": "Task Template v2",
+  "version": 2,
+  "id": "task-template",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "type": "String",
+      "value": "Rest task",
+      "binding": {
+        "type": "property",
+        "name": "name"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "task-type",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      }
+    },
+    {
+      "type": "String",
+      "value": "header-1-value",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-1-key"
+      }
+    },
+    {
+      "type": "String",
+      "value": "header-2-value",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-2-key"
+      }
+    },
+    {
+      "value": "input-1-source",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-1-target"
+      }
+    },
+    {
+      "value": "input-2-source",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-2-target"
+      }
+    },
+    {
+      "value": "output-1-target",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-1-source"
+      }
+    },
+    {
+      "value": "output-2-target",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-2-source"
+      }
+    }
+  ]
+}

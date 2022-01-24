@@ -1,0 +1,8 @@
+{
+  "name": "Task Template No Properties",
+  "id": "task-template-no-properties",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": []
+}

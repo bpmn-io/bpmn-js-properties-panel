@@ -1,9 +1,23 @@
 import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  find
+  findExtension
+} from '../Helper';
+
+import {
+  createInputParameter,
+  createOutputParameter,
+  createTaskDefinitionWithType,
+  createTaskHeader
+} from '../CreateHelper';
+
+import {
+  find,
+  isUndefined,
+  without
 } from 'min-dash';
 
 /**
@@ -40,6 +54,15 @@ export default class ChangeElementTemplateHandler {
 
       // update properties
       this._updateProperties(element, oldTemplate, newTemplate);
+
+      // update zeebe:TaskDefinition
+      this._updateZeebeTaskDefinition(element, oldTemplate, newTemplate);
+
+      // update zeebe:Input and zeebe:Output properties
+      this._updateZeebeInputOutputParameterProperties(element, oldTemplate, newTemplate);
+
+      // update zeebe:Header properties
+      this._updateZeebeTaskHeaderProperties(element, oldTemplate, newTemplate);
     }
   }
 
@@ -113,6 +136,311 @@ export default class ChangeElementTemplateHandler {
       });
     });
   }
+
+  /**
+   * Update `zeebe:TaskDefinition` properties of specified business object. This
+   * can only exist in `bpmn:ExtensionElements`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateZeebeTaskDefinition(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      return newBindingType === 'zeebe:taskDefinition:type';
+    });
+
+    // (1) do not override old task definition if no new properties specified
+    if (!newProperties.length) {
+      return;
+    }
+
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldBinding = oldProperty && oldProperty.binding,
+            oldBindingType = oldBinding && oldBinding.type,
+            oldTaskDefinition = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      // (2) update old task definition
+      if (oldProperty && oldTaskDefinition) {
+
+        if (!propertyChanged(oldTaskDefinition, oldProperty)) {
+
+          // TODO(pinussilvestrus): for now we only support <type>
+          // this needs to be adjusted once we support more
+          let properties = {};
+
+          if (oldBindingType === 'zeebe:taskDefinition:type') {
+            properties = {
+              type: newPropertyValue
+            };
+          }
+
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldTaskDefinition,
+            properties
+          });
+        }
+      }
+
+      // (3) add new task definition
+      else {
+        let newTaskDefinition;
+
+        // TODO(pinussilvestrus): for now we only support <type>
+        // this needs to be adjusted once we support more
+        if (newBindingType === 'zeebe:taskDefinition:type') {
+          newTaskDefinition = createTaskDefinitionWithType(newPropertyValue, bpmnFactory);
+        }
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
+          properties: {
+            values: [ ...businessObject.get('values'), newTaskDefinition ]
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Update `zeebe:Input` and `zeebe:Output` properties of specified business
+   * object. Both can only exist in `zeebe:ioMapping` which can exist in `bpmn:ExtensionElements`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateZeebeInputOutputParameterProperties(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      return newBindingType === 'zeebe:input' || newBindingType === 'zeebe:output';
+    });
+
+    // (1) do not override old inputs and outputs if no new inputs and outputs specified
+    if (!newProperties.length) {
+      return;
+    }
+
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    let ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+
+    if (!ioMapping) {
+      ioMapping = bpmnFactory.create('zeebe:IoMapping');
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: [ ...businessObject.get('values'), ioMapping ]
+        }
+      });
+    }
+
+    const oldInputs = ioMapping.get('zeebe:inputParameters')
+      ? ioMapping.get('zeebe:inputParameters').slice()
+      : [];
+
+    const oldOutputs = ioMapping.get('zeebe:outputParameters')
+      ? ioMapping.get('zeebe:outputParameters').slice()
+      : [];
+
+    let propertyName;
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldInputOrOutput = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      let newInputOrOutput,
+          properties;
+
+      // (2) update old inputs and outputs
+      if (oldProperty && oldInputOrOutput) {
+
+        if (!propertyChanged(oldInputOrOutput, oldProperty)) {
+          if (is(oldInputOrOutput, 'zeebe:Input')) {
+            properties = {
+              source: newPropertyValue
+            };
+          } else {
+            properties = {
+              target: newPropertyValue
+            };
+          }
+
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldInputOrOutput,
+            properties
+          });
+        }
+
+        if (is(oldInputOrOutput, 'zeebe:Input')) {
+          remove(oldInputs, oldInputOrOutput);
+        } else {
+          remove(oldOutputs, oldInputOrOutput);
+        }
+      }
+
+      // (3) add new inputs and outputs
+      else {
+        if (newBindingType === 'zeebe:input') {
+          propertyName = 'inputParameters';
+
+          newInputOrOutput = createInputParameter(newBinding, newPropertyValue, bpmnFactory);
+        } else {
+          propertyName = 'outputParameters';
+
+          newInputOrOutput = createOutputParameter(newBinding, newPropertyValue, bpmnFactory);
+        }
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: ioMapping,
+          properties: {
+            [ propertyName ]: [ ...ioMapping.get(propertyName), newInputOrOutput ]
+          }
+        });
+      }
+    });
+
+    // (4) remove old inputs and outputs
+    if (oldInputs.length) {
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: ioMapping,
+        properties: {
+          inputParameters: without(ioMapping.get('inputParameters'), inputParameter => oldInputs.includes(inputParameter))
+        }
+      });
+    }
+
+    if (oldOutputs.length) {
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: ioMapping,
+        properties: {
+          outputParameters: without(ioMapping.get('outputParameters'), outputParameter => oldOutputs.includes(outputParameter))
+        }
+      });
+    }
+  }
+
+  /**
+   * Update `zeebe:Header` properties of specified business
+   * object. Those can only exist in `zeebe:taskHeaders` which can exist in `bpmn:ExtensionElements`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateZeebeTaskHeaderProperties(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      return newBindingType === 'zeebe:taskHeader';
+    });
+
+    // (1) do not override old headers if no new specified
+    if (!newProperties.length) {
+      return;
+    }
+
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    let taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders');
+
+    if (!taskHeaders) {
+      taskHeaders = bpmnFactory.create('zeebe:TaskHeaders');
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: [ ...businessObject.get('values'), taskHeaders ]
+        }
+      });
+    }
+
+    const oldHeaders = taskHeaders.get('zeebe:values')
+      ? taskHeaders.get('zeebe:values').slice()
+      : [];
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldHeader = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding;
+
+      // (2) update old headers
+      if (oldProperty && oldHeader) {
+
+        if (!propertyChanged(oldHeader, oldProperty)) {
+          const properties = {
+            value: newPropertyValue
+          };
+
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldHeader,
+            properties
+          });
+        }
+
+        remove(oldHeaders, oldHeader);
+      }
+
+      // (3) add new headers
+      else {
+        const newHeader = createTaskHeader(newBinding, newPropertyValue, bpmnFactory);
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: taskHeaders,
+          properties: {
+            values: [ ...taskHeaders.get('values'), newHeader ]
+          }
+        });
+      }
+    });
+
+    // (4) remove old headers
+    if (oldHeaders.length) {
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: taskHeaders,
+        properties: {
+          values: without(taskHeaders.get('values'), header => oldHeaders.includes(header))
+        }
+      });
+    }
+  }
 }
 
 ChangeElementTemplateHandler.$inject = [
@@ -123,6 +451,57 @@ ChangeElementTemplateHandler.$inject = [
 
 
 // helpers //////////
+
+/**
+ * Find old business object matching specified old property.
+ *
+ * @param {djs.model.Base|ModdleElement} element
+ * @param {Object} oldProperty
+ *
+ * @returns {ModdleElement}
+ */
+function findOldBusinessObject(element, oldProperty) {
+  let businessObject = getBusinessObject(element);
+
+  const oldBinding = oldProperty.binding,
+        oldBindingType = oldBinding.type;
+
+  if (oldBindingType === 'zeebe:taskDefinition:type') {
+    return findExtension(businessObject, 'zeebe:TaskDefinition');
+  }
+
+  if (oldBindingType === 'zeebe:input' || oldBindingType === 'zeebe:output') {
+
+    businessObject = findExtension(businessObject, 'zeebe:IoMapping');
+
+    if (!businessObject) {
+      return;
+    }
+
+    if (oldBindingType === 'zeebe:input') {
+      return find(businessObject.get('zeebe:inputParameters'), function(oldBusinessObject) {
+        return oldBusinessObject.get('zeebe:target') === oldBinding.name;
+      });
+    } else {
+      return find(businessObject.get('zeebe:outputParameters'), function(oldBusinessObject) {
+        return oldBusinessObject.get('zeebe:source') === oldBinding.source;
+      });
+    }
+
+  }
+
+  if (oldBindingType === 'zeebe:taskHeader') {
+    businessObject = findExtension(businessObject, 'zeebe:TaskHeaders');
+
+    if (!businessObject) {
+      return;
+    }
+
+    return find(businessObject.get('zeebe:values'), function(oldBusinessObject) {
+      return oldBusinessObject.get('zeebe:key') === oldBinding.key;
+    });
+  }
+}
 
 /**
  * Find old property matching specified new property.
@@ -151,6 +530,55 @@ function findOldProperty(oldTemplate, newProperty) {
       return oldBindingType === 'property' && oldBindingName === newBindingName;
     });
   }
+
+  if (newBindingType === 'zeebe:taskDefinition:type') {
+    return find(oldProperties, function(oldProperty) {
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
+
+      return oldBindingType === 'zeebe:taskDefinition:type';
+    });
+  }
+
+  if (newBindingType === 'zeebe:input') {
+    return find(oldProperties, function(oldProperty) {
+      const oldBinding = oldProperty.binding,
+            oldBindingName = oldBinding.name,
+            oldBindingType = oldBinding.type;
+
+      if (oldBindingType !== 'zeebe:input') {
+        return;
+      }
+
+      return oldBindingName === newBindingName;
+    });
+  }
+
+  if (newBindingType === 'zeebe:output') {
+    return find(oldProperties, function(oldProperty) {
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
+
+      if (oldBindingType !== 'zeebe:output') {
+        return;
+      }
+
+      return oldBinding.source === newBinding.source;
+    });
+  }
+
+  if (newBindingType === 'zeebe:taskHeader') {
+    return find(oldProperties, function(oldProperty) {
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
+
+      if (oldBindingType !== 'zeebe:taskHeader') {
+        return;
+      }
+
+      return oldBinding.key === newBinding.key;
+    });
+  }
 }
 
 /**
@@ -172,4 +600,32 @@ function propertyChanged(element, oldProperty) {
   if (oldBindingType === 'property') {
     return businessObject.get(oldBindingName) !== oldPropertyValue;
   }
+
+  if (oldBindingType === 'zeebe:taskDefinition:type') {
+    return businessObject.get('zeebe:type') !== oldPropertyValue;
+  }
+
+  if (oldBindingType === 'zeebe:input') {
+    return businessObject.get('zeebe:source') !== oldPropertyValue;
+  }
+
+  if (oldBindingType === 'zeebe:output') {
+    return businessObject.get('zeebe:target') !== oldPropertyValue;
+  }
+
+  if (oldBindingType === 'zeebe:taskHeader') {
+    return businessObject.get('zeebe:value') !== oldPropertyValue;
+  }
+}
+
+function remove(array, item) {
+  const index = array.indexOf(item);
+
+  if (isUndefined(index)) {
+    return array;
+  }
+
+  array.splice(index, 1);
+
+  return array;
 }
