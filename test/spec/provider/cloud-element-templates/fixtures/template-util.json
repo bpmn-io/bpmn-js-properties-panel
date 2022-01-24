@@ -1,0 +1,60 @@
+[
+  {
+    "id": "foo",
+    "name":"Foo",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "foo",
+    "name":"Foo 1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": [
+      {
+        "type": "String",
+        "value": "foo",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "id": "foo",
+    "name":"Foo 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": [
+      {
+        "type": "String",
+        "value": "foobar",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "id": "bar",
+    "name":"Bar 1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "bar",
+    "name":"Bar 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "baz",
+    "name":"Baz",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  }
+]
