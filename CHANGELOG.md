@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.1
+
+* `FEAT`: expose ZeebeDescriptionProvider ([c4b565](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/c4b565df6f861205f6df63a3e265375e0b10d4e7))
+
 ## 1.0.0-alpha.0
 
 * `FEAT`: rewrite project to new, [@bpmn-io/properties-panel](https://github.com/bpmn-io/properties-panel)-based architecture
