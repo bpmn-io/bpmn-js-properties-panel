@@ -1,0 +1,75 @@
+[
+  {
+    "name": "MailTask",
+    "id": "my.mail.Task",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Name",
+        "type": "String",
+        "binding": {
+          "type": "property",
+          "name": "name",
+          "value": "Mail Task"
+        }
+      }
+    ]
+  },
+  {
+    "id": "foo",
+    "name":"Foo",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "foo",
+    "name":"Foo 1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "foo",
+    "name":"Foo 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "foo",
+    "name":"Foo 3",
+    "version": 3,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "bar",
+    "name":"Bar 1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "bar",
+    "name":"Bar 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "baz",
+    "name":"Baz",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "default",
+    "name": "Default Template",
+    "version": 1,
+    "isDefault": true,
+    "appliesTo": [ "bpmn:ServiceTask" ],
+    "properties": []
+  }
+]

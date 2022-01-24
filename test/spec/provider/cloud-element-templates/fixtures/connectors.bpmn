@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_165ah7c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220113" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.3.0">
+  <bpmn:process id="Process_0vvlc66" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0gw5hlt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0gw5hlt" sourceRef="StartEvent_1" targetRef="ServiceTask_1" />
+    <bpmn:endEvent id="EndEvent_1">
+      <bpmn:incoming>Flow_0636r17</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0636r17" sourceRef="ServiceTask_1" targetRef="EndEvent_1" />
+    <bpmn:serviceTask id="ServiceTask_1" name="REST" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-s1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="http" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="method" value="get" />
+          <zeebe:header key="url" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="= invoiceDetails" target="body" />
+          <zeebe:output source="= body" target="response" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gw5hlt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0636r17</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0vvlc66">
+      <bpmndi:BPMNEdge id="Flow_0636r17_di" bpmnElement="Flow_0636r17">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="432" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gw5hlt_di" bpmnElement="Flow_0gw5hlt">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0vyda7b_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="432" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1328y3k_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
