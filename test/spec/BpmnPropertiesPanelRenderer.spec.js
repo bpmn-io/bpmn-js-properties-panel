@@ -25,6 +25,7 @@ import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPropertiesProvider from 'src/provider/camunda-platform';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 import ElementTemplatesPropertiesProvider from 'src/provider/element-templates';
+import CloudElementTemplatesPropertiesProvider from 'src/provider/cloud-element-templates';
 
 import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
 import CamundaModdleExtension from 'camunda-bpmn-moddle/lib';
@@ -204,6 +205,35 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         ],
         moddleExtensions: {
           camunda: CamundaModdle
+        },
+        elementTemplates
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
+  (singleStart === 'cloud-templates' ? it.only : it)('should import simple process (cloud-templates)', async function() {
+
+    // given
+    const diagramXml = require('test/spec/provider/cloud-element-templates/fixtures/connectors.bpmn').default;
+
+    const elementTemplates = require('test/spec/provider/cloud-element-templates/fixtures/connectors.json');
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          ZeebeModdleExtension,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider,
+          CloudElementTemplatesPropertiesProvider
+        ],
+        moddleExtensions: {
+          zeebe: ZeebeModdle
         },
         elementTemplates
       }
