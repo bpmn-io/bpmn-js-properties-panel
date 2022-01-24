@@ -1,0 +1,23 @@
+[
+  {
+    "id": "foo",
+    "name":"EntriesVisible=true",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": [],
+    "entriesVisible": true
+  },
+  {
+    "id": "foo",
+    "name":"EntriesVisible=false",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "id": "default",
+    "name": "EntriesVisible unset",
+    "isDefault": true,
+    "appliesTo": [ "bpmn:ServiceTask" ],
+    "properties": []
+  }
+]
