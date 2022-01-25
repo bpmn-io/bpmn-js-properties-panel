@@ -13,13 +13,13 @@ export default function ExtensionProperty(props) {
     property
   } = props;
 
-  const entries = [{
+  const entries = [ {
     id: idPrefix + '-name',
     component: <NameProperty idPrefix={ idPrefix } element={ element } property={ property } />
   },{
     id: idPrefix + '-value',
     component: <ValueProperty idPrefix={ idPrefix } element={ element } property={ property } />
-  }];
+  } ];
 
   return entries;
 }

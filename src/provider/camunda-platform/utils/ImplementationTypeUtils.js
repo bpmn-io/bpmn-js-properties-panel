@@ -146,7 +146,7 @@ export function getImplementationType(element) {
 }
 
 function getListenerBusinessObject(businessObject) {
-  if (isAny(businessObject, ['camunda:ExecutionListener','camunda:TaskListener'])) {
+  if (isAny(businessObject, [ 'camunda:ExecutionListener','camunda:TaskListener' ])) {
     return businessObject;
   }
 }

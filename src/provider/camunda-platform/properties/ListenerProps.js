@@ -145,7 +145,7 @@ function ExecutionListener(props) {
   } = props;
 
 
-  return [{
+  return [ {
     id: `${idPrefix}-eventType`,
     component: <EventType id={ `${idPrefix}-eventType` } element={ element } listener={ listener } />
   },
@@ -157,7 +157,7 @@ function ExecutionListener(props) {
   {
     id: `${idPrefix}-fields`,
     component: <Fields id={ `${idPrefix}-fields` } element={ element } listener={ listener } />
-  }];
+  } ];
 }
 
 export function TaskListenerProps({ element, injector }) {
@@ -203,7 +203,7 @@ function TaskListener(props) {
   } = props;
 
 
-  return [{
+  return [ {
     id: `${idPrefix}-eventType`,
     component: <EventType id={ `${idPrefix}-eventType` } element={ element } listener={ listener } />
   },
@@ -220,7 +220,7 @@ function TaskListener(props) {
   {
     id: `${idPrefix}-fields`,
     component: <Fields id={ `${idPrefix}-fields` } element={ element } listener={ listener } />
-  }];
+  } ];
 }
 
 function removeListenerFactory({ element, listener, modeling }) {
@@ -354,20 +354,20 @@ function ImplementationDetails(props) {
   const type = getListenerType(listener);
 
   if (type === 'class') {
-    return [{
+    return [ {
       id: getPrefixedId(idPrefix, 'javaClass'),
       component: <JavaClass element={ element } businessObject={ listener } id={ getPrefixedId(idPrefix, 'javaClass') } />
-    }];
+    } ];
   } else if (type === 'expression') {
-    return [{
+    return [ {
       id: getPrefixedId(idPrefix, 'expression'),
       component: <Expression element={ element } businessObject={ listener } id={ getPrefixedId(idPrefix, 'expression') } />
-    }];
+    } ];
   } else if (type === 'delegateExpression') {
-    return [{
+    return [ {
       id: getPrefixedId(idPrefix, 'delegateExpression'),
       component: <DelegateExpression element={ element } businessObject={ listener } id={ getPrefixedId(idPrefix, 'delegateExpression') } />
-    }];
+    } ];
   } else if (type === 'script') {
     return ScriptProps({ element, script: listener.get('script'), prefix: idPrefix });
   }
@@ -518,7 +518,7 @@ function getDefaultImplementationProperties(type, bpmnFactory) {
 function getDefaultEventTypeProperties(type, bpmnFactory) {
   switch (type) {
   case 'timeout':
-    return { ...DEFAULT_EVENT_PROPS, eventDefinitions: [bpmnFactory.create('bpmn:TimerEventDefinition')], event:type };
+    return { ...DEFAULT_EVENT_PROPS, eventDefinitions: [ bpmnFactory.create('bpmn:TimerEventDefinition') ], event:type };
   default:
     return { ...DEFAULT_EVENT_PROPS, event: type };
   }

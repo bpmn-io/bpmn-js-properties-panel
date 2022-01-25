@@ -161,7 +161,7 @@ export default class BpmnPropertiesPanelRenderer {
   }
 }
 
-BpmnPropertiesPanelRenderer.$inject = ['config.propertiesPanel', 'injector', 'eventBus'];
+BpmnPropertiesPanelRenderer.$inject = [ 'config.propertiesPanel', 'injector', 'eventBus' ];
 
 
 // helpers ///////////////////////

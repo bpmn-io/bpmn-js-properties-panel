@@ -139,7 +139,7 @@ describe('provider/element-templates - Validator', function() {
       // then
       expect(errors(templates)).to.have.length(6);
 
-      expect(errors(templates)[0]).to.eql('template(id: <foo>, name: <Foo>): unsupported element template schema version <99.99.99>. Your installation only supports up to version <'+ ElementTemplateSchemaVersion + '>. Please update your installation');
+      expect(errors(templates)[0]).to.eql('template(id: <foo>, name: <Foo>): unsupported element template schema version <99.99.99>. Your installation only supports up to version <' + ElementTemplateSchemaVersion + '>. Please update your installation');
     });
 
   });

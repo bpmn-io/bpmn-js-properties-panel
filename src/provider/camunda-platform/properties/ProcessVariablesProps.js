@@ -159,7 +159,7 @@ function canHaveProcessVariables(element) {
   const businessObject = getBusinessObject(element);
 
   return (
-    isAny(element, ['bpmn:Process', 'bpmn:SubProcess']) ||
+    isAny(element, [ 'bpmn:Process', 'bpmn:SubProcess' ]) ||
     (is(element, 'bpmn:Participant') && businessObject.get('processRef'))
   );
 }

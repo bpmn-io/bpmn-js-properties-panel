@@ -21,7 +21,7 @@ export default function FormFieldConstraint(props) {
     {
       id: idPrefix + '-config',
       component: <Config idPrefix={ idPrefix } element={ element } constraint={ constraint } />
-    }];
+    } ];
 
   return entries;
 }

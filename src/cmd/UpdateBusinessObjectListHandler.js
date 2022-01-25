@@ -34,7 +34,7 @@ export default class UpdateBusinessObjectListHandler {
           objectsToRemove = context.objectsToRemove || [],
           objectsToAdd = context.objectsToAdd || [],
           objectsToPrepend = context.objectsToPrepend || [],
-          changed = [ context.element]; // this will not change any diagram-js elements
+          changed = [ context.element ]; // this will not change any diagram-js elements
 
     let referencePropertyName;
 

@@ -684,7 +684,7 @@ describe('provider/camunda-platform - FormField', function() {
         expect(constraintEntries).to.eql([
           'Constraint3',
           'Constraint1',
-          'Constraint2']);
+          'Constraint2' ]);
       }));
 
     });
@@ -864,7 +864,7 @@ describe('provider/camunda-platform - FormField', function() {
         expect(propertiesEntries).to.eql([
           'Property1',
           'Property2',
-          'Property3']);
+          'Property3' ]);
       }));
 
     });

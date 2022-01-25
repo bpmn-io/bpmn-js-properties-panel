@@ -363,7 +363,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var executionListeners = findExtensions(task, [ 'camunda:ExecutionListener' ]);
 
           expect(executionListeners).to.have.length(1);
-          expect(executionListeners).to.jsonEqual([{
+          expect(executionListeners).to.jsonEqual([ {
             $type: 'camunda:ExecutionListener',
             event: 'start',
             script: {
@@ -371,7 +371,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
               scriptFormat: 'foo',
               value: 'bar'
             }
-          }]);
+          } ]);
         }));
 
 
@@ -411,7 +411,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var executionListeners = findExtensions(task, [ 'camunda:ExecutionListener' ]);
 
           expect(executionListeners).to.have.length(1);
-          expect(executionListeners).to.jsonEqual([{
+          expect(executionListeners).to.jsonEqual([ {
             $type: 'camunda:ExecutionListener',
             event: 'start',
             script: {
@@ -419,7 +419,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
               scriptFormat: 'foo',
               value: 'bar'
             }
-          }]);
+          } ]);
         }));
 
       });
@@ -1042,11 +1042,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var properties = findExtension(task, 'camunda:Properties');
 
           expect(properties).to.exist;
-          expect(properties.values).to.jsonEqual([{
+          expect(properties.values).to.jsonEqual([ {
             $type: 'camunda:Property',
             name: 'foo',
             value: 'bar'
-          }]);
+          } ]);
         }));
 
 
@@ -1086,11 +1086,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var properties = findExtension(task, 'camunda:Properties');
 
           expect(properties).to.exist;
-          expect(properties.values).to.jsonEqual([{
+          expect(properties.values).to.jsonEqual([ {
             $type: 'camunda:Property',
             name: 'foo',
             value: 'bar'
-          }]);
+          } ]);
         }));
 
       });
@@ -1117,11 +1117,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var properties = findExtension(task, 'camunda:Properties');
 
           expect(properties).to.exist;
-          expect(properties.values).to.jsonEqual([{
+          expect(properties.values).to.jsonEqual([ {
             $type: 'camunda:Property',
             name: 'foo',
             value: 'bar'
-          }]);
+          } ]);
         }));
 
       });
@@ -1271,17 +1271,17 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
             expect(inputOutput).to.exist;
 
-            expect(inputOutput.inputParameters).to.jsonEqual([{
+            expect(inputOutput.inputParameters).to.jsonEqual([ {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
               value: 'input-1-value'
-            }]);
+            } ]);
 
-            expect(inputOutput.outputParameters).to.jsonEqual([{
+            expect(inputOutput.outputParameters).to.jsonEqual([ {
               $type: 'camunda:OutputParameter',
               name: 'output-1-value',
               value: 'output-1-source'
-            }]);
+            } ]);
           }));
 
 
@@ -1327,17 +1327,17 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
             expect(inputOutput).to.exist;
 
-            expect(inputOutput.inputParameters).to.jsonEqual([{
+            expect(inputOutput.inputParameters).to.jsonEqual([ {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
               value: 'input-1-value'
-            }]);
+            } ]);
 
-            expect(inputOutput.outputParameters).to.jsonEqual([{
+            expect(inputOutput.outputParameters).to.jsonEqual([ {
               $type: 'camunda:OutputParameter',
               name: 'output-1-value',
               value: 'output-1-source'
-            }]);
+            } ]);
           }));
 
         });
@@ -1370,17 +1370,17 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
             expect(inputOutput).to.exist;
 
-            expect(inputOutput.inputParameters).to.jsonEqual([{
+            expect(inputOutput.inputParameters).to.jsonEqual([ {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
               value: 'input-1-value'
-            }]);
+            } ]);
 
-            expect(inputOutput.outputParameters).to.jsonEqual([{
+            expect(inputOutput.outputParameters).to.jsonEqual([ {
               $type: 'camunda:OutputParameter',
               name: 'output-1-value',
               value: 'output-1-source'
-            }]);
+            } ]);
           }));
 
 
@@ -1426,17 +1426,17 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
             expect(inputOutput).to.exist;
 
-            expect(inputOutput.inputParameters).to.jsonEqual([{
+            expect(inputOutput.inputParameters).to.jsonEqual([ {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
               value: 'input-1-value'
-            }]);
+            } ]);
 
-            expect(inputOutput.outputParameters).to.jsonEqual([{
+            expect(inputOutput.outputParameters).to.jsonEqual([ {
               $type: 'camunda:OutputParameter',
               name: 'output-1-value',
               value: 'output-1-source'
-            }]);
+            } ]);
           }));
 
         });
@@ -1469,17 +1469,17 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
             expect(inputOutput).to.exist;
 
-            expect(inputOutput.inputParameters).to.jsonEqual([{
+            expect(inputOutput.inputParameters).to.jsonEqual([ {
               $type: 'camunda:InputParameter',
               name: 'input-1-name',
               value: 'input-1-value'
-            }]);
+            } ]);
 
-            expect(inputOutput.outputParameters).to.jsonEqual([{
+            expect(inputOutput.outputParameters).to.jsonEqual([ {
               $type: 'camunda:OutputParameter',
               name: 'output-1-name',
               value: 'output-1-value'
-            }]);
+            } ]);
           }));
 
         });
@@ -1913,7 +1913,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var executionListeners = findExtensions(task, [ 'camunda:ExecutionListener' ]);
 
         expect(executionListeners).to.have.length(1);
-        expect(executionListeners).to.jsonEqual([{
+        expect(executionListeners).to.jsonEqual([ {
           $type: 'camunda:ExecutionListener',
           event: 'start',
           script: {
@@ -1921,7 +1921,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
             scriptFormat: 'foo',
             value: 'baz'
           }
-        }]);
+        } ]);
       }));
 
     });
@@ -1968,11 +1968,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var fields = findExtensions(serviceTask, [ 'camunda:Field' ]);
 
         expect(fields).to.have.length(1);
-        expect(fields).to.jsonEqual([{
+        expect(fields).to.jsonEqual([ {
           $type: 'camunda:Field',
           string: 'baz',
           name: 'foo'
-        }]);
+        } ]);
       }));
 
 
@@ -2006,11 +2006,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var fields = findExtensions(serviceTask, [ 'camunda:Field' ]);
 
         expect(fields).to.have.length(1);
-        expect(fields).to.jsonEqual([{
+        expect(fields).to.jsonEqual([ {
           $type: 'camunda:Field',
           string: 'bar',
           name: 'foo'
-        }]);
+        } ]);
       }));
 
 
@@ -2795,11 +2795,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         expect(properties).to.exist;
 
         expect(properties.get('camunda:values')).to.have.length(1);
-        expect(properties.get('camunda:values')).to.jsonEqual([{
+        expect(properties.get('camunda:values')).to.jsonEqual([ {
           $type: 'camunda:Property',
           name: 'property-1-name',
           value: 'property-1-changed-value'
-        }]);
+        } ]);
       }));
 
 
@@ -2835,11 +2835,11 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         expect(properties).to.exist;
 
         expect(properties.get('camunda:values')).to.have.length(1);
-        expect(properties.get('camunda:values')).to.jsonEqual([{
+        expect(properties.get('camunda:values')).to.jsonEqual([ {
           $type: 'camunda:Property',
           name: 'property-1-name',
           value: 'property-1-new-value'
-        }]);
+        } ]);
       }));
 
 

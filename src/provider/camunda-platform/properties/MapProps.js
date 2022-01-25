@@ -83,13 +83,13 @@ function MapEntry(props) {
     idPrefix
   } = props;
 
-  const entries = [{
+  const entries = [ {
     id: idPrefix + '-key',
     component: <MapKey idPrefix={ idPrefix } element={ element } entry={ entry } />
   },{
     id: idPrefix + '-value',
     component: <MapValue idPrefix={ idPrefix } element={ element } entry={ entry } />
-  }];
+  } ];
 
   return entries;
 }

@@ -238,7 +238,7 @@ describe('provider/zeebe - MessageProps', function() {
       // given
       const elements = [
         elementRegistry.get('StartEvent_1'),
-        elementRegistry.get('StartEvent_3')];
+        elementRegistry.get('StartEvent_3') ];
 
       for (const element of elements) {
 

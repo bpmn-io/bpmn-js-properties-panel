@@ -13,13 +13,13 @@ export default function Header(props) {
     header
   } = props;
 
-  const entries = [{
+  const entries = [ {
     id: idPrefix + '-key',
     component: <KeyProperty idPrefix={ idPrefix } element={ element } header={ header } />
   },{
     id: idPrefix + '-value',
     component: <ValueProperty idPrefix={ idPrefix } element={ element } header={ header } />
-  }];
+  } ];
 
   return entries;
 }
