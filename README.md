@@ -39,7 +39,7 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 import {
   BpmnPropertiesPanelModule,
   BpmnPropertiesProviderModule,
-} from '@bpmn-io/bpmn-properties-panel';
+} from 'bpmn-js-properties-panel';
 
 const modeler = new BpmnModeler({
   container: '#canvas',
