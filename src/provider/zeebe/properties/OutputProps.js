@@ -93,19 +93,6 @@ function removeFactory({ commandStack, element, parameter }) {
           }
         }
       });
-
-      if (!values.length) {
-        commands.push({
-          cmd: 'element.updateModdleProperties',
-          context: {
-            element,
-            moddleElement: businessObject,
-            properties: {
-              extensionElements: undefined
-            }
-          }
-        });
-      }
     }
 
     commandStack.execute('properties-panel.multi-command-executor', commands);

@@ -239,19 +239,6 @@ function FormHelper(bpmnFactory, commandStack) {
       }
     });
 
-    if (!values.length) {
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: businessObject,
-          properties: {
-            extensionElements: undefined
-          }
-        }
-      });
-    }
-
     // (2) remove referenced user task form
     const userTaskForm = getUserTaskForm(element);
 
@@ -271,19 +258,6 @@ function FormHelper(bpmnFactory, commandStack) {
         }
       }
     });
-
-    if (!values.length) {
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: rootElement,
-          properties: {
-            extensionElements: undefined
-          }
-        }
-      });
-    }
 
     return commands;
   }

@@ -381,28 +381,6 @@ describe('provider/camunda-platform - ErrorProps', function() {
         expect(fieldInjections).to.have.length(1);
       }));
 
-
-      it('should remove extensionElements if not other values exist', inject(async function(elementRegistry, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_ErrorEventDefinition'),
-              businessObject = getServiceTaskLikeBusinessObject(serviceTask);
-
-        await act(() => {
-          selection.select(serviceTask);
-        });
-
-        const removeErrorButton = getRemoveFieldButton(container, 0);
-
-        // when
-        await clickInput(removeErrorButton);
-
-        // then
-        const extensionElements = businessObject.get('extensionElements');
-
-        expect(extensionElements).to.be.undefined;
-      }));
-
     });
 
   });

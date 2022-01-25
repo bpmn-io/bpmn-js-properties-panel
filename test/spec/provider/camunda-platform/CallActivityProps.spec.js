@@ -310,51 +310,6 @@ describe('provider/camunda-platform - CallActivityProps', function() {
       })
     );
 
-
-    it('should remove extension elements if none is left',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const element = elementRegistry.get('WithBusinessKey');
-
-        await act(() => {
-          selection.select(element);
-        });
-
-        const input = domQuery(':is(input, select)[name=calledElementBusinessKey]', container);
-
-        // when
-        clickInput(input);
-
-        // then
-        expect(getBusinessObject(element).get('extensionElements')).not.to.exist;
-      })
-    );
-
-
-    it('should NOT remove extension elements if some are left',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const element = elementRegistry.get('WithCamundaIn'),
-              extensionElements = getBusinessObject(element).get('extensionElements'),
-              preexistingExtensionElement = extensionElements.get('values')[0];
-
-        await act(() => {
-          selection.select(element);
-        });
-
-        const input = domQuery(':is(input, select)[name=calledElementBusinessKey]', container);
-
-        // when
-        clickInput(input);
-
-        // then
-        expect(getBusinessObject(element).get('extensionElements')).to.eql(extensionElements);
-        expect(extensionElements.get('values')).to.have.lengthOf(2);
-        expect(extensionElements.get('values')).to.contain(preexistingExtensionElement);
-      })
-    );
   });
 
 

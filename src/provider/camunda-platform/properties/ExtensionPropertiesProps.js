@@ -65,7 +65,7 @@ function removeFactory({ commandStack, element, property }) {
       return;
     }
 
-    let values = without(properties.get('values'), property);
+    const values = without(properties.get('values'), property);
 
     commands.push({
       cmd: 'element.updateModdleProperties',
@@ -83,31 +83,16 @@ function removeFactory({ commandStack, element, property }) {
       const businessObject = getBusinessObject(element),
             extensionElements = businessObject.get('extensionElements');
 
-      values = without(extensionElements.get('values'), properties);
-
       commands.push({
         cmd: 'element.updateModdleProperties',
         context: {
           element,
           moddleElement: extensionElements,
           properties: {
-            values
+            values: without(extensionElements.get('values'), properties)
           }
         }
       });
-
-      if (!values.length) {
-        commands.push({
-          cmd: 'element.updateModdleProperties',
-          context: {
-            element,
-            moddleElement: businessObject,
-            properties: {
-              extensionElements: undefined
-            }
-          }
-        });
-      }
     }
 
     commandStack.execute('properties-panel.multi-command-executor', commands);
