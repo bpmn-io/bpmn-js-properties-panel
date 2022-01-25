@@ -12,7 +12,7 @@ import {
 
 import {
   getExtensionElementsList
-} from '../utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
 
 export function isZeebeServiceTask(element) {

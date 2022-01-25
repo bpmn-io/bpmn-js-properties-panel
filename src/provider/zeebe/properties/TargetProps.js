@@ -68,10 +68,10 @@ function TargetProcessId(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: businessObject,
+          element,
+          moddleElement: businessObject,
           properties: { extensionElements }
         }
       });
@@ -79,6 +79,7 @@ function TargetProcessId(props) {
 
     // (2) ensure zeebe:calledElement
     let calledElement = getCalledElement(businessObject);
+
     if (!calledElement) {
       calledElement = createElement(
         'zeebe:CalledElement',
@@ -87,12 +88,13 @@ function TargetProcessId(props) {
         bpmnFactory);
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ calledElement ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), calledElement ]
+          }
         }
       });
 
@@ -100,10 +102,10 @@ function TargetProcessId(props) {
 
     // (3) Update processId attribute
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: calledElement,
+        element,
+        moddleElement: calledElement,
         properties: {
           processId: value
         }

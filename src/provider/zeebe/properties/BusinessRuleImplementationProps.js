@@ -20,6 +20,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { addExtensionElements } from '../utils/ExtensionElementsUtil';
+
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
       DEFAULT_IMPLEMENTATION_OPTION = DMN_IMPLEMENTATION_OPTION;
@@ -70,32 +72,8 @@ function BusinessRuleImplementation(props) {
    * this will be ensured by a bpmn-js behavior (and not by the propPanel).
    */
   const setValue = (value) => {
-    const commands = [];
-
     const businessObject = getBusinessObject(element);
 
-    let extensionElements = businessObject.get('extensionElements');
-
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'properties-panel.update-businessobject',
-        context: {
-          element: element,
-          businessObject: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) ensure task definition or called decision
     let extensionElement, extensionElementType;
 
     if (value === DMN_IMPLEMENTATION_OPTION) {
@@ -110,23 +88,12 @@ function BusinessRuleImplementation(props) {
       extensionElement = createElement(
         extensionElementType,
         { },
-        extensionElements,
+        null,
         bpmnFactory
       );
 
-      commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
-        context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ extensionElement ]
-        }
-      });
+      addExtensionElements(element, businessObject, extensionElement, bpmnFactory, commandStack);
     }
-
-    // (3) commit all updates
-    commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
   const getOptions = () => {

@@ -76,10 +76,10 @@ function PropagateAllChildVariables(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: businessObject,
+          element,
+          moddleElement: businessObject,
           properties: { extensionElements }
         }
       });
@@ -87,6 +87,7 @@ function PropagateAllChildVariables(props) {
 
     // (2) ensure zeebe:calledElement
     let calledElement = getCalledElement(businessObject);
+
     if (!calledElement) {
       calledElement = createElement(
         'zeebe:CalledElement',
@@ -95,12 +96,13 @@ function PropagateAllChildVariables(props) {
         bpmnFactory);
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ calledElement ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), calledElement ]
+          }
         }
       });
 
@@ -108,10 +110,10 @@ function PropagateAllChildVariables(props) {
 
     // (3) Update propagateAllChildVariables attribute
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: calledElement,
+        element,
+        moddleElement: calledElement,
         properties: {
           propagateAllChildVariables: value
         }

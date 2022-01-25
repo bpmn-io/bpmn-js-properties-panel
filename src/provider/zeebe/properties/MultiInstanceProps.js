@@ -229,9 +229,9 @@ function getCompletionCondition(element) {
 }
 
 function setCompletionCondition(element, commandStack, completionCondition = undefined) {
-  commandStack.execute('properties-panel.update-businessobject', {
+  commandStack.execute('element.updateModdleProperties', {
     element,
-    businessObject: getLoopCharacteristics(element),
+    moddleElement: getLoopCharacteristics(element),
     properties: {
       completionCondition
     }
@@ -261,10 +261,10 @@ function setProperty(element, propertyName, value, commandStack, bpmnFactory) {
     );
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: loopCharacteristics,
+        element,
+        moddleElement: loopCharacteristics,
         properties: { extensionElements }
       }
     });
@@ -281,22 +281,23 @@ function setProperty(element, propertyName, value, commandStack, bpmnFactory) {
     );
 
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: extensionElements,
-        propertyName: 'values',
-        objectsToAdd: [ zeebeLoopCharacteristics ]
+        element,
+        moddleElement: extensionElements,
+        properties: {
+          values: [ ...extensionElements.get('values'), zeebeLoopCharacteristics ]
+        }
       }
     });
   }
 
   // (3) update defined property
   commands.push({
-    cmd: 'properties-panel.update-businessobject',
+    cmd: 'element.updateModdleProperties',
     context: {
-      element: element,
-      businessObject: zeebeLoopCharacteristics,
+      element,
+      moddleElement: zeebeLoopCharacteristics,
       properties: { [ propertyName ]: value }
     }
   });
