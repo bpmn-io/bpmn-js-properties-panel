@@ -144,6 +144,7 @@ function getDefaultType(property) {
 
   if ([
     PROPERTY_TYPE,
+    ZEEBE_TASK_DEFINITION_TYPE_TYPE,
     ZEBBE_INPUT_TYPE,
     ZEEBE_OUTPUT_TYPE,
     ZEEBE_TASK_HEADER_TYPE

@@ -41,6 +41,9 @@ import descriptionElementTemplates from './CustomProperties.description.json';
 import editableDiagramXML from './CustomProperties.editable.bpmn';
 import editableElementTemplates from './CustomProperties.editable.json';
 
+import defaultTypesDiagramXML from './CustomProperties.default-types.bpmn';
+import defaultTypesElementTemplates from './CustomProperties.default-types.json';
+
 
 describe('provider/cloud-element-templates - CustomProperties', function() {
 
@@ -786,6 +789,91 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
       // then
       expectValid(entry);
+    });
+
+  });
+
+
+  describe('default-types', function() {
+
+    beforeEach(bootstrapPropertiesPanel(defaultTypesDiagramXML, {
+      container,
+      debounceInput: false,
+      elementTemplates: defaultTypesElementTemplates,
+      moddleExtensions: {
+        zeebe: zeebeModdlePackage
+      },
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        elementTemplatesModule,
+        modelingModule
+      ]
+    }));
+
+
+    it('should display String as default - property', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-type-0', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
+    });
+
+
+    it('should display String as default - zeebe:taskDefinition:type', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-type-1', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
+    });
+
+
+    it('should display String as default - zeebe:taskHeader', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-type-2', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
+    });
+
+
+    it('should display String as default - zeebe:input', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-type-3', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
+    });
+
+
+    it('should display String as default - zeebe:output', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-type-4', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
     });
 
   });
