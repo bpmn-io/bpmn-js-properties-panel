@@ -161,7 +161,7 @@ function TargetGroup(element) {
 function HeaderGroup(element, injector) {
   const group = {
     id: 'headers',
-    label: 'Header',
+    label: 'Headers',
     component: ListGroup,
     ...HeaderProps({ element, injector })
   };
