@@ -11,7 +11,6 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: expose ZeebeDescriptionProvider ([c4b565](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/c4b565df6f861205f6df63a3e265375e0b10d4e7))
 * `FEAT`: re-enable `zeebe:calledDecision` ([dc32ec](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/dc32ecfed99cf1680bd7ff2ba126b664e6044040))
 * `FEAT`: support completion-condition for multi-instance ([324128](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/32412883e37c773b0d32329ec6e0ce8c87e0c2eb))
-* `FIX`: exclude `preact-markup` from external dependencies ([#550](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/550))
 * `FIX`: don't render empty element template descriptions ([656f80](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/656f801c22d2c0d30df0b1c1ef4f80ebbf3b880d))
 * `FIX`: allow rendering of HTML descriptions ([#547](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/547) and [#375](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/375))
 * `FIX`: update instead of destroy new root element ([b5a29d](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/b5a29d41d5493d3a35be9b19a961257d46def4af))
