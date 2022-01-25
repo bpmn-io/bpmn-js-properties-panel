@@ -32,11 +32,11 @@ export default function Error(props) {
     errorEventDefinition
   } = props;
 
-  let entries = [{
+  let entries = [ {
     id: idPrefix + '-errorRef',
     component: <ErrorRef element={ element } errorEventDefinition={ errorEventDefinition } idPrefix={ idPrefix } />,
     isEdited: isSelectEntryEdited
-  }];
+  } ];
 
   const error = errorEventDefinition.get('errorRef');
 

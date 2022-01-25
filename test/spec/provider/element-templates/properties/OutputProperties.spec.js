@@ -184,7 +184,7 @@ describe('provider/element-templates - OutputProperties', function() {
           '<div class="markup">' +
             '<div xmlns="http://www.w3.org/1999/xhtml">' +
               'By the way, you can use ' +
-              '<a href="https://freemarker.apache.org/" target="_blank" rel="noopener">freemarker templates</a> '+
+              '<a href="https://freemarker.apache.org/" target="_blank" rel="noopener">freemarker templates</a> ' +
               'here' +
             '</div>' +
           '</div>' +

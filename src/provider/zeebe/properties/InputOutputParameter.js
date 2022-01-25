@@ -17,13 +17,13 @@ export default function InputOutputParameter(props) {
     parameter
   } = props;
 
-  const entries = [{
+  const entries = [ {
     id: idPrefix + '-target',
     component: <TargetProperty idPrefix={ idPrefix } element={ element } parameter={ parameter } />
   },{
     id: idPrefix + '-source',
     component: <SourceProperty idPrefix={ idPrefix } element={ element } parameter={ parameter } />
-  }];
+  } ];
 
   return entries;
 }

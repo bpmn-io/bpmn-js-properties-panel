@@ -19,7 +19,7 @@ export default function FieldInjection(props) {
     field
   } = props;
 
-  const entries = [{
+  const entries = [ {
     id: idPrefix + '-name',
     component: <NameProperty idPrefix={ idPrefix } element={ element } field={ field } />
   },{
@@ -28,7 +28,7 @@ export default function FieldInjection(props) {
   },{
     id: idPrefix + '-value',
     component: <ValueProperty idPrefix={ idPrefix } element={ element } field={ field } />
-  }];
+  } ];
 
   return entries;
 }

@@ -66,7 +66,7 @@ export class Injector {
 }
 
 export function getProviders() {
-  return [{
+  return [ {
     getGroups: () => (groups) => groups
-  }];
+  } ];
 }

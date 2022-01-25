@@ -207,7 +207,7 @@ function createExtensionElements(businessObject, bpmnFactory) {
 function createInputOutput(binding, value, bpmnFactory, extensionElements) {
   const inputParameter = createInputParameter(binding, value, bpmnFactory);
   const inputOutput = createElement('camunda:InputOutput', {
-    inputParameters: [inputParameter],
+    inputParameters: [ inputParameter ],
     outputParameters: []
   }, extensionElements, bpmnFactory);
 

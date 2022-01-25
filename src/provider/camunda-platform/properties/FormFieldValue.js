@@ -21,7 +21,7 @@ export default function FormFieldValue(props) {
     {
       id: idPrefix + '-name',
       component: <Name idPrefix={ idPrefix } element={ element } value={ value } />
-    }];
+    } ];
 
   return entries;
 }
