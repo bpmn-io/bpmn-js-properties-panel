@@ -18,7 +18,7 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  find
+  find, without
 } from 'min-dash';
 
 import {
@@ -124,7 +124,7 @@ function FormHelper(bpmnFactory, commandStack) {
       );
 
       commands.push(
-        UpdateBusinessObjectCmd(element, businessObject, {
+        UpdateModdlePropertiesCmd(element, businessObject, {
           extensionElements: extensionElements,
         })
       );
@@ -142,7 +142,7 @@ function FormHelper(bpmnFactory, commandStack) {
       );
 
       commands.push(
-        UpdateBusinessObjectCmd(element, rootElement, {
+        UpdateModdlePropertiesCmd(element, rootElement, {
           extensionElements: rootExtensionElements,
         })
       );
@@ -162,14 +162,16 @@ function FormHelper(bpmnFactory, commandStack) {
         bpmnFactory
       );
 
-      commands.push(AddRemoveElementsFromListCmd(
-        element,
-        extensionElements,
-        'values',
-        'extensionElements',
-        [ formDefinition ],
-        []
-      ));
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), formDefinition ]
+          }
+        }
+      });
     }
 
     formId = resolveFormId(formDefinition.get('formKey'));
@@ -187,18 +189,20 @@ function FormHelper(bpmnFactory, commandStack) {
         bpmnFactory
       );
 
-      commands.push(AddRemoveElementsFromListCmd(
-        element,
-        rootExtensionElements,
-        'values',
-        'extensionElements',
-        [ userTaskForm ],
-        []
-      ));
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: rootExtensionElements,
+          properties: {
+            values: [ ...rootExtensionElements.get('values'), userTaskForm ]
+          }
+        }
+      });
     }
 
     // (5) update user task form
-    commands.push(UpdateBusinessObjectCmd(element, userTaskForm, {
+    commands.push(UpdateModdlePropertiesCmd(element, userTaskForm, {
       body
     }));
 
@@ -222,13 +226,31 @@ function FormHelper(bpmnFactory, commandStack) {
       return commands;
     }
 
-    commands.push(RemoveElementsFromListCmd(
-      element,
-      extensionElements,
-      'values',
-      'extensionElements',
-      [ formDefinition ]
-    ));
+    let values = without(extensionElements.get('values'), formDefinition);
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: extensionElements,
+        properties: {
+          values
+        }
+      }
+    });
+
+    if (!values.length) {
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: businessObject,
+          properties: {
+            extensionElements: undefined
+          }
+        }
+      });
+    }
 
     // (2) remove referenced user task form
     const userTaskForm = getUserTaskForm(element);
@@ -237,13 +259,31 @@ function FormHelper(bpmnFactory, commandStack) {
       return commands;
     }
 
-    commands.push(RemoveElementsFromListCmd(
-      element,
-      rootExtensionElements,
-      'values',
-      'extensionElements',
-      [ userTaskForm ]
-    ));
+    values = without(rootExtensionElements.get('values'), userTaskForm);
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: rootExtensionElements,
+        properties: {
+          values
+        }
+      }
+    });
+
+    if (!values.length) {
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: rootElement,
+          properties: {
+            extensionElements: undefined
+          }
+        }
+      });
+    }
 
     return commands;
   }
@@ -287,8 +327,9 @@ function FormHelper(bpmnFactory, commandStack) {
   }
 
   function getRootElement(element) {
-    var businessObject = getBusinessObject(element),
-        parent = businessObject;
+    const businessObject = getBusinessObject(element);
+
+    let parent = businessObject;
 
     while (parent.$parent && !is(parent, 'bpmn:Process')) {
       parent = parent.$parent;
@@ -328,42 +369,13 @@ FormHelper.$inject = [ 'bpmnFactory', 'commandStack' ];
 
 // helpers /////////////
 
-function UpdateBusinessObjectCmd(element, businessObject, newProperties) {
+function UpdateModdlePropertiesCmd(element, businessObject, newProperties) {
   return {
-    cmd: 'properties-panel.update-businessobject',
+    cmd: 'element.updateModdleProperties',
     context: {
-      element: element,
-      businessObject: businessObject,
+      element,
+      moddleElement: businessObject,
       properties: newProperties
-    }
-  };
-}
-
-function RemoveElementsFromListCmd(element, businessObject, listPropertyName, referencePropertyName, objectsToRemove) {
-
-  return {
-    cmd: 'properties-panel.update-businessobject-list',
-    context: {
-      element: element,
-      currentObject: businessObject,
-      propertyName: listPropertyName,
-      referencePropertyName: referencePropertyName,
-      objectsToRemove: objectsToRemove
-    }
-  };
-}
-
-function AddRemoveElementsFromListCmd(element, businessObject, listPropertyName, referencePropertyName, objectsToAdd, objectsToRemove) {
-
-  return {
-    cmd: 'properties-panel.update-businessobject-list',
-    context: {
-      element: element,
-      currentObject: businessObject,
-      propertyName: listPropertyName,
-      referencePropertyName: referencePropertyName,
-      objectsToAdd: objectsToAdd,
-      objectsToRemove: objectsToRemove
     }
   };
 }

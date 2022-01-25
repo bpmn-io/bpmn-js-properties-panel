@@ -76,10 +76,10 @@ function SubscriptionCorrelationKey(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: message,
+          element,
+          moddleElement: message,
           properties: { extensionElements }
         }
       });
@@ -97,22 +97,23 @@ function SubscriptionCorrelationKey(props) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ subscription ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), subscription ]
+          }
         }
       });
     }
 
     // (3) update subscription correlation key
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: subscription,
+        element,
+        moddleElement: subscription,
         properties: { correlationKey: value }
       }
     });

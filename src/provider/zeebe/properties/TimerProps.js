@@ -120,9 +120,9 @@ function TimerEventDefinitionType(props) {
     newProps[value] = formalExpression;
 
     // (4) Execute businessObject update
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: timerEventDefinition,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: timerEventDefinition,
       properties: newProps
     });
   };
@@ -192,9 +192,9 @@ function TimerEventDefinitionValue(props) {
   };
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
-      element: element,
-      businessObject: timerEventFormalExpression,
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: timerEventFormalExpression,
       properties: {
         body: value
       }
@@ -247,7 +247,7 @@ function TimerEventDefinitionDurationValue(props) {
       timerEventFormalExpression.$parent = timerEventDefinition;
 
       // (1.1) update the formalExpression
-      const newProps = {
+      const properties = {
         timeDuration: timerEventFormalExpression,
         timeDate: undefined,
         timeCycle: undefined
@@ -255,11 +255,11 @@ function TimerEventDefinitionDurationValue(props) {
 
       // (1.2) push command
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: timerEventDefinition,
-          properties: newProps
+          element,
+          moddleElement: timerEventDefinition,
+          properties
         }
       });
 
@@ -267,10 +267,10 @@ function TimerEventDefinitionDurationValue(props) {
 
     // (2) update value
     commands.push({
-      cmd: 'properties-panel.update-businessobject',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        businessObject: timerEventFormalExpression,
+        element,
+        moddleElement: timerEventFormalExpression,
         properties: {
           body: value
         }

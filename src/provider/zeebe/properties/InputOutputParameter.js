@@ -40,9 +40,9 @@ function TargetProperty(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: parameter,
+      moddleElement: parameter,
       properties: {
         target: value
       }
@@ -75,9 +75,9 @@ function SourceProperty(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: parameter,
+      moddleElement: parameter,
       properties: {
         source: value
       }

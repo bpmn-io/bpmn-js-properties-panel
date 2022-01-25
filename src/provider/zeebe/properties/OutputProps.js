@@ -16,6 +16,8 @@ import {
   nextId
 } from '../../../utils/ElementUtil';
 
+import { without } from 'min-dash';
+
 
 export function OutputProps({ element, injector }) {
 
@@ -62,27 +64,48 @@ function removeFactory({ commandStack, element, parameter }) {
       return;
     }
 
+    const outputParameters = without(ioMapping.get('outputParameters'), parameter);
+
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: ioMapping,
-        propertyName: 'outputParameters',
-        objectsToRemove: [ parameter ]
+        element,
+        moddleElement: ioMapping,
+        properties: {
+          outputParameters
+        }
       }
     });
 
     // remove ioMapping if there are no input/output parameters anymore
-    if (ioMapping.get('inputParameters').length + ioMapping.get('outputParameters').length === 1) {
+    if (!ioMapping.get('inputParameters').length && !outputParameters.length) {
+      const businessObject = getBusinessObject(element),
+            extensionElements = businessObject.get('extensionElements'),
+            values = without(extensionElements.get('values'), ioMapping);
+
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: getBusinessObject(element).get('extensionElements'),
-          propertyName: 'values',
-          objectsToRemove: [ ioMapping ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values
+          }
         }
       });
+
+      if (!values.length) {
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element,
+            moddleElement: businessObject,
+            properties: {
+              extensionElements: undefined
+            }
+          }
+        });
+      }
     }
 
     commandStack.execute('properties-panel.multi-command-executor', commands);
@@ -109,10 +132,10 @@ function addFactory({ element, bpmnFactory, commandStack }) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: businessObject,
+          element,
+          moddleElement: businessObject,
           properties: { extensionElements }
         }
       });
@@ -130,12 +153,13 @@ function addFactory({ element, bpmnFactory, commandStack }) {
       }, parent, bpmnFactory);
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ ioMapping ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), ioMapping ]
+          }
         }
       });
     }
@@ -148,12 +172,13 @@ function addFactory({ element, bpmnFactory, commandStack }) {
 
     // (4) add parameter to list
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: ioMapping,
-        propertyName: 'outputParameters',
-        objectsToAdd: [ newParameter ]
+        element,
+        moddleElement: ioMapping,
+        properties: {
+          outputParameters: [ ...ioMapping.get('outputParameters'), newParameter ]
+        }
       }
     });
 

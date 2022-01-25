@@ -36,9 +36,9 @@ function KeyProperty(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: header,
+      moddleElement: header,
       properties: {
         key: value
       }
@@ -71,11 +71,11 @@ function ValueProperty(props) {
   const debounce = useService('debounceInput');
 
   const setValue = (value) => {
-    commandStack.execute('properties-panel.update-businessobject', {
+    commandStack.execute('element.updateModdleProperties', {
       element,
-      businessObject: header,
+      moddleElement: header,
       properties: {
-        value: value
+        value
       }
     });
   };

@@ -14,6 +14,8 @@ import {
   createElement
 } from '../../../utils/ElementUtil';
 
+import { without } from 'min-dash';
+
 
 export function HeaderProps({ element, injector }) {
 
@@ -60,25 +62,32 @@ function removeFactory({ commandStack, element, header }) {
       return;
     }
 
+    const newTaskHeaders = without(taskHeaders.get('values'), header);
+
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: taskHeaders,
-        propertyName: 'values',
-        objectsToRemove: [ header ]
+        element,
+        moddleElement: taskHeaders,
+        properties: {
+          values: newTaskHeaders
+        }
       }
     });
 
     // remove zeebe:TaskHeaders if there are no headers anymore
-    if (taskHeaders.get('values').length === 1) {
+    if (!newTaskHeaders.length) {
+      const businessObject = getBusinessObject(element),
+            extensionElements = businessObject.get('extensionElements');
+
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: getBusinessObject(element).get('extensionElements'),
-          propertyName: 'values',
-          objectsToRemove: [ taskHeaders ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: without(extensionElements.get('values'), taskHeaders)
+          }
         }
       });
     }
@@ -108,10 +117,10 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       );
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          businessObject: businessObject,
+          element,
+          moddleElement: businessObject,
           properties: { extensionElements }
         }
       });
@@ -128,12 +137,13 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       }, parent, bpmnFactory);
 
       commands.push({
-        cmd: 'properties-panel.update-businessobject-list',
+        cmd: 'element.updateModdleProperties',
         context: {
-          element: element,
-          currentObject: extensionElements,
-          propertyName: 'values',
-          objectsToAdd: [ taskHeaders ]
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), taskHeaders ]
+          }
         }
       });
     }
@@ -143,12 +153,13 @@ function addFactory({ bpmnFactory, commandStack, element }) {
 
     // (4) add header to list
     commands.push({
-      cmd: 'properties-panel.update-businessobject-list',
+      cmd: 'element.updateModdleProperties',
       context: {
-        element: element,
-        currentObject: taskHeaders,
-        propertyName: 'values',
-        objectsToAdd: [ header ]
+        element,
+        moddleElement: taskHeaders,
+        properties: {
+          values: [ ...taskHeaders.get('values'), header ]
+        }
       }
     });
 
