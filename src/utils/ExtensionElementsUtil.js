@@ -100,33 +100,11 @@ export function removeExtensionElements(element, businessObject, extensionElemen
   const extensionElements = businessObject.get('extensionElements'),
         values = extensionElements.get('values').filter(value => !extensionElementsToRemove.includes(value));
 
-  // (1) remove extension elements
-  const commands = [
-    {
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: extensionElements,
-        properties: {
-          values
-        }
-      }
+  commandStack.execute('element.updateModdleProperties', {
+    element,
+    moddleElement: extensionElements,
+    properties: {
+      values
     }
-  ];
-
-  // (2) remove bpmn:ExtensionElements if it's empty
-  if (!values.length) {
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: businessObject,
-        properties: {
-          extensionElements: undefined
-        }
-      }
-    });
-  }
-
-  commandStack.execute('properties-panel.multi-command-executor', commands);
+  });
 }

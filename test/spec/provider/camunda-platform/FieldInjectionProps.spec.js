@@ -283,27 +283,6 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
         expect(fieldInjections).to.have.length(1);
       }));
 
-
-      it('should remove extensionElements if not other values exist', inject(async function(elementRegistry, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_2'),
-              businessObject = getServiceTaskLikeBusinessObject(serviceTask);
-
-        await act(() => {
-          selection.select(serviceTask);
-        });
-
-        const removeFieldInjectionButton = getRemoveFieldButton(container, 0);
-
-        // when
-        await clickInput(removeFieldInjectionButton);
-
-        // then
-        const extensionElements = businessObject.get('extensionElements');
-        expect(extensionElements).to.be.undefined;
-      }));
-
     });
 
   });
@@ -504,27 +483,6 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
         // then
         const fieldInjections = getExtensionElementsList(businessObject, 'camunda:Field');
         expect(fieldInjections).to.have.length(1);
-      }));
-
-
-      it('should remove extensionElements if not other values exist', inject(async function(elementRegistry, selection) {
-
-        // given
-        const throwEvent = elementRegistry.get('MessageThrowEvent_2'),
-              businessObject = getServiceTaskLikeBusinessObject(throwEvent);
-
-        await act(() => {
-          selection.select(throwEvent);
-        });
-
-        const removeFieldInjectionButton = getRemoveFieldButton(container, 0);
-
-        // when
-        await clickInput(removeFieldInjectionButton);
-
-        // then
-        const extensionElements = businessObject.get('extensionElements');
-        expect(extensionElements).to.be.undefined;
       }));
 
     });
