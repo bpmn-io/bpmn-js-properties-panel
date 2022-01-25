@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Rest Template",
+    "id": "com.example.default-types",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "foo",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      },
+      {
+        "value": "task-type",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "value": "header-1-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-1-key"
+        }
+      },
+      {
+        "value": "input-1-source",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1-target"
+        }
+      },
+      {
+        "value": "output-1-target",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1-source"
+        }
+      }
+    ]
+  }
+]
