@@ -12,6 +12,10 @@ import {
 } from '@testing-library/preact';
 
 import {
+  map
+} from 'min-dash';
+
+import {
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
@@ -44,6 +48,9 @@ import descriptionElementTemplates from './CustomProperties.description.json';
 
 import editableDiagramXML from './CustomProperties.editable.bpmn';
 import editableElementTemplates from './CustomProperties.editable.json';
+
+import groupsDiagramXML from './CustomProperties.groups.bpmn';
+import groupsElementTemplates from './CustomProperties.groups.json';
 
 
 describe('provider/element-templates - CustomProperties', function() {
@@ -1720,6 +1727,146 @@ describe('provider/element-templates - CustomProperties', function() {
 
   });
 
+
+  describe('grouping', function() {
+
+    beforeEach(bootstrapPropertiesPanel(groupsDiagramXML, {
+      container,
+      debounceInput: false,
+      elementTemplates: groupsElementTemplates,
+      moddleExtensions: {
+        camunda: camundaModdlePackage
+      },
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        elementTemplatesModule,
+        modelingModule
+      ]
+    }));
+
+
+    it('should create defined groups', async function() {
+
+      // given
+      await expectSelected('ServiceTask_1');
+
+      // when
+      const groups = getGroupIds(container);
+
+      // then
+      expect(groups).to.contain('ElementTemplates__CustomProperties-one');
+      expect(groups).to.contain('ElementTemplates__CustomProperties-two');
+      expect(groups).to.contain('ElementTemplates__CustomProperties-three');
+      expect(groups).to.contain('ElementTemplates__CustomProperties');
+    });
+
+
+    it('should display in defined properties order', async function() {
+
+      // given
+      await expectSelected('ServiceTask_1');
+
+      // when
+      const groups = getGroupIds(container);
+
+      // then
+      expect(groups).to.eql([
+        'ElementTemplates__Template',
+        'ElementTemplates__CustomProperties-one',
+        'ElementTemplates__CustomProperties-two',
+        'ElementTemplates__CustomProperties-three',
+        'ElementTemplates__CustomProperties',
+      ]);
+    });
+
+
+    it('should not create defined group (no entries)', async function() {
+
+      // given
+      await expectSelected('ServiceTask_noEntries');
+
+      // when
+      const groups = getGroupIds(container);
+
+      // then
+      expect(groups).to.not.contain('ElementTemplates__CustomProperties-two');
+    });
+
+
+    it('should only create default group', async function() {
+
+      // given
+      await expectSelected('ServiceTask_noGroups');
+
+      // when
+      const groups = getGroupIds(container);
+
+      // then
+      expect(groups).to.eql([
+        'ElementTemplates__Template',
+        'ElementTemplates__CustomProperties'
+      ]);
+    });
+
+
+    it('should not create default group', async function() {
+
+      // given
+      await expectSelected('ServiceTask_noDefault');
+
+      // when
+      const groups = getGroupIds(container);
+
+      // then
+      expect(groups).to.not.contain('ElementTemplates__CustomProperties');
+    });
+
+
+    it('should position into defined groups', async function() {
+
+      // given
+      await expectSelected('ServiceTask_1');
+
+      // when
+      const entry1 = findEntry('custom-entry-example.com.grouping-one-0', container);
+      const entry2 = findEntry('custom-entry-example.com.grouping-two-0', container);
+      const entry3 = findEntry('custom-entry-example.com.grouping-three-0', container);
+
+      // then
+      expect(getGroup(entry1)).to.equal('ElementTemplates__CustomProperties-one');
+      expect(getGroup(entry2)).to.equal('ElementTemplates__CustomProperties-two');
+      expect(getGroup(entry3)).to.equal('ElementTemplates__CustomProperties-three');
+    });
+
+
+    it('should position into default group (empty group id)', async function() {
+
+      // given
+      await expectSelected('ServiceTask_1');
+
+      // when
+      const entry = findEntry('custom-entry-example.com.grouping-0', container);
+
+      // then
+      expect(getGroup(entry)).to.equal('ElementTemplates__CustomProperties');
+    });
+
+
+    it('should position into default group (non existing group)', async function() {
+
+      // given
+      await expectSelected('ServiceTask_nonExisting');
+
+      // when
+      const entry = findEntry('custom-entry-example.com.grouping-nonExisting-0', container);
+
+      // then
+      expect(getGroup(entry)).to.equal('ElementTemplates__CustomProperties');
+    });
+
+  });
+
 });
 
 
@@ -1763,4 +1910,24 @@ function findSelect(container) {
 
 function findTextarea(container) {
   return domQuery('textarea', container);
+}
+
+function getGroupIds(container) {
+  if (!container) {
+    throw new Error('container is missing');
+  }
+
+  const groups = domQueryAll('[data-group-id]', container);
+  const groupIds = map(groups, group => withoutPrefix(group.dataset.groupId));
+
+  return groupIds;
+}
+
+function getGroup(entry) {
+  const parent = entry.closest('[data-group-id]');
+  return parent && withoutPrefix(parent.dataset.groupId);
+}
+
+function withoutPrefix(groupId) {
+  return groupId.slice(6);
 }

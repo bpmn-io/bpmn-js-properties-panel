@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_165ah7c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220113">
+  <bpmn:process id="Process_0vvlc66" isExecutable="true">
+    <bpmn:serviceTask id="ServiceTask_1" name="groups" camunda:modelerTemplate="example.com.grouping" />
+    <bpmn:serviceTask id="ServiceTask_noDefault" name="no default" camunda:modelerTemplate="example.com.grouping-noDefault" />
+    <bpmn:serviceTask id="ServiceTask_noGroups" name="no groups" camunda:modelerTemplate="example.com.grouping-noGroups" />
+    <bpmn:serviceTask id="ServiceTask_nonExisting" name="non existing group" camunda:modelerTemplate="example.com.grouping-nonExisting" />
+    <bpmn:serviceTask id="ServiceTask_noEntries" name="no entries" camunda:modelerTemplate="example.com.grouping-noEntries" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0vvlc66">
+      <bpmndi:BPMNShape id="Activity_1328y3k_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_noDefault_di" bpmnElement="ServiceTask_noDefault">
+        <dc:Bounds x="270" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_noGroups_di" bpmnElement="ServiceTask_noGroups">
+        <dc:Bounds x="270" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_nonExisting_di" bpmnElement="ServiceTask_nonExisting">
+        <dc:Bounds x="270" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_noEntries_di" bpmnElement="ServiceTask_noEntries">
+        <dc:Bounds x="270" y="540" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
