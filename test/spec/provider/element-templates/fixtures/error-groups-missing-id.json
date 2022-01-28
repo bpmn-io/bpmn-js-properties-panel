@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Missing group id",
+    "id": "example.com.missingGroupId",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "groups": [
+      {
+        "label": "Group one"
+      },
+      {
+        "id": "two",
+        "label": "Group two"
+      },
+      {
+        "id": "three",
+        "label": "Group three"
+      }
+    ]
+  }
+]
