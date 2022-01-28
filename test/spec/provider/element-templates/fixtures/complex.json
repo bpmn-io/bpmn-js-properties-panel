@@ -156,6 +156,65 @@
     ]
   },
   {
+    "name": "MailTask (Groups)",
+    "id": "my.mail.Task-groups",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "groups": [
+      {
+        "id": "input",
+        "label": "Request parameters"
+      },
+      {
+        "id": "output",
+        "label": "Response mapping"
+      }
+    ],
+    "properties": [
+      {
+        "label": "Recipient",
+        "group": "input",
+        "type": "String",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "recipient"
+        }
+      },
+      {
+        "label": "Template",
+        "group": "input",
+        "type": "Text",
+        "description": "By the way, you can use freemarker templates ${...} here",
+        "value": "Hello ${firstName}!",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "messageBody",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "label": "Ergebnisvariable",
+        "type": "String",
+        "group": "output",
+        "value": "mailResult",
+        "binding": {
+          "type": "camunda:outputParameter",
+          "source": "${mailResult}",
+          "scriptFormat": "freemarker"
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "SECRET",
+        "binding": {
+          "type": "camunda:inputParameter",
+          "name": "hiddenField"
+        }
+      }
+    ]
+  },
+  {
     "name": "OldAsyncAwesomeTask",
     "id": "my.awesome.Task",
     "appliesTo": [

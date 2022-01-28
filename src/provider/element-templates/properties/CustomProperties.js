@@ -1,4 +1,7 @@
 import {
+  forEach,
+  find,
+  groupBy,
   isArray,
   isString,
   isUndefined
@@ -85,6 +88,11 @@ const PRIMITIVE_MODDLE_TYPES = [
   'String'
 ];
 
+const DEFAULT_CUSTOM_GROUP = {
+  id: 'ElementTemplates__CustomProperties',
+  label: 'Custom properties'
+};
+
 
 export function CustomProperties(props) {
   const {
@@ -96,18 +104,91 @@ export function CustomProperties(props) {
 
   const {
     id,
+    properties,
+    groups: propertyGroups,
     scopes
   } = elementTemplate;
 
+  // (1) group properties by group id
+  const groupedProperties = groupByGroupId(properties);
+  const defaultProps = [];
+
+  forEach(groupedProperties, (properties, groupId) => {
+
+    const group = findCustomGroup(propertyGroups, groupId);
+
+    if (!group) {
+      return defaultProps.push(...properties);
+    }
+
+    addCustomGroup(groups, {
+      element,
+      id: `ElementTemplates__CustomProperties-${groupId}`,
+      label: group.label,
+      properties: properties,
+      templateId: `${id}-${groupId}`
+    });
+  });
+
+  // (2) add default custom props
+  if (defaultProps.length) {
+    addCustomGroup(groups, {
+      ...DEFAULT_CUSTOM_GROUP,
+      element,
+      properties: defaultProps,
+      templateId: id
+    });
+  }
+
+  // (3) add custom scopes props
+  if (isArray(scopes)) {
+    scopes.forEach((scope) => {
+      const {
+        properties,
+        type
+      } = scope;
+
+      const id = type.replace(/:/g, '-');
+
+      addCustomGroup(groups, {
+        element,
+        id: `ElementTemplates__CustomGroup-${ id }`,
+        label: `Custom properties for scope <${ type }>`,
+        properties,
+        templateId: id,
+        scope
+      });
+    });
+  }
+
+  return groups;
+}
+
+function addCustomGroup(groups, props) {
+
+  const {
+    element,
+    id,
+    label,
+    properties,
+    scope,
+    templateId
+  } = props;
+
   const customPropertiesGroup = {
-    id: 'ElementTemplates__CustomProperties',
-    label: 'Custom properties',
+    id,
+    label,
     component: Group,
     entries: []
   };
 
-  elementTemplate.properties.forEach((property, index) => {
-    const entry = createCustomEntry(`custom-entry-${ id }-${ index }`, element, property);
+  properties.forEach((property, index) => {
+    const entry = createCustomEntry(
+      `custom-entry-${ templateId }-${ index }`,
+      element,
+      property,
+      scope
+    );
 
     if (entry) {
       customPropertiesGroup.entries.push(entry);
@@ -117,35 +198,6 @@ export function CustomProperties(props) {
   if (customPropertiesGroup.entries.length) {
     groups.push(customPropertiesGroup);
   }
-
-  if (isArray(scopes)) {
-    scopes.forEach((scope) => {
-      const { type } = scope;
-
-      const id = type.replace(/:/g, '-');
-
-      const scopeGroup = {
-        id: `ElementTemplates__CustomGroup-${ id }`,
-        label: `Custom properties for scope <${ type }>`,
-        component: Group,
-        entries: []
-      };
-
-      scope.properties.forEach((property, index) => {
-        const entry = createCustomEntry(`custom-entry-${ id }-${ index }`, element, property, scope);
-
-        if (entry) {
-          scopeGroup.entries.push(entry);
-        }
-      });
-
-      if (scopeGroup.entries.length) {
-        groups.push(scopeGroup);
-      }
-    });
-  }
-
-  return groups;
 }
 
 function createCustomEntry(id, element, property, scope) {
@@ -934,4 +986,12 @@ function isEmptyString(string) {
 
 function matchesPattern(string, pattern) {
   return new RegExp(pattern).test(string);
+}
+
+function groupByGroupId(properties) {
+  return groupBy(properties, 'group');
+}
+
+function findCustomGroup(groups, id) {
+  return find(groups, g => g.id === id);
 }
