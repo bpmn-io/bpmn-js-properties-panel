@@ -594,5 +594,42 @@ describe('provider/element-templates - Validator', function() {
     });
 
 
+    describe('grouping', function() {
+
+      it('should accept groups', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/groups');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.be.empty;
+
+        expect(valid(templates)).to.have.length(templateDescriptor.length);
+      });
+
+
+      it('should not accept missing group id', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/error-groups-missing-id');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.contain('template(id: <example.com.missingGroupId>, name: <Missing group id>): missing id for group "0"');
+
+        expect(valid(templates)).to.be.empty;
+      });
+
+    });
+
   });
 });
