@@ -1,6 +1,7 @@
 import { Validator } from './Validator';
 
 import { default as TemplatesLoader } from '../element-templates/ElementTemplatesLoader';
+
 export default class ElementTemplatesLoader extends TemplatesLoader {
   constructor(loadTemplates, eventBus, elementTemplates) {
 
