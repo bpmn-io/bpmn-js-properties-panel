@@ -13,6 +13,10 @@ import {
   isInterrupting
 } from 'bpmn-js/lib/util/DiUtil';
 
+import {
+  isPlane
+} from 'bpmn-js/lib/util/DrilldownUtil';
+
 import iconsByType from '../icons';
 
 export function getConcreteType(element) {
@@ -44,7 +48,8 @@ export function getConcreteType(element) {
     if (isEventSubProcess(element)) {
       type = `Event${type}`;
     } else {
-      type = `${isExpanded(element) ? 'Expanded' : 'Collapsed'}${type}`;
+      const expanded = isExpanded(element) && !isPlane(element);
+      type = `${expanded ? 'Expanded' : 'Collapsed'}${type}`;
     }
   }
 

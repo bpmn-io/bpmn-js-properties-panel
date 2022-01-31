@@ -232,6 +232,34 @@ describe('<PanelHeaderProvider>', function() {
     });
 
 
+    it('should get type - collapsed sub process plane', async function() {
+
+      // given
+      const element = createElement('bpmn:SubProcess');
+      element.di = moddle.create('bpmndi:BPMNPlane');
+
+      // when
+      const type = getConcreteType(element);
+
+      // then
+      expect(type).to.equal('CollapsedSubProcess');
+    });
+
+
+    it('should get type - expanded sub process', async function() {
+
+      // given
+      const element = createElement('bpmn:SubProcess');
+      element.di = moddle.create('bpmndi:BPMNShape', { isExpanded: true });
+
+      // when
+      const type = getConcreteType(element);
+
+      // then
+      expect(type).to.equal('ExpandedSubProcess');
+    });
+
+
     it('should get type - event sub process', async function() {
 
       // given
