@@ -7,7 +7,7 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  addExtensionElements,
+  addExtensionElement,
   getExtensionElementsList,
   removeExtensionElements
 } from '../../../utils/ExtensionElementsUtil';
@@ -77,7 +77,7 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       bpmnFactory
     );
 
-    addExtensionElements(element, businessObject, fieldInjection, bpmnFactory, commandStack);
+    addExtensionElement(element, businessObject, fieldInjection, bpmnFactory, commandStack);
   };
 }
 

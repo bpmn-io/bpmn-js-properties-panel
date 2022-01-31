@@ -20,7 +20,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { addExtensionElements } from '../../../utils/ExtensionElementsUtil';
+import { addExtensionElement } from '../../../utils/ExtensionElementsUtil';
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
@@ -92,7 +92,7 @@ function BusinessRuleImplementation(props) {
         bpmnFactory
       );
 
-      addExtensionElements(element, businessObject, extensionElement, bpmnFactory, commandStack);
+      addExtensionElement(element, businessObject, extensionElement, bpmnFactory, commandStack);
     }
   };
 

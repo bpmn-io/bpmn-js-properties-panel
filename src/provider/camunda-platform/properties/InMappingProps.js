@@ -16,7 +16,7 @@ import {
 } from '../../bpmn/utils/EventDefinitionUtil';
 
 import {
-  addExtensionElements,
+  addExtensionElement,
   getExtensionElementsList,
   removeExtensionElements
 } from '../../../utils/ExtensionElementsUtil';
@@ -82,7 +82,7 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       source: '', // source is the default type
     }, null, bpmnFactory);
 
-    addExtensionElements(element, businessObject, newMapping, bpmnFactory, commandStack);
+    addExtensionElement(element, businessObject, newMapping, bpmnFactory, commandStack);
   };
 }
 

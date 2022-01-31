@@ -8,7 +8,7 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  addExtensionElements,
+  addExtensionElement,
   getExtensionElementsList,
   removeExtensionElements
 } from '../../../utils/ExtensionElementsUtil';
@@ -182,7 +182,7 @@ function BusinessKey(props) {
       // (2) Otherwise, add camunda:In to the existing values
       const businessKeyItem = createBusinessKey(extensionElements);
 
-      addExtensionElements(element, businessObject, businessKeyItem, bpmnFactory, commandStack);
+      addExtensionElement(element, businessObject, businessKeyItem, bpmnFactory, commandStack);
     }
   }
 

@@ -32,14 +32,14 @@ export function getExtensionElementsList(businessObject, type = undefined) {
 }
 
 /**
- * Add one or more extension elements. Create bpmn:ExtensionElements if it doesn't exist.
+ * Add one extension element. Create bpmn:ExtensionElements if it doesn't exist.
  *
  * @param {ModdleElement} element
  * @param {ModdleElement} businessObject
  * @param {ModdleElement|Array<ModdleElement>} extensionElementsToAdd
  * @param {CommandStack} commandStack
  */
-export function addExtensionElements(element, businessObject, extensionElementToAdd, bpmnFactory, commandStack) {
+export function addExtensionElement(element, businessObject, extensionElementToAdd, bpmnFactory, commandStack) {
   const commands = [];
 
   let extensionElements = businessObject.get('extensionElements');

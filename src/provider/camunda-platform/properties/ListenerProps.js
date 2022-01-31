@@ -16,7 +16,7 @@ import {
 import FieldInjection from './FieldInjection';
 
 import {
-  addExtensionElements,
+  addExtensionElement,
   getExtensionElementsList,
   removeExtensionElements
 } from '../../../utils/ExtensionElementsUtil';
@@ -462,7 +462,7 @@ function addListenerFactory({ bpmnFactory, commandStack, element, listenerGroup 
 
     const businessObject = getListenersContainer(element);
 
-    addExtensionElements(element, businessObject, listener, bpmnFactory, commandStack);
+    addExtensionElement(element, businessObject, listener, bpmnFactory, commandStack);
   };
 }
 

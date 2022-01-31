@@ -18,7 +18,7 @@ import {
 } from '../../../hooks';
 
 import {
-  addExtensionElements,
+  addExtensionElement,
   getExtensionElementsList,
   removeExtensionElements
 } from '../../../utils/ExtensionElementsUtil';
@@ -88,7 +88,7 @@ function PropagateAll(props) {
       bpmnFactory
     );
 
-    addExtensionElements(element, businessObject, mapping, bpmnFactory, commandStack);
+    addExtensionElement(element, businessObject, mapping, bpmnFactory, commandStack);
   }
 
   function removeOutMapping() {
