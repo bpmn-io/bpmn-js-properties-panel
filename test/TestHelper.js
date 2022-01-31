@@ -100,6 +100,11 @@ export function insertBpmnStyles() {
   );
 
   insertCSS(
+    'bpmn-js.css',
+    require('bpmn-js/dist/assets/bpmn-js.css').default
+  );
+
+  insertCSS(
     'bpmn-font.css',
     require('bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css').default
   );
