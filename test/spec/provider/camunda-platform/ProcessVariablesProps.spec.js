@@ -367,6 +367,26 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
     }));
 
 
+    it('should display items for plane', inject(async function(elementRegistry, selection, canvas) {
+
+      // given
+      const subProcess = elementRegistry.get('SubProcess_1_plane');
+      canvas.setRootElement(subProcess);
+
+      await act(() => {
+        selection.select(subProcess);
+      });
+
+      const group = findProcessVariablesGroup(container);
+
+      // when
+      const items = getProcessVariablesItems(group);
+
+      // then
+      expect(items.length).to.equal(4);
+    }));
+
+
     it('should group by scope', inject(
       async function(elementRegistry, selection) {
 
