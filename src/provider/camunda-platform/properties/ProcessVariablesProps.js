@@ -185,11 +185,13 @@ function getRootElement(element) {
 }
 
 function getScope(element) {
+  const bo = getBusinessObject(element);
+
   if (is(element, 'bpmn:Participant')) {
-    return getBusinessObject(element).processRef.id;
+    return bo.processRef.id;
   }
 
-  return element.id;
+  return bo.id;
 }
 
 function sortByName(variables) {
