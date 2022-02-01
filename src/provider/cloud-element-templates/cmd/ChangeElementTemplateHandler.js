@@ -11,7 +11,8 @@ import {
   createInputParameter,
   createOutputParameter,
   createTaskDefinitionWithType,
-  createTaskHeader
+  createTaskHeader,
+  shouldUpdate
 } from '../CreateHelper';
 
 import {
@@ -279,7 +280,23 @@ export default class ChangeElementTemplateHandler {
       // (2) update old inputs and outputs
       if (oldProperty && oldInputOrOutput) {
 
+        // (2a) exclude old inputs and outputs from cleanup, unless
+        // a) optional and has empty value, and
+        // b) not changed
+        if (
+          shouldUpdate(newPropertyValue, newProperty) ||
+          propertyChanged(oldInputOrOutput, oldProperty)
+        ) {
+          if (is(oldInputOrOutput, 'zeebe:Input')) {
+            remove(oldInputs, oldInputOrOutput);
+          } else {
+            remove(oldOutputs, oldInputOrOutput);
+          }
+        }
+
+        // (2a) do updates (unless changed)
         if (!propertyChanged(oldInputOrOutput, oldProperty)) {
+
           if (is(oldInputOrOutput, 'zeebe:Input')) {
             properties = {
               source: newPropertyValue
@@ -296,16 +313,10 @@ export default class ChangeElementTemplateHandler {
             properties
           });
         }
-
-        if (is(oldInputOrOutput, 'zeebe:Input')) {
-          remove(oldInputs, oldInputOrOutput);
-        } else {
-          remove(oldOutputs, oldInputOrOutput);
-        }
       }
 
-      // (3) add new inputs and outputs
-      else {
+      // (3) add new inputs and outputs (unless optional)
+      else if (shouldUpdate(newPropertyValue, newProperty)) {
         if (newBindingType === 'zeebe:input') {
           propertyName = 'inputParameters';
 

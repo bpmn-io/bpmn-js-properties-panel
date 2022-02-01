@@ -31,7 +31,8 @@ import {
   createInputParameter,
   createOutputParameter,
   createTaskDefinitionWithType,
-  createTaskHeader
+  createTaskHeader,
+  shouldUpdate
 } from '../CreateHelper';
 
 import { createElement } from '../../../utils/ElementUtil';
@@ -337,6 +338,7 @@ function propertyGetter(element, property) {
 
     const {
       binding,
+      optional,
       value: defaultValue = ''
     } = property;
 
@@ -384,7 +386,8 @@ function propertyGetter(element, property) {
           return inputParameter.get('source');
         }
 
-        return defaultValue;
+        // allow empty values for optional parameters
+        return optional ? '' : defaultValue;
       }
 
       // zeebe:Output
@@ -395,7 +398,8 @@ function propertyGetter(element, property) {
           return outputParameter.get('target');
         }
 
-        return defaultValue;
+        // allow empty values for optional parameters
+        return optional ? '' : defaultValue;
       }
     }
 
@@ -425,7 +429,9 @@ function propertySetter(bpmnFactory, commandStack, element, property) {
   return function setValue(value) {
     let businessObject = getBusinessObject(element);
 
-    const { binding } = property;
+    const {
+      binding
+    } = property;
 
     const {
       name,
@@ -539,17 +545,20 @@ function propertySetter(bpmnFactory, commandStack, element, property) {
       // zeebe:Input
       if (type === ZEBBE_INPUT_TYPE) {
         const oldZeebeInputParameter = findInputParameter(ioMapping, binding);
-
-        const newZeebeInputParameter = createInputParameter(binding, value, bpmnFactory);
-
         const values = ioMapping.get('inputParameters').filter((value) => value !== oldZeebeInputParameter);
+
+        // do not persist empty parameters when configured as <optional>
+        if (shouldUpdate(value, property)) {
+          const newZeebeInputParameter = createInputParameter(binding, value, bpmnFactory);
+          values.push(newZeebeInputParameter);
+        }
 
         commands.push({
           cmd: 'element.updateModdleProperties',
           context: {
             element,
             moddleElement: ioMapping,
-            properties: { inputParameters: [ ...values, newZeebeInputParameter ] }
+            properties: { inputParameters: [ ...values ] }
           }
         });
       }
@@ -557,17 +566,20 @@ function propertySetter(bpmnFactory, commandStack, element, property) {
       // zeebe:Output
       if (type === ZEEBE_OUTPUT_TYPE) {
         const oldZeebeOutputParameter = findOutputParameter(ioMapping, binding);
-
-        const newZeebeOutputParameter = createOutputParameter(binding, value, bpmnFactory);
-
         const values = ioMapping.get('outputParameters').filter((value) => value !== oldZeebeOutputParameter);
+
+        // do not persist empty parameters when configured as <optional>
+        if (shouldUpdate(value, property)) {
+          const newZeebeOutputParameter = createOutputParameter(binding, value, bpmnFactory);
+          values.push(newZeebeOutputParameter);
+        }
 
         commands.push({
           cmd: 'element.updateModdleProperties',
           context: {
             element,
             moddleElement: ioMapping,
-            properties: { 'outputParameters': [ ...values, newZeebeOutputParameter ] }
+            properties: { 'outputParameters': [ ...values ] }
           }
         });
       }

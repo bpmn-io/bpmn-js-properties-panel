@@ -22,6 +22,11 @@ import {
 } from 'src/provider/cloud-element-templates/Helper';
 
 import {
+  createInputParameter,
+  createOutputParameter
+} from 'src/provider/cloud-element-templates/CreateHelper';
+
+import {
   find,
   isArray,
   isString,
@@ -401,6 +406,52 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
               target: 'output-2-target'
             }
           ]);
+        }));
+
+      });
+
+
+      describe('optional', function() {
+
+        beforeEach(bootstrap(require('./task.bpmn').default));
+
+        const newTemplate = require('./task-template-optional.json');
+
+        it('should create (non empty value)', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template-optional', 1);
+
+          const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping).to.exist;
+          expect(getInputParameter(task, 'input-1-target')).to.exist;
+          expect(getOutputParameter(task, 'output-1-source')).to.exist;
+        }));
+
+
+        it('should NOT create (empty value)', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template-optional', 1);
+
+          const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping).to.exist;
+          expect(getInputParameter(task, 'input-2-target')).not.to.exist;
+          expect(getOutputParameter(task, 'output-2-source')).not.to.exist;
         }));
 
       });
@@ -1103,6 +1154,454 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
             $type: 'zeebe:Output',
             source: 'output-4-source',
             target: 'output-4-new-value'
+          }
+        ]);
+      }));
+
+    });
+
+
+    describe('optional - zeebe:Input and zeebe:Output', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn').default));
+
+
+      it('should create - optional -> non optional', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        // assume
+        expect(ioMapping.get('zeebe:inputParameters')).to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping).to.exist;
+        expect(ioMapping.get('zeebe:inputParameters')).to.have.length(1);
+        expect(ioMapping.get('zeebe:outputParameters')).to.have.length(1);
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Input',
+            source: undefined,
+            target: 'input-1-target',
+          }
+        ]);
+
+        expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Output',
+            source: 'output-1-source',
+            target: undefined
+          }
+        ]);
+      }));
+
+
+      it('should remove - non optional -> optional (empty value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            value: 'input-1-source',
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            value: 'input-2-source',
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        // assume
+        expect(ioMapping.get('zeebe:inputParameters')).not.to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).not.to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).to.to.be.empty;
+      }));
+
+
+      it('should keep - non optional -> optional (new value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            value: 'input-1-source',
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            value: 'input-2-source',
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            value: 'input-1-new-source',
+            optional: true,
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            value: 'output-1-new-target',
+            optional: true,
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        // assume
+        expect(ioMapping.get('zeebe:inputParameters')).not.to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).not.to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.have.length(1);
+        expect(ioMapping.get('zeebe:outputParameters')).to.have.length(1);
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Input',
+            source: 'input-1-new-source',
+            target: 'input-1-target',
+          }
+        ]);
+
+        expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Output',
+            source: 'output-1-source',
+            target: 'output-1-new-target'
+          }
+        ]);
+      }));
+
+
+      it('should update - optional -> optional', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            value: 'input-1-old-source',
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            value: 'output-1-old-target',
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            value: 'input-1-new-source',
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            value: 'output-1-new-target',
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // assume
+        let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        // assume
+        expect(ioMapping.get('zeebe:inputParameters')).to.be.not.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).to.be.not.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.have.length(1);
+        expect(ioMapping.get('zeebe:outputParameters')).to.have.length(1);
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Input',
+            source: 'input-1-new-source',
+            target: 'input-1-target',
+          }
+        ]);
+
+        expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Output',
+            source: 'output-1-source',
+            target: 'output-1-new-target'
+          }
+        ]);
+      }));
+
+
+      it('should keep - optional -> optional (changed)',
+        inject(function(elementRegistry, bpmnFactory) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          const oldTemplate = createTemplate([
+            {
+              optional: true,
+              binding: {
+                type: 'zeebe:input',
+                name: 'input-1-target'
+              }
+            },
+            {
+              optional: true,
+              binding: {
+                type: 'zeebe:output',
+                source: 'output-1-source'
+              }
+            }
+          ]);
+
+          const newTemplate = createTemplate([
+            {
+              optional: true,
+              binding: {
+                type: 'zeebe:input',
+                name: 'input-1-target'
+              }
+            },
+            {
+              optional: true,
+              binding: {
+                type: 'zeebe:output',
+                source: 'output-1-source'
+              }
+            }
+          ]);
+
+          changeTemplate('Task_1', oldTemplate);
+
+          const input = createInputParameter({
+            name: 'input-1-target'
+          }, 'input-1-changed-source', bpmnFactory);
+
+          const output = createOutputParameter({
+            source: 'output-1-source'
+          }, 'output-1-changed-target', bpmnFactory);
+
+          let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          updateBusinessObject('Task_1', ioMapping, {
+            inputParameters: [ input ],
+            outputParameters: [ output ]
+          });
+
+          // when
+          changeTemplate(task, newTemplate, oldTemplate);
+
+          // then
+          ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping.get('zeebe:inputParameters')).to.have.length(1);
+          expect(ioMapping.get('zeebe:outputParameters')).to.have.length(1);
+
+          expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Input',
+              source: 'input-1-changed-source',
+              target: 'input-1-target',
+            }
+          ]);
+
+          expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Output',
+              source: 'output-1-source',
+              target: 'output-1-changed-target'
+            }
+          ]);
+        })
+      );
+
+
+      it('should create - optional -> optional (new value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            value: 'input-1-new-source',
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            value: 'output-1-new-target',
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.have.length(1);
+        expect(ioMapping.get('zeebe:outputParameters')).to.have.length(1);
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Input',
+            source: 'input-1-new-source',
+            target: 'input-1-target',
+          }
+        ]);
+
+        expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Output',
+            source: 'output-1-source',
+            target: 'output-1-new-target'
           }
         ]);
       }));
