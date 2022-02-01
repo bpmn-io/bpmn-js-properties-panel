@@ -1,0 +1,44 @@
+{
+  "name": "Task Template (optional)",
+  "version": 1,
+  "id": "task-template-optional",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "value": "input-1-source",
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-1-target"
+      }
+    },
+    {
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-2-target"
+      }
+    },
+    {
+      "value": "output-1-target",
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-1-source"
+      }
+    },
+    {
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-2-source"
+      }
+    }
+  ]
+}
