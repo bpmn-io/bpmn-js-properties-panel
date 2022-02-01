@@ -40,6 +40,19 @@
     <bpmn:serviceTask id="Activity_1x04xy0" name="outdated" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-outdated" zeebe:modelerTemplateVersion="1" />
     <bpmn:serviceTask id="Activity_166ntf9" name="missing template" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-missingTemplate" />
     <bpmn:serviceTask id="Activity_1iof33f" name="groups" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-groups" />
+    <bpmn:serviceTask id="Activity_042oqko" name="optional" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-optional">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="http" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="method" value="get" />
+          <zeebe:header key="url" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="= invoiceDetails" target="body" />
+          <zeebe:output source="= body" target="response" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0vvlc66">
@@ -71,6 +84,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1iof33f_di" bpmnElement="Activity_1iof33f">
         <dc:Bounds x="550" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_042oqko_di" bpmnElement="Activity_042oqko">
+        <dc:Bounds x="410" y="360" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

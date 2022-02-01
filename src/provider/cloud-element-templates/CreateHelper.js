@@ -74,3 +74,20 @@ export function createTaskDefinitionWithType(value, bpmnFactory) {
     type: value
   });
 }
+
+/**
+ * Retrieves whether an element should be updated for a given property.
+ *
+ * That matches once
+ * a) the property value is not empty, or
+ * b) the property is not optional
+ *
+ * @param {String} value
+ * @param {Object} property
+ * @returns {Boolean}
+ */
+export function shouldUpdate(value, property) {
+  const { optional } = property;
+
+  return value || !optional;
+}

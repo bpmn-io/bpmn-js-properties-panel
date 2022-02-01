@@ -205,5 +205,64 @@
         }
       }
     ]
+  },
+  {
+    "name": "Rest Template (optional)",
+    "id": "com.example.rest-optional",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "input-1-source",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1-target"
+        }
+      },
+      {
+        "value": "input-2-source",
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2-target"
+        }
+      },
+      {
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-3-target"
+        }
+      },
+      {
+        "value": "output-1-target",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1-source"
+        }
+      },
+      {
+        "value": "output-2-target",
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2-source"
+        }
+      },
+      {
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-3-source"
+        }
+      }
+    ]
   }
 ]

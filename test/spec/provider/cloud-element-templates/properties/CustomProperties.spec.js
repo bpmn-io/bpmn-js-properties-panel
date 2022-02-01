@@ -228,6 +228,21 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
     });
 
 
+    it('should display empty (optional)', async function() {
+
+      // when
+      await expectSelected('RestTask_optional');
+
+      // then
+      const entry = findEntry('custom-entry-com.example.rest-optional-2', container),
+            input = findInput('text', entry);
+
+      expect(entry).to.exist;
+      expect(input).to.exist;
+      expect(input.value).to.equal('');
+    });
+
+
     it('should change, setting zeebe:Input (plain)', inject(async function() {
 
       // given
@@ -278,6 +293,51 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       });
     });
 
+
+    it('should keep input (non optional)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask_optional'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-optional-0', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const ioMapping = findExtension(businessObject, 'zeebe:IoMapping'),
+            inputParameter = findInputParameter(ioMapping, { name: 'input-1-target' });
+
+      expect(inputParameter).to.exist;
+      expect(inputParameter).to.jsonEqual({
+        $type: 'zeebe:Input',
+        source: undefined,
+        target: 'input-1-target'
+      });
+    }));
+
+
+    it('should not keep input (optional)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask_optional'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-optional-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const ioMapping = findExtension(businessObject, 'zeebe:IoMapping'),
+            inputParameter = findInputParameter(ioMapping, { name: 'input-2-target' });
+
+      expect(inputParameter).to.not.exist;
+    }));
+
   });
 
 
@@ -295,6 +355,21 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       expect(entry).to.exist;
       expect(input).to.exist;
       expect(input.value).to.equal('output-1-target');
+    });
+
+
+    it('should display empty (optional)', async function() {
+
+      // when
+      await expectSelected('RestTask_optional');
+
+      // then
+      const entry = findEntry('custom-entry-com.example.rest-optional-5', container),
+            input = findInput('text', entry);
+
+      expect(entry).to.exist;
+      expect(input).to.exist;
+      expect(input.value).to.equal('');
     });
 
 
@@ -347,6 +422,51 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
         target: 'foo@bar'
       });
     });
+
+
+    it('should keep output (non optional)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask_optional'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-optional-3', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const ioMapping = findExtension(businessObject, 'zeebe:IoMapping'),
+            outputParameter = findOutputParameter(ioMapping, { source: 'output-1-source' });
+
+      expect(outputParameter).to.exist;
+      expect(outputParameter).to.jsonEqual({
+        $type: 'zeebe:Output',
+        source: 'output-1-source',
+        target: undefined
+      });
+    }));
+
+
+    it('should NOT keep output (optional)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask_optional'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-optional-4', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const ioMapping = findExtension(businessObject, 'zeebe:IoMapping'),
+            outputParameter = findOutputParameter(ioMapping, { source: 'output-2-source' });
+
+      expect(outputParameter).to.not.exist;
+    }));
 
   });
 
