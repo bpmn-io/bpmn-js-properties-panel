@@ -25,7 +25,7 @@ export function NameProps(props) {
     element
   } = props;
 
-  if (is(element, 'bpmn:Collaboration')) {
+  if (is(element, 'bpmn:Collaboration') || is(element, 'bpmn:DataAssociation')) {
     return [];
   }
 

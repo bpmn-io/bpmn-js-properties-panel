@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:startEvent id="StartEvent_1" name="start" />
+    <bpmn:startEvent id="StartEvent_1" name="start">
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn:targetRef>DataObjectReference_0rfd651</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:startEvent>
     <bpmn:task id="Task_1" name="task" />
+    <bpmn:dataObjectReference id="DataObjectReference_0rfd651" dataObjectRef="DataObject_1dekmmy" />
+    <bpmn:dataObject id="DataObject_1dekmmy" />
     <bpmn:textAnnotation id="TextAnnotation_1">
       <bpmn:text>text for name</bpmn:text>
     </bpmn:textAnnotation>
@@ -27,19 +33,26 @@
       <bpmndi:BPMNShape id="TextAnnotation_11kvt4v_di" bpmnElement="TextAnnotation_1">
         <dc:Bounds x="592" y="120" width="100" height="38" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0rfd651_di" bpmnElement="DataObjectReference_0rfd651">
+        <dc:Bounds x="262" y="75" width="36" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1_di" bpmnElement="DataOutputAssociation_1">
+        <di:waypoint x="269" y="235" />
+        <di:waypoint x="278" y="125" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Group_di" bpmnElement="Group_1">
         <dc:Bounds x="196" y="313" width="188" height="154" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="276" y="320" width="29" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_1nhcwbc_di" bpmnElement="Group_2">
+        <dc:Bounds x="496" y="323" width="188" height="154" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_10y192l_di" bpmnElement="Association_10y192l">
         <di:waypoint x="514" y="222" />
         <di:waypoint x="613" y="158" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Group_1nhcwbc_di" bpmnElement="Group_2">
-        <dc:Bounds x="496" y="323" width="188" height="154" />
-      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
