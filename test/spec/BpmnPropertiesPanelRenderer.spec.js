@@ -218,9 +218,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'cloud-templates' ? it.only : it)('should import simple process (cloud-templates)', async function() {
 
     // given
-    const diagramXml = require('test/spec/provider/cloud-element-templates/fixtures/connectors.bpmn').default;
+    const diagramXml = require('test/spec/provider/cloud-element-templates/fixtures/complex.bpmn').default;
 
-    const elementTemplates = require('test/spec/provider/cloud-element-templates/fixtures/connectors.json');
+    const elementTemplates = require('test/spec/provider/cloud-element-templates/fixtures/complex.json');
 
     // when
     const result = await createModeler(
