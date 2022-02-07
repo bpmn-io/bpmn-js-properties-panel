@@ -105,8 +105,8 @@
     "zeebe-bpmn-moddle": "^0.11.0"
   },
   "peerDependencies": {
-    "bpmn-js": "9.x",
-    "diagram-js": "8.x",
+    "bpmn-js": "8.x || 9.x",
+    "diagram-js": "7.x || 8.x",
     "@bpmn-io/properties-panel": "0.10.x"
   }
 }

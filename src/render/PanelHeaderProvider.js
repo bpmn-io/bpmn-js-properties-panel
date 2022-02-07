@@ -13,10 +13,6 @@ import {
   isInterrupting
 } from 'bpmn-js/lib/util/DiUtil';
 
-import {
-  isPlane
-} from 'bpmn-js/lib/util/DrilldownUtil';
-
 import iconsByType from '../icons';
 
 export function getConcreteType(element) {
@@ -139,4 +135,14 @@ function isConditionalFlow(element) {
   }
 
   return businessObject.conditionExpression && is(sourceBusinessObject, 'bpmn:Activity');
+}
+
+
+// helpers //////////
+function isPlane(element) {
+
+  // Backwards compatibility for bpmn-js<8
+  const di = element && (element.di || getBusinessObject(element).di);
+
+  return is(di, 'bpmndi:BPMNPlane');
 }
