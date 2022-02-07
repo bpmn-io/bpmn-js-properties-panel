@@ -30,6 +30,7 @@ ___Note:__ Yet to be released changes appear here._
   Check out [the example migration](https://github.com/bpmn-io/bpmn-js-examples/pull/142) for guidance.
 * Previously exported entry factory functions are no longer available. Use components exported from
   [`@bpmn-io/properties-panel`](https://github.com/bpmn-io/properties-panel) instead.
+* Element templates select has been removed. Handle [`elementTemplates.select` event](https://github.com/bpmn-io/bpmn-js-properties-panel/blob/v1.0.0-alpha.0/src/provider/element-templates/components/ElementTemplatesGroup.js#L132) to implement template selection.
 
 ## 0.46.0
 
