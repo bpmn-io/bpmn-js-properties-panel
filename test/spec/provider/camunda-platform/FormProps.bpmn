@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08gp51z" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08gp51z" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" />
     <bpmn:startEvent id="StartEvent_FormKey" camunda:formKey="embedded:deployment:FORM_NAME.html" />
     <bpmn:startEvent id="StartEvent_FormRef" camunda:formRef="invoice.form" camunda:formRefBinding="version" camunda:formRefVersion="1" />
     <bpmn:userTask id="UserTask" />
     <bpmn:userTask id="UserTask_FormKey" camunda:formKey="embedded:deployment:FORM_NAME.html" />
-    <bpmn:userTask id="UserTask_FormRef" camunda:formRef="invoice.form" camunda:formRefBinding="version" camunda:formRefVersion="1" />
+    <bpmn:userTask id="UserTask_FormRef" camunda:formRef="invoice.form" camunda:formRefBinding="version" camunda:formRefVersion="1">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="propertyName" value="propertyv" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
     <bpmn:task id="Task_1" />
+    <bpmn:userTask id="UserTask_GeneratedForm">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="propertyName" value="propertyv" />
+        </camunda:properties>
+        <camunda:formData>
+          <camunda:formField id="id" label="label" type="boolean" defaultValue="true" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -32,7 +48,9 @@
       <bpmndi:BPMNShape id="Activity_010fv3i_di" bpmnElement="Task_1">
         <dc:Bounds x="260" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gxguan_di" bpmnElement="UserTask_GeneratedForm">
+        <dc:Bounds x="260" y="640" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
-

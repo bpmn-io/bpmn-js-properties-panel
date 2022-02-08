@@ -11,7 +11,12 @@
     <bpmn:subProcess id="Activity_0j3tvw2">
       <bpmn:startEvent id="StartEvent_2" name="StartEvent_2" />
     </bpmn:subProcess>
-    <bpmn:userTask id="UserTask_1" name="UserTask_1" />
+    <bpmn:userTask id="UserTask_1" name="UserTask_1" >
+     	<bpmn:extensionElements>
+    		<camunda:formData>
+        </camunda:formData>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
     <bpmn:userTask id="UserTask_2" name="UserTask_2">
       <bpmn:extensionElements>
         <camunda:properties>

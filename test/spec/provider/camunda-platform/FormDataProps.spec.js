@@ -81,6 +81,24 @@ describe('provider/camunda-platform - FormDataProps', function() {
     }));
 
 
+    it('should NOT display if generated task not selected', inject(async function(elementRegistry, selection) {
+
+      // given
+      const event = elementRegistry.get('Task_2');
+
+      await act(() => {
+        selection.select(event);
+      });
+
+      // when
+      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+
+      // then
+      expect(formDataGroup).to.not.exist;
+    }));
+
+
+
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
@@ -124,64 +142,10 @@ describe('provider/camunda-platform - FormDataProps', function() {
     }));
 
 
-    it('should add formField creating formData', inject(async function(elementRegistry, selection) {
-
-      // given
-      const task = elementRegistry.get('UserTask_1');
-
-      await act(() => {
-        selection.select(task);
-      });
-
-      // assume
-      let formData = getFormData(task);
-      expect(formData).to.not.exist;
-
-      // when
-      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
-      const addFormFieldButton = domQuery('.bio-properties-panel-add-entry', formDataGroup);
-      clickInput(addFormFieldButton);
-
-      // then
-      formData = getFormData(task);
-      expect(formData).to.exist;
-      expect(formData.fields).to.have.length(1);
-    }));
-
-
-    it('should add formField creating formData, re-using extensionElements', inject(async function(elementRegistry, selection) {
-
-      // given
-      const task = elementRegistry.get('UserTask_2');
-
-      await act(() => {
-        selection.select(task);
-      });
-
-      // assume
-      let extElements = getExtensionElementsList(getBusinessObject(task));
-      expect(extElements).to.exist;
-      expect(extElements).to.have.length(1);
-
-      // when
-      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
-      const addFormFieldButton = domQuery('.bio-properties-panel-add-entry', formDataGroup);
-      clickInput(addFormFieldButton);
-
-      // then
-      const formData = getFormData(task);
-      expect(formData).to.exist;
-      expect(formData.fields).to.have.length(1);
-
-      extElements = getExtensionElementsList(getBusinessObject(task));
-      expect(extElements).to.have.length(2);
-    }));
-
-
     it('should add formField to bottom', inject(async function(elementRegistry, selection) {
 
       // given
-      const task = elementRegistry.get('UserTask_2');
+      const task = elementRegistry.get('UserTask_1');
 
       await act(() => {
         selection.select(task);
@@ -196,6 +160,7 @@ describe('provider/camunda-platform - FormDataProps', function() {
       const formFieldEntries = getFormFieldEntries(container);
       const bottomFormFieldHeader = domQuery('.bio-properties-panel-collapsible-entry-header-title',
         formFieldEntries[0]);
+
       expect(bottomFormFieldHeader.innerHTML).to.equal('&lt;empty&gt;');
     }));
 
@@ -203,7 +168,7 @@ describe('provider/camunda-platform - FormDataProps', function() {
     it('should autoOpen newly added formField', inject(async function(elementRegistry, selection) {
 
       // given
-      const task = elementRegistry.get('UserTask_2');
+      const task = elementRegistry.get('UserTask_1');
 
       await act(() => {
         selection.select(task);
@@ -280,52 +245,6 @@ describe('provider/camunda-platform - FormDataProps', function() {
 
       // then
       expect(getFormFieldsList(task)).to.have.length(1);
-    }));
-
-
-    it('should remove formField - removing formData', inject(async function(elementRegistry, selection) {
-
-      // given
-      const event = elementRegistry.get('StartEvent_1');
-
-      await act(() => {
-        selection.select(event);
-      });
-
-      // assume
-      expect(getFormFieldsList(event)).to.have.length(1);
-
-      // when
-      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
-      const formFieldRemoveButton = domQueryAll('.bio-properties-panel-remove-entry', formDataGroup)[0];
-      clickInput(formFieldRemoveButton);
-
-      // then
-      expect(getFormData(event)).to.not.exist;
-    }));
-
-
-    it('should remove formData - keeping extensionElements', inject(async function(elementRegistry, selection) {
-
-      // given
-      const task = elementRegistry.get('UserTask_3');
-
-      await act(() => {
-        selection.select(task);
-      });
-
-      // assume
-      expect(getExtensionElementsList(getBusinessObject(task))).to.have.length(2);
-
-      // when
-      const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
-      const formFieldRemoveButton = domQueryAll('.bio-properties-panel-remove-entry', formDataGroup)[0];
-      clickInput(formFieldRemoveButton);
-      clickInput(formFieldRemoveButton);
-
-      // then
-      expect(getFormData(task)).to.not.exist;
-      expect(getExtensionElementsList(getBusinessObject(task))).to.have.length(1);
     }));
 
   });
