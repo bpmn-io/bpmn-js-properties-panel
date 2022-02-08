@@ -68,6 +68,27 @@ describe('provider/bpmn - NameProps', function() {
   });
 
 
+  describe('bpmn:Association#name', function() {
+
+    it('should not display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const association = elementRegistry.get('Association_1');
+
+      await act(() => {
+        selection.select(association);
+      });
+
+      // when
+      const nameInput = domQuery('input[name=name]', container);
+
+      // then
+      expect(nameInput).to.be.null;
+    }));
+
+  });
+
+
   describe('bpmn:StartEvent#name', function() {
 
     it('should display', inject(async function(elementRegistry, selection) {
