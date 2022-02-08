@@ -1,8 +1,9 @@
 import {
   getBusinessObject,
-  is,
-  isAny
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
+
+import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 import {
   add as collectionAdd
