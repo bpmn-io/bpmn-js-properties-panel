@@ -1,8 +1,10 @@
+import AssociationIcon from './bpmn-icon-association.svg';
 import BusinessRuleTaskIcon from './bpmn-icon-business-rule-task.svg';
 import CallActivityIcon from './bpmn-icon-call-activity.svg';
 import CollaborationIcon from './bpmn-icon-collaboration.svg';
 import ConditionalFlowIcon from './bpmn-icon-conditional-flow.svg';
 import ConnectionIcon from './bpmn-icon-connection.svg';
+import DataInputOutputAssociationIcon from './bpmn-icon-data-input-output-association.svg';
 import DataInputIcon from './bpmn-icon-data-input.svg';
 import DataObjectIcon from './bpmn-icon-data-object.svg';
 import DataOutputIcon from './bpmn-icon-data-output.svg';
@@ -85,13 +87,16 @@ import TransactionIcon from './bpmn-icon-transaction.svg';
 import UserTaskIcon from './bpmn-icon-user-task.svg';
 
 export default {
+  'Association': AssociationIcon,
   'BusinessRuleTask': BusinessRuleTaskIcon,
   'CallActivity': CallActivityIcon,
   'Collaboration': CollaborationIcon,
   'ConditionalFlow': ConditionalFlowIcon,
   'SequenceFlow': ConnectionIcon,
   'DataInput': DataInputIcon,
+  'DataInputAssociation': DataInputOutputAssociationIcon,
   'DataOutput': DataOutputIcon,
+  'DataOutputAssociation': DataInputOutputAssociationIcon,
   'DataObjectReference': DataObjectIcon,
   'DataStoreReference': DataStoreIcon,
   'DefaultFlow': DefaultFlowIcon,
