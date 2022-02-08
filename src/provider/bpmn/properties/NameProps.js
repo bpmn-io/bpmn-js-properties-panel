@@ -1,6 +1,7 @@
 import {
   getBusinessObject,
-  is
+  is,
+  isAny
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -25,7 +26,7 @@ export function NameProps(props) {
     element
   } = props;
 
-  if (is(element, 'bpmn:Collaboration') || is(element, 'bpmn:DataAssociation')) {
+  if (isAny(element, [ 'bpmn:Collaboration', 'bpmn:DataAssociation', 'bpmn:Association' ])) {
     return [];
   }
 

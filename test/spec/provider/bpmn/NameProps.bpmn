@@ -12,7 +12,7 @@
     <bpmn:textAnnotation id="TextAnnotation_1">
       <bpmn:text>text for name</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_10y192l" sourceRef="Task_1" targetRef="TextAnnotation_1" />
+    <bpmn:association id="Association_1" sourceRef="Task_1" targetRef="TextAnnotation_1" />
     <bpmn:group id="Group_1" categoryValueRef="CategoryValue_1" />
     <bpmn:group id="Group_2" />
   </bpmn:process>
@@ -30,16 +30,12 @@
       <bpmndi:BPMNShape id="Task_1828j4a_di" bpmnElement="Task_1">
         <dc:Bounds x="414" y="213" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_11kvt4v_di" bpmnElement="TextAnnotation_1">
-        <dc:Bounds x="592" y="120" width="100" height="38" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataObjectReference_0rfd651_di" bpmnElement="DataObjectReference_0rfd651">
         <dc:Bounds x="262" y="75" width="36" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_1_di" bpmnElement="DataOutputAssociation_1">
-        <di:waypoint x="269" y="235" />
-        <di:waypoint x="278" y="125" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_11kvt4v_di" bpmnElement="TextAnnotation_1">
+        <dc:Bounds x="592" y="120" width="100" height="38" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_di" bpmnElement="Group_1">
         <dc:Bounds x="196" y="313" width="188" height="154" />
         <bpmndi:BPMNLabel>
@@ -49,7 +45,11 @@
       <bpmndi:BPMNShape id="Group_1nhcwbc_di" bpmnElement="Group_2">
         <dc:Bounds x="496" y="323" width="188" height="154" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_10y192l_di" bpmnElement="Association_10y192l">
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1_di" bpmnElement="DataOutputAssociation_1">
+        <di:waypoint x="269" y="235" />
+        <di:waypoint x="278" y="125" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_10y192l_di" bpmnElement="Association_1">
         <di:waypoint x="514" y="222" />
         <di:waypoint x="613" y="158" />
       </bpmndi:BPMNEdge>
