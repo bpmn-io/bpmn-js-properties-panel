@@ -16,6 +16,10 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
+import {
+  getExtensionElementsList
+} from 'src/utils/ExtensionElementsUtil';
+
 import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -76,8 +80,9 @@ describe('provider/camunda-platform - FormTypeProps', function() {
 
     expect(asOptionNamesList(select)).to.eql([
       '<none>',
+      'Camunda Forms',
       'Embedded or External Task Forms',
-      'Camunda Forms'
+      'Generated Task Forms'
     ]);
   }));
 
@@ -96,6 +101,102 @@ describe('provider/camunda-platform - FormTypeProps', function() {
 
     // then
     expect(select).to.not.exist;
+  }));
+
+
+  it('should add formData, creating extensionElements', inject(async function(elementRegistry, selection) {
+
+    // given
+    const task = elementRegistry.get('UserTask');
+
+    await act(() => {
+      selection.select(task);
+    });
+
+    // assume
+    let formData = getFormData(task);
+    let formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+    let extElements = getExtensionElementsList(getBusinessObject(task));
+    expect(formData).to.not.exist;
+    expect(formDataGroup).to.not.exist;
+    expect(extElements).to.have.length(0);
+
+    // when
+    const select = domQuery('select[name=formType]', container);
+    changeInput(select, 'formData');
+
+    // then
+    formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+    formData = getFormData(task);
+    extElements = getExtensionElementsList(getBusinessObject(task));
+
+    expect(formData).to.exist;
+    expect(formDataGroup).to.exist;
+    expect(extElements).to.have.length(1);
+  }));
+
+
+  it('should add formData, re-using extensionElements', inject(async function(elementRegistry, selection) {
+
+    // given
+    const task = elementRegistry.get('UserTask_FormRef');
+
+    await act(() => {
+      selection.select(task);
+    });
+
+    // assume
+    let formData = getFormData(task);
+    let formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+    let extElements = getExtensionElementsList(getBusinessObject(task));
+    expect(formData).to.not.exist;
+    expect(formDataGroup).to.not.exist;
+    expect(extElements).to.have.length(1);
+
+    // when
+    const select = domQuery('select[name=formType]', container);
+    changeInput(select, 'formData');
+
+    // then
+    formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+    formData = getFormData(task);
+    extElements = getExtensionElementsList(getBusinessObject(task));
+
+    expect(formData).to.exist;
+    expect(formDataGroup).to.exist;
+    expect(extElements).to.have.length(2);
+  }));
+
+
+  it('should remove formData, keeping extension elements', inject(async function(elementRegistry, selection) {
+
+    // given
+    const task = elementRegistry.get('UserTask_GeneratedForm');
+
+    await act(() => {
+      selection.select(task);
+    });
+
+    // assume
+    let formData = getFormData(task);
+    let formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+    let extElements = getExtensionElementsList(getBusinessObject(task));
+    expect(formData).to.exist;
+    expect(formDataGroup).to.exist;
+    expect(extElements).to.have.length(2);
+
+    // when
+    const select = domQuery('select[name=formType]', container);
+    changeInput(select, '');
+
+    // then
+    formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+    formData = getFormData(task);
+    extElements = getExtensionElementsList(getBusinessObject(task));
+
+    expect(formData).to.not.exist;
+    expect(formDataGroup).to.not.exist;
+    expect(extElements).to.have.length(1);
   }));
 
 
@@ -201,4 +302,10 @@ function asOptionNamesList(select) {
   options.forEach(o => names.push(o.label));
 
   return names;
+}
+
+function getFormData(element) {
+  const bo = getBusinessObject(element);
+
+  return getExtensionElementsList(bo, 'camunda:FormData')[0];
 }

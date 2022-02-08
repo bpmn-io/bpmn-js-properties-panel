@@ -520,7 +520,7 @@ function ProcessVariablesGroup(element, injector) {
 
 function FormDataGroup(element, injector) {
   const group = {
-    label: 'Generated task form',
+    label: 'Form fields',
     id: 'CamundaPlatform__FormData',
     component: ListGroup,
     ...FormDataProps({ element, injector })
