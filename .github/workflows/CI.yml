@@ -36,7 +36,7 @@ jobs:
       run: npm install ${{ matrix.integration-deps }}
     - name: Build
       env:
-        COVERAGE: ${{ matrix.integration-deps != '' }}
+        COVERAGE: ${{ matrix.integration-deps == '' }}
       run: npm run all
     - name: Upload coverage
       run: npx codecov
