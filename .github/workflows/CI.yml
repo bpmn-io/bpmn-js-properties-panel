@@ -7,6 +7,9 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         node-version: [ 14 ]
+        integration-deps:
+        - diagram-js@7.x bpmn-js@8.x
+        - diagram-js@8.x bpmn-js@9.0.0-alpha.2
 
     runs-on: ${{ matrix.os }}
 
@@ -28,6 +31,8 @@ jobs:
           ${{ runner.OS }}-
     - name: Install dependencies
       run: npm ci
+    - name: Install dependencies for integration
+      run: npm install ${{ matrix.integration-deps }}
     - name: Build
       env:
         COVERAGE: 1

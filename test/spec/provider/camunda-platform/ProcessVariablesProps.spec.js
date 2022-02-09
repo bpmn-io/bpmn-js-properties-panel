@@ -10,7 +10,8 @@ import {
 
 import {
   bootstrapPropertiesPanel,
-  inject
+  inject,
+  testForBpmnJsVersion
 } from 'test/TestHelper';
 
 import {
@@ -367,24 +368,28 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
     }));
 
 
-    it('should display items for plane', inject(async function(elementRegistry, selection, canvas) {
+    testForBpmnJsVersion('>=9')('should display items for plane',
+      inject(async function(elementRegistry, selection, canvas) {
 
-      // given
-      const subProcess = elementRegistry.get('SubProcess_1_plane');
-      canvas.setRootElement(subProcess);
+        // given
+        const subProcess = elementRegistry.get('SubProcess_1_plane');
 
-      await act(() => {
-        selection.select(subProcess);
-      });
+        // SubProcess can be root from bpmn-js@9 and later
+        canvas.setRootElement(subProcess);
 
-      const group = findProcessVariablesGroup(container);
+        await act(() => {
+          selection.select(subProcess);
+        });
 
-      // when
-      const items = getProcessVariablesItems(group);
+        const group = findProcessVariablesGroup(container);
 
-      // then
-      expect(items.length).to.equal(4);
-    }));
+        // when
+        const items = getProcessVariablesItems(group);
+
+        // then
+        expect(items.length).to.equal(4);
+      })
+    );
 
 
     it('should group by scope', inject(
@@ -438,7 +443,6 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
 
       // given
       const subProcess = elementRegistry.get('SubProcess_1');
-      const task = elementRegistry.get('Task_2');
 
       await act(() => {
         selection.select(subProcess);
@@ -451,7 +455,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-0-createdIn', items[0]);
 
       // then
-      expect(createdIn.innerText).to.equal(getBusinessObject(task).get('name'));
+      expect(createdIn.innerText).to.equal('Task 2');
     }));
 
 
