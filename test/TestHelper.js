@@ -136,5 +136,5 @@ export function withBpmnJs(versionRange, only = false) {
 function bpmnJsSatisfies(versionRange) {
   const bpmnJsVersion = require('bpmn-js/package.json').version;
 
-  return semver.satisfies(bpmnJsVersion, versionRange);
+  return semver.satisfies(bpmnJsVersion, versionRange, { includePrerelease: true });
 }
