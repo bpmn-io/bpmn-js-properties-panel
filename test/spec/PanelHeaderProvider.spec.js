@@ -249,8 +249,11 @@ describe('<PanelHeaderProvider>', function() {
     it('should get type - expanded sub process', async function() {
 
       // given
+      const di = moddle.create('bpmndi:BPMNShape', { isExpanded: true });
       const element = createElement('bpmn:SubProcess');
-      element.di = moddle.create('bpmndi:BPMNShape', { isExpanded: true });
+
+      element.businessObject.di = di; // bpmn-js@8
+      element.di = di; // bpmn-js@9
 
       // when
       const type = getConcreteType(element);

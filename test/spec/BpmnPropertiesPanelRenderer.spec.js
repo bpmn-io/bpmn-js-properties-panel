@@ -19,8 +19,6 @@ import {
 
 import Modeler from 'bpmn-js/lib/Modeler';
 
-import LegacyModeler from 'bpmn-js-legacy/lib/Modeler';
-
 import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
@@ -243,118 +241,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
     // then
     expect(result.error).not.to.exist;
-  });
-
-
-  describe('bpmn-js@8', function() {
-
-    it('should import simple process (cloud)', async function() {
-
-      // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
-
-      // when
-      const result = await createModeler(
-        diagramXml,
-        {
-          additionalModules: [
-            ZeebeModdleExtension,
-            BpmnPropertiesPanel,
-            BpmnPropertiesProvider,
-            ZeebePropertiesProvider
-          ],
-          moddleExtensions: {
-            zeebe: ZeebeModdle
-          },
-          description: DescriptionProvider
-        },
-        LegacyModeler
-      );
-
-      // then
-      expect(result.error).not.to.exist;
-    });
-
-
-    it('should import simple process (platform)', async function() {
-
-      // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
-
-      // when
-      const result = await createModeler(
-        diagramXml,
-        {
-          additionalModules: [
-            CamundaModdleExtension,
-            BpmnPropertiesPanel,
-            BpmnPropertiesProvider,
-            CamundaPropertiesProvider
-          ],
-          moddleExtensions: {
-            camunda: CamundaModdle
-          }
-        },
-        LegacyModeler
-      );
-
-      // then
-      expect(result.error).not.to.exist;
-    });
-
-
-    it('should import simple process (bpmn)', async function() {
-
-      // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
-
-      // when
-      const result = await createModeler(
-        diagramXml,
-        {
-          additionalModules: [
-            CamundaModdleExtension,
-            BpmnPropertiesPanel,
-            BpmnPropertiesProvider
-          ]
-        },
-        LegacyModeler
-      );
-
-      // then
-      expect(result.error).not.to.exist;
-    });
-
-
-    it('should import simple process (templates)', async function() {
-
-      // given
-      const diagramXml = require('test/spec/provider/element-templates/fixtures/complex.bpmn').default;
-
-      const elementTemplates = require('test/spec/provider/element-templates/fixtures/complex.json');
-
-      // when
-      const result = await createModeler(
-        diagramXml,
-        {
-          additionalModules: [
-            CamundaModdleExtension,
-            BpmnPropertiesPanel,
-            BpmnPropertiesProvider,
-            ElementTemplatesPropertiesProvider
-          ],
-          moddleExtensions: {
-            camunda: CamundaModdle
-          },
-          elementTemplates
-        },
-        LegacyModeler
-      );
-
-      // then
-      expect(result.error).not.to.exist;
-    });
-
   });
 
 
