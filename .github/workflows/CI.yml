@@ -35,8 +35,13 @@ jobs:
       if: ${{ matrix.integration-deps != '' }}
       run: npm install ${{ matrix.integration-deps }}
     - name: Build
+      if: ${{ matrix.integration-deps != '' }}
+      run: npm run all
+    - name: Build with coverage
+      if: ${{ matrix.integration-deps == '' }}
       env:
-        COVERAGE: ${{ matrix.integration-deps == '' }}
+        COVERAGE: 1
       run: npm run all
     - name: Upload coverage
+      if: ${{ matrix.integration-deps == '' }}
       run: npx codecov
