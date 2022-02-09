@@ -125,7 +125,7 @@ export function bootstrapModeler(diagram, options, locals) {
  * @param {string} versionRange
  * @param {boolean} only
  */
-export function testForBpmnJsVersion(versionRange, only = false) {
+export function withBpmnJs(versionRange, only = false) {
   if (bpmnJsSatisfies(versionRange)) {
     return only ? it.only : it;
   } else {

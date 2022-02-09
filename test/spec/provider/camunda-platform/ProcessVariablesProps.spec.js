@@ -11,7 +11,7 @@ import {
 import {
   bootstrapPropertiesPanel,
   inject,
-  testForBpmnJsVersion
+  withBpmnJs
 } from 'test/TestHelper';
 
 import {
@@ -368,7 +368,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
     }));
 
 
-    testForBpmnJsVersion('>=9')('should display items for plane',
+    withBpmnJs('>=9')('should display items for plane',
       inject(async function(elementRegistry, selection, canvas) {
 
         // given
