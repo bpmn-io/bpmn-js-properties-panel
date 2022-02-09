@@ -6,6 +6,16 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.3
+
+* `FEAT`: add ability to create optional inputs & outputs ([#559](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/559))
+* `FEAT`: support drilldown ([#567](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/567))
+* `FEAT`: add templates property groups ([#563](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/563), [#564](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/564)) 
+* `FEAT`: add element templates support ([#540](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/540))
+* `FIX`: remove name property on associations ([#566](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/566), [#579](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/566))
+* `DEPS`: update to `zeebe-bpmn-moddle@0.11.0`
+* `DEPS`: update to `bpmn-js@9.0.0-alpha.2`
+
 ## 1.0.0-alpha.1
 
 * `FEAT`: expose ZeebeDescriptionProvider ([c4b565](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/c4b565df6f861205f6df63a3e265375e0b10d4e7))
