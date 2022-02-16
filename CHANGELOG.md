@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.4
+
+* `FIX`: ensure compatibility with bpmn-js@8 ([#581](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/581))
+* `FIX`: reference missing adhoc subprocess icons ([#583](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/583))
+
 ## 1.0.0-alpha.3
 
 * `FEAT`: add ability to create optional inputs & outputs ([#559](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/559))
