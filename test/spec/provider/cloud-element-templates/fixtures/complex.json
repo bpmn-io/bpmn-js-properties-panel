@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector",
     "id": "io.camunda.connectors.RestConnector-s1",
     "description": "A generic REST service.",
@@ -71,6 +72,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector (entries visible)",
     "id": "io.camunda.connectors.RestConnector-entriesVisible",
     "description": "A generic REST service.",
@@ -141,6 +143,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector (outdated)",
     "id": "io.camunda.connectors.RestConnector-outdated",
     "description": "A generic REST service.",
@@ -211,6 +214,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector (outdated)",
     "id": "io.camunda.connectors.RestConnector-outdated",
     "description": "A generic REST service.",
@@ -281,6 +285,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector (groups)",
     "id": "io.camunda.connectors.RestConnector-groups",
     "description": "A generic REST service.",
@@ -368,6 +373,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector (optional)",
     "id": "io.camunda.connectors.RestConnector-optional",
     "description": "A generic REST service.",

@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Editable Task",
     "id": "com.zeebe.example.editable",
     "description": "Shows editable for each type of property",
