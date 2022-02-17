@@ -8,3 +8,6 @@ export { DescriptionProvider as ZeebeDescriptionProvider } from './contextProvid
 
 // hooks
 export { useService } from './hooks';
+
+// utils
+export { Validator as CloudElementTemplatesValidator } from './provider/cloud-element-templates/Validator';
