@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector",
     "id": "io.camunda.connectors.RestConnector-s1",
     "description": "A generic REST service.",

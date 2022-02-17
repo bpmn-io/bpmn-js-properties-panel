@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "foo",
     "name":"EntriesVisible=true",
     "appliesTo": [ "bpmn:Task" ],
@@ -7,6 +8,7 @@
     "entriesVisible": true
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "foo",
     "name":"EntriesVisible=false",
     "version": 1,
@@ -14,6 +16,7 @@
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "default",
     "name": "EntriesVisible unset",
     "isDefault": true,

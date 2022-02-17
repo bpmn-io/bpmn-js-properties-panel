@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Grouping",
     "id": "example.com.grouping",
     "appliesTo": [
@@ -75,6 +76,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "no default",
     "id": "example.com.grouping-noDefault",
     "appliesTo": [
@@ -115,6 +117,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "no groups",
     "id": "example.com.grouping-noGroups",
     "appliesTo": [
@@ -147,6 +150,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "no entries",
     "id": "example.com.grouping-noEntries",
     "appliesTo": [
@@ -184,6 +188,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "non existing",
     "id": "example.com.grouping-nonExisting",
     "appliesTo": [

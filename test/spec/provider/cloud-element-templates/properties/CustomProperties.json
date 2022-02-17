@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Rest Template",
     "id": "com.example.rest",
     "appliesTo": [
@@ -64,6 +65,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Rest Template (hidden)",
     "id": "com.example.rest-hidden",
     "appliesTo": [
@@ -80,6 +82,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Task Template",
     "id": "my.example.template",
     "appliesTo": [
@@ -97,6 +100,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Task Template 2",
     "id": "my.example.dropdown",
     "appliesTo": [
@@ -120,6 +124,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Validated Inputs Task",
     "id": "com.validated-inputs.Task",
     "appliesTo": [
@@ -207,6 +212,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Rest Template (optional)",
     "id": "com.example.rest-optional",
     "appliesTo": [
