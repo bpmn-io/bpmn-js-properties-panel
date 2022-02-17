@@ -13,13 +13,14 @@ import { isUndefined } from 'min-dash';
 import {
   useService
 } from '../../../hooks';
-import { getTemplateId } from '../Helper';
+
+import { getTemplateId as defaultGetTemplateId } from '../Helper';
 
 import {
   getVersionOrDateFromTemplate,
   removeTemplate,
-  unlinkTemplate,
-  updateTemplate
+  unlinkTemplate as defaultUnlinkTemplate,
+  updateTemplate as defaultUpdateTemplate
 } from '../util/templateUtil';
 
 
@@ -45,66 +46,86 @@ import {
  * @property {object} newerTemplate
  */
 
+/**
+ * Factory to create an element templates group.
+ *
+ * @param {object} [props]
+ * @param {function} [props.getTemplateId]
+ * @param {function} [props.unlinkTemplate]
+ * @param {function} [props.updateTemplate]
+ */
+export function createElementTemplatesGroup(props = {}) {
 
-export function ElementTemplatesGroup(props) {
   const {
-    id,
-    label,
-    element,
-    entries = []
+    getTemplateId = defaultGetTemplateId,
+    unlinkTemplate = defaultUnlinkTemplate,
+    updateTemplate = defaultUpdateTemplate
   } = props;
 
-  const [ open, setOpen ] = useLayoutState(
-    [ 'groups', id, 'open' ],
-    false
-  );
+  return function ElementTemplatesGroup(props) {
+    const {
+      id,
+      label,
+      element,
+      entries = []
+    } = props;
 
-  const empty = !entries.length;
+    const [ open, setOpen ] = useLayoutState(
+      [ 'groups', id, 'open' ],
+      false
+    );
 
-  const toggleOpen = () => !empty && setOpen(!open);
+    const empty = !entries.length;
 
-  return <div class="bio-properties-panel-group bio-properties-panel-templates-group" data-group-id={ 'group-' + id }>
-    <div class={ classnames(
-      'bio-properties-panel-group-header',
-      {
-        empty,
-        open: open && !empty
-      }
-    ) } onClick={ toggleOpen }
-    >
-      <div title={ label } class="bio-properties-panel-group-header-title">
-        { label }
+    const toggleOpen = () => !empty && setOpen(!open);
+
+    return <div class="bio-properties-panel-group bio-properties-panel-templates-group" data-group-id={ 'group-' + id }>
+      <div class={ classnames(
+        'bio-properties-panel-group-header',
+        {
+          empty,
+          open: open && !empty
+        }
+      ) } onClick={ toggleOpen }
+      >
+        <div title={ label } class="bio-properties-panel-group-header-title">
+          { label }
+        </div>
+
+        <div class="bio-properties-panel-group-header-buttons">
+          <TemplateGroupButtons
+            element={ element }
+            getTemplateId={ getTemplateId }
+            unlinkTemplate={ unlinkTemplate }
+            updateTemplate={ updateTemplate } />
+          { !empty && <SectionToggle open={ open } /> }
+        </div>
       </div>
 
-      <div class="bio-properties-panel-group-header-buttons">
-        <TemplateGroupButtons element={ element } />
-        { !empty && <SectionToggle open={ open } /> }
+      <div class={ classnames(
+        'bio-properties-panel-group-entries',
+        { open: open && !empty }
+      ) }>
+        {
+          entries.map(entry => {
+            const {
+              component: Component,
+              id
+            } = entry;
+
+            return (
+              <Component
+                { ...entry }
+                key={ id }
+                element={ element } />
+            );
+          })
+        }
       </div>
-    </div>
+    </div>;
+  };
 
-    <div class={ classnames(
-      'bio-properties-panel-group-entries',
-      { open: open && !empty }
-    ) }>
-      {
-        entries.map(entry => {
-          const {
-            component: Component,
-            id
-          } = entry;
-
-          return (
-            <Component
-              { ...entry }
-              key={ id }
-              element={ element } />
-          );
-        })
-      }
-    </div>
-  </div>;
 }
-
 
 function SectionToggle({ open }) {
   return <HeaderButton
@@ -120,20 +141,27 @@ function SectionToggle({ open }) {
  *
  * @param {object} props
  * @param {object} props.element
+ * @param {function} props.getTemplateId
+ * @param {function} props.unlinkTemplate
+ * @param {function} props.updateTemplate
  */
-function TemplateGroupButtons({ element }) {
+function TemplateGroupButtons({ element, getTemplateId, unlinkTemplate, updateTemplate }) {
   const elementTemplates = useService('elementTemplates');
 
-  const templateState = getTemplateState(elementTemplates, element);
+  const templateState = getTemplateState(elementTemplates, element, getTemplateId);
 
   if (templateState.type === 'NO_TEMPLATE') {
     return <SelectEntryTemplate element={ element } />;
   } else if (templateState.type === 'KNOWN_TEMPLATE') {
-    return <AppliedTemplate element={ element } />;
+    return <AppliedTemplate element={ element } unlinkTemplate={ unlinkTemplate } />;
   } else if (templateState.type === 'UNKNOWN_TEMPLATE') {
-    return <UnknownTemplate element={ element } />;
+    return <UnknownTemplate element={ element } unlinkTemplate={ unlinkTemplate } />;
   } else if (templateState.type === 'OUTDATED_TEMPLATE') {
-    return <OutdatedTemplate element={ element } templateState={ templateState } />;
+    return <OutdatedTemplate
+      element={ element }
+      templateState={ templateState }
+      unlinkTemplate={ unlinkTemplate }
+      updateTemplate={ updateTemplate } />;
   }
 }
 
@@ -155,7 +183,7 @@ function SelectEntryTemplate({ element }) {
   );
 }
 
-function AppliedTemplate({ element }) {
+function AppliedTemplate({ element, unlinkTemplate }) {
   const translate = useService('translate'),
         injector = useService('injector');
 
@@ -180,7 +208,7 @@ function RemoveTemplate() {
   return <span class="bio-properties-panel-remove-template">{ translate('Remove') }</span>;
 }
 
-function UnknownTemplate({ element }) {
+function UnknownTemplate({ element, unlinkTemplate }) {
   const translate = useService('translate'),
         injector = useService('injector');
 
@@ -218,8 +246,10 @@ function NotFoundText() {
  * @param {object} props
  * @param {object} element
  * @param {UnknownTemplate} templateState
+ * @param {function} unlinkTemplate
+ * @param {function} updateTemplate
  */
-function OutdatedTemplate({ element, templateState }) {
+function OutdatedTemplate({ element, templateState, unlinkTemplate, updateTemplate }) {
   const { newerTemplate } = templateState;
 
   const translate = useService('translate'),
@@ -262,9 +292,10 @@ function UpdateAvailableText({ newerTemplate }) {
  *
  * @param {object} elementTemplates
  * @param {object} element
+ * @param {function} getTemplateId
  * @returns {TemplateState}
  */
-function getTemplateState(elementTemplates, element) {
+function getTemplateState(elementTemplates, element, getTemplateId) {
   const templateId = getTemplateId(element),
         template = elementTemplates.get(element);
 

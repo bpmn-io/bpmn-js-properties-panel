@@ -1,2 +1,2 @@
-export { ElementTemplatesGroup } from './ElementTemplatesGroup';
+export { createElementTemplatesGroup } from './ElementTemplatesGroup';
 export { TemplateProps } from './TemplateProps';
