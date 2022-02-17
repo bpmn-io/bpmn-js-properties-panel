@@ -50,7 +50,7 @@ export default class ElementTemplates {
     } else {
       element = id;
 
-      return this.get(getTemplateId(element), getTemplateVersion(element));
+      return this.get(this._getTemplateId(element), this._getTemplateVersion(element));
     }
   }
 
@@ -100,5 +100,13 @@ export default class ElementTemplates {
 
       this._templates[ id ][ version ] = template;
     });
+  }
+
+  _getTemplateId(element) {
+    return getTemplateId(element);
+  }
+
+  _getTemplateVersion(element) {
+    return getTemplateVersion(element);
   }
 }
