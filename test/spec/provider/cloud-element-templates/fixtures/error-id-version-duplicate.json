@@ -1,0 +1,22 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "FOO 1",
+    "id": "foo",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Foo 2",
+    "id": "foo",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": []
+  }
+]

@@ -167,7 +167,7 @@ export class Validator {
  *
  * @return {String} for example '99.99.99'
  */
-function getSchemaVersion(schemaUri) {
+export function getSchemaVersion(schemaUri) {
   const re = /\d+\.\d+\.\d+/g;
 
   const match = schemaUri.match(re);
@@ -189,7 +189,7 @@ function getSchemaVersion(schemaUri) {
  *
  * @return {Array}
  */
-function filteredSchemaErrors(schemaErrors) {
+export function filteredSchemaErrors(schemaErrors) {
   return filter(schemaErrors, (err) => {
     const {
       dataPath,

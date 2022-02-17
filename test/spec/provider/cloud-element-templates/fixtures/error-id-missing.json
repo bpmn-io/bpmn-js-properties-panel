@@ -1,0 +1,10 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Invalid",
+    "appliesTo": [
+      "bpmn:UserTask"
+    ],
+    "properties": []
+  }
+]
