@@ -3,7 +3,7 @@ import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 import { ListGroup } from '@bpmn-io/properties-panel';
 
 import {
-  ElementTemplatesGroup,
+  createElementTemplatesGroup,
   TemplateProps
 } from './components';
 
@@ -47,7 +47,7 @@ export default class ElementTemplatesPropertiesProvider {
         element,
         id: 'ElementTemplates__Template',
         label: 'Template',
-        component: ElementTemplatesGroup,
+        component: createElementTemplatesGroup(),
         entries: TemplateProps({ element, elementTemplates: this._elementTemplates })
       };
 

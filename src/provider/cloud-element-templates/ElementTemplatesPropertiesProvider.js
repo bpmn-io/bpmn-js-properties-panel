@@ -1,16 +1,17 @@
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 import {
+  createElementTemplatesGroup,
   TemplateProps
 } from '../element-templates/components';
-
-import { ElementTemplatesGroup } from './components';
 
 import {
   CustomProperties
 } from './properties';
 
 import { getTemplateId } from './Helper';
+
+import { unlinkTemplate, updateTemplate } from './util/templateUtil';
 
 const LOWER_PRIORITY = 300;
 
@@ -37,7 +38,11 @@ export default class ElementTemplatesPropertiesProvider {
         element,
         id: 'ElementTemplates__Template',
         label: 'Template',
-        component: ElementTemplatesGroup,
+        component: createElementTemplatesGroup({
+          getTemplateId,
+          unlinkTemplate,
+          updateTemplate
+        }),
         entries: TemplateProps({ element, elementTemplates: this._elementTemplates })
       };
 
