@@ -52,7 +52,7 @@ export function SignalProps(props) {
   let entries = [
     {
       id: 'signalRef',
-      component: <SignalRef element={ element } />,
+      component: SignalRef,
       isEdited: isSelectEntryEdited
     }
   ];
@@ -62,7 +62,7 @@ export function SignalProps(props) {
       ...entries,
       {
         id: 'signalName',
-        component: <SignalName element={ element } />,
+        component: SignalName,
         isEdited: isTextFieldEntryEdited
       },
     ];

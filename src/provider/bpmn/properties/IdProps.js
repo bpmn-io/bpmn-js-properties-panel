@@ -21,15 +21,11 @@ import {
 /**
  * @returns {Array<Entry>} entries
  */
-export function IdProps(props) {
-  const {
-    element
-  } = props;
-
+export function IdProps() {
   return [
     {
       id: 'id',
-      component: <Id element={ element } />,
+      component: Id,
       isEdited: isTextFieldEntryEdited
     }
   ];

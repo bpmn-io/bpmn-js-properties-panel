@@ -52,7 +52,7 @@ export function MessageProps(props) {
   let entries = [
     {
       id: 'messageRef',
-      component: <MessageRef element={ element } />,
+      component: MessageRef,
       isEdited: isSelectEntryEdited
     }
   ];
@@ -62,7 +62,7 @@ export function MessageProps(props) {
       ...entries,
       {
         id: 'messageName',
-        component: <MessageName element={ element } />,
+        component: MessageName,
         isEdited: isTextFieldEntryEdited
       },
     ];

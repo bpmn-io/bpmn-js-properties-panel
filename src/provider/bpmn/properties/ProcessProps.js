@@ -29,12 +29,12 @@ export function ProcessProps(props) {
   return [
     {
       id: 'processId',
-      component: <ProcessId element={ element } />,
+      component: ProcessId,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'processName',
-      component: <ProcessName element={ element } />,
+      component: ProcessName,
       isEdited: isTextFieldEntryEdited
     }
   ];

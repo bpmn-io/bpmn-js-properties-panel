@@ -28,7 +28,7 @@ export function LinkProps(props) {
   return [
     {
       id: 'linkName',
-      component: <LinkName element={ element } />,
+      component: LinkName,
       isEdited: isTextFieldEntryEdited
     },
   ];

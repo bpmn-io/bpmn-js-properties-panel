@@ -45,12 +45,12 @@ export function CompensationProps(props) {
   return [
     {
       id: 'waitForCompletion',
-      component: <WaitForCompletion element={ element } />,
+      component: WaitForCompletion,
       isEdited: isCheckboxEntryEdited
     },
     {
       id: 'activityRef',
-      component: <ActivityRef element={ element } />,
+      component: ActivityRef,
       isEdited: isSelectEntryEdited
     }
   ];
