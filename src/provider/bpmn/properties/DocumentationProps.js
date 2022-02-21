@@ -32,7 +32,7 @@ export function DocumentationProps(props) {
   const entries = [
     {
       id: 'documentation',
-      component: <ElementDocumentationProperty element={ element } />,
+      component: ElementDocumentationProperty,
       isEdited: isTextAreaEntryEdited
     }
   ];
@@ -40,7 +40,7 @@ export function DocumentationProps(props) {
   if (hasProcessRef(element)) {
     entries.push({
       id: 'processDocumentation',
-      component: <ProcessDocumentationProperty element={ element } />,
+      component: ProcessDocumentationProperty,
       isEdited: isTextAreaEntryEdited
     });
   }

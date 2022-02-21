@@ -28,7 +28,7 @@ export function ExecutableProps(props) {
   return [
     {
       id: 'isExecutable',
-      component: <Executable element={ element } />,
+      component: Executable,
       isEdited: isCheckboxEntryEdited
     }
   ];

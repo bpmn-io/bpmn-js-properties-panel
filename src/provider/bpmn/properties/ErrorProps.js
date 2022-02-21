@@ -56,7 +56,7 @@ export function ErrorProps(props) {
   let entries = [
     {
       id: 'errorRef',
-      component: <ErrorRef element={ element } />,
+      component: ErrorRef,
       isEdited: isSelectEntryEdited
     }
   ];
@@ -66,12 +66,12 @@ export function ErrorProps(props) {
       ...entries,
       {
         id: 'errorName',
-        component: <ErrorName element={ element } />,
+        component: ErrorName,
         isEdited: isTextFieldEntryEdited
       },
       {
         id: 'errorCode',
-        component: <ErrorCode element={ element } />,
+        component: ErrorCode,
         isEdited: isTextFieldEntryEdited
       }
     ];

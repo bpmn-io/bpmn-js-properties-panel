@@ -34,7 +34,7 @@ export function NameProps(props) {
   return [
     {
       id: 'name',
-      component: <Name element={ element } />,
+      component: Name,
       isEdited: isTextFieldEntryEdited
     }
   ];

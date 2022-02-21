@@ -32,12 +32,12 @@ export function MultiInstanceProps(props) {
   const entries = [
     {
       id: 'loopCardinality',
-      component: <LoopCardinality element={ element } />,
+      component: LoopCardinality,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'completionCondition',
-      component: <CompletionCondition element={ element } />,
+      component: CompletionCondition,
       isEdited: isTextFieldEntryEdited
     }
   ];

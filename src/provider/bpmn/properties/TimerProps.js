@@ -56,15 +56,19 @@ export function TimerProps(props) {
 
   entries.push({
     id: getId(idPrefix, 'timerEventDefinitionType'),
-    component: <TimerEventDefinitionType element={ element } timerEventDefinition={ timerEventDefinition } timerEventDefinitionType={ timerEventDefinitionType } />,
-    isEdited: isSelectEntryEdited
+    component: TimerEventDefinitionType,
+    isEdited: isSelectEntryEdited,
+    timerEventDefinition,
+    timerEventDefinitionType
   });
 
   if (timerEventDefinitionType) {
     entries.push({
       id: getId(idPrefix, 'timerEventDefinitionValue'),
-      component: <TimerEventDefinitionValue element={ element } timerEventDefinition={ timerEventDefinition } timerEventDefinitionType={ timerEventDefinitionType } />,
-      isEdited: isTextFieldEntryEdited
+      component: TimerEventDefinitionValue,
+      isEdited: isTextFieldEntryEdited,
+      timerEventDefinition,
+      timerEventDefinitionType
     });
   }
 

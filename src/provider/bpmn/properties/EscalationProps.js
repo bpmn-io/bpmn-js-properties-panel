@@ -55,7 +55,7 @@ export function EscalationProps(props) {
   let entries = [
     {
       id: 'escalationRef',
-      component: <EscalationRef element={ element } />,
+      component: EscalationRef,
       isEdited: isSelectEntryEdited
     }
   ];
@@ -65,12 +65,12 @@ export function EscalationProps(props) {
       ...entries,
       {
         id: 'escalationName',
-        component: <EscalationName element={ element } />,
+        component: EscalationName,
         isEdited: isTextFieldEntryEdited
       },
       {
         id: 'escalationCode',
-        component: <EscalationCode element={ element } />,
+        component: EscalationCode,
         isEdited: isTextFieldEntryEdited
       }
     ];
