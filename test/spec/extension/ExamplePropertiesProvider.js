@@ -29,19 +29,19 @@ function provideEntries(element, groups) {
 
   newGroup.entries.push({
     id: 'foo-button-entry-1',
-    component: <AsyncDataEntry />
+    component: AsyncDataEntry
   },{
     id: 'foo-button-entry-2',
-    component: <SimplyButtonEntry />
+    component: SimplyButtonEntry
   }, {
     id: 'foo-button-entry-3',
-    component: <AddPropertiesEntry />
+    component: AddPropertiesEntry
   }, {
     id: 'foo-button-entry-4',
-    component: <ChangeLayoutEntry />
+    component: ChangeLayoutEntry
   }, {
     id: 'foo-button-entry-5',
-    component: <OrderingEntry element={ element } />
+    component: OrderingEntry
   });
 
   groups.push(newGroup);
@@ -51,7 +51,7 @@ function provideEntries(element, groups) {
 
   generalGroup.entries.push({
     id: 'foo-entry',
-    component: <SimpleInputEntry element={ element } />
+    component: SimpleInputEntry
   });
 
   return groups;
