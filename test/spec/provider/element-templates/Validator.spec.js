@@ -450,10 +450,10 @@ describe('provider/element-templates - Validator', function() {
 
       // then
       expect(errors(templates)).to.eql([
+        'template(id: <my.execution.listener.task>, name: <Execution Listener>): must provide choices=[] with "Dropdown" type',
         'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "String" for binding type "camunda:executionListener"; must be "Hidden"',
         'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Text" for binding type "camunda:executionListener"; must be "Hidden"',
         'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Boolean" for binding type "camunda:executionListener"; must be "Hidden"',
-        'template(id: <my.execution.listener.task>, name: <Execution Listener>): must provide choices=[] with "Dropdown" type',
         'template(id: <my.execution.listener.task>, name: <Execution Listener>): invalid property type "Dropdown" for binding type "camunda:executionListener"; must be "Hidden"',
       ]);
 
