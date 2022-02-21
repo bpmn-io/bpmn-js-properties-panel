@@ -67,99 +67,292 @@ describe('provider/zeebe - Forms', function() {
 
   describe('zeebe:userTaskForm', function() {
 
-    it('should display', inject(async function(elementRegistry, selection) {
+    describe('form type', function() {
 
-      // given
-      const userTask = elementRegistry.get('WITH_FORM');
+      it('should display - custom key', inject(async function(elementRegistry, selection) {
 
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
+        // given
+        const userTask = elementRegistry.get('WITH_CAMUNDA_FORM');
 
-      const formInput = getFormInput(container);
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
 
-      // then
-      expect(formInput).to.exist;
+        const formInput = getFormInput(container);
 
-      expect(formInput.value).to.equal('{}');
-    }));
+        // then
+        expect(formInput).to.exist;
 
-
-    it('should display empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formInput = getFormInput(container);
-
-      // then
-      expect(formInput).to.exist;
-
-      expect(formInput.value).to.equal('');
-    }));
+        expect(formInput.value).to.equal('camundaForm');
+      }));
 
 
-    it('should update', inject(async function(elementRegistry, selection) {
+      it('should display - camunda form', inject(async function(elementRegistry, selection) {
 
-      // given
-      const userTask = elementRegistry.get('WITH_FORM');
+        // given
+        const userTask = elementRegistry.get('WITH_CUSTOM_KEY');
 
-      await act(() => {
-        selection.select(userTask);
-      });
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
 
-      const formInput = getFormInput(container);
+        const formInput = getFormInput(container);
 
-      // when
-      changeInput(formInput, '{ "a": 1 }');
+        // then
+        expect(formInput).to.exist;
 
-      // then
-      expectForm(userTask, '{ "a": 1 }');
-    }));
-
-
-    it('should remove', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('WITH_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formInput = getFormInput(container);
-
-      // when
-      changeInput(formInput, '');
-
-      // then
-      expectForm(userTask, null);
-    }));
+        expect(formInput.value).to.equal('formKey');
+      }));
 
 
-    it('should add', inject(async function(elementRegistry, selection) {
+      it('should display - empty', inject(async function(elementRegistry, selection) {
 
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
 
-      await act(() => {
-        selection.select(userTask);
-      });
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
 
-      const formInput = getFormInput(container);
+        const formInput = getFormInput(container);
 
-      // when
-      changeInput(formInput, '{}');
+        // then
+        expect(formInput).to.exist;
 
-      // then
-      expectForm(userTask, '{}');
-    }));
+        expect(formInput.value).to.equal('');
+      }));
+
+
+      it('should update - empty', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CAMUNDA_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formInput = getFormInput(container);
+
+        // when
+        changeInput(formInput, '');
+
+        // then
+
+        // expect user task form not to exist
+        const formDefinition = getFormDefinition(userTask);
+        expect(formDefinition).to.not.exist;
+
+        // expect form definnition not to exist
+        const rootElement = getRootElement(userTask);
+        const forms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
+        expect(forms).to.have.lengthOf(0);
+      }));
+
+
+      it('should update - camunda form', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formInput = getFormInput(container);
+
+        // when
+        changeInput(formInput, 'camundaForm');
+
+        // then
+        expectCamundaForm(userTask, '');
+      }));
+
+
+      it('should update - custom key', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formInput = getFormInput(container);
+
+        // when
+        changeInput(formInput, 'formKey');
+
+        // then
+        expectFormKey(userTask, '');
+      }));
+
+
+      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+        const rootElement = getRootElement(userTask);
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formInput = getFormInput(container);
+        const initialTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm').length;
+
+        changeInput(formInput, 'camundaForm');
+        expectCamundaForm(userTask, '');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // expect user task form not to exist
+        const formDefinition = getFormDefinition(userTask);
+        expect(formDefinition).to.not.exist;
+
+        // expect form definnition not to exist
+        const forms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
+        expect(forms).to.have.lengthOf(initialTaskForms);
+      }));
+
+    });
+
+
+    describe('camunda form', function() {
+
+      it('should display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CAMUNDA_FORM');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formConfig = getFormConfig(container);
+
+        // then
+        expect(formConfig).to.exist;
+      }));
+
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CAMUNDA_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formConfig = getFormConfig(container);
+
+        // when
+        changeInput(formConfig, '{ "a": 1 }');
+
+        // then
+        expectCamundaForm(userTask, '{ "a": 1 }');
+      }));
+
+
+      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CAMUNDA_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formConfig = getFormConfig(container);
+        const initialConfig = formConfig.value;
+
+        changeInput(formConfig, '{ "a": 1 }');
+        expectCamundaForm(userTask, '{ "a": 1 }');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // expect form definnition not to exist
+        expectCamundaForm(userTask, initialConfig);
+      }));
+
+    });
+
+
+    describe('custom key', function() {
+
+      it('should display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CUSTOM_KEY');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formKey = getCustomKey(container);
+
+        // then
+        expect(formKey).to.exist;
+      }));
+
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CUSTOM_KEY');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formKey = getCustomKey(container);
+
+        // when
+        changeInput(formKey, 'customKey');
+
+        // then
+        expectFormKey(userTask, 'customKey');
+      }));
+
+
+      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('WITH_CUSTOM_KEY');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formKey = getCustomKey(container);
+        const initialFormKey = formKey.value;
+
+        changeInput(formKey, '');
+        expectFormKey(userTask, 'customKey');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // expect form definnition not to exist
+        expectFormKey(userTask, initialFormKey);
+      }));
+
+    });
+
 
   });
 
@@ -169,27 +362,35 @@ describe('provider/zeebe - Forms', function() {
 // helpers /////////////////////
 
 function getFormInput(container) {
+  return domQuery('select[name=formType]', container);
+}
+
+function getFormConfig(container) {
   return domQuery('textarea[name=formConfiguration]', container);
 }
 
-function expectForm(element, body) {
+function getCustomKey(container) {
+  return domQuery('input[name=customFormKey]', container);
+}
+
+function expectFormKey(element, key) {
+  const formDefinition = getFormDefinition(element);
+
+  expect(formDefinition).to.exist;
+  expect(formDefinition.formKey).to.eql(key);
+}
+
+function expectCamundaForm(element, body) {
 
   // (1) get form definition from user task
   const formDefinition = getFormDefinition(element);
 
-  // (2.1) assume removed, if no body
-  if (!body) {
-    expect(formDefinition).not.to.exist;
-
-    return;
-  }
-
-  // (2.2) assume existing
+  // (1.2) assume existing
   expect(formDefinition).to.exist;
 
   const rootElement = getRootElement(element);
 
-  // (3) assume corresponding task form on root element
+  // (2) assume corresponding task form on root element
   const formKey = formDefinition.get('formKey');
 
   const form = findUserTaskForm(formKey, rootElement);

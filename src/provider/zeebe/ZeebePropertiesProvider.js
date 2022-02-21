@@ -132,12 +132,12 @@ function ConditionGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function FormGroup(element) {
+function FormGroup(element, injector) {
   const group = {
     id: 'form',
     label: 'Form',
     entries: [
-      ...FormProps({ element })
+      ...FormProps({ element, injector })
     ],
     component: Group
   };
