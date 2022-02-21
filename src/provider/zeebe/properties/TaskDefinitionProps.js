@@ -33,12 +33,12 @@ export function TaskDefinitionProps(props) {
   return [
     {
       id: 'taskDefinitionType',
-      component: <TaskDefinitionType element={ element } />,
+      component: TaskDefinitionType,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'taskDefinitionRetries',
-      component: <TaskDefinitionRetries element={ element } />,
+      component: TaskDefinitionRetries,
       isEdited: isTextFieldEntryEdited
     }
   ];

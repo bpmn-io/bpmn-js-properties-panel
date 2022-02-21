@@ -39,7 +39,7 @@ export function BusinessRuleImplementationProps(props) {
   return [
     {
       id: 'businessRuleImplementation',
-      component: <BusinessRuleImplementation element={ element } />,
+      component: BusinessRuleImplementation,
       isEdited: () => isBusinessRuleImplementationEdited(element)
     }
   ];

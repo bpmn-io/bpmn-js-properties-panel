@@ -38,7 +38,7 @@ export function FormProps(props) {
   return [
     {
       id: 'formConfiguration',
-      component: <FormProperty element={ element } />,
+      component: FormProperty,
       isEdited: isTextAreaEntryEdited
     }
   ];

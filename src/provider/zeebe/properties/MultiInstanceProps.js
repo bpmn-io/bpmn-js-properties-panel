@@ -29,27 +29,27 @@ export function MultiInstanceProps(props) {
   return [
     {
       id: 'multiInstance-inputCollection',
-      component: <InputCollection element={ element } />,
+      component: InputCollection,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-inputElement',
-      component: <InputElement element={ element } />,
+      component: InputElement,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-outputCollection',
-      component: <OutputCollection element={ element } />,
+      component: OutputCollection,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-outputElement',
-      component: <OutputElement element={ element } />,
+      component: OutputElement,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstance-completionCondition',
-      component: <CompletionCondition element={ element } />,
+      component: CompletionCondition,
       isEdited: isTextFieldEntryEdited
     }
   ];

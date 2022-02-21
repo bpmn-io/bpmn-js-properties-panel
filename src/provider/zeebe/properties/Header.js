@@ -9,16 +9,19 @@ export default function Header(props) {
 
   const {
     idPrefix,
-    element,
     header
   } = props;
 
   const entries = [ {
     id: idPrefix + '-key',
-    component: <KeyProperty idPrefix={ idPrefix } element={ element } header={ header } />
+    component: KeyProperty,
+    header,
+    idPrefix
   },{
     id: idPrefix + '-value',
-    component: <ValueProperty idPrefix={ idPrefix } element={ element } header={ header } />
+    component: ValueProperty,
+    header,
+    idPrefix
   } ];
 
   return entries;
