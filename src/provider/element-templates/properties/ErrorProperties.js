@@ -61,7 +61,9 @@ export function ErrorProperties(props) {
   // (3) add disabled throw expression input
   entries.push({
     id: `${ id }-expression`,
-    component: <Expression errorEventDefinition={ errorEventDefinition } id={ `${ id }-expression` } property={ property } />
+    component: Expression,
+    errorEventDefinition,
+    property
   });
 
   const item = {

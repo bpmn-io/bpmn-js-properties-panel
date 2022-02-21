@@ -210,32 +210,40 @@ function createCustomEntry(id, element, property, scope) {
   if (type === 'Boolean') {
     return {
       id,
-      component: <BooleanProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: isCheckboxEntryEdited
+      component: BooleanProperty,
+      isEdited: isCheckboxEntryEdited,
+      property,
+      scope
     };
   }
 
   if (type === 'Dropdown') {
     return {
       id,
-      component: <DropdownProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: isSelectEntryEdited
+      component: DropdownProperty,
+      isEdited: isSelectEntryEdited,
+      property,
+      scope
     };
   }
 
   if (type === 'String') {
     return {
       id,
-      component: <StringProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: isTextFieldEntryEdited
+      component: StringProperty,
+      isEdited: isTextFieldEntryEdited,
+      property,
+      scope
     };
   }
 
   if (type === 'Text') {
     return {
       id,
-      component: <TextAreaProperty element={ element } id={ id } property={ property } scope={ scope } />,
-      isEdited: isTextAreaEntryEdited
+      component: TextAreaProperty,
+      isEdited: isTextAreaEntryEdited,
+      property,
+      scope
     };
   }
 }

@@ -58,18 +58,17 @@ export function InputProperties(props) {
   // (2) add local variable assignment entry
   entries.unshift({
     id: `${ id }-local-variable-assignment`,
-    component: <LocalVariableAssignment
-      element={ element }
-      id={ `${ id }-local-variable-assignment` }
-      inputParameter={ inputParameter }
-      property={ property } />
+    component: LocalVariableAssignment,
+    inputParameter,
+    property
   });
 
   // (3) add description entry
   if (description) {
     entries.unshift({
       id: `${ id }-description`,
-      component: <Description id={ `${ id }-description` } text={ description } />
+      component: Description,
+      text: description
     });
   }
 

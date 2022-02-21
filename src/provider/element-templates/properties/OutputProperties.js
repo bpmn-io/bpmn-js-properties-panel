@@ -51,18 +51,17 @@ export function OutputProperties(props) {
   if (description) {
     entries.push({
       id: `${ id }-description`,
-      component: <Description id={ `${ id }-description` } text={ description } />
+      component: Description,
+      text: description
     });
   }
 
   // (2) add local variable assignment entry
   entries.push({
     id: `${ id }-local-variable-assignment`,
-    component: <ProcessVariableAssignment
-      element={ element }
-      id={ `${ id }-local-variable-assignment` }
-      outputParameter={ outputParameter }
-      property={ property } />
+    component: ProcessVariableAssignment,
+    outputParameter,
+    property
   });
 
   if (outputParameter) {
@@ -70,7 +69,8 @@ export function OutputProperties(props) {
     // (3) add assign to process variable entry
     entries.push({
       id: `${ id }-assign-to-process-variable`,
-      component: <AssignToProcessVariable element={ element } id={ `${ id }-assign-to-process-variable` } property={ property } />
+      component: AssignToProcessVariable,
+      property
     });
   }
 
