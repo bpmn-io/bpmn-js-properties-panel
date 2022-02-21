@@ -3,10 +3,18 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { TextAreaEntry, isTextAreaEntryEdited } from '@bpmn-io/properties-panel';
+import {
+  SelectEntry,
+  TextFieldEntry,
+  TextAreaEntry,
+  isSelectEntryEdited,
+  isTextFieldEntryEdited,
+  isTextAreaEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
-  createElement
+  createElement,
+  nextId
 } from '../../../utils/ElementUtil';
 
 import {
@@ -14,11 +22,9 @@ import {
 } from '../../../utils/ExtensionElementsUtil';
 
 import {
-  nextId
-} from '../../../utils/ElementUtil';
-
-import {
-  find, without
+  find,
+  isUndefined,
+  without
 } from 'min-dash';
 
 import {
@@ -28,37 +34,114 @@ import {
 
 export function FormProps(props) {
   const {
-    element
+    element,
+    injector
   } = props;
+
+  const formHelper = injector.invoke(FormHelper);
 
   if (!is(element, 'bpmn:UserTask')) {
     return [];
   }
 
-  return [
-    {
+  const entries = [ {
+    id: 'formType',
+    component: FormType,
+    isEdited: isSelectEntryEdited
+  } ];
+
+  if (isCamundaForm(element, formHelper)) {
+    entries.push({
       id: 'formConfiguration',
-      component: FormProperty,
+      component: FormConfiguration,
       isEdited: isTextAreaEntryEdited
-    }
-  ];
+    });
+
+  } else if (isCustomKey(element, formHelper)) {
+    entries.push({
+      id: 'customFormKey',
+      component: CustomFormKey,
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  return entries;
 }
 
-function FormProperty(props) {
+
+function FormType(props) {
+
+  const {
+    element
+  } = props;
+
+  const translate = useService('translate');
+  const injector = useService('injector');
+  const formHelper = injector.invoke(FormHelper);
+
+  const getValue = () => {
+    const formDefinition = formHelper.getFormDefinition(element);
+    const userTaskForm = formHelper.getUserTaskForm(element);
+
+    if (formDefinition) {
+
+      if (userTaskForm) {
+        return 'camundaForm';
+      }
+
+      return 'formKey';
+    }
+
+    return '';
+  };
+
+  const setValue = (value) => {
+    formHelper.resetForm(element);
+
+    if (value === 'camundaForm') {
+      formHelper.setUserTaskForm(element, '');
+
+    } else if (value === 'formKey') {
+      formHelper.setFormDefinition(element, '');
+    }
+  };
+
+  const getOptions = () => {
+    return [
+      { value: '', label: translate('<none>') },
+      { value: 'camundaForm', label: translate('Camunda forms') },
+      { value: 'formKey', label: translate('Custom form key') },
+    ];
+  };
+
+  return SelectEntry({
+    element,
+    id: 'formType',
+    label: translate('Type'),
+    getValue,
+    setValue,
+    getOptions
+  });
+}
+
+function FormConfiguration(props) {
   const {
     element
   } = props;
 
   const injector = useService('injector');
-
   const debounce = useService('debounceInput');
   const translate = useService('translate');
-
   const formHelper = injector.invoke(FormHelper);
 
-  const getValue = () => formHelper.get(element);
+  const getValue = () => {
+    const userTaskForm = formHelper.getUserTaskForm(element);
+    return userTaskForm.get('body');
+  };
 
-  const setValue = (value) => formHelper.set(element, value);
+  const setValue = (value) => {
+    formHelper.setUserTaskForm(element, value);
+  };
 
   return TextAreaEntry({
     element,
@@ -72,9 +155,47 @@ function FormProperty(props) {
 }
 
 
+function CustomFormKey(props) {
+  const {
+    element
+  } = props;
+
+  const injector = useService('injector');
+  const debounce = useService('debounceInput');
+  const translate = useService('translate');
+  const formHelper = injector.invoke(FormHelper);
+
+  const getValue = () => {
+    const formDefinition = formHelper.getFormDefinition(element);
+    return formDefinition.get('formKey');
+  };
+
+  const setValue = (value) => {
+    formHelper.setFormDefinition(element, value);
+  };
+
+  return TextFieldEntry({
+    element,
+    id: 'customFormKey',
+    label: translate('Form Key'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+
 const USER_TASK_FORM_PREFIX = 'userTaskForm_';
 
 function FormHelper(bpmnFactory, commandStack) {
+
+  function getFormDefinition(element) {
+    const businessObject = getBusinessObject(element);
+
+    const formDefinitions = getExtensionElementsList(businessObject, 'zeebe:FormDefinition');
+
+    return formDefinitions[0];
+  }
 
   function getUserTaskForm(element, parent) {
 
@@ -83,7 +204,7 @@ function FormHelper(bpmnFactory, commandStack) {
     // (1) get form definition from user task
     const formDefinition = getFormDefinition(element);
 
-    if (!formDefinition) {
+    if (isUndefined(formDefinition)) {
       return;
     }
 
@@ -95,42 +216,13 @@ function FormHelper(bpmnFactory, commandStack) {
     return userTaskForm;
   }
 
-  function getFormDefinition(element) {
-    const businessObject = getBusinessObject(element);
+  function ensureTaskForm(element, values) {
 
-    const formDefinitions = getExtensionElementsList(businessObject, 'zeebe:FormDefinition');
+    let commands = [];
 
-    return formDefinitions[0];
-  }
+    const rootElement = getRootElement(element);
 
-  function setUserTaskForm(element, body) {
-
-    const businessObject = getBusinessObject(element),
-          rootElement = getRootElement(element);
-
-    let commands = [],
-        userTaskForm,
-        formId;
-
-    // (1) ensure extension elements
-    let extensionElements = businessObject.get('extensionElements');
-
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push(
-        UpdateModdlePropertiesCmd(element, businessObject, {
-          extensionElements: extensionElements,
-        })
-      );
-    }
-
-    // (2) ensure root element extension elements
+    // (1) ensure root element extension elements
     let rootExtensionElements = rootElement.get('extensionElements');
 
     if (!rootExtensionElements) {
@@ -148,78 +240,123 @@ function FormHelper(bpmnFactory, commandStack) {
       );
     }
 
-    // (3) ensure form definition
+    // (2) ensure user task form
+    let userTaskForm = getUserTaskForm(element);
+
+    // (2.1) create user task form if doesn't exist
+    if (!userTaskForm) {
+      userTaskForm = createUserTaskForm(
+        values,
+        rootExtensionElements,
+        bpmnFactory
+      );
+
+      commands.push(
+        UpdateModdlePropertiesCmd(element, rootExtensionElements,{
+          values: [ ...rootExtensionElements.get('values'), userTaskForm ]
+        })
+      );
+    }
+
+    commands.push(UpdateModdlePropertiesCmd(element, userTaskForm, values));
+
+    return commands;
+  }
+
+  function ensureFormDefinition(element, customFormKey) {
+    const businessObject = getBusinessObject(element);
+
+    let commands = [];
+
+    // (1) ensure extension elements
+    let extensionElements = businessObject.get('extensionElements');
+
+    if (isUndefined(extensionElements)) {
+      extensionElements = createElement(
+        'bpmn:ExtensionElements',
+        { values: [] },
+        businessObject,
+        bpmnFactory
+      );
+
+      commands.push(
+        UpdateModdlePropertiesCmd(element, businessObject, {
+          extensionElements: extensionElements,
+        })
+      );
+    }
+
+    // (2) ensure form definition
     let formDefinition = getFormDefinition(element);
 
+    // (2.1) create if doesn't exist
     if (!formDefinition) {
-      formId = createFormId();
+      let formKey = customFormKey;
+
+      if (isUndefined(formKey)) {
+        const formId = createFormId();
+        formKey = createFormKey(formId);
+      }
 
       formDefinition = createFormDefinition(
         {
-          formKey: createFormKey(formId)
+          formKey
         },
         extensionElements,
         bpmnFactory
       );
 
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: extensionElements,
-          properties: {
-            values: [ ...extensionElements.get('values'), formDefinition ]
-          }
-        }
-      });
-    }
-
-    formId = resolveFormId(formDefinition.get('formKey'));
-
-    // (4) ensure user task form
-    userTaskForm = getUserTaskForm(element);
-
-    if (!userTaskForm) {
-      userTaskForm = createUserTaskForm(
-        {
-          id: formId,
-          body: body
-        },
-        rootExtensionElements,
-        bpmnFactory
+      commands.push(
+        UpdateModdlePropertiesCmd(element, extensionElements, {
+          values: [ ...extensionElements.get('values'), formDefinition ]
+        })
       );
-
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: rootExtensionElements,
-          properties: {
-            values: [ ...rootExtensionElements.get('values'), userTaskForm ]
-          }
-        }
-      });
     }
 
-    // (5) update user task form
-    commands.push(UpdateModdlePropertiesCmd(element, userTaskForm, {
-      body
-    }));
+    // (2.2) update existing form definition with custom key
+    else if (customFormKey) {
+      commands.push(
+        UpdateModdlePropertiesCmd(element, formDefinition, {
+          formKey: customFormKey
+        })
+      );
+    }
 
-    return commands;
-
+    return {
+      formId: resolveFormId(formDefinition.get('formKey')),
+      commands
+    };
   }
 
-  function unsetUserTaskForm(element) {
+  function setFormDefinition(element, customFormKey) {
+
+    const {
+      commands
+    } = ensureFormDefinition(element, customFormKey);
+
+    commandStack.execute('properties-panel.multi-command-executor', commands);
+  }
+
+  function setUserTaskForm(element, value) {
+
+    const {
+      formId,
+      commands: formDefCommands
+    } = ensureFormDefinition(element);
+
+    const userTaskCommands = ensureTaskForm(element, { id:formId, body:value });
+    const commands = formDefCommands.concat(userTaskCommands);
+
+    commandStack.execute('properties-panel.multi-command-executor', commands);
+  }
+
+  function unsetFormDefinition(element) {
 
     const businessObject = getBusinessObject(element),
-          rootElement = getRootElement(element),
-          extensionElements = businessObject.get('extensionElements'),
-          rootExtensionElements = rootElement.get('extensionElements');
+          extensionElements = businessObject.get('extensionElements');
 
     let commands = [];
 
-    // (1) remove form definition
     const formDefinition = getFormDefinition(element);
 
     if (!formDefinition) {
@@ -228,38 +365,37 @@ function FormHelper(bpmnFactory, commandStack) {
 
     let values = without(extensionElements.get('values'), formDefinition);
 
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: extensionElements,
-        properties: {
-          values
-        }
-      }
-    });
+    commands.push(
+      UpdateModdlePropertiesCmd(element, extensionElements, { values })
+    );
+
+    return commands;
+  }
+
+  function resetForm(element) {
+
+    const rootElement = getRootElement(element),
+          rootExtensionElements = rootElement.get('extensionElements');
+
+    // (1) remove form definition
+    const commands = unsetFormDefinition(element);
 
     // (2) remove referenced user task form
     const userTaskForm = getUserTaskForm(element);
 
     if (!userTaskForm) {
-      return commands;
+      commandStack.execute('properties-panel.multi-command-executor', commands);
+      return;
     }
 
-    values = without(rootExtensionElements.get('values'), userTaskForm);
+    const values = without(rootExtensionElements.get('values'), userTaskForm);
 
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: rootExtensionElements,
-        properties: {
-          values
-        }
-      }
-    });
+    commands.push(
+      UpdateModdlePropertiesCmd(element, rootExtensionElements, { values })
+    );
 
-    return commands;
+    commandStack.execute('properties-panel.multi-command-executor', commands);
+
   }
 
   function createFormKey(formId) {
@@ -312,28 +448,12 @@ function FormHelper(bpmnFactory, commandStack) {
     return parent;
   }
 
-  function get(element) {
-    const value = getUserTaskForm(element);
-
-    return value && value.body || '';
-  }
-
-  function set(element, body) {
-
-    body = body && body.trim();
-
-    const commands = (
-      body
-        ? setUserTaskForm(element, body)
-        : unsetUserTaskForm(element)
-    );
-
-    commandStack.execute('properties-panel.multi-command-executor', commands);
-  }
-
   return {
-    get,
-    set
+    getFormDefinition,
+    getUserTaskForm,
+    setFormDefinition,
+    setUserTaskForm,
+    resetForm
   };
 
 }
@@ -352,4 +472,18 @@ function UpdateModdlePropertiesCmd(element, businessObject, newProperties) {
       properties: newProperties
     }
   };
+}
+
+function isCamundaForm(element, formHelper) {
+  const formDefinition = formHelper.getFormDefinition(element);
+  const userTaskForm = formHelper.getUserTaskForm(element);
+
+  return formDefinition && userTaskForm;
+}
+
+function isCustomKey(element, formHelper) {
+  const formDefinition = formHelper.getFormDefinition(element);
+  const userTaskForm = formHelper.getUserTaskForm(element);
+
+  return formDefinition && !userTaskForm;
 }
