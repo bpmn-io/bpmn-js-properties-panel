@@ -87,7 +87,19 @@ export function ElementTemplatesGroup(props) {
       { open: open && !empty }
     ) }>
       {
-        entries.map(e => e.component)
+        entries.map(entry => {
+          const {
+            component: Component,
+            id
+          } = entry;
+
+          return (
+            <Component
+              { ...entry }
+              key={ id }
+              element={ element } />
+          );
+        })
       }
     </div>
   </div>;
