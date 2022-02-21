@@ -12,15 +12,18 @@ export function TemplateProps({ element, elementTemplates }) {
   return [
     {
       id: 'template-name',
-      component: <TemplateName id="template-name" template={ template } />
+      component: TemplateName,
+      template
     },
     {
       id: 'template-version',
-      component: <TemplateVersion id="template-version" template={ template } />
+      component: TemplateVersion,
+      template
     },
     {
       id: 'template-description',
-      component: <TemplateDescription id="template-description" template={ template } />
+      component: TemplateDescription,
+      template
     }
   ].filter(entry => !!entry.component);
 }
