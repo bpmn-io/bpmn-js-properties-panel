@@ -38,7 +38,7 @@ export function OutputPropagationProps(props) {
   return [
     {
       id: 'propagateAllChildVariables',
-      component: <PropagateAllChildVariables element={ element } />,
+      component: PropagateAllChildVariables,
       isEdited: isToggleSwitchEntryEdited
     }
   ];

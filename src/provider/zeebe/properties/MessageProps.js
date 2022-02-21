@@ -39,7 +39,7 @@ export function MessageProps(props) {
   const entries = [
     {
       id: 'messageSubscriptionCorrelationKey',
-      component: <SubscriptionCorrelationKey element={ element } />,
+      component: SubscriptionCorrelationKey,
       isEdited: isTextFieldEntryEdited
     },
   ];

@@ -32,7 +32,7 @@ export function ConditionProps(props) {
   if (isConditionalSource(element.source)) {
     conditionProps.push({
       id: 'conditionExpression',
-      component: <ConditionExpression element={ element } />,
+      component: ConditionExpression,
       isEdited: isTextFieldEntryEdited
     });
   }

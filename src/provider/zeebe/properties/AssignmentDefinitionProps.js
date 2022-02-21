@@ -30,12 +30,12 @@ export function AssignmentDefinitionProps(props) {
   return [
     {
       id: 'assignmentDefinitionAssignee',
-      component: <Assignee element={ element } />,
+      component: Assignee,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'assignmentDefinitionCandidateGroups',
-      component: <CandidateGroups element={ element } />,
+      component: CandidateGroups,
       isEdited: isTextFieldEntryEdited
     }
   ];

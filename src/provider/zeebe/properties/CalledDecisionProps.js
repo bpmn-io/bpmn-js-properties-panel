@@ -36,12 +36,12 @@ export function CalledDecisionProps(props) {
   return [
     {
       id: 'decisionId',
-      component: <DecisionID element={ element } />,
+      component: DecisionID,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'resultVariable',
-      component: <ResultVariable element={ element } />,
+      component: ResultVariable,
       isEdited: isTextFieldEntryEdited
     }
   ];

@@ -31,7 +31,7 @@ export function TargetProps(props) {
   return [
     {
       id: 'targetProcessId',
-      component: <TargetProcessId element={ element } />,
+      component: TargetProcessId,
       isEdited: isTextFieldEntryEdited
     }
   ];

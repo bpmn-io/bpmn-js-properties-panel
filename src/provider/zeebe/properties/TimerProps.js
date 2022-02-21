@@ -53,20 +53,20 @@ export function TimerProps(props) {
   if (onlySupportDuration) {
     entries.push({
       id: 'timerEventDefinitionDurationValue',
-      component: <TimerEventDefinitionDurationValue element={ element } />,
+      component: TimerEventDefinitionDurationValue,
       isEdited: isTextFieldEntryEdited
     });
   } else {
     entries.push({
       id: 'timerEventDefinitionType',
-      component: <TimerEventDefinitionType element={ element } />,
+      component: TimerEventDefinitionType,
       isEdited: isSelectEntryEdited
     });
 
     if (timerEventDefinitionType) {
       entries.push({
         id: 'timerEventDefinitionValue',
-        component: <TimerEventDefinitionValue element={ element } />,
+        component: TimerEventDefinitionValue,
         isEdited: isTextFieldEntryEdited
       });
     }
