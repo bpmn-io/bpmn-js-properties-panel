@@ -133,7 +133,7 @@ function SelectEntryTemplate({ element }) {
 
   return (
     <HeaderButton
-      title="SelectEntry a template"
+      title="Select a template"
       class="bio-properties-panel-select-template-button"
       onClick={ selectTemplate }
     >
