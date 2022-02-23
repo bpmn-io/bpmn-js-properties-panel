@@ -25,7 +25,7 @@ export function HistoryCleanupProps(props) {
   return [
     {
       id: 'historyTimeToLive',
-      component: <HistoryTimeToLive element={ element } />,
+      component: HistoryTimeToLive,
       isEdited: isTextFieldEntryEdited
     },
   ];

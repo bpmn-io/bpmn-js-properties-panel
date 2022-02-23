@@ -47,7 +47,7 @@ export function InMappingPropagationProps(props) {
   const entries = [
     {
       id: 'inMapping-propagation',
-      component: <PropagateAll element={ element } />,
+      component: PropagateAll,
       isEdited: isCheckboxEntryEdited
     }
   ];
@@ -55,7 +55,7 @@ export function InMappingPropagationProps(props) {
   if (isPropagateAll(element)) {
     entries.push({
       id: 'inMapping-propagation-local',
-      component: <Local element={ element } />,
+      component: Local,
       isEdited: isCheckboxEntryEdited
     });
   }

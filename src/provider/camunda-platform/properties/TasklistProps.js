@@ -29,7 +29,7 @@ export function TasklistProps(props) {
   return [
     {
       id: 'isStartableInTasklist',
-      component: <Startable element={ element } />,
+      component: Startable,
       isEdited
     },
   ];

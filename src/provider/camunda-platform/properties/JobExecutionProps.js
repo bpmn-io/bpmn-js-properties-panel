@@ -37,7 +37,7 @@ export function JobExecutionProps(props) {
       isTimerEvent(element)) {
     entries.push({
       id: 'retryTimeCycle',
-      component: <RetryTimeCycle element={ element } />,
+      component: RetryTimeCycle,
       isEdited: isTextFieldEntryEdited
     });
   }
@@ -52,7 +52,7 @@ export function JobExecutionProps(props) {
     isTimerEvent(element)) {
     entries.push({
       id: 'jobPriority',
-      component: <JobPriority element={ element } />,
+      component: JobPriority,
       isEdited: isTextFieldEntryEdited
     });
   }

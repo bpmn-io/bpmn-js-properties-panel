@@ -24,32 +24,32 @@ export function UserAssignmentProps(props) {
   return [
     {
       id: 'assignee',
-      component: <Assignee element={ element } />,
+      component: Assignee,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'candidateGroups',
-      component: <CandidateGroups element={ element } />,
+      component: CandidateGroups,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'candidateUsers',
-      component: <CandidateUsers element={ element } />,
+      component: CandidateUsers,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'dueDate',
-      component: <DueDate element={ element } />,
+      component: DueDate,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'followUpDate',
-      component: <FollowUpDate element={ element } />,
+      component: FollowUpDate,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'priority',
-      component: <Priority element={ element } />,
+      component: Priority,
       isEdited: isTextFieldEntryEdited
     }
   ];

@@ -34,24 +34,30 @@ export function ScriptProps(props) {
   // (1) scriptFormat
   entries.push({
     id: idPrefix + 'scriptFormat',
-    component: <Format element={ element } idPrefix={ idPrefix } script={ script } />,
-    isEdited: isTextFieldEntryEdited
+    component: Format,
+    isEdited: isTextFieldEntryEdited,
+    idPrefix,
+    script
   });
 
 
   // (2) type
   entries.push({
     id: idPrefix + 'scriptType',
-    component: <Type element={ element } idPrefix={ idPrefix } script={ script } />,
-    isEdited: isSelectEntryEdited
+    component: Type,
+    isEdited: isSelectEntryEdited,
+    idPrefix,
+    script
   });
 
   // (3) script
   if (scriptType === 'script') {
     entries.push({
       id: idPrefix + 'scriptValue',
-      component: <Script element={ element } idPrefix={ idPrefix } script={ script } />,
-      isEdited: isTextAreaEntryEdited
+      component: Script,
+      isEdited: isTextAreaEntryEdited,
+      idPrefix,
+      script
     });
   }
 
@@ -59,8 +65,10 @@ export function ScriptProps(props) {
   if (scriptType === 'resource') {
     entries.push({
       id: idPrefix + 'scriptResource',
-      component: <Resource element={ element } idPrefix={ idPrefix } script={ script } />,
-      isEdited: isTextFieldEntryEdited
+      component: Resource,
+      isEdited: isTextFieldEntryEdited,
+      idPrefix,
+      script
     });
   }
 

@@ -46,22 +46,22 @@ export function MultiInstanceProps(props) {
   entries.push(
     {
       id: 'collection',
-      component: <Collection element={ element } />,
+      component: Collection,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'elementVariable',
-      component: <ElementVariable element={ element } />,
+      component: ElementVariable,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'multiInstanceAsynchronousBefore',
-      component: <MultiInstanceAsynchronousBefore element={ element } />,
+      component: MultiInstanceAsynchronousBefore,
       isEdited: isCheckboxEntryEdited
     },
     {
       id: 'multiInstanceAsynchronousAfter',
-      component: <MultiInstanceAsynchronousAfter element={ element } />,
+      component: MultiInstanceAsynchronousAfter,
       isEdited: isCheckboxEntryEdited
     });
 
@@ -69,12 +69,12 @@ export function MultiInstanceProps(props) {
     entries.push(
       {
         id: 'multiInstanceExclusive',
-        component: <MultiInstanceExclusive element={ element } />,
+        component: MultiInstanceExclusive,
         isEdited: checkboxIsEditedInverted
       },
       {
         id: 'multiInstanceRetryTimeCycle',
-        component: <MultiInstanceRetryTimeCycle element={ element } />,
+        component: MultiInstanceRetryTimeCycle,
         isEdited: isTextFieldEntryEdited
       }
     );

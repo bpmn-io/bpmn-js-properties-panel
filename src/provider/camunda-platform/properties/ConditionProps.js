@@ -44,7 +44,7 @@ export function ConditionProps(props) {
 
   entries.push({
     id: 'conditionType',
-    component: <ConditionType element={ element } />,
+    component: ConditionType,
     isEdited: isSelectEntryEdited
   });
 
@@ -57,7 +57,7 @@ export function ConditionProps(props) {
   } else if (conditionType === 'expression') {
     entries.push({
       id: 'conditionExpression',
-      component: <ConditionExpression element={ element } />,
+      component: ConditionExpression,
       isEdited: isTextFieldEntryEdited
     });
   }
@@ -159,14 +159,14 @@ function ConditionScriptProps(props) {
   // (1) language
   entries.push({
     id: 'conditionScriptLanguage',
-    component: <Language element={ element } />,
+    component: Language,
     isEdited: isTextFieldEntryEdited
   });
 
   // (2) type
   entries.push({
     id: 'conditionScriptType',
-    component: <ScriptType element={ element } />,
+    component: ScriptType,
     isEdited: isSelectEntryEdited
   });
 
@@ -174,7 +174,7 @@ function ConditionScriptProps(props) {
   if (scriptType === 'script') {
     entries.push({
       id: 'conditionScriptValue',
-      component: <Script element={ element } />,
+      component: Script,
       isEdited: isTextAreaEntryEdited
     });
   } else if (scriptType === 'resource') {
@@ -182,7 +182,7 @@ function ConditionScriptProps(props) {
     // (4) resource
     entries.push({
       id: 'conditionScriptResource',
-      component: <Resource element={ element } />,
+      component: Resource,
       isEdited: isTextFieldEntryEdited
     });
   }

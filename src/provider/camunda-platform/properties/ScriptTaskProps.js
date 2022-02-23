@@ -29,7 +29,7 @@ export function ScriptTaskProps(props) {
 
   entries.push({
     id: 'scriptResultVariable',
-    component: <ResultVariable element={ element } />,
+    component: ResultVariable,
     isEdited: isTextFieldEntryEdited
   });
 

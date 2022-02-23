@@ -13,7 +13,6 @@ const DEFAULT_PROPS = {
 export default function InOutMapping(props) {
   const {
     idPrefix,
-    element,
     mapping
   } = props;
 
@@ -23,14 +22,18 @@ export default function InOutMapping(props) {
   // (1) Type
   entries.push({
     id: idPrefix + '-type',
-    component: <Type idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+    component: Type,
+    idPrefix,
+    mapping
   });
 
   // (2) Source
   if (type === 'source') {
     entries.push({
       id: idPrefix + '-source',
-      component: <Source idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+      component: Source,
+      idPrefix,
+      mapping
     });
   }
 
@@ -38,20 +41,26 @@ export default function InOutMapping(props) {
   if (type === 'sourceExpression') {
     entries.push({
       id: idPrefix + '-sourceExpression',
-      component: <SourceExpression idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+      component: SourceExpression,
+      idPrefix,
+      mapping
     });
   }
 
   // (4) Target
   entries.push({
     id: idPrefix + '-target',
-    component: <Target idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+    component: Target,
+    idPrefix,
+    mapping
   });
 
   // (5) Local
   entries.push({
     id: idPrefix + '-local',
-    component: <Local idPrefix={ idPrefix } element={ element } mapping={ mapping } />
+    component: Local,
+    idPrefix,
+    mapping
   });
 
   return entries;

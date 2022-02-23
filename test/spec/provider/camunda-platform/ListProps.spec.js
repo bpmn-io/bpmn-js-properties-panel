@@ -200,7 +200,7 @@ describe('provider/camunda-platform - ListProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-1-listItem-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-1-list-listItem-0-value"]', group);
 
         // then
         expect(input).to.not.exist;
@@ -218,7 +218,7 @@ describe('provider/camunda-platform - ListProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-listItem-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-list-listItem-0-value"]', group);
 
         const item = getItem(getInputParameter(serviceTask, 0), 0);
 
@@ -238,7 +238,7 @@ describe('provider/camunda-platform - ListProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-listItem-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-list-listItem-0-value"]', group);
 
         // then
         expect(input.value).to.eql('Script');
@@ -257,7 +257,7 @@ describe('provider/camunda-platform - ListProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-listItem-1-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-list-listItem-1-value"]', group);
 
         // then
         expect(input.value).to.eql('List');
@@ -276,7 +276,7 @@ describe('provider/camunda-platform - ListProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-listItem-2-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-list-listItem-2-value"]', group);
 
         // then
         expect(input.value).to.eql('Map');
@@ -294,7 +294,7 @@ describe('provider/camunda-platform - ListProps', function() {
         });
 
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-listItem-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-list-listItem-0-value"]', group);
 
         // when
         changeInput(input, 'newValue');
@@ -319,7 +319,7 @@ describe('provider/camunda-platform - ListProps', function() {
           });
 
           const group = getGroup(container, 'CamundaPlatform__Input');
-          const input = domQuery('input[name="ServiceTask_1-inputParameter-0-listItem-0-value"]', group);
+          const input = domQuery('input[name="ServiceTask_1-inputParameter-0-list-listItem-0-value"]', group);
           changeInput(input, 'newValue');
 
           // when

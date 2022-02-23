@@ -15,6 +15,25 @@ import {
 } from '../../../utils/ElementUtil';
 
 
+function ListProp(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item
+  } = props;
+
+  const id = `${ idPrefix }-listItem-${ index }`;
+
+  return (
+    <ListItem
+      idPrefix={ id }
+      element={ element }
+      item={ item }
+    />
+  );
+}
+
 export function ListProps(props) {
   const {
     idPrefix,
@@ -28,18 +47,6 @@ export function ListProps(props) {
 
   const list = parameter.get('definition');
   const items = list.get('items');
-
-  function renderItem(item, index) {
-    const itemId = `${idPrefix}-listItem-${index}`;
-
-    return (
-      <ListItem
-        idPrefix={ itemId }
-        element={ element }
-        item={ item }
-      />
-    );
-  }
 
   function addItem() {
     const value = createElement('camunda:Value', {}, parameter, bpmnFactory);
@@ -78,7 +85,7 @@ export function ListProps(props) {
     label: translate('List values'),
     onAdd: addItem,
     onRemove: removeItem,
-    renderItem
+    component: ListProp
   });
 }
 

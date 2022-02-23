@@ -22,7 +22,7 @@ export function InitiatorProps(props) {
   return [
     {
       id: 'initiator',
-      component: <Initiator element={ element } />,
+      component: Initiator,
       isEdited: isTextFieldEntryEdited
     },
   ];

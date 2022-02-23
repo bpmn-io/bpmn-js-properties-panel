@@ -502,7 +502,7 @@ describe('provider/camunda-platform - FormField', function() {
       });
 
       // when
-      const constraintsEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-constraints]', container);
+      const constraintsEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-formFieldConstraints]', container);
 
       // then
       expect(constraintsEntry).to.exist;
@@ -522,7 +522,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(getFormFieldValidation(event, 0)).to.not.exist;
 
       // when
-      const constraintsEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-constraints]', container);
+      const constraintsEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-formFieldConstraints]', container);
       const addConstraintButton = domQuery('button.bio-properties-panel-add-entry', constraintsEntry);
 
       clickInput(addConstraintButton);
@@ -549,7 +549,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(validation).to.exist;
 
       // when
-      const constraintsEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-constraints]', container);
+      const constraintsEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-formFieldConstraints]', container);
       const addConstraintButton = domQuery('button.bio-properties-panel-add-entry', constraintsEntry);
 
       clickInput(addConstraintButton);
@@ -570,7 +570,7 @@ describe('provider/camunda-platform - FormField', function() {
       });
 
       // when
-      const constraintsEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-constraints]', container);
+      const constraintsEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-formFieldConstraints]', container);
       const addConstraintButton = domQuery('button.bio-properties-panel-add-entry', constraintsEntry);
 
       clickInput(addConstraintButton);
@@ -596,7 +596,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(validation.get('constraints')).to.have.length(2);
 
       // when
-      const constraints = domQuery('div[data-entry-id=UserTask_1-formField-0-constraints', container);
+      const constraints = domQuery('div[data-entry-id=UserTask_1-formField-0-formFieldConstraints', container);
       const removeConstraintButton = domQuery('button.bio-properties-panel-remove-entry', constraints);
 
       clickInput(removeConstraintButton);
@@ -619,7 +619,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const validation = getFormFieldValidation(task, 0);
-        const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
+        const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldConstraints] li', container);
 
         expect(validation.get('constraints').length).to.equal(constraintEntries.length);
       }));
@@ -636,7 +636,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const validation = getFormFieldValidation(task, 0);
-        const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
+        const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldConstraints] li', container);
         const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[0]);
 
         expect(validation.get('constraints')[0].name).to.equal(label.innerHTML);
@@ -653,7 +653,7 @@ describe('provider/camunda-platform - FormField', function() {
         });
 
         // then
-        const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-constraints] li', container);
+        const constraintEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldConstraints] li', container);
         const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', constraintEntries[1]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');
@@ -671,14 +671,14 @@ describe('provider/camunda-platform - FormField', function() {
 
         // when
         const heading = domQuery(
-          'div[data-entry-id=UserTask_4-formField-0-constraints] [title="Constraints"]',
+          'div[data-entry-id=UserTask_4-formField-0-formFieldConstraints] [title="Constraints"]',
           container
         );
         clickInput(heading);
 
         // then
         const constraintEntries = Array.from(domQueryAll(
-          'div[data-entry-id=UserTask_4-formField-0-constraints] .bio-properties-panel-collapsible-entry-header-title',
+          'div[data-entry-id=UserTask_4-formField-0-formFieldConstraints] .bio-properties-panel-collapsible-entry-header-title',
           container)).map(e => e.innerHTML);
 
         expect(constraintEntries).to.eql([
@@ -704,7 +704,7 @@ describe('provider/camunda-platform - FormField', function() {
       });
 
       // when
-      const propertiesEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-properties]', container);
+      const propertiesEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-formFieldProperties]', container);
 
       // then
       expect(propertiesEntry).to.exist;
@@ -724,7 +724,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(getFormFieldProperties(event, 0)).to.not.exist;
 
       // when
-      const propertiesEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-properties]', container);
+      const propertiesEntry = domQuery('div[data-entry-id=StartEvent_1-formField-0-formFieldProperties]', container);
       const addPropertyButton = domQuery('button.bio-properties-panel-add-entry', propertiesEntry);
 
       clickInput(addPropertyButton);
@@ -751,7 +751,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(properties).to.exist;
 
       // when
-      const propertiesEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-properties]', container);
+      const propertiesEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-formFieldProperties]', container);
       const addPropertyButton = domQuery('button.bio-properties-panel-add-entry', propertiesEntry);
 
       clickInput(addPropertyButton);
@@ -776,7 +776,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(properties.get('values')).to.have.length(2);
 
       // when
-      const propertiesEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-properties]', container);
+      const propertiesEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-formFieldProperties]', container);
       const removePropertyButton = domQuery('button.bio-properties-panel-remove-entry', propertiesEntry);
 
       clickInput(removePropertyButton);
@@ -799,7 +799,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const properties = getFormFieldProperties(task, 0);
-        const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-properties] li', container);
+        const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldProperties] li', container);
 
         expect(properties.get('values').length).to.equal(propertyEntries.length);
       }));
@@ -816,7 +816,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const properties = getFormFieldProperties(task, 0);
-        const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-properties] li', container);
+        const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldProperties] li', container);
         const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[1]);
 
         expect(properties.get('values')[0].id).to.equal(label.innerHTML);
@@ -833,7 +833,7 @@ describe('provider/camunda-platform - FormField', function() {
         });
 
         // then
-        const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-properties] li', container);
+        const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldProperties] li', container);
         const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[0]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');
@@ -851,14 +851,14 @@ describe('provider/camunda-platform - FormField', function() {
 
         // when
         const heading = domQuery(
-          'div[data-entry-id=UserTask_4-formField-0-properties] [title="Properties"]',
+          'div[data-entry-id=UserTask_4-formField-0-formFieldProperties] [title="Properties"]',
           container
         );
         clickInput(heading);
 
         // then
         const propertiesEntries = Array.from(domQueryAll(
-          'div[data-entry-id=UserTask_4-formField-0-properties] .bio-properties-panel-collapsible-entry-header-title',
+          'div[data-entry-id=UserTask_4-formField-0-formFieldProperties] .bio-properties-panel-collapsible-entry-header-title',
           container)).map(e => e.innerHTML);
 
         expect(propertiesEntries).to.eql([
@@ -884,7 +884,7 @@ describe('provider/camunda-platform - FormField', function() {
       });
 
       // when
-      const valuesEntry = domQuery('div[data-entry-id=UserTask_2-formField-0-values]', container);
+      const valuesEntry = domQuery('div[data-entry-id=UserTask_2-formField-0-formFieldValues]', container);
 
       // then
       expect(valuesEntry).to.exist;
@@ -901,7 +901,7 @@ describe('provider/camunda-platform - FormField', function() {
       });
 
       // when
-      const valuesEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-values]', container);
+      const valuesEntry = domQuery('div[data-entry-id=UserTask_1-formField-0-formFieldValues]', container);
 
       // then
       expect(valuesEntry).to.not.exist;
@@ -921,7 +921,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(getFormFieldValues(task, 0)).to.have.length(2);
 
       // when
-      const valuesEntry = domQuery('div[data-entry-id=UserTask_2-formField-0-values]', container);
+      const valuesEntry = domQuery('div[data-entry-id=UserTask_2-formField-0-formFieldValues]', container);
       const addValueButton = domQuery('button.bio-properties-panel-add-entry', valuesEntry);
 
       clickInput(addValueButton);
@@ -944,7 +944,7 @@ describe('provider/camunda-platform - FormField', function() {
       expect(getFormFieldValues(task, 0)).to.have.length(2);
 
       // when
-      const valuesEntry = domQuery('div[data-entry-id=UserTask_2-formField-0-values]', container);
+      const valuesEntry = domQuery('div[data-entry-id=UserTask_2-formField-0-formFieldValues]', container);
       const removeValueButton = domQuery('button.bio-properties-panel-remove-entry', valuesEntry);
 
       clickInput(removeValueButton);
@@ -967,7 +967,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const values = getFormFieldValues(task, 0);
-        const valueEntries = domQueryAll('div[data-entry-id=UserTask_2-formField-0-values] li', container);
+        const valueEntries = domQueryAll('div[data-entry-id=UserTask_2-formField-0-formFieldValues] li', container);
 
         expect(values.length).to.equal(valueEntries.length);
       }));
@@ -984,7 +984,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const values = getFormFieldValues(task, 0);
-        const valueEntries = domQueryAll('div[data-entry-id=UserTask_2-formField-0-values] li', container);
+        const valueEntries = domQueryAll('div[data-entry-id=UserTask_2-formField-0-formFieldValues] li', container);
         const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', valueEntries[0]);
 
         expect(values[0].id).to.equal(label.innerHTML);
@@ -1001,7 +1001,7 @@ describe('provider/camunda-platform - FormField', function() {
         });
 
         // then
-        const valueEntries = domQueryAll('div[data-entry-id=UserTask_2-formField-0-values] li', container);
+        const valueEntries = domQueryAll('div[data-entry-id=UserTask_2-formField-0-formFieldValues] li', container);
         const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', valueEntries[1]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');

@@ -33,7 +33,7 @@ export function EscalationProps(props) {
   entries.push(
     {
       id: 'escalationCodeVariable',
-      component: <EscalationCodeVariable element={ element } />,
+      component: EscalationCodeVariable,
       isEdited: isTextFieldEntryEdited
     }
   );

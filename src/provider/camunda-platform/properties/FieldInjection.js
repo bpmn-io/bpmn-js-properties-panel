@@ -14,20 +14,29 @@ const DEFAULT_PROPS = {
 export default function FieldInjection(props) {
 
   const {
-    idPrefix,
     element,
+    idPrefix,
     field
   } = props;
 
   const entries = [ {
     id: idPrefix + '-name',
-    component: <NameProperty idPrefix={ idPrefix } element={ element } field={ field } />
+    component: NameProperty,
+    field,
+    idPrefix,
+    element
   },{
     id: idPrefix + '-type',
-    component: <TypeProperty idPrefix={ idPrefix } element={ element } field={ field } />
+    component: TypeProperty,
+    field,
+    idPrefix,
+    element
   },{
     id: idPrefix + '-value',
-    component: <ValueProperty idPrefix={ idPrefix } element={ element } field={ field } />
+    component: ValueProperty,
+    field,
+    idPrefix,
+    element
   } ];
 
   return entries;

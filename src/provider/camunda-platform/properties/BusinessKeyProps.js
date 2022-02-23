@@ -28,7 +28,7 @@ export function BusinessKeyProps(props) {
   return [
     {
       id: 'businessKey',
-      component: <BusinessKey element={ element } />,
+      component: BusinessKey,
       isEdited: isSelectEntryEdited
     },
   ];

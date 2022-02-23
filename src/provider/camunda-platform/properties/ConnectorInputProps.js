@@ -42,8 +42,8 @@ export function ConnectorInputProps(props) {
       id,
       label: parameter.get('name') || '',
       entries: InputOutputParameter({
-        idPrefix: id,
         element,
+        idPrefix: id,
         parameter
       }),
       autoFocusEntry: id + '-name',

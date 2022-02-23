@@ -30,12 +30,12 @@ export function AsynchronousContinuationsProps(props) {
     entries.push(
       {
         id: 'asynchronousContinuationBefore',
-        component: <AsynchronousContinuationBefore element={ element } />,
+        component: AsynchronousContinuationBefore,
         isEdited: isCheckboxEntryEdited
       },
       {
         id: 'asynchronousContinuationAfter',
-        component: <AsynchronousContinuationAfter element={ element } />,
+        component: AsynchronousContinuationAfter,
         isEdited: isCheckboxEntryEdited
       }
     );
@@ -44,7 +44,7 @@ export function AsynchronousContinuationsProps(props) {
       entries.push(
         {
           id: 'exclusive',
-          component: <Exclusive element={ element } />,
+          component: Exclusive,
           isEdited: checkboxIsEditedInverted
         }
       );

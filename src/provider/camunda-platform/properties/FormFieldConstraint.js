@@ -8,19 +8,25 @@ import {
 export default function FormFieldConstraint(props) {
 
   const {
-    idPrefix,
+    constraint,
     element,
-    constraint
+    idPrefix
   } = props;
 
   const entries = [
     {
       id: idPrefix + '-name',
-      component: <Name idPrefix={ idPrefix } element={ element } constraint={ constraint } />
+      component: Name,
+      constraint,
+      idPrefix,
+      element
     },
     {
       id: idPrefix + '-config',
-      component: <Config idPrefix={ idPrefix } element={ element } constraint={ constraint } />
+      component: Config,
+      constraint,
+      idPrefix,
+      element
     } ];
 
   return entries;

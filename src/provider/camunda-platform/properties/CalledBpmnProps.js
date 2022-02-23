@@ -24,17 +24,17 @@ export function CalledBpmnProps(props) {
   const entries = [
     {
       id: 'calledElement',
-      component: <CalledElement element={ element } />,
+      component: CalledElement,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'calledElementBinding',
-      component: <CalledElementBinding element={ element } />,
+      component: CalledElementBinding,
       isEdited: isSelectEntryEdited
     },
     {
       id: 'calledElementTenantId',
-      component: <CalledElementTenantId element={ element } />,
+      component: CalledElementTenantId,
       isEdited: isTextFieldEntryEdited
     }
   ];
@@ -44,7 +44,7 @@ export function CalledBpmnProps(props) {
     entries.splice(-1, 0,
       {
         id: 'calledElementVersion',
-        component: <CalledElementVersion element={ element } />,
+        component: CalledElementVersion,
         isEdited: isTextFieldEntryEdited
       }
     );
@@ -52,7 +52,7 @@ export function CalledBpmnProps(props) {
     entries.splice(-1, 0,
       {
         id: 'calledElementVersionTag',
-        component: <CalledElementVersionTag element={ element } />,
+        component: CalledElementVersionTag,
         isEdited: isTextFieldEntryEdited
       }
     );

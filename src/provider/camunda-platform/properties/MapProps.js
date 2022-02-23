@@ -14,6 +14,34 @@ import {
   createElement
 } from '../../../utils/ElementUtil';
 
+function MapProp(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item: entry,
+    open
+  } = props;
+
+  const id = `${ idPrefix }-mapEntry-${ index }`;
+
+  const translate = useService('translate');
+
+  return (
+    <CollapsibleEntry
+      id={ id }
+      element={ element }
+      entries={ MapEntry({
+        element,
+        entry,
+        idPrefix: id
+      }) }
+      label={ entry.get('key') || translate('<empty>') }
+      open={ open }
+    />
+  );
+}
+
 export function MapProps(props) {
   const {
     idPrefix,
@@ -27,19 +55,6 @@ export function MapProps(props) {
 
   const map = parameter.get('definition');
   const entries = map.get('entries');
-
-  function renderEntry(entry, index, open) {
-    const entryId = `${idPrefix}-mapEntry-${index}`;
-
-    return (
-      <CollapsibleEntry
-        id={ entryId }
-        entries={ MapEntry({ idPrefix: entryId, element, entry }) }
-        label={ entry.get('key') || translate('<empty>') }
-        open={ open }
-      />
-    );
-  }
 
   function addEntry() {
     const entry = createElement('camunda:Entry', {}, parameter, bpmnFactory);
@@ -78,7 +93,7 @@ export function MapProps(props) {
     label: translate('Map entries'),
     onAdd: addEntry,
     onRemove: removeEntry,
-    renderItem: renderEntry,
+    component: MapProp,
   });
 }
 
@@ -91,10 +106,16 @@ function MapEntry(props) {
 
   const entries = [ {
     id: idPrefix + '-key',
-    component: <MapKey idPrefix={ idPrefix } element={ element } entry={ entry } />
+    component: MapKey,
+    entry,
+    idPrefix,
+    element
   },{
     id: idPrefix + '-value',
-    component: <MapValue idPrefix={ idPrefix } element={ element } entry={ entry } />
+    component: MapValue,
+    entry,
+    idPrefix,
+    element
   } ];
 
   return entries;
@@ -102,9 +123,9 @@ function MapEntry(props) {
 
 function MapKey(props) {
   const {
-    idPrefix,
     element,
-    entry
+    entry,
+    idPrefix
   } = props;
 
   const commandStack = useService('commandStack');
@@ -137,9 +158,9 @@ function MapKey(props) {
 
 function MapValue(props) {
   const {
-    idPrefix,
     element,
-    entry
+    entry,
+    idPrefix
   } = props;
 
   const commandStack = useService('commandStack');

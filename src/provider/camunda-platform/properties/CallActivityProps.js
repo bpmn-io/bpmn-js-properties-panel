@@ -45,7 +45,7 @@ export function CallActivityProps(props) {
 
   entries.push({
     id: 'calledElementType',
-    component: <CalledElementType element={ element } />,
+    component: CalledElementType,
     isEdited: isSelectEntryEdited
   });
 
@@ -130,7 +130,7 @@ function BusinessKeyProps(props) {
   const entries = [
     {
       id: 'calledElementBusinessKey',
-      component: <BusinessKey element={ element } />,
+      component: BusinessKey,
       isEdited: isCheckboxEntryEdited
     }
   ];
@@ -138,7 +138,7 @@ function BusinessKeyProps(props) {
   if (hasBusinessKey(element)) {
     entries.push({
       id: 'calledElementBusinessKeyExpression',
-      component: <BusinessKeyExpression element={ element } />,
+      component: BusinessKeyExpression,
       isEdited: isTextFieldEntryEdited
     });
   }

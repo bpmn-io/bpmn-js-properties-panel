@@ -234,7 +234,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-1-mapEntry-0-key"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-1-map-mapEntry-0-key"]', group);
 
         // then
         expect(input).to.not.exist;
@@ -252,7 +252,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-mapEntry-0-key"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-map-mapEntry-0-key"]', group);
 
         const entry = getEntry(getInputParameter(serviceTask, 0), 0);
 
@@ -271,7 +271,7 @@ describe('provider/camunda-platform - MapProps', function() {
         });
 
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-mapEntry-0-key"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-map-mapEntry-0-key"]', group);
 
         // when
         changeInput(input, 'newValue');
@@ -296,7 +296,7 @@ describe('provider/camunda-platform - MapProps', function() {
           });
 
           const group = getGroup(container, 'CamundaPlatform__Input');
-          const input = domQuery('input[name="ServiceTask_1-inputParameter-0-mapEntry-0-key"]', group);
+          const input = domQuery('input[name="ServiceTask_1-inputParameter-0-map-mapEntry-0-key"]', group);
           changeInput(input, 'newValue');
 
           // when
@@ -325,7 +325,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-1-mapEntry-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-1-map-mapEntry-0-value"]', group);
 
         // then
         expect(input).to.not.exist;
@@ -343,7 +343,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-mapEntry-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-map-mapEntry-0-value"]', group);
 
         const entry = getEntry(getInputParameter(serviceTask, 0), 0);
 
@@ -363,7 +363,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-mapEntry-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-map-mapEntry-0-value"]', group);
 
         // then
         expect(input.value).to.eql('Script');
@@ -382,7 +382,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-mapEntry-1-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-map-mapEntry-1-value"]', group);
 
         // then
         expect(input.value).to.eql('List');
@@ -401,7 +401,7 @@ describe('provider/camunda-platform - MapProps', function() {
 
         // when
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-mapEntry-2-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-2-map-mapEntry-2-value"]', group);
 
         // then
         expect(input.value).to.eql('Map');
@@ -419,7 +419,7 @@ describe('provider/camunda-platform - MapProps', function() {
         });
 
         const group = getGroup(container, 'CamundaPlatform__Input');
-        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-mapEntry-0-value"]', group);
+        const input = domQuery('input[name="ServiceTask_1-inputParameter-0-map-mapEntry-0-value"]', group);
 
         // when
         changeInput(input, 'newValue');
@@ -444,7 +444,7 @@ describe('provider/camunda-platform - MapProps', function() {
           });
 
           const group = getGroup(container, 'CamundaPlatform__Input');
-          const input = domQuery('input[name="ServiceTask_1-inputParameter-0-mapEntry-0-value"]', group);
+          const input = domQuery('input[name="ServiceTask_1-inputParameter-0-map-mapEntry-0-value"]', group);
           changeInput(input, 'newValue');
 
           // when

@@ -46,14 +46,10 @@ const EXTERNAL_CAPABLE_PROPS = {
 
 
 export function ImplementationTypeProps(props) {
-  const {
-    element
-  } = props;
-
   return [
     {
       id: 'implementationType',
-      component: <ImplementationType element={ element } />,
+      component: ImplementationType,
       isEdited: isSelectEntryEdited
     },
   ];

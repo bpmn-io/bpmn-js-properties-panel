@@ -30,7 +30,7 @@ export function ExternalTaskPriorityProps(props) {
   return [
     {
       id: 'externalTaskPriority',
-      component: <ExternalTaskPriority element={ element } />,
+      component: ExternalTaskPriority,
       isEdited: isTextFieldEntryEdited
     },
   ];
