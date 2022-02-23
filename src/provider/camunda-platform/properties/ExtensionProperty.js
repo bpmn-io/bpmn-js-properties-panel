@@ -9,16 +9,19 @@ export default function ExtensionProperty(props) {
 
   const {
     idPrefix,
-    element,
     property
   } = props;
 
   const entries = [ {
     id: idPrefix + '-name',
-    component: <NameProperty idPrefix={ idPrefix } element={ element } property={ property } />
+    component: NameProperty,
+    idPrefix,
+    property
   },{
     id: idPrefix + '-value',
-    component: <ValueProperty idPrefix={ idPrefix } element={ element } property={ property } />
+    component: ValueProperty,
+    idPrefix,
+    property
   } ];
 
   return entries;

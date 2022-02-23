@@ -25,46 +25,67 @@ const CUSTOM_TYPE_VALUE = '',
 export default function FormField(props) {
   const {
     idPrefix,
-    element,
     formField
   } = props;
 
   const entries = [
     {
       id: idPrefix + '-formFieldID',
-      component: <Id idPrefix={ idPrefix } element={ element } formField={ formField } />
+      component: Id,
+      idPrefix,
+      formField
     },
     {
       id: idPrefix + '-formFieldLabel',
-      component: <Label idPrefix={ idPrefix } element={ element } formField={ formField } />
+      component: Label,
+      idPrefix,
+      formField
     },
     {
       id: idPrefix + '-formFieldType',
-      component: <Type idPrefix={ idPrefix } element={ element } formField={ formField } />
-    },
-    DEFINED_TYPE_VALUES.includes(formField.get('type')) ? {} :
-      {
-        id: idPrefix + '-formFieldCustomType',
-        component: <CustomType idPrefix={ idPrefix } element={ element } formField={ formField } />
-      },
-    {
-      id: idPrefix + '-formFieldDefaultValue',
-      component: <DefaultValue idPrefix={ idPrefix } element={ element } formField={ formField } />
-    },
-    formField.get('type') !== 'enum' ? {} :
-      {
-        id: idPrefix + '-formFieldValues',
-        component: <ValueList id={ idPrefix + '-values' } element={ element } formField={ formField } />
-      },
-    {
-      id: idPrefix + '-formFieldConstraints',
-      component: <ConstraintList id={ idPrefix + '-constraints' } element={ element } formField={ formField } />
-    },
-    {
-      id: idPrefix + '-formFieldProperties',
-      component: <PropertiesList id={ idPrefix + '-properties' } element={ element } formField={ formField } />
+      component: Type,
+      idPrefix,
+      formField
     }
   ];
+
+  if (!DEFINED_TYPE_VALUES.includes(formField.get('type'))) {
+    entries.push({
+      id: idPrefix + '-formFieldCustomType',
+      component: CustomType,
+      idPrefix,
+      formField
+    });
+  }
+
+  entries.push({
+    id: idPrefix + '-formFieldDefaultValue',
+    component: DefaultValue,
+    idPrefix,
+    formField
+  });
+
+  if (formField.get('type') === 'enum') {
+    entries.push({
+      id: idPrefix + '-formFieldValues',
+      component: ValueList,
+      formField,
+      idPrefix
+    });
+  }
+
+  entries.push({
+    id: idPrefix + '-formFieldConstraints',
+    component: ConstraintList,
+    formField,
+    idPrefix
+  },
+  {
+    id: idPrefix + '-formFieldProperties',
+    component: PropertiesList,
+    formField,
+    idPrefix
+  });
 
   return entries;
 }
@@ -268,29 +289,48 @@ function DefaultValue(props) {
   });
 }
 
+function Value(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item: value,
+    open
+  } = props;
+
+  const translate = useService('translate');
+
+  const id = `${ idPrefix }-value-${ index }`;
+
+  return (
+    <CollapsibleEntry
+      id={ id }
+      element={ element }
+      entries={ FormFieldValue({
+        idPrefix: id,
+        element,
+        value
+      }) }
+      label={ value.get('id') || translate('<empty>') }
+      open={ open }
+    />
+  );
+}
+
 function ValueList(props) {
   const {
-    id,
     element,
-    formField
+    formField,
+    idPrefix
   } = props;
+
+  const id = `${ idPrefix }-formFieldValues`;
 
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
   const values = formField.get('values') || [];
-
-  function Value(value, index, open) {
-    return (
-      <CollapsibleEntry
-        id={ `${id}-value-${index}` }
-        entries={ FormFieldValue({ idPrefix: `${id}-field-${index}`, element, value }) }
-        label={ value.get('id') || translate('<empty>') }
-        open={ open }
-      />
-    );
-  }
 
   function addValue() {
     const value = createElement(
@@ -325,18 +365,48 @@ function ValueList(props) {
     id={ id }
     label={ translate('Values') }
     items={ values }
-    renderItem={ Value }
+    component={ Value }
     onAdd={ addValue }
     onRemove={ removeValue }
   />;
 }
 
+function Constraint(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item: constraint,
+    open
+  } = props;
+
+  const translate = useService('translate');
+
+  const id = `${ idPrefix }-constraint-${ index }`;
+
+  return (
+    <CollapsibleEntry
+      id={ id }
+      element={ element }
+      entries={ FormFieldConstraint({
+        constraint,
+        element,
+        idPrefix: id
+      }) }
+      label={ constraint.get('name') || translate('<empty>') }
+      open={ open }
+    />
+  );
+}
+
 function ConstraintList(props) {
   const {
-    id,
     element,
-    formField
+    formField,
+    idPrefix
   } = props;
+
+  const id = `${ idPrefix }-formFieldConstraints`;
 
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
@@ -347,17 +417,6 @@ function ConstraintList(props) {
   let validation = formField.get('validation');
 
   const constraints = (validation && validation.get('constraints')) || [];
-
-  function Constraint(constraint, index, open) {
-    return (
-      <CollapsibleEntry
-        id={ `${id}-constraint-${index}` }
-        entries={ FormFieldConstraint({ idPrefix: `${id}-field-${index}`, element, constraint }) }
-        label={ constraint.get('name') || translate('<empty>') }
-        open={ open }
-      />
-    );
-  }
 
   function addConstraint() {
     const commands = [];
@@ -420,17 +479,47 @@ function ConstraintList(props) {
     id={ id }
     label={ translate('Constraints') }
     items={ constraints }
-    renderItem={ Constraint }
+    component={ Constraint }
     onAdd={ addConstraint }
     onRemove={ removeConstraint } />;
 }
 
+function Property(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item: property,
+    open
+  } = props;
+
+  const translate = useService('translate');
+
+  const id = `${ idPrefix }-property-${ index }`;
+
+  return (
+    <CollapsibleEntry
+      id={ id }
+      element={ element }
+      entries={ FormFieldProperty({
+        element,
+        idPrefix: id,
+        property
+      }) }
+      label={ property.get('id') || translate('<empty>') }
+      open={ open }
+    />
+  );
+}
+
 function PropertiesList(props) {
   const {
-    id,
     element,
-    formField
+    formField,
+    idPrefix
   } = props;
+
+  const id = `${ idPrefix }-formFieldProperties`;
 
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
@@ -441,17 +530,6 @@ function PropertiesList(props) {
   let properties = formField.get('properties');
 
   const propertyEntries = (properties && properties.get('values')) || [];
-
-  function Property(property, index, open) {
-    return (
-      <CollapsibleEntry
-        id={ `${id}-constraint-${index}` }
-        entries={ FormFieldProperty({ idPrefix: `${id}-field-${index}`, element, property }) }
-        label={ property.get('id') || translate('<empty>') }
-        open={ open }
-      />
-    );
-  }
 
   function addProperty() {
     const commands = [];
@@ -515,7 +593,7 @@ function PropertiesList(props) {
     compareFn={ createAlphanumericCompare('id') }
     label={ translate('Properties') }
     items={ propertyEntries }
-    renderItem={ Property }
+    component={ Property }
     onAdd={ addProperty }
     onRemove={ removeProperty }
   />;

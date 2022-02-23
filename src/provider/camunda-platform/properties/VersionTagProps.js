@@ -25,7 +25,7 @@ export function VersionTagProps(props) {
   return [
     {
       id: 'versionTag',
-      component: <VersionTag element={ element } />,
+      component: VersionTag,
       isEdited: isTextFieldEntryEdited
     },
   ];

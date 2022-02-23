@@ -28,14 +28,15 @@ export default function Error(props) {
 
   const {
     idPrefix,
-    element,
     errorEventDefinition
   } = props;
 
   let entries = [ {
     id: idPrefix + '-errorRef',
-    component: <ErrorRef element={ element } errorEventDefinition={ errorEventDefinition } idPrefix={ idPrefix } />,
-    isEdited: isSelectEntryEdited
+    component: ErrorRef,
+    isEdited: isSelectEntryEdited,
+    errorEventDefinition,
+    idPrefix
   } ];
 
   const error = errorEventDefinition.get('errorRef');
@@ -45,25 +46,36 @@ export default function Error(props) {
       ...entries,
       {
         id: idPrefix + '-errorName',
-        component: <ErrorName element={ element } error={ error } idPrefix={ idPrefix } />,
-        isEdited: isTextFieldEntryEdited
+        component: ErrorName,
+        isEdited: isTextFieldEntryEdited,
+        error,
+        errorEventDefinition,
+        idPrefix
       },
       {
         id: idPrefix + '-errorCode',
-        component: <ErrorCode element={ element } error={ error } idPrefix={ idPrefix } />,
-        isEdited: isTextFieldEntryEdited
+        component: ErrorCode,
+        isEdited: isTextFieldEntryEdited,
+        error,
+        errorEventDefinition,
+        idPrefix
       },
       {
         id: idPrefix + '-errorMessage',
-        component: <ErrorMessage element={ element } error={ error } idPrefix={ idPrefix } />,
-        isEdited: isTextFieldEntryEdited
+        component: ErrorMessage,
+        isEdited: isTextFieldEntryEdited,
+        error,
+        errorEventDefinition,
+        idPrefix
       }
     ];
   }
 
   entries.push({
     id: idPrefix + '-expression',
-    component: <Expression element={ element } errorEventDefinition={ errorEventDefinition } idPrefix={ idPrefix } />
+    component: Expression,
+    errorEventDefinition,
+    idPrefix
   });
 
   return entries;

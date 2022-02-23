@@ -8,19 +8,25 @@ import {
 export default function FormFieldProperty(props) {
 
   const {
-    idPrefix,
     element,
+    idPrefix,
     property
   } = props;
 
   const entries = [
     {
       id: idPrefix + '-id',
-      component: <Id idPrefix={ idPrefix } element={ element } property={ property } />
+      component: Id,
+      idPrefix,
+      property,
+      element
     },
     {
       id: idPrefix + '-value',
-      component: <Value idPrefix={ idPrefix } element={ element } property={ property } />
+      component: Value,
+      idPrefix,
+      property,
+      element
     } ];
 
   return entries;

@@ -34,7 +34,7 @@ export function DmnImplementationProps(props) {
   // (1) decisionRef
   entries.push({
     id: 'decisionRef',
-    component: <DecisionRef element={ element } />,
+    component: DecisionRef,
     isEdited: isTextFieldEntryEdited
   });
 
@@ -42,7 +42,7 @@ export function DmnImplementationProps(props) {
   // (2) binding
   entries.push({
     id: 'decisionRefBinding',
-    component: <Binding element={ element } />,
+    component: Binding,
     isEdited: isSelectEntryEdited
   });
 
@@ -50,7 +50,7 @@ export function DmnImplementationProps(props) {
   if (bindingType === 'version') {
     entries.push({
       id: 'decisionRefVersion',
-      component: <Version element={ element } />,
+      component: Version,
       isEdited: isTextFieldEntryEdited
     });
   }
@@ -59,7 +59,7 @@ export function DmnImplementationProps(props) {
   if (bindingType === 'versionTag') {
     entries.push({
       id: 'decisionRefVersionTag',
-      component: <VersionTag element={ element } />,
+      component: VersionTag,
       isEdited: isTextFieldEntryEdited
     });
   }
@@ -67,14 +67,14 @@ export function DmnImplementationProps(props) {
   // (5) tenantId
   entries.push({
     id: 'decisionRefTenantId',
-    component: <TenantId element={ element } />,
+    component: TenantId,
     isEdited: isTextFieldEntryEdited
   });
 
   // (6) resultVariable
   entries.push({
     id: 'decisionRefResultVariable',
-    component: <ResultVariable element={ element } />,
+    component: ResultVariable,
     isEdited: isTextFieldEntryEdited
   });
 
@@ -82,7 +82,7 @@ export function DmnImplementationProps(props) {
   if (getResultVariable(element)) {
     entries.push({
       id: 'mapDecisionResult',
-      component: <MapDecisionResult element={ element } />,
+      component: MapDecisionResult,
       isEdited: isSelectEntryEdited
     });
   }

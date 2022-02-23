@@ -17,7 +17,7 @@ export function DelegateVariableMappingProps(props) {
   const entries = [
     {
       id: 'calledElementDelegateVariableMappingType',
-      component: <DelegateVariableMappingType element={ element } />,
+      component: DelegateVariableMappingType,
       isEdited: isSelectEntryEdited
     }
   ];
@@ -26,13 +26,13 @@ export function DelegateVariableMappingProps(props) {
   if (type === 'class') {
     entries.push({
       id: 'calledElementVariableMappingClass',
-      component: <VariableMappingClass element={ element } />,
+      component: VariableMappingClass,
       isEdited: isTextFieldEntryEdited
     });
   } else if (type === 'delegateExpression') {
     entries.push({
       id: 'calledElementVariableMappingDelegateExpression',
-      component: <VariableMappingDelegateExpression element={ element } />,
+      component: VariableMappingDelegateExpression,
       isEdited: isTextFieldEntryEdited
     });
   }

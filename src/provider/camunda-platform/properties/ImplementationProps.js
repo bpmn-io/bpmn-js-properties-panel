@@ -41,19 +41,19 @@ export function ImplementationProps(props) {
   if (implementationType === 'class') {
     entries.push({
       id: 'javaClass',
-      component: <JavaClass element={ element } />,
+      component: JavaClass,
       isEdited: isTextFieldEntryEdited
     });
   } else if (implementationType === 'expression') {
     entries.push(
       {
         id: 'expression',
-        component: <Expression element={ element } />,
+        component: Expression,
         isEdited: isTextFieldEntryEdited
       },
       {
         id: 'expressionResultVariable',
-        component: <ResultVariable element={ element } />,
+        component: ResultVariable,
         isEdited: isTextFieldEntryEdited
       }
     );
@@ -61,7 +61,7 @@ export function ImplementationProps(props) {
     entries.push(
       {
         id: 'delegateExpression',
-        component: <DelegateExpression element={ element } />,
+        component: DelegateExpression,
         isEdited: isTextFieldEntryEdited
       }
     );
@@ -71,7 +71,7 @@ export function ImplementationProps(props) {
     entries.push(
       {
         id: 'externalTopic',
-        component: <Topic element={ element } />,
+        component: Topic,
         isEdited: isTextFieldEntryEdited
       }
     );
@@ -79,7 +79,7 @@ export function ImplementationProps(props) {
     entries.push(
       {
         id: 'connectorId',
-        component: <ConnectorId element={ element } />,
+        component: ConnectorId,
         isEdited: isTextFieldEntryEdited
       }
     );

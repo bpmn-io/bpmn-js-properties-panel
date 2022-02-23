@@ -38,7 +38,7 @@ export function ErrorProps(props) {
     // place below errorCode
     entries.splice(idx, 0, {
       id: 'errorMessage',
-      component: <ErrorMessage element={ element } />,
+      component: ErrorMessage,
       isEdited: isTextFieldEntryEdited
     });
   }
@@ -52,12 +52,12 @@ export function ErrorProps(props) {
   entries.push(
     {
       id: 'errorCodeVariable',
-      component: <ErrorCodeVariable element={ element } />,
+      component: ErrorCodeVariable,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'errorMessageVariable',
-      component: <ErrorMessageVariable element={ element } />,
+      component: ErrorMessageVariable,
       isEdited: isTextFieldEntryEdited
     }
   );

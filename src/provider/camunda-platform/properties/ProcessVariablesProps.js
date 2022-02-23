@@ -101,13 +101,17 @@ function ProcessVariableItem(props) {
   if (multiScope) {
     entries.push({
       id: idPrefix + '-scope',
-      component: <Scope idPrefix={ idPrefix } variable={ variable } />
+      component: Scope,
+      idPrefix,
+      variable
     });
   }
 
   entries.push({
     id: idPrefix + '-createdIn',
-    component: <CreatedIn idPrefix={ idPrefix } variable={ variable } />
+    component: CreatedIn,
+    idPrefix,
+    variable
   });
 
   return entries;

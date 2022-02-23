@@ -36,24 +36,24 @@ export function FormProps(props) {
   if (formType === 'formKey') {
     entries.push({
       id: 'formKey',
-      component: <FormKey element={ element } />,
+      component: FormKey,
       isEdited: isTextFieldEntryEdited
     });
   } else if (formType === 'formRef') {
     entries.push({
       id: 'formRef',
-      component: <FormRef element={ element } />,
+      component: FormRef,
       isEdited: isTextFieldEntryEdited
     }, {
       id: 'formRefBinding',
-      component: <Binding element={ element } />,
+      component: Binding,
       isEdited: isSelectEntryEdited
     });
 
     if (bindingType === 'version') {
       entries.push({
         id: 'formRefVersion',
-        component: <Version element={ element } />,
+        component: Version,
         isEdited: isTextFieldEntryEdited
       });
     }

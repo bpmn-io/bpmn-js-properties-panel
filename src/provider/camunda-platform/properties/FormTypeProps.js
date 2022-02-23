@@ -30,14 +30,10 @@ const FORM_REF_PROPS = {
 };
 
 export function FormTypeProps(props) {
-  const {
-    element
-  } = props;
-
   return [
     {
       id: 'formType',
-      component: <FormType element={ element } />,
+      component: FormType,
       isEdited: isSelectEntryEdited
     }
   ];

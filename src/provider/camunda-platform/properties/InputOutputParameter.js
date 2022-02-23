@@ -53,13 +53,17 @@ export default function InputOutputParameter(props) {
   let entries = [
     {
       id: idPrefix + '-name',
-      component: <Name idPrefix={ idPrefix } element={ element } parameter={ parameter } />,
-      isEdited: isTextFieldEntryEdited
+      component: Name,
+      isEdited: isTextFieldEntryEdited,
+      idPrefix,
+      parameter
     },
     {
       id: idPrefix + '-type',
-      component: <Type idPrefix={ idPrefix } element={ element } parameter={ parameter } />,
-      isEdited: isSelectEntryEdited
+      component: Type,
+      isEdited: isSelectEntryEdited,
+      idPrefix,
+      parameter
     }
   ];
 
@@ -68,8 +72,10 @@ export default function InputOutputParameter(props) {
 
     entries.push({
       id: idPrefix + '-stringOrExpression',
-      component: <StringOrExpression idPrefix={ idPrefix } element={ element } parameter={ parameter } />,
-      isEdited: isTextAreaEntryEdited
+      component: StringOrExpression,
+      isEdited: isTextAreaEntryEdited,
+      idPrefix,
+      parameter
     });
 
   // (2) Script
@@ -85,14 +91,18 @@ export default function InputOutputParameter(props) {
   } else if (inputOutputType === 'list') {
     entries.push({
       id: `${idPrefix}-list`,
-      component: <ListProps idPrefix={ idPrefix } element={ element } parameter={ parameter } />
+      component: ListProps,
+      idPrefix,
+      parameter
     });
 
   // (4) Map
   } else if (inputOutputType === 'map') {
     entries.push({
       id: `${idPrefix}-map`,
-      component: <MapProps idPrefix={ idPrefix } element={ element } parameter={ parameter } />
+      component: MapProps,
+      idPrefix,
+      parameter
     });
   }
 

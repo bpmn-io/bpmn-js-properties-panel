@@ -148,16 +148,19 @@ function ExecutionListener(props) {
 
   return [ {
     id: `${idPrefix}-eventType`,
-    component: <EventType id={ `${idPrefix}-eventType` } element={ element } listener={ listener } />
+    component: EventType,
+    listener
   },
   {
     id: `${idPrefix}-listenerType`,
-    component: <ListenerType id={ `${idPrefix}-listenerType` } element={ element } listener={ listener } />
+    component: ListenerType,
+    listener
   },
   ...ImplementationDetails({ idPrefix, element, listener }),
   {
     id: `${idPrefix}-fields`,
-    component: <Fields id={ `${idPrefix}-fields` } element={ element } listener={ listener } />
+    component: Fields,
+    listener
   } ];
 }
 
@@ -205,21 +208,25 @@ function TaskListener(props) {
 
   return [ {
     id: `${idPrefix}-eventType`,
-    component: <EventType id={ `${idPrefix}-eventType` } element={ element } listener={ listener } />
+    component: EventType,
+    listener
   },
   {
     id: `${idPrefix}-listenerId`,
-    component: <ListenerId id={ `${idPrefix}-listenerId` } element={ element } listener={ listener } />
+    component: ListenerId,
+    listener
   },
   {
     id: `${idPrefix}-listenerType`,
-    component: <ListenerType id={ `${idPrefix}-listenerType` } element={ element } listener={ listener } />
+    component: ListenerType,
+    listener
   },
   ...ImplementationDetails({ idPrefix, element, listener }),
   ...EventTypeDetails({ idPrefix, element, listener }),
   {
     id: `${idPrefix}-fields`,
-    component: <Fields id={ `${idPrefix}-fields` } element={ element } listener={ listener } />
+    component: Fields,
+    listener
   } ];
 }
 
@@ -357,17 +364,20 @@ function ImplementationDetails(props) {
   if (type === 'class') {
     return [ {
       id: getPrefixedId(idPrefix, 'javaClass'),
-      component: <JavaClass element={ element } businessObject={ listener } id={ getPrefixedId(idPrefix, 'javaClass') } />
+      component: JavaClass,
+      businessObject: listener
     } ];
   } else if (type === 'expression') {
     return [ {
       id: getPrefixedId(idPrefix, 'expression'),
-      component: <Expression element={ element } businessObject={ listener } id={ getPrefixedId(idPrefix, 'expression') } />
+      component: Expression,
+      businessObject: listener
     } ];
   } else if (type === 'delegateExpression') {
     return [ {
       id: getPrefixedId(idPrefix, 'delegateExpression'),
-      component: <DelegateExpression element={ element } businessObject={ listener } id={ getPrefixedId(idPrefix, 'delegateExpression') } />
+      component: DelegateExpression,
+      businessObject: listener
     } ];
   } else if (type === 'script') {
     return ScriptProps({ element, script: listener.get('script'), prefix: idPrefix });
@@ -390,6 +400,31 @@ function EventTypeDetails(props) {
   return [];
 }
 
+function Field(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item: field,
+    open
+  } = props;
+
+  const fieldId = `${ idPrefix }-field-${ index }`;
+
+  return (
+    <CollapsibleEntry
+      id={ fieldId }
+      entries={ FieldInjection({
+        element,
+        field,
+        idPrefix: fieldId
+      }) }
+      label={ field.get('name') || '<empty>' }
+      open={ open }
+    />
+  );
+}
+
 function Fields(props) {
   const {
     id,
@@ -402,19 +437,6 @@ function Fields(props) {
   const translate = useService('translate');
 
   const fields = listener.get('fields');
-
-  function Field(field, index, isNew) {
-    const fieldId = `${id}-field-${index}`;
-
-    return (
-      <CollapsibleEntry
-        id={ fieldId }
-        entries={ FieldInjection({ idPrefix: fieldId, element, field }) }
-        label={ field.get('name') || '<empty>' }
-        open={ !!isNew }
-      />
-    );
-  }
 
   function addField() {
     const field = createElement('camunda:Field', {}, listener, bpmnFactory);
@@ -443,7 +465,7 @@ function Fields(props) {
     element={ element }
     label={ translate('Field injection') }
     items={ fields }
-    renderItem={ Field }
+    component={ Field }
     onAdd={ addField }
     onRemove={ removeField }
     compareFn={ compareName }

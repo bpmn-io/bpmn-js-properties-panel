@@ -25,12 +25,12 @@ export function CandidateStarterProps(props) {
   return [
     {
       id: 'candidateStarterGroups',
-      component: <CandidateStarterGroups element={ element } />,
+      component: CandidateStarterGroups,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'candidateStarterUsers',
-      component: <CandidateStarterUsers element={ element } />,
+      component: CandidateStarterUsers,
       isEdited: isTextFieldEntryEdited
     }
   ];

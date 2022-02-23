@@ -23,17 +23,17 @@ export function CalledCmmnProps(props) {
   const entries = [
     {
       id: 'calledElementCaseRef',
-      component: <CaseRef element={ element } />,
+      component: CaseRef,
       isEdited: isTextFieldEntryEdited
     },
     {
       id: 'calledElementCaseBinding',
-      component: <CaseBinding element={ element } />,
+      component: CaseBinding,
       isEdited: isSelectEntryEdited
     },
     {
       id: 'calledElementCaseTenantId',
-      component: <CaseTenantId element={ element } />,
+      component: CaseTenantId,
       isEdited: isTextFieldEntryEdited
     }
   ];
@@ -42,7 +42,7 @@ export function CalledCmmnProps(props) {
     entries.splice(-1, 0,
       {
         id: 'calledElementCaseVersion',
-        component: <CaseVersion element={ element } />,
+        component: CaseVersion,
         isEdited: isTextFieldEntryEdited
       }
     );
