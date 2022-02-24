@@ -118,7 +118,7 @@ ___Note:__ Yet to be released changes appear here._
 * `CHORE`: bump to `bpmn-js@8.1.0`
 * `CHORE`: bump to `diagram-js@7.0.0`
 
-### BREAKING CHANGES
+### Breaking Changes
 
 * Participant input `data-entry` html attribute was changed from `id` to `participant-id`
 
@@ -134,7 +134,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FIX`: stop using variable name as id ([#405](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/405))
 * `CHORE`: update `camunda-bpmn-moddle` to v4.5.0 ([`f8ed2081`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/f8ed2081538b0d604ad7fc1a5949ab00ec0c109a))
 
-### BREAKING CHANGES
+### Breaking Changes
 
 * Element template select is no longer visible when an element template is applied. Unlink or remove the template to be able to apply another one ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398)).
 * `getDefaultTemplate` helper has been removed. Use `ElementTemplates#getDefault` instead ([#398](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/398)).
@@ -175,7 +175,7 @@ ___Note:__ Yet to be released changes appear here._
 * `CHORE`: update process variables overview description ([`f32e424b`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/f32e424b5aea4ab2dd77f525c555c2959b4207da))
 * `CHORE`: bump to `diagram-js@6.7.1`
 
-### BREAKING CHANGES
+### Breaking Changes
 
 * all factories now return DOM instead of string ([#370](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/370))
 * API of all factories has changed and now requires `translate` as first parameter ([#370](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/370))
@@ -189,7 +189,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: add _Variables_ tab ([#347](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/347))
 * `CHORE`: bump to `bpmn-js@7.3.0`
 
-### BREAKING CHANGES
+### Breaking Changes
 
 * change parameters of `CamundaPropertiesProvider` ([#364](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/364))
 * remove `entriesVisible` property to disallow chaning visibility of entries outside of element templates tab ([#364](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/364))
