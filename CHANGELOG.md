@@ -6,6 +6,19 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.5
+
+* `FEAT`: validate cloud element templates against JSON Schema ([#561](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/561))
+* `FEAT`: use components instead of elements for all entries ([#590](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/590))
+* `FIX`: set correct title to element templates select ([#591](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/591))
+* `DEPS`: update to `@bpmn-io/properties-panel@0.11.0`
+* `DEPS`: update to `@bpmn-io/element-templates-validator@0.5.0`
+
+### Breaking Changes
+
+* `component` property of an entry must be an actual component, not an element. 
+Checkout this [pull request](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/590) as a guidance.
+
 ## 1.0.0-alpha.4
 
 * `FIX`: ensure compatibility with bpmn-js@8 ([#581](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/581))
