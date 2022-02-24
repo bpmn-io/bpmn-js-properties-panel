@@ -107,6 +107,6 @@
   "peerDependencies": {
     "bpmn-js": "8.x || 9.x",
     "diagram-js": "7.x || 8.x",
-    "@bpmn-io/properties-panel": "0.10.x"
+    "@bpmn-io/properties-panel": "0.11.x"
   }
 }
