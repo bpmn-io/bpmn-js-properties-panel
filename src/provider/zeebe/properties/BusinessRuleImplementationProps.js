@@ -24,7 +24,7 @@ import { addExtensionElements } from '../../../utils/ExtensionElementsUtil';
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
-      DEFAULT_IMPLEMENTATION_OPTION = DMN_IMPLEMENTATION_OPTION;
+      DEFAULT_IMPLEMENTATION_OPTION = '';
 
 
 export function BusinessRuleImplementationProps(props) {
@@ -99,6 +99,7 @@ function BusinessRuleImplementation(props) {
   const getOptions = () => {
 
     const options = [
+      { value: DEFAULT_IMPLEMENTATION_OPTION, label: translate('<none>') },
       { value: DMN_IMPLEMENTATION_OPTION, label: translate('DMN decision') },
       { value: JOB_WORKER_IMPLEMENTATION_OPTION, label: translate('Job worker') }
     ];
