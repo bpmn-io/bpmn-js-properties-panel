@@ -106,7 +106,7 @@ describe('provider/zeebe - TargetProps', function() {
 
       // then
       const implementation = getImplementationSelect(container);
-      expect(implementation.value).to.equal('dmn');
+      expect(implementation.value).to.equal('');
     }));
 
 
