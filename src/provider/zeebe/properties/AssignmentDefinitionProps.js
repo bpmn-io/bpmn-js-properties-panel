@@ -122,6 +122,7 @@ function Assignee(props) {
     element,
     id: 'assignmentDefinitionAssignee',
     label: translate('Assignee'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce
@@ -208,6 +209,7 @@ function CandidateGroups(props) {
     element,
     id: 'assignmentDefinitionCandidateGroups',
     label: translate('Candidate groups'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce

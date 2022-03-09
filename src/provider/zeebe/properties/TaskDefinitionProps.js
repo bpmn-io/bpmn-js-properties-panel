@@ -125,6 +125,7 @@ function TaskDefinitionType(props) {
     element,
     id: 'taskDefinitionType',
     label: translate('Type'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce
@@ -211,6 +212,7 @@ function TaskDefinitionRetries(props) {
     element,
     id: 'taskDefinitionRetries',
     label: translate('Retries'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce

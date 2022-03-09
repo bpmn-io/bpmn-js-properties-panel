@@ -95,6 +95,7 @@ function SourceProperty(props) {
     element: parameter,
     id: idPrefix + '-source',
     label: translate('Variable assignment value'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
