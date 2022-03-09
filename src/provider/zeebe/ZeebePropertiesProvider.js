@@ -215,10 +215,10 @@ function updateMessageGroup(groups, element) {
     return;
   }
 
-  messageGroup.entries = [
-    ...messageGroup.entries,
-    ...MessageProps({ element })
-  ];
+  messageGroup.entries = overrideGenericEntries(
+    messageGroup.entries,
+    MessageProps({ element })
+  );
 }
 
 // overwrite bpmn generic timerEventDefinition group with zeebe-specific one
@@ -263,4 +263,23 @@ function removeMessageGroup(groups, element) {
 
 function findGroup(groups, id) {
   return groups.find(g => g.id === id);
+}
+
+/**
+ * Replace generic bpmn components with specific zeebe ones.
+ *
+ * @param {Array} oldEntries
+ * @param {Array} newEntries
+ * @returns {Array} combined entries
+ */
+function overrideGenericEntries(oldEntries, newEntries) {
+
+  const filteredEntries = oldEntries.filter(oldEntry => (
+    !newEntries.find(newEntry => newEntry.id === oldEntry.id)
+  ));
+
+  return [
+    ...filteredEntries,
+    ...newEntries
+  ];
 }

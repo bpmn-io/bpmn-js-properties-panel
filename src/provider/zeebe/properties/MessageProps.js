@@ -32,19 +32,63 @@ export function MessageProps(props) {
 
   const message = getMessage(element);
 
-  if (!message || !canHaveSubscriptionCorrelationKey(element)) {
-    return [];
-  }
-
   const entries = [
     {
-      id: 'messageSubscriptionCorrelationKey',
-      component: SubscriptionCorrelationKey,
+      id: 'messageName',
+      component: MessageName,
       isEdited: isTextFieldEntryEdited
-    },
+    }
   ];
 
+  if (!message || !canHaveSubscriptionCorrelationKey(element)) {
+    return entries;
+  }
+
+  entries.push({
+    id: 'messageSubscriptionCorrelationKey',
+    component: SubscriptionCorrelationKey,
+    isEdited: isTextFieldEntryEdited
+  });
+
   return entries;
+}
+
+
+function MessageName(props) {
+  const { element } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const message = getMessage(element);
+
+  const getValue = () => {
+    return message.get('name');
+  };
+
+  const setValue = (value) => {
+    return commandStack.execute(
+      'element.updateModdleProperties',
+      {
+        element,
+        moddleElement: message,
+        properties: {
+          name: value
+        }
+      }
+    );
+  };
+
+  return TextFieldEntry({
+    element,
+    id: 'messageName',
+    label: translate('Name'),
+    feel: 'optional',
+    getValue,
+    setValue,
+    debounce
+  });
 }
 
 function SubscriptionCorrelationKey(props) {
@@ -126,6 +170,7 @@ function SubscriptionCorrelationKey(props) {
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
