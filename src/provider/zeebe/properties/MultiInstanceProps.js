@@ -77,6 +77,7 @@ function InputCollection(props) {
     element,
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
@@ -161,6 +162,7 @@ function OutputElement(props) {
     element,
     id: 'multiInstance-outputElement',
     label: translate('Output element'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
@@ -201,6 +203,7 @@ function CompletionCondition(props) {
     element,
     id: 'multiInstance-completionCondition',
     label: translate('Completion condition'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
