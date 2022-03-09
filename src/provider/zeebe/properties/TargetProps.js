@@ -120,6 +120,7 @@ function TargetProcessId(props) {
     element,
     id: 'targetProcessId',
     label: translate('Process ID'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce

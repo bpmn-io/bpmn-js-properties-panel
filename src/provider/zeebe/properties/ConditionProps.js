@@ -104,6 +104,7 @@ function ConditionExpression(props) {
     element,
     id: 'conditionExpression',
     label: translate('Condition expression'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
