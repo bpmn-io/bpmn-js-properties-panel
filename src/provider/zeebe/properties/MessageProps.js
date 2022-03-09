@@ -38,6 +38,11 @@ export function MessageProps(props) {
 
   const entries = [
     {
+      id: 'messageName',
+      component: MessageName,
+      isEdited: isTextFieldEntryEdited
+    },
+    {
       id: 'messageSubscriptionCorrelationKey',
       component: SubscriptionCorrelationKey,
       isEdited: isTextFieldEntryEdited
@@ -45,6 +50,44 @@ export function MessageProps(props) {
   ];
 
   return entries;
+}
+
+
+function MessageName(props) {
+  const { element } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const message = getMessage(element);
+
+  const getValue = () => {
+    return message.get('name');
+  };
+
+  const setValue = (value) => {
+    return commandStack.execute(
+      'element.updateModdleProperties',
+      {
+        element,
+        moddleElement: message,
+        properties: {
+          name: value
+        }
+      }
+    );
+  };
+
+  return TextFieldEntry({
+    element,
+    id: 'messageName',
+    label: translate('Name'),
+    feel: 'optional',
+    getValue,
+    setValue,
+    debounce
+  });
 }
 
 function SubscriptionCorrelationKey(props) {
@@ -126,6 +169,7 @@ function SubscriptionCorrelationKey(props) {
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),
+    feel: 'required',
     getValue,
     setValue,
     debounce
