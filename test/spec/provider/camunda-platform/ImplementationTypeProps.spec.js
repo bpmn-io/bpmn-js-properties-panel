@@ -84,7 +84,7 @@ describe('provider/camunda-platform - ImplementationTypeProps', function() {
   }));
 
 
-  it('should display options alphanumeric', inject(async function(elementRegistry, selection) {
+  it('should display options according to priority', inject(async function(elementRegistry, selection) {
 
     // given
     const businessRuleTask = elementRegistry.get('BusinessRuleTask_class');
@@ -99,12 +99,12 @@ describe('provider/camunda-platform - ImplementationTypeProps', function() {
     // then
     expect(asOptionNamesList(select)).to.eql([
       '<none>',
-      'Connector',
-      'Delegate expression',
       'DMN',
-      'Expression',
       'External',
-      'Java class'
+      'Java class',
+      'Expression',
+      'Delegate expression',
+      'Connector'
     ]);
   }));
 
