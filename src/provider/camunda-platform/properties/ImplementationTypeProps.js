@@ -44,6 +44,14 @@ const EXTERNAL_CAPABLE_PROPS = {
   'camunda:topic': undefined
 };
 
+const IMPLEMENTATION_TYPE_NONE_LABEL = '<none>',
+      IMPLEMENTATION_TYPE_JAVA_LABEL = 'Java class',
+      IMPLEMENTATION_TYPE_EXPRESSION_LABEL = 'Expression',
+      IMPLEMENTATION_TYPE_DELEGATE_LABEL = 'Delegate expression',
+      IMPLEMENTATION_TYPE_DMN_LABEL = 'DMN',
+      IMPLEMENTATION_TYPE_EXTERNAL_LABEL = 'External',
+      IMPLEMENTATION_TYPE_CONNECTOR_LABEL = 'Connector';
+
 
 export function ImplementationTypeProps(props) {
   return [
@@ -185,25 +193,25 @@ function ImplementationType(props) {
     const businessObject = getServiceTaskLikeBusinessObject(element);
 
     const options = [
-      { value: '', label: translate('<none>') },
-      { value: 'class', label: translate('Java class') },
-      { value: 'expression', label: translate('Expression') },
-      { value: 'delegateExpression', label: translate('Delegate expression') }
+      { value: '', label: translate(IMPLEMENTATION_TYPE_NONE_LABEL) },
+      { value: 'class', label: translate(IMPLEMENTATION_TYPE_JAVA_LABEL) },
+      { value: 'expression', label: translate(IMPLEMENTATION_TYPE_EXPRESSION_LABEL) },
+      { value: 'delegateExpression', label: translate(IMPLEMENTATION_TYPE_DELEGATE_LABEL) }
     ];
 
     if (isDmnCapable(businessObject)) {
-      options.push({ value: 'dmn', label: translate('DMN') });
+      options.push({ value: 'dmn', label: translate(IMPLEMENTATION_TYPE_DMN_LABEL) });
     }
 
     if (isExternalCapable(businessObject)) {
-      options.push({ value: 'external', label: translate('External') });
+      options.push({ value: 'external', label: translate(IMPLEMENTATION_TYPE_EXTERNAL_LABEL) });
     }
 
     if (isServiceTaskLike(businessObject)) {
-      options.push({ value: 'connector', label: translate('Connector') });
+      options.push({ value: 'connector', label: translate(IMPLEMENTATION_TYPE_CONNECTOR_LABEL) });
     }
 
-    return sortByName(options);
+    return sortByPriority(options);
   };
 
   return SelectEntry({
@@ -238,6 +246,16 @@ function UpdateModdlePropertiesCommand(element, businessObject, newProperties) {
   };
 }
 
-function sortByName(options) {
-  return sortBy(options, o => o.label.toLowerCase());
+function sortByPriority(options) {
+  const priorities = {
+    [IMPLEMENTATION_TYPE_NONE_LABEL]: 0,
+    [IMPLEMENTATION_TYPE_JAVA_LABEL]: 3,
+    [IMPLEMENTATION_TYPE_EXPRESSION_LABEL]: 4,
+    [IMPLEMENTATION_TYPE_DELEGATE_LABEL]: 5,
+    [IMPLEMENTATION_TYPE_DMN_LABEL]: 1,
+    [IMPLEMENTATION_TYPE_EXTERNAL_LABEL]: 2,
+    [IMPLEMENTATION_TYPE_CONNECTOR_LABEL]: 6
+  };
+
+  return sortBy(options, o => priorities[o.label]);
 }
