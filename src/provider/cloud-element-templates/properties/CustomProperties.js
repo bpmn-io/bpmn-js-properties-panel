@@ -37,33 +37,21 @@ import {
 
 import { createElement } from '../../../utils/ElementUtil';
 
-const PROPERTY_TYPE = 'property';
+import {
+  EXTENSION_BINDING_TYPES,
+  IO_BINDING_TYPES,
+  PROPERTY_TYPE,
+  TASK_DEFINITION_TYPES,
+  ZEEBE_TASK_DEFINITION_TYPE_TYPE,
+  ZEBBE_INPUT_TYPE,
+  ZEEBE_OUTPUT_TYPE,
+  ZEEBE_TASK_HEADER_TYPE
+} from '../util/bindingTypes';
 
 const PRIMITIVE_MODDLE_TYPES = [
   'Boolean',
   'Integer',
   'String'
-];
-
-const ZEBBE_INPUT_TYPE = 'zeebe:input',
-      ZEEBE_OUTPUT_TYPE = 'zeebe:output',
-      ZEEBE_TASK_DEFINITION_TYPE_TYPE = 'zeebe:taskDefinition:type',
-      ZEEBE_TASK_HEADER_TYPE = 'zeebe:taskHeader';
-
-const EXTENSION_BINDING_TYPES = [
-  ZEBBE_INPUT_TYPE,
-  ZEEBE_OUTPUT_TYPE,
-  ZEEBE_TASK_DEFINITION_TYPE_TYPE,
-  ZEEBE_TASK_HEADER_TYPE
-];
-
-const TASK_DEFINITION_TYPES = [
-  ZEEBE_TASK_DEFINITION_TYPE_TYPE
-];
-
-const IO_BINDING_TYPES = [
-  ZEBBE_INPUT_TYPE,
-  ZEEBE_OUTPUT_TYPE
 ];
 
 const DEFAULT_CUSTOM_GROUP = {
