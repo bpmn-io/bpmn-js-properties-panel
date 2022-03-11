@@ -4,6 +4,7 @@ import ElementTemplates from './ElementTemplates';
 import ElementTemplatesLoader from './ElementTemplatesLoader';
 import ReplaceBehavior from '../element-templates/ReplaceBehavior';
 import commandsModule from './cmd';
+import templateElementFactoryModule from './create';
 import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';
 
 import zeebePropertiesProviderModule from '../zeebe';
@@ -11,6 +12,7 @@ import zeebePropertiesProviderModule from '../zeebe';
 export default {
   __depends__: [
     commandsModule,
+    templateElementFactoryModule,
     translateModule,
     zeebePropertiesProviderModule
   ],

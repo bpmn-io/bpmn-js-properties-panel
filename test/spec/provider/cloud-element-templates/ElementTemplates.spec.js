@@ -1,6 +1,14 @@
 import TestContainer from 'mocha-test-container-support';
 
-import { bootstrapModeler, inject } from 'test/TestHelper';
+import {
+  bootstrapModeler,
+  createCanvasEvent as canvasEvent,
+  inject
+} from 'test/TestHelper';
+
+import {
+  getBusinessObject
+} from 'bpmn-js/lib/util/ModelUtil';
 
 import coreModule from 'bpmn-js/lib/core';
 import elementTemplatesModule from 'src/provider/cloud-element-templates';
@@ -124,6 +132,62 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       // then
       expect(template).to.be.null;
     }));
+
+  });
+
+
+  describe('createElement', function() {
+
+    it('should create element', inject(function(elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/complex.json');
+
+      // when
+      const element = elementTemplates.createElement(templates[0]);
+
+      const extensionElements = getBusinessObject(element).get('extensionElements');
+
+      // then
+      expect(element.businessObject.get('name')).to.eql('Rest Task');
+      expect(extensionElements).to.exist;
+      expect(extensionElements.get('values')).to.have.length(3);
+    }));
+
+
+    it('should throw error - no template', inject(function(elementTemplates) {
+
+      // given
+      const emptyTemplate = null;
+
+      // then
+      expect(function() {
+        elementTemplates.createElement(emptyTemplate);
+      }).to.throw(/template is missing/);
+    }));
+
+
+    it('integration', inject(
+      function(create, dragging, elementRegistry, elementTemplates) {
+
+        // given
+        const templates = require('./fixtures/complex.json');
+
+        const processElement = elementRegistry.get('Process_1');
+
+        const element = elementTemplates.createElement(templates[0]);
+
+        // when
+        create.start(canvasEvent({ x: 250, y: 300 }), element);
+        dragging.move(canvasEvent({ x: 100, y: 200 }));
+        dragging.hover({ element: processElement });
+        dragging.end();
+
+        // then
+        expect(element).to.exist;
+        expect(element.parent).to.eql(processElement);
+      })
+    );
 
   });
 

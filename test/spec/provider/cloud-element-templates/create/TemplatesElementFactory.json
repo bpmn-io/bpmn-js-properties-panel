@@ -1,0 +1,248 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Service worker",
+    "id": "example.camunda.ServiceWorker",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "name",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      },
+      {
+        "value": "job-type",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "value": "header-1-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-1"
+        }
+      },
+      {
+        "value": "header-2-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-2"
+        }
+      },
+      {
+        "value": "input-1-value",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1"
+        }
+      },
+      {
+        "value": "input-2-value",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2"
+        }
+      },
+      {
+        "value": "output-1-value",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1"
+        }
+      },
+      {
+        "value": "output-2-value",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Invalid",
+    "id": "example.camunda.Invalid",
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Multiple types",
+    "id": "example.camunda.MultipleTypes",
+    "appliesTo": [
+      "bpmn:ServiceTask",
+      "bpmn:SendTask"
+    ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Property binding",
+    "id": "example.camunda.PropertyBinding",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "name",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Task definition type binding",
+    "id": "example.camunda.TaskDefinitionTypeBinding",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "job-type",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Input binding",
+    "id": "example.camunda.InputBinding",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "input-1-value",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1"
+        }
+      },
+      {
+        "value": "input-2-value",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2"
+        }
+      },
+      {
+        "value": "input-3-value",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-3"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Output binding",
+    "id": "example.camunda.OutputBinding",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "output-1-value",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1"
+        }
+      },
+      {
+        "value": "output-2-value",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2"
+        }
+      },
+      {
+        "value": "output-3-value",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-3"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Optional input output",
+    "id": "example.camunda.OptionalInputOutput",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1"
+        }
+      },
+      {
+        "value": "input-2-value",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2"
+        }
+      },
+      {
+        "value": "output-1-value",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1"
+        }
+      },
+      {
+        "optional": true,
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Task header binding",
+    "id": "example.camunda.TaskHeaderBinding",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "header-1-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-1"
+        }
+      },
+      {
+        "value": "header-2-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-2"
+        }
+      },
+      {
+        "value": "header-3-value",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-3"
+        }
+      }
+    ]
+  }
+]

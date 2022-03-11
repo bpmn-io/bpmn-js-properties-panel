@@ -10,6 +10,14 @@
     "properties": [
       {
         "type": "Hidden",
+        "value": "Rest Task",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      },
+      {
+        "type": "Hidden",
         "value": "http",
         "binding": {
           "type": "zeebe:taskDefinition:type"
