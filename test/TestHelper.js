@@ -37,6 +37,10 @@ global.chai.use(function(chai, utils) {
 
 export * from 'bpmn-js/test/helper';
 
+export {
+  createCanvasEvent
+} from 'bpmn-js/test/util/MockEvents';
+
 export function bootstrapPropertiesPanel(diagram, options, locals) {
   return async function() {
     const container = TestContainer.get(this);
