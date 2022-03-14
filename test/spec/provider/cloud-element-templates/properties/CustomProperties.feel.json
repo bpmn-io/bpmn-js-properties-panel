@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Custom FeelTask with Strings",
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "my.custom.FeelTask.String",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "A FEEL expression",
+        "type": "String",
+        "feel": "optional",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "optionalFeelProp"
+        }
+      },
+      {
+        "label": "A required FEEL expression",
+        "type": "String",
+        "feel": "required",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "feelProp"
+        }
+      },
+      {
+        "label": "A Normal Input",
+        "type": "String",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "myCustomProp"
+        }
+      }
+    ],
+    "entriesVisible": false
+  },
+  {
+    "name": "Custom FeelTask with TextFields",
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "my.custom.FeelTask.Text",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "A FEEL expression",
+        "type": "Text",
+        "feel": "optional",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "optionalFeelProp"
+        }
+      },
+      {
+        "label": "A required FEEL expression",
+        "type": "Text",
+        "feel": "required",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "feelProp"
+        }
+      },
+      {
+        "label": "A Normal Input",
+        "type": "Text",
+        "editable": true,
+        "binding": {
+          "type": "property",
+          "name": "myCustomProp"
+        }
+      }
+    ],
+    "entriesVisible": false
+  }
+]

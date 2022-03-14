@@ -39,7 +39,7 @@
             "choices": [
               {
                 "value": "GET",
-                "name":"GET"
+                "name": "GET"
               },
               {
                 "value": "POST",
@@ -95,16 +95,16 @@
               "source": "wsResponse"
             }
           },
-        {
-          "label": "Result",
-          "type": "String",
-          "value": "httpResult",
-          "binding": {
-            "type": "camunda:outputParameter",
-            "source": "${httpResult}",
-            "scriptFormat": "freemarker"
+          {
+            "label": "Result",
+            "type": "String",
+            "value": "httpResult",
+            "binding": {
+              "type": "camunda:outputParameter",
+              "source": "${httpResult}",
+              "scriptFormat": "freemarker"
+            }
           }
-        }
         ]
       }
     ]
@@ -295,9 +295,18 @@
         "description": "The priority assigned to this task",
         "type": "Dropdown",
         "choices": [
-          { "name": "low", "value": "50" },
-          { "name": "medium", "value": "100" },
-          { "name": "high", "value": "150" }
+          {
+            "name": "low",
+            "value": "50"
+          },
+          {
+            "name": "medium",
+            "value": "100"
+          },
+          {
+            "name": "high",
+            "value": "150"
+          }
         ],
         "value": "50",
         "binding": {
