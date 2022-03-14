@@ -393,6 +393,23 @@ describe('provider/cloud-element-templates - Validator', function() {
     });
 
 
+    it('should reject feel on invalid type', function() {
+
+      // given
+      const templates = new Validator();
+
+      const templateDescriptor = require('./fixtures/error-feel-invalid-type');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.contain('template(id: <invalid>, name: <Invalid>): feel is only supported for "String" and "Text" type');
+
+      expect(valid(templates)).to.be.empty;
+    });
+
+
     describe('grouping', function() {
 
       it('should accept groups', function() {

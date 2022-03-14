@@ -45,6 +45,9 @@ import descriptionElementTemplates from './CustomProperties.description.json';
 import editableDiagramXML from './CustomProperties.editable.bpmn';
 import editableElementTemplates from './CustomProperties.editable.json';
 
+import feelDiagramXML from './CustomProperties.feel.bpmn';
+import feelElementTemplates from './CustomProperties.feel.json';
+
 import defaultTypesDiagramXML from './CustomProperties.default-types.bpmn';
 import defaultTypesElementTemplates from './CustomProperties.default-types.json';
 
@@ -1141,6 +1144,98 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
       // then
       expect(getGroup(entry)).to.equal('ElementTemplates__CustomProperties');
+    });
+
+  });
+
+
+  describe('feel', function() {
+
+    beforeEach(bootstrapPropertiesPanel(feelDiagramXML, {
+      container,
+      debounceInput: false,
+      elementTemplates: feelElementTemplates,
+      moddleExtensions: {
+        zeebe: zeebeModdlePackage
+      },
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        elementTemplatesModule,
+        modelingModule
+      ]
+    }));
+
+
+    describe('TextField', function() {
+
+      it('should not display icon by default', async function() {
+
+        // when
+        await expectSelected('stringTask');
+
+        // then
+        const entry = findEntry('custom-entry-my.custom.FeelTask.String-2', container);
+
+        const feelIcon = domQuery('.bio-properties-panel-feel-icon', entry);
+
+        expect(feelIcon).not.to.exist;
+
+      });
+
+
+      it('should display icons', async function() {
+
+        // when
+        await expectSelected('stringTask');
+
+        // then
+        const requiredEntry = findEntry('custom-entry-my.custom.FeelTask.String-0', container);
+        const optionalEntry = findEntry('custom-entry-my.custom.FeelTask.String-1', container);
+
+        const requiredIcon = domQuery('.bio-properties-panel-feel-icon', requiredEntry);
+        const optionalIcon = domQuery('.bio-properties-panel-feel-icon', optionalEntry);
+
+        expect(requiredIcon).to.exist;
+        expect(optionalIcon).to.exist;
+      });
+
+    });
+
+
+    describe('TextArea', function() {
+
+      it('should not display icon by default', async function() {
+
+        // when
+        await expectSelected('textTask');
+
+        // then
+        const entry = findEntry('custom-entry-my.custom.FeelTask.Text-2', container);
+
+        const feelIcon = domQuery('.bio-properties-panel-feel-icon', entry);
+
+        expect(feelIcon).not.to.exist;
+
+      });
+
+
+      it('should display icons on TextArea', async function() {
+
+        // when
+        await expectSelected('textTask');
+
+        // then
+        const requiredEntry = findEntry('custom-entry-my.custom.FeelTask.Text-0', container);
+        const optionalEntry = findEntry('custom-entry-my.custom.FeelTask.Text-1', container);
+
+        const requiredIcon = domQuery('.bio-properties-panel-feel-icon', requiredEntry);
+        const optionalIcon = domQuery('.bio-properties-panel-feel-icon', optionalEntry);
+
+        expect(requiredIcon).to.exist;
+        expect(optionalIcon).to.exist;
+      });
+
     });
 
   });
