@@ -9,7 +9,7 @@ import {
 import { SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
-  getExtensionElementsList
+  getExtensionElementsList, removeExtensionElements
 } from '../../../utils/ExtensionElementsUtil';
 
 import {
@@ -20,7 +20,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { addExtensionElements } from '../../../utils/ExtensionElementsUtil';
+import { without } from 'min-dash';
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
@@ -72,8 +72,6 @@ function BusinessRuleImplementation(props) {
    * this will be ensured by a bpmn-js behavior (and not by the propPanel).
    */
   const setValue = (value) => {
-    const businessObject = getBusinessObject(element);
-
     let extensionElement, extensionElementType;
 
     if (value === DMN_IMPLEMENTATION_OPTION) {
@@ -82,9 +80,11 @@ function BusinessRuleImplementation(props) {
     } else if (value === JOB_WORKER_IMPLEMENTATION_OPTION) {
       extensionElement = getTaskDefinition(element);
       extensionElementType = 'zeebe:TaskDefinition';
+    } else {
+      resetElement(element, commandStack);
     }
 
-    if (!extensionElement) {
+    if (!extensionElement && extensionElementType) {
       extensionElement = createElement(
         extensionElementType,
         { },
@@ -92,7 +92,7 @@ function BusinessRuleImplementation(props) {
         bpmnFactory
       );
 
-      addExtensionElements(element, businessObject, extensionElement, bpmnFactory, commandStack);
+      updateExtensionElements(element, extensionElement, bpmnFactory, commandStack);
     }
   };
 
@@ -134,4 +134,73 @@ function getCalledDecision(element) {
 
 function isBusinessRuleImplementationEdited(element) {
   return getTaskDefinition(element);
+}
+
+function resetElement(element, commandStack) {
+  const businessObject = getBusinessObject(element);
+  const taskDefintion = getTaskDefinition(element);
+  const calledDecision = getCalledDecision(element);
+
+  if (taskDefintion) {
+    removeExtensionElements(element, businessObject, taskDefintion, commandStack);
+  }
+
+  if (calledDecision) {
+    removeExtensionElements(element, businessObject, calledDecision, commandStack);
+  }
+}
+
+function updateExtensionElements(element, extensionElementToAdd, bpmnFactory, commandStack) {
+  const businessObject = getBusinessObject(element);
+
+  const commands = [];
+
+  let extensionElements = businessObject.get('extensionElements');
+  let extensionElementValues;
+
+  // (1) create bpmn:ExtensionElements if it doesn't exist
+  if (!extensionElements) {
+    extensionElements = createElement(
+      'bpmn:ExtensionElements',
+      {
+        values: []
+      },
+      businessObject,
+      bpmnFactory
+    );
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          extensionElements
+        }
+      }
+    });
+  }
+
+  extensionElementToAdd.$parent = extensionElements;
+
+  // (2) remove old exension element from extensionElements
+  if (is(extensionElementToAdd, 'zeebe:TaskDefinition')) {
+    extensionElementValues = without(extensionElements.get('values'), getCalledDecision(element));
+  } else if (is(extensionElementToAdd, 'zeebe:CalledDecision')) {
+    extensionElementValues = without(extensionElements.get('values'), getTaskDefinition(element));
+  }
+
+  // (3) add extension element to list
+  commands.push({
+    cmd: 'element.updateModdleProperties',
+    context: {
+      element,
+      moddleElement: extensionElements,
+      properties: {
+        values: [ ...extensionElementValues, extensionElementToAdd ]
+      }
+    }
+  });
+
+  commandStack.execute('properties-panel.multi-command-executor', commands);
 }

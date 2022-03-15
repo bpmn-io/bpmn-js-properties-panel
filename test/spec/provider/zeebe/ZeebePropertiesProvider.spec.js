@@ -503,7 +503,7 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(getGroup(container, 'taskDefinition')).to.not.exist;
       expect(getGroup(container, 'headers')).to.not.exist;
       expect(getGroup(container, 'businessRuleImplementation')).to.exist;
-      expect(getGroup(container, 'calledDecision')).to.exist;
+      expect(getGroup(container, 'calledDecision')).to.not.exist;
     }));
 
 

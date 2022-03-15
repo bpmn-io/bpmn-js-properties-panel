@@ -126,27 +126,6 @@ describe('provider/zeebe - TargetProps', function() {
       }));
 
 
-      it('should create new calledDecision and extensionElements', inject(async function(elementRegistry, selection) {
-
-        // given
-        const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
-
-        await act(() => {
-          selection.select(businessRuleTask);
-        });
-
-        const decisonIdInput = domQuery('input[name=decisionId]', container);
-
-        // when
-        changeInput(decisonIdInput, 'foobar');
-
-        // then
-        const decisionId = getDecisionId(businessRuleTask);
-
-        expect(decisionId).to.equal('foobar');
-      }));
-
-
       it('should update on external change',
         inject(async function(elementRegistry, selection, commandStack) {
 
@@ -221,27 +200,6 @@ describe('provider/zeebe - TargetProps', function() {
 
         // given
         const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
-
-        await act(() => {
-          selection.select(businessRuleTask);
-        });
-
-        const resultVariableInput = domQuery('input[name=resultVariable]', container);
-
-        // when
-        changeInput(resultVariableInput, 'foobar');
-
-        // then
-        const resultVariable = getResultVariable(businessRuleTask);
-
-        expect(resultVariable).to.equal('foobar');
-      }));
-
-
-      it('should create new calledDecision and extensionElements', inject(async function(elementRegistry, selection) {
-
-        // given
-        const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
 
         await act(() => {
           selection.select(businessRuleTask);
