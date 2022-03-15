@@ -142,6 +142,30 @@ describe('provider/zeebe - TargetProps', function() {
     }));
 
 
+    it('should not have taskDefinition or calledDecision', inject(async function(elementRegistry, selection) {
+
+      // given
+      const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+      await act(() => {
+        selection.select(businessRuleTask);
+      });
+
+      // when
+      const implementation = getImplementationSelect(container);
+
+      // then
+      expect(implementation.value).to.eql('');
+
+      const taskDefinition = getTaskDefinition(businessRuleTask);
+      expect(taskDefinition).to.not.exist;
+
+      const caledDecision = getCalledDecision(businessRuleTask);
+      expect(caledDecision).to.not.exist;
+
+    }));
+
+
     it('should create taskDefinition', inject(async function(elementRegistry, selection) {
 
       // given
@@ -186,6 +210,7 @@ describe('provider/zeebe - TargetProps', function() {
 
       // given
       const businessRuleTask = elementRegistry.get('BusinessRuleTask_3');
+      const businessObject = getBusinessObject(businessRuleTask);
 
       await act(() => {
         selection.select(businessRuleTask);
@@ -194,13 +219,37 @@ describe('provider/zeebe - TargetProps', function() {
       const implementation = getImplementationSelect(container);
 
       // assume
-      expect(getTaskDefinition(businessRuleTask)).to.exist;
+      expect(getExtensionElementsList(businessObject)).to.have.length(1);
 
       // when
       changeInput(implementation, 'dmn');
 
       // then
-      expect(getTaskDefinition(businessRuleTask)).to.exist;
+      expect(getExtensionElementsList(businessObject)).to.have.length(1);
+    }));
+
+
+    it('should undo', inject(async function(elementRegistry, selection, commandStack) {
+
+      // given
+      const businessRuleTask = elementRegistry.get('BusinessRuleTask_3');
+
+      await act(() => {
+        selection.select(businessRuleTask);
+      });
+
+      const implementation = getImplementationSelect(container);
+
+      // when
+      changeInput(implementation, 'dmn');
+      changeInput(implementation, 'jobWorker');
+
+      await act(() => {
+        commandStack.undo();
+      });
+
+      // then
+      expect(implementation.value).to.eql('dmn');
     }));
 
   });

@@ -23,13 +23,7 @@ export function CalledDecisionProps(props) {
     element
   } = props;
 
-  if (!is(element, 'bpmn:BusinessRuleTask')) {
-    return [];
-  }
-
-  // Don't show if we have a taskDefinition, because then implementation is done
-  // via taskDefinition and not via calledDecision
-  if (getTaskDefinition(element)) {
+  if (!is(element, 'bpmn:BusinessRuleTask') || !getCalledDecision(element)) {
     return [];
   }
 
@@ -228,10 +222,4 @@ function getCalledDecision(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:CalledDecision')[0];
-}
-
-function getTaskDefinition(element) {
-  const businessObject = getBusinessObject(element);
-
-  return getExtensionElementsList(businessObject, 'zeebe:TaskDefinition')[0];
 }
