@@ -10,6 +10,16 @@ import {
 
 const DescriptionProvider = {
 
+  assignmentDefinitionAssignee: (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#assignments" target="_blank" rel="noopener" title={ translate('User task documentation') }>
+        { translate('How to configure a user task') }
+      </a>
+    );
+  },
+
   conditionExpression: (element) => {
     const translate = useService('translate');
 
@@ -94,6 +104,16 @@ const DescriptionProvider = {
         </a>
       );
     }
+  },
+
+  'multiInstance-inputCollection': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/multi-instance/#defining-the-collection-to-iterate-over" target="_blank" rel="noopener" title={ translate('Multi instance documentation') }>
+        { translate('How to configure a multi instance task') }
+      </a>
+    );
   },
 
   errorCode: (element) => {
