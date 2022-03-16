@@ -30,6 +30,16 @@ const DescriptionProvider = {
     );
   },
 
+  formType: (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#user-task-forms" target="_blank" rel="noopener" title={ translate('User task form documentation') }>
+        { translate('How to link a form') }
+      </a>
+    );
+  },
+
   messageSubscriptionCorrelationKey: (element) => {
     const translate = useService('translate');
 
@@ -104,6 +114,14 @@ const DescriptionProvider = {
         </a>
       );
     }
+
+    if (is(element, 'bpmn:ThrowEvent')) {
+      return (
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#message-throw-events" target="_blank" rel="noopener" title={ translate('Message throw event documentation') }>
+          { translate('How to configure a message throw event') }
+        </a>
+      );
+    }
   },
 
   'multiInstance-inputCollection': (element) => {
@@ -111,7 +129,7 @@ const DescriptionProvider = {
 
     return (
       <a href="https://docs.camunda.io/docs/components/modeler/bpmn/multi-instance/#defining-the-collection-to-iterate-over" target="_blank" rel="noopener" title={ translate('Multi instance documentation') }>
-        { translate('How to configure a multi instance task') }
+        { translate('How to configure a multi instance activity') }
       </a>
     );
   },
