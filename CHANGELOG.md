@@ -6,6 +6,17 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.6
+
+* `FEAT`: add `elementTemplates.createElement` API for `cloud-element-templates` ([#582](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/582)) 
+* `FEAT`: allow setting custom form key ([#592](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/592))
+* `FEAT`: reorder select options for implementation properties ([#597](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/597))
+* `FEAT`: mark FEEL expressions on input fields ([#599](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/599))
+* `FEAT`: add FEEL guidance on element templates ([#606](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/606))
+* `FEAT`: add references for `formType`, `throwEvent`, `user` and `multiInstance` ([#612](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/612))
+* `FIX`: set DMN implementation default to `<none>` ([#578](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/578))
+* `DEPS`: update to `bpmn-js@9.0.3`
+
 ## 1.0.0-alpha.5
 
 * `FEAT`: validate cloud element templates against JSON Schema ([#561](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/561))
