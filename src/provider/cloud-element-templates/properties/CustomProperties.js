@@ -9,6 +9,7 @@ import {
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { useService } from '../../../hooks';
+import { useEffect, useContext, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
 import { PropertyDescription } from '../../element-templates/components/PropertyDescription';
 
@@ -17,7 +18,8 @@ import {
   SelectEntry, isSelectEntryEdited,
   CheckboxEntry, isCheckboxEntryEdited,
   TextAreaEntry, isTextAreaEntryEdited,
-  TextFieldEntry, isTextFieldEntryEdited
+  TextFieldEntry, isTextFieldEntryEdited,
+  LayoutContext
 } from '@bpmn-io/properties-panel';
 
 import {
@@ -121,7 +123,7 @@ function addCustomGroup(groups, props) {
   const customPropertiesGroup = {
     id,
     label,
-    component: Group,
+    component: CustomGroup,
     entries: []
   };
 
@@ -196,6 +198,33 @@ function getDefaultType(property) {
   ].includes(type)) {
     return 'String';
   }
+}
+
+function CustomGroup(props) {
+  const {
+    id
+  } = props;
+
+  const {
+    getLayoutForKey,
+    setLayoutForKey
+  } = useContext(LayoutContext);
+
+  const [ layoutPrepared, setLayoutPrepared ] = useState(false);
+
+  useEffect(() => {
+    const path = [ 'groups', id, 'open' ];
+
+    if (getLayoutForKey(path) === undefined) {
+      setLayoutForKey(path, true);
+    }
+
+    setLayoutPrepared(true);
+  }, [ id ]);
+
+  return (
+    layoutPrepared && <Group { ...props } />
+  );
 }
 
 function BooleanProperty(props) {

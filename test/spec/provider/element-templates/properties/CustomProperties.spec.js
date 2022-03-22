@@ -16,6 +16,7 @@ import {
 } from 'min-dash';
 
 import {
+  classes as domClasses,
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
@@ -1762,6 +1763,27 @@ describe('provider/element-templates - CustomProperties', function() {
     });
 
 
+    it('should open defined groups', async function() {
+
+      // given
+      await expectSelected('ServiceTask_1');
+
+      // when
+      var customGroups = [
+        getGroupById('ElementTemplates__CustomProperties-one', container),
+        getGroupById('ElementTemplates__CustomProperties-two', container),
+        getGroupById('ElementTemplates__CustomProperties-three', container),
+        getGroupById('ElementTemplates__CustomProperties', container)
+      ];
+
+      // then
+      customGroups.forEach(function(group) {
+        expectGroupOpen(group, true);
+      });
+
+    });
+
+
     it('should display in defined properties order', async function() {
 
       // given
@@ -1807,6 +1829,22 @@ describe('provider/element-templates - CustomProperties', function() {
         'ElementTemplates__Template',
         'ElementTemplates__CustomProperties'
       ]);
+    });
+
+
+    it('should open default group', async function() {
+
+      // given
+      await expectSelected('ServiceTask_noGroups');
+
+      // when
+      var tempalteGroup = getGroupById('ElementTemplates__Template', container);
+      var customPropertiesGroup = getGroupById('ElementTemplates__CustomProperties', container);
+
+
+      // then
+      expectGroupOpen(tempalteGroup, false);
+      expectGroupOpen(customPropertiesGroup, true);
     });
 
 
@@ -1896,6 +1934,13 @@ function expectValid(entry) {
   expectError(entry, null);
 }
 
+function expectGroupOpen(group, open) {
+
+  const entries = domQuery('.bio-properties-panel-group-entries', group);
+
+  expect(domClasses(entries).contains('open')).to.eql(open);
+}
+
 function findEntry(id, container) {
   return domQuery(`[data-entry-id='${ id }']`, container);
 }
@@ -1910,6 +1955,15 @@ function findSelect(container) {
 
 function findTextarea(container) {
   return domQuery('textarea', container);
+}
+
+function getGroupById(id, container) {
+  const group = domQuery(
+    `[data-group-id=group-${id}]`,
+    container
+  );
+
+  return group;
 }
 
 function getGroupIds(container) {
