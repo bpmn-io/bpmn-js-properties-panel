@@ -16,6 +16,7 @@ import {
 } from 'min-dash';
 
 import {
+  classes as domClasses,
   query as domQuery,
   queryAll as domQueryAll
 } from 'min-dom';
@@ -1043,6 +1044,27 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
     });
 
 
+    it('should open custom groups', async function() {
+
+      // given
+      await expectSelected('ServiceTask_1');
+
+      // when
+      var customGroups = [
+        getGroupById('ElementTemplates__CustomProperties-headers', container),
+        getGroupById('ElementTemplates__CustomProperties-payload', container),
+        getGroupById('ElementTemplates__CustomProperties-mapping', container),
+        getGroupById('ElementTemplates__CustomProperties', container)
+      ];
+
+      // then
+      customGroups.forEach(function(group) {
+        expectGroupOpen(group, true);
+      });
+
+    });
+
+
     it('should display in defined properties order', async function() {
 
       // given
@@ -1088,6 +1110,22 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
         'ElementTemplates__Template',
         'ElementTemplates__CustomProperties'
       ]);
+    });
+
+
+    it('should open default group', async function() {
+
+      // given
+      await expectSelected('ServiceTask_noGroups');
+
+      // when
+      var tempalteGroup = getGroupById('ElementTemplates__Template', container);
+      var customPropertiesGroup = getGroupById('ElementTemplates__CustomProperties', container);
+
+
+      // then
+      expectGroupOpen(tempalteGroup, false);
+      expectGroupOpen(customPropertiesGroup, true);
     });
 
 
@@ -1265,6 +1303,13 @@ function expectError(entry, message) {
   expect(error).to.equal(message);
 }
 
+function expectGroupOpen(group, open) {
+
+  const entries = domQuery('.bio-properties-panel-group-entries', group);
+
+  expect(domClasses(entries).contains('open')).to.eql(open);
+}
+
 function expectValid(entry) {
   expectError(entry, null);
 }
@@ -1283,6 +1328,15 @@ function getGroupIds(container) {
 function getGroup(entry) {
   const parent = entry.closest('[data-group-id]');
   return parent && withoutPrefix(parent.dataset.groupId);
+}
+
+function getGroupById(id, container) {
+  const group = domQuery(
+    `[data-group-id=group-${id}]`,
+    container
+  );
+
+  return group;
 }
 
 function withoutPrefix(groupId) {
