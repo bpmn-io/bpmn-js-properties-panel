@@ -35,6 +35,7 @@
   ],
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "umd:main": "dist/bpmn-js-properties-panel.umd.js",
   "author": {
     "name": "Nico Rehwaldt",
     "url": "https://github.com/nikku"
