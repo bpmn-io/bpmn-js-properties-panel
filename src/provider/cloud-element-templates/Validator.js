@@ -4,7 +4,7 @@ import {
   getSchemaVersion
 } from '../element-templates/Validator';
 
-import semver from 'semver';
+import semverCompare from 'semver-compare';
 
 import {
   validateZeebe as validateAgainstSchema,
@@ -54,7 +54,7 @@ export class Validator extends BaseValidator {
     }
 
     // (2) compatibility
-    if (schemaVersion && (semver.compare(SUPPORTED_SCHEMA_VERSION, schemaVersion) < 0)) {
+    if (schemaVersion && (semverCompare(SUPPORTED_SCHEMA_VERSION, schemaVersion) < 0)) {
       return this._logError(
         `unsupported element template schema version <${ schemaVersion }>. Your installation only supports up to version <${ SUPPORTED_SCHEMA_VERSION }>. Please update your installation`,
         template
