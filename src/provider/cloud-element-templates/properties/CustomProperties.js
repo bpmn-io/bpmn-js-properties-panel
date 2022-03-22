@@ -122,7 +122,8 @@ function addCustomGroup(groups, props) {
     id,
     label,
     component: Group,
-    entries: []
+    entries: [],
+    shouldOpen: true
   };
 
   properties.forEach((property, index) => {
