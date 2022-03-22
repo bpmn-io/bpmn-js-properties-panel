@@ -17,6 +17,18 @@ export default [
     output: [
       {
         sourcemap: true,
+        format: 'umd',
+        file: pkg['umd:main'],
+        name: 'BpmnJSPropertiesPanel'
+      }
+    ],
+    plugins: pgl()
+  },
+  {
+    input: 'src/index.js',
+    output: [
+      {
+        sourcemap: true,
         format: 'commonjs',
         file: pkg.main
       },
@@ -27,36 +39,41 @@ export default [
       }
     ],
     external: externalDependencies(),
-    plugins: [
-      alias({
-        entries: [
-          { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' },
-          { find: 'preact', replacement: '@bpmn-io/properties-panel/preact' }
-        ]
-      }),
-      reactSvg(),
-      babel({
-        babelHelpers: 'bundled',
-        plugins: [
-          [ '@babel/plugin-transform-react-jsx', {
-            'importSource': '@bpmn-io/properties-panel/preact',
-            'runtime': 'automatic'
-          } ]
-        ]
-      }),
+    plugins: pgl([
       copy({
         targets: [
           { src: 'node_modules/@bpmn-io/properties-panel/assets/**/*.css', dest: 'dist/assets' },
           { src: 'assets/*.css', dest: 'dist/assets' }
         ]
-      }),
-      json(),
-      resolve(),
-      commonjs()
-    ]
+      })
+    ])
   }
 ];
 
+function pgl(plugins = []) {
+  return [
+    ...plugins,
+    alias({
+      entries: [
+        { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' },
+        { find: 'preact', replacement: '@bpmn-io/properties-panel/preact' }
+      ]
+    }),
+    reactSvg(),
+    babel({
+      babelHelpers: 'bundled',
+      plugins: [
+        [ '@babel/plugin-transform-react-jsx', {
+          'importSource': '@bpmn-io/properties-panel/preact',
+          'runtime': 'automatic'
+        } ]
+      ]
+    }),
+    json(),
+    resolve(),
+    commonjs()
+  ];
+}
 
 function externalDependencies() {
   return id => {
