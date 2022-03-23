@@ -44,7 +44,7 @@ export function MessageProps(props) {
     );
   }
 
-  if (canHaveSubscriptionCorrelationKey(element)) {
+  if (message && canHaveSubscriptionCorrelationKey(element)) {
     entries.push({
       id: 'messageSubscriptionCorrelationKey',
       component: SubscriptionCorrelationKey,

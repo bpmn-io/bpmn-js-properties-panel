@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0upqbpl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0upqbpl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
   <bpmn:process id="Process_17fhhp5" isExecutable="true">
     <bpmn:subProcess id="EventSubProcess_1" triggeredByEvent="true">
       <bpmn:startEvent id="StartEvent_1" isInterrupting="false">
@@ -19,6 +19,12 @@
     <bpmn:startEvent id="MessageEvent_empty">
       <bpmn:messageEventDefinition id="MessageEventDefinition_14olo4o" />
     </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="IntermediateEvent_1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0hjv9w9" messageRef="Message_3" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="IntermediateEvent_empty">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_02zap1w" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmn:message id="Message_1" name="Message_1">
     <bpmn:extensionElements>
@@ -41,8 +47,11 @@
   <bpmn:message id="Message_empty" name="Message_empty" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_17fhhp5">
-      <bpmndi:BPMNShape id="BPMNShape_08h08b4" bpmnElement="MessageEvent_empty">
-        <dc:Bounds x="112" y="162" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_0og0a7w_di" bpmnElement="IntermediateEvent_1">
+        <dc:Bounds x="242" y="472" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0eexx4v" bpmnElement="IntermediateEvent_empty">
+        <dc:Bounds x="317" y="472" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ufkvg9_di" bpmnElement="EventSubProcess_1" isExpanded="true">
         <dc:Bounds x="160" y="220" width="350" height="200" />
@@ -61,6 +70,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0x2250m_di" bpmnElement="StartEvent_2">
         <dc:Bounds x="112" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_08h08b4" bpmnElement="MessageEvent_empty">
+        <dc:Bounds x="112" y="162" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
