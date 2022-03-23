@@ -30,16 +30,9 @@ export function removeTemplate(element, injector) {
 }
 
 export function updateTemplate(element, newTemplate, injector) {
-  const commandStack = injector.get('commandStack'),
-        elementTemplates = injector.get('elementTemplates');
+  const elementTemplates = injector.get('elementTemplates');
 
-  const oldTemplate = elementTemplates.get(element);
-
-  commandStack.execute('propertiesPanel.camunda.changeTemplate', {
-    element: element,
-    newTemplate,
-    oldTemplate
-  });
+  return elementTemplates.applyTemplate(element, newTemplate);
 }
 
 export function getVersionOrDateFromTemplate(template) {

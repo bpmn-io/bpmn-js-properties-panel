@@ -17,7 +17,9 @@ import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
  * Registry for element templates.
  */
 export default class ElementTemplates {
-  constructor() {
+  constructor(commandStack) {
+    this._commandStack = commandStack;
+
     this._templates = {};
   }
 
@@ -109,4 +111,27 @@ export default class ElementTemplates {
   _getTemplateVersion(element) {
     return getTemplateVersion(element);
   }
+
+  /**
+   * Apply element template to a given element.
+   *
+   * @param {djs.model.Base} element
+   * @param {ElementTemplate} newTemplate
+   *
+   * @return {djs.model.Base} the updated element
+   */
+  applyTemplate(element, newTemplate) {
+
+    const oldTemplate = this.get(element);
+
+    this._commandStack.execute('propertiesPanel.camunda.changeTemplate', {
+      element: element,
+      newTemplate,
+      oldTemplate
+    });
+
+    return element;
+  }
 }
+
+ElementTemplates.$inject = [ 'commandStack' ];
