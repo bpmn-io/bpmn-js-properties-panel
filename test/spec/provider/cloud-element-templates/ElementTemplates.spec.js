@@ -1,6 +1,10 @@
 import TestContainer from 'mocha-test-container-support';
 
 import {
+  isAny
+} from 'bpmn-js/lib/util/ModelUtil';
+
+import {
   bootstrapModeler,
   createCanvasEvent as canvasEvent,
   inject
@@ -188,6 +192,31 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
         expect(element.parent).to.eql(processElement);
       })
     );
+
+  });
+
+
+  describe('applyTemplate', function() {
+
+    it('should set template on element', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      const template = elementTemplates.getAll().find(
+        t => isAny(task, t.appliesTo)
+      );
+
+      // assume
+      expect(template).to.exist;
+
+      // when
+      const updatedTask = elementTemplates.applyTemplate(task, template);
+
+      // then
+      expect(updatedTask).to.exist;
+      expect(elementTemplates.get(updatedTask)).to.equal(template);
+    }));
 
   });
 

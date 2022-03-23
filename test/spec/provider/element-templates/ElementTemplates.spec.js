@@ -1,5 +1,9 @@
 import TestContainer from 'mocha-test-container-support';
 
+import {
+  isAny
+} from 'bpmn-js/lib/util/ModelUtil';
+
 import { bootstrapModeler, inject } from 'test/TestHelper';
 
 import coreModule from 'bpmn-js/lib/core';
@@ -193,6 +197,31 @@ describe('provider/element-templates - ElementTemplates', function() {
 
       // then
       expect(elementTemplates.get(falsyVersionTemplate[0].id, 0)).to.exist;
+    }));
+
+  });
+
+
+  describe('applyTemplate', function() {
+
+    it('should set template on element', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      const template = elementTemplates.getAll().find(
+        t => isAny(task, t.appliesTo)
+      );
+
+      // assume
+      expect(template).to.exist;
+
+      // when
+      const updatedTask = elementTemplates.applyTemplate(task, template);
+
+      // then
+      expect(updatedTask).to.exist;
+      expect(elementTemplates.get(updatedTask)).to.equal(template);
     }));
 
   });

@@ -9,9 +9,9 @@ import { default as DefaultElementTemplates } from '../element-templates/Element
  * Registry for element templates.
  */
 export default class ElementTemplates extends DefaultElementTemplates {
-  constructor(templateElementFactory) {
-    super();
-    this._templates = {};
+  constructor(templateElementFactory, commandStack) {
+    super(commandStack);
+
     this._templateElementFactory = templateElementFactory;
   }
 
@@ -39,6 +39,26 @@ export default class ElementTemplates extends DefaultElementTemplates {
     return element;
   }
 
+  /**
+   * Apply element template to a given element.
+   *
+   * @param {djs.model.Base} element
+   * @param {ElementTemplate} newTemplate
+   *
+   * @return {djs.model.Base} the updated element
+   */
+  applyTemplate(element, newTemplate) {
+
+    const oldTemplate = this.get(element);
+
+    this._commandStack.execute('propertiesPanel.zeebe.changeTemplate', {
+      element: element,
+      newTemplate,
+      oldTemplate
+    });
+
+    return element;
+  }
 }
 
-ElementTemplates.$inject = [ 'templateElementFactory' ];
+ElementTemplates.$inject = [ 'templateElementFactory', 'commandStack' ];
