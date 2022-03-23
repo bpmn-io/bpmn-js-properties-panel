@@ -89,6 +89,23 @@ describe('provider/zeebe - MessageProps', function() {
     }));
 
 
+    it('should not display for Message <None>', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEvent_empty');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const messageNameInput = domQuery('input[name=messageName]', container);
+
+      // then
+      expect(messageNameInput).not.to.exist;
+    }));
+
+
     it('should display feel icon', inject(async function(elementRegistry, selection) {
 
       // given

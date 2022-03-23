@@ -16,6 +16,9 @@
     <bpmn:startEvent id="StartEvent_2">
       <bpmn:messageEventDefinition id="MessageEventDefinition_00hnlxy" messageRef="Message_1" />
     </bpmn:startEvent>
+    <bpmn:startEvent id="MessageEvent_empty">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_14olo4o" />
+    </bpmn:startEvent>
   </bpmn:process>
   <bpmn:message id="Message_1" name="Message_1">
     <bpmn:extensionElements>
@@ -38,6 +41,9 @@
   <bpmn:message id="Message_empty" name="Message_empty" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_17fhhp5">
+      <bpmndi:BPMNShape id="BPMNShape_08h08b4" bpmnElement="MessageEvent_empty">
+        <dc:Bounds x="112" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ufkvg9_di" bpmnElement="EventSubProcess_1" isExpanded="true">
         <dc:Bounds x="160" y="220" width="350" height="200" />
       </bpmndi:BPMNShape>
