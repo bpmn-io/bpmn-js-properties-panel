@@ -187,6 +187,123 @@ describe('provider/zeebe - MessageProps', function() {
   });
 
 
+  describe('bpmn:IntermediateEvent#messageRef.name', function() {
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('IntermediateEvent_1');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const messageNameInput = domQuery('input[name=messageName]', container);
+
+      // then
+      expect(messageNameInput.value).to.eql(getMessage(messageEvent).get('name'));
+    }));
+
+
+    it('should not display for Message <None>', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('IntermediateEvent_empty');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const messageNameInput = domQuery('input[name=messageName]', container);
+
+      // then
+      expect(messageNameInput).not.to.exist;
+    }));
+
+
+    it('should display feel icon', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('IntermediateEvent_1');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const messageNameIcon = domQuery('[data-entry-id="messageName"] .bio-properties-panel-feel-icon', container);
+
+      // then
+      expect(messageNameIcon).to.exist;
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('IntermediateEvent_1');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const messageNameInput = domQuery('input[name=messageName]', container);
+      changeInput(messageNameInput, 'newValue');
+
+      // then
+      expect(getMessage(messageEvent).get('name')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('IntermediateEvent_1');
+        const originalValue = getMessage(messageEvent).get('name');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const messageNameInput = domQuery('input[name=messageName]', container);
+        changeInput(messageNameInput, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(messageNameInput.value).to.eql(originalValue);
+      })
+    );
+
+
+    it('should not blow up on empty message name', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('IntermediateEvent_1');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const messageNameInput = domQuery('input[name=messageName]', container);
+      await act(() => {
+        changeInput(messageNameInput, '');
+      });
+
+      // then
+      expect(getMessage(messageEvent).get('name')).to.eql(undefined);
+    }));
+
+  });
+
+
   describe('bpmn:StartEvent#messageRef.subscription.correlationKey', function() {
 
     it('should NOT display for start event', inject(async function(elementRegistry, selection) {
