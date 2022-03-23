@@ -32,23 +32,25 @@ export function MessageProps(props) {
 
   const message = getMessage(element);
 
-  const entries = [
-    {
-      id: 'messageName',
-      component: MessageName,
-      isEdited: isTextFieldEntryEdited
-    }
-  ];
+  const entries = [];
 
-  if (!message || !canHaveSubscriptionCorrelationKey(element)) {
-    return entries;
+  if (message) {
+    entries.push(
+      {
+        id: 'messageName',
+        component: MessageName,
+        isEdited: isTextFieldEntryEdited
+      }
+    );
   }
 
-  entries.push({
-    id: 'messageSubscriptionCorrelationKey',
-    component: SubscriptionCorrelationKey,
-    isEdited: isTextFieldEntryEdited
-  });
+  if (canHaveSubscriptionCorrelationKey(element)) {
+    entries.push({
+      id: 'messageSubscriptionCorrelationKey',
+      component: SubscriptionCorrelationKey,
+      isEdited: isTextFieldEntryEdited
+    });
+  }
 
   return entries;
 }
