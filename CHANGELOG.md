@@ -8,7 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 1.0.0-alpha.7
 
-* `FEAT`: add `ElementTemplates#applyTemplate` API ([#624](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/624)
+* `FEAT`: add `ElementTemplates#applyTemplate` API ([#624](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/624))
 * `FEAT`: provide UMD distribution
 * `DEPS`: replace `semver` with `semver-compare` ([#622](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/622))
 
