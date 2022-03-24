@@ -12,6 +12,7 @@ export default class ElementTemplates extends DefaultElementTemplates {
   constructor(templateElementFactory, commandStack) {
     super(commandStack);
 
+    this._commandStack = commandStack;
     this._templateElementFactory = templateElementFactory;
   }
 
