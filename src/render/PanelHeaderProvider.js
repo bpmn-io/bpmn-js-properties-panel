@@ -68,6 +68,16 @@ export function getConcreteType(element) {
 
 export const PanelHeaderProvider = {
 
+  getDocumentationRef: (element) => {
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const elementTemplates = useService('elementTemplates', false);
+
+    if (elementTemplates) {
+      return getTemplateDocumentation(element, elementTemplates);
+    }
+  },
+
   getElementLabel: (element) => {
     if (is(element, 'bpmn:Process')) {
       return getBusinessObject(element).name;
@@ -164,4 +174,10 @@ function isPlane(element) {
 function getTemplate(element, elementTemplates) {
   const templateId = elementTemplates._getTemplateId(element);
   return templateId && elementTemplates.get(templateId);
+}
+
+function getTemplateDocumentation(element, elementTemplates) {
+  const template = getTemplate(element, elementTemplates);
+
+  return template && template.documentationRef;
 }
