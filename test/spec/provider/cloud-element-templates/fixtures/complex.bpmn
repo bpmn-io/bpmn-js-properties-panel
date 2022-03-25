@@ -54,6 +54,7 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_1k5y89v" name="feel" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-feel" />
+    <bpmn:serviceTask id="Activity_1ftabot" name="documentationRef" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-documentationRef" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0vvlc66">
@@ -91,6 +92,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0dk5at4" bpmnElement="Activity_1k5y89v">
         <dc:Bounds x="270" y="470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ftabot_di" bpmnElement="Activity_1ftabot">
+        <dc:Bounds x="270" y="580" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

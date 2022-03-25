@@ -525,5 +525,24 @@
         "feel": "required"
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "REST Connector (with Docs)",
+    "id": "io.camunda.connectors.RestConnector-documentationRef",
+    "description": "A generic REST service.",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "documentationRef": "https://docs.camunda.io",
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "http",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      }
+    ]
   }
 ]

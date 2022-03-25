@@ -710,5 +710,15 @@
         }
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Documentation Reference",
+    "id": "com.camunda.example.DocumentationRef",
+    "documentationRef": "https://docs.camunda.io",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": []
   }
 ]

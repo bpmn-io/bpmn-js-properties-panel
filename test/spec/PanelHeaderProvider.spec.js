@@ -670,6 +670,84 @@ describe('<PanelHeaderProvider>', function() {
 
   });
 
+
+  describe('#getDocumentationRef', function() {
+
+    it('should NOT get documentationRef - no element templates', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      // when
+      const result = createHeader({ container, element });
+
+      const documentationNode = domQuery('.bio-properties-panel-header-link', result.container);
+
+      // then
+      expect(documentationNode).to.not.exist;
+    });
+
+
+    it('should NOT get documentationRef - no value', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      const elementTemplates = {
+        get: () => { return { id: 'foo' }; },
+        getTemplateId: () => true
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const documentationNode = domQuery('.bio-properties-panel-header-link', result.container);
+
+      // then
+      expect(documentationNode).to.not.exist;
+    });
+
+
+    it('should get element template documentationRef', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      const elementTemplates = {
+        get: () => { return { id: 'foo', documentationRef: 'https://example.com/' }; },
+        getTemplateId: () => true
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const documentationNode = domQuery('.bio-properties-panel-header-link', result.container);
+
+      // then
+      expect(documentationNode).to.exist;
+      expect(documentationNode.href).to.eql('https://example.com/');
+    });
+
+  });
+
 });
 
 
