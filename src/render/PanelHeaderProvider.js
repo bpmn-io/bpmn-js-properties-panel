@@ -13,6 +13,10 @@ import {
   isInterrupting
 } from 'bpmn-js/lib/util/DiUtil';
 
+import {
+  useService
+} from '../hooks';
+
 import iconsByType from '../icons';
 
 export function getConcreteType(element) {
@@ -79,6 +83,18 @@ export const PanelHeaderProvider = {
   },
 
   getTypeLabel: (element) => {
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const elementTemplates = useService('elementTemplates', false);
+
+    if (elementTemplates) {
+      const template = getTemplate(element, elementTemplates);
+
+      if (template && template.name) {
+        return template.name;
+      }
+    }
+
     const concreteType = getConcreteType(element);
 
     return concreteType
@@ -137,12 +153,15 @@ function isConditionalFlow(element) {
   return businessObject.conditionExpression && is(sourceBusinessObject, 'bpmn:Activity');
 }
 
-
-// helpers //////////
 function isPlane(element) {
 
   // Backwards compatibility for bpmn-js<8
   const di = element && (element.di || getBusinessObject(element).di);
 
   return is(di, 'bpmndi:BPMNPlane');
+}
+
+function getTemplate(element, elementTemplates) {
+  const templateId = elementTemplates._getTemplateId(element);
+  return templateId && elementTemplates.get(templateId);
 }

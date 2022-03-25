@@ -21,6 +21,10 @@ import {
   getConcreteType
 } from 'src/render/PanelHeaderProvider';
 
+import {
+  BpmnPropertiesPanelContext
+} from 'src/context';
+
 insertCoreStyles();
 
 const noop = () => {};
@@ -173,6 +177,86 @@ describe('<PanelHeaderProvider>', function() {
 
       // then
       expect(elementLabel).to.equal('foo');
+    });
+
+  });
+
+
+  describe('#getTypeLabel', function() {
+
+    it('should get element type - no element templates', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      // when
+      const result = createHeader({ container, element });
+
+      const typeNode = domQuery('.bio-properties-panel-header-type', result.container);
+
+      // then
+      expect(typeNode).to.exist;
+      expect(typeNode.innerText).to.equal('TASK');
+    });
+
+
+    it('should get element type - no template name', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      const elementTemplates = {
+        get: () => { return { id: 'foo' }; },
+        getTemplateId: () => 'foo'
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const typeNode = domQuery('.bio-properties-panel-header-type', result.container);
+
+      // then
+      expect(typeNode).to.exist;
+      expect(typeNode.innerText).to.equal('TASK');
+    });
+
+
+    it('should get element template name', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      const elementTemplates = {
+        get: () => { return { id: 'foo', name: 'Template Task' }; },
+        getTemplateId: () => 'foo'
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const typeNode = domQuery('.bio-properties-panel-header-type', result.container);
+
+      // then
+      expect(typeNode).to.exist;
+      expect(typeNode.innerText).to.equal('TEMPLATE TASK');
     });
 
   });
@@ -591,17 +675,40 @@ describe('<PanelHeaderProvider>', function() {
 
 // helpers //////////////////////////
 
+class ElementTemplates {
+  constructor(options = {}) {
+    const {
+      get,
+      getTemplateId
+    } = options;
+
+    this._getFn = get;
+    this._getTemplateIdFn = getTemplateId;
+  }
+
+  get(element) {
+    return this._getFn ? this._getFn(element) : null;
+  }
+
+  _getTemplateId(element) {
+    return this._getTemplateIdFn ? this._getTemplateIdFn(element) : null;
+  }
+}
+
 function createHeader(options = {}) {
   const {
     element = noopElement,
     headerProvider = PanelHeaderProvider,
+    context = { getService: noop },
     container
   } = options;
 
   return render(
-    <Header
-      element={ element }
-      headerProvider={ headerProvider } />,
+    <BpmnPropertiesPanelContext.Provider value={ context }>
+      <Header
+        element={ element }
+        headerProvider={ headerProvider } />
+    </BpmnPropertiesPanelContext.Provider>,
     {
       container
     }
