@@ -1240,6 +1240,67 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
     });
 
 
+    describe('update task type', function() {
+
+      const newTemplate = require('./task-template-elementType-1.json');
+
+      beforeEach(bootstrap(require('./task.bpmn').default));
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+
+        // when
+        task = changeTemplate(task, newTemplate);
+
+        // then
+        expectElementTemplate(task, 'element-type-template', 1);
+        expect(is(task, 'bpmn:UserTask')).to.be.true;
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+
+        changeTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+
+        // then
+        const currentTask = elementRegistry.get('Task_1');
+
+        expect(currentTask).to.eql(task);
+        expectNoElementTemplate(task);
+        expect(is(task, 'bpmn:Task')).to.be.true;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+
+        task = changeTemplate('Task_1', newTemplate);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        const currentTask = elementRegistry.get('Task_1');
+
+        expect(currentTask).to.equal(task);
+        expectElementTemplate(currentTask, 'element-type-template', 1);
+        expect(is(currentTask, 'bpmn:UserTask')).to.be.true;
+      }));
+
+    });
+
+
     describe('update scope elements', function() {
 
       describe('camunda:Connector', function() {
@@ -2951,6 +3012,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var serviceTask = elementRegistry.get('ServiceTask_1');
 
         var oldTemplate = {
+          id: 'old',
           properties: [
             {
               value: 'error-expression-old-value',
@@ -2992,6 +3054,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         };
 
         var newTemplate = {
+          id: 'new',
           properties: [
             {
               value: 'error-expression-new-value',
@@ -3058,6 +3121,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var serviceTask = elementRegistry.get('ServiceTask_1');
 
         var oldTemplate = {
+          id: 'old',
           properties: [
             {
               value: 'error-expression-old-value',
@@ -3099,6 +3163,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         };
 
         var newTemplate = {
+          id: 'new',
           properties: [
             {
               value: 'error-expression-new-value',
@@ -3171,6 +3236,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var serviceTask = elementRegistry.get('ServiceTask_1');
 
         var oldTemplate = {
+          id: 'old',
           properties: [
             {
               value: 'error-expression-old-value',
@@ -3212,6 +3278,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         };
 
         var newTemplate = {
+          id: 'new',
           properties: [
             {
               value: 'error-expression-new-value',
@@ -3272,6 +3339,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         var serviceTask = elementRegistry.get('ServiceTask_1');
 
         var oldTemplate = {
+          id: 'old',
           properties: [
             {
               value: 'error-expression-old-value-1',
@@ -3315,6 +3383,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
         };
 
         var newTemplate = {
+          id: 'new',
           properties: [
             {
               value: 'error-expression-old-value-1',
@@ -3401,6 +3470,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var serviceTask = elementRegistry.get('ServiceTask_1');
 
           var oldTemplate = {
+            id: 'old',
             properties: [],
             scopes: {
               'camunda:Connector': {
@@ -3493,6 +3563,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var serviceTask = elementRegistry.get('ServiceTask_1');
 
           var oldTemplate = {
+            id: 'old',
             properties: [],
             scopes: {
               'camunda:Connector': {
@@ -3741,6 +3812,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var serviceTask = elementRegistry.get('ServiceTask_1');
 
           var oldTemplate = {
+            id: 'old',
             properties: [
               {
                 value: 'error-expression',
@@ -3782,6 +3854,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           };
 
           var newTemplate = {
+            id: 'new',
             properties: [
               {
                 value: 'error-expression',
@@ -3850,6 +3923,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var serviceTask = elementRegistry.get('ServiceTask_1');
 
           var oldTemplate = {
+            id: 'old',
             properties: [
               {
                 value: 'error-expression',
@@ -3891,6 +3965,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           };
 
           var newTemplate = {
+            id: 'new',
             properties: [
               {
                 value: 'error-expression',
@@ -3955,6 +4030,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           var serviceTask = elementRegistry.get('ServiceTask_1');
 
           var oldTemplate = {
+            id: 'old',
             properties: [
               {
                 value: 'error-expression-old-value-1',
@@ -4064,6 +4140,7 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
           };
 
           var newTemplate = {
+            id: 'new',
             properties: [
               {
                 value: 'error-expression-old-value-1',
@@ -4201,6 +4278,69 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
+
+    describe('update task type', function() {
+
+      const oldTemplate = require('./task-template-elementType-1.json');
+      const newTemplate = require('./task-template-elementType-2.json');
+
+      beforeEach(bootstrap(require('./task.bpmn').default));
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+        task = changeTemplate(task, oldTemplate);
+
+        // when
+        task = changeTemplate(task, newTemplate);
+
+        // then
+        expectElementTemplate(task, 'element-type-template-new', 1);
+        expect(is(task, 'bpmn:ServiceTask')).to.be.true;
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+        task = changeTemplate(task, oldTemplate);
+
+        // when
+        changeTemplate('Task_1', newTemplate);
+        commandStack.undo();
+
+        // then
+        const currentTask = elementRegistry.get('Task_1');
+
+        expect(currentTask).to.eql(task);
+        expectElementTemplate(currentTask, 'element-type-template', 1);
+        expect(is(currentTask, 'bpmn:UserTask')).to.be.true;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+        task = changeTemplate(task, oldTemplate);
+
+        // when
+        task = changeTemplate('Task_1', newTemplate);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        const currentTask = elementRegistry.get('Task_1');
+
+        expect(currentTask).to.eql(task);
+        expectElementTemplate(currentTask, 'element-type-template-new', 1);
+        expect(is(currentTask, 'bpmn:ServiceTask')).to.be.true;
+      }));
+
+    });
+
   });
 
 
@@ -4332,18 +4472,22 @@ describe('element-templates - ChangeElementTemplateHandler', function() {
 // helpers //////////
 
 function changeTemplate(element, newTemplate, oldTemplate) {
-  return getBpmnJS().invoke(function(commandStack, elementRegistry) {
+
+  const templates = [];
+
+  newTemplate && templates.push(newTemplate);
+  oldTemplate && templates.push(oldTemplate);
+
+  return getBpmnJS().invoke(function(elementTemplates, elementRegistry) {
     if (isString(element)) {
       element = elementRegistry.get(element);
     }
 
+    elementTemplates.set(templates);
+
     expect(element).to.exist;
 
-    return commandStack.execute('propertiesPanel.camunda.changeTemplate', {
-      element: element,
-      newTemplate: newTemplate,
-      oldTemplate: oldTemplate
-    });
+    return elementTemplates.applyTemplate(element, newTemplate);
   });
 }
 
@@ -4384,12 +4528,15 @@ function expectNoElementTemplate(element) {
   });
 }
 
+let runningId = 0;
+
 function createTemplate(properties, scope) {
   if (!isArray(properties)) {
     properties = [ properties ];
   }
 
   var template = {
+    id: '' + runningId++,
     properties: [],
     scopes: []
   };
