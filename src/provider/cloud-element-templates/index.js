@@ -2,7 +2,7 @@ import translateModule from 'diagram-js/lib/i18n/translate';
 
 import ElementTemplates from './ElementTemplates';
 import ElementTemplatesLoader from './ElementTemplatesLoader';
-import ReplaceBehavior from '../element-templates/ReplaceBehavior';
+import ReplaceBehavior from './ReplaceBehavior';
 import commandsModule from './cmd';
 import templateElementFactoryModule from './create';
 import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';

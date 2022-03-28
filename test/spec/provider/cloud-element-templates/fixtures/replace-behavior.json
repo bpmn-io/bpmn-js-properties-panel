@@ -1,5 +1,6 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "replace_1",
     "id": "replace_1",
     "appliesTo": [
@@ -9,6 +10,7 @@
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "replace_2",
     "id": "replace_2",
     "version": 1,
