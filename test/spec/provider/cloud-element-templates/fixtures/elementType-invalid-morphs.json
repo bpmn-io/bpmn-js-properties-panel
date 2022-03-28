@@ -1,0 +1,41 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Element Type (Task -> Gateway)",
+    "id": "example.com.TaskToGateway",
+    "appliesTo": [
+      "bpmn:ServiceTask",
+      "bpmn:ExclusiveGateway"
+    ],
+    "elementType": {
+      "value": "bpmn:ExclusiveGateway"
+    },
+    "properties": [ ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Element Type (Task -> Event)",
+    "id": "example.com.TaskToEvent",
+    "appliesTo": [
+      "bpmn:ServiceTask",
+      "bpmn:IntermediateCatchEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent"
+    },
+    "properties": [ ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Element Type (Event -> Process)",
+    "id": "example.com.EventToProcess",
+    "appliesTo": [
+      "bpmn:Process",
+      "bpmn:IntermediateCatchEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:Process"
+    },
+    "properties": [ ]
+  }
+]
