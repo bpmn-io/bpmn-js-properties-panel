@@ -150,6 +150,38 @@ describe('provider/zeebe - TargetProps', function() {
         })
       );
 
+
+      describe('show error', function() {
+
+        it('should show error', inject(async function(elementRegistry, eventBus, selection) {
+
+          // given
+          const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+          // when
+          await act(() => {
+            selection.select(businessRuleTask);
+
+            eventBus.fire('propertiesPanel.showError', {
+              id: 'BusinessRuleTask_1',
+              message: 'foo',
+              path: [ 'extensionElements', 'values', 0, 'decisionId' ]
+            });
+          });
+
+          // then
+          const error = document.querySelector('.bio-properties-panel-error');
+
+          expect(error).to.exist;
+          expect(error.textContent).to.equal('foo');
+
+          const entry = error.closest('.bio-properties-panel-entry');
+
+          expect(entry.dataset.entryId).to.equal('decisionId');
+        }));
+
+      });
+
     });
 
 
@@ -240,6 +272,38 @@ describe('provider/zeebe - TargetProps', function() {
           expect(resultVariableInput.value).to.eql(originalValue);
         })
       );
+
+
+      describe('show error', function() {
+
+        it('should show error', inject(async function(elementRegistry, eventBus, selection) {
+
+          // given
+          const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+          // when
+          await act(() => {
+            selection.select(businessRuleTask);
+
+            eventBus.fire('propertiesPanel.showError', {
+              id: 'BusinessRuleTask_1',
+              message: 'foo',
+              path: [ 'extensionElements', 'values', 0, 'resultVariable' ]
+            });
+          });
+
+          // then
+          const error = document.querySelector('.bio-properties-panel-error');
+
+          expect(error).to.exist;
+          expect(error.textContent).to.equal('foo');
+
+          const entry = error.closest('.bio-properties-panel-entry');
+
+          expect(entry.dataset.entryId).to.equal('resultVariable');
+        }));
+
+      });
 
     });
 

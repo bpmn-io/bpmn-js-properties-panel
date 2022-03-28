@@ -259,6 +259,38 @@ describe('provider/bpmn - ErrorProps', function() {
 
     });
 
+
+    describe('show error', function() {
+
+      it('should show error (no error ref)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const boundaryEvent = elementRegistry.get('ErrorEvent_empty');
+
+        // when
+        await act(() => {
+          selection.select(boundaryEvent);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ErrorEvent_empty',
+            message: 'foo',
+            path: [ 'eventDefinitions', 0, 'errorRef' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('errorRef');
+      }));
+
+    });
+
   });
 
 

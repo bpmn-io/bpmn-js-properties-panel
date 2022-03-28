@@ -3,6 +3,14 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
+import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+
+import {
+  getPath,
+  pathConcat,
+  pathEquals
+} from '@philippfromme/moddle-helpers';
+
 import {
   createElement
 } from '../../../utils/ElementUtil';
@@ -13,10 +21,9 @@ import {
 } from '../utils/CalledElementUtil.js';
 
 import {
-  useService
+  useService,
+  useShowCallback
 } from '../../../hooks';
-
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 
 export function TargetProps(props) {
@@ -39,7 +46,8 @@ export function TargetProps(props) {
 
 function TargetProcessId(props) {
   const {
-    element
+    element,
+    id
   } = props;
 
   const commandStack = useService('commandStack'),
@@ -116,13 +124,31 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
+  const businessObject = getBusinessObject(element),
+        calledElement = getCalledElement(element);
+
+  const path = pathConcat(getPath(calledElement, businessObject), 'processId');
+
+  const show = useShowCallback(businessObject, (event) => {
+    const { error = {} } = event;
+
+    const {
+      type,
+      requiredExtensionElement
+    } = error;
+
+    return pathEquals(event.path, path)
+      || (type === 'extensionElementRequired' && requiredExtensionElement === 'zeebe:CalledElement');
+  });
+
   return TextFieldEntry({
     element,
-    id: 'targetProcessId',
+    id,
     label: translate('Process ID'),
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }

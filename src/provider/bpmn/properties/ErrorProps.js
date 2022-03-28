@@ -11,10 +11,17 @@ import {
   isSelectEntryEdited,
   isTextFieldEntryEdited
 } from '@bpmn-io/properties-panel';
+
+import {
+  getPath,
+  pathConcat
+} from '@philippfromme/moddle-helpers';
+
 import ReferenceSelect from '../../../entries/ReferenceSelect';
 
 import {
-  useService
+  useService,
+  useShowCallback
 } from '../../../hooks';
 
 import {
@@ -165,6 +172,11 @@ function ErrorRef(props) {
     return options;
   };
 
+  const businessObject = getBusinessObject(element),
+        path = pathConcat(getPath(errorEventDefinition, businessObject), 'errorRef');
+
+  const show = useShowCallback(businessObject, path);
+
   return ReferenceSelect({
     element,
     id: 'errorRef',
@@ -172,7 +184,8 @@ function ErrorRef(props) {
     autoFocusEntry: 'errorName',
     getValue,
     setValue,
-    getOptions
+    getOptions,
+    show
   });
 }
 

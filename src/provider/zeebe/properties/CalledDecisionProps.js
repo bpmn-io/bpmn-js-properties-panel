@@ -6,6 +6,11 @@ import {
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
+  getPath,
+  pathConcat
+} from '@philippfromme/moddle-helpers';
+
+import {
   getExtensionElementsList
 } from '../../../utils/ExtensionElementsUtil';
 
@@ -14,7 +19,8 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  useService
+  useService,
+  useShowCallback
 } from '../../../hooks';
 
 
@@ -43,7 +49,8 @@ export function CalledDecisionProps(props) {
 
 function DecisionID(props) {
   const {
-    element
+    element,
+    id
   } = props;
 
   const commandStack = useService('commandStack');
@@ -118,19 +125,28 @@ function DecisionID(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
+  const businessObject = getBusinessObject(element),
+        calledDecision = getCalledDecision(element);
+
+  const path = pathConcat(getPath(calledDecision, businessObject), 'decisionId');
+
+  const show = useShowCallback(businessObject, path);
+
   return TextFieldEntry({
     element,
-    id: 'decisionId',
+    id,
     label: translate('ID'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 
 function ResultVariable(props) {
   const {
-    element
+    element,
+    id
   } = props;
 
   const commandStack = useService('commandStack');
@@ -205,13 +221,21 @@ function ResultVariable(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
+  const businessObject = getBusinessObject(element),
+        calledDecision = getCalledDecision(element);
+
+  const path = pathConcat(getPath(calledDecision, businessObject), 'resultVariable');
+
+  const show = useShowCallback(businessObject, path);
+
   return TextFieldEntry({
     element,
-    id: 'resultVariable',
+    id,
     label: translate('Result variable'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 

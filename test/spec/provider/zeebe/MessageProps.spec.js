@@ -510,6 +510,69 @@ describe('provider/zeebe - MessageProps', function() {
       expect(documentationLink.title).to.equal('Receive task documentation');
     }));
 
+
+    describe('show error', function() {
+
+      it('should show error (no extension element)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_noSubscription');
+
+        // when
+        await act(() => {
+          selection.select(startEvent);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'StartEvent_noSubscription',
+            message: 'foo',
+            error: {
+              type: 'extensionElementRequired',
+              requiredExtensionElement: 'zeebe:Subscription'
+            }
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('messageSubscriptionCorrelationKey');
+      }));
+
+
+      it('should show error (no correlation key)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const receiveTask = elementRegistry.get('ReceiveTask_noCorrelationKey');
+
+        // when
+        await act(() => {
+          selection.select(receiveTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ReceiveTask_noCorrelationKey',
+            message: 'foo',
+            path: [ 'rootElements', 6, 'extensionElements', 'values', 0, 'correlationKey' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('messageSubscriptionCorrelationKey');
+      }));
+
+    });
+
   });
 
 });

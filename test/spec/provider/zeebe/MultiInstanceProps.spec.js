@@ -191,6 +191,69 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       })
     );
 
+
+    describe('show error', function() {
+
+      it('should show error (no extension element)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_noZeebeLoops');
+
+        // when
+        await act(() => {
+          selection.select(serviceTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ServiceTask_noZeebeLoops',
+            message: 'foo',
+            error: {
+              type: 'extensionElementRequired',
+              requiredExtensionElement: 'zeebe:LoopCharacteristics'
+            }
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('multiInstance-inputCollection');
+      }));
+
+
+      it('should show error (no input collection)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_noInputCollection');
+
+        // when
+        await act(() => {
+          selection.select(serviceTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ServiceTask_noInputCollection',
+            message: 'foo',
+            path: [ 'loopCharacteristics', 'extensionElements', 'values', 0, 'inputCollection' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('multiInstance-inputCollection');
+      }));
+
+    });
+
   });
 
 
@@ -451,6 +514,38 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       })
     );
 
+
+    describe('show error', function() {
+
+      it('should show error (no output collection)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_noInputCollection');
+
+        // when
+        await act(() => {
+          selection.select(serviceTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ServiceTask_noInputCollection',
+            message: 'foo',
+            path: [ 'loopCharacteristics', 'extensionElements', 'values', 0, 'outputCollection' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('multiInstance-outputCollection');
+      }));
+
+    });
+
   });
 
 
@@ -580,6 +675,38 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         expect(getZeebeLoopCharacteristics(serviceTask).get('outputElement')).to.eql('newValue');
       })
     );
+
+
+    describe('show error', function() {
+
+      it('should show error (no output element)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_noInputCollection');
+
+        // when
+        await act(() => {
+          selection.select(serviceTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ServiceTask_noInputCollection',
+            message: 'foo',
+            path: [ 'loopCharacteristics', 'extensionElements', 'values', 0, 'outputElement' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('multiInstance-outputElement');
+      }));
+
+    });
 
   });
 

@@ -190,7 +190,8 @@ export default function BpmnPropertiesPanel(props) {
       layoutConfig={ layoutConfig }
       layoutChanged={ onLayoutChanged }
       descriptionConfig={ descriptionConfig }
-      descriptionLoaded={ onDescriptionLoaded } />
+      descriptionLoaded={ onDescriptionLoaded }
+      eventBus={ eventBus } />
   </BpmnPropertiesPanelContext.Provider>;
 }
 
