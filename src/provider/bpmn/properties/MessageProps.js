@@ -10,7 +10,8 @@ import { TextFieldEntry, isTextFieldEntryEdited, isSelectEntryEdited } from '@bp
 import ReferenceSelect from '../../../entries/ReferenceSelect';
 
 import {
-  useService
+  useService,
+  useShowCallback
 } from '../../../hooks';
 
 import {
@@ -26,6 +27,7 @@ import {
   getRoot,
   nextId
 } from '../../../utils/ElementUtil';
+import { getPath, pathConcat } from '@philippfromme/moddle-helpers';
 
 export const EMPTY_OPTION = '';
 export const CREATE_NEW_OPTION = 'create-new';
@@ -158,6 +160,11 @@ function MessageRef(props) {
     return options;
   };
 
+  const businessObject = getBusinessObject(element),
+        path = pathConcat(getPath(messageEventDefinition, businessObject), 'messageRef');
+
+  const show = useShowCallback(businessObject, path);
+
   return ReferenceSelect({
     element,
     id: 'messageRef',
@@ -165,7 +172,8 @@ function MessageRef(props) {
     autoFocusEntry: 'messageName',
     getValue,
     setValue,
-    getOptions
+    getOptions,
+    show
   });
 }
 

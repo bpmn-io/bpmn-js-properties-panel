@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_0l1dxrj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_0l1dxrj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_1" name="task">
       <bpmn:multiInstanceLoopCharacteristics>
@@ -20,6 +20,13 @@
       <bpmn:multiInstanceLoopCharacteristics isSequential="true" />
     </bpmn:serviceTask>
     <bpmn:serviceTask id="Activity_empty" name="empty" />
+    <bpmn:serviceTask id="ServiceTask_noInputCollection" name="no input collection">
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true">
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputElement="foo" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -32,11 +39,15 @@
       <bpmndi:BPMNShape id="Activity_0xr5kjj_di" bpmnElement="ServiceTask_noExtensionElements">
         <dc:Bounds x="230" y="440" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_completion_empty_di" bpmnElement="ServiceTask_noCompletionCondition">
+        <dc:Bounds x="560" y="290" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0r3tspp_di" bpmnElement="Activity_empty">
         <dc:Bounds x="460" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_completion_empty_di" bpmnElement="ServiceTask_noCompletionCondition">
-        <dc:Bounds x="560" y="290" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_0jrkkkk_di" bpmnElement="ServiceTask_noInputCollection">
+        <dc:Bounds x="560" y="440" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

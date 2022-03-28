@@ -222,6 +222,69 @@ describe('provider/zeebe - TargetProps', function() {
       })
     );
 
+
+    describe('show error', function() {
+
+      it('should show error (no extension element)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('CallActivity_2');
+
+        // when
+        await act(() => {
+          selection.select(businessRuleTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'CallActivity_2',
+            message: 'foo',
+            error: {
+              type: 'extensionElementRequired',
+              requiredExtensionElement: 'zeebe:CalledElement'
+            }
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('targetProcessId');
+      }));
+
+
+      it('should show error (no process ID)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('CallActivity_4');
+
+        // when
+        await act(() => {
+          selection.select(businessRuleTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'CallActivity_4',
+            message: 'foo',
+            path: [ 'extensionElements', 'values', 0, 'processId' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('targetProcessId');
+      }));
+
+    });
+
   });
 
 });

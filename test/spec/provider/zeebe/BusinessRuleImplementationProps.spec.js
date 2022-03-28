@@ -252,6 +252,41 @@ describe('provider/zeebe - TargetProps', function() {
       expect(implementation.value).to.eql('dmn');
     }));
 
+
+    describe('show error', function() {
+
+      it('should show error', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+        // when
+        await act(() => {
+          selection.select(businessRuleTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'BusinessRuleTask_1',
+            message: 'foo',
+            error: {
+              type: 'extensionElementRequired',
+              requiredExtensionElement: 'zeebe:CalledDecision'
+            }
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('businessRuleImplementation');
+      }));
+
+    });
+
   });
 
 });

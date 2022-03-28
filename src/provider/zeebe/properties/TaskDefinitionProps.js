@@ -5,6 +5,12 @@ import {
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
+  getPath,
+  pathConcat,
+  pathEquals
+} from '@philippfromme/moddle-helpers';
+
+import {
   getExtensionElementsList
 } from '../../../utils/ExtensionElementsUtil';
 
@@ -13,7 +19,8 @@ import {
 } from '../../../utils/ElementUtil';
 
 import {
-  useService
+  useService,
+  useShowCallback
 } from '../../../hooks';
 
 import {
@@ -46,7 +53,8 @@ export function TaskDefinitionProps(props) {
 
 function TaskDefinitionType(props) {
   const {
-    element
+    element,
+    id
   } = props;
 
   const commandStack = useService('commandStack');
@@ -121,20 +129,39 @@ function TaskDefinitionType(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
+  const businessObject = getBusinessObject(element),
+        taskDefinition = getTaskDefinition(businessObject);
+
+  const path = pathConcat(getPath(taskDefinition, businessObject), 'type');
+
+  const show = useShowCallback(businessObject, (event) => {
+    const { error = {} } = event;
+
+    const {
+      type,
+      requiredExtensionElement
+    } = error;
+
+    return pathEquals(event.path, path)
+      || (type === 'extensionElementRequired' && requiredExtensionElement === 'zeebe:TaskDefinition');
+  });
+
   return TextFieldEntry({
     element,
-    id: 'taskDefinitionType',
+    id,
     label: translate('Type'),
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 
 function TaskDefinitionRetries(props) {
   const {
-    element
+    element,
+    id
   } = props;
 
   const commandStack = useService('commandStack');
@@ -208,14 +235,22 @@ function TaskDefinitionRetries(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
+  const businessObject = getBusinessObject(element),
+        taskDefinition = getTaskDefinition(businessObject);
+
+  const path = pathConcat(getPath(taskDefinition, businessObject), 'retries');
+
+  const show = useShowCallback(businessObject, path);
+
   return TextFieldEntry({
     element,
-    id: 'taskDefinitionRetries',
+    id,
     label: translate('Retries'),
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 

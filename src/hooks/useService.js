@@ -4,8 +4,7 @@ import {
 
 import { BpmnPropertiesPanelContext } from '../context';
 
-
-export default function(type, strict) {
+export function useService(type, strict) {
   const {
     getService
   } = useContext(BpmnPropertiesPanelContext);
