@@ -124,13 +124,15 @@ export default class ElementTemplates {
 
     const oldTemplate = this.get(element);
 
-    this._commandStack.execute('propertiesPanel.camunda.changeTemplate', {
-      element: element,
+    const context = {
+      element,
       newTemplate,
       oldTemplate
-    });
+    };
 
-    return element;
+    this._commandStack.execute('propertiesPanel.camunda.changeTemplate', context);
+
+    return context.element;
   }
 }
 

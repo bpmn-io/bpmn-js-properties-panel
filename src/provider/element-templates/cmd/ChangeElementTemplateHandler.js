@@ -49,8 +49,9 @@ const CAMUNDA_SERVICE_TASK_LIKE = [
  * `camunda:modelerTemplateVersion`.
  */
 export default class ChangeElementTemplateHandler {
-  constructor(bpmnFactory, commandStack, modeling) {
+  constructor(bpmnFactory, bpmnReplace, commandStack, modeling) {
     this._bpmnFactory = bpmnFactory;
+    this._bpmnReplace = bpmnReplace;
     this._commandStack = commandStack;
     this._modeling = modeling;
   }
@@ -75,6 +76,8 @@ export default class ChangeElementTemplateHandler {
     this._updateCamundaModelerTemplate(element, newTemplate);
 
     if (newTemplate) {
+
+      this._updateTaskType(element, newTemplate);
 
       // update properties
       this._updateProperties(element, oldTemplate, newTemplate);
@@ -891,10 +894,34 @@ export default class ChangeElementTemplateHandler {
       }
     });
   }
+
+  /**
+   * Replaces the element with the specified elementType
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} newTemplate
+   */
+  _updateTaskType(element, newTemplate) {
+
+    // determine new task type
+    const newType = newTemplate.elementType;
+
+    if (!newType) {
+      return;
+    }
+
+    // don't replace Task that is already the correct type
+    if (element.$type === newType.value) {
+      return element;
+    }
+
+    this._bpmnReplace.replaceElement(element, { type: newType.value });
+  }
 }
 
 ChangeElementTemplateHandler.$inject = [
   'bpmnFactory',
+  'bpmnReplace',
   'commandStack',
   'modeling'
 ];

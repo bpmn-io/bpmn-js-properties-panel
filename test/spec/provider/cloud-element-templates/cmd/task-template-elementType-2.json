@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "New Element Type Template v1",
+  "version": 1,
+  "id": "element-type-template-new",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "properties": [ ]
+}

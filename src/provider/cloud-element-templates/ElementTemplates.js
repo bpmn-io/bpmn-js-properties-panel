@@ -52,13 +52,15 @@ export default class ElementTemplates extends DefaultElementTemplates {
 
     const oldTemplate = this.get(element);
 
-    this._commandStack.execute('propertiesPanel.zeebe.changeTemplate', {
-      element: element,
+    const context = {
+      element,
       newTemplate,
       oldTemplate
-    });
+    };
 
-    return element;
+    this._commandStack.execute('propertiesPanel.zeebe.changeTemplate', context);
+
+    return context.element;
   }
 }
 
