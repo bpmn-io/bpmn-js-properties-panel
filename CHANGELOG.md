@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.8
+
+* `FIX`: correct display of messages ([#623](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/623))
+
 ## 1.0.0-alpha.7
 
 * `FEAT`: add `ElementTemplates#applyTemplate` API ([#624](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/624))
