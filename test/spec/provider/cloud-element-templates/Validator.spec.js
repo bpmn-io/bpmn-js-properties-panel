@@ -410,6 +410,80 @@ describe('provider/cloud-element-templates - Validator', function() {
     });
 
 
+    describe('elementType', function() {
+
+      it('should accept elementType', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/elementType');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.be.empty;
+
+        expect(valid(templates)).to.have.length(templateDescriptor.length);
+      });
+
+
+      it('should accept elementType if applyTo only contains superClass', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/elementType-superType');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.be.empty;
+
+        expect(valid(templates)).to.have.length(templateDescriptor.length);
+      });
+
+
+      it('should reject if appliesTo is missing specified element type ', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/elementType-missing-target');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.contain('template(id: <example.com.elementType-missing-target>, name: <Element Type (missing target)>): template does not apply to requested element type <bpmn:UserTask>');
+
+        expect(valid(templates)).to.be.empty;
+      });
+
+
+      it('should reject invalid replace targets', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/elementType-invalid-morphs');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.contain('template(id: <example.com.TaskToGateway>, name: <Element Type (Task -> Gateway)>): can not morph <bpmn:ServiceTask> into <bpmn:ExclusiveGateway>');
+        expect(errors(templates)).to.contain('template(id: <example.com.TaskToEvent>, name: <Element Type (Task -> Event)>): can not morph <bpmn:ServiceTask> into <bpmn:IntermediateCatchEvent>');
+        expect(errors(templates)).to.contain('template(id: <example.com.EventToProcess>, name: <Element Type (Event -> Process)>): can not morph <bpmn:IntermediateCatchEvent> into <bpmn:Process>');
+
+        expect(valid(templates)).to.be.empty;
+      });
+
+    });
+
+
     describe('grouping', function() {
 
       it('should accept groups', function() {

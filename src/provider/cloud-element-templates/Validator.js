@@ -70,7 +70,14 @@ export class Validator extends BaseValidator {
       }
     }
 
-    // (4) JSON schema compliance
+    // (4) elementType validation
+    const elementTypeError = this._validateElementType(template);
+
+    if (elementTypeError) {
+      return elementTypeError;
+    }
+
+    // (5) JSON schema compliance
     const validationResult = validateAgainstSchema(template);
 
     const {

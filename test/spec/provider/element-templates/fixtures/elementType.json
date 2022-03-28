@@ -1,0 +1,15 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Element Type",
+    "id": "example.com.elementType",
+    "appliesTo": [
+      "bpmn:Task",
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "properties": [ ]
+  }
+]

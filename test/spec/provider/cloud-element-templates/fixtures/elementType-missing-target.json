@@ -1,0 +1,14 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Element Type (missing target)",
+    "id": "example.com.elementType-missing-target",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:UserTask"
+    },
+    "properties": [ ]
+  }
+]
