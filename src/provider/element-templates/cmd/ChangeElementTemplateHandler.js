@@ -68,16 +68,17 @@ export default class ChangeElementTemplateHandler {
    * @param {Object} [context.newTemplate]
    */
   preExecute(context) {
-    const element = context.element,
-          newTemplate = context.newTemplate,
+    const newTemplate = context.newTemplate,
           oldTemplate = context.oldTemplate;
+
+    let element = context.element;
 
     // update camunda:modelerTemplate attribute
     this._updateCamundaModelerTemplate(element, newTemplate);
 
     if (newTemplate) {
 
-      this._updateTaskType(element, newTemplate);
+      element = context.element = this._updateTaskType(element, newTemplate);
 
       // update properties
       this._updateProperties(element, oldTemplate, newTemplate);
@@ -907,7 +908,7 @@ export default class ChangeElementTemplateHandler {
     const newType = newTemplate.elementType;
 
     if (!newType) {
-      return;
+      return element;
     }
 
     // don't replace Task that is already the correct type
@@ -915,7 +916,7 @@ export default class ChangeElementTemplateHandler {
       return element;
     }
 
-    this._bpmnReplace.replaceElement(element, { type: newType.value });
+    return this._bpmnReplace.replaceElement(element, { type: newType.value });
   }
 }
 

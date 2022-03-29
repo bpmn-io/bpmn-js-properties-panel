@@ -89,6 +89,23 @@ describe('provider/element-templates - ReplaceBehavior', function() {
       expect(businessObject.get('camunda:modelerTemplate')).not.to.exist;
     }));
 
+
+    it('should unlink if elementType is set', inject(function(elementRegistry, bpmnReplace) {
+
+      // given
+      const task = elementRegistry.get('Task_elementType_1');
+
+      const newElementData = { type: 'bpmn:CallActivity' };
+
+      // when
+      const newElement = bpmnReplace.replaceElement(task, newElementData);
+
+      // then
+      const businessObject = getBusinessObject(newElement);
+
+      expect(businessObject.get('camunda:modelerTemplate')).not.to.exist;
+    }));
+
   });
 
 
@@ -136,6 +153,24 @@ describe('provider/element-templates - ReplaceBehavior', function() {
       const task = elementRegistry.get('Task_2');
 
       const newElementData = { type: 'bpmn:SubProcess' };
+
+      // when
+      const newElement = bpmnReplace.replaceElement(task, newElementData);
+
+      // then
+      const businessObject = getBusinessObject(newElement);
+
+      expect(businessObject.get('camunda:modelerTemplate')).not.to.exist;
+      expect(businessObject.get('camunda:modelerTemplateVersion')).not.to.exist;
+    }));
+
+
+    it('should unlink if elementType is set', inject(function(elementRegistry, bpmnReplace) {
+
+      // given
+      const task = elementRegistry.get('Task_elementType_2');
+
+      const newElementData = { type: 'bpmn:CallActivity' };
 
       // when
       const newElement = bpmnReplace.replaceElement(task, newElementData);

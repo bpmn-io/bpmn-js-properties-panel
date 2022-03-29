@@ -9,6 +9,18 @@
     "properties": []
   },
   {
+    "name": "replace_elementType_1",
+    "id": "replace_elementType_1",
+    "appliesTo": [
+      "bpmn:Task",
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "properties": []
+  },
+  {
     "name": "replace_2",
     "id": "replace_2",
     "version": 1,
@@ -16,6 +28,19 @@
       "bpmn:Task",
       "bpmn:CallActivity"
     ],
+    "properties": []
+  },
+  {
+    "name": "replace_elementType_2",
+    "id": "replace_elementType_2",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:Task",
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
     "properties": []
   }
 ]
