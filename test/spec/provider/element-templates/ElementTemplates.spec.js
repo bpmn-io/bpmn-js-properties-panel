@@ -1,10 +1,10 @@
 import TestContainer from 'mocha-test-container-support';
 
-import {
-  isAny
-} from 'bpmn-js/lib/util/ModelUtil';
+import { bootstrapModeler, inject, getBpmnJS } from 'test/TestHelper';
 
-import { bootstrapModeler, inject } from 'test/TestHelper';
+import {
+  getBusinessObject,
+} from 'bpmn-js/lib/util/ModelUtil';
 
 import coreModule from 'bpmn-js/lib/core';
 import elementTemplatesModule from 'src/provider/element-templates';
@@ -204,24 +204,82 @@ describe('provider/element-templates - ElementTemplates', function() {
 
   describe('applyTemplate', function() {
 
+    function expectTemplate(element, template) {
+
+      return getBpmnJS().invoke(function(elementTemplates) {
+        expect(elementTemplates.get(element)).to.eql(template);
+
+        const bo = getBusinessObject(element);
+        expect(bo.get('camunda:modelerTemplate')).to.eql(template && template.id);
+        expect(bo.get('camunda:modelerTemplateVersion')).to.eql(template && template.version);
+      });
+    }
+
+
     it('should set template on element', inject(function(elementRegistry, elementTemplates) {
 
       // given
-      const task = elementRegistry.get('Task_1');
+      const task = elementRegistry.get('Task_3');
 
       const template = elementTemplates.getAll().find(
-        t => isAny(task, t.appliesTo)
+        t => t.id === 'my.mail.Task2'
       );
 
       // assume
       expect(template).to.exist;
+      expect(elementTemplates.get(task)).not.to.exist;
 
       // when
       const updatedTask = elementTemplates.applyTemplate(task, template);
 
       // then
       expect(updatedTask).to.exist;
-      expect(elementTemplates.get(updatedTask)).to.equal(template);
+      expectTemplate(updatedTask, template);
+    }));
+
+
+    it('should replace template on element', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('MAIL_TASK');
+      const asyncBefore = getBusinessObject(task).get('camunda:asyncBefore');
+
+      const template = elementTemplates.getAll().find(
+        t => t.id === 'my.mail.Task2'
+      );
+
+      // assume
+      expect(template).to.exist;
+      expect(asyncBefore).to.be.true;
+      expect(elementTemplates.get(task)).to.exist;
+
+      // when
+      const updatedTask = elementTemplates.applyTemplate(task, template);
+
+      // then
+      expect(updatedTask).to.exist;
+      expectTemplate(updatedTask, template);
+
+      // <camunda:asyncBefore> is kept
+      expect(getBusinessObject(updatedTask).get('camunda:asyncBefore')).to.eql(asyncBefore);
+    }));
+
+
+    it('should remove template from element', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      // assume
+      expect(elementTemplates.get(task)).to.exist;
+
+      // when
+      const updatedTask = elementTemplates.applyTemplate(task, null);
+
+      // then
+      expect(updatedTask).to.exist;
+
+      expectTemplate(updatedTask, null);
     }));
 
   });

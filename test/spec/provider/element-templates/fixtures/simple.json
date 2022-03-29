@@ -53,5 +53,42 @@
     "isDefault": true,
     "appliesTo": [ "bpmn:ServiceTask" ],
     "properties": []
+  },
+  {
+    "name": "MailTask",
+    "id": "my.mail.Task",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Are you awesome?",
+        "type": "Boolean",
+        "value": true,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
+  },
+  {
+    "name": "OtherMailTask",
+    "id": "my.mail.Task2",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Are you awesome?",
+        "type": "Boolean",
+        "value": false,
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
   }
 ]
