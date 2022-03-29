@@ -1,0 +1,80 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Basic",
+    "id": "test.Basic",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "A",
+        "type": "String",
+        "value": "= aDefault",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "a"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Basic",
+    "id": "test.Basic",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "A",
+        "type": "String",
+        "value": "= otherA",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "a"
+        }
+      },
+      {
+        "label": "B",
+        "type": "String",
+        "value": "= bDefault",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "b"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Other",
+    "id": "test.Other",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "C",
+        "type": "String",
+        "value": "c",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "c"
+        }
+      },
+      {
+        "label": "B",
+        "type": "String",
+        "value": "= bOtherDefault",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "b"
+        }
+      }
+    ]
+  }
+]

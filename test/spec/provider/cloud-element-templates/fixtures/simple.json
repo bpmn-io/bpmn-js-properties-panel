@@ -1,25 +1,6 @@
 [
   {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
-    "name": "MailTask",
-    "id": "my.mail.Task",
-    "appliesTo": [
-      "bpmn:ServiceTask"
-    ],
-    "properties": [
-      {
-        "label": "Name",
-        "type": "String",
-        "binding": {
-          "type": "property",
-          "name": "name",
-          "value": "Mail Task"
-        }
-      }
-    ]
-  },
-  {
-    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "foo",
     "name":"Foo",
     "appliesTo": [ "bpmn:Task" ],
