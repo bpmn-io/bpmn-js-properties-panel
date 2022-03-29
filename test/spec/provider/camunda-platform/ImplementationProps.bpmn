@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-nightly.20220328">
   <bpmn:process id="Process_1" isExecutable="false">
     <bpmn:serviceTask id="ServiceTask_class" name="Class" camunda:class="foo" />
     <bpmn:serviceTask id="ServiceTask_expression" name="Expression" camunda:expression="foo" camunda:resultVariable="bar" />
@@ -43,6 +43,12 @@
           </camunda:connector>
         </bpmn:extensionElements>
       </bpmn:messageEventDefinition>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="MessageEndEvent_Expression" name="MessageEndEvent_Expression">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0wvi2c3" messageRef="Message_18c59ym" camunda:expression="foo" camunda:resultVariable="foo" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="MessageEndEvent_DelegateExpression" name="MessageEndEvent_DelegateExpression">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1kfyyiz" messageRef="Message_18c59ym" camunda:delegateExpression="foo" />
     </bpmn:endEvent>
   </bpmn:process>
   <bpmn:error id="Error_1" name="Error_1" errorCode="foo" />
@@ -101,6 +107,18 @@
         <dc:Bounds x="761" y="82" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="734" y="125" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0f640qv" bpmnElement="MessageEndEvent_Expression">
+        <dc:Bounds x="312" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="285" y="165" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0fkifnv" bpmnElement="MessageEndEvent_DelegateExpression">
+        <dc:Bounds x="897" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="870" y="125" width="90" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

@@ -55,7 +55,7 @@ describe('provider/camunda-platform - ImplementationProps', function() {
   };
 
 
-  describe('camunda:ServiceTaskLike#class', function() {
+  describe('bpmn:ServiceTask#class', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -149,7 +149,101 @@ describe('provider/camunda-platform - ImplementationProps', function() {
   });
 
 
-  describe('camunda:ServiceTaskLike#expression', function() {
+  describe('bpmn:MessageEventDefinition#class', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: testModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_External');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=javaClass]', container);
+
+      // then
+      expect(input).to.not.exist;
+    }));
+
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Class');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=javaClass]', container);
+
+      // then
+      expect(input.value).to.eql(
+        getServiceTaskLikeBusinessObject(messageEvent).get('camunda:class')
+      );
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Class');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=javaClass]', container);
+      changeInput(input, 'newValue');
+
+      // then
+      expect(getServiceTaskLikeBusinessObject(messageEvent).get('camunda:class')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('MessageEndEvent_Class');
+
+        const originalValue = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:class');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const input = domQuery('input[name=javaClass]', container);
+        changeInput(input, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(input.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:ServiceTask#expression', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -243,7 +337,101 @@ describe('provider/camunda-platform - ImplementationProps', function() {
   });
 
 
-  describe('camunda:ServiceTaskLike#resultVariable', function() {
+  describe('bpmn:MessageEventDefinition#expression', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: testModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Class');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=expression]', container);
+
+      // then
+      expect(input).to.not.exist;
+    }));
+
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=expression]', container);
+
+      // then
+      expect(input.value).to.eql(
+        getServiceTaskLikeBusinessObject(messageEvent).get('camunda:expression')
+      );
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=expression]', container);
+      changeInput(input, 'newValue');
+
+      // then
+      expect(getServiceTaskLikeBusinessObject(messageEvent).get('camunda:expression')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+        const originalValue = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:expression');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const input = domQuery('input[name=expression]', container);
+        changeInput(input, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(input.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:ServiceTaskL#resultVariable', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -337,7 +525,101 @@ describe('provider/camunda-platform - ImplementationProps', function() {
   });
 
 
-  describe('camunda:ServiceTaskLike#delegateExpression', function() {
+  describe('bpmn:MessageEventDefinition#resultVariable', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: testModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Class');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=expressionResultVariable]', container);
+
+      // then
+      expect(input).to.not.exist;
+    }));
+
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=expressionResultVariable]', container);
+
+      // then
+      expect(input.value).to.eql(
+        getServiceTaskLikeBusinessObject(messageEvent).get('camunda:resultVariable')
+      );
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=expressionResultVariable]', container);
+      changeInput(input, 'newValue');
+
+      // then
+      expect(getServiceTaskLikeBusinessObject(messageEvent).get('camunda:resultVariable')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+        const originalValue = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:resultVariable');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const input = domQuery('input[name=expressionResultVariable]', container);
+        changeInput(input, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(input.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:ServiceTask#delegateExpression', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -433,7 +715,103 @@ describe('provider/camunda-platform - ImplementationProps', function() {
   });
 
 
-  describe('camunda:ServiceTaskLike#topic', function() {
+  describe('bpmn:MessageEventDefinition#delegateExpression', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: testModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=delegateExpression]', container);
+
+      // then
+      expect(input).to.not.exist;
+    }));
+
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_DelegateExpression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=delegateExpression]', container);
+
+      // then
+      expect(input.value).to.eql(
+        getServiceTaskLikeBusinessObject(messageEvent).get('camunda:delegateExpression')
+      );
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_DelegateExpression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=delegateExpression]', container);
+      changeInput(input, 'newValue');
+
+      // then
+      expect(
+        getServiceTaskLikeBusinessObject(messageEvent).get('camunda:delegateExpression')
+      ).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('MessageEndEvent_DelegateExpression');
+
+        const originalValue = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:delegateExpression');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const input = domQuery('input[name=delegateExpression]', container);
+        changeInput(input, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(input.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:ServiceTas#topic', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -527,7 +905,101 @@ describe('provider/camunda-platform - ImplementationProps', function() {
   });
 
 
-  describe('camunda:ServiceTaskLike#connectorId', function() {
+  describe('bpmn:MessageEventDefinition#topic', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: testModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_DelegateExpression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=externalTopic]', container);
+
+      // then
+      expect(input).to.not.exist;
+    }));
+
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_External');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=externalTopic]', container);
+
+      // then
+      expect(input.value).to.eql(
+        getServiceTaskLikeBusinessObject(messageEvent).get('camunda:topic')
+      );
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_External');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=externalTopic]', container);
+      changeInput(input, 'newValue');
+
+      // then
+      expect(getServiceTaskLikeBusinessObject(messageEvent).get('camunda:topic')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('MessageEndEvent_External');
+
+        const originalValue = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:topic');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const input = domQuery('input[name=externalTopic]', container);
+        changeInput(input, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(input.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:ServiceTask#connectorId', function() {
 
     beforeEach(function() {
       container = TestContainer.get(this);
@@ -617,6 +1089,99 @@ describe('provider/camunda-platform - ImplementationProps', function() {
     );
 
   });
+
+
+  describe('bpmn:MessageEventDefinition#connectorId', function() {
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: testModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Class');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=connectorId]', container);
+
+      // then
+      expect(input).to.not.exist;
+    }));
+
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Connector');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=connectorId]', container);
+
+      // then
+      expect(input.value).to.eql(getConnector(messageEvent).get('camunda:connectorId'));
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Connector');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      // when
+      const input = domQuery('input[name=connectorId]', container);
+      changeInput(input, 'newValue');
+
+      // then
+      expect(getConnector(messageEvent).get('camunda:connectorId')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const messageEvent = elementRegistry.get('MessageEndEvent_Connector');
+
+        const originalValue = getConnector(messageEvent).get('camunda:connectorId');
+
+        await act(() => {
+          selection.select(messageEvent);
+        });
+        const input = domQuery('input[name=connectorId]', container);
+        changeInput(input, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(input.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
 
 });
 
