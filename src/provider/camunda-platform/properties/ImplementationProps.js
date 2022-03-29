@@ -1,7 +1,3 @@
-import {
-  getBusinessObject
-} from 'bpmn-js/lib/util/ModelUtil';
-
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import { DmnImplementationProps } from './DmnImplementationProps';
@@ -91,7 +87,7 @@ export function ImplementationProps(props) {
 export function JavaClass(props) {
   const {
     element,
-    businessObject = getBusinessObject(element),
+    businessObject = getServiceTaskLikeBusinessObject(element),
     id = 'javaClass'
   } = props;
 
@@ -126,7 +122,7 @@ export function JavaClass(props) {
 export function Expression(props) {
   const {
     element,
-    businessObject = getBusinessObject(element),
+    businessObject = getServiceTaskLikeBusinessObject(element),
     id = 'expression'
   } = props;
 
@@ -165,7 +161,7 @@ function ResultVariable(props) {
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const businessObject = getBusinessObject(element);
+  const businessObject = getServiceTaskLikeBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('camunda:resultVariable');
@@ -194,7 +190,7 @@ function ResultVariable(props) {
 export function DelegateExpression(props) {
   const {
     element,
-    businessObject = getBusinessObject(element),
+    businessObject = getServiceTaskLikeBusinessObject(element),
     id = 'delegateExpression'
   } = props;
 
@@ -233,7 +229,7 @@ function Topic(props) {
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const businessObject = getBusinessObject(element);
+  const businessObject = getServiceTaskLikeBusinessObject(element);
 
   const getValue = () => {
     return businessObject.get('camunda:topic');
