@@ -19,7 +19,7 @@ import diagramXML from './fixtures/replace-behavior.bpmn';
 import elementTemplates from './fixtures/replace-behavior.json';
 
 
-describe('provider/element-templates - ReplaceBehavior', function() {
+describe('provider/cloud-element-templates - ReplaceBehavior', function() {
 
   const testModules = [
     BpmnPropertiesPanel,
@@ -89,6 +89,23 @@ describe('provider/element-templates - ReplaceBehavior', function() {
       expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
     }));
 
+
+    it('should unlink if elementType is set', inject(function(elementRegistry, bpmnReplace) {
+
+      // given
+      const task = elementRegistry.get('Task_elementType_1');
+
+      const newElementData = { type: 'bpmn:CallActivity' };
+
+      // when
+      const newElement = bpmnReplace.replaceElement(task, newElementData);
+
+      // then
+      const businessObject = getBusinessObject(newElement);
+
+      expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
+    }));
+
   });
 
 
@@ -136,6 +153,24 @@ describe('provider/element-templates - ReplaceBehavior', function() {
       const task = elementRegistry.get('Task_2');
 
       const newElementData = { type: 'bpmn:SubProcess' };
+
+      // when
+      const newElement = bpmnReplace.replaceElement(task, newElementData);
+
+      // then
+      const businessObject = getBusinessObject(newElement);
+
+      expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
+      expect(businessObject.get('zeebe:modelerTemplateVersion')).not.to.exist;
+    }));
+
+
+    it('should unlink if elementType is set', inject(function(elementRegistry, bpmnReplace) {
+
+      // given
+      const task = elementRegistry.get('Task_elementType_2');
+
+      const newElementData = { type: 'bpmn:CallActivity' };
 
       // when
       const newElement = bpmnReplace.replaceElement(task, newElementData);

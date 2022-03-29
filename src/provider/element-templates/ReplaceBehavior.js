@@ -33,7 +33,15 @@ export default class ReplaceBehavior extends CommandInterceptor {
         return;
       }
 
-      const { appliesTo } = elementTemplate;
+      const { appliesTo, elementType } = elementTemplate;
+
+      if (elementType) {
+        if (!is(newShape, elementType.value)) {
+          unlinkTemplate(newShape, injector);
+        }
+
+        return;
+      }
 
       const allowed = appliesTo.reduce((allowed, type) => {
         return allowed || is(newBo, type);
