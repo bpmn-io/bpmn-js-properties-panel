@@ -6,6 +6,18 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.9
+
+* `FEAT`: add show callbacks to show entries and errors ([#601](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/601))
+* `FEAT`: open element template custom groups ([#621](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/621))
+* `FEAT`: display template name in header ([#627](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/627))
+* `FEAT`: add documentation ref to header ([#629](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/629))
+* `FIX`: copy versioned element template ([#632](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/632))
+* `FIX`: use correct business object ([#634](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/634))
+* `FIX`: mark called decision ID as optionally FEEL ([#643](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/643))
+* `DEPS`: update to `@bpmn-io/extract-process-variables@v0.4.5`
+* `DEPS`: update to `@bpmn-io/properties-panel@0.13.1`
+
 ## 1.0.0-alpha.8
 
 * `FIX`: correct display of messages ([#623](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/623))
