@@ -70,7 +70,13 @@ function pgl(plugins = []) {
       ]
     }),
     json(),
-    resolve(),
+    resolve({
+      mainFields: [
+        'browser',
+        'module',
+        'main'
+      ]
+    }),
     commonjs()
   ];
 }
