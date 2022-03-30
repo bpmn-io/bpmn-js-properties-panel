@@ -7,18 +7,44 @@ import {
   isFunction
 } from 'min-dash';
 
-export function useShowCallback(businessObject, path) {
+/**
+ * Returns a memoized callback to be passed as `show` prop. Callback returns
+ * true if (1) ID and path match or (2) ID matches and matcher returns true.
+ *
+ * @example
+ *
+ * // using path
+ * const show = useShowCallback(businessObject, [ 'foo' ]);
+ *
+ * @example
+ *
+ * // using matcher
+ * const show = useShowCallback(businessObject, (event) => event.foo === 'bar');
+ *
+ * @param {Object} businessObject
+ * @param {string[]|Function} matcher
+ *
+ * @returns {Function}
+ */
+export function useShowCallback(businessObject, matcher) {
   return useCallback((event) => {
-    if (event.id !== businessObject.get('id')) {
+    const {
+      id,
+      path
+    } = event;
+
+    if (id !== businessObject.get('id')) {
       return false;
     }
 
-    if (isArray(path)) {
-      return event.path && pathEquals(event.path, path);
+    if (isArray(matcher)) {
+      return path && pathEquals(path, matcher);
     }
 
-    if (isFunction(path)) {
-      return path(event);
+    if (isFunction(matcher)) {
+      return !!matcher(event);
     }
-  }, [ businessObject, path ]);
+
+    return false;
+  }, [ businessObject, matcher ]);
 }
