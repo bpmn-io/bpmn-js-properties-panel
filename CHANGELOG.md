@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.10
+
+* `FIX`: do not use `inherits` ([#645](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/645))
+* `FIX`: use `browser` field of dependencies before falling back to `module` and `main` ([#646](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/646))
+
 ## 1.0.0-alpha.9
 
 * `FEAT`: add show callbacks to show entries and errors ([#601](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/601))
