@@ -112,9 +112,11 @@ function BusinessRuleImplementation(props) {
   const businessObject = getBusinessObject(element);
 
   const show = useShowCallback(businessObject, (event) => {
-    const {
-      error = {}
-    } = event;
+    const { error } = event;
+
+    if (!error) {
+      return false;
+    }
 
     const {
       requiredExtensionElement,
