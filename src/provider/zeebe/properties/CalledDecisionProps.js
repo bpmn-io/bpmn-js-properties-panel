@@ -122,6 +122,7 @@ function DecisionID(props) {
     element,
     id: 'decisionId',
     label: translate('ID'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce
