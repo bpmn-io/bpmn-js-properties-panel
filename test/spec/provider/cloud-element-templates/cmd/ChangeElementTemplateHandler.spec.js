@@ -18,7 +18,8 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  findExtension
+  findExtension,
+  findExtensions
 } from 'src/provider/cloud-element-templates/Helper';
 
 import {
@@ -115,6 +116,73 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
         // then
         expectElementTemplate(task, 'task-template', 1);
+      }));
+
+    });
+
+
+    describe('update zeebe:modelerTemplateIcon', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn').default));
+
+      const newTemplate = require('./icon-template-1.json');
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        changeTemplate(task, newTemplate);
+
+        // then
+        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+
+        expect(icon).to.exist;
+        expect(icon).to.jsonEqual({
+          $type: 'zeebe:ModelerTemplateIcon',
+          body: "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
+        });
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        changeTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+
+        // then
+        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+
+        expect(icon).to.not.exist;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        changeTemplate(task, newTemplate);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+
+        expect(icon).to.exist;
+        expect(icon).to.jsonEqual({
+          $type: 'zeebe:ModelerTemplateIcon',
+          body: "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
+        });
       }));
 
     });
@@ -662,6 +730,51 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
         // then
         expectElementTemplate(task, 'task-template', 2);
+      }));
+
+    });
+
+
+    describe('update zeebe:modelerTemplateIcon', function() {
+
+      beforeEach(bootstrap(require('./icon-template.bpmn').default));
+
+      const newTemplate = require('./icon-template-2.json');
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        changeTemplate(task, newTemplate);
+
+        // then
+        const icons = findExtensions(task, [ 'zeebe:ModelerTemplateIcon' ]);
+        const newIcon = icons[0];
+
+        expect(icons.length).to.equal(1);
+        expect(newIcon).to.exist;
+        expect(newIcon).to.jsonEqual({
+          $type: 'zeebe:ModelerTemplateIcon',
+          body: 'https://example.com/foo.svg'
+        });
+      }));
+
+
+      it('should remove icon when none new', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        changeTemplate(task, require('./icon-template-no-icon.json'));
+
+        // then
+        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+
+        expect(icon).to.not.exist;
       }));
 
     });
@@ -1904,6 +2017,65 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         expect(findExtension(task, 'zeebe:TaskDefinition')).to.exist;
         expect(findExtension(task, 'zeebe:IoMapping')).to.exist;
         expect(findExtension(task, 'zeebe:TaskHeaders')).to.exist;
+      }));
+
+    });
+
+
+    describe('should remove template icon', function() {
+
+      beforeEach(bootstrap(require('./icon-template.bpmn').default));
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // assume
+        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).to.exist;
+
+        // when
+        changeTemplate(task, null);
+
+        // then
+        expectNoElementTemplate(task);
+
+        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).not.to.exist;
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        changeTemplate(task, null);
+
+        // when
+        commandStack.undo();
+
+        // then
+        expectElementTemplate(task, 'icon-template', 1);
+        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).to.exist;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        changeTemplate(task, null);
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expectNoElementTemplate(task);
+
+        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).not.to.exist;
       }));
 
     });

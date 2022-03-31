@@ -1,0 +1,8 @@
+{
+  "name": "Icon Template (No Icon)",
+  "id": "icon-template-no-icon",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": []
+}

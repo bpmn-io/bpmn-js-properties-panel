@@ -8,6 +8,7 @@ import {
 } from '../Helper';
 
 import {
+  ensureExtension,
   createInputParameter,
   createOutputParameter,
   createTaskDefinitionWithType,
@@ -50,6 +51,9 @@ export default class ChangeElementTemplateHandler {
 
     // update zeebe:modelerTemplate attribute
     this._updateZeebeModelerTemplate(element, newTemplate);
+
+    // update zeebe:modelerTemplateIcon
+    this._updateZeebeModelerTemplateIcon(element, newTemplate);
 
     if (newTemplate) {
 
@@ -96,6 +100,52 @@ export default class ChangeElementTemplateHandler {
     modeling.updateProperties(element, {
       'zeebe:modelerTemplate': newTemplate && newTemplate.id,
       'zeebe:modelerTemplateVersion': newTemplate && newTemplate.version
+    });
+  }
+
+  _updateZeebeModelerTemplateIcon(element, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const icon = newTemplate && newTemplate.icon;
+
+    // remove existing icon when none new set
+    if (!newTemplate || !icon) {
+
+      const modelerTemplateIcon = findExtension(element, 'zeebe:ModelerTemplateIcon');
+
+      if (modelerTemplateIcon) {
+
+        const extensionElements = getBusinessObject(element).get('extensionElements');
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: without(extensionElements.get('values'), extension => extension === modelerTemplateIcon)
+          }
+        });
+      }
+
+      return;
+    }
+
+    const {
+      contents
+    } = icon;
+
+    // ensure extension elements
+    this._getOrCreateExtensionElements(element);
+
+    // create or update zeebe:modelerTemplateIcon
+    const newIcon = ensureExtension(element, 'zeebe:ModelerTemplateIcon', bpmnFactory);
+
+    return commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: newIcon,
+      properties: {
+        body: contents
+      }
     });
   }
 
