@@ -17,7 +17,7 @@ import modelingModule from 'bpmn-js/lib/features/modeling';
 
 import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 
-import { findExtension } from 'src/provider/cloud-element-templates/Helper';
+import { findExtension, findExtensions } from 'src/provider/cloud-element-templates/Helper';
 
 import diagramXML from '../fixtures/simple.bpmn';
 
@@ -103,6 +103,27 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
     // then
     expect(businessObject.get('zeebe:modelerTemplate')).to.equal('example.camunda.ServiceWorker');
     expect(businessObject.get('zeebe:modelerTemplateVersion')).to.equal(1);
+  }));
+
+
+  it('should apply <modelerTemplateIcon>', inject(function(templateElementFactory) {
+
+    // given
+    const elementTemplate = findTemplate('example.camunda.IconTemplate');
+
+    // when
+    const element = templateElementFactory.create(elementTemplate);
+
+    const icons = findExtensions(element, [ 'zeebe:ModelerTemplateIcon' ]);
+    const icon = icons[0];
+
+    // then
+    expect(icons.length).to.equal(1);
+    expect(icon).to.exist;
+    expect(icon).to.jsonEqual({
+      $type: 'zeebe:ModelerTemplateIcon',
+      body: "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
+    });
   }));
 
 
