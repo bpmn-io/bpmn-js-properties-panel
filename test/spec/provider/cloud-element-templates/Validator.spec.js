@@ -447,6 +447,43 @@ describe('provider/cloud-element-templates - Validator', function() {
 
     });
 
+
+    describe('icons', function() {
+
+      it('should accept icons', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/icons');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.be.empty;
+
+        expect(valid(templates)).to.have.length(templateDescriptor.length);
+      });
+
+
+      it('should not accept malformed uri', function() {
+
+        // given
+        const templates = new Validator();
+
+        const templateDescriptor = require('./fixtures/error-icon-malformed');
+
+        // when
+        templates.addAll(templateDescriptor);
+
+        // then
+        expect(errors(templates)).to.contain('template(id: <icon.template.malformed-icon>, name: <Malformed Icon URI>): Malformed icon source, must be a valid HTTP(s) or data URL');
+
+        expect(valid(templates)).to.be.empty;
+      });
+    });
+
   });
 
 });

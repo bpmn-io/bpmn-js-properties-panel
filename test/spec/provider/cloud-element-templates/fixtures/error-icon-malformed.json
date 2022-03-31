@@ -1,0 +1,14 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Malformed Icon URI",
+    "id": "icon.template.malformed-icon",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "icon": {
+      "contents": "foo"
+    }
+  }
+]
