@@ -97,6 +97,11 @@ export function insertCoreStyles() {
     'test.css',
     require('./test.css').default
   );
+
+  insertCSS(
+    'element-template-chooser.css',
+    require('@bpmn-io/element-template-chooser/dist/element-template-chooser.css').default
+  );
 }
 
 export function insertBpmnStyles() {
