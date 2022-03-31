@@ -244,5 +244,17 @@
         }
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Icon Template",
+    "id": "example.camunda.IconTemplate",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [],
+    "icon": {
+      "contents": "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
+    }
   }
 ]

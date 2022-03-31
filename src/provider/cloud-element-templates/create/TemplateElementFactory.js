@@ -21,6 +21,7 @@ import {
   ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
 
+import { ensureExtension } from '../CreateHelper';
 
 export default class TemplateElementFactory {
 
@@ -75,7 +76,12 @@ export default class TemplateElementFactory {
     // (3) apply template
     this._setModelerTemplate(element, template);
 
-    // (4) apply properties
+    // (4) apply icon
+    if (hasIcon(template)) {
+      this._setModelerTemplateIcon(element, template);
+    }
+
+    // (5) apply properties
     properties.forEach(function(property) {
 
       const {
@@ -126,6 +132,24 @@ export default class TemplateElementFactory {
     businessObject.set('zeebe:modelerTemplate', id);
     businessObject.set('zeebe:modelerTemplateVersion', version);
   }
+
+  _setModelerTemplateIcon(element, template) {
+    const {
+      icon
+    } = template;
+
+    const {
+      contents
+    } = icon;
+
+    const bpmnFactory = this._bpmnFactory;
+
+    const extensionElements = getBusinessObject(element).get('extensionElements');
+    const modelerTemplateIcon = ensureExtension(element, 'zeebe:ModelerTemplateIcon', bpmnFactory);
+
+    modelerTemplateIcon.set('body', contents);
+    modelerTemplateIcon.$parent = extensionElements;
+  }
 }
 
 TemplateElementFactory.$inject = [ 'bpmnFactory', 'elementFactory' ];
@@ -138,6 +162,11 @@ function hasExtensionBindings(template) {
     properties
   } = template;
 
+  // find icon first
+  if (hasIcon(template)) {
+    return true;
+  }
+
   return find(properties, function(property) {
     const {
       binding
@@ -145,4 +174,12 @@ function hasExtensionBindings(template) {
 
     return EXTENSION_BINDING_TYPES.includes(binding.type);
   });
+}
+
+function hasIcon(template) {
+  const {
+    icon
+  } = template;
+
+  return !!(icon && icon.contents);
 }
