@@ -77,10 +77,23 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
   }));
 
 
-  it('should set (first) type', inject(function(templateElementFactory) {
+  it('should set type (appliesTo)', inject(function(templateElementFactory) {
 
     // given
     const elementTemplate = findTemplate('example.camunda.MultipleTypes');
+
+    // when
+    const element = templateElementFactory.create(elementTemplate);
+
+    // then
+    expect(element.type).to.equal('bpmn:ServiceTask');
+  }));
+
+
+  it('should set type (elementType)', inject(function(templateElementFactory) {
+
+    // given
+    const elementTemplate = findTemplate('example.camunda.ElementType');
 
     // when
     const element = templateElementFactory.create(elementTemplate);

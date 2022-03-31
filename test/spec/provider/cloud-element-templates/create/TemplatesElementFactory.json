@@ -83,6 +83,19 @@
   },
   {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "elementType",
+    "id": "example.camunda.ElementType",
+    "appliesTo": [
+      "bpmn:SendTask",
+      "bpmn:ServiceTask"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Property binding",
     "id": "example.camunda.PropertyBinding",
     "appliesTo": [
