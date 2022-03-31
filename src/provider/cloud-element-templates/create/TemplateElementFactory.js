@@ -48,6 +48,7 @@ export default class TemplateElementFactory {
 
     const {
       appliesTo,
+      elementType,
       properties
     } = template;
 
@@ -63,7 +64,7 @@ export default class TemplateElementFactory {
       throw new Error('template is invalid');
     }
 
-    const type = appliesTo[0];
+    const type = (elementType && elementType.value) || appliesTo[0];
 
     // (1) create element from appliesTo
     const element = elementFactory.createShape({ type });
