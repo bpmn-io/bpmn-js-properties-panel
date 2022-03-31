@@ -1,0 +1,12 @@
+{
+  "name": "Icon Template v2",
+  "version": 2,
+  "id": "icon-template",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [],
+  "icon": {
+    "contents": "https://example.com/foo.svg"
+  }
+}

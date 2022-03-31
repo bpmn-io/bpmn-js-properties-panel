@@ -2,6 +2,8 @@ import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
+import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
+
 /**
  * The BPMN 2.0 extension attribute name under
  * which the element template ID is stored.
@@ -75,6 +77,26 @@ export function findExtension(element, type) {
 
   return extensionElements.get('values').find((value) => {
     return is(value, type);
+  });
+}
+
+export function findExtensions(element, types) {
+  const businessObject = getBusinessObject(element);
+
+  let extensionElements;
+
+  if (is(businessObject, 'bpmn:ExtensionElements')) {
+    extensionElements = businessObject;
+  } else {
+    extensionElements = businessObject.get('extensionElements');
+  }
+
+  if (!extensionElements) {
+    return null;
+  }
+
+  return extensionElements.get('values').filter((value) => {
+    return isAny(value, types);
   });
 }
 
