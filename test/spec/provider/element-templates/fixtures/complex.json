@@ -3,8 +3,11 @@
     "name": "ConnectorTask",
     "id": "my.connector.Task",
     "appliesTo": [
-      "bpmn:ServiceTask"
+      "bpmn:Task"
     ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
     "properties": [],
     "scopes": [
       {
