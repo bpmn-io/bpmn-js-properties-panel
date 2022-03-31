@@ -48,7 +48,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@bpmn-io/element-templates-validator": "^0.6.0",
+    "@bpmn-io/element-templates-validator": "^0.8.0",
     "@bpmn-io/extract-process-variables": "^0.4.5",
     "@philippfromme/moddle-helpers": "^0.4.1",
     "array-move": "^3.0.1",
@@ -105,7 +105,7 @@
     "sinon-chai": "^3.7.0",
     "sirv-cli": "^1.0.12",
     "webpack": "^5.38.1",
-    "zeebe-bpmn-moddle": "^0.11.0"
+    "zeebe-bpmn-moddle": "^0.12.0"
   },
   "peerDependencies": {
     "bpmn-js": "8.x || 9.x",
