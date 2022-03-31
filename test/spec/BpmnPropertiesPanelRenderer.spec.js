@@ -27,6 +27,8 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 import ElementTemplatesPropertiesProvider from 'src/provider/element-templates';
 import CloudElementTemplatesPropertiesProvider from 'src/provider/cloud-element-templates';
 
+import ElementTemplatesIconsRenderer from '@bpmn-io/element-templates-icons-renderer';
+
 import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
 import CamundaModdleExtension from 'camunda-bpmn-moddle/lib';
 
@@ -230,7 +232,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           ZeebeModdleExtension,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          CloudElementTemplatesPropertiesProvider
+          CloudElementTemplatesPropertiesProvider,
+          ElementTemplatesIconsRenderer
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
