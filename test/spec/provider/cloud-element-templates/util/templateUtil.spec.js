@@ -5,6 +5,10 @@ import {
   updateTemplate
 } from 'src/provider/cloud-element-templates/util/templateUtil';
 
+import {
+  findExtension
+} from 'src/provider/cloud-element-templates/Helper';
+
 import TestContainer from 'mocha-test-container-support';
 
 import { bootstrapModeler, inject } from 'test/TestHelper';
@@ -60,6 +64,23 @@ describe('provider/cloud-element-template - templateUtil', function() {
     expect(taskBo.modelerTemplate).not.to.exist;
     expect(taskBo.modelerTemplateVersion).not.to.exist;
     expect(taskBo.name).to.equal('foo');
+  }));
+
+
+  it('should remove template icon', inject(function(elementRegistry, injector) {
+
+    // given
+    let task = elementRegistry.get('Task_2');
+
+    // assume
+    expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).to.exist;
+
+    // when
+    unlinkTemplate(task, injector);
+
+    // then
+    task = elementRegistry.get('Task_1');
+    expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).to.not.exist;
   }));
 
 
