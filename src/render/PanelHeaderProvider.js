@@ -69,9 +69,7 @@ export function getConcreteType(element) {
 export const PanelHeaderProvider = {
 
   getDocumentationRef: (element) => {
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const elementTemplates = useService('elementTemplates', false);
+    const elementTemplates = getTemplatesService();
 
     if (elementTemplates) {
       return getTemplateDocumentation(element, elementTemplates);
@@ -89,13 +87,21 @@ export const PanelHeaderProvider = {
   getElementIcon: (element) => {
     const concreteType = getConcreteType(element);
 
+    const elementTemplates = getTemplatesService();
+
+    if (elementTemplates) {
+      const template = getTemplate(element, elementTemplates);
+
+      if (template && template.icon) {
+        return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ template.icon.contents } />;
+      }
+    }
+
     return iconsByType[ concreteType ];
   },
 
   getTypeLabel: (element) => {
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const elementTemplates = useService('elementTemplates', false);
+    const elementTemplates = getTemplatesService();
 
     if (elementTemplates) {
       const template = getTemplate(element, elementTemplates);
@@ -169,6 +175,12 @@ function isPlane(element) {
   const di = element && (element.di || getBusinessObject(element).di);
 
   return is(di, 'bpmndi:BPMNPlane');
+}
+
+function getTemplatesService() {
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useService('elementTemplates', false);
 }
 
 function getTemplate(element, elementTemplates) {
