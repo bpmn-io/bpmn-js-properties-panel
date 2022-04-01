@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220123">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220123">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:task id="Task_1" name="foo" zeebe:modelerTemplate="foo" zeebe:modelerTemplateVersion="1" />
     <bpmn:startEvent id="ConditionalEvent" zeebe:modelerTemplate="foo" zeebe:modelerTemplateVersion="1">
@@ -7,6 +7,11 @@
         <bpmn:condition xsi:type="bpmn:tFormalExpression">myExpression == true</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
+    <bpmn:task id="Task_2" name="icon" zeebe:modelerTemplate="icon">
+      <bpmn:extensionElements>
+        <zeebe:modelerTemplateIcon>data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E</zeebe:modelerTemplateIcon>
+      </bpmn:extensionElements>
+    </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -18,6 +23,9 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="193" y="275" width="15" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ty3p3s_di" bpmnElement="Task_2">
+        <dc:Bounds x="310" y="100" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
