@@ -475,6 +475,38 @@ describe('provider/bpmn - ErrorProps', function() {
       })
     );
 
+
+    describe('show error', function() {
+
+      it('should show error (no error code)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const boundaryEvent = elementRegistry.get('ErrorEvent_1');
+
+        // when
+        await act(() => {
+          selection.select(boundaryEvent);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'ErrorEvent_1',
+            message: 'foo',
+            path: [ 'rootElements', 1, 'errorCode' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('errorCode');
+      }));
+
+    });
+
   });
 
 });

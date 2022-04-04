@@ -251,13 +251,19 @@ function ErrorCode(props) {
     );
   };
 
+  const businessObject = getBusinessObject(element),
+        path = pathConcat(getPath(error, businessObject), 'errorCode');
+
+  const show = useShowCallback(businessObject, path);
+
   return TextFieldEntry({
     element,
     id: 'errorCode',
     label: translate('Code'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 
