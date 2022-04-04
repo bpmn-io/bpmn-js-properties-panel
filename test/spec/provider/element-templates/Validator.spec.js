@@ -1,6 +1,7 @@
 import { Validator } from 'src/provider/element-templates/Validator';
 
 import { getSchemaVersion as getTemplateSchemaVersion } from '@bpmn-io/element-templates-validator';
+
 import BPMNModdle from 'bpmn-moddle';
 
 const ElementTemplateSchemaVersion = getTemplateSchemaVersion();
@@ -539,7 +540,6 @@ describe('provider/element-templates - Validator', function() {
     });
 
 
-
     describe('scopes', function() {
 
       it('should accept scopes as array', function() {
@@ -711,4 +711,5 @@ describe('provider/element-templates - Validator', function() {
     });
 
   });
+
 });
