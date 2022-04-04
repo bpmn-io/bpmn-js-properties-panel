@@ -1,6 +1,7 @@
 import { Validator } from 'src/provider/cloud-element-templates/Validator';
 
 import { getZeebeSchemaVersion as getTemplateSchemaVersion } from '@bpmn-io/element-templates-validator';
+import BPMNModdle from 'bpmn-moddle';
 
 const ElementTemplateSchemaVersion = getTemplateSchemaVersion();
 
@@ -17,12 +18,18 @@ describe('provider/cloud-element-templates - Validator', function() {
     return validator.getValidTemplates();
   }
 
+  let moddle;
+
+  beforeEach(function() {
+    moddle = new BPMNModdle();
+  });
+
   describe('schema version', function() {
 
     it('should accept when template and library have the same version', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-same-schema-version.json');
 
@@ -44,7 +51,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept when template has lower version than library', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-low-schema-version.json');
 
@@ -61,7 +68,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject when template has higher version than library', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-high-schema-version.json');
 
@@ -78,7 +85,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept when template has no version', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple.json');
 
@@ -95,7 +102,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept when template has latest version', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-latest-schema-version.json');
 
@@ -112,7 +119,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept and reject when some templates have unsupported version', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-mixed-schema-version.json');
 
@@ -129,7 +136,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should provide correct error details when rejecting', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-high-schema-version.json');
 
@@ -150,7 +157,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-defined-schema.json');
 
@@ -167,7 +174,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept - other vendor', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-other-vendor-schema.json');
 
@@ -184,7 +191,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject - missing $schema', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-missing-schema.json');
 
@@ -203,7 +210,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject - wrong $schema', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple-wrong-schema.json');
 
@@ -226,7 +233,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept simple example templates', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/simple');
 
@@ -243,7 +250,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept complex example templates', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/complex');
 
@@ -260,7 +267,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should accept connectors templates', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/connectors');
 
@@ -277,7 +284,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject missing name', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-name-missing');
 
@@ -294,7 +301,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject missing id', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-id-missing');
 
@@ -311,7 +318,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject missing binding', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-binding-missing');
 
@@ -328,7 +335,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject duplicate id', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-id-duplicate');
 
@@ -345,7 +352,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject duplicate id and version', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-id-version-duplicate');
 
@@ -362,7 +369,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject invalid optional binding type', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-invalid-optional');
 
@@ -379,7 +386,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject optional=true <-> constraints.notEmpty=true', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-optional-not-empty');
 
@@ -396,7 +403,7 @@ describe('provider/cloud-element-templates - Validator', function() {
     it('should reject feel on invalid type', function() {
 
       // given
-      const templates = new Validator();
+      const templates = new Validator(moddle);
 
       const templateDescriptor = require('./fixtures/error-feel-invalid-type');
 
@@ -415,7 +422,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should accept elementType', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/elementType');
 
@@ -432,7 +439,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should accept elementType if applyTo only contains superClass', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/elementType-superType');
 
@@ -449,7 +456,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should reject if appliesTo is missing specified element type ', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/elementType-missing-target');
 
@@ -466,7 +473,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should reject invalid replace targets', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/elementType-invalid-morphs');
 
@@ -489,7 +496,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should accept groups', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/groups');
 
@@ -506,7 +513,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should not accept missing group id', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/error-groups-missing-id');
 
@@ -527,7 +534,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should accept icons', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/icons');
 
@@ -544,7 +551,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       it('should not accept malformed uri', function() {
 
         // given
-        const templates = new Validator();
+        const templates = new Validator(moddle);
 
         const templateDescriptor = require('./fixtures/error-icon-malformed');
 

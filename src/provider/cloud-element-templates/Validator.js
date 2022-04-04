@@ -19,8 +19,8 @@ const SUPPORTED_SCHEMA_PACKAGE = getTemplateSchemaPackage();
  * A Camunda Cloud element template validator.
  */
 export class Validator extends BaseValidator {
-  constructor() {
-    super();
+  constructor(moddle) {
+    super(moddle);
   }
 
   /**

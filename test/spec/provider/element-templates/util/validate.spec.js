@@ -1,3 +1,4 @@
+import BPMNModdle from 'bpmn-moddle';
 import validate from 'src/provider/element-templates/util/validate';
 
 
@@ -7,9 +8,10 @@ describe('provider/element-template - validate', function() {
 
     // given
     const templateDescriptors = require('../fixtures/error-bindings-invalid');
+    const moddle = new BPMNModdle();
 
     // when
-    const errors = validate(templateDescriptors);
+    const errors = validate(templateDescriptors, moddle);
 
     // then
     expect(errors).to.have.length(7);

@@ -6,25 +6,24 @@ import {
 
 import semverCompare from 'semver-compare';
 
-import BpmnModdle from 'bpmn-moddle';
-
 import {
   validate as validateAgainstSchema,
   getSchemaVersion as getTemplateSchemaVersion
 } from '@bpmn-io/element-templates-validator';
 
 const SUPPORTED_SCHEMA_VERSION = getTemplateSchemaVersion();
-
+const MORPHABLE_TYPES = [ 'bpmn:Activity', 'bpmn:Event', 'bpmn:Gateway' ];
 
 /**
  * A element template validator.
  */
 export class Validator {
-  constructor() {
+  constructor(moddle) {
     this._templatesById = {};
 
     this._validTemplates = [];
     this._errors = [];
+    this._moddle = moddle;
   }
 
   /**
@@ -143,17 +142,56 @@ export class Validator {
             appliesTo = template.appliesTo;
 
       // (3.1) template can be applied to elementType
-      if (!appliesTo.find(type => isType(elementType, type))) {
+      // prevents cases where the elementType is not part of appliesTo
+      if (!appliesTo.find(type => this._isType(elementType, type))) {
         return this._logError(`template does not apply to requested element type <${ elementType }>`, template);
       }
 
       // (3.2) template only applies to same type of element
+      // prevent elementTemplates to morph into incompatible types, e.g. Task -> SequenceFlow
       for (const sourceType of appliesTo) {
-        if (!canMorph(sourceType, elementType)) {
+        if (!this._canMorph(sourceType, elementType)) {
           return this._logError(`can not morph <${sourceType}> into <${elementType}>`, template);
         }
       }
     }
+  }
+
+
+  /**
+   * Check if given type is a subtype of given base type.
+   *
+   * @param {String} type
+   * @param {String} baseType
+   * @returns {Boolean}
+   */
+  _isType(type, baseType) {
+    const sourceInstance = this._moddle.create(type);
+
+    return this._moddle.hasType(sourceInstance, baseType);
+  }
+
+
+  /**
+   * Checks if a given type can be morphed into another type.
+   *
+   * @param {String} sourceType
+   * @param {String} targetType
+   * @returns {Boolean}
+   */
+  _canMorph(sourceType, targetType) {
+
+    if (sourceType === targetType) {
+      return true;
+    }
+
+    const baseType = MORPHABLE_TYPES.find(type => this._isType(sourceType, type));
+
+    if (!baseType) {
+      return false;
+    }
+
+    return this._isType(targetType, baseType);
   }
 
   /**
@@ -245,46 +283,4 @@ export function filteredSchemaErrors(schemaErrors) {
 
     return false;
   });
-}
-
-
-// helpers ///////////////////////
-
-const moddle = new BpmnModdle();
-const MORPHABLE_TYPES = [ 'bpmn:Task', 'bpmn:Event', 'bpmn:Gateway' ];
-
-/**
- * Check if given type is a subtype of given base type.
- *
- * @param {String} type
- * @param {String} baseType
- * @returns {Boolean}
- */
-function isType(type, baseType) {
-  const sourceInstance = moddle.create(type);
-
-  return sourceInstance.$instanceOf(baseType);
-}
-
-
-/**
- * Checks if a given type can be morphed into another type.
- *
- * @param {String} sourceType
- * @param {String} targetType
- * @returns {Boolean}
- */
-function canMorph(sourceType, targetType) {
-
-  if (sourceType === targetType) {
-    return true;
-  }
-
-  const baseType = MORPHABLE_TYPES.find(type => isType(sourceType, type));
-
-  if (!baseType) {
-    return false;
-  }
-
-  return isType(targetType, baseType);
 }
