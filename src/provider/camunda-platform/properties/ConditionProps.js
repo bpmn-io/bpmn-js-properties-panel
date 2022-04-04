@@ -42,6 +42,12 @@ export function ConditionProps(props) {
 
   const entries = [];
 
+  if (getConditionalEventDefinition(element)) {
+    entries.push(
+      ...VariableEventProps({ element })
+    );
+  }
+
   entries.push({
     id: 'conditionType',
     component: ConditionType,
@@ -327,6 +333,99 @@ function Resource(props) {
     element
     id="conditionScriptResource"
     label={ translate('Resource') }
+    getValue={ getValue }
+    setValue={ setValue }
+    debounce={ debounce }
+  />;
+}
+
+function VariableEventProps(props) {
+  const {
+    element
+  } = props;
+
+  const entries = [];
+
+  entries.push({
+    id: 'conditionVariableName',
+    component: VariableName,
+    isEdited: isTextFieldEntryEdited
+  });
+
+  if (!is(element, 'bpmn:StartEvent')) {
+    entries.push({
+      id: 'conditionVariableEvents',
+      component: VariableEvents,
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  return entries;
+}
+
+
+function VariableName(props) {
+  const {
+    element
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const getValue = () => {
+    return getConditionalEventDefinition(element).get('variableName');
+  };
+
+  const setValue = (value) => {
+    commandStack.execute('element.updateModdleProperties', {
+      element: element,
+      moddleElement: getConditionalEventDefinition(element),
+      properties: {
+        variableName: value || ''
+      }
+    });
+  };
+
+  return <TextFieldEntry
+    element={ element }
+    id="conditionVariableName"
+    label={ translate('Variable name') }
+    getValue={ getValue }
+    setValue={ setValue }
+    debounce={ debounce }
+  />;
+}
+
+
+function VariableEvents(props) {
+  const {
+    element
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const getValue = () => {
+    return getConditionalEventDefinition(element).get('variableEvents');
+  };
+
+  const setValue = (value) => {
+    commandStack.execute('element.updateModdleProperties', {
+      element: element,
+      moddleElement: getConditionalEventDefinition(element),
+      properties: {
+        variableEvents: value || ''
+      }
+    });
+  };
+
+  return <TextFieldEntry
+    element={ element }
+    id="conditionVariableEvents"
+    label={ translate('Variable events') }
+    description={ translate('Specify more than one variable change event as a comma separated list.') }
     getValue={ getValue }
     setValue={ setValue }
     debounce={ debounce }
