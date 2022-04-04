@@ -410,6 +410,199 @@ describe('provider/camunda-platform - ConditionProps', function() {
   });
 
 
+  describe('bpmn:ConditionalEventDefinition#variableName', function() {
+
+    it('should display (intermediate event)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('ConditionVariableEvent');
+
+      // when
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      const conditionVariableNameInput = domQuery('input[name=conditionVariableName]', container);
+
+      // then
+      expect(conditionVariableNameInput).to.exist;
+    }));
+
+
+    it('should display (start event)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('ConditionalStartEvent');
+
+      // when
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      const conditionVariableNameInput = domQuery('input[name=conditionVariableName]', container);
+
+      // then
+      expect(conditionVariableNameInput).to.exist;
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [ 'NoneEvent', 'ConditionalStartEvent' ];
+
+      elements.forEach(async ele => {
+        const element = elementRegistry.get(ele);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        const conditionVariableNameInput = domQuery('input[name=conditionVariableName]', container);
+
+        // then
+        expect(conditionVariableNameInput).not.to.exist;
+      });
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('ConditionVariableEvent');
+
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      const conditionVariableNameInput = domQuery('input[name=conditionVariableName]', container);
+
+      // when
+      changeInput(conditionVariableNameInput, 'myVariable');
+
+      const conditionVariableNameVal = getConditionVariableName(conditionalEvent);
+
+      // then
+      expect(conditionVariableNameVal).to.exist;
+      expect(conditionVariableNameVal).to.equal('myVariable');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const conditionalEvent = elementRegistry.get('ConditionVariableEvent'),
+              originalValue = getConditionVariableName(conditionalEvent);
+
+        await act(() => {
+          selection.select(conditionalEvent);
+        });
+
+        const conditionVariableNameInput = domQuery('input[name=conditionVariableName]', container);
+        changeInput(conditionVariableNameInput, 'myVariable');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(conditionVariableNameInput.value).to.eql(originalValue);
+      })
+    );
+  });
+
+
+  describe('bpmn:ConditionalEventDefinition#variableEvents', function() {
+
+    it('should display (intermediate event)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('ConditionVariableEvent');
+
+      // when
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      const conditionVariableEventsInput = domQuery('input[name=conditionVariableEvents]', container);
+
+      // then
+      expect(conditionVariableEventsInput).to.exist;
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [ 'NoneEvent', 'ConditionalStartEvent', 'ConditionalStartEvent' ];
+
+      elements.forEach(async ele => {
+        const element = elementRegistry.get(ele);
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        const conditionVariableEventsInput = domQuery('input[name=conditionVariableEvents]', container);
+
+        // then
+        expect(conditionVariableEventsInput).not.to.exist;
+      });
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('ConditionVariableEvent');
+
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      const conditionVariableEventsInput = domQuery('input[name=conditionVariableEvents]', container);
+
+      // when
+      changeInput(conditionVariableEventsInput, 'myEvent');
+
+      const conditionVariableEvVal = getConditionVariableEvents(conditionalEvent);
+
+      // then
+      expect(conditionVariableEvVal).to.exist;
+      expect(conditionVariableEvVal).to.equal('myEvent');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const conditionalEvent = elementRegistry.get('ConditionVariableEvent'),
+              originalValue = getConditionVariableEvents(conditionalEvent);
+
+        await act(() => {
+          selection.select(conditionalEvent);
+        });
+
+        const conditionVariableEventsInput = domQuery('input[name=conditionVariableEvents]', container);
+        changeInput(conditionVariableEventsInput, 'myEvent');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(conditionVariableEventsInput.value).to.eql(originalValue);
+      })
+    );
+  });
+
+
   describe('conditionExpression#language', function() {
 
     it('should display', inject(async function(elementRegistry, selection) {
@@ -932,4 +1125,16 @@ function getConditionalEventDefinition(element) {
   }
 
   return getEventDefinition(element, 'bpmn:ConditionalEventDefinition');
+}
+
+function getConditionVariableName(element) {
+  const eventDefinition = getConditionalEventDefinition(element);
+
+  return eventDefinition.get('variableName');
+}
+
+function getConditionVariableEvents(element) {
+  const eventDefinition = getConditionalEventDefinition(element);
+
+  return eventDefinition.get('variableEvents');
 }
