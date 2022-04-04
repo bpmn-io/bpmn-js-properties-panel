@@ -18,11 +18,8 @@ describe('provider/element-templates - Validator', function() {
     return validator.getValidTemplates();
   }
 
-  let moddle;
+  const moddle = new BPMNModdle();
 
-  beforeEach(function() {
-    moddle = new BPMNModdle();
-  });
 
   describe('schema version', function() {
 
