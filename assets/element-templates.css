@@ -10,6 +10,10 @@
   --select-template-information-text-color: var(--color-grey-225-10-55);
 }
 
+.bio-properties-panel-header-template-icon {
+  object-fit: contain;
+}
+
 .bio-properties-panel-templates-group .bio-properties-panel-group-header-button:not(.bio-properties-panel-arrow) {
   padding-right: 6px;
   padding-left: 9px;
