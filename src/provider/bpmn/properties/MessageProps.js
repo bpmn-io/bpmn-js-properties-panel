@@ -203,13 +203,19 @@ function MessageName(props) {
     );
   };
 
+  const businessObject = getBusinessObject(element),
+        path = pathConcat(getPath(message, businessObject), 'name');
+
+  const show = useShowCallback(businessObject, path);
+
   return TextFieldEntry({
     element,
     id: 'messageName',
     label: translate('Name'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 

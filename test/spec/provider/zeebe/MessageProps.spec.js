@@ -184,6 +184,38 @@ describe('provider/zeebe - MessageProps', function() {
       expect(getMessage(messageEvent).get('name')).to.eql(undefined);
     }));
 
+
+    describe('show error', function() {
+
+      it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_1');
+
+        // when
+        await act(() => {
+          selection.select(startEvent);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'StartEvent_1',
+            message: 'foo',
+            path: [ 'rootElements', 1, 'name' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('messageName');
+      }));
+
+    });
+
   });
 
 
@@ -300,6 +332,38 @@ describe('provider/zeebe - MessageProps', function() {
       // then
       expect(getMessage(messageEvent).get('name')).to.eql(undefined);
     }));
+
+
+    describe('show error', function() {
+
+      it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
+
+        // given
+        const receiveTask = elementRegistry.get('IntermediateEvent_1');
+
+        // when
+        await act(() => {
+          selection.select(receiveTask);
+
+          eventBus.fire('propertiesPanel.showError', {
+            id: 'IntermediateEvent_1',
+            message: 'foo',
+            path: [ 'rootElements', 3, 'name' ]
+          });
+        });
+
+        // then
+        const error = document.querySelector('.bio-properties-panel-error');
+
+        expect(error).to.exist;
+        expect(error.textContent).to.equal('foo');
+
+        const entry = error.closest('.bio-properties-panel-entry');
+
+        expect(entry.dataset.entryId).to.equal('messageName');
+      }));
+
+    });
 
   });
 
