@@ -17,12 +17,14 @@ import { Validator } from './Validator';
  * @param {Array<TemplateDescriptor>|Function} loadTemplates
  * @param {EventBus} eventBus
  * @param {ElementTemplates} elementTemplates
+ * @param {Moddle} moddle
  */
 export default class ElementTemplatesLoader {
-  constructor(loadTemplates, eventBus, elementTemplates) {
+  constructor(loadTemplates, eventBus, elementTemplates, moddle) {
     this._loadTemplates = loadTemplates;
     this._eventBus = eventBus;
     this._elementTemplates = elementTemplates;
+    this._moddle = moddle;
 
     eventBus.on('diagram.init', () => {
       this.reload();
@@ -57,9 +59,10 @@ export default class ElementTemplatesLoader {
   }
 
   setTemplates(templates) {
-    const elementTemplates = this._elementTemplates;
+    const elementTemplates = this._elementTemplates,
+          moddle = this._moddle;
 
-    const validator = new Validator().addAll(templates);
+    const validator = new Validator(moddle).addAll(templates);
 
     const errors = validator.getErrors(),
           validTemplates = validator.getValidTemplates();
@@ -87,5 +90,6 @@ export default class ElementTemplatesLoader {
 ElementTemplatesLoader.$inject = [
   'config.elementTemplates',
   'eventBus',
-  'elementTemplates'
+  'elementTemplates',
+  'moddle'
 ];

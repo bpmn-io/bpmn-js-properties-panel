@@ -25,9 +25,10 @@ import { ensureExtension } from '../CreateHelper';
 
 export default class TemplateElementFactory {
 
-  constructor(bpmnFactory, elementFactory) {
+  constructor(bpmnFactory, elementFactory, moddle) {
     this._bpmnFactory = bpmnFactory;
     this._elementFactory = elementFactory;
+    this._moddle = moddle;
 
     this._providers = {
       [PROPERTY_TYPE]: PropertyBindingProvider,
@@ -54,10 +55,11 @@ export default class TemplateElementFactory {
 
     const elementFactory = this._elementFactory;
     const bpmnFactory = this._bpmnFactory;
+    const moddle = this._moddle;
     const providers = this._providers;
 
     // (0) make sure template is valid
-    const errors = validate([ template ]);
+    const errors = validate([ template ], moddle);
 
     // todo(pinussilvestrus): return validation errors
     if (errors && errors.length) {
@@ -153,7 +155,7 @@ export default class TemplateElementFactory {
   }
 }
 
-TemplateElementFactory.$inject = [ 'bpmnFactory', 'elementFactory' ];
+TemplateElementFactory.$inject = [ 'bpmnFactory', 'elementFactory', 'moddle' ];
 
 
 // helper ////////////////
