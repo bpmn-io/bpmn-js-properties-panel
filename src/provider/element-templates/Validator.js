@@ -166,9 +166,9 @@ export class Validator {
    * @returns {Boolean}
    */
   _isType(type, baseType) {
-    const sourceInstance = this._moddle.create(type);
+    const moddleType = this._moddle.getType(type);
 
-    return this._moddle.hasType(sourceInstance, baseType);
+    return moddleType && (baseType in this._moddle.getElementDescriptor(moddleType).allTypesByName);
   }
 
 
