@@ -90,6 +90,11 @@ function MessageName(props) {
     );
   };
 
+  const businessObject = getBusinessObject(element),
+        path = pathConcat(getPath(message, businessObject), 'name');
+
+  const show = useShowCallback(businessObject, path);
+
   return TextFieldEntry({
     element,
     id: 'messageName',
@@ -97,7 +102,8 @@ function MessageName(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    show
   });
 }
 
