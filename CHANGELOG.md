@@ -6,6 +6,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.11
+
+* `FEAT`: apply element template icons ([#641](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/641))
+* `FEAT`: change task type when element template is applied ([#648](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/648))
+* `FEAT`: display element template icons in header ([#650](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/650))
+* `FEAT`: add show callbacks to show error code and message name errors ([#654](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/654))
+* `FIX`: add `Variable name` entry to `Condition` group ([#651](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/651))
+
 ## 1.0.0-alpha.10
 
 * `FIX`: do not use `inherits` ([#645](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/645))
