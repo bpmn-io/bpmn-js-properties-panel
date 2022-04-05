@@ -155,7 +155,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       // then
       expect(element.businessObject.get('name')).to.eql('Rest Task');
       expect(extensionElements).to.exist;
-      expect(extensionElements.get('values')).to.have.length(4);
+      expect(extensionElements.get('values')).to.have.length(3);
     }));
 
 

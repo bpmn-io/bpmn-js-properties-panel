@@ -21,8 +21,6 @@ import {
   ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
 
-import { ensureExtension } from '../CreateHelper';
-
 export default class TemplateElementFactory {
 
   constructor(bpmnFactory, elementFactory, moddle) {
@@ -145,13 +143,9 @@ export default class TemplateElementFactory {
       contents
     } = icon;
 
-    const bpmnFactory = this._bpmnFactory;
+    const businessObject = getBusinessObject(element);
 
-    const extensionElements = getBusinessObject(element).get('extensionElements');
-    const modelerTemplateIcon = ensureExtension(element, 'zeebe:ModelerTemplateIcon', bpmnFactory);
-
-    modelerTemplateIcon.set('body', contents);
-    modelerTemplateIcon.$parent = extensionElements;
+    businessObject.set('zeebe:modelerTemplateIcon', contents);
   }
 }
 
