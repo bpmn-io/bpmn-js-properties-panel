@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.12
+
+* `FIX`: move `modelerTemplateIcon` to property ([#658](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/658))
+
 ## 1.0.0-alpha.11
 
 * `FEAT`: apply element template icons ([#641](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/641))
