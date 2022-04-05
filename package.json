@@ -63,7 +63,7 @@
     "@babel/core": "^7.14.3",
     "@babel/plugin-transform-react-jsx": "^7.14.3",
     "@bpmn-io/element-template-chooser": "^0.0.5",
-    "@bpmn-io/element-templates-icons-renderer": "^0.1.1",
+    "@bpmn-io/element-templates-icons-renderer": "^0.1.2",
     "@bpmn-io/properties-panel": "^0.13.1",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.3.0",
@@ -107,7 +107,7 @@
     "sinon-chai": "^3.7.0",
     "sirv-cli": "^1.0.12",
     "webpack": "^5.38.1",
-    "zeebe-bpmn-moddle": "^0.12.0"
+    "zeebe-bpmn-moddle": "^0.12.1"
   },
   "peerDependencies": {
     "bpmn-js": "8.x || 9.x",
