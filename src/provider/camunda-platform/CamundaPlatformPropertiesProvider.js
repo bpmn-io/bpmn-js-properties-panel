@@ -44,7 +44,11 @@ import {
 const LOW_PRIORITY = 500;
 
 const CAMUNDA_PLATFORM_GROUPS = [
+  HistoryCleanupGroup,
+  TasklistGroup,
+  CandidateStarterGroup,
   ImplementationGroup,
+  ExternalTaskGroup,
   ProcessVariablesGroup,
   ErrorsGroup,
   UserAssignmentGroup,
@@ -65,14 +69,10 @@ const CAMUNDA_PLATFORM_GROUPS = [
   OutMappingGroup,
   OutputGroup,
   ConnectorOutputGroup,
-  CandidateStarterGroup,
   ExecutionListenerGroup,
   ExtensionPropertiesGroup,
-  ExternalTaskGroup,
   FieldInjectionGroup,
   BusinessKeyGroup,
-  HistoryCleanupGroup,
-  TasklistGroup
 ];
 
 /**
