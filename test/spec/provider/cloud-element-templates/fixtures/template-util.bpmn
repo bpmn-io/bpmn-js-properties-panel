@@ -7,10 +7,7 @@
         <bpmn:condition xsi:type="bpmn:tFormalExpression">myExpression == true</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
-    <bpmn:task id="Task_2" name="icon" zeebe:modelerTemplate="icon">
-      <bpmn:extensionElements>
-        <zeebe:modelerTemplateIcon>data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E</zeebe:modelerTemplateIcon>
-      </bpmn:extensionElements>
+    <bpmn:task id="Task_2" name="icon" zeebe:modelerTemplate="icon" zeebe:modelerTemplateIcon="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E">
     </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">

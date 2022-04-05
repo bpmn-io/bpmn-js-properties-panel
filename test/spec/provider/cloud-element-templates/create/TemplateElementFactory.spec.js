@@ -17,7 +17,7 @@ import modelingModule from 'bpmn-js/lib/features/modeling';
 
 import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 
-import { findExtension, findExtensions } from 'src/provider/cloud-element-templates/Helper';
+import { findExtension } from 'src/provider/cloud-element-templates/Helper';
 
 import diagramXML from '../fixtures/simple.bpmn';
 
@@ -127,16 +127,11 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
     // when
     const element = templateElementFactory.create(elementTemplate);
 
-    const icons = findExtensions(element, [ 'zeebe:ModelerTemplateIcon' ]);
-    const icon = icons[0];
+    const icon = getBusinessObject(element).get('zeebe:modelerTemplateIcon');
 
     // then
-    expect(icons.length).to.equal(1);
     expect(icon).to.exist;
-    expect(icon).to.jsonEqual({
-      $type: 'zeebe:ModelerTemplateIcon',
-      body: "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
-    });
+    expect(icon).to.equal("data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E");
   }));
 
 

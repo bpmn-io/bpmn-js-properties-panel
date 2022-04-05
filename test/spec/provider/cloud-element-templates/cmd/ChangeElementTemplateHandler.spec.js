@@ -18,8 +18,7 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  findExtension,
-  findExtensions
+  findExtension
 } from 'src/provider/cloud-element-templates/Helper';
 
 import {
@@ -137,13 +136,10 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(task, newTemplate);
 
         // then
-        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+        const icon = getBusinessObject(task).get('zeebe:modelerTemplateIcon');
 
         expect(icon).to.exist;
-        expect(icon).to.jsonEqual({
-          $type: 'zeebe:ModelerTemplateIcon',
-          body: "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
-        });
+        expect(icon).to.eql("data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E");
       }));
 
 
@@ -158,7 +154,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         commandStack.undo();
 
         // then
-        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+        const icon = getBusinessObject(task).get('zeebe:modelerTemplateIcon');
 
         expect(icon).to.not.exist;
       }));
@@ -176,13 +172,10 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         commandStack.redo();
 
         // then
-        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+        const icon = getBusinessObject(task).get('zeebe:modelerTemplateIcon');
 
         expect(icon).to.exist;
-        expect(icon).to.jsonEqual({
-          $type: 'zeebe:ModelerTemplateIcon',
-          body: "data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E"
-        });
+        expect(icon).to.eql("data:image/svg+xml,%3Csvg width='24' height='24'%3C/svg%3E");
       }));
 
     });
@@ -814,15 +807,10 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(task, newTemplate);
 
         // then
-        const icons = findExtensions(task, [ 'zeebe:ModelerTemplateIcon' ]);
-        const newIcon = icons[0];
+        const icon = getBusinessObject(task).get('zeebe:modelerTemplateIcon');
 
-        expect(icons.length).to.equal(1);
-        expect(newIcon).to.exist;
-        expect(newIcon).to.jsonEqual({
-          $type: 'zeebe:ModelerTemplateIcon',
-          body: 'https://example.com/foo.svg'
-        });
+        expect(icon).to.exist;
+        expect(icon).to.eql('https://example.com/foo.svg');
       }));
 
 
@@ -835,7 +823,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         changeTemplate(task, require('./icon-template-no-icon.json'));
 
         // then
-        const icon = findExtension(task, 'zeebe:ModelerTemplateIcon');
+        const icon = getBusinessObject(task).get('zeebe:modelerTemplateIcon');
 
         expect(icon).to.not.exist;
       }));
@@ -2158,7 +2146,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         const task = elementRegistry.get('Task_1');
 
         // assume
-        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).to.exist;
+        expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.exist;
 
         // when
         changeTemplate(task, null);
@@ -2166,7 +2154,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         // then
         expectNoElementTemplate(task);
 
-        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).not.to.exist;
+        expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).not.to.exist;
       }));
 
 
@@ -2182,7 +2170,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
         // then
         expectElementTemplate(task, 'icon-template', 1);
-        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).to.exist;
+        expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.exist;
       }));
 
 
@@ -2200,7 +2188,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         // then
         expectNoElementTemplate(task);
 
-        expect(findExtension(task, 'zeebe:ModelerTemplateIcon')).not.to.exist;
+        expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).not.to.exist;
       }));
 
     });
