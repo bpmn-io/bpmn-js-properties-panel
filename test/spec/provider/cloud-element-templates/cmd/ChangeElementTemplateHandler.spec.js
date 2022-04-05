@@ -525,7 +525,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         const newTemplate = require('./task-template-no-properties.json');
 
 
-        it('should not override existing', inject(function(elementRegistry) {
+        it('should override existing', inject(function(elementRegistry) {
 
           // given
           const task = elementRegistry.get('Task_1');
@@ -538,25 +538,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
           const ioMapping = findExtension(task, 'zeebe:IoMapping');
 
-          expect(ioMapping).to.exist;
-          expect(ioMapping.inputParameters).to.have.length(1);
-          expect(ioMapping.outputParameters).to.have.length(1);
-
-          expect(ioMapping.inputParameters).to.jsonEqual([
-            {
-              $type: 'zeebe:Input',
-              target: 'input-1-target',
-              source: 'input-1-source'
-            }
-          ]);
-
-          expect(ioMapping.outputParameters).to.jsonEqual([
-            {
-              $type: 'zeebe:Output',
-              target: 'output-1-target',
-              source: 'output-1-source'
-            }
-          ]);
+          expect(ioMapping).not.to.exist;
         }));
 
       });
@@ -665,7 +647,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
         beforeEach(bootstrap(require('./task-headers.bpmn').default));
 
-        it('should not override existing', inject(function(elementRegistry) {
+        it('should override existing', inject(function(elementRegistry) {
 
           // given
           const task = elementRegistry.get('Task_1');
@@ -678,21 +660,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
           const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
 
-          expect(taskHeaders).to.exist;
-          expect(taskHeaders.values).to.have.length(2);
-
-          expect(taskHeaders.values).to.jsonEqual([
-            {
-              $type: 'zeebe:Header',
-              key: 'header-1-key',
-              value: 'header-1-value'
-            },
-            {
-              $type: 'zeebe:Header',
-              key: 'header-2-key',
-              value: 'header-2-value'
-            }
-          ]);
+          expect(taskHeaders).not.to.exist;
 
         }));
 

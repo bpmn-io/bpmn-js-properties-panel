@@ -255,14 +255,24 @@ export default class ChangeElementTemplateHandler {
       return newBindingType === 'zeebe:input' || newBindingType === 'zeebe:output';
     });
 
-    // (1) do not override old inputs and outputs if no new inputs and outputs specified
-    if (!newProperties.length) {
-      return;
-    }
-
     const businessObject = this._getOrCreateExtensionElements(element);
 
     let ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+
+    // (1) remove old mappings if no new specified
+    if (!newProperties.length) {
+      if (!ioMapping) {
+        return;
+      }
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: without(businessObject.get('values'), ioMapping)
+        }
+      });
+    }
 
     if (!ioMapping) {
       ioMapping = bpmnFactory.create('zeebe:IoMapping');
@@ -397,14 +407,25 @@ export default class ChangeElementTemplateHandler {
       return newBindingType === 'zeebe:taskHeader';
     });
 
-    // (1) do not override old headers if no new specified
-    if (!newProperties.length) {
-      return;
-    }
 
     const businessObject = this._getOrCreateExtensionElements(element);
 
     let taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders');
+
+    // (1) remove old headers if no new specified
+    if (!newProperties.length) {
+      if (!taskHeaders) {
+        return;
+      }
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: without(businessObject.get('values'), taskHeaders)
+        }
+      });
+    }
 
     if (!taskHeaders) {
       taskHeaders = bpmnFactory.create('zeebe:TaskHeaders');
