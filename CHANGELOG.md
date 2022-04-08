@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0-alpha.13
+
+* `DEPS`: update to `@bpmn-io/properties-panel@0.13.2` ([#660](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/660))
+* `FIX`: only keep defined mappings (cloud-templates) ([#659](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/659))
+* `FEAT`: rearrange process props by relevance ([#656](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/656))
+
 ## 1.0.0-alpha.12
 
 * `FIX`: move `modelerTemplateIcon` to property ([#658](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/658))
