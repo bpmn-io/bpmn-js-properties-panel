@@ -1,4 +1,4 @@
-import { getLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
+import { getLabel, setLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
 import { createCategoryValue } from 'bpmn-js/lib/features/modeling/behavior/util/CategoryUtil';
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -107,17 +107,14 @@ function createBlankBusinessObject(element, injector) {
     return newBo;
   }
 
-  if (is(element, 'bpmn:TextAnnotation')) {
-    newBo.text = label;
-  } else if (is(element, 'bpmn:Group')) {
+  if (is(element, 'bpmn:Group')) {
     const definitions = bpmnJs.getDefinitions();
     const categoryValue = createCategoryValue(definitions, bpmnFactory);
 
     newBo.categoryValueRef = categoryValue;
-    newBo.categoryValueRef.value = label;
-  } else {
-    newBo.name = label;
   }
+
+  setLabel({ businessObject: newBo }, label);
 
   return newBo;
 }
