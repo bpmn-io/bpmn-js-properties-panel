@@ -13,6 +13,8 @@ import { map } from 'min-dash';
 
 import coreModule from 'bpmn-js/lib/core';
 import modelingModule from 'bpmn-js/lib/features/modeling';
+import { getLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
+
 import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
 import {
@@ -360,6 +362,28 @@ describe('provider/element-templates - ElementTemplates', function() {
         const template = elementTemplates.get(task);
 
         expect(template).to.not.exist;
+      })
+    );
+
+
+    it('should keep label', inject(
+      async function(elementRegistry, selection, elementTemplates, modeling) {
+
+        // given
+        let task = elementRegistry.get('Task_1');
+
+        modeling.updateLabel(task, 'old label');
+        await act(() => selection.select(task));
+
+        // when
+        await removeTemplate(container);
+
+        // then
+        task = elementRegistry.get('Task_1');
+        const template = elementTemplates.get(task);
+
+        expect(template).to.not.exist;
+        expect(getLabel(task)).to.equal('old label');
       })
     );
 

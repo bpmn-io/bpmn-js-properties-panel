@@ -19,6 +19,7 @@ import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
 import diagramXML from '../fixtures/template-util.bpmn';
 import templates from '../fixtures/template-util.json';
+import { getLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
 
 
 describe('provider/element-template - templateUtil', function() {
@@ -63,22 +64,66 @@ describe('provider/element-template - templateUtil', function() {
   }));
 
 
-  it('should remove task template', inject(function(elementRegistry, injector) {
+  describe('removal', function() {
 
-    // given
-    let task = elementRegistry.get('Task_1');
+    it('should remove task template', inject(function(elementRegistry, injector) {
 
-    // when
-    removeTemplate(task, injector);
+      // given
+      let task = elementRegistry.get('Task_1');
 
-    // then
-    task = elementRegistry.get('Task_1');
-    const taskBo = getBusinessObject(task);
+      // when
+      removeTemplate(task, injector);
 
-    expect(taskBo.modelerTemplate).not.to.exist;
-    expect(taskBo.modelerTemplateVersion).not.to.exist;
-    expect(taskBo.asyncBefore).to.be.false;
-  }));
+      // then
+      task = elementRegistry.get('Task_1');
+      const taskBo = getBusinessObject(task);
+      const label = getLabel(task);
+
+      expect(taskBo.modelerTemplate).not.to.exist;
+      expect(taskBo.modelerTemplateVersion).not.to.exist;
+      expect(taskBo.asyncBefore).to.be.false;
+      expect(label).to.eql('Task Name');
+    }));
+
+
+    it('should remove group template', inject(function(elementRegistry, injector) {
+
+      // given
+      let group = elementRegistry.get('Group_1');
+
+      // when
+      removeTemplate(group, injector);
+
+      // then
+      group = elementRegistry.get('Group_1');
+      const groupBo = getBusinessObject(group);
+      const label = getLabel(group);
+
+      expect(groupBo.modelerTemplate).not.to.exist;
+      expect(groupBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('Group Name');
+    }));
+
+
+    it('should remove annotation template', inject(function(elementRegistry, injector) {
+
+      // given
+      let group = elementRegistry.get('TextAnnotation_1');
+
+      // when
+      removeTemplate(group, injector);
+
+      // then
+      group = elementRegistry.get('TextAnnotation_1');
+      const groupBo = getBusinessObject(group);
+      const label = getLabel(group);
+
+      expect(groupBo.modelerTemplate).not.to.exist;
+      expect(groupBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('Text Annotation');
+    }));
+
+  });
 
 
   it('should remove conditional event template', inject(function(elementRegistry, injector) {

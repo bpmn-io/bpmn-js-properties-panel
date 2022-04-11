@@ -38,5 +38,11 @@
     "name":"Baz",
     "appliesTo": [ "bpmn:Task" ],
     "properties": []
+  },
+  {
+    "id": "qux",
+    "name":"Qux",
+    "appliesTo": [ "bpmn:BaseElement" ],
+    "properties": []
   }
 ]

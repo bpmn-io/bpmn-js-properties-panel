@@ -1,22 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-rc.0">
+  <bpmn:category id="Category_0iqgr0z">
+    <bpmn:categoryValue id="CategoryValue_0w9ygdj" value="Group Name" />
+  </bpmn:category>
   <bpmn:process id="Process_1" isExecutable="true">
-    <bpmn:task id="Task_1" camunda:modelerTemplate="foo" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true" />
+    <bpmn:task id="Task_1" name="Task Name" camunda:modelerTemplate="foo" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true" />
     <bpmn:startEvent id="ConditionalEvent" camunda:modelerTemplate="foo" camunda:modelerTemplateVersion="1" camunda:asyncBefore="true">
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0jsqwvo" camunda:variableName="variableName">
         <bpmn:condition xsi:type="bpmn:tFormalExpression">myExpression == true</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
+    <bpmn:textAnnotation id="TextAnnotation_1" camunda:modelerTemplate="qux" >
+      <bpmn:text>Text Annotation</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0rz5zhm" sourceRef="Group_1" targetRef="TextAnnotation_1" />
+    <bpmn:group id="Group_1" categoryValueRef="CategoryValue_0w9ygdj" camunda:modelerTemplate="qux" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="TextAnnotation_1pcc3zn_di" bpmnElement="TextAnnotation_1">
+        <dc:Bounds x="690" y="80" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1srimyz_di" bpmnElement="Task_1">
-        <dc:Bounds x="150" y="100" width="100" height="80" />
+        <dc:Bounds x="150" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1688xoq_di" bpmnElement="ConditionalEvent">
-        <dc:Bounds x="182" y="232" width="36" height="36" />
+        <dc:Bounds x="182" y="342" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="193" y="275" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0rz5zhm_di" bpmnElement="Association_0rz5zhm">
+        <di:waypoint x="680" y="160" />
+        <di:waypoint x="726" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Group_1cd0cnd_di" bpmnElement="Group_1">
+        <dc:Bounds x="390" y="160" width="300" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="509" y="167" width="63" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
