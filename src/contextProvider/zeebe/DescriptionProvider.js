@@ -30,6 +30,17 @@ const DescriptionProvider = {
     );
   },
 
+  decisionId: (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/business-rule-tasks/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
+        { translate('How to configure a business rule task') }
+      </a>
+    );
+
+  },
+
   formType: (element) => {
     const translate = useService('translate');
 
