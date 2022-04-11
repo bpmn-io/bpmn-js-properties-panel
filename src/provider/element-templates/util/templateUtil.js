@@ -1,4 +1,6 @@
-import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import { getLabel, setLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
+import { createCategoryValue } from 'bpmn-js/lib/features/modeling/behavior/util/CategoryUtil';
+import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
 
 import { isUndefined } from 'min-dash';
 
@@ -21,8 +23,11 @@ export function removeTemplate(element, injector) {
   const type = businessObject.$type,
         eventDefinitionType = getEventDefinitionType(businessObject);
 
+  const newBusinessObject = createBlankBusinessObject(element, injector);
+
   const newElement = replace.replaceElement(element, {
     type: type,
+    businessObject: newBusinessObject,
     eventDefinitionType: eventDefinitionType
   });
 
@@ -88,4 +93,28 @@ function leftPad(string, length, character) {
   }
 
   return string;
+}
+
+function createBlankBusinessObject(element, injector) {
+  const bpmnFactory = injector.get('bpmnFactory'),
+        bpmnJs = injector.get('bpmnjs');
+
+  const bo = getBusinessObject(element),
+        newBo = bpmnFactory.create(bo.$type),
+        label = getLabel(element);
+
+  if (!label) {
+    return newBo;
+  }
+
+  if (is(element, 'bpmn:Group')) {
+    const definitions = bpmnJs.getDefinitions();
+    const categoryValue = createCategoryValue(definitions, bpmnFactory);
+
+    newBo.categoryValueRef = categoryValue;
+  }
+
+  setLabel({ businessObject: newBo }, label);
+
+  return newBo;
 }
