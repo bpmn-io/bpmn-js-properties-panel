@@ -157,22 +157,147 @@ describe('provider/element-templates - ElementTemplates', function() {
     it('should get all templates', inject(function(elementTemplates) {
 
       // when
+      const templates = elementTemplates.getAll();
+
       // then
-      expect(elementTemplates.getAll()).to.have.length(templates.length);
+      expectTemplates(templates, [
+        [ 'default', 1 ],
+        [ 'foo' ],
+        [ 'foo', 1 ],
+        [ 'foo', 2 ],
+        [ 'foo', 3 ],
+        [ 'bar', 1 ],
+        [ 'bar', 2 ],
+        [ 'baz' ]
+      ]);
     }));
 
 
-    it('should get all templates with ID', inject(function(elementTemplates) {
+    it('should get all template versions', inject(function(elementTemplates) {
 
       // when
       const templates = elementTemplates.getAll('foo');
 
       // then
-      expect(templates).to.have.length(4);
-      expect(templates[ 0 ].id).to.equal('foo');
-      expect(templates[ 1 ].id).to.equal('foo');
-      expect(templates[ 2 ].id).to.equal('foo');
-      expect(templates[ 3 ].id).to.equal('foo');
+      expectTemplates(templates, [
+        [ 'foo' ],
+        [ 'foo', 1 ],
+        [ 'foo', 2 ],
+        [ 'foo', 3 ],
+      ]);
+    }));
+
+
+    it('should get all applicable templates', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_3');
+
+      // when
+      const templates = elementTemplates.getAll(task);
+
+      // then
+      expectTemplates(templates, [
+        [ 'foo' ],
+        [ 'foo', 1 ],
+        [ 'foo', 2 ],
+        [ 'foo', 3 ],
+        [ 'bar', 1 ],
+        [ 'bar', 2 ],
+        [ 'baz' ]
+      ]);
+    }));
+
+
+    it('should throw for invalid argument', inject(function(elementTemplates) {
+
+      // then
+      expect(function() {
+        elementTemplates.getAll(null);
+      }).to.throw('argument must be of type {String|djs.model.Base|Undefined}');
+
+    }));
+
+  });
+
+
+  describe('getLatest', function() {
+
+    it('should get all latest templates', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest();
+
+      // then
+      expectTemplates(templates, [
+        [ 'default', 1 ],
+        [ 'foo', 3 ],
+        [ 'bar', 2 ],
+        [ 'baz' ]
+      ]);
+    }));
+
+
+    it('should get latest template version', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('bar');
+
+      // then
+      expectTemplates(templates, [
+        [ 'bar', 2 ]
+      ]);
+    }));
+
+
+    it('should get latest template version (mixed versions)', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('foo');
+
+      // then
+      expectTemplates(templates, [
+        [ 'foo', 3 ]
+      ]);
+    }));
+
+
+    it('should get latest template version (no version)', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('baz');
+
+      // then
+      expectTemplates(templates, [
+        [ 'baz' ]
+      ]);
+    }));
+
+
+    it('should get all applicable templates', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_3');
+
+      // when
+      const templates = elementTemplates.getLatest(task);
+
+      // then
+      expectTemplates(templates, [
+        [ 'foo', 3 ],
+        [ 'bar', 2 ],
+        [ 'baz' ]
+      ]);
+    }));
+
+
+    it('should throw for invalid argument', inject(function(elementTemplates) {
+
+      // then
+      expect(function() {
+        elementTemplates.getLatest(null);
+      }).to.throw('argument must be of type {String|djs.model.Base|Undefined}');
+
     }));
 
   });
@@ -227,3 +352,16 @@ describe('provider/element-templates - ElementTemplates', function() {
   });
 
 });
+
+
+// helpers //////////////////////
+
+function expectTemplates(templates, expected) {
+
+  expect(templates).to.exist;
+  expect(templates).to.have.length(expected.length);
+
+  expected.forEach(function([ id, version ]) {
+    expect(templates.find(t => t.id === id && t.version === version)).to.exist;
+  });
+}
