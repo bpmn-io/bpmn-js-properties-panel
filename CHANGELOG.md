@@ -6,6 +6,25 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.0.0
+
+* `FEAT`: rewrite project to new, [@bpmn-io/properties-panel](https://github.com/bpmn-io/properties-panel)-based architecture
+* `FEAT`: replace tabs with flat structure where groups are basic building blocks
+* `FEAT`: add "dirty" markers to notify non-default value of entry/entries in group
+* `FEAT`: keep open/closed state of the groups between elements
+* `FIX`: keep element name after template removal ([#570](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/570))
+* `CHORE`: add description for decision ID ([`5c8f9f2`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/5c8f9f2f3dea085371b5fee3c7b29c8c4d34192c))
+
+For more changes, read the alpha releases entries below.
+
+### Breaking changes
+
+* `PropertiesProvider#getTabs` is no longer used. Migrate to the new `PropertiesProvider#getGroups` API instead.
+  Check out [the example migration](https://github.com/bpmn-io/bpmn-js-examples/pull/142) and [this pull request](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/590) for guidance.
+* Previously exported entry factory functions are no longer available. Use components exported from
+  [`@bpmn-io/properties-panel`](https://github.com/bpmn-io/properties-panel) instead.
+* Element templates select has been removed. Handle [`elementTemplates.select` event](https://github.com/bpmn-io/bpmn-js-properties-panel/blob/v1.0.0-alpha.0/src/provider/element-templates/components/ElementTemplatesGroup.js#L132) or use [the element template chooser](https://github.com/bpmn-io/element-template-chooser) to implement template selection.
+
 ## 1.0.0-alpha.13
 
 * `DEPS`: update to `@bpmn-io/properties-panel@0.13.2` ([#660](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/660))
@@ -53,7 +72,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 1.0.0-alpha.6
 
-* `FEAT`: add `elementTemplates.createElement` API for `cloud-element-templates` ([#582](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/582)) 
+* `FEAT`: add `elementTemplates.createElement` API for `cloud-element-templates` ([#582](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/582))
 * `FEAT`: allow setting custom form key ([#592](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/592))
 * `FEAT`: reorder select options for implementation properties ([#597](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/597))
 * `FEAT`: mark FEEL expressions on input fields ([#599](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/599))
@@ -72,7 +91,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ### Breaking Changes
 
-* `component` property of an entry must be an actual component, not an element. 
+* `component` property of an entry must be an actual component, not an element.
 Checkout this [pull request](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/590) as a guidance.
 
 ## 1.0.0-alpha.4
@@ -84,7 +103,7 @@ Checkout this [pull request](https://github.com/bpmn-io/bpmn-js-properties-panel
 
 * `FEAT`: add ability to create optional inputs & outputs ([#559](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/559))
 * `FEAT`: support drilldown ([#567](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/567))
-* `FEAT`: add templates property groups ([#563](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/563), [#564](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/564)) 
+* `FEAT`: add templates property groups ([#563](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/563), [#564](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/564))
 * `FEAT`: add element templates support ([#540](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/540))
 * `FIX`: remove name property on associations ([#566](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/566), [#579](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/566))
 * `DEPS`: update to `zeebe-bpmn-moddle@0.11.0`
