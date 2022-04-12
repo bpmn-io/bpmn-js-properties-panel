@@ -8,6 +8,8 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 1.0.0
 
+_A complete rewrite of the library, based on modern foundations._
+
 * `FEAT`: rewrite project to new, [@bpmn-io/properties-panel](https://github.com/bpmn-io/properties-panel)-based architecture
 * `FEAT`: replace tabs with flat structure where groups are basic building blocks
 * `FEAT`: add "dirty" markers to notify non-default value of entry/entries in group
