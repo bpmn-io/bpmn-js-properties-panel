@@ -255,7 +255,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
       describe('zeebe:taskDefinition:type specified', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn').default));
+        beforeEach(bootstrap(require('./task-definition.bpmn').default));
 
         const newTemplate = require('./task-template-1.json');
 
@@ -263,7 +263,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('execute', inject(function(elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_2');
 
           // when
           changeTemplate(task, newTemplate);
@@ -281,7 +281,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('undo', inject(function(commandStack, elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_2');
 
           changeTemplate(task, newTemplate);
 
@@ -300,7 +300,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('redo', inject(function(commandStack, elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_2');
 
           changeTemplate(task, newTemplate);
 
@@ -315,6 +315,24 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
           expect(taskDefinition).to.exist;
           expect(taskDefinition.get('type')).to.equal('task-type');
+        }));
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const taskDefinition = findExtension(task, 'zeebe:TaskDefinition');
+
+          expect(taskDefinition).to.exist;
+          expect(taskDefinition.get('type')).to.equal('task-type-old');
         }));
 
       });
@@ -341,7 +359,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
           const taskDefinition = findExtension(task, 'zeebe:TaskDefinition');
 
           expect(taskDefinition).to.exist;
-          expect(taskDefinition.get('type')).to.equal('task-type');
+          expect(taskDefinition.get('type')).to.equal('task-type-old');
         }));
 
       });
@@ -353,7 +371,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
       describe('zeebe:Input and zeebe:Output specified', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn').default));
+        beforeEach(bootstrap(require('./task-input-output.bpmn').default));
 
         const newTemplate = require('./task-template-1.json');
 
@@ -361,7 +379,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('execute', inject(function(elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_without_mapping');
 
           // when
           changeTemplate(task, newTemplate);
@@ -406,7 +424,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('undo', inject(function(commandStack, elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_without_mapping');
 
           changeTemplate(task, newTemplate);
 
@@ -425,7 +443,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('redo', inject(function(commandStack, elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_without_mapping');
 
           changeTemplate(task, newTemplate);
 
@@ -460,6 +478,52 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
               $type: 'zeebe:Output',
               source: 'output-1-source',
               target: 'output-1-target'
+            },
+            {
+              $type: 'zeebe:Output',
+              source: 'output-2-source',
+              target: 'output-2-target'
+            }
+          ]);
+        }));
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_existing_mapping');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping).to.exist;
+          expect(ioMapping.get('zeebe:inputParameters')).to.have.length(2);
+          expect(ioMapping.get('zeebe:outputParameters')).to.have.length(2);
+
+          expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Input',
+              target: 'input-1-target',
+              source: 'input-1-source-old'
+            },
+            {
+              $type: 'zeebe:Input',
+              source: 'input-2-source',
+              target: 'input-2-target'
+            }
+          ]);
+
+          expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Output',
+              target: 'output-1-target-old',
+              source: 'output-1-source'
             },
             {
               $type: 'zeebe:Output',
@@ -528,7 +592,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('should override existing', inject(function(elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_existing_mapping');
 
           // when
           changeTemplate(task, newTemplate);
@@ -550,7 +614,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
       describe('zeebe:Header specified', function() {
 
-        beforeEach(bootstrap(require('./task.bpmn').default));
+        beforeEach(bootstrap(require('./task-headers.bpmn').default));
 
         const newTemplate = require('./task-template-1.json');
 
@@ -558,7 +622,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('execute', inject(function(elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_without_values');
 
           // when
           changeTemplate(task, newTemplate);
@@ -589,7 +653,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('undo', inject(function(commandStack, elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_without_values');
 
           changeTemplate(task, newTemplate);
 
@@ -608,7 +672,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('redo', inject(function(commandStack, elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_without_values');
 
           changeTemplate(task, newTemplate);
 
@@ -638,6 +702,38 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
           ]);
         }));
 
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_with_values');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
+
+          expect(taskHeaders).to.exist;
+          expect(taskHeaders.get('zeebe:values')).to.have.length(2);
+
+          expect(taskHeaders.get('zeebe:values')).to.jsonEqual([
+            {
+              $type: 'zeebe:Header',
+              key: 'header-1-key',
+              value: 'header-1-value-old'
+            },
+            {
+              $type: 'zeebe:Header',
+              key: 'header-2-key',
+              value: 'header-2-value'
+            }
+          ]);
+
+        }));
+
       });
 
 
@@ -650,7 +746,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         it('should override existing', inject(function(elementRegistry) {
 
           // given
-          const task = elementRegistry.get('Task_1');
+          const task = elementRegistry.get('Task_with_values');
 
           // when
           changeTemplate(task, newTemplate);

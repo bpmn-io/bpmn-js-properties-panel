@@ -143,7 +143,7 @@ export default class ChangeElementTemplateHandler {
 
       let properties = {};
 
-      if (oldProperty && propertyChanged(changedElement, oldProperty)) {
+      if (shouldKeepValue(changedElement, oldProperty, newProperty)) {
         return;
       }
 
@@ -187,15 +187,15 @@ export default class ChangeElementTemplateHandler {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             oldBinding = oldProperty && oldProperty.binding,
             oldBindingType = oldBinding && oldBinding.type,
-            oldTaskDefinition = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            oldTaskDefinition = findBusinessObject(businessObject, newProperty),
             newPropertyValue = newProperty.value,
             newBinding = newProperty.binding,
             newBindingType = newBinding.type;
 
       // (2) update old task definition
-      if (oldProperty && oldTaskDefinition) {
+      if (oldTaskDefinition) {
 
-        if (!propertyChanged(oldTaskDefinition, oldProperty)) {
+        if (!shouldKeepValue(oldTaskDefinition, oldProperty, newProperty)) {
 
           // TODO(pinussilvestrus): for now we only support <type>
           // this needs to be adjusted once we support more
@@ -298,7 +298,7 @@ export default class ChangeElementTemplateHandler {
 
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
-            oldInputOrOutput = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            inputOrOutput = findBusinessObject(businessObject, newProperty),
             newPropertyValue = newProperty.value,
             newBinding = newProperty.binding,
             newBindingType = newBinding.type;
@@ -307,26 +307,26 @@ export default class ChangeElementTemplateHandler {
           properties;
 
       // (2) update old inputs and outputs
-      if (oldProperty && oldInputOrOutput) {
+      if (inputOrOutput) {
 
         // (2a) exclude old inputs and outputs from cleanup, unless
         // a) optional and has empty value, and
         // b) not changed
         if (
           shouldUpdate(newPropertyValue, newProperty) ||
-          propertyChanged(oldInputOrOutput, oldProperty)
+          shouldKeepValue(inputOrOutput, oldProperty, newProperty)
         ) {
-          if (is(oldInputOrOutput, 'zeebe:Input')) {
-            remove(oldInputs, oldInputOrOutput);
+          if (is(inputOrOutput, 'zeebe:Input')) {
+            remove(oldInputs, inputOrOutput);
           } else {
-            remove(oldOutputs, oldInputOrOutput);
+            remove(oldOutputs, inputOrOutput);
           }
         }
 
         // (2a) do updates (unless changed)
-        if (!propertyChanged(oldInputOrOutput, oldProperty)) {
+        if (!shouldKeepValue(inputOrOutput, oldProperty, newProperty)) {
 
-          if (is(oldInputOrOutput, 'zeebe:Input')) {
+          if (is(inputOrOutput, 'zeebe:Input')) {
             properties = {
               source: newPropertyValue
             };
@@ -338,7 +338,7 @@ export default class ChangeElementTemplateHandler {
 
           commandStack.execute('element.updateModdleProperties', {
             element,
-            moddleElement: oldInputOrOutput,
+            moddleElement: inputOrOutput,
             properties
           });
         }
@@ -445,14 +445,14 @@ export default class ChangeElementTemplateHandler {
 
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
-            oldHeader = oldProperty && findOldBusinessObject(businessObject, oldProperty),
+            oldHeader = findBusinessObject(businessObject, newProperty),
             newPropertyValue = newProperty.value,
             newBinding = newProperty.binding;
 
       // (2) update old headers
-      if (oldProperty && oldHeader) {
+      if (oldHeader) {
 
-        if (!propertyChanged(oldHeader, oldProperty)) {
+        if (!shouldKeepValue(oldHeader, oldProperty, newProperty)) {
           const properties = {
             value: newPropertyValue
           };
@@ -528,52 +528,52 @@ ChangeElementTemplateHandler.$inject = [
 // helpers //////////
 
 /**
- * Find old business object matching specified old property.
+ * Find business object matching specified property.
  *
  * @param {djs.model.Base|ModdleElement} element
- * @param {Object} oldProperty
+ * @param {Object} property
  *
  * @returns {ModdleElement}
  */
-function findOldBusinessObject(element, oldProperty) {
-  let businessObject = getBusinessObject(element);
+function findBusinessObject(element, property) {
+  const businessObject = getBusinessObject(element);
 
-  const oldBinding = oldProperty.binding,
-        oldBindingType = oldBinding.type;
+  const binding = property.binding,
+        bindingType = binding.type;
 
-  if (oldBindingType === 'zeebe:taskDefinition:type') {
+  if (bindingType === 'zeebe:taskDefinition:type') {
     return findExtension(businessObject, 'zeebe:TaskDefinition');
   }
 
-  if (oldBindingType === 'zeebe:input' || oldBindingType === 'zeebe:output') {
+  if (bindingType === 'zeebe:input' || bindingType === 'zeebe:output') {
 
-    businessObject = findExtension(businessObject, 'zeebe:IoMapping');
+    const extensionElements = findExtension(businessObject, 'zeebe:IoMapping');
 
-    if (!businessObject) {
+    if (!extensionElements) {
       return;
     }
 
-    if (oldBindingType === 'zeebe:input') {
-      return find(businessObject.get('zeebe:inputParameters'), function(oldBusinessObject) {
-        return oldBusinessObject.get('zeebe:target') === oldBinding.name;
+    if (bindingType === 'zeebe:input') {
+      return find(extensionElements.get('zeebe:inputParameters'), function(input) {
+        return input.get('zeebe:target') === binding.name;
       });
     } else {
-      return find(businessObject.get('zeebe:outputParameters'), function(oldBusinessObject) {
-        return oldBusinessObject.get('zeebe:source') === oldBinding.source;
+      return find(extensionElements.get('zeebe:outputParameters'), function(output) {
+        return output.get('zeebe:source') === binding.source;
       });
     }
 
   }
 
-  if (oldBindingType === 'zeebe:taskHeader') {
-    businessObject = findExtension(businessObject, 'zeebe:TaskHeaders');
+  if (bindingType === 'zeebe:taskHeader') {
+    const extensionElements = findExtension(businessObject, 'zeebe:TaskHeaders');
 
-    if (!businessObject) {
+    if (!extensionElements) {
       return;
     }
 
-    return find(businessObject.get('zeebe:values'), function(oldBusinessObject) {
-      return oldBusinessObject.get('zeebe:key') === oldBinding.key;
+    return find(extensionElements.get('zeebe:values'), function(value) {
+      return value.get('zeebe:key') === binding.key;
     });
   }
 }
@@ -657,6 +657,25 @@ function findOldProperty(oldTemplate, newProperty) {
 }
 
 /**
+ * Check whether the existing property should be keept. This is the case if
+ *  - an old template was set and the value differs from the default
+ *  - no template was set but the property was set manually
+ *
+ * @param {djs.model.Base|ModdleElement} element
+ * @param {Object} oldProperty
+ * @param {Object} newProperty
+ *
+ * @returns {boolean}
+ */
+function shouldKeepValue(element, oldProperty, newProperty) {
+  if (oldProperty) {
+    return propertyChanged(element, oldProperty);
+  } else {
+    return !!getPropertyValue(element, newProperty);
+  }
+}
+
+/**
  * Check whether property was changed after being set by template.
  *
  * @param {djs.model.Base|ModdleElement} element
@@ -665,31 +684,37 @@ function findOldProperty(oldTemplate, newProperty) {
  * @returns {boolean}
  */
 function propertyChanged(element, oldProperty) {
+  const oldPropertyValue = oldProperty.value;
+
+  return getPropertyValue(element, oldProperty) !== oldPropertyValue;
+}
+
+function getPropertyValue(element, property) {
   const businessObject = getBusinessObject(element);
 
-  const oldBinding = oldProperty.binding,
-        oldBindingName = oldBinding.name,
-        oldBindingType = oldBinding.type,
-        oldPropertyValue = oldProperty.value;
+  const binding = property.binding,
+        bindingName = binding.name,
+        bindingType = binding.type;
 
-  if (oldBindingType === 'property') {
-    return businessObject.get(oldBindingName) !== oldPropertyValue;
+
+  if (bindingType === 'property') {
+    return businessObject.get(bindingName);
   }
 
-  if (oldBindingType === 'zeebe:taskDefinition:type') {
-    return businessObject.get('zeebe:type') !== oldPropertyValue;
+  if (bindingType === 'zeebe:taskDefinition:type') {
+    return businessObject.get('zeebe:type');
   }
 
-  if (oldBindingType === 'zeebe:input') {
-    return businessObject.get('zeebe:source') !== oldPropertyValue;
+  if (bindingType === 'zeebe:input') {
+    return businessObject.get('zeebe:source');
   }
 
-  if (oldBindingType === 'zeebe:output') {
-    return businessObject.get('zeebe:target') !== oldPropertyValue;
+  if (bindingType === 'zeebe:output') {
+    return businessObject.get('zeebe:target');
   }
 
-  if (oldBindingType === 'zeebe:taskHeader') {
-    return businessObject.get('zeebe:value') !== oldPropertyValue;
+  if (bindingType === 'zeebe:taskHeader') {
+    return businessObject.get('zeebe:value');
   }
 }
 
