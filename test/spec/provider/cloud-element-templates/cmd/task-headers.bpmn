@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
   <bpmn:process id="Process_1" isExecutable="true">
-    <bpmn:serviceTask id="Task_1">
+    <bpmn:serviceTask id="Task_with_values">
       <bpmn:extensionElements>
         <zeebe:taskHeaders>
-          <zeebe:header key="header-1-key" value="header-1-value" />
-          <zeebe:header key="header-2-key" value="header-2-value" />
+          <zeebe:header key="header-1-key" value="header-1-value-old" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Task_without_values">
     </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
+      <bpmndi:BPMNShape id="Task_with_values_di" bpmnElement="Task_with_values">
         <dc:Bounds x="0" y="0" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_without_values_di" bpmnElement="Task_without_values">
+        <dc:Bounds x="150" y="0" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
