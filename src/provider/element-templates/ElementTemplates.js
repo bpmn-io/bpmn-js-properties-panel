@@ -66,8 +66,8 @@ export default class ElementTemplates {
    * @return {ElementTemplate}
    */
   getDefault(element) {
-    return find(this.getAll(), function(template) {
-      return isAny(element, template.appliesTo) && template.isDefault;
+    return find(this.getAll(element), function(template) {
+      return template.isDefault;
     }) || null;
   }
 

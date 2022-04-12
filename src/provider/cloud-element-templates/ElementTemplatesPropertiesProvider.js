@@ -1,5 +1,3 @@
-import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
-
 import {
   createElementTemplatesGroup,
   TemplateProps
@@ -70,9 +68,7 @@ export default class ElementTemplatesPropertiesProvider {
   }
 
   _shouldShowTemplateProperties(element) {
-    return getTemplateId(element) || this._elementTemplates.getAll().some(template => {
-      return isAny(element, template.appliesTo);
-    });
+    return getTemplateId(element) || this._elementTemplates.getAll(element).length;
   }
 }
 
