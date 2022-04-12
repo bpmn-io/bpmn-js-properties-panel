@@ -8,8 +8,6 @@ import {
 
 import classnames from 'classnames';
 
-import { isUndefined } from 'min-dash';
-
 import {
   useService
 } from '../../../hooks';
@@ -307,33 +305,11 @@ function getTemplateState(elementTemplates, element, getTemplateId) {
     return { type: 'UNKNOWN_TEMPLATE', templateId };
   }
 
-  const newerTemplate = findNewestElementTemplate(elementTemplates, template);
-  if (newerTemplate) {
+  const newerTemplate = elementTemplates.getLatest(templateId)[0];
+
+  if (newerTemplate !== template) {
     return { type: 'OUTDATED_TEMPLATE', template, newerTemplate };
   }
 
   return { type: 'KNOWN_TEMPLATE', template };
-}
-
-function findNewestElementTemplate(elementTemplates, currentElementTemplate) {
-  if (isUndefined(currentElementTemplate.version)) {
-    return null;
-  }
-
-  return elementTemplates
-    .getAll()
-    .filter(function(elementTemplate) {
-      return currentElementTemplate.id === elementTemplate.id && !isUndefined(elementTemplate.version);
-    })
-    .reduce(function(newestElementTemplate, elementTemplate) {
-      if (currentElementTemplate.version < elementTemplate.version) {
-        return elementTemplate;
-      }
-
-      if (newestElementTemplate && newestElementTemplate.version < elementTemplate.version) {
-        return elementTemplate;
-      }
-
-      return newestElementTemplate;
-    }, null);
 }
