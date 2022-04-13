@@ -364,6 +364,39 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
       });
 
+
+      describe('hidden', function() {
+
+        beforeEach(bootstrap(require('./task-definition.bpmn').default));
+
+        const newTemplate = require('./task-template-1-hidden.json');
+
+
+        it('should override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          // assume
+          let taskDefinition = findExtension(task, 'zeebe:TaskDefinition');
+
+          expect(taskDefinition).to.exist;
+          expect(taskDefinition.get('type')).to.equal('task-type-old');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          taskDefinition = findExtension(task, 'zeebe:TaskDefinition');
+
+          expect(taskDefinition).to.exist;
+          expect(taskDefinition.get('type')).to.equal('task-type');
+        }));
+
+      });
+
     });
 
 
@@ -582,6 +615,60 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       });
 
 
+      describe('hidden', function() {
+
+        beforeEach(bootstrap(require('./task-input-output.bpmn').default));
+
+        const newTemplate = require('./task-template-1-hidden.json');
+
+
+        it('should override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_existing_mapping');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping).to.exist;
+          expect(ioMapping.get('zeebe:inputParameters')).to.have.length(2);
+          expect(ioMapping.get('zeebe:outputParameters')).to.have.length(2);
+
+          expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Input',
+              target: 'input-1-target',
+              source: 'input-1-source',
+            },
+            {
+              $type: 'zeebe:Input',
+              source: 'input-2-source',
+              target: 'input-2-target'
+            }
+          ]);
+
+          expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Output',
+              target: 'output-1-target',
+              source: 'output-1-source'
+            },
+            {
+              $type: 'zeebe:Output',
+              source: 'output-2-source',
+              target: 'output-2-target'
+            }
+          ]);
+        }));
+
+      });
+
+
       describe('zeebe:Input and zeebe:Output not specified', function() {
 
         beforeEach(bootstrap(require('./task-input-output.bpmn').default));
@@ -732,6 +819,45 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
             }
           ]);
 
+        }));
+
+      });
+
+
+      describe('hidden', function() {
+
+        beforeEach(bootstrap(require('./task-headers.bpmn').default));
+
+        const newTemplate = require('./task-template-1-hidden.json');
+
+        it('should override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_with_values');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
+
+          expect(taskHeaders).to.exist;
+          expect(taskHeaders.get('zeebe:values')).to.have.length(2);
+
+          expect(taskHeaders.get('zeebe:values')).to.jsonEqual([
+            {
+              $type: 'zeebe:Header',
+              key: 'header-1-key',
+              value: 'header-1-value'
+            },
+            {
+              $type: 'zeebe:Header',
+              key: 'header-2-key',
+              value: 'header-2-value'
+            }
+          ]);
         }));
 
       });
