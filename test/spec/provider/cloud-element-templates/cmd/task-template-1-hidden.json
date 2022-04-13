@@ -7,7 +7,7 @@
   ],
   "properties": [
     {
-      "type": "String",
+      "type": "Hidden",
       "value": "task-name",
       "binding": {
         "type": "property",
@@ -15,14 +15,14 @@
       }
     },
     {
-      "type": "String",
+      "type": "Hidden",
       "value": "task-type",
       "binding": {
         "type": "zeebe:taskDefinition:type"
       }
     },
     {
-      "type": "String",
+      "type": "Hidden",
       "value": "header-1-value",
       "binding": {
         "type": "zeebe:taskHeader",
@@ -30,7 +30,7 @@
       }
     },
     {
-      "type": "String",
+      "type": "Hidden",
       "value": "header-2-value",
       "binding": {
         "type": "zeebe:taskHeader",
@@ -39,7 +39,7 @@
     },
     {
       "value": "input-1-source",
-      "type": "String",
+      "type": "Hidden",
       "binding": {
         "type": "zeebe:input",
         "name": "input-1-target"
@@ -47,7 +47,7 @@
     },
     {
       "value": "input-2-source",
-      "type": "String",
+      "type": "Hidden",
       "binding": {
         "type": "zeebe:input",
         "name": "input-2-target"
@@ -55,7 +55,7 @@
     },
     {
       "value": "output-1-target",
-      "type": "String",
+      "type": "Hidden",
       "binding": {
         "type": "zeebe:output",
         "source": "output-1-source"
@@ -63,7 +63,7 @@
     },
     {
       "value": "output-2-target",
-      "type": "String",
+      "type": "Hidden",
       "binding": {
         "type": "zeebe:output",
         "source": "output-2-source"

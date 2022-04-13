@@ -201,7 +201,7 @@ export default class ChangeElementTemplateHandler {
           // this needs to be adjusted once we support more
           let properties = {};
 
-          if (oldBindingType === 'zeebe:taskDefinition:type') {
+          if (oldBindingType === 'zeebe:taskDefinition:type' || !oldBindingType) {
             properties = {
               type: newPropertyValue
             };
@@ -668,6 +668,10 @@ function findOldProperty(oldTemplate, newProperty) {
  * @returns {boolean}
  */
 function shouldKeepValue(element, oldProperty, newProperty) {
+  if (newProperty.type === 'Hidden') {
+    return false;
+  }
+
   if (oldProperty) {
     return propertyChanged(element, oldProperty);
   } else {
