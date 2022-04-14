@@ -21,8 +21,12 @@ import modelingModule from 'bpmn-js/lib/features/modeling';
 import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './ElementTemplates.bpmn';
+import integrationXML from './fixtures/integration.bpmn';
 
 import templates from './fixtures/simple';
+import complexTemplates from './fixtures/complex';
+import integrationTemplates from './fixtures/integration';
+import { findExtensions, findExtension } from 'src/provider/cloud-element-templates/Helper';
 
 
 describe('provider/cloud-element-templates - ElementTemplates', function() {
@@ -369,10 +373,298 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       expect(elementTemplates.get(updatedTask)).to.equal(template);
     }));
 
+
+    it('should only have 1 task definition', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      elementTemplates.set(complexTemplates);
+      const task = elementRegistry.get('ConfiguredTask');
+      const template = elementTemplates.get('io.camunda.connectors.RestConnector-s1');
+
+      // when
+      const updatedTask = elementTemplates.applyTemplate(task, template);
+
+      // then
+      expect(updatedTask).to.exist;
+      expect(elementTemplates.get(updatedTask)).to.equal(template);
+
+      const taskDefinitions = findExtensions(updatedTask, [ 'zeebe:TaskDefinition' ]);
+      expect(taskDefinitions).to.have.length(1);
+      expect(taskDefinitions[0].get('type')).to.eql('http');
+    }));
+
+
+    describe('integration', function() {
+
+      /*
+        These Tests confirm that our assumptions for keeping bindings hold true
+        over differnt scenrios. The basic assumptions are:
+
+         * Existing values will be kept, if they are valid in the new template
+         * Hidden values defined in the new template override existing values
+         * New default values override old (unchanged) default values
+
+        For unit tests over all possbile values, see `./cmd/ChangeElementTemplateHandler.spec.js`
+        cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/638
+      */
+
+
+      beforeEach(bootstrapModeler(integrationXML, {
+        container: container,
+        modules: [
+          coreModule,
+          elementTemplatesModule,
+          modelingModule,
+          {
+            propertiesPanel: [ 'value', { registerProvider() {} } ]
+          }
+        ],
+        moddleExtensions: {
+          zeebe: zeebeModdlePackage
+        }
+      }));
+
+
+      beforeEach(inject(function(elementTemplates) {
+        elementTemplates.set(integrationTemplates);
+      }));
+
+
+      it('Service Task => Template', inject(
+        function(elementRegistry, elementTemplates) {
+          let task = elementRegistry.get('configuredTask');
+          const template = elementTemplates.get('templateA', 1);
+
+          // assume
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'existing'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'existing'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'existing'
+            }
+          ]);
+
+          // when
+          task = elementTemplates.applyTemplate(task, template);
+
+          // then
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'existing'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A1'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'existing'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A1'
+            }
+          ]);
+        }
+      ));
+
+
+      it('Template v1 => Template v2', inject(
+        function(elementRegistry, elementTemplates) {
+          let task = elementRegistry.get('templateTask');
+          const template = elementTemplates.get('templateA', 2);
+
+          // assume
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A1'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A1'
+            }
+          ]);
+
+          // when
+          task = elementTemplates.applyTemplate(task, template);
+
+          // then
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A2'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A2'
+            }
+          ]);
+        }
+      ));
+
+
+      it('Template A => Template B', inject(
+        function(elementRegistry, elementTemplates) {
+          let task = elementRegistry.get('templateTask');
+          const template = elementTemplates.get('templateB');
+
+          // assume
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A1'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A1'
+            }
+          ]);
+
+          // when
+          task = elementTemplates.applyTemplate(task, template);
+
+          // then
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'B'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'B'
+            }
+          ]);
+        }
+      ));
+
+
+      it('Template => ServiceTask (unlink)', inject(
+        function(elementRegistry, elementTemplates) {
+          let task = elementRegistry.get('templateTask');
+
+          // assume
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A1'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A1'
+            }
+          ]);
+
+          // when
+          task = elementTemplates.applyTemplate(task, null);
+
+          // then
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A1'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A1'
+            }
+          ]);
+        }
+      ));
+
+
+      it('Template => ServiceTask => Template', inject(
+        function(elementRegistry, elementTemplates) {
+          let task = elementRegistry.get('templateTask');
+          const template = elementTemplates.get(task);
+
+          // when
+          task = elementTemplates.applyTemplate(task, null);
+          task = elementTemplates.applyTemplate(task, template);
+
+          // then
+          expectInputs(task, [
+            {
+              target: 'normalValue',
+              source: 'A1'
+            },
+            {
+              target: 'defaultValue',
+              source: 'A1'
+            },
+            {
+              target: 'changedDefaultValue',
+              source: 'A1-changed'
+            },
+            {
+              target: 'hiddenValue',
+              source: 'A1'
+            }
+          ]);
+        }
+      ));
+
+    });
+
   });
 
 });
-
 
 // helpers //////////////////////
 
@@ -383,5 +675,21 @@ function expectTemplates(templates, expected) {
 
   expected.forEach(function([ id, version ]) {
     expect(templates.find(t => t.id === id && t.version === version)).to.exist;
+  });
+}
+
+function expectInputs(element, expected) {
+  const ioMapping = findExtension(element, 'zeebe:IoMapping');
+  expect(ioMapping).to.exist;
+
+  const inputs = ioMapping.get('zeebe:inputParameters');
+  expect(inputs).to.have.length(expected.length);
+
+  expected.forEach(function({ source, target }) {
+    const input = inputs.find(i => {
+      return i.get('source') === source && i.get('target') === target;
+    });
+
+    expect(input).to.exist;
   });
 }
