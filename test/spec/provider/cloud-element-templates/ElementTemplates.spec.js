@@ -23,6 +23,8 @@ import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 import diagramXML from './ElementTemplates.bpmn';
 
 import templates from './fixtures/simple';
+import complexTemplates from './fixtures/complex';
+import { findExtensions } from 'src/provider/cloud-element-templates/Helper';
 
 
 describe('provider/cloud-element-templates - ElementTemplates', function() {
@@ -216,6 +218,26 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       // then
       expect(updatedTask).to.exist;
       expect(elementTemplates.get(updatedTask)).to.equal(template);
+    }));
+
+
+    it('should only have 1 task definition', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      elementTemplates.set(complexTemplates);
+      const task = elementRegistry.get('ConfiguredTask');
+      const template = elementTemplates.get('io.camunda.connectors.RestConnector-s1');
+
+      // when
+      const updatedTask = elementTemplates.applyTemplate(task, template);
+
+      // then
+      expect(updatedTask).to.exist;
+      expect(elementTemplates.get(updatedTask)).to.equal(template);
+
+      const taskDefinitions = findExtensions(updatedTask, [ 'zeebe:TaskDefinition' ]);
+      expect(taskDefinitions).to.have.length(1);
+      expect(taskDefinitions[0].get('type')).to.eql('http');
     }));
 
   });

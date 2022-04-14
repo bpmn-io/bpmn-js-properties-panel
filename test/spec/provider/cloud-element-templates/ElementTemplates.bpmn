@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-rc.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:task id="Task_1" zeebe:modelerTemplate="foo" />
     <bpmn:task id="Task_2" zeebe:modelerTemplate="foo" zeebe:modelerTemplateVersion="1" />
     <bpmn:task id="Task_3" />
     <bpmn:task id="UnknownTemplateTask" zeebe:modelerTemplate="unknown" />
     <bpmn:serviceTask id="ServiceTask" zeebe:modelerTemplate="default" zeebe:modelerTemplateVersion="1" />
+    <bpmn:serviceTask id="ConfiguredTask">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="taskType" retries="5" />
+        <zeebe:ioMapping>
+          <zeebe:input source="= source" target="InputVariable" />
+          <zeebe:output source="= source" target="OutputVariable" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="headerKey" value="headerValue" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -23,6 +35,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_di" bpmnElement="ServiceTask">
         <dc:Bounds x="150" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1f9tp9t_di" bpmnElement="ConfiguredTask">
+        <dc:Bounds x="270" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
