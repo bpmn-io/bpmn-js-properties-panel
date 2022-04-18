@@ -31,7 +31,7 @@ Provide two HTML elements, one for the properties panel and one for the BPMN dia
 </div>
 ```
 
-Bootstrap [bpmn-js](https://github.com/bpmn-io/bpmn-js) with the properties panel and a [properties provider](https://github.com/bpmn-io/bpmn-properties-panel/tree/master/src/provider):
+Bootstrap [bpmn-js](https://github.com/bpmn-io/bpmn-js) with the properties panel and a [properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/src/provider):
 
 
 ```javascript
@@ -73,7 +73,7 @@ If you use the `ElementTemplatesProviderModule`, include also its stylesheet:
 You may attach or detach the properties panel dynamically to any element on the page, too:
 
 ```javascript
-var propertiesPanel = bpmnJS.get('propertiesPanel');
+const propertiesPanel = bpmnJS.get('propertiesPanel');
 
 // detach the panel
 propertiesPanel.detach();
@@ -85,33 +85,40 @@ propertiesPanel.attachTo('#other-properties');
 
 ### Use with Camunda properties
 
-In order to be able to edit [Camunda](https://camunda.com) related properties, use the [camunda properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/lib/provider/camunda).
+In order to be able to edit [Camunda](https://camunda.com) related properties, use the [camunda platform properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/src/provider/camunda-platform).
 In addition, you need to define the `camunda` namespace via [camunda-bpmn-moddle](https://github.com/camunda/camunda-bpmn-moddle).
 
 ```javascript
-var BpmnJS = require('bpmn-js/lib/Modeler'),
-    propertiesPanelModule = require('bpmn-js-properties-panel'),
-    // use Camunda properties provider
-    propertiesProviderModule = require('bpmn-js-properties-panel/lib/provider/camunda');
+import BpmnModeler from 'bpmn-js/lib/Modeler';
+import {
+  BpmnPropertiesPanelModule,
+  BpmnPropertiesProviderModule,
+  
+  // use Camunda Platform properties provider
+  CamundaPlatformPropertiesProviderModule
+} from 'bpmn-js-properties-panel';
 
-// a descriptor that defines Camunda related BPMN 2.0 XML extensions
-var camundaModdleDescriptor = require('camunda-bpmn-moddle/resources/camunda');
+// use Camunda BPMN Moddle extension
+import CamundaExtensionModule from 'camunda-bpmn-moddle/lib',
 
-var bpmnJS = new BpmnJS({
-  additionalModules: [
-    propertiesPanelModule,
-    propertiesProviderModule
-  ],
+// use Camunda BPMN namespace
+import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
+
+const modeler = new BpmnModeler({
   container: '#canvas',
   propertiesPanel: {
     parent: '#properties'
   },
-  // make camunda prefix known for import, editing and export
+  additionalModules: [
+    BpmnPropertiesPanelModule,
+    BpmnPropertiesProviderModule,
+    CamundaPlatformPropertiesProviderModule,
+    CamundaExtensionModule
+  ],
   moddleExtensions: {
-    camunda: camundaModdleDescriptor
+    camunda: camundaModdleDescriptors
   }
 });
-
 ...
 ```
 
