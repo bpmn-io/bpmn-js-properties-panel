@@ -204,6 +204,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CamundaModdleExtension,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
+          ElementTemplateChooserModule,
           ElementTemplatesPropertiesProvider
         ],
         moddleExtensions: {
