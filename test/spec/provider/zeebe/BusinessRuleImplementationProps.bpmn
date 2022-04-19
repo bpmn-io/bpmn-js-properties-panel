@@ -10,6 +10,9 @@
     <bpmn:businessRuleTask id="BusinessRuleTask_3" name="BusinessRuleTask_3">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="a" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="myKey" value="myValue" />
+        </zeebe:taskHeaders>
       </bpmn:extensionElements>
     </bpmn:businessRuleTask>
     <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1" />
