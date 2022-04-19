@@ -4,6 +4,7 @@ import { act } from '@testing-library/preact';
 import {
   bootstrapPropertiesPanel,
   changeInput,
+  clickInput,
   inject
 } from 'test/TestHelper';
 
@@ -29,6 +30,8 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
 import processDiagramXML from './JobExecutionProps-Process.bpmn';
@@ -43,7 +46,8 @@ describe('provider/camunda-platform - JobExecutionProps', function() {
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectionModule,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -378,6 +382,58 @@ describe('provider/camunda-platform - JobExecutionProps', function() {
         expect(getExtensionElementsList(bo)).to.have.length(2);
       }));
 
+
+    describe('integration', function() {
+
+      it('should remove retry time cycle when setting async before to false', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_3'),
+              businessObject = getBusinessObject(serviceTask);
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        expect(businessObject.get('asyncBefore')).to.be.true;
+
+        // when
+        const asyncBeforeCheckbox = domQuery('input[name=asynchronousContinuationBefore]', container);
+
+        clickInput(asyncBeforeCheckbox);
+
+        // then
+        expect(businessObject.get('asyncBefore')).to.be.false;
+
+        expect(getJobRetryTimeCycle(serviceTask)).not.to.exist;
+      }));
+
+
+      it('should remove retry time cycle when setting async after to false', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_2'),
+              businessObject = getBusinessObject(serviceTask);
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        expect(businessObject.get('asyncAfter')).to.be.true;
+
+        // when
+        const asyncAfterCheckbox = domQuery('input[name=asynchronousContinuationAfter]', container);
+
+        clickInput(asyncAfterCheckbox);
+
+        // then
+        expect(businessObject.get('asyncAfter')).to.be.false;
+
+        expect(getJobRetryTimeCycle(serviceTask)).not.to.exist;
+      }));
+
+    });
+
   });
 
 });
@@ -396,6 +452,11 @@ function getJobPriority(element) {
 function getJobRetryTimeCycle(element) {
   const businessObject = getBusinessObject(element);
 
-  return getExtensionElementsList(businessObject, 'camunda:FailedJobRetryTimeCycle')[0].body ||
-   '';
+  const failedJobRetryTimeCycleExtensionElements = getExtensionElementsList(businessObject, 'camunda:FailedJobRetryTimeCycle');
+
+  if (!failedJobRetryTimeCycleExtensionElements || !failedJobRetryTimeCycleExtensionElements.length) {
+    return null;
+  }
+
+  return failedJobRetryTimeCycleExtensionElements[ 0 ].get('body');
 }
