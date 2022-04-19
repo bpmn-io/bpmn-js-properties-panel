@@ -184,8 +184,7 @@ function getTemplatesService() {
 }
 
 function getTemplate(element, elementTemplates) {
-  const templateId = elementTemplates._getTemplateId(element);
-  return templateId && elementTemplates.get(templateId);
+  return elementTemplates.get(element);
 }
 
 function getTemplateDocumentation(element, elementTemplates) {

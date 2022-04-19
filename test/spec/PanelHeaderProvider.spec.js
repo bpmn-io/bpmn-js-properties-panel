@@ -298,6 +298,43 @@ describe('<PanelHeaderProvider>', function() {
       expect(templateIconNode.src).to.eql(template.icon.contents);
     });
 
+
+    it('should get template icon - versioned', function() {
+
+      // given
+      const element = createElement('bpmn:Task');
+
+      const template = {
+        id: 'foo',
+        version: 1,
+        icon: {
+          contents: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E"
+        }
+      };
+
+      const elementTemplates = {
+        get: () => { return template; },
+        getTemplateId: () => 'foo',
+        getTemplateVersion: () => 1
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const iconNode = domQuery('.bio-properties-panel-header-icon', result.container);
+      const templateIconNode = domQuery('.bio-properties-panel-header-template-icon', iconNode);
+
+      // then
+      expect(templateIconNode).to.exist;
+      expect(templateIconNode.src).to.eql(template.icon.contents);
+    });
+
   });
 
 
@@ -360,6 +397,36 @@ describe('<PanelHeaderProvider>', function() {
       const elementTemplates = {
         get: () => { return { id: 'foo', name: 'Template Task' }; },
         getTemplateId: () => 'foo'
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const typeNode = domQuery('.bio-properties-panel-header-type', result.container);
+
+      // then
+      expect(typeNode).to.exist;
+      expect(typeNode.innerText).to.equal('TEMPLATE TASK');
+    });
+
+
+    it('should get element template name - versioned', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      const elementTemplates = {
+        get: () => { return { id: 'foo', version: 1, name: 'Template Task' }; },
+        getTemplateId: () => 'foo',
+        getTemplateVersion: () => '1'
       };
 
       const context = {
@@ -865,6 +932,36 @@ describe('<PanelHeaderProvider>', function() {
       expect(documentationNode.href).to.eql('https://example.com/');
     });
 
+
+    it('should get element template documentationRef - versioned', function() {
+
+      // given
+      const element = createElement('bpmn:Task', {
+        name: 'foo'
+      });
+
+      const elementTemplates = {
+        get: () => { return { id: 'foo', version: 1, documentationRef: 'https://example.com/' }; },
+        getTemplateId: () => true,
+        getTemplateVersion: () => '1'
+      };
+
+      const context = {
+        getService: () => {
+          return new ElementTemplates(elementTemplates);
+        }
+      };
+
+      // when
+      const result = createHeader({ container, element, context });
+
+      const documentationNode = domQuery('.bio-properties-panel-header-link', result.container);
+
+      // then
+      expect(documentationNode).to.exist;
+      expect(documentationNode.href).to.eql('https://example.com/');
+    });
+
   });
 
 });
@@ -876,11 +973,13 @@ class ElementTemplates {
   constructor(options = {}) {
     const {
       get,
-      getTemplateId
+      getTemplateId,
+      getTemplateVersion
     } = options;
 
     this._getFn = get;
     this._getTemplateIdFn = getTemplateId;
+    this._getTemplateVersionFn = getTemplateVersion;
   }
 
   get(element) {
@@ -889,6 +988,10 @@ class ElementTemplates {
 
   _getTemplateId(element) {
     return this._getTemplateIdFn ? this._getTemplateIdFn(element) : null;
+  }
+
+  _getTemplateVersion(element) {
+    return this._getTemplateVersionFn ? this._getTemplateVersionFn(element) : null;
   }
 }
 

@@ -223,6 +223,7 @@
     "appliesTo": [
       "bpmn:Task"
     ],
+    "documentationRef": "https://docs.camunda.io",
     "properties": [
       {
         "id": "1",
@@ -244,6 +245,7 @@
     "appliesTo": [
       "bpmn:Task"
     ],
+    "documentationRef": "https://docs.camunda.io",
     "properties": [
       {
         "id": "1",
