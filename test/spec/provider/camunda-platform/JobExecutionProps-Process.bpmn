@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0o7y5a2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0o7y5a2" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_1" isExecutable="true" camunda:jobPriority="5">
     <bpmn:startEvent id="StartEvent_1" />
     <bpmn:serviceTask id="ServiceTask_1" />
@@ -10,6 +10,11 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:businessRuleTask id="BusinessRuleTask_1" camunda:asyncAfter="true" camunda:exclusive="false" />
+    <bpmn:serviceTask id="ServiceTask_3" camunda:asyncBefore="true" camunda:jobPriority="1337">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>1234</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -24,6 +29,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_11avmik_di" bpmnElement="BusinessRuleTask_1">
         <dc:Bounds x="410" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05sr2n6_di" bpmnElement="ServiceTask_3">
+        <dc:Bounds x="290" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
