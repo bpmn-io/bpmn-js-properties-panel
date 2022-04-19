@@ -26,6 +26,8 @@ import BpmnPropertiesPanel from 'src/render';
 
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
+
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import {
@@ -42,7 +44,8 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
     SelectionModule,
     ModelingModule,
     BpmnPropertiesPanel,
-    ZeebePropertiesProvider
+    ZeebePropertiesProvider,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -323,6 +326,51 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
 
   });
 
+
+  describe('integration', function() {
+
+    describe('removing assignment definition when empty', function() {
+
+      it('removing assignee', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_4');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        const assigneeInput = domQuery('input[name=assignmentDefinitionAssignee]', container);
+
+        changeInput(assigneeInput, '');
+
+        // then
+        expect(getAssignmentDefinition(userTask)).not.to.exist;
+      }));
+
+
+      it('removing candidate groups', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_5');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        const candidateGroupsInput = domQuery('input[name=assignmentDefinitionCandidateGroups]', container);
+
+        changeInput(candidateGroupsInput, '');
+
+        // then
+        expect(getAssignmentDefinition(userTask)).not.to.exist;
+      }));
+
+    });
+
+  });
 
 });
 

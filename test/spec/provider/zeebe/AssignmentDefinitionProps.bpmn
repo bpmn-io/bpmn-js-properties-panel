@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1msouka" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1msouka" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.1.0">
   <bpmn:process id="Process_1uy5s1w" isExecutable="true">
     <bpmn:userTask id="UserTask_1" name="UserTask_1">
       <bpmn:extensionElements>
-  			<zeebe:assignmentDefinition
-      		assignee="= ring.bearer" 
-      		candidateGroups="elves, men, dwarfs, hobbits" />
+        <zeebe:assignmentDefinition assignee="= foo" candidateGroups="foo, bar, baz" />
       </bpmn:extensionElements>
     </bpmn:userTask>
     <bpmn:userTask id="UserTask_2" name="UserTask_2" />
     <bpmn:userTask id="UserTask_3" name="UserTask_3">
       <bpmn:extensionElements>
         <zeebe:taskHeaders>
-          <zeebe:header key="a" value="A" />
+          <zeebe:header key="foo" value="bar" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
     </bpmn:userTask>
     <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1" />
+    <bpmn:userTask id="UserTask_4" name="UserTask_4">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition assignee="foo" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_5" name="UserTask_5">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition candidateGroups="bar" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1uy5s1w">
       <bpmndi:BPMNShape id="Activity_142bos5_di" bpmnElement="UserTask_1">
         <dc:Bounds x="160" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0zf8xfc_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="160" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1vtpecx_di" bpmnElement="UserTask_2">
-        <dc:Bounds x="290" y="80" width="100" height="80" />
+        <dc:Bounds x="270" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1r2gg29_di" bpmnElement="UserTask_3">
-        <dc:Bounds x="410" y="80" width="100" height="80" />
+        <dc:Bounds x="380" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0zf8xfc_di" bpmnElement="ServiceTask_1">
-        <dc:Bounds x="160" y="200" width="100" height="80" />
+      <bpmndi:BPMNShape id="Activity_17xvqkv_di" bpmnElement="UserTask_4">
+        <dc:Bounds x="490" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0maf5x1_di" bpmnElement="UserTask_5">
+        <dc:Bounds x="600" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
