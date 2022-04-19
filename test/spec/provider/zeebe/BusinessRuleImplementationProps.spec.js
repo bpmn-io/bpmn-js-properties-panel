@@ -28,6 +28,8 @@ import ModelingModule from 'bpmn-js/lib/features/modeling';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
+
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './BusinessRuleImplementationProps.bpmn';
@@ -40,7 +42,8 @@ describe('provider/zeebe - TargetProps', function() {
     CoreModule,
     ModelingModule,
     SelectionModule,
-    ZeebePropertiesProvider
+    ZeebePropertiesProvider,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -219,7 +222,7 @@ describe('provider/zeebe - TargetProps', function() {
       const implementation = getImplementationSelect(container);
 
       // assume
-      expect(getExtensionElementsList(businessObject)).to.have.length(1);
+      expect(getExtensionElementsList(businessObject)).to.have.length(2);
 
       // when
       changeInput(implementation, 'dmn');
@@ -287,6 +290,56 @@ describe('provider/zeebe - TargetProps', function() {
 
     });
 
+
+    describe('integration', function() {
+
+      it('should remove task definition and task headers when adding called decision', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_3');
+
+        await act(() => selection.select(businessRuleTask));
+
+        // assume
+        expect(getTaskDefinition(businessRuleTask)).to.exist;
+        expect(getTaskHeaders(businessRuleTask)).to.exist;
+
+        // when
+        const implementationSelect = getImplementationSelect(container);
+
+        changeInput(implementationSelect, 'dmn');
+
+        // then
+        expect(getTaskDefinition(businessRuleTask)).not.to.exist;
+        expect(getTaskHeaders(businessRuleTask)).not.to.exist;
+
+        expect(getCalledDecision(businessRuleTask)).to.exist;
+      }));
+
+
+      it('should remove called decision when adding task definition', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
+
+        await act(() => selection.select(businessRuleTask));
+
+        // assume
+        expect(getCalledDecision(businessRuleTask)).to.exist;
+
+        // when
+        const implementationSelect = getImplementationSelect(container);
+
+        changeInput(implementationSelect, 'jobWorker');
+
+        // then
+        expect(getCalledDecision(businessRuleTask)).not.to.exist;
+
+        expect(getTaskDefinition(businessRuleTask)).to.exist;
+      }));
+
+    });
+
   });
 
 });
@@ -308,4 +361,10 @@ function getCalledDecision(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:CalledDecision')[0];
+}
+
+function getTaskHeaders(element) {
+  const businessObject = getBusinessObject(element);
+
+  return getExtensionElementsList(businessObject, 'zeebe:TaskHeaders')[ 0 ];
 }
