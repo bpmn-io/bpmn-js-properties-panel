@@ -13,7 +13,8 @@ import {
 } from 'min-dom';
 
 import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import CoreModule from 'bpmn-js/lib/core';
@@ -34,6 +35,8 @@ import {
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
 import diagramXML from './ImplementationProps.bpmn';
@@ -47,7 +50,8 @@ describe('provider/camunda-platform - ImplementationTypeProps', function() {
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectionModule,
+    BehaviorsModule
   ];
 
   let container;
@@ -1326,6 +1330,34 @@ describe('provider/camunda-platform - ImplementationTypeProps', function() {
 
   });
 
+
+  describe('integration', function() {
+
+    it('should remove error event definitions when updating to non-external', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_error');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        // when
+        const select = domQuery('select[name=implementationType]', container);
+
+        changeInput(select, 'class');
+
+        // then
+        const businessObject = getBusinessObject(serviceTask),
+              errorEventDefinitions = getErrorEventDefinitions(businessObject);
+
+        expect(errorEventDefinitions).to.be.empty;
+      }
+    ));
+
+  });
+
 });
 
 
@@ -1349,4 +1381,16 @@ function asOptionNamesList(select) {
   options.forEach(o => names.push(o.label));
 
   return names;
+}
+
+function getErrorEventDefinitions(businessObject) {
+  const extensionElements = businessObject.get('extensionElements');
+
+  if (!extensionElements) {
+    return;
+  }
+
+  return extensionElements.get('values').filter((element) => {
+    return is(element, 'camunda:ErrorEventDefinition');
+  });
 }

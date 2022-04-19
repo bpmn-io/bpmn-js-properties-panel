@@ -1182,7 +1182,6 @@ describe('provider/camunda-platform - ImplementationProps', function() {
 
   });
 
-
 });
 
 
