@@ -19,6 +19,8 @@ import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
@@ -37,7 +39,8 @@ describe('provider/camunda-platform - DmnImplementationProps', function() {
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectionModule,
+    BehaviorsModule
   ];
 
   let container;
@@ -744,6 +747,29 @@ describe('provider/camunda-platform - DmnImplementationProps', function() {
         expect(select.value).to.eql(originalValue);
       })
     );
+
+
+    describe('integration', function() {
+
+      it('should remove map decision result when result variable is removed', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_resultVariable'),
+              businessObject = getBusinessObject(businessRuleTask);
+
+        await act(() => selection.select(businessRuleTask));
+
+        // when
+        const input = domQuery('input[name=decisionRefResultVariable]', container);
+
+        changeInput(input, '');
+
+        // then
+        // expect default
+        expect(businessObject.get('camunda:mapDecisionResult')).to.equal('resultList');
+      }));
+
+    });
 
   });
 
