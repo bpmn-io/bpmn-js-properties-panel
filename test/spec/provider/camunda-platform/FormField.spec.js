@@ -25,6 +25,8 @@ import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
@@ -43,7 +45,8 @@ describe('provider/camunda-platform - FormField', function() {
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectionModule,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -125,6 +128,29 @@ describe('provider/camunda-platform - FormField', function() {
         // then
         expect(idInput.value).to.eql(originalValue);
       }));
+
+
+    describe('integration', function() {
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const event = elementRegistry.get('StartEvent_2');
+
+        await act(() => {
+          selection.select(event);
+        });
+
+        const idInput = domQuery('input[name=StartEvent_2-formField-0-formFieldID]', container);
+
+        // when
+        changeInput(idInput, 'bar');
+
+        // then
+        expect(getFormData(event).get('camunda:businessKey')).to.equal('bar');
+      }));
+
+    });
 
   });
 
@@ -418,6 +444,29 @@ describe('provider/camunda-platform - FormField', function() {
           // then
           expect(customTypeInput.value).to.eql(originalValue);
         }));
+
+    });
+
+
+    describe('integration', function() {
+
+      it('should remove values when type set to boolean', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_2');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const typeSelect = domQuery('select[name=UserTask_2-formField-0-formFieldType]', container);
+
+        // when
+        changeInput(typeSelect, 'boolean');
+
+        // then
+        expect(getFormFieldValues(userTask, 0)).to.be.empty;
+      }));
 
     });
 

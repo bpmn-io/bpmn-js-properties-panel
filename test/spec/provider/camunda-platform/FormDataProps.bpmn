@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_01ii2ms" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_01ii2ms" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="myProcess" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="StartEvent_1">
       <bpmn:extensionElements>
@@ -11,10 +11,9 @@
     <bpmn:subProcess id="Activity_0j3tvw2">
       <bpmn:startEvent id="StartEvent_2" name="StartEvent_2" />
     </bpmn:subProcess>
-    <bpmn:userTask id="UserTask_1" name="UserTask_1" >
-     	<bpmn:extensionElements>
-    		<camunda:formData>
-        </camunda:formData>
+    <bpmn:userTask id="UserTask_1" name="UserTask_1">
+      <bpmn:extensionElements>
+        <camunda:formData />
       </bpmn:extensionElements>
     </bpmn:userTask>
     <bpmn:userTask id="UserTask_2" name="UserTask_2">
@@ -35,6 +34,14 @@
         </camunda:properties>
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_3" name="StartEvent_3">
+      <bpmn:extensionElements>
+        <camunda:formData businessKey="foo">
+          <camunda:formField id="foo" />
+          <camunda:formField id="bar" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="myProcess">
@@ -42,6 +49,12 @@
         <dc:Bounds x="179" y="79" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="165" y="122" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0svgu3u_di" bpmnElement="StartEvent_3">
+        <dc:Bounds x="622" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="608" y="315" width="64" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0j3tvw2_di" bpmnElement="Activity_0j3tvw2" isExpanded="true">
