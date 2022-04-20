@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1y626cn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0-nightly.20210902" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1y626cn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_1">
       <bpmn:extensionElements>
         <camunda:inputOutput>
-          <camunda:outputParameter name="output1"></camunda:outputParameter>
-          <camunda:outputParameter name="output2"></camunda:outputParameter>
-          <camunda:outputParameter name="output3"></camunda:outputParameter>
-          <camunda:outputParameter name="output4"></camunda:outputParameter>
+          <camunda:outputParameter name="output1" />
+          <camunda:outputParameter name="output2" />
+          <camunda:outputParameter name="output3" />
+          <camunda:outputParameter name="output4" />
         </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
@@ -18,6 +18,13 @@
         <camunda:properties>
           <camunda:property />
         </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_OneOutput" name="ServiceTask_OneOutput">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="Output_1" />
+        </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
   </bpmn:process>
@@ -34,6 +41,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0o5d4vc_di" bpmnElement="ServiceTask_withExtensionElements">
         <dc:Bounds x="160" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0q7lx4s_di" bpmnElement="ServiceTask_OneOutput">
+        <dc:Bounds x="160" y="540" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
