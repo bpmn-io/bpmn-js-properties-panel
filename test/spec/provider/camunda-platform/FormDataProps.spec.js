@@ -24,6 +24,8 @@ import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import BpmnPropertiesPanel from 'src/render';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
@@ -42,7 +44,8 @@ describe('provider/camunda-platform - FormDataProps', function() {
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectionModule,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -246,6 +249,34 @@ describe('provider/camunda-platform - FormDataProps', function() {
       // then
       expect(getFormFieldsList(task)).to.have.length(1);
     }));
+
+
+    describe('integration', function() {
+
+      it('should remove business key', inject(async function(elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('StartEvent_3');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // assume
+        expect(getFormData(startEvent).get('camunda:businessKey')).to.equal('foo');
+
+        // when
+        const formDataGroup = domQuery('div[data-group-id=group-CamundaPlatform__FormData]', container);
+
+        const formFieldRemoveButton = domQueryAll('.bio-properties-panel-remove-entry', formDataGroup)[ 0 ];
+
+        clickInput(formFieldRemoveButton);
+
+        // then
+        expect(getFormData(startEvent).get('camunda:businessKey')).not.to.exist;
+      }));
+
+    });
 
   });
 
