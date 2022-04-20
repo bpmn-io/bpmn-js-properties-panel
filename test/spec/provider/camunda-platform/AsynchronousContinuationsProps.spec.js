@@ -24,6 +24,8 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
 import processDiagramXML from './AsynchronousContinuationsProps.bpmn';
@@ -37,7 +39,8 @@ describe('provider/camunda-platform - AsynchronousContinuationsProps', function(
     CamundaPlatformPropertiesProvider,
     CoreModule,
     ModelingModule,
-    SelectionModule
+    SelectionModule,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -446,6 +449,54 @@ describe('provider/camunda-platform - AsynchronousContinuationsProps', function(
         expect(exclusiveCheckbox.checked).to.eql(originalValue);
       })
     );
+
+
+    describe('integration', function() {
+
+      it('should set to true if async before set to false', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_2');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // assume
+        expect(isExclusive(task)).to.be.false;
+
+        // when
+        const asyncBeforeCheckbox = domQuery('input[name=asynchronousContinuationBefore]', container);
+
+        clickInput(asyncBeforeCheckbox);
+
+        // then
+        expect(isExclusive(task)).to.be.true;
+      }));
+
+
+      it('should set to true if async after set to false', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_3');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // assume
+        expect(isExclusive(task)).to.be.false;
+
+        // when
+        const asyncAfterCheckbox = domQuery('input[name=asynchronousContinuationAfter]', container);
+
+        clickInput(asyncAfterCheckbox);
+
+        // then
+        expect(isExclusive(task)).to.be.true;
+      }));
+
+    });
 
   });
 
