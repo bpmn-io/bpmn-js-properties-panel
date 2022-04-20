@@ -22,6 +22,8 @@ import CoreModule from 'bpmn-js/lib/core';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import BpmnPropertiesPanel from 'src/render';
 
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
@@ -29,6 +31,7 @@ import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
 import {
+  getInputOutput,
   getOutputParameters
 } from 'src/provider/camunda-platform/utils/InputOutputUtil';
 
@@ -40,7 +43,8 @@ describe('provider/camunda-platform - OutputProps', function() {
   const testModules = [
     CoreModule, SelectionModule, ModelingModule,
     BpmnPropertiesPanel,
-    CamundaPlatformPropertiesProvider
+    CamundaPlatformPropertiesProvider,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -208,6 +212,33 @@ describe('provider/camunda-platform - OutputProps', function() {
         expect(listItems.length).to.eql(originalParameters.length);
       })
     );
+
+
+    describe('integration', function() {
+
+      it('should remove empty input output', inject(async function(elementRegistry, selection) {
+
+        // given
+        const serviceTask = elementRegistry.get('ServiceTask_OneOutput');
+
+        await act(() => {
+          selection.select(serviceTask);
+        });
+
+        const group = getGroup(container, 'CamundaPlatform__Output');
+        const listItems = getOutputListItems(group);
+        const removeEntry = domQuery('.bio-properties-panel-remove-entry', listItems[0]);
+
+        // when
+        await act(() => {
+          removeEntry.click();
+        });
+
+        // then
+        expect(getInputOutput(serviceTask)).not.to.exist;
+      }));
+
+    });
 
   });
 
