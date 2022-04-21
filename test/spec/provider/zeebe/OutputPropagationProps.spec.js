@@ -20,6 +20,11 @@ import {
 } from 'src/provider/zeebe/utils/CalledElementUtil.js';
 
 import {
+  getIoMapping,
+  getOutputParameters
+} from 'src/provider/zeebe/utils/InputOutputUtil.js';
+
+import {
   getExtensionElementsList
 } from 'src/utils/ExtensionElementsUtil.js';
 
@@ -33,6 +38,8 @@ import ModelingModule from 'bpmn-js/lib/features/modeling';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
+
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './OutputPropagationProps.bpmn';
@@ -45,7 +52,8 @@ describe('provider/zeebe - OutputPropagationProps', function() {
     CoreModule,
     ModelingModule,
     SelectionModule,
-    ZeebePropertiesProvider
+    ZeebePropertiesProvider,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {
@@ -313,6 +321,311 @@ describe('provider/zeebe - OutputPropagationProps', function() {
       // then
       expect(getCalledElement(callActivity)).to.exist;
     }));
+
+
+    describe('integration', function() {
+
+      describe('remove zeebe:outputParameters', function() {
+
+        describe('when toggling on with zeebe:outputParameters and zeebe:inputParameters', function() {
+
+          let callActivity;
+
+
+          describe('zeebe:propagateAllChildVariables explicitly set', function() {
+
+            beforeEach(inject(async function(elementRegistry, selection) {
+
+              // given
+              callActivity = elementRegistry.get('CallActivity_6');
+
+              // when
+              await act(() => {
+                selection.select(callActivity);
+              });
+
+              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+
+              clickInput(slider);
+            }));
+
+
+            it('should execute', function() {
+
+              // then
+              const outputParameters = getOutputParameters(callActivity);
+
+              expect(outputParameters).to.have.length(0);
+            });
+
+
+            it('should undo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+
+              // then
+              const outputParameters = getOutputParameters(callActivity);
+
+              expect(outputParameters).to.exist;
+              expect(outputParameters).to.have.length(1);
+            }));
+
+
+            it('should undo/redo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+              commandStack.redo();
+
+              // then
+              const outputParameters = getOutputParameters(callActivity);
+
+              expect(outputParameters).to.have.length(0);
+            }));
+
+          });
+
+
+          describe('zeebe:propagateAllChildVariables not explicitly set (legacy bpmn:CallActivity)', function() {
+
+            beforeEach(inject(async function(selection, elementRegistry) {
+
+              // given
+              callActivity = elementRegistry.get('CallActivity_4');
+
+              // when
+              await act(() => {
+                selection.select(callActivity);
+              });
+
+              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+
+              clickInput(slider);
+            }));
+
+
+            it('should execute', function() {
+
+              // then
+              const outputParameters = getOutputParameters(callActivity);
+
+              expect(outputParameters).to.have.length(0);
+            });
+
+
+            it('should undo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+
+              // then
+              const outputParameters = getOutputParameters(callActivity);
+
+              expect(outputParameters).to.exist;
+              expect(outputParameters).to.have.length(1);
+            }));
+
+
+            it('should undo/redo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+              commandStack.redo();
+
+              // then
+              const outputParameters = getOutputParameters(callActivity);
+
+              expect(outputParameters).to.have.length(0);
+            }));
+
+          });
+
+        });
+
+      });
+
+
+      describe('remove zeebe:IoMapping', function() {
+
+        describe('when toggling on with outputParameters', function() {
+
+          let shape;
+
+          describe('<propagateAllChildVariables> explicitly set', function() {
+
+            beforeEach(inject(async function(selection, elementRegistry) {
+
+              // given
+              shape = elementRegistry.get('CallActivity_6');
+
+              // when
+              await act(() => {
+                selection.select(shape);
+              });
+
+              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+
+              clickInput(slider);
+            }));
+
+
+            it('should execute', function() {
+
+              // then
+              const inputOutput = getIoMapping(shape);
+              expect(inputOutput).not.to.exist;
+            });
+
+
+            it('should undo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+
+              // then
+              const outputParameters = getOutputParameters(shape);
+              expect(outputParameters).to.exist;
+              expect(outputParameters.length).to.equal(1);
+
+              const inputOutput = getIoMapping(shape);
+              expect(inputOutput).to.exist;
+            }));
+
+
+            it('should undo/redo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+              commandStack.redo();
+
+              // then
+              const inputOutput = getIoMapping(shape);
+              expect(inputOutput).not.to.exist;
+            }));
+
+          });
+
+
+          describe('<propagateAllChildVariables> not explicitly set (legacy callActivity)', function() {
+
+            beforeEach(inject(async function(selection, elementRegistry) {
+
+              // given
+              shape = elementRegistry.get('CallActivity_4');
+
+              // when
+              await act(() => {
+                selection.select(shape);
+              });
+
+              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+
+              clickInput(slider);
+            }));
+
+
+            it('should execute', function() {
+
+              // then
+              const inputOutput = getIoMapping(shape);
+              expect(inputOutput).not.to.exist;
+            });
+
+
+            it('should undo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+
+              // then
+              const outputParameters = getOutputParameters(shape);
+              expect(outputParameters).to.exist;
+              expect(outputParameters.length).to.equal(1);
+
+              const inputOutput = getIoMapping(shape);
+              expect(inputOutput).to.exist;
+            }));
+
+
+            it('should undo/redo', inject(function(commandStack) {
+
+              // when
+              commandStack.undo();
+              commandStack.redo();
+
+              // then
+              const inputOutput = getIoMapping(shape);
+              expect(inputOutput).not.to.exist;
+            }));
+
+          });
+
+        });
+
+      });
+
+
+      describe('set zeebe:propagateAllChildVariables to false', function() {
+
+        describe('when adding output parameters', function() {
+
+          let shape, calledElement;
+
+          beforeEach(inject(async function(selection, elementRegistry) {
+
+            // given
+            shape = elementRegistry.get('CallActivity_2');
+            calledElement = getCalledElement(shape);
+
+            // assume
+            const inputOutput = getIoMapping(shape);
+
+            expect(inputOutput).not.to.exist;
+
+            // when
+            await act(() => {
+              selection.select(shape);
+            });
+
+            const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+
+            clickInput(slider);
+          }));
+
+
+          it('should execute', function() {
+
+            // then
+            expect(calledElement.get('propagateAllChildVariables')).to.equal(false);
+          });
+
+
+          it('should undo', inject(function(commandStack) {
+
+            // when
+            commandStack.undo();
+
+            // assume
+            expect(calledElement.propagateAllChildVariables).to.equal(true);
+          }));
+
+
+          it('should undo/redo', inject(function(commandStack) {
+
+            // when
+            commandStack.undo();
+            commandStack.redo();
+
+            // then
+            expect(calledElement.propagateAllChildVariables).to.equal(false);
+          }));
+
+        });
+
+      });
+
+    });
 
   });
 
