@@ -31,6 +31,7 @@ import {
 import {
   getExtensionElementsList
 } from '../../../utils/ExtensionElementsUtil';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function MessageProps(props) {
@@ -95,7 +96,7 @@ function MessageName(props) {
 
   const show = useShowCallback(businessObject, path);
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'messageName',
     label: translate('Name'),
@@ -193,7 +194,7 @@ function SubscriptionCorrelationKey(props) {
       || (error.type === 'extensionElementRequired' && error.requiredExtensionElement === 'zeebe:Subscription');
   });
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),

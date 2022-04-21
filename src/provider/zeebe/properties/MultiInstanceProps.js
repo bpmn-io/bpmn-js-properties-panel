@@ -1,5 +1,5 @@
 import {
-  getBusinessObject
+  getBusinessObject, is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
@@ -22,6 +22,8 @@ import {
   useService,
   useShowCallback
 } from '../../../hooks';
+import { getCloudVariablesForElement } from '@bpmn-io/extract-process-variables';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function MultiInstanceProps(props) {
@@ -98,7 +100,8 @@ function InputCollection(props) {
       || (type === 'extensionElementRequired' && requiredExtensionElement === 'zeebe:LoopCharacteristics');
   });
 
-  return TextFieldEntry({
+
+  return FeelInput({
     element,
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
@@ -201,7 +204,7 @@ function OutputElement(props) {
 
   const show = useShowCallback(businessObject, path);
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'multiInstance-outputElement',
     label: translate('Output element'),
@@ -243,7 +246,7 @@ function CompletionCondition(props) {
     }
   };
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'multiInstance-completionCondition',
     label: translate('Completion condition'),

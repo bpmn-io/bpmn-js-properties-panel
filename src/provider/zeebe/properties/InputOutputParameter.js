@@ -7,6 +7,7 @@ import { TextFieldEntry } from '@bpmn-io/properties-panel';
 import {
   useService
 } from '../../../hooks';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export default function InputOutputParameter(props) {
@@ -91,7 +92,8 @@ function SourceProperty(props) {
     return parameter.source;
   };
 
-  return TextFieldEntry({
+  return FeelInput({
+    bpmnElement: element,
     element: parameter,
     id: idPrefix + '-source',
     label: translate('Variable assignment value'),

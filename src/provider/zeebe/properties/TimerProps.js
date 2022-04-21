@@ -19,6 +19,7 @@ import {
   isSelectEntryEdited,
   isTextFieldEntryEdited
 } from '@bpmn-io/properties-panel';
+import FeelInput from '../../../entries/FeelInput';
 
 
 /**
@@ -201,7 +202,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'timerEventDefinitionValue',
     label: translate('Value'),
@@ -282,7 +283,7 @@ function TimerEventDefinitionDurationValue(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'timerEventDefinitionDurationValue',
     label: translate('Timer duration'),

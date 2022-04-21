@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
+
 
 html, body, .modeler-container, .modeler-container > div {
   height: 100%;
@@ -36,4 +38,5 @@ html, body, .modeler-container, .modeler-container > div {
 
 .properties-container .bio-properties-panel {
   --font-family: 'IBM Plex Sans', sans-serif !important;
+  --font-family-monospace: 'IBM Plex Mono', monospace !important;
 }

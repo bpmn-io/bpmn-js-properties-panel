@@ -16,6 +16,7 @@ import {
 } from '../../../hooks';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function ConditionProps(props) {
@@ -100,7 +101,7 @@ function ConditionExpression(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'conditionExpression',
     label: translate('Condition expression'),

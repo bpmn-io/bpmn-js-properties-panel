@@ -26,6 +26,7 @@ import {
 import {
   isZeebeServiceTask
 } from '../utils/ZeebeServiceTaskUtil';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function TaskDefinitionProps(props) {
@@ -146,7 +147,7 @@ function TaskDefinitionType(props) {
       || (type === 'extensionElementRequired' && requiredExtensionElement === 'zeebe:TaskDefinition');
   });
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id,
     label: translate('Type'),
@@ -242,7 +243,7 @@ function TaskDefinitionRetries(props) {
 
   const show = useShowCallback(businessObject, path);
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id,
     label: translate('Retries'),

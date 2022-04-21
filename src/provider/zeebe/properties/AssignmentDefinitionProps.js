@@ -16,6 +16,7 @@ import {
 import {
   useService
 } from '../../../hooks';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function AssignmentDefinitionProps(props) {
@@ -118,7 +119,7 @@ function Assignee(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'assignmentDefinitionAssignee',
     label: translate('Assignee'),
@@ -205,7 +206,7 @@ function CandidateGroups(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id: 'assignmentDefinitionCandidateGroups',
     label: translate('Candidate groups'),

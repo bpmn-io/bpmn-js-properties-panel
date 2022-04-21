@@ -24,6 +24,7 @@ import {
   useService,
   useShowCallback
 } from '../../../hooks';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function TargetProps(props) {
@@ -141,7 +142,7 @@ function TargetProcessId(props) {
       || (type === 'extensionElementRequired' && requiredExtensionElement === 'zeebe:CalledElement');
   });
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id,
     label: translate('Process ID'),

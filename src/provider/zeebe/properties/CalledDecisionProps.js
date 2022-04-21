@@ -22,6 +22,7 @@ import {
   useService,
   useShowCallback
 } from '../../../hooks';
+import FeelInput from '../../../entries/FeelInput';
 
 
 export function CalledDecisionProps(props) {
@@ -132,7 +133,7 @@ function DecisionID(props) {
 
   const show = useShowCallback(businessObject, path);
 
-  return TextFieldEntry({
+  return FeelInput({
     element,
     id,
     label: translate('ID'),
