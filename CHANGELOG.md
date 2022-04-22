@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.1.0
+
+* `deps`: add `camunda-bpmn-js-behaviors` dependency ([#671](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/671))
+
 ## 1.0.0
 
 _A complete rewrite of the library, based on modern foundations._
