@@ -106,6 +106,7 @@ function InputCollection(props) {
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
     feel: 'required',
+    example: ' [ var1, var2 ]',
     getValue,
     setValue,
     debounce,
