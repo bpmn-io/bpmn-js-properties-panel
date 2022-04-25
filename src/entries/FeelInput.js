@@ -8,4 +8,3 @@ export default function FeelInput(props) {
 
   return FeelEntry({ variables, ...props });
 }
-
