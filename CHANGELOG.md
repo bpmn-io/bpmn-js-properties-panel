@@ -6,6 +6,15 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.1.1
+
+### Element Templates
+
+* `FIX`: keep existing configuration after apply ([#661](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/661))
+* `FIX`: always override `hidden` configuration on apply ([#661](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/661))
+* `FIX`: do not render non-existing values ([#676](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/676))
+* `FIX`: pick-up correct template icon ([#670](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/670))
+
 ## 1.1.0
 
 * `deps`: add `camunda-bpmn-js-behaviors` dependency ([#671](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/671))
