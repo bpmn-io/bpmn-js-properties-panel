@@ -333,10 +333,10 @@ function propertyGetter(element, property) {
   return function getValue() {
     let businessObject = getBusinessObject(element);
 
+    const defaultValue = '';
+
     const {
-      binding,
-      optional,
-      value: defaultValue = ''
+      binding
     } = property;
 
     const {
@@ -383,8 +383,7 @@ function propertyGetter(element, property) {
           return inputParameter.get('source');
         }
 
-        // allow empty values for optional parameters
-        return optional ? '' : defaultValue;
+        return defaultValue;
       }
 
       // zeebe:Output
@@ -395,8 +394,7 @@ function propertyGetter(element, property) {
           return outputParameter.get('target');
         }
 
-        // allow empty values for optional parameters
-        return optional ? '' : defaultValue;
+        return defaultValue;
       }
     }
 
