@@ -135,7 +135,7 @@ function DecisionID(props) {
   return TextFieldEntry({
     element,
     id,
-    label: translate('ID'),
+    label: translate('Decision ID'),
     feel: 'optional',
     getValue,
     setValue,
