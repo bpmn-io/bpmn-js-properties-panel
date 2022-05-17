@@ -361,7 +361,7 @@ function ValueList(props) {
 
   return <ListEntry
     element={ element }
-    autoFocusEntry={ true }
+    autoFocusEntry={ `[data-entry-id="${id}-value-${values.length - 1}"] input` }
     id={ id }
     label={ translate('Values') }
     items={ values }
