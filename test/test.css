@@ -12,6 +12,7 @@ html, body, .modeler-container, .modeler-container > div {
 
 .test-content-container {
   width: 100%;
+  height: calc(100% - 24px) !important;
   display: flex;
   flex: 1;
   flex-direction: row;
