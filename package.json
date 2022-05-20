@@ -114,6 +114,6 @@
     "bpmn-js": "8.x || 9.x",
     "camunda-bpmn-js-behaviors": "0.1.x",
     "diagram-js": "7.x || 8.x",
-    "@bpmn-io/properties-panel": "0.13.x"
+    "@bpmn-io/properties-panel": "0.13.x || 0.14.x"
   }
 }
