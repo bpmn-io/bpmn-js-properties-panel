@@ -18,7 +18,8 @@ import {
 } from './mocks';
 
 import {
-  insertCoreStyles
+  insertCoreStyles,
+  withPropertiesPanel
 } from 'test/TestHelper';
 
 import BpmnPropertiesPanel from 'src/render/BpmnPropertiesPanel';
@@ -113,7 +114,7 @@ describe('<BpmnPropertiesPanel>', function() {
   });
 
 
-  it('should render - empty', async function() {
+  withPropertiesPanel('>=0.14')('should render - empty', async function() {
 
     // given
     const element = null;
@@ -130,7 +131,7 @@ describe('<BpmnPropertiesPanel>', function() {
   });
 
 
-  it('should render - multiple', async function() {
+  withPropertiesPanel('>=0.14')('should render - multiple', async function() {
 
     // given
     const newElements = [
