@@ -1,4 +1,5 @@
 import {
+  act,
   render
 } from '@testing-library/preact/pure';
 
@@ -112,6 +113,47 @@ describe('<BpmnPropertiesPanel>', function() {
   });
 
 
+  it('should render - empty', async function() {
+
+    // given
+    const element = null;
+
+    const eventBus = new eventBusMock();
+
+    // when
+    const result = createBpmnPropertiesPanel({ container, eventBus, element });
+
+    // then
+    expect(domQuery('.bio-properties-panel-placeholder', result.container)).to.exist;
+    expect(domQuery('.bio-properties-panel-placeholder-text', result.container)).to.exist;
+    expect(domQuery('.bio-properties-panel-placeholder-icon', result.container)).to.exist;
+  });
+
+
+  it('should render - multiple', async function() {
+
+    // given
+    const newElements = [
+      noopElement,
+      noopElement
+    ];
+
+    const eventBus = new eventBusMock();
+
+    const result = createBpmnPropertiesPanel({ container, eventBus });
+
+    // when
+    await act(() => {
+      eventBus.fire('selection.changed', { newSelection:  newElements });
+    });
+
+    // then
+    expect(domQuery('.bio-properties-panel-placeholder', result.container)).to.exist;
+    expect(domQuery('.bio-properties-panel-placeholder-text', result.container)).to.exist;
+    expect(domQuery('.bio-properties-panel-placeholder-icon', result.container)).to.exist;
+  });
+
+
   describe('event emitting', function() {
 
     it('should update on selection changed', function() {
@@ -131,6 +173,32 @@ describe('<BpmnPropertiesPanel>', function() {
       // then
       expect(updateSpy).to.have.been.calledWith({
         element: noopElement
+      });
+    });
+
+
+    it('should update on selection changed - multiple', async function() {
+
+      // given
+      const updateSpy = sinon.spy();
+
+      const eventBus = new eventBusMock();
+
+      const elements = [
+        noopElement,
+        noopElement
+      ];
+
+      eventBus.on('propertiesPanel.updated', updateSpy);
+
+      createBpmnPropertiesPanel({ container, eventBus });
+
+      // when
+      eventBus.fire('selection.changed', { newSelection: elements });
+
+      // then
+      expect(updateSpy).to.have.been.calledWith({
+        element: elements
       });
     });
 

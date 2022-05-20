@@ -6,6 +6,7 @@ import {
 
 import {
   find,
+  isArray,
   reduce
 } from 'min-dash';
 
@@ -16,12 +17,13 @@ import {
 } from '../context';
 
 import { PanelHeaderProvider } from './PanelHeaderProvider';
+import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
 
 /**
  * @param {Object} props
- * @param {ModdleElement} [props.element]
+ * @param {djs.model.Base|Array<djs.model.Base>} [props.element]
  * @param {Injector} props.injector
- * @param { (ModdleElement) => Array<PropertiesProvider> } props.getProviders
+ * @param { (djs.model.Base) => Array<PropertiesProvider> } props.getProviders
  * @param {Object} props.layoutConfig
  * @param {Object} props.descriptionConfig
  */
@@ -44,6 +46,9 @@ export default function BpmnPropertiesPanel(props) {
 
   const selectedElement = state.selectedElement;
 
+  /**
+   * @param {djs.model.Base | Array<djs.model.Base>} element
+   */
   const _update = (element) => {
 
     if (!element) {
@@ -52,6 +57,7 @@ export default function BpmnPropertiesPanel(props) {
 
     let newSelectedElement = element;
 
+    // handle labels
     if (newSelectedElement && newSelectedElement.type === 'label') {
       newSelectedElement = newSelectedElement.labelTarget;
     }
@@ -72,7 +78,13 @@ export default function BpmnPropertiesPanel(props) {
   // (2a) selection changed
   useEffect(() => {
     const onSelectionChanged = (e) => {
-      const newElement = e.newSelection[0];
+      const { newSelection = [] } = e;
+
+      if (newSelection.length > 1) {
+        return _update(newSelection);
+      }
+
+      const newElement = newSelection[0];
 
       const rootElement = canvas.getRootElement();
 
@@ -162,6 +174,12 @@ export default function BpmnPropertiesPanel(props) {
 
   const groups = useMemo(() => {
     return reduce(providers, function(groups, provider) {
+
+      // do not collect groups for multi element state
+      if (isArray(selectedElement)) {
+        return [];
+      }
+
       const updater = provider.getGroups(selectedElement);
 
       return updater(groups);
@@ -186,6 +204,7 @@ export default function BpmnPropertiesPanel(props) {
     <PropertiesPanel
       element={ selectedElement }
       headerProvider={ PanelHeaderProvider }
+      placeholderProvider={ PanelPlaceholderProvider }
       groups={ groups }
       layoutConfig={ layoutConfig }
       layoutChanged={ onLayoutChanged }
