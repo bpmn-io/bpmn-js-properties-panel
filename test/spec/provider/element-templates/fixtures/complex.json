@@ -725,5 +725,101 @@
       "bpmn:ServiceTask"
     ],
     "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/element-templates-json-schema/resources/schema.json",
+    "name": "Condition",
+    "id": "example.com.condition",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "id": "myId",
+        "label": "input 1",
+        "type": "String",
+        "binding": {
+          "type": "camunda:property",
+          "name": "input1"
+        }
+      },
+      {
+        "label": "input 1 equals 'text'",
+        "type": "String",
+        "condition": {
+          "type": "simple",
+          "property": "myId",
+          "equals": "text"
+        },
+        "binding": {
+          "type": "camunda:property",
+          "name": "input2"
+        }
+      },
+      {
+        "label": "input 1 equals 11",
+        "type": "String",
+        "condition": {
+          "type": "simple",
+          "property": "myId",
+          "equals": 11
+        },
+        "binding": {
+          "type": "camunda:property",
+          "name": "input3"
+        }
+      },
+      {
+        "label": "input 1 equals true",
+        "type": "String",
+        "condition": {
+          "type": "simple",
+          "property": "myId",
+          "equals": true
+        },
+        "binding": {
+          "type": "camunda:property",
+          "name": "input4"
+        }
+      },
+      {
+        "label": "input 1 is one of [ 'text', 'another text' ]",
+        "type": "String",
+        "condition": {
+          "type": "simple",
+          "property": "myId",
+          "oneOf": [ "text", "another text" ]
+        },
+        "binding": {
+          "type": "camunda:property",
+          "name": "input5"
+        }
+      },
+      {
+        "label": "input 1 is one of [ 2, 5 ]",
+        "type": "String",
+        "condition": {
+          "type": "simple",
+          "property": "myId",
+          "oneOf": [ 2, 5 ]
+        },
+        "binding": {
+          "type": "camunda:property",
+          "name": "input6"
+        }
+      },
+      {
+        "label": "default condition type",
+        "type": "String",
+        "condition": {
+          "property": "myId",
+          "oneOf": [ 2, 5 ]
+        },
+        "binding": {
+          "type": "camunda:property",
+          "name": "input7"
+        }
+      }
+    ]
   }
 ]

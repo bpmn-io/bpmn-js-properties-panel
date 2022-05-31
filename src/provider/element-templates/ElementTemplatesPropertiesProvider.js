@@ -14,6 +14,8 @@ import {
 
 import { getTemplateId } from './Helper';
 
+import { applyConditions } from './Condition';
+
 const CAMUNDA_ERROR_EVENT_DEFINITION_TYPE = 'camunda:errorEventDefinition',
       CAMUNDA_INPUT_PARAMETER_TYPE = 'camunda:inputParameter',
       CAMUNDA_OUTPUT_PARAMETER_TYPE = 'camunda:outputParameter';
@@ -52,9 +54,11 @@ export default class ElementTemplatesPropertiesProvider {
       // (1) Add templates group
       addGroupsAfter('documentation', groups, [ templatesGroup ]);
 
-      const elementTemplate = this._elementTemplates.get(element);
+      let elementTemplate = this._elementTemplates.get(element);
 
       if (elementTemplate) {
+        elementTemplate = applyConditions(element, elementTemplate);
+
         const templateSpecificGroups = [].concat(
           createInputGroup(element, elementTemplate, injector) || [],
           createOutputGroup(element, elementTemplate, injector) || [],
