@@ -17,6 +17,34 @@ export function applyConditions(element, elementTemplate) {
   };
 }
 
+export function elementMeetsTemplateConditions(element, elementTemplate) {
+  const { properties } = elementTemplate;
+  const conditionsNotMet = [];
+
+  properties.forEach(property => {
+    if (!isConditionMet(element, properties, property)) {
+      conditionsNotMet.push(property);
+    }
+  });
+
+  // template = {
+  //   properties: [
+  //     {
+  //       id: 'method'
+  //       /** GET => 1 condition not met, POST => OK */
+  //     },
+  //     {
+  //       id: 'body',
+  //       condition: {
+  //         property: 'method',
+  //         oneOf: [ 'POST', 'PUT', 'PATCH', 'DELETE' ]
+  //     }
+  //   ]
+  // }
+
+  return !conditionsNotMet.length;
+}
+
 function isConditionMet(element, properties, property) {
   const { condition } = property;
 

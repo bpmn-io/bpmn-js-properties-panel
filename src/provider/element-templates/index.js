@@ -1,5 +1,6 @@
 import translateModule from 'diagram-js/lib/i18n/translate';
 
+import { ConditionChecker } from './ConditionChecker';
 import ElementTemplates from './ElementTemplates';
 import ElementTemplatesLoader from './ElementTemplatesLoader';
 import ReplaceBehavior from './ReplaceBehavior';
@@ -15,6 +16,7 @@ export default {
     camundaPlatformPropertiesProviderModule
   ],
   __init__: [
+    'conditionChecker',
     'elementTemplatesLoader',
     'replaceBehavior',
     'elementTemplatesPropertiesProvider'
@@ -22,5 +24,6 @@ export default {
   elementTemplates: [ 'type', ElementTemplates ],
   elementTemplatesLoader: [ 'type', ElementTemplatesLoader ],
   replaceBehavior: [ 'type', ReplaceBehavior ],
-  elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ]
+  elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ],
+  conditionChecker: [ 'type', ConditionChecker ]
 };
