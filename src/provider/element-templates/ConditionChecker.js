@@ -47,6 +47,9 @@ export class ConditionChecker {
     //   ]
     // }
 
+    // remove when infinite loop is solved
+    return;
+
     if (elementMeetsTemplateConditions(element, reducedTemplate)) {
       return;
     }
