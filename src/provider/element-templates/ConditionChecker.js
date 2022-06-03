@@ -3,6 +3,10 @@ import {
   elementMeetsTemplateConditions
 } from './Condition';
 
+import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
+
+const HIGH_PRIORITY = 1500;
+
 /**
  * Goal: After element is changed, check if the template conditions are met and if not,
  * remove element's properties accordingly. If conditions were not met before but now are,
@@ -10,16 +14,36 @@ import {
  *
  * @todo(@barmac): use command interceptor -> to prevent `undo`
  */
-export class ConditionChecker {
+export class ConditionChecker extends CommandInterceptor {
   constructor(eventBus, elementTemplates) {
+    super(eventBus);
+
     this._eventBus = eventBus;
     this._elementTemplates = elementTemplates;
 
-    eventBus.on('elements.changed', ({ elements }) => {
-      elements.forEach(element => {
-        this.checkConditions(element);
-      });
-    });
+    // reduce template properties based on conditions
+    this.preExecute('propertiesPanel.camunda.changeTemplate', HIGH_PRIORITY, this._applyConditions, true, this);
+
+    this.postExecuted('element.updateModdleProperties', this._applyConditionsOnChange, true, this);
+  }
+
+  _applyConditions(context) {
+    const { element, newTemplate, oldTemplate } = context;
+
+    // conditions are applied only once per change
+    if (templatesEqual(newTemplate, oldTemplate)) {
+      return;
+    }
+
+    // TODO (@barmac): apply conditions based also on the **default** values
+    const reducedTemplate = applyConditions(element, newTemplate);
+
+    context.newTemplate = reducedTemplate;
+  }
+
+  _applyConditionsOnChange(context) {
+
+    debugger;
   }
 
   checkConditions(element) {
@@ -79,3 +103,15 @@ ConditionChecker.$inject = [
 // function propertiesEqual(template1, template2) {
 //   return template1.properties.length === template2.properties.length;
 // }
+
+
+// helper //////////
+function templatesEqual(template1, template2) {
+  if (!template1 || !template2) {
+    return false;
+  }
+
+  return template1.id === template2.id && template1.version === template2.version;
+}
+
+
