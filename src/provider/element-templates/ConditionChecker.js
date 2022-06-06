@@ -64,6 +64,9 @@ export class ConditionChecker extends CommandInterceptor {
     const propertiesToAddOrKeep = reducedTemplate.properties;
 
 
+    // if we start removing properties here, this will trigger new `element.update[Moddle]Properties`
+    // which in turn triggers a new conditions check. Ideally, we should check conditions only
+    // once at the end of command execution.
 
     debugger;
 
