@@ -5,6 +5,8 @@ import {
 
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
+import { getPropertyValue } from './util/propertyUtil';
+
 const HIGH_PRIORITY = 1500;
 
 /**
@@ -24,7 +26,9 @@ export class ConditionChecker extends CommandInterceptor {
     // reduce template properties based on conditions
     this.preExecute('propertiesPanel.camunda.changeTemplate', HIGH_PRIORITY, this._applyConditions, true, this);
 
-    this.postExecuted('element.updateModdleProperties', this._applyConditionsOnChange, true, this);
+    this.postExecuted([
+      'element.updateProperties', 'element.updateModdleProperties'
+    ], this._applyConditionsOnChange, true, this);
   }
 
   _applyConditions(context) {
@@ -43,7 +47,28 @@ export class ConditionChecker extends CommandInterceptor {
 
   _applyConditionsOnChange(context) {
 
+    const {
+      element
+    } = context;
+
+    const template = this._elementTemplates.get(element);
+
+    if (!template) {
+      return;
+    }
+
+
+    const reducedTemplate = applyConditions(element, template);
+
+    const propertiesToRemove = diffTemplateProperties(template, reducedTemplate);
+    const propertiesToAddOrKeep = reducedTemplate.properties;
+
+
+
     debugger;
+
+    // @barmac: We can't do this because we end up in an infinite loop.
+    // this._elementTemplates.applyTemplate(element, reducedTemplate);
   }
 
   checkConditions(element) {
@@ -115,3 +140,7 @@ function templatesEqual(template1, template2) {
 }
 
 
+function diffTemplateProperties(sourceTemplate, reducedTemplate) {
+  return sourceTemplate.properties.filter(
+    property => !reducedTemplate.properties.includes(property));
+}
