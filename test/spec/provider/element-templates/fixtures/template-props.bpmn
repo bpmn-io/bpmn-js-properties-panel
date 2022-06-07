@@ -6,7 +6,7 @@
     <bpmn:serviceTask id="Template_1" name="A template is available for this task" camunda:type="external" camunda:topic="">
       <bpmn:outgoing>Flow_1c8xca4</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Template_2" name="I&#39;m a template" camunda:modelerTemplate="0a7096fb-47e8-4b4c-9da0-ecaee7af225e" camunda:modelerTemplateVersion="946771200000" camunda:type="external" camunda:topic="">
+    <bpmn:serviceTask id="Template_2" name="I&#39;m a template" camunda:modelerTemplate="0a7096fb-47e8-4b4c-9da0-ecaee7af225e" camunda:modelerTemplateVersion="946688400000" camunda:type="external" camunda:topic="">
       <bpmn:incoming>Flow_1c8xca4</bpmn:incoming>
       <bpmn:outgoing>Flow_0iz55eq</bpmn:outgoing>
     </bpmn:serviceTask>
