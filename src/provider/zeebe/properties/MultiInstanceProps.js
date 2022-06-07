@@ -22,7 +22,6 @@ import {
   useService,
   useShowCallback
 } from '../../../hooks';
-import { getCloudVariablesForElement } from '@bpmn-io/extract-process-variables';
 import FeelInput from '../../../entries/FeelInput';
 
 

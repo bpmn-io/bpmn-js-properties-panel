@@ -21,7 +21,7 @@
     "start:bpmn": "cross-env SINGLE_START=bpmn npm run dev",
     "start:templates": "cross-env SINGLE_START=templates npm run dev",
     "start:cloud-templates": "cross-env SINGLE_START=cloud-templates npm run dev",
-    "prepare": "run-s bundle"
+     "prepare": "run-s bundle"
   },
   "repository": {
     "type": "git",

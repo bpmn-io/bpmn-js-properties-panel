@@ -47,6 +47,7 @@ import {
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
+import FeelInput from '../../../entries/FeelInput';
 
 const PRIMITIVE_MODDLE_TYPES = [
   'Boolean',
@@ -140,7 +141,7 @@ function addCustomGroup(groups, props) {
 }
 
 function createCustomEntry(id, element, property) {
-  let { type } = property;
+  let { type, feel } = property;
 
   if (!type) {
     type = getDefaultType(property);
@@ -165,6 +166,14 @@ function createCustomEntry(id, element, property) {
   }
 
   if (type === 'String') {
+    if (feel) {
+      return {
+        id,
+        component: FeelProperty,
+        isEdited: isTextFieldEntryEdited,
+        property
+      };
+    }
     return {
       id,
       component: StringProperty,
@@ -263,6 +272,42 @@ function DropdownProperty(props) {
     setValue: propertySetter(bpmnFactory, commandStack, element, property),
     disabled: editable === false
   });
+}
+
+function FeelProperty(props) {
+
+  const {
+    element,
+    id,
+    property
+  } = props;
+
+  const {
+    description,
+    editable,
+    label,
+    feel
+  } = property;
+
+  const bpmnFactory = useService('bpmnFactory'),
+        commandStack = useService('commandStack'),
+        debounce = useService('debounceInput'),
+        translate = useService('translate');
+
+  return FeelInput({
+    debounce,
+    element,
+    getValue: propertyGetter(element, property),
+    id,
+    label,
+    feel,
+    description: PropertyDescription({ description }),
+    setValue: propertySetter(bpmnFactory, commandStack, element, property),
+    validate: propertyValidator(translate, property),
+    disabled: editable === false
+  });
+
+  // return StringProperty(props);
 }
 
 function StringProperty(props) {
