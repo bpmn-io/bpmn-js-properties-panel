@@ -129,7 +129,7 @@ describe('provider/element-templates - TemplateProps', function() {
         const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).to.exist;
-        expect(entry.children[1].textContent).to.eql('02.01.2000');
+        expect(entry.children[1].textContent).to.eql('01.01.2000 02:00');
       })
     );
 
@@ -149,7 +149,7 @@ describe('provider/element-templates - TemplateProps', function() {
         const entry = domQuery('[data-group-id="group-ElementTemplates__Template"] [data-entry-id="template-version"]', container);
 
         expect(entry).to.exist;
-        expect(entry.children[1].textContent).to.eql('01.01.2000');
+        expect(entry.children[1].textContent).to.eql('01.01.2000 01:00');
       })
     );
 

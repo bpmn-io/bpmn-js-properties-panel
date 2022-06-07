@@ -174,7 +174,7 @@ describe('provider/element-template - templateUtil', function() {
       const date = getVersionOrDateFromTemplate(template);
 
       // then
-      expect(date).to.eql('01.01.1970');
+      expect(date).to.eql('01.01.1970 01:00');
     });
 
 
@@ -187,7 +187,7 @@ describe('provider/element-template - templateUtil', function() {
       const date = getVersionOrDateFromTemplate(template);
 
       // then
-      expect(date).to.eql('01.01.1970');
+      expect(date).to.eql('01.01.1970 01:00');
     });
 
 

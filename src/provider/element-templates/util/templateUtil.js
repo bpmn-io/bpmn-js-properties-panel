@@ -41,8 +41,8 @@ export function updateTemplate(element, newTemplate, injector) {
 }
 
 export function getVersionOrDateFromTemplate(template) {
-  var metadata = template.metadata,
-      version = template.version;
+  const metadata = template.metadata,
+        version = template.version;
 
   if (metadata) {
     if (!isUndefined(metadata.created)) {
@@ -60,13 +60,14 @@ export function getVersionOrDateFromTemplate(template) {
 }
 
 
-// helper //////
+// helper ///////////
+
 function getEventDefinitionType(businessObject) {
   if (!businessObject.eventDefinitions) {
     return null;
   }
 
-  var eventDefinition = businessObject.eventDefinitions[ 0 ];
+  const eventDefinition = businessObject.eventDefinitions[ 0 ];
 
   if (!eventDefinition) {
     return null;
@@ -75,16 +76,30 @@ function getEventDefinitionType(businessObject) {
   return eventDefinition.$type;
 }
 
+/**
+ * Example: 01.01.1900 01:01
+ *
+ * @param {number} timestamp
+ * @returns {string}
+ */
 function toDateString(timestamp) {
-  var date = new Date(timestamp);
+  const date = new Date(timestamp);
 
-  var year = date.getFullYear();
+  const year = date.getFullYear();
 
-  var month = leftPad(String(date.getMonth() + 1), 2, '0');
+  const month = withLeadingZeros(String(date.getMonth() + 1));
 
-  var day = leftPad(String(date.getDate()), 2, '0');
+  const day = withLeadingZeros(String(date.getDate()));
 
-  return day + '.' + month + '.' + year;
+  const hours = withLeadingZeros(String(date.getHours()));
+
+  const minutes = withLeadingZeros(String(date.getMinutes()));
+
+  return day + '.' + month + '.' + year + ' ' + hours + ':' + minutes;
+}
+
+function withLeadingZeros(string) {
+  return leftPad(string, 2, '0');
 }
 
 function leftPad(string, length, character) {
