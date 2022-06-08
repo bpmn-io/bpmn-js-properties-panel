@@ -48,8 +48,14 @@ export class ConditionChecker extends CommandInterceptor {
   _applyConditionsOnChange(context) {
 
     const {
+      conditionalLogic,
       element
     } = context;
+
+    // opt-out from changes trigger by condition checker
+    if (conditionalLogic) {
+      return;
+    }
 
     const template = this._elementTemplates.get(element);
 
