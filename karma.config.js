@@ -21,6 +21,9 @@ process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
+// use stable timezone
+process.env.TZ = 'Europe/Berlin';
+
 module.exports = function(karma) {
 
   const config = {
