@@ -9,9 +9,9 @@ import {
   findCamundaErrorEventDefinition,
   findExtension,
   findExtensions
-} from '../Helper';
+} from './Helper';
 
-import handleLegacyScopes from '../util/handleLegacyScopes';
+import handleLegacyScopes from './util/handleLegacyScopes';
 
 import {
   createCamundaExecutionListenerScript,
@@ -24,11 +24,11 @@ import {
   createOutputParameter,
   createCamundaErrorEventDefinition,
   createError
-} from '../CreateHelper';
+} from './CreateHelper';
 
-import { getSignalEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
+import { getSignalEventDefinition } from '../bpmn/utils/EventDefinitionUtil';
 
-import { getRoot } from '../../../utils/ElementUtil';
+import { getRoot } from '../../utils/ElementUtil';
 
 import {
   find,
@@ -44,70 +44,36 @@ const CAMUNDA_SERVICE_TASK_LIKE = [
   'camunda:expression'
 ];
 
-/**
- * Applies an element template to an element. Sets `camunda:modelerTemplate` and
- * `camunda:modelerTemplateVersion`.
- */
-export default class ChangeElementTemplateHandler {
-  constructor(bpmnFactory, bpmnReplace, commandStack, modeling, changeElementTemplateHelper) {
+export default class ChangeElementTemplateHelper {
+  constructor(bpmnFactory, bpmnReplace, commandStack, modeling) {
     this._bpmnFactory = bpmnFactory;
     this._bpmnReplace = bpmnReplace;
     this._commandStack = commandStack;
     this._modeling = modeling;
-    this.helper = changeElementTemplateHelper;
   }
 
-  /**
-   * Change an element's template and update its properties as specified in `newTemplate`. Specify
-   * `oldTemplate` to update from one template to another. If `newTemplate` isn't specified the
-   * `camunda:modelerTemplate` and `camunda:modelerTemplateVersion` properties will be removed from
-   * the element.
-   *
-   * @param {Object} context
-   * @param {Object} context.element
-   * @param {Object} [context.oldTemplate]
-   * @param {Object} [context.newTemplate]
-   */
-  preExecute(context) {
-    const newTemplate = context.newTemplate,
-          oldTemplate = context.oldTemplate;
+  _updateAllProps(element, oldTemplate, newTemplate) {
 
-    let element = context.element;
+    // update properties
+    this._updateProperties(element, oldTemplate, newTemplate);
 
-    // update camunda:modelerTemplate attribute
-    this.helper._updateCamundaModelerTemplate(element, newTemplate);
+    // update camunda:ExecutionListener properties
+    this._updateCamundaExecutionListenerProperties(element, newTemplate);
 
-    if (newTemplate) {
+    // update camunda:Field properties
+    this._updateCamundaFieldProperties(element, oldTemplate, newTemplate);
 
-      element = context.element = this.helper._updateTaskType(element, newTemplate);
+    // update camunda:In and camunda:Out properties
+    this._updateCamundaInOutProperties(element, oldTemplate, newTemplate);
 
-      // update properties
-      this.helper._updateProperties(element, oldTemplate, newTemplate);
+    // update camunda:InputParameter and camunda:OutputParameter properties
+    this._updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate);
 
-      // update camunda:ExecutionListener properties
-      this.helper._updateCamundaExecutionListenerProperties(element, newTemplate);
+    // update camunda:Property properties
+    this._updateCamundaPropertyProperties(element, oldTemplate, newTemplate);
 
-      // update camunda:Field properties
-      this.helper._updateCamundaFieldProperties(element, oldTemplate, newTemplate);
-
-      // update camunda:In and camunda:Out properties
-      this.helper._updateCamundaInOutProperties(element, oldTemplate, newTemplate);
-
-      // update camunda:InputParameter and camunda:OutputParameter properties
-      this.helper._updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate);
-
-      // update camunda:Property properties
-      this.helper._updateCamundaPropertyProperties(element, oldTemplate, newTemplate);
-
-      // update camunda:ErrorEventDefinition properties
-      this.helper._updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate);
-
-      // update properties for each scope
-      handleLegacyScopes(newTemplate.scopes).forEach((newScopeTemplate) => {
-        this.helper._updateScopeProperties(element, oldTemplate, newScopeTemplate, newTemplate);
-      });
-
-    }
+    // update camunda:ErrorEventDefinition properties
+    this._updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate);
   }
 
   _getOrCreateExtensionElements(element) {
@@ -134,15 +100,15 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `camunda:ErrorEventDefinition` properties of specified business object. Event
-   * definitions can only exist in `bpmn:ExtensionElements`.
-   *
-   * Ensures an bpmn:Error exists for the event definition.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   */
+     * Update `camunda:ErrorEventDefinition` properties of specified business object. Event
+     * definitions can only exist in `bpmn:ExtensionElements`.
+     *
+     * Ensures an bpmn:Error exists for the event definition.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldTemplate
+     * @param {Object} newTemplate
+     */
   _updateCamundaErrorEventDefinitionProperties(element, oldTemplate, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -222,12 +188,12 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `camunda:ExecutionListener` properties of specified business object. Execution listeners
-   * will always be overridden. Execution listeners can only exist in `bpmn:ExtensionElements`.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} newTemplate
-   */
+     * Update `camunda:ExecutionListener` properties of specified business object. Execution listeners
+     * will always be overridden. Execution listeners can only exist in `bpmn:ExtensionElements`.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} newTemplate
+     */
   _updateCamundaExecutionListenerProperties(element, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -270,15 +236,15 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `camunda:Field` properties of specified business object.
-   * If business object is `camunda:ExecutionListener` or `camunda:TaskListener` `fields` property
-   * will be updated. Otherwise `extensionElements.values` property will be updated.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   * @param {ModdleElement} businessObject
-   */
+     * Update `camunda:Field` properties of specified business object.
+     * If business object is `camunda:ExecutionListener` or `camunda:TaskListener` `fields` property
+     * will be updated. Otherwise `extensionElements.values` property will be updated.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldTemplate
+     * @param {Object} newTemplate
+     * @param {ModdleElement} businessObject
+     */
   _updateCamundaFieldProperties(element, oldTemplate, newTemplate, businessObject) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -353,14 +319,14 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `camunda:In` and `camunda:Out` properties of specified business object. Only
-   * `bpmn:CallActivity` and events with `bpmn:SignalEventDefinition` can have ins. Only
-   * `camunda:CallActivity` can have outs.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   */
+     * Update `camunda:In` and `camunda:Out` properties of specified business object. Only
+     * `bpmn:CallActivity` and events with `bpmn:SignalEventDefinition` can have ins. Only
+     * `camunda:CallActivity` can have outs.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldTemplate
+     * @param {Object} newTemplate
+     */
   _updateCamundaInOutProperties(element, oldTemplate, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -370,8 +336,8 @@ export default class ChangeElementTemplateHandler {
             newBindingType = newBinding.type;
 
       return newBindingType === 'camunda:in'
-      || newBindingType === 'camunda:in:businessKey'
-      || newBindingType === 'camunda:out';
+        || newBindingType === 'camunda:in:businessKey'
+        || newBindingType === 'camunda:out';
     });
 
     // (1) do not override old fields if no new fields specified
@@ -461,14 +427,14 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `camunda:InputParameter` and `camunda:OutputParameter` properties of specified business
-   * object. Both can only exist in `camunda:InputOutput` which can exist in `bpmn:ExtensionElements`
-   * or `camunda:Connector`.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   */
+     * Update `camunda:InputParameter` and `camunda:OutputParameter` properties of specified business
+     * object. Both can only exist in `camunda:InputOutput` which can exist in `bpmn:ExtensionElements`
+     * or `camunda:Connector`.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldTemplate
+     * @param {Object} newTemplate
+     */
   _updateCamundaInputOutputParameterProperties(element, oldTemplate, newTemplate, businessObject) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -623,14 +589,14 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `camunda:Property` properties of specified business object. `camunda:Property` can only
-   * exist in `camunda:Properties`.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newTemplate
-   * @param {ModdleElement} businessObject
-   */
+     * Update `camunda:Property` properties of specified business object. `camunda:Property` can only
+     * exist in `camunda:Properties`.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldTemplate
+     * @param {Object} newTemplate
+     * @param {ModdleElement} businessObject
+     */
   _updateCamundaPropertyProperties(element, oldTemplate, newTemplate, businessObject) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -720,13 +686,13 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update `bpmn:conditionExpression` property of specified element. Since condition expression is
-   * is not primitive it needs special handling.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldProperty
-   * @param {Object} newProperty
-   */
+     * Update `bpmn:conditionExpression` property of specified element. Since condition expression is
+     * is not primitive it needs special handling.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldProperty
+     * @param {Object} newProperty
+     */
   _updateConditionExpression(element, oldProperty, newProperty) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack,
@@ -839,13 +805,13 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Update properties for a specified scope.
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} oldTemplate
-   * @param {Object} newScopeTemplate
-   * @param {Object} newTemplate
-   */
+     * Update properties for a specified scope.
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} oldTemplate
+     * @param {Object} newScopeTemplate
+     * @param {Object} newTemplate
+     */
   _updateScopeProperties(element, oldTemplate, newScopeTemplate, newTemplate) {
     const bpmnFactory = this._bpmnFactory,
           commandStack = this._commandStack;
@@ -898,11 +864,11 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
-   * Replaces the element with the specified elementType
-   *
-   * @param {djs.model.Base} element
-   * @param {Object} newTemplate
-   */
+     * Replaces the element with the specified elementType
+     *
+     * @param {djs.model.Base} element
+     * @param {Object} newTemplate
+     */
   _updateTaskType(element, newTemplate) {
 
     // determine new task type
@@ -921,25 +887,24 @@ export default class ChangeElementTemplateHandler {
   }
 }
 
-ChangeElementTemplateHandler.$inject = [
+ChangeElementTemplateHelper.$inject = [
   'bpmnFactory',
   'bpmnReplace',
   'commandStack',
-  'modeling',
-  'changeElementTemplateHelper'
+  'modeling'
 ];
 
 
 // helpers //////////
 
 /**
- * Find old business object matching specified old property.
- *
- * @param {djs.model.Base|ModdleElement} element
- * @param {Object} oldProperty
- *
- * @returns {ModdleElement}
- */
+   * Find old business object matching specified old property.
+   *
+   * @param {djs.model.Base|ModdleElement} element
+   * @param {Object} oldProperty
+   *
+   * @returns {ModdleElement}
+   */
 function findOldBusinessObject(element, oldProperty) {
   let businessObject = getBusinessObject(element),
       propertyName;
@@ -979,7 +944,7 @@ function findOldBusinessObject(element, oldProperty) {
   if (oldBindingType === 'camunda:out') {
     return find(businessObject.get('values'), function(oldBusinessObject) {
       return oldBusinessObject.get('source') === oldBinding.source ||
-        oldBusinessObject.get('sourceExpression') || oldBinding.sourceExpression;
+          oldBusinessObject.get('sourceExpression') || oldBinding.sourceExpression;
     });
   }
 
@@ -1039,13 +1004,13 @@ function findOldBusinessObject(element, oldProperty) {
 }
 
 /**
- * Find old property matching specified new property.
- *
- * @param {Object} oldTemplate
- * @param {Object} newProperty
- *
- * @returns {Object}
- */
+   * Find old property matching specified new property.
+   *
+   * @param {Object} oldTemplate
+   * @param {Object} newProperty
+   *
+   * @returns {Object}
+   */
 function findOldProperty(oldTemplate, newProperty) {
   if (!oldTemplate) {
     return;
@@ -1087,7 +1052,7 @@ function findOldProperty(oldTemplate, newProperty) {
 
       // always override if change from source to source expression or vice versa
       if ((oldBinding.expression && !newBinding.expression) ||
-        !oldBinding.expression && newBinding.expression) {
+          !oldBinding.expression && newBinding.expression) {
         return;
       }
 
@@ -1111,7 +1076,7 @@ function findOldProperty(oldTemplate, newProperty) {
 
       return oldBindingType === 'camunda:out' && (
         oldBinding.source === newBinding.source ||
-        oldBinding.sourceExpression === newBinding.sourceExpression
+          oldBinding.sourceExpression === newBinding.sourceExpression
       );
     });
   }
@@ -1127,7 +1092,7 @@ function findOldProperty(oldTemplate, newProperty) {
       }
 
       return oldBindingName === newBindingName
-        && oldBinding.scriptFormat === newBinding.scriptFormat;
+          && oldBinding.scriptFormat === newBinding.scriptFormat;
     });
   }
 
@@ -1141,7 +1106,7 @@ function findOldProperty(oldTemplate, newProperty) {
       }
 
       return oldBinding.source === newBinding.source
-        && oldBinding.scriptFormat === newBinding.scriptFormat;
+          && oldBinding.scriptFormat === newBinding.scriptFormat;
     });
   }
 
@@ -1163,7 +1128,7 @@ function findOldProperty(oldTemplate, newProperty) {
             oldBindingType = oldBinding.type;
 
       return oldBindingType === 'camunda:errorEventDefinition'
-        && oldBindingRef === newBindingRef;
+          && oldBindingRef === newBindingRef;
     });
   }
 }
@@ -1223,13 +1188,13 @@ function findErrorEventDefinitionBinding(template, templateErrorId) {
 }
 
 /**
- * Check whether property was changed after being set by template.
- *
- * @param {djs.model.Base|ModdleElement} element
- * @param {Object} oldProperty
- *
- * @returns {boolean}
- */
+   * Check whether property was changed after being set by template.
+   *
+   * @param {djs.model.Base|ModdleElement} element
+   * @param {Object} oldProperty
+   *
+   * @returns {boolean}
+   */
 function propertyChanged(element, oldProperty) {
   const businessObject = getBusinessObject(element);
 

@@ -6,6 +6,7 @@ import {
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 import { getPropertyValue } from './util/propertyUtil';
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 const HIGH_PRIORITY = 1500;
 
@@ -17,11 +18,13 @@ const HIGH_PRIORITY = 1500;
  * @todo(@barmac): use command interceptor -> to prevent `undo`
  */
 export class ConditionChecker extends CommandInterceptor {
-  constructor(eventBus, elementTemplates) {
+  constructor(eventBus, elementTemplates, commandStack, changeElementTemplateHelper) {
     super(eventBus);
 
     this._eventBus = eventBus;
     this._elementTemplates = elementTemplates;
+    this._commandStack = commandStack;
+    this.helper = changeElementTemplateHelper;
 
     // reduce template properties based on conditions
     this.preExecute('propertiesPanel.camunda.changeTemplate', HIGH_PRIORITY, this._applyConditions, true, this);
@@ -35,7 +38,7 @@ export class ConditionChecker extends CommandInterceptor {
     const { element, newTemplate, oldTemplate } = context;
 
     // conditions are applied only once per change
-    if (templatesEqual(newTemplate, oldTemplate)) {
+    if (!newTemplate || templatesEqual(newTemplate, oldTemplate)) {
       return;
     }
 
@@ -63,75 +66,23 @@ export class ConditionChecker extends CommandInterceptor {
       return;
     }
 
-
     const reducedTemplate = applyConditions(element, template);
 
-    const propertiesToRemove = diffTemplateProperties(template, reducedTemplate);
-    const propertiesToAddOrKeep = reducedTemplate.properties;
+    this.helper._updateAllProps(element, template, reducedTemplate);
 
-
-    // if we start removing properties here, this will trigger new `element.update[Moddle]Properties`
-    // which in turn triggers a new conditions check. Ideally, we should check conditions only
-    // once at the end of command execution.
-
-    debugger;
-
-    // @barmac: We can't do this because we end up in an infinite loop.
-    // this._elementTemplates.applyTemplate(element, reducedTemplate);
-  }
-
-  checkConditions(element) {
-    const elementTemplate = this._elementTemplates.get(element);
-
-    if (!elementTemplate) {
-      return;
-    }
-
-    const reducedTemplate = applyConditions(element, elementTemplate);
-
-
-    // template = {
-    //   properties: [
-    //     {
-    //       id: 'method'
-    //       /** GET => 1 condition not met, POST => OK */
-    //     },
-    //     {
-    //       id: 'body',
-    //       condition: {
-    //         property: 'method',
-    //         oneOf: [ 'POST', 'PUT', 'PATCH', 'DELETE' ]
-    //     }
-    //   ]
-    // }
-
-    // remove when infinite loop is solved
-    return;
-
-    if (elementMeetsTemplateConditions(element, reducedTemplate)) {
-      return;
-    }
-
-    debugger;
-
-    // We run into an infinite loop because element template returned from elementTemplates
-    // is always the same, immutable object. So it's almost always different than the
-    // reduced template.
-    // if (propertiesEqual(reducedTemplate, elementTemplate)) {
-    //   return;
-    // }
-
-    this._elementTemplates.applyTemplate(element, reducedTemplate);
-
-    console.log('changed element', element, elementTemplate, reducedTemplate);
-
-    console.log('new element', element.businessObject);
+    this._commandStack.execute('element.updateProperties', {
+      element,
+      properties: {},
+      conditionalLogic: true
+    });
   }
 }
 
 ConditionChecker.$inject = [
   'eventBus',
-  'elementTemplates'
+  'elementTemplates',
+  'commandStack',
+  'changeElementTemplateHelper'
 ];
 
 // function propertiesEqual(template1, template2) {

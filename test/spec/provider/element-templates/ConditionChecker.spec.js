@@ -49,13 +49,15 @@ describe('provider/element-templates - ConditionChecker', function() {
   describe('applying template', function() {
 
     it('should apply only the properties for which conditions are met', inject(
-      function(elementRegistry, elementTemplates) {
+      async function(elementRegistry, elementTemplates) {
 
         // given
         const element = elementRegistry.get('WithoutTemplate');
 
         // when
         elementTemplates.applyTemplate(element, conditionalTemplate);
+
+        await waitToFinish();
 
         // then
         expectCamundaProperties(element, [
@@ -69,7 +71,7 @@ describe('provider/element-templates - ConditionChecker', function() {
   describe('updating element', function() {
 
     it('should add properties for which conditions are met', inject(
-      function(elementRegistry, modeling) {
+      async function(elementRegistry, modeling) {
 
         // given
         const element = elementRegistry.get('Condition');
@@ -116,7 +118,7 @@ function expectCamundaProperties(element, expectedProperties) {
 
   const camundaProperties = findExtension(bo, 'camunda:Properties');
 
-  const remainingExpected = [ ...expectedProperties ];
+  let remainingExpected = [ ...expectedProperties ];
   for (const camundaProperty of camundaProperties.get('values')) {
     const expected = expectedProperties.find(
       property => property.name === camundaProperty.get('name'));
@@ -124,7 +126,8 @@ function expectCamundaProperties(element, expectedProperties) {
     expect(expected, `property should NOT exist: name=${camundaProperty.get('name')}`).to.exist;
     expect(camundaProperty.get('value')).to.eql(expected.value);
 
-    remainingExpected.splice(expectedProperties.indexOf(expected), 1);
+    const propertyIndex = expectedProperties.indexOf(expected);
+    remainingExpected = remainingExpected.slice(propertyIndex, propertyIndex == 0 ? -1 : propertyIndex);
   }
 
   const remainingAsString = remainingExpected.map(property => property.name).join(', ');
@@ -137,4 +140,10 @@ function findCamundaPropertyByName(element, name) {
   const camundaProperties = findExtension(bo, 'camunda:Properties');
 
   return findCamundaProperty(camundaProperties, { name });
+}
+
+async function waitToFinish() {
+  return await new Promise(resolve => setTimeout(() => {
+    resolve();
+  }, 10));
 }

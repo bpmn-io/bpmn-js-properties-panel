@@ -8,6 +8,7 @@ import commandsModule from './cmd';
 import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';
 
 import camundaPlatformPropertiesProviderModule from '../camunda-platform';
+import ChangeElementTemplateHelper from './ChangeElementTemplateHelper';
 
 export default {
   __depends__: [
@@ -19,11 +20,13 @@ export default {
     'conditionChecker',
     'elementTemplatesLoader',
     'replaceBehavior',
-    'elementTemplatesPropertiesProvider'
+    'elementTemplatesPropertiesProvider',
+    'changeElementTemplateHelper'
   ],
   elementTemplates: [ 'type', ElementTemplates ],
   elementTemplatesLoader: [ 'type', ElementTemplatesLoader ],
   replaceBehavior: [ 'type', ReplaceBehavior ],
   elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ],
-  conditionChecker: [ 'type', ConditionChecker ]
+  conditionChecker: [ 'type', ConditionChecker ],
+  changeElementTemplateHelper: [ 'type', ChangeElementTemplateHelper ]
 };
