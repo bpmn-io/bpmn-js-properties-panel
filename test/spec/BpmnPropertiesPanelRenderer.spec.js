@@ -13,6 +13,8 @@ import {
   insertBpmnStyles
 } from 'test/TestHelper';
 
+import { tabbable } from 'tabbable';
+
 import {
   query as domQuery,
   domify
@@ -737,11 +739,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   describe('a11y', function() {
 
-    it('should have no violations', async function() {
+    beforeEach(async function() {
 
-      // given
-
-      // (0) this test needs some time
+      // (0) these tests need some time
       this.timeout(5000);
 
       const diagramXml = require('test/fixtures/a11y.bpmn').default;
@@ -800,9 +800,77 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         inputMapHeader.click();
         entryHeader.click();
       });
+    });
+
+    it('should have no violations', async function() {
+      await expectNoViolations(propertiesContainer);
+    });
+
+
+    it('should retrieve tab order properly', async function() {
+
+      // given
+      const expectedTabOrderSelectors = [
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'input#bio-properties-panel-name.bio-properties-panel-input',
+        'input#bio-properties-panel-id.bio-properties-panel-input',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'textarea#bio-properties-panel-documentation.bio-properties-panel-input',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'select#bio-properties-panel-implementationType.bio-properties-panel-input',
+        'input#bio-properties-panel-connectorId.bio-properties-panel-input',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'input#bio-properties-panel-asynchronousContinuationBefore.bio-properties-panel-input',
+        'input#bio-properties-panel-asynchronousContinuationAfter.bio-properties-panel-input',
+        'input#bio-properties-panel-exclusive.bio-properties-panel-input',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'input#bio-properties-panel-retryTimeCycle.bio-properties-panel-input',
+        'input#bio-properties-panel-jobPriority.bio-properties-panel-input',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'input#bio-properties-panel-ServiceTask_1-inputParameter-0-name.bio-properties-panel-input',
+        'select#bio-properties-panel-ServiceTask_1-inputParameter-0-type.bio-properties-panel-input',
+        'button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-add-entry',
+        'button.bio-properties-panel-group-header-button.bio-properties-panel-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow',
+        'button.bio-properties-panel-arrow.bio-properties-panel-collapsible-entry-arrow'
+      ];
 
       // when
-      await expectNoViolations(propertiesContainer);
+      const tabOrder = tabbable(propertiesContainer);
+
+      // then
+      expect(toElements(expectedTabOrderSelectors)).to.eql(tabOrder);
+
     });
 
   });
@@ -818,4 +886,8 @@ function getGroup(container, id) {
 
 function getHeaderName(container) {
   return domQuery('.bio-properties-panel-header-label', container).innerText;
+}
+
+function toElements(selectors) {
+  return selectors.map(s => domQuery(s));
 }
