@@ -29,6 +29,8 @@ import {
   getMessage
 } from 'src/provider/bpmn/utils/EventDefinitionUtil';
 
+import { getLintError } from '../zeebe/lint-helper';
+
 import diagramXML from './MessageProps.bpmn';
 
 
@@ -108,6 +110,7 @@ describe('provider/bpmn - MessageProps', function() {
       expect(asOptionNamesList(messageRefSelect)).to.eql([
         '<none>',
         'Create new ...',
+        '',
         'Message_1',
         'Message_2',
         'Message_3'
@@ -265,24 +268,24 @@ describe('provider/bpmn - MessageProps', function() {
       it('should show error (no message ref)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const startEvent = elementRegistry.get('MessageEvent_1');
+        const startEvent = elementRegistry.get('MessageEvent_empty');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/message-reference');
+
+        const report = await getLintError(startEvent, rule);
 
         // when
         await act(() => {
           selection.select(startEvent);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'MessageEvent_1',
-            message: 'foo',
-            path: [ 'eventDefinitions', 0, 'messageRef' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:MessageEventDefinition> must have property <messageRef>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -348,6 +351,7 @@ describe('provider/bpmn - MessageProps', function() {
       expect(asOptionNamesList(messageRefSelect)).to.eql([
         '<none>',
         'Create new ...',
+        '',
         'Message_1',
         'Message_2',
         'Message_3'
@@ -446,22 +450,22 @@ describe('provider/bpmn - MessageProps', function() {
         // given
         const receiveTask = elementRegistry.get('ReceiveTask_empty');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/message-reference');
+
+        const report = await getLintError(receiveTask, rule);
+
         // when
         await act(() => {
           selection.select(receiveTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ReceiveTask_empty',
-            message: 'foo',
-            path: [ 'messageRef' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:ReceiveTask> must have property <messageRef>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -578,24 +582,24 @@ describe('provider/bpmn - MessageProps', function() {
       it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const startEvent = elementRegistry.get('MessageEvent_1');
+        const startEvent = elementRegistry.get('MessageEvent_2');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/message-reference');
+
+        const report = await getLintError(startEvent, rule);
 
         // when
         await act(() => {
           selection.select(startEvent);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'MessageEvent_1',
-            message: 'foo',
-            path: [ 'rootElements', 1, 'name' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:Message> must have property <name>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -692,24 +696,24 @@ describe('provider/bpmn - MessageProps', function() {
       it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const receiveTask = elementRegistry.get('ReceiveTask_1');
+        const receiveTask = elementRegistry.get('ReceiveTask_2');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/message-reference');
+
+        const report = await getLintError(receiveTask, rule);
 
         // when
         await act(() => {
           selection.select(receiveTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ReceiveTask_1',
-            message: 'foo',
-            path: [ 'rootElements', 1, 'name' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:Message> must have property <name>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 

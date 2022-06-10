@@ -29,6 +29,8 @@ import {
   getError
 } from 'src/provider/bpmn/utils/EventDefinitionUtil';
 
+import { getLintError } from '../zeebe/lint-helper';
+
 import diagramXML from './ErrorProps.bpmn';
 
 
@@ -267,22 +269,22 @@ describe('provider/bpmn - ErrorProps', function() {
         // given
         const boundaryEvent = elementRegistry.get('ErrorEvent_empty');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/error-reference');
+
+        const report = await getLintError(boundaryEvent, rule);
+
         // when
         await act(() => {
           selection.select(boundaryEvent);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ErrorEvent_empty',
-            message: 'foo',
-            path: [ 'eventDefinitions', 0, 'errorRef' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:ErrorEventDefinition> must have property <errorRef>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -481,24 +483,24 @@ describe('provider/bpmn - ErrorProps', function() {
       it('should show error (no error code)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const boundaryEvent = elementRegistry.get('ErrorEvent_1');
+        const boundaryEvent = elementRegistry.get('ErrorEvent_no_error_code');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/error-reference');
+
+        const report = await getLintError(boundaryEvent, rule);
 
         // when
         await act(() => {
           selection.select(boundaryEvent);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ErrorEvent_1',
-            message: 'foo',
-            path: [ 'rootElements', 1, 'errorCode' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:Error> must have property <errorCode>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 

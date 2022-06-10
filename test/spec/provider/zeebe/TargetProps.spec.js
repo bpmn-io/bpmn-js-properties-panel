@@ -35,6 +35,8 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import { getLintError } from './lint-helper';
+
 import diagramXML from './TargetProps.bpmn';
 
 
@@ -228,27 +230,24 @@ describe('provider/zeebe - TargetProps', function() {
       it('should show error (no extension element)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const businessRuleTask = elementRegistry.get('CallActivity_2');
+        const callActivity = elementRegistry.get('CallActivity_2');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/called-element');
+
+        const report = await getLintError(callActivity, rule);
 
         // when
         await act(() => {
-          selection.select(businessRuleTask);
+          selection.select(callActivity);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'CallActivity_2',
-            message: 'foo',
-            error: {
-              type: 'extensionElementRequired',
-              requiredExtensionElement: 'zeebe:CalledElement'
-            }
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:CallActivity> must have extension element of type <zeebe:CalledElement>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -259,24 +258,24 @@ describe('provider/zeebe - TargetProps', function() {
       it('should show error (no process ID)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const businessRuleTask = elementRegistry.get('CallActivity_4');
+        const callActivity = elementRegistry.get('CallActivity_4');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/called-element');
+
+        const report = await getLintError(callActivity, rule);
 
         // when
         await act(() => {
-          selection.select(businessRuleTask);
+          selection.select(callActivity);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'CallActivity_4',
-            message: 'foo',
-            path: [ 'extensionElements', 'values', 0, 'processId' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <zeebe:CalledElement> must have property <processId>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 

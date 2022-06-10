@@ -21,7 +21,7 @@ import {
   useShowCallback
 } from '../../../hooks';
 
-import { without } from 'min-dash';
+import { isArray, without } from 'min-dash';
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
@@ -124,10 +124,8 @@ function BusinessRuleImplementation(props) {
     } = error;
 
     return type === 'extensionElementRequired'
-      && [
-        'zeebe:CalledDecision',
-        'zeebe:TaskDefinition'
-      ].includes(requiredExtensionElement);
+      && isArray(requiredExtensionElement)
+      && (requiredExtensionElement.includes('zeebe:CalledDecision') || requiredExtensionElement.includes('zeebe:TaskDefinition'));
   });
 
   return SelectEntry({

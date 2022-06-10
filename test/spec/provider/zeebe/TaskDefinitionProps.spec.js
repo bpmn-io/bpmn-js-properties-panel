@@ -34,6 +34,8 @@ import {
   getExtensionElementsList
 } from 'src/utils/ExtensionElementsUtil';
 
+import { getLintError } from './lint-helper';
+
 import diagramXML from './TaskDefinitionProps.bpmn';
 
 
@@ -302,25 +304,24 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
         // given
         const serviceTask = elementRegistry.get('ServiceTask_empty');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition');
+
+        const { camundaCloud10: config } = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition/config');
+
+        const report = await getLintError(serviceTask, rule, config);
+
         // when
         await act(() => {
           selection.select(serviceTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_empty',
-            message: 'foo',
-            error: {
-              type: 'extensionElementRequired',
-              requiredExtensionElement: 'zeebe:TaskDefinition'
-            }
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:ServiceTask> must have extension element of type <zeebe:TaskDefinition>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -333,22 +334,24 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
         // given
         const serviceTask = elementRegistry.get('ServiceTask_noTaskDefinitionType');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition');
+
+        const { camundaCloud10: config } = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition/config');
+
+        const report = await getLintError(serviceTask, rule, config);
+
         // when
         await act(() => {
           selection.select(serviceTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noTaskDefinitionType',
-            message: 'foo',
-            path: [ 'extensionElements', 'values', 0, 'type' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <zeebe:TaskDefinition> must have property <type>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -482,38 +485,6 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
         expect(getTaskDefinition(serviceTask).get('retries')).to.eql('newValue');
       })
     );
-
-
-    describe('show error', function() {
-
-      it('should show error (no retries)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_noTaskDefinitionRetries');
-
-        // when
-        await act(() => {
-          selection.select(serviceTask);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noTaskDefinitionRetries',
-            message: 'foo',
-            path: [ 'extensionElements', 'values', 0, 'retries' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('taskDefinitionRetries');
-      }));
-
-    });
 
   });
 

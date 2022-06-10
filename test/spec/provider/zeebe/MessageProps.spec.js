@@ -36,6 +36,8 @@ import {
   getMessage
 } from 'src/provider/bpmn/utils/EventDefinitionUtil';
 
+import { getLintError } from './lint-helper';
+
 import diagramXML from './MessageProps.bpmn';
 
 
@@ -190,24 +192,24 @@ describe('provider/zeebe - MessageProps', function() {
       it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const startEvent = elementRegistry.get('StartEvent_1');
+        const startEvent = elementRegistry.get('MessageEvent_no_message_name');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/message-reference');
+
+        const report = await getLintError(startEvent, rule);
 
         // when
         await act(() => {
           selection.select(startEvent);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'StartEvent_1',
-            message: 'foo',
-            path: [ 'rootElements', 1, 'name' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:Message> must have property <name>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -339,24 +341,24 @@ describe('provider/zeebe - MessageProps', function() {
       it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const receiveTask = elementRegistry.get('IntermediateEvent_1');
+        const receiveTask = elementRegistry.get('IntermediateEvent_no_message_name');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/message-reference');
+
+        const report = await getLintError(receiveTask, rule);
 
         // when
         await act(() => {
           selection.select(receiveTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'IntermediateEvent_1',
-            message: 'foo',
-            path: [ 'rootElements', 3, 'name' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:Message> must have property <name>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -582,25 +584,22 @@ describe('provider/zeebe - MessageProps', function() {
         // given
         const startEvent = elementRegistry.get('StartEvent_noSubscription');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/subscription');
+
+        const report = await getLintError(startEvent, rule);
+
         // when
         await act(() => {
           selection.select(startEvent);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'StartEvent_noSubscription',
-            message: 'foo',
-            error: {
-              type: 'extensionElementRequired',
-              requiredExtensionElement: 'zeebe:Subscription'
-            }
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:Message> must have extension element of type <zeebe:Subscription>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -613,22 +612,22 @@ describe('provider/zeebe - MessageProps', function() {
         // given
         const receiveTask = elementRegistry.get('ReceiveTask_noCorrelationKey');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/subscription');
+
+        const report = await getLintError(receiveTask, rule);
+
         // when
         await act(() => {
           selection.select(receiveTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ReceiveTask_noCorrelationKey',
-            message: 'foo',
-            path: [ 'rootElements', 6, 'extensionElements', 'values', 0, 'correlationKey' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <zeebe:Subscription> must have property <correlationKey>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 

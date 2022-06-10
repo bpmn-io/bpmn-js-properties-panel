@@ -32,6 +32,8 @@ import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import { getLintError } from './lint-helper';
+
 import diagramXML from './BusinessRuleImplementationProps.bpmn';
 
 
@@ -258,30 +260,29 @@ describe('provider/zeebe - TargetProps', function() {
 
     describe('show error', function() {
 
-      it('should show error', inject(async function(elementRegistry, eventBus, selection) {
+      it('should show error (no called decision or task definition)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
         const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition');
+
+        const { camundaCloud13: config } = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition/config');
+
+        const report = await getLintError(businessRuleTask, rule, config);
 
         // when
         await act(() => {
           selection.select(businessRuleTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'BusinessRuleTask_1',
-            message: 'foo',
-            error: {
-              type: 'extensionElementRequired',
-              requiredExtensionElement: 'zeebe:CalledDecision'
-            }
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:BusinessRuleTask> must have one extension element of type <zeebe:CalledDecision> or <zeebe:TaskDefinition>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 

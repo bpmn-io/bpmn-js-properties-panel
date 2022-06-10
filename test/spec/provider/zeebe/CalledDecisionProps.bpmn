@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_16ejc8c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_16ejc8c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.1.0">
   <bpmn:process id="Process_0mgn9vm" isExecutable="true">
     <bpmn:task id="Task_1" name="Task_1" />
     <bpmn:businessRuleTask id="BusinessRuleTask_1" name="BusinessRuleTask_1">
@@ -8,6 +8,16 @@
       </bpmn:extensionElements>
     </bpmn:businessRuleTask>
     <bpmn:businessRuleTask id="BusinessRuleTask_2" name="BusinessRuleTask_2" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_3" name="BusinessRuleTask_3">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision resultVariable="foo" />
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="BusinessRuleTask_4" name="BusinessRuleTask_4">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision decisionId="foo" />
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0mgn9vm">
@@ -19,6 +29,14 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0h1wnsx_di" bpmnElement="BusinessRuleTask_2">
         <dc:Bounds x="480" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bac1ns_di" bpmnElement="BusinessRuleTask_3">
+        <dc:Bounds x="640" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1m1b8o7_di" bpmnElement="BusinessRuleTask_4">
+        <dc:Bounds x="800" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

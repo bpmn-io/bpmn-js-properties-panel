@@ -33,6 +33,8 @@ import {
   getExtensionElementsList
 } from 'src/utils/ExtensionElementsUtil';
 
+import { getLintError } from './lint-helper';
+
 import diagramXML from './MultiInstanceProps.bpmn';
 
 
@@ -199,25 +201,22 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         // given
         const serviceTask = elementRegistry.get('ServiceTask_noZeebeLoops');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/loop-characteristics');
+
+        const report = await getLintError(serviceTask, rule);
+
         // when
         await act(() => {
           selection.select(serviceTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noZeebeLoops',
-            message: 'foo',
-            error: {
-              type: 'extensionElementRequired',
-              requiredExtensionElement: 'zeebe:LoopCharacteristics'
-            }
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <bpmn:MultiInstanceLoopCharacteristics> must have extension element of type <zeebe:LoopCharacteristics>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -230,22 +229,22 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         // given
         const serviceTask = elementRegistry.get('ServiceTask_noInputCollection');
 
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/loop-characteristics');
+
+        const report = await getLintError(serviceTask, rule);
+
         // when
         await act(() => {
           selection.select(serviceTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noInputCollection',
-            message: 'foo',
-            path: [ 'loopCharacteristics', 'extensionElements', 'values', 0, 'inputCollection' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <zeebe:LoopCharacteristics> must have property <inputCollection>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -520,24 +519,24 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       it('should show error (no output collection)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const serviceTask = elementRegistry.get('ServiceTask_noInputCollection');
+        const serviceTask = elementRegistry.get('ServiceTask_noOutputCollection');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/loop-characteristics');
+
+        const report = await getLintError(serviceTask, rule);
 
         // when
         await act(() => {
           selection.select(serviceTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noInputCollection',
-            message: 'foo',
-            path: [ 'loopCharacteristics', 'extensionElements', 'values', 0, 'outputCollection' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <zeebe:LoopCharacteristics> must have property <outputCollection> if it has property <outputElement>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 
@@ -682,24 +681,24 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       it('should show error (no output element)', inject(async function(elementRegistry, eventBus, selection) {
 
         // given
-        const serviceTask = elementRegistry.get('ServiceTask_noInputCollection');
+        const serviceTask = elementRegistry.get('ServiceTask_noOutputElement');
+
+        const rule = require('bpmnlint-plugin-camunda-compat/rules/loop-characteristics');
+
+        const report = await getLintError(serviceTask, rule);
 
         // when
         await act(() => {
           selection.select(serviceTask);
 
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noInputCollection',
-            message: 'foo',
-            path: [ 'loopCharacteristics', 'extensionElements', 'values', 0, 'outputElement' ]
-          });
+          eventBus.fire('propertiesPanel.showError', report);
         });
 
         // then
         const error = document.querySelector('.bio-properties-panel-error');
 
         expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
+        expect(error.textContent).to.equal('Element of type <zeebe:LoopCharacteristics> must have property <outputElement> if it has property <outputCollection>');
 
         const entry = error.closest('.bio-properties-panel-entry');
 

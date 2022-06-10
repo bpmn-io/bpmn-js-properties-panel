@@ -30,6 +30,8 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import { getLintError } from './lint-helper';
+
 import diagramXML from './CalledDecisionProps.bpmn';
 
 
@@ -153,27 +155,29 @@ describe('provider/zeebe - TargetProps', function() {
 
       describe('show error', function() {
 
-        it('should show error', inject(async function(elementRegistry, eventBus, selection) {
+        it('should show error (no decision ID)', inject(async function(elementRegistry, eventBus, selection) {
 
           // given
-          const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+          const businessRuleTask = elementRegistry.get('BusinessRuleTask_3');
+
+          const rule = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition');
+
+          const { camundaCloud13: config } = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition/config');
+
+          const report = await getLintError(businessRuleTask, rule, config);
 
           // when
           await act(() => {
             selection.select(businessRuleTask);
 
-            eventBus.fire('propertiesPanel.showError', {
-              id: 'BusinessRuleTask_1',
-              message: 'foo',
-              path: [ 'extensionElements', 'values', 0, 'decisionId' ]
-            });
+            eventBus.fire('propertiesPanel.showError', report);
           });
 
           // then
           const error = document.querySelector('.bio-properties-panel-error');
 
           expect(error).to.exist;
-          expect(error.textContent).to.equal('foo');
+          expect(error.textContent).to.equal('Element of type <zeebe:CalledDecision> must have property <decisionId>');
 
           const entry = error.closest('.bio-properties-panel-entry');
 
@@ -276,27 +280,29 @@ describe('provider/zeebe - TargetProps', function() {
 
       describe('show error', function() {
 
-        it('should show error', inject(async function(elementRegistry, eventBus, selection) {
+        it('should show error (no result variable)', inject(async function(elementRegistry, eventBus, selection) {
 
           // given
-          const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+          const businessRuleTask = elementRegistry.get('BusinessRuleTask_4');
+
+          const rule = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition');
+
+          const { camundaCloud13: config } = require('bpmnlint-plugin-camunda-compat/rules/called-decision-or-task-definition/config');
+
+          const report = await getLintError(businessRuleTask, rule, config);
 
           // when
           await act(() => {
             selection.select(businessRuleTask);
 
-            eventBus.fire('propertiesPanel.showError', {
-              id: 'BusinessRuleTask_1',
-              message: 'foo',
-              path: [ 'extensionElements', 'values', 0, 'resultVariable' ]
-            });
+            eventBus.fire('propertiesPanel.showError', report);
           });
 
           // then
           const error = document.querySelector('.bio-properties-panel-error');
 
           expect(error).to.exist;
-          expect(error.textContent).to.equal('foo');
+          expect(error.textContent).to.equal('Element of type <zeebe:CalledDecision> must have property <resultVariable>');
 
           const entry = error.closest('.bio-properties-panel-entry');
 

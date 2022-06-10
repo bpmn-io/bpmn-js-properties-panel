@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0fsqrcy" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0fsqrcy" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0">
   <bpmn:process id="Process_03uklzr" isExecutable="true">
     <bpmn:startEvent id="MessageEvent_1">
       <bpmn:messageEventDefinition id="MessageEventDefinition_1x1jfqx" messageRef="Message_1" />
@@ -11,10 +11,15 @@
     <bpmn:startEvent id="StartEvent_1" />
     <bpmn:receiveTask id="ReceiveTask_1" messageRef="Message_1" />
     <bpmn:receiveTask id="ReceiveTask_empty" />
+    <bpmn:startEvent id="MessageEvent_2">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1u8gaw5" messageRef="Message_0pkdjnu" />
+    </bpmn:startEvent>
+    <bpmn:receiveTask id="ReceiveTask_2" messageRef="Message_0pkdjnu" />
   </bpmn:process>
   <bpmn:message id="Message_1" name="Message_1" />
   <bpmn:message id="Message_3" name="Message_3" />
   <bpmn:message id="Message_2" name="Message_2" />
+  <bpmn:message id="Message_0pkdjnu" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_03uklzr">
       <bpmndi:BPMNShape id="Event_03h9537_di" bpmnElement="MessageEvent_1">
@@ -31,6 +36,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_00gxxlu_di" bpmnElement="ReceiveTask_empty">
         <dc:Bounds x="540" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_135ei5b_di" bpmnElement="MessageEvent_2">
+        <dc:Bounds x="222" y="322" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06qbras_di" bpmnElement="ReceiveTask_2">
+        <dc:Bounds x="690" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0hk64mx_di" bpmnElement="MessageEvent_empty">
         <dc:Bounds x="332" y="182" width="36" height="36" />
