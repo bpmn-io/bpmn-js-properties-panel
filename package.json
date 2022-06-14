@@ -63,7 +63,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.3",
     "@bpmn-io/element-template-chooser": "^0.0.5",
     "@bpmn-io/element-templates-icons-renderer": "^0.1.2",
-    "@bpmn-io/properties-panel": "^0.16.0",
+    "@bpmn-io/properties-panel": "^0.17.0",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^19.0.0",
@@ -114,6 +114,6 @@
     "bpmn-js": "8.x || 9.x",
     "camunda-bpmn-js-behaviors": "0.1.x",
     "diagram-js": "7.x || 8.x",
-    "@bpmn-io/properties-panel": "0.16.x"
+    "@bpmn-io/properties-panel": "0.17.x"
   }
 }
