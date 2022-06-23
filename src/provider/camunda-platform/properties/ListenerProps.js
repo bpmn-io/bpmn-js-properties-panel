@@ -414,6 +414,7 @@ function Field(props) {
   return (
     <CollapsibleEntry
       id={ fieldId }
+      element={ element }
       entries={ FieldInjection({
         element,
         field,
