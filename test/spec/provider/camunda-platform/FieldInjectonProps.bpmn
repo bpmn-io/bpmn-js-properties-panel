@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1wq3azm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1wq3azm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-rc.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_15wi7ez" isExecutable="true">
     <bpmn:task id="Task_1" name="Task_1" />
     <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1" />
@@ -72,10 +72,17 @@
     <bpmn:intermediateThrowEvent id="MessageThrowEvent_5" name="MessageThrowEvent_5">
       <bpmn:messageEventDefinition id="MessageEventDefinition_01kbhgq">
         <bpmn:extensionElements>
-        	<camunda:field name="text" stringValue="Hello World" />
+          <camunda:field name="text" stringValue="Hello World" />
         </bpmn:extensionElements>
       </bpmn:messageEventDefinition>
     </bpmn:intermediateThrowEvent>
+    <bpmn:serviceTask id="ServiceTask_ExecutionListener" name="ServiceTask_ExecutionListener">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="" event="start">
+          <camunda:field />
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:error id="Error_0jrj6gm" name="Error_1o05f6u" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -127,6 +134,9 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="856" y="235" width="89" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17otnqc_di" bpmnElement="ServiceTask_ExecutionListener">
+        <dc:Bounds x="990" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

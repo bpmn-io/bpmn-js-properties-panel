@@ -4,6 +4,7 @@ import { act } from '@testing-library/preact';
 import {
   bootstrapPropertiesPanel,
   clickInput,
+  changeInput,
   inject
 } from 'test/TestHelper';
 
@@ -63,6 +64,61 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
     moddleExtensions,
     debounceInput: false
   }));
+
+  describe('within ExecutionListener', function() {
+
+    it('should update field value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_ExecutionListener');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const executionListenerGroup = domQuery('[data-group-id="group-CamundaPlatform__ExecutionListener"]', container);
+      const valueInputField = domQuery('input[name*="value"]', executionListenerGroup);
+
+      changeInput(valueInputField, 'newValue');
+
+      // then
+      const extensionElements = serviceTask.businessObject.extensionElements.values;
+      expect(extensionElements).to.have.lengthOf(1);
+
+      const executionListener = extensionElements[0];
+      expect(executionListener.fields).to.have.lengthOf(1);
+      expect(executionListener.fields[0].string).to.equal('newValue');
+
+    }));
+
+
+    it('should update field name', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_ExecutionListener');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const executionListenerGroup = domQuery('[data-group-id="group-CamundaPlatform__ExecutionListener"]', container);
+      const valueInputField = domQuery('input[name*="name"]', executionListenerGroup);
+
+      changeInput(valueInputField, 'newName');
+
+      // then
+      const extensionElements = serviceTask.businessObject.extensionElements.values;
+      expect(extensionElements).to.have.lengthOf(1);
+
+      const executionListener = extensionElements[0];
+      expect(executionListener.fields).to.have.lengthOf(1);
+      expect(executionListener.fields[0].name).to.equal('newName');
+
+    }));
+
+  });
 
 
   describe('bpmn:Task#camunda:Field', function() {
