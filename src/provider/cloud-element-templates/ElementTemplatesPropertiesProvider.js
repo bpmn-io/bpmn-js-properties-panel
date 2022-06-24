@@ -10,6 +10,8 @@ import {
 import { getTemplateId } from './Helper';
 
 import { unlinkTemplate, updateTemplate } from './util/templateUtil';
+import { applyConditions } from './Condition';
+import { getPropertyValue } from './util/propertyUtil';
 
 const LOWER_PRIORITY = 300;
 
@@ -47,9 +49,11 @@ export default class ElementTemplatesPropertiesProvider {
       // (1) Add templates group
       addGroupsAfter('documentation', groups, [ templatesGroup ]);
 
-      const elementTemplate = this._elementTemplates.get(element);
+      let elementTemplate = this._elementTemplates.get(element);
 
       if (elementTemplate) {
+        elementTemplate = applyConditions(element, elementTemplate, getPropertyValue);
+
         const templateSpecificGroups = [].concat(
           CustomProperties({ element, elementTemplate })
         );

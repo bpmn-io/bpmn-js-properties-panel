@@ -32,6 +32,10 @@ import templates from './fixtures/simple.json';
 import entriesVisibleDiagramXML from './fixtures/entries-visible.bpmn';
 import entriesVisibleTemplates from './fixtures/entries-visible.json';
 
+import conditionTemplate from './fixtures/condition.json';
+import conditionXML from './fixtures/condition.bpmn';
+import { changeInput } from '../../../TestHelper';
+
 
 describe('provider/cloud-element-templates - ElementTemplates', function() {
 
@@ -432,6 +436,135 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       })
     );
   });
+
+
+  describe('conditional entries', function() {
+
+    beforeEach(bootstrapPropertiesPanel(conditionXML, {
+      container,
+      modules: [
+        BpmnPropertiesPanel,
+        coreModule,
+        elementTemplatesModule,
+        modelingModule
+      ],
+      moddleExtensions: {
+        zeebe: zeebeModdlePackage
+      },
+      debounceInput: false,
+      elementTemplates: conditionTemplate
+    }));
+
+
+    describe('simple comparison', function() {
+
+      describe('on creation', function() {
+
+        it('should not show conditional entries', inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const element = elementRegistry.get('Task_1');
+
+            // when
+            await act(() => {
+              selection.select(element);
+            });
+
+            // then
+            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+            const listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+            expect(listItems).to.have.lengthOf(1);
+          })
+        );
+
+
+        it('should show conditional entries', inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const element = elementRegistry.get('Task_2');
+
+            // when
+            await act(() => {
+              selection.select(element);
+            });
+
+            // then
+            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+            const listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+            expect(listItems).to.have.lengthOf(3);
+          })
+        );
+
+      });
+
+
+      describe('on input change', function() {
+
+        it('should not show conditional entries', inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const element = elementRegistry.get('Task_2');
+
+            await act(() => {
+              selection.select(element);
+            });
+
+            // assume
+            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+            let listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+            expect(listItems).to.have.lengthOf(3);
+
+            // when
+            const input = domQuery('input', listItems[0]);
+
+            changeInput(input, '');
+            listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+            // then
+            expect(listItems).to.have.lengthOf(1);
+          })
+        );
+
+
+        it('should show conditional entries', inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const element = elementRegistry.get('Task_1');
+
+            await act(() => {
+              selection.select(element);
+            });
+
+            // assume
+            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+            let listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+            expect(listItems).to.have.lengthOf(1);
+
+            // when
+            const input = domQuery('input', listItems[0]);
+
+            changeInput(input, 'foo');
+            listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+            // then
+            expect(listItems).to.have.lengthOf(3);
+          })
+        );
+
+      });
+
+    });
+
+  });
+
 });
 
 
