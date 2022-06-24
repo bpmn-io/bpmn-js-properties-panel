@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
-    <bpmn:task id="Task_1" zeebe:modelerTemplate="example.com.condition">
-      <bpmn:extensionElements>
-        <zeebe:taskHeaders>
-          <zeebe:header key="url" value="" />
-        </zeebe:taskHeaders>
-      </bpmn:extensionElements>
-    </bpmn:task>
-    <bpmn:task id="Task_2" zeebe:modelerTemplate="example.com.condition">
-      <bpmn:extensionElements>
-        <zeebe:taskHeaders>
-          <zeebe:header key="url" value="foo" />
-        </zeebe:taskHeaders>
-      </bpmn:extensionElements>
-    </bpmn:task>
+    <bpmn:task id="Task_1" name="" zeebe:modelerTemplate="example.com.condition" />
+    <bpmn:task id="Task_2" name="foo" zeebe:modelerTemplate="example.com.condition" />
+    <bpmn:task id="Task_3" name="foo" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
         <dc:Bounds x="180" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0u1i5ib_di" bpmnElement="Task_2">
         <dc:Bounds x="310" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0warlfb_di" bpmnElement="Task_3">
+        <dc:Bounds x="440" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

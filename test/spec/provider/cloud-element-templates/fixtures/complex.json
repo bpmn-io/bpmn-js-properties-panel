@@ -46,6 +46,7 @@
         }
       },
       {
+        "id": "httpMethod",
         "label": "REST Method",
         "description": "Specify the HTTP method to use.",
         "type": "Dropdown",
@@ -70,6 +71,10 @@
         "binding": {
           "type": "zeebe:input",
           "name": "body"
+        },
+        "condition": {
+          "oneOf": ["post", "patch", "delete"],
+          "property": "httpMethod"
         }
       },
       {

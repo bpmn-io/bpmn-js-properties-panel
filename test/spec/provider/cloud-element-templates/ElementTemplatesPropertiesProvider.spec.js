@@ -452,114 +452,110 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
         zeebe: zeebeModdlePackage
       },
       debounceInput: false,
-      elementTemplates: conditionTemplate
+      elementTemplates: [ conditionTemplate ]
     }));
 
 
-    describe('simple comparison', function() {
+    describe('on creation', function() {
 
-      describe('on creation', function() {
+      it('should not show conditional entries', inject(
+        async function(elementRegistry, selection) {
 
-        it('should not show conditional entries', inject(
-          async function(elementRegistry, selection) {
+          // given
+          const element = elementRegistry.get('Task_1');
 
-            // given
-            const element = elementRegistry.get('Task_1');
+          // when
+          await act(() => {
+            selection.select(element);
+          });
 
-            // when
-            await act(() => {
-              selection.select(element);
-            });
+          // then
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          const listItems = domQueryAll('.bio-properties-panel-entry', group);
 
-            // then
-            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
-            const listItems = domQueryAll('.bio-properties-panel-entry', group);
-
-            expect(listItems).to.have.lengthOf(1);
-          })
-        );
+          expect(listItems).to.have.lengthOf(1);
+        })
+      );
 
 
-        it('should show conditional entries', inject(
-          async function(elementRegistry, selection) {
+      it('should show conditional entries', inject(
+        async function(elementRegistry, selection) {
 
-            // given
-            const element = elementRegistry.get('Task_2');
+          // given
+          const element = elementRegistry.get('Task_2');
 
-            // when
-            await act(() => {
-              selection.select(element);
-            });
+          // when
+          await act(() => {
+            selection.select(element);
+          });
 
-            // then
-            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
-            const listItems = domQueryAll('.bio-properties-panel-entry', group);
+          // then
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          const listItems = domQueryAll('.bio-properties-panel-entry', group);
 
-            expect(listItems).to.have.lengthOf(3);
-          })
-        );
+          expect(listItems).to.have.lengthOf(6);
+        })
+      );
 
-      });
-
-
-      describe('on input change', function() {
-
-        it('should not show conditional entries', inject(
-          async function(elementRegistry, selection) {
-
-            // given
-            const element = elementRegistry.get('Task_2');
-
-            await act(() => {
-              selection.select(element);
-            });
-
-            // assume
-            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
-            let listItems = domQueryAll('.bio-properties-panel-entry', group);
-
-            expect(listItems).to.have.lengthOf(3);
-
-            // when
-            const input = domQuery('input', listItems[0]);
-
-            changeInput(input, '');
-            listItems = domQueryAll('.bio-properties-panel-entry', group);
-
-            // then
-            expect(listItems).to.have.lengthOf(1);
-          })
-        );
+    });
 
 
-        it('should show conditional entries', inject(
-          async function(elementRegistry, selection) {
+    describe('on input change', function() {
 
-            // given
-            const element = elementRegistry.get('Task_1');
+      it('should not show conditional entries', inject(
+        async function(elementRegistry, selection) {
 
-            await act(() => {
-              selection.select(element);
-            });
+          // given
+          const element = elementRegistry.get('Task_2');
 
-            // assume
-            const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
-            let listItems = domQueryAll('.bio-properties-panel-entry', group);
+          await act(() => {
+            selection.select(element);
+          });
 
-            expect(listItems).to.have.lengthOf(1);
+          // assume
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          let listItems = domQueryAll('.bio-properties-panel-entry', group);
 
-            // when
-            const input = domQuery('input', listItems[0]);
+          expect(listItems).to.have.lengthOf(6);
 
-            changeInput(input, 'foo');
-            listItems = domQueryAll('.bio-properties-panel-entry', group);
+          // when
+          const input = domQuery('input', listItems[0]);
 
-            // then
-            expect(listItems).to.have.lengthOf(3);
-          })
-        );
+          changeInput(input, '');
+          listItems = domQueryAll('.bio-properties-panel-entry', group);
 
-      });
+          // then
+          expect(listItems).to.have.lengthOf(1);
+        })
+      );
+
+
+      it('should show conditional entries', inject(
+        async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('Task_1');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          // assume
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          let listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+          expect(listItems).to.have.lengthOf(1);
+
+          // when
+          const input = domQuery('input', listItems[0]);
+
+          changeInput(input, 'foo');
+          listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+          // then
+          expect(listItems).to.have.lengthOf(6);
+        })
+      );
 
     });
 

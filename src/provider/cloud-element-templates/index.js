@@ -1,5 +1,6 @@
 import translateModule from 'diagram-js/lib/i18n/translate';
 
+import ElementTemplatesConditionChecker from './ElementTemplatesConditionChecker';
 import ElementTemplates from './ElementTemplates';
 import ElementTemplatesLoader from './ElementTemplatesLoader';
 import ReplaceBehavior from './ReplaceBehavior';
@@ -19,10 +20,12 @@ export default {
   __init__: [
     'elementTemplatesLoader',
     'replaceBehavior',
-    'elementTemplatesPropertiesProvider'
+    'elementTemplatesPropertiesProvider',
+    'elementTemplatesConditionChecker'
   ],
   elementTemplates: [ 'type', ElementTemplates ],
   elementTemplatesLoader: [ 'type', ElementTemplatesLoader ],
   replaceBehavior: [ 'type', ReplaceBehavior ],
-  elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ]
+  elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ],
+  elementTemplatesConditionChecker: [ 'type', ElementTemplatesConditionChecker ]
 };

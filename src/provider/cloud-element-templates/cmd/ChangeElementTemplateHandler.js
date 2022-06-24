@@ -20,6 +20,7 @@ import {
   isUndefined,
   without
 } from 'min-dash';
+import { applyConditions } from '../Condition';
 
 /**
  * Applies an element template to an element. Sets `zeebe:modelerTemplate` and
@@ -45,8 +46,8 @@ export default class ChangeElementTemplateHandler {
    * @param {Object} [context.newTemplate]
    */
   preExecute(context) {
-    const newTemplate = context.newTemplate,
-          oldTemplate = context.oldTemplate;
+    let newTemplate = context.newTemplate,
+        oldTemplate = context.oldTemplate;
 
     let element = context.element;
 
@@ -57,6 +58,9 @@ export default class ChangeElementTemplateHandler {
     this._updateZeebeModelerTemplateIcon(element, newTemplate);
 
     if (newTemplate) {
+
+      // do not apply properties that don't meet conditions
+      newTemplate = applyConditions(element, newTemplate);
 
       // update task type
       element = context.element = this._updateTaskType(element, newTemplate);
@@ -586,7 +590,7 @@ function findBusinessObject(element, property) {
  *
  * @returns {Object}
  */
-function findOldProperty(oldTemplate, newProperty) {
+export function findOldProperty(oldTemplate, newProperty) {
   if (!oldTemplate) {
     return;
   }

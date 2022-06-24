@@ -2383,6 +2383,74 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
     });
 
+
+    describe('conditions', function() {
+      beforeEach(bootstrap(require('../fixtures/condition.bpmn').default));
+      const newTemplate = require('../fixtures/condition.json');
+
+      it('should not add conditional properties', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        changeTemplate(task, newTemplate);
+
+        const businessObject = getBusinessObject(task);
+
+        // then
+        // expect properties
+        expect(businessObject.get('customProperty')).to.be.undefined;
+
+        // expect ioMapping
+        const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+        expect(ioMapping).to.be.undefined;
+
+        // expect taskHeaders
+        const taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders');
+        expect(taskHeaders).to.be.undefined;
+
+        // expect taskDefinition
+        const taskDefinition = findExtension(businessObject, 'zeebe:TaskDefinition');
+        expect(taskDefinition).to.be.undefined;
+      }));
+
+
+      it('should add conditional properties', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_3');
+
+        // when
+        changeTemplate(task, newTemplate);
+
+        const businessObject = getBusinessObject(task);
+
+        // then
+
+        // expect properties
+        expect(businessObject.get('customProperty')).to.exist;
+
+        // expect ioMapping
+        const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+        const inputs = ioMapping.get('zeebe:inputParameters');
+        const outputs = ioMapping.get('zeebe:outputParameters');
+
+        expect(inputs).to.have.lengthOf(1);
+        expect(outputs).to.have.lengthOf(1);
+
+        // expect taskHeaders
+        const taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders');
+        expect(taskHeaders.get('values')).to.have.lengthOf(1);
+
+        // expect taskDefinition
+        const taskDefinition = findExtension(businessObject, 'zeebe:TaskDefinition');
+        expect(taskDefinition).to.exist;
+      }));
+
+
+    });
+
   });
 
 });

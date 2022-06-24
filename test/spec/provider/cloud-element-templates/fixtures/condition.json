@@ -1,46 +1,95 @@
-[{
-    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
-    "name": "Condition",
-    "id": "example.com.condition",
-    "description": "A conditional template.",
-    "appliesTo": [
-      "bpmn:Task"
-    ],
-    "properties": [
-      {
-        "id": "input1",
-        "label": "input 1",
-        "type": "String",
-        "binding": {
-          "type": "zeebe:taskHeader",
-          "key": "url"
-        }
-      },
-      {
-        "label": "input 2",
-        "value": "",
-        "type": "String",
-        "binding": {
-          "type": "zeebe:input",
-          "name": "body"
-        },
-        "condition":{
-          "property": "input1",
-          "oneOf": ["foo", "bar"]
-        }
-      },
-      {
-        "label": "input 3",
-        "value": "",
-        "type": "String",
-        "binding": {
-          "type": "zeebe:output",
-          "source": "= body"
-        },
-        "condition":{
-          "property": "input1",
-          "equals": "foo"
-        }
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Condition",
+  "id": "example.com.condition",
+  "description": "A conditional template.",
+  "appliesTo": ["bpmn:Task"],
+  "properties": [
+    {
+      "id": "parentProperty",
+      "label": "name",
+      "type": "String",
+      "binding": {
+        "type": "property",
+        "name": "name"
       }
-    ]
-  }]
+    },
+    {
+      "id": "otherProperty",
+      "label": "property",
+      "type": "String",
+      "value": "default value",
+      "binding": {
+        "type": "property",
+        "name": "customProperty"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foo"
+      }
+    },
+    {
+      "label": "name",
+      "value": "someValue",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foo"
+      }
+    },
+    {
+      "label": "zeebe:input",
+      "value": "",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "body"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "oneOf": ["foo", "bar"]
+      }
+    },
+    {
+      "label": "zeebe:output",
+      "value": "",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "= body"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foo"
+      }
+    },
+    {
+      "label": "zeebe:taskHeader",
+      "value": "",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "someOtherKey"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foo"
+      }
+    },
+    {
+      "label": "invalid condition",
+      "value": "",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "someOtherKey"
+      },
+      "condition": {
+        "property": "invalid",
+        "equals": "foo"
+      }
+    }
+  ]
+}
