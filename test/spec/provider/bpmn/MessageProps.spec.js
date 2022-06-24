@@ -259,38 +259,6 @@ describe('provider/bpmn - MessageProps', function() {
 
     });
 
-
-    describe('show error', function() {
-
-      it('should show error (no message ref)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const startEvent = elementRegistry.get('MessageEvent_1');
-
-        // when
-        await act(() => {
-          selection.select(startEvent);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'MessageEvent_1',
-            message: 'foo',
-            path: [ 'eventDefinitions', 0, 'messageRef' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('messageRef');
-      }));
-
-    });
-
   });
 
 
@@ -438,38 +406,6 @@ describe('provider/bpmn - MessageProps', function() {
       })
     );
 
-
-    describe('show error', function() {
-
-      it('should show error (no message ref)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const receiveTask = elementRegistry.get('ReceiveTask_empty');
-
-        // when
-        await act(() => {
-          selection.select(receiveTask);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ReceiveTask_empty',
-            message: 'foo',
-            path: [ 'messageRef' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('messageRef');
-      }));
-
-    });
-
   });
 
 
@@ -572,38 +508,6 @@ describe('provider/bpmn - MessageProps', function() {
       expect(getMessage(messageEvent).get('name')).to.eql(undefined);
     }));
 
-
-    describe('show error', function() {
-
-      it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const startEvent = elementRegistry.get('MessageEvent_1');
-
-        // when
-        await act(() => {
-          selection.select(startEvent);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'MessageEvent_1',
-            message: 'foo',
-            path: [ 'rootElements', 1, 'name' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('messageName');
-      }));
-
-    });
-
   });
 
 
@@ -685,38 +589,6 @@ describe('provider/bpmn - MessageProps', function() {
         expect(messageNameInput.value).to.eql(originalValue);
       })
     );
-
-
-    describe('show error', function() {
-
-      it('should show error (no message name)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const receiveTask = elementRegistry.get('ReceiveTask_1');
-
-        // when
-        await act(() => {
-          selection.select(receiveTask);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ReceiveTask_1',
-            message: 'foo',
-            path: [ 'rootElements', 1, 'name' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('messageName');
-      }));
-
-    });
 
   });
 

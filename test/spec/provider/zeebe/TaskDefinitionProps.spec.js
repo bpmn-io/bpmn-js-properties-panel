@@ -294,69 +294,6 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
       expect(documentationLink.title).to.equal('Send task documentation');
     }));
 
-
-    describe('show error', function() {
-
-      it('should show error (no extension element)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_empty');
-
-        // when
-        await act(() => {
-          selection.select(serviceTask);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_empty',
-            message: 'foo',
-            error: {
-              type: 'extensionElementRequired',
-              requiredExtensionElement: 'zeebe:TaskDefinition'
-            }
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('taskDefinitionType');
-      }));
-
-
-      it('should show error (no type)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_noTaskDefinitionType');
-
-        // when
-        await act(() => {
-          selection.select(serviceTask);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noTaskDefinitionType',
-            message: 'foo',
-            path: [ 'extensionElements', 'values', 0, 'type' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('taskDefinitionType');
-      }));
-
-    });
-
   });
 
 
@@ -482,38 +419,6 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
         expect(getTaskDefinition(serviceTask).get('retries')).to.eql('newValue');
       })
     );
-
-
-    describe('show error', function() {
-
-      it('should show error (no retries)', inject(async function(elementRegistry, eventBus, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_noTaskDefinitionRetries');
-
-        // when
-        await act(() => {
-          selection.select(serviceTask);
-
-          eventBus.fire('propertiesPanel.showError', {
-            id: 'ServiceTask_noTaskDefinitionRetries',
-            message: 'foo',
-            path: [ 'extensionElements', 'values', 0, 'retries' ]
-          });
-        });
-
-        // then
-        const error = document.querySelector('.bio-properties-panel-error');
-
-        expect(error).to.exist;
-        expect(error.textContent).to.equal('foo');
-
-        const entry = error.closest('.bio-properties-panel-entry');
-
-        expect(entry.dataset.entryId).to.equal('taskDefinitionRetries');
-      }));
-
-    });
 
   });
 

@@ -1,7 +1,4 @@
-import {
-  getBusinessObject,
-  is
-} from 'bpmn-js/lib/util/ModelUtil';
+import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
   isEventSubProcess
@@ -9,16 +6,7 @@ import {
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
-import {
-  getPath,
-  pathConcat,
-  pathEquals
-} from '@philippfromme/moddle-helpers';
-
-import {
-  useService,
-  useShowCallback
-} from '../../../hooks';
+import { useService } from '../../../hooks';
 
 import {
   getMessage
@@ -90,11 +78,6 @@ function MessageName(props) {
     );
   };
 
-  const businessObject = getBusinessObject(element),
-        path = pathConcat(getPath(message, businessObject), 'name');
-
-  const show = useShowCallback(businessObject, path);
-
   return TextFieldEntry({
     element,
     id: 'messageName',
@@ -102,8 +85,7 @@ function MessageName(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce,
-    show
+    debounce
   });
 }
 
@@ -182,17 +164,6 @@ function SubscriptionCorrelationKey(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  const businessObject = getBusinessObject(element),
-        subscription = getSubscription(businessObject),
-        path = pathConcat(getPath(subscription, businessObject), 'correlationKey');
-
-  const show = useShowCallback(businessObject, (event) => {
-    const { error = {} } = event;
-
-    return pathEquals(event.path, path)
-      || (error.type === 'extensionElementRequired' && error.requiredExtensionElement === 'zeebe:Subscription');
-  });
-
   return TextFieldEntry({
     element,
     id: 'messageSubscriptionCorrelationKey',
@@ -200,8 +171,7 @@ function SubscriptionCorrelationKey(props) {
     feel: 'required',
     getValue,
     setValue,
-    debounce,
-    show
+    debounce
   });
 }
 

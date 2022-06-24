@@ -16,10 +16,7 @@ import {
   createElement
 } from '../../../utils/ElementUtil';
 
-import {
-  useService,
-  useShowCallback
-} from '../../../hooks';
+import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
 
@@ -109,35 +106,13 @@ function BusinessRuleImplementation(props) {
     return options;
   };
 
-  const businessObject = getBusinessObject(element);
-
-  const show = useShowCallback(businessObject, (event) => {
-    const { error } = event;
-
-    if (!error) {
-      return false;
-    }
-
-    const {
-      requiredExtensionElement,
-      type
-    } = error;
-
-    return type === 'extensionElementRequired'
-      && [
-        'zeebe:CalledDecision',
-        'zeebe:TaskDefinition'
-      ].includes(requiredExtensionElement);
-  });
-
   return SelectEntry({
     element,
     id,
     label: translate('Implementation'),
     getValue,
     setValue,
-    getOptions,
-    show
+    getOptions
   });
 }
 
