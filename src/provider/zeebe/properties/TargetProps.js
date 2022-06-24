@@ -6,12 +6,6 @@ import {
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
-  getPath,
-  pathConcat,
-  pathEquals
-} from '@philippfromme/moddle-helpers';
-
-import {
   createElement
 } from '../../../utils/ElementUtil';
 
@@ -20,10 +14,7 @@ import {
   getProcessId
 } from '../utils/CalledElementUtil.js';
 
-import {
-  useService,
-  useShowCallback
-} from '../../../hooks';
+import { useService } from '../../../hooks';
 
 
 export function TargetProps(props) {
@@ -124,23 +115,6 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  const businessObject = getBusinessObject(element),
-        calledElement = getCalledElement(element);
-
-  const path = pathConcat(getPath(calledElement, businessObject), 'processId');
-
-  const show = useShowCallback(businessObject, (event) => {
-    const { error = {} } = event;
-
-    const {
-      type,
-      requiredExtensionElement
-    } = error;
-
-    return pathEquals(event.path, path)
-      || (type === 'extensionElementRequired' && requiredExtensionElement === 'zeebe:CalledElement');
-  });
-
   return TextFieldEntry({
     element,
     id,
@@ -148,7 +122,6 @@ function TargetProcessId(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce,
-    show
+    debounce
   });
 }

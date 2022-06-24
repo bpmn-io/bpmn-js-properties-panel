@@ -12,17 +12,9 @@ import {
   isTextFieldEntryEdited
 } from '@bpmn-io/properties-panel';
 
-import {
-  getPath,
-  pathConcat
-} from '@philippfromme/moddle-helpers';
-
 import ReferenceSelect from '../../../entries/ReferenceSelect';
 
-import {
-  useService,
-  useShowCallback
-} from '../../../hooks';
+import { useService } from '../../../hooks';
 
 import {
   getError,
@@ -172,11 +164,6 @@ function ErrorRef(props) {
     return options;
   };
 
-  const businessObject = getBusinessObject(element),
-        path = pathConcat(getPath(errorEventDefinition, businessObject), 'errorRef');
-
-  const show = useShowCallback(businessObject, path);
-
   return ReferenceSelect({
     element,
     id: 'errorRef',
@@ -184,8 +171,7 @@ function ErrorRef(props) {
     autoFocusEntry: 'errorName',
     getValue,
     setValue,
-    getOptions,
-    show
+    getOptions
   });
 }
 
@@ -251,19 +237,13 @@ function ErrorCode(props) {
     );
   };
 
-  const businessObject = getBusinessObject(element),
-        path = pathConcat(getPath(error, businessObject), 'errorCode');
-
-  const show = useShowCallback(businessObject, path);
-
   return TextFieldEntry({
     element,
     id: 'errorCode',
     label: translate('Code'),
     getValue,
     setValue,
-    debounce,
-    show
+    debounce
   });
 }
 

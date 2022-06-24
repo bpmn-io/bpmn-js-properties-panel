@@ -9,10 +9,7 @@ import {
 import { TextFieldEntry, isTextFieldEntryEdited, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 import ReferenceSelect from '../../../entries/ReferenceSelect';
 
-import {
-  useService,
-  useShowCallback
-} from '../../../hooks';
+import { useService } from '../../../hooks';
 
 import {
   getMessage,
@@ -27,7 +24,6 @@ import {
   getRoot,
   nextId
 } from '../../../utils/ElementUtil';
-import { getPath, pathConcat } from '@philippfromme/moddle-helpers';
 
 export const EMPTY_OPTION = '';
 export const CREATE_NEW_OPTION = 'create-new';
@@ -160,11 +156,6 @@ function MessageRef(props) {
     return options;
   };
 
-  const businessObject = getBusinessObject(element),
-        path = pathConcat(getPath(messageEventDefinition, businessObject), 'messageRef');
-
-  const show = useShowCallback(businessObject, path);
-
   return ReferenceSelect({
     element,
     id: 'messageRef',
@@ -172,8 +163,7 @@ function MessageRef(props) {
     autoFocusEntry: 'messageName',
     getValue,
     setValue,
-    getOptions,
-    show
+    getOptions
   });
 }
 
@@ -203,19 +193,13 @@ function MessageName(props) {
     );
   };
 
-  const businessObject = getBusinessObject(element),
-        path = pathConcat(getPath(message, businessObject), 'name');
-
-  const show = useShowCallback(businessObject, path);
-
   return TextFieldEntry({
     element,
     id: 'messageName',
     label: translate('Name'),
     getValue,
     setValue,
-    debounce,
-    show
+    debounce
   });
 }
 
