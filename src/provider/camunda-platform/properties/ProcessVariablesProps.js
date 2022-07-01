@@ -148,10 +148,12 @@ function CreatedIn(props) {
 
   const id = idPrefix + '-createdIn';
 
+  const origin = variable.origin.join(', ');
+
   return (
     <div data-entry-id={ id } class="bio-properties-panel-entry">
       <b style="font-weight: bold" class="bio-properties-panel-label">{ translate('Created in') }</b>
-      <label id={ prefixId(id) } class="bio-properties-panel-label">{ variable.origin }</label>
+      <label id={ prefixId(id) } class="bio-properties-panel-label">{ origin }</label>
     </div>
   );
 }
