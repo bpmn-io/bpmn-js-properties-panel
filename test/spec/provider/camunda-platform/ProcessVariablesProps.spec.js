@@ -80,7 +80,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const items = getProcessVariablesItems(group);
 
       // then
-      expect(items.length).to.equal(3);
+      expect(items.length).to.equal(4);
     }));
 
 
@@ -104,7 +104,8 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         expect(ordering).to.eql([
           'variable1',
           'variable2',
-          'variable3'
+          'variable3',
+          'variable4'
         ]);
       }
     ));
@@ -172,6 +173,28 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
     }));
 
 
+    it('should display createdIn (multiple sources)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const process = elementRegistry.get('Process_1');
+      const task = elementRegistry.get('Task_4');
+      const subProcess = elementRegistry.get('SubProcess_1');
+
+      await act(() => {
+        selection.select(process);
+      });
+
+      const group = findProcessVariablesGroup(container);
+
+      // when
+      const items = getProcessVariablesItems(group);
+      const createdIn = domQuery('#bio-properties-panel-Process_1-variable-3-createdIn', items[3]);
+
+      // then
+      expect(createdIn.innerText).to.equal(`${getBusinessObject(subProcess).get('name')}, ${task.id}`);
+    }));
+
+
     it('should NOT display scope', inject(async function(elementRegistry, selection) {
 
       // given
@@ -222,7 +245,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const items = getProcessVariablesItems(group);
 
       // then
-      expect(items.length).to.equal(3);
+      expect(items.length).to.equal(4);
     }));
 
 
@@ -246,7 +269,8 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         expect(ordering).to.eql([
           'variable1',
           'variable2',
-          'variable3'
+          'variable3',
+          'variable4'
         ]);
       }
     ));
@@ -314,6 +338,28 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
     }));
 
 
+    it('should display createdIn (multiple sources)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const participant = elementRegistry.get('Participant_1');
+      const task = elementRegistry.get('Task_4');
+      const subProcess = elementRegistry.get('SubProcess_1');
+
+      await act(() => {
+        selection.select(participant);
+      });
+
+      const group = findProcessVariablesGroup(container);
+
+      // when
+      const items = getProcessVariablesItems(group);
+      const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-3-createdIn', items[3]);
+
+      // then
+      expect(createdIn.innerText).to.equal(`${subProcess.id}, ${task.id}`);
+    }));
+
+
     it('should NOT display scope', inject(async function(elementRegistry, selection) {
 
       // given
@@ -364,7 +410,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const items = getProcessVariablesItems(group);
 
       // then
-      expect(items.length).to.equal(4);
+      expect(items.length).to.equal(5);
     }));
 
 
@@ -387,7 +433,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         const items = getProcessVariablesItems(group);
 
         // then
-        expect(items.length).to.equal(4);
+        expect(items.length).to.equal(5);
       })
     );
 
@@ -410,10 +456,11 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
 
         // then
         expect(ordering).to.eql([
-          'variable4',
+          'variable5',
           'variable1',
           'variable2',
-          'variable3'
+          'variable3',
+          'variable4'
         ]);
       }
     ));
@@ -435,7 +482,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
 
       // then
-      expect(headerTitle.innerText).to.eql('variable4');
+      expect(headerTitle.innerText).to.eql('variable5');
     }));
 
 
@@ -477,6 +524,27 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
 
       // then
       expect(createdIn.innerText).to.equal(task.id);
+    }));
+
+
+    it('should display createdIn (multiple sources)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const subProcess = elementRegistry.get('SubProcess_1');
+      const task = elementRegistry.get('Task_4');
+
+      await act(() => {
+        selection.select(subProcess);
+      });
+
+      const group = findProcessVariablesGroup(container);
+
+      // when
+      const items = getProcessVariablesItems(group);
+      const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-4-createdIn', items[4]);
+
+      // then
+      expect(createdIn.innerText).to.equal(`${getBusinessObject(subProcess).get('name')}, ${task.id}`);
     }));
 
 
