@@ -48,7 +48,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@bpmn-io/element-templates-validator": "^0.8.1",
+    "@bpmn-io/element-templates-validator": "^0.9.0",
     "@bpmn-io/extract-process-variables": "^0.4.5",
     "@philippfromme/moddle-helpers": "^0.4.1",
     "array-move": "^3.0.1",
