@@ -99,7 +99,7 @@ import {
 } from 'bpmn-js-properties-panel';
 
 // use Camunda BPMN Moddle extension
-import CamundaExtensionModule from 'camunda-bpmn-moddle/lib',
+import CamundaExtensionModule from 'camunda-bpmn-moddle/lib';
 
 // use Camunda BPMN namespace
 import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
