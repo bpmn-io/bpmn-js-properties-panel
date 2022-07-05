@@ -6,6 +6,20 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.2.0
+
+* `FEAT`: enable multi-select state ([#687](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/678))
+* `FEAT`: display timestamp for template versions ([#698](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/698))
+* `FIX`: called decision decision ID made explicit ([#681](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/681))
+* `FIX`: focus value on create for form field of type enum ([#683](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/683))
+* `FIX`: add separator to process variable sources ([#714](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/714))
+* `FIX`: fix error when field injection for execution listener is created ([#710](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/710)
+* `CHORE`: fix audit errors ([#691](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/691))
+* `CHORE`: use codecov Github action ([#699](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/699))
+* `DEPS`: update to `bpmn-js@9.2.2`
+* `DEPS`: update to `diagram-js@8.6.0`
+* `DEPS`: update to `element-templates-validator@0.9.0`
+
 ## 1.1.1
 
 ### Element Templates
