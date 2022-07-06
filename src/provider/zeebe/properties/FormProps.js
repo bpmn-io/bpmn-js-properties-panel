@@ -177,7 +177,7 @@ function CustomFormKey(props) {
   return TextFieldEntry({
     element,
     id: 'customFormKey',
-    label: translate('Form Key'),
+    label: translate('Form key'),
     getValue,
     setValue,
     debounce
