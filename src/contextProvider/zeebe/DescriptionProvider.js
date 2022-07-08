@@ -24,7 +24,7 @@ const DescriptionProvider = {
     const translate = useService('translate');
 
     return (
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/exclusive-gateways/exclusive-gateways#conditions" target="_blank" rel="noopener" title={ translate('Conditions documentation') }>
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/exclusive-gateways/#conditions" target="_blank" rel="noopener" title={ translate('Conditions documentation') }>
         { translate('How to define conditions') }
       </a>
     );
@@ -34,7 +34,7 @@ const DescriptionProvider = {
     const translate = useService('translate');
 
     return (
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/business-rule-tasks/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
         { translate('How to configure a business rule task') }
       </a>
     );
@@ -56,14 +56,14 @@ const DescriptionProvider = {
 
     if (is(element, 'bpmn:ReceiveTask')) {
       return (
-        <a href="https://docs.camunda.io/docs/reference/bpmn-processes/receive-tasks/receive-tasks/#messages" target="_blank" rel="noopener" title={ translate('Receive task documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener" title={ translate('Receive task documentation') }>
           { translate('How to configure a receive task') }
         </a>
       );
     }
 
     return (
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/message-events/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
         { translate('How to configure a message event') }
       </a>
     );
@@ -74,7 +74,7 @@ const DescriptionProvider = {
 
     if (is(element, 'bpmn:StartEvent') && !isInEventSubProcess(element)) {
       return (
-        <a href="https://docs.camunda.io/docs/reference/bpmn-processes/message-events/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
           { translate('How to configure a message event') }
         </a>
       );
@@ -85,7 +85,7 @@ const DescriptionProvider = {
     const translate = useService('translate');
 
     return (
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/call-activities/call-activities" target="_blank" rel="noopener" title={ translate('Call activity documentation') }>
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/call-activities/" target="_blank" rel="noopener" title={ translate('Call activity documentation') }>
         { translate('How to call another process') }
       </a>
     );
@@ -96,7 +96,7 @@ const DescriptionProvider = {
 
     if (is(element, 'bpmn:ServiceTask')) {
       return (
-        <a href="https://docs.camunda.io/docs/reference/bpmn-processes/service-tasks/service-tasks/#task-definition" target="_blank" rel="noopener" title={ translate('Service task documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/service-tasks/#task-definition" target="_blank" rel="noopener" title={ translate('Service task documentation') }>
           { translate('How to configure a service task') }
         </a>
       );
@@ -104,7 +104,7 @@ const DescriptionProvider = {
 
     if (is(element, 'bpmn:BusinessRuleTask')) {
       return (
-        <a href="https://docs.camunda.io/docs/reference/bpmn-processes/business-rule-tasks/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
           { translate('How to configure a business rule task') }
         </a>
       );
@@ -112,7 +112,7 @@ const DescriptionProvider = {
 
     if (is(element, 'bpmn:ScriptTask')) {
       return (
-        <a href="https://docs.camunda.io/docs/reference/bpmn-processes/script-tasks/script-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Script task documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/script-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Script task documentation') }>
           { translate('How to configure a script task') }
         </a>
       );
@@ -120,7 +120,7 @@ const DescriptionProvider = {
 
     if (is(element, 'bpmn:SendTask')) {
       return (
-        <a href="https://docs.camunda.io/docs/reference/bpmn-processes/send-tasks/send-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Send task documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/send-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Send task documentation') }>
           { translate('How to configure a send task') }
         </a>
       );
@@ -149,7 +149,7 @@ const DescriptionProvider = {
     const translate = useService('translate');
 
     return (
-      <a href="https://docs.camunda.io/docs/reference/bpmn-processes/error-events/error-events/#defining-the-error" target="_blank" rel="noopener" title={ translate('Error event documentation') }>
+      <a href="https://docs.camunda.io/docs/components/modeler/bpmn/error-events/#defining-the-error" target="_blank" rel="noopener" title={ translate('Error event documentation') }>
         { translate('How to configure an error event') }
       </a>
     );
