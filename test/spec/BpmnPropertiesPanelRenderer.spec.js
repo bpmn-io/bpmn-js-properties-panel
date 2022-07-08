@@ -10,7 +10,8 @@ import {
   expectNoViolations,
   setBpmnJS,
   insertCoreStyles,
-  insertBpmnStyles
+  insertBpmnStyles,
+  withPropertiesPanel
 } from 'test/TestHelper';
 
 import {
@@ -516,6 +517,41 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       // then
       expect(getHeaderName(propertiesContainer)).to.eql('start');
+    });
+
+
+    withPropertiesPanel('>=0.16')('should show error', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      let modeler;
+
+      await act(async () => {
+        const result = await createModeler(diagramXml);
+
+        modeler = result.modeler;
+      });
+
+      const eventBus = modeler.get('eventBus');
+      const elementRegistry = modeler.get('elementRegistry');
+      const selection = modeler.get('selection');
+
+      await act(() => {
+        selection.select(elementRegistry.get('StartEvent_1'));
+
+        eventBus.fire('propertiesPanel.setErrors', {
+          errors: {
+            name: 'foo'
+          }
+        });
+      });
+
+      // then
+      const error = domQuery('div[data-entry-id="name"] .bio-properties-panel-error', propertiesContainer);
+
+      expect(error).to.exist;
+      expect(error.textContent).to.equal('foo');
     });
 
   });
