@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.3.0
+
+* `FEAT`: set errors through context ([#160](https://github.com/bpmn-io/properties-panel/pull/160))
+* `DEPS`: update to `@bpmn-io/properties-panel@0.16.0`
+* `DEPS`: update to `bpmn-js@9.3.0`
+
 ## 1.2.0
 
 * `FEAT`: enable multi-select state ([#687](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/678))
