@@ -195,7 +195,6 @@ export async function expectNoViolations(node, options = {}) {
   expect(results.violations).to.be.empty;
 }
 
-
 export async function setEditorValue(editor, value) {
   await act(() => {
     editor.textContent = value;
