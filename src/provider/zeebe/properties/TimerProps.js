@@ -14,10 +14,8 @@ import {
 } from '../../bpmn/utils/EventDefinitionUtil';
 
 import {
-  SelectEntry,
-  TextFieldEntry,
-  isSelectEntryEdited,
-  isTextFieldEntryEdited
+  FeelEntry, isFeelEntryEdited,
+  SelectEntry, isSelectEntryEdited,
 } from '@bpmn-io/properties-panel';
 
 
@@ -54,7 +52,7 @@ export function TimerProps(props) {
     entries.push({
       id: 'timerEventDefinitionDurationValue',
       component: TimerEventDefinitionDurationValue,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     });
   } else {
     entries.push({
@@ -67,7 +65,7 @@ export function TimerProps(props) {
       entries.push({
         id: 'timerEventDefinitionValue',
         component: TimerEventDefinitionValue,
-        isEdited: isTextFieldEntryEdited
+        isEdited: isFeelEntryEdited
       });
     }
   }
@@ -201,7 +199,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id: 'timerEventDefinitionValue',
     label: translate('Value'),
@@ -282,7 +280,7 @@ function TimerEventDefinitionDurationValue(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id: 'timerEventDefinitionDurationValue',
     label: translate('Timer duration'),

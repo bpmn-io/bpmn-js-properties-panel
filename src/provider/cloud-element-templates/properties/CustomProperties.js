@@ -16,7 +16,8 @@ import {
   SelectEntry, isSelectEntryEdited,
   CheckboxEntry, isCheckboxEntryEdited,
   TextAreaEntry, isTextAreaEntryEdited,
-  TextFieldEntry, isTextFieldEntryEdited
+  TextFieldEntry, isTextFieldEntryEdited,
+  FeelEntry, FeelTextAreaEntry, isFeelEntryEdited
 } from '@bpmn-io/properties-panel';
 
 import {
@@ -113,7 +114,7 @@ function addCustomGroup(groups, props) {
 }
 
 function createCustomEntry(id, element, property) {
-  let { type } = property;
+  let { type, feel } = property;
 
   if (!type) {
     type = getDefaultType(property);
@@ -138,6 +139,14 @@ function createCustomEntry(id, element, property) {
   }
 
   if (type === 'String') {
+    if (feel) {
+      return {
+        id,
+        component: FeelProperty,
+        isEdited: isFeelEntryEdited,
+        property
+      };
+    }
     return {
       id,
       component: StringProperty,
@@ -147,6 +156,14 @@ function createCustomEntry(id, element, property) {
   }
 
   if (type === 'Text') {
+    if (feel) {
+      return {
+        id,
+        component: FeelTextAreaProperty,
+        isEdited: isFeelEntryEdited,
+        property
+      };
+    }
     return {
       id,
       component: TextAreaProperty,
@@ -234,6 +251,72 @@ function DropdownProperty(props) {
     description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property),
     setValue: propertySetter(bpmnFactory, commandStack, element, property),
+    disabled: editable === false
+  });
+}
+
+function FeelTextAreaProperty(props) {
+  const {
+    element,
+    id,
+    property
+  } = props;
+
+  const {
+    description,
+    editable,
+    label,
+    feel
+  } = property;
+
+  const bpmnFactory = useService('bpmnFactory'),
+        commandStack = useService('commandStack'),
+        debounce = useService('debounceInput'),
+        translate = useService('translate');
+
+  return FeelTextAreaEntry({
+    debounce,
+    element,
+    getValue: propertyGetter(element, property),
+    id,
+    label,
+    feel,
+    description: PropertyDescription({ description }),
+    setValue: propertySetter(bpmnFactory, commandStack, element, property),
+    validate: propertyValidator(translate, property),
+    disabled: editable === false
+  });
+}
+
+function FeelProperty(props) {
+  const {
+    element,
+    id,
+    property
+  } = props;
+
+  const {
+    description,
+    editable,
+    label,
+    feel
+  } = property;
+
+  const bpmnFactory = useService('bpmnFactory'),
+        commandStack = useService('commandStack'),
+        debounce = useService('debounceInput'),
+        translate = useService('translate');
+
+  return FeelEntry({
+    debounce,
+    element,
+    getValue: propertyGetter(element, property),
+    id,
+    label,
+    feel,
+    description: PropertyDescription({ description }),
+    setValue: propertySetter(bpmnFactory, commandStack, element, property),
+    validate: propertyValidator(translate, property),
     disabled: editable === false
   });
 }

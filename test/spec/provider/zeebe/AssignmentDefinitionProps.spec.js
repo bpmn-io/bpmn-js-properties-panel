@@ -35,6 +35,7 @@ import {
 } from 'src/utils/ExtensionElementsUtil';
 
 import diagramXML from './AssignmentDefinitionProps.bpmn';
+import { setEditorValue } from '../../../TestHelper';
 
 
 describe('provider/zeebe - AssignmentDefinitionProps', function() {
@@ -94,12 +95,19 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
       });
 
       // when
-      const assigneeInput = domQuery('input[name=assignmentDefinitionAssignee]', container);
+      const entry = domQuery('[data-entry-id="assignmentDefinitionAssignee"]', container);
 
       // then
+      expect(entry).to.exist;
+
+      // is FEEL input
+      const input = domQuery('[role="textbox"]', entry);
+      expect(input).to.exist;
+
       const assignmentDefinition = getAssignmentDefinition(userTask);
-      expect(assigneeInput).to.exist;
-      expect(assigneeInput.value).to.equal(assignmentDefinition.get('assignee'));
+      const feelExpression = assignmentDefinition.get('assignee').substring(1);
+
+      expect(input.textContent).to.equal(feelExpression);
     }));
 
 
@@ -113,11 +121,13 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
       });
 
       // when
-      const assigneeInput = domQuery('input[name=assignmentDefinitionAssignee]', container);
-      changeInput(assigneeInput, 'newValue');
+      const assigneeInput = domQuery('[role="textbox"]', container);
+
+      await setEditorValue(assigneeInput, 'newValue');
 
       // then
-      expect(getAssignmentDefinition(userTask).get('assignee')).to.eql('newValue');
+      // keep FEEL configuration
+      expect(getAssignmentDefinition(userTask).get('assignee')).to.eql('=newValue');
     }));
 
 
@@ -131,8 +141,8 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
         await act(() => {
           selection.select(userTask);
         });
-        const assigneeInput = domQuery('input[name=assignmentDefinitionAssignee]', container);
-        changeInput(assigneeInput, 'newValue');
+        const assigneeInput = domQuery('[role="textbox"]', container);
+        await setEditorValue(assigneeInput, 'newValue');
 
         // when
         await act(() => {
@@ -140,7 +150,7 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
         });
 
         // then
-        expect(assigneeInput.value).to.eql(originalValue);
+        expect('=' + assigneeInput.textContent).to.eql(originalValue);
       })
     );
 

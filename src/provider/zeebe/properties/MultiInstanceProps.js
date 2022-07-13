@@ -2,7 +2,10 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import {
+  TextFieldEntry, isTextFieldEntryEdited,
+  FeelEntry, isFeelEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -28,7 +31,7 @@ export function MultiInstanceProps(props) {
     {
       id: 'multiInstance-inputCollection',
       component: InputCollection,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     },
     {
       id: 'multiInstance-inputElement',
@@ -43,12 +46,12 @@ export function MultiInstanceProps(props) {
     {
       id: 'multiInstance-outputElement',
       component: OutputElement,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     },
     {
       id: 'multiInstance-completionCondition',
       component: CompletionCondition,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     }
   ];
 }
@@ -71,7 +74,7 @@ function InputCollection(props) {
     return setProperty(element, 'inputCollection', value, commandStack, bpmnFactory);
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
@@ -156,7 +159,7 @@ function OutputElement(props) {
     return setProperty(element, 'outputElement', value, commandStack, bpmnFactory);
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id: 'multiInstance-outputElement',
     label: translate('Output element'),
@@ -197,7 +200,7 @@ function CompletionCondition(props) {
     }
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id: 'multiInstance-completionCondition',
     label: translate('Completion condition'),

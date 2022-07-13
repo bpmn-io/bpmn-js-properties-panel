@@ -194,3 +194,13 @@ export async function expectNoViolations(node, options = {}) {
   expect(results.passes).to.be.not.empty;
   expect(results.violations).to.be.empty;
 }
+
+
+export async function setEditorValue(editor, value) {
+  await act(() => {
+    editor.textContent = value;
+  });
+
+  // Requires 2 ticks to propagate the change to bpmn-js
+  await act(() => {});
+}
