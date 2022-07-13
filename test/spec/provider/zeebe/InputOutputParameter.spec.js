@@ -4,6 +4,7 @@ import { act } from '@testing-library/preact';
 import {
   bootstrapPropertiesPanel,
   changeInput,
+  setEditorValue,
   inject
 } from 'test/TestHelper';
 
@@ -31,7 +32,7 @@ import {
 import diagramXML from './InputOutputParameter.bpmn';
 
 
-describe('provider/bpmn - InputOutputParameter', function() {
+describe('provider/zeebe - InputOutputParameter', function() {
 
   const testModules = [
     CoreModule, SelectionModule, ModelingModule,
@@ -155,7 +156,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
         // when
         const inputGroup = getGroup(container, 'inputs');
-        const sourceInput = domQuery('input[name=ServiceTask_empty-input-0-source]', inputGroup);
+        const sourceInput = domQuery('[name=ServiceTask_empty-input-0-source] [role="textbox"]', inputGroup);
 
         // then
         expect(sourceInput).to.not.exist;
@@ -173,10 +174,10 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const inputGroup = getGroup(container, 'inputs');
-      const sourceInput = domQuery('input[name=ServiceTask_1-input-0-source]', inputGroup);
+      const sourceInput = domQuery('[name=ServiceTask_1-input-0-source] [role="textbox"]', inputGroup);
 
       // then
-      expect(sourceInput.value).to.eql(getInput(serviceTask, 0).get('source'));
+      expect('=' + sourceInput.textContent).to.eql(getInput(serviceTask, 0).get('source'));
     }));
 
 
@@ -191,11 +192,11 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const inputGroup = getGroup(container, 'inputs');
-      const sourceInput = domQuery('input[name=ServiceTask_1-input-0-source]', inputGroup);
-      changeInput(sourceInput, 'newValue');
+      const sourceInput = domQuery('[name=ServiceTask_1-input-0-source] [role="textbox"]', inputGroup);
+      await setEditorValue(sourceInput, 'newValue');
 
       // then
-      expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
+      expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
     }));
 
 
@@ -209,8 +210,8 @@ describe('provider/bpmn - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const sourceInput = domQuery('input[name=ServiceTask_1-input-0-source]', container);
-        changeInput(sourceInput, 'newValue');
+        const sourceInput = domQuery('[name=ServiceTask_1-input-0-source] [role="textbox"]', container);
+        await setEditorValue(sourceInput, 'newValue');
 
         // when
         await act(() => {
@@ -218,7 +219,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
         });
 
         // then
-        expect(sourceInput.value).to.eql(originalValue);
+        expect('=' + sourceInput.textContent).to.eql(originalValue);
       })
     );
 
@@ -323,7 +324,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
         // when
         const outputGroup = getGroup(container, 'outputs');
-        const sourceInput = domQuery('input[name=ServiceTask_empty-output-0-source]', outputGroup);
+        const sourceInput = domQuery('[name=ServiceTask_empty-output-0-source] [role="textbox"]', outputGroup);
 
         // then
         expect(sourceInput).to.not.exist;
@@ -341,10 +342,10 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const outputGroup = getGroup(container, 'outputs');
-      const sourceInput = domQuery('input[name=ServiceTask_1-output-0-source]', outputGroup);
+      const sourceInput = domQuery('[name=ServiceTask_1-output-0-source] [role="textbox"]', outputGroup);
 
       // then
-      expect(sourceInput.value).to.eql(getOutput(serviceTask, 0).get('source'));
+      expect('=' + sourceInput.textContent).to.eql(getOutput(serviceTask, 0).get('source'));
     }));
 
 
@@ -359,11 +360,11 @@ describe('provider/bpmn - InputOutputParameter', function() {
 
       // when
       const outputGroup = getGroup(container, 'outputs');
-      const sourceInput = domQuery('input[name=ServiceTask_1-output-0-source]', outputGroup);
-      changeInput(sourceInput, 'newValue');
+      const sourceInput = domQuery('[name=ServiceTask_1-output-0-source] [role="textbox"]', outputGroup);
+      await setEditorValue(sourceInput, 'newValue');
 
       // then
-      expect(getOutput(serviceTask, 0).get('source')).to.eql('newValue');
+      expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
     }));
 
 
@@ -377,8 +378,8 @@ describe('provider/bpmn - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const sourceInput = domQuery('input[name=ServiceTask_1-output-0-source]', container);
-        changeInput(sourceInput, 'newValue');
+        const sourceInput = domQuery('[name=ServiceTask_1-output-0-source] [role="textbox"]', container);
+        await setEditorValue(sourceInput, 'newValue');
 
         // when
         await act(() => {
@@ -386,7 +387,7 @@ describe('provider/bpmn - InputOutputParameter', function() {
         });
 
         // then
-        expect(sourceInput.value).to.eql(originalValue);
+        expect('=' + sourceInput.textContent).to.eql(originalValue);
       })
     );
 

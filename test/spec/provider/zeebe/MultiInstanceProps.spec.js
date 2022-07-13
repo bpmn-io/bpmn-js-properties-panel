@@ -34,6 +34,7 @@ import {
 } from 'src/utils/ExtensionElementsUtil';
 
 import diagramXML from './MultiInstanceProps.bpmn';
+import { setEditorValue } from '../../../TestHelper';
 
 
 describe('provider/zeebe - MultiInstanceProps', function() {
@@ -77,7 +78,7 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-inputCollection]', container);
+        const input = domQuery('[name=multiInstance-inputCollection] [role="textbox"]', container);
 
         // then
         expect(input).to.not.exist;
@@ -95,10 +96,10 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       });
 
       // when
-      const input = domQuery('input[name=multiInstance-inputCollection]', container);
+      const input = domQuery('[name=multiInstance-inputCollection] [role="textbox"]', container);
 
       // then
-      expect(input.value).to.eql(
+      expect('=' + input.textContent).to.eql(
         getZeebeLoopCharacteristics(serviceTask).get('inputCollection')
       );
     }));
@@ -114,11 +115,11 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       });
 
       // when
-      const input = domQuery('input[name=multiInstance-inputCollection]', container);
-      changeInput(input, 'newValue');
+      const input = domQuery('[name=multiInstance-inputCollection] [role="textbox"]', container);
+      await setEditorValue(input, 'newValue');
 
       // then
-      expect(getZeebeLoopCharacteristics(serviceTask).get('inputCollection')).to.eql('newValue');
+      expect(getZeebeLoopCharacteristics(serviceTask).get('inputCollection')).to.eql('=newValue');
     }));
 
 
@@ -132,8 +133,8 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const input = domQuery('input[name=multiInstance-inputCollection]', container);
-        changeInput(input, 'newValue');
+        const input = domQuery('[name=multiInstance-inputCollection] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // when
         await act(() => {
@@ -141,7 +142,7 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // then
-        expect(input.value).to.eql(originalValue);
+        expect('=' + input.textContent).to.eql(originalValue);
       })
     );
 
@@ -160,8 +161,8 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-inputCollection]', container);
-        changeInput(input, 'newValue');
+        const input = domQuery('[name=multiInstance-inputCollection] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // then
         expect(getLoopCharacteristics(serviceTask).get('extensionElements')).to.exist;
@@ -183,11 +184,11 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-inputCollection]', container);
-        changeInput(input, 'newValue');
+        const input = domQuery('[name=multiInstance-inputCollection] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // then
-        expect(getZeebeLoopCharacteristics(serviceTask).get('inputCollection')).to.eql('newValue');
+        expect(getZeebeLoopCharacteristics(serviceTask).get('inputCollection')).to.eql('=newValue');
       })
     );
 
@@ -467,7 +468,7 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-outputElement]', container);
+        const input = domQuery('[name=multiInstance-outputElement] [role="textbox"]', container);
 
         // then
         expect(input).to.not.exist;
@@ -485,10 +486,10 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       });
 
       // when
-      const input = domQuery('input[name=multiInstance-outputElement]', container);
+      const input = domQuery('[name=multiInstance-outputElement] [role="textbox"]', container);
 
       // then
-      expect(input.value).to.eql(
+      expect('=' + input.textContent).to.eql(
         getZeebeLoopCharacteristics(serviceTask).get('outputElement')
       );
     }));
@@ -504,11 +505,11 @@ describe('provider/zeebe - MultiInstanceProps', function() {
       });
 
       // when
-      const input = domQuery('input[name=multiInstance-outputElement]', container);
-      changeInput(input, 'newValue');
+      const input = domQuery('[name=multiInstance-outputElement] [role="textbox"]', container);
+      await setEditorValue(input, 'newValue');
 
       // then
-      expect(getZeebeLoopCharacteristics(serviceTask).get('outputElement')).to.eql('newValue');
+      expect(getZeebeLoopCharacteristics(serviceTask).get('outputElement')).to.eql('=newValue');
     }));
 
 
@@ -522,8 +523,8 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const input = domQuery('input[name=multiInstance-outputElement]', container);
-        changeInput(input, 'newValue');
+        const input = domQuery('[name=multiInstance-outputElement] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // when
         await act(() => {
@@ -531,7 +532,7 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // then
-        expect(input.value).to.eql(originalValue);
+        expect('=' + input.textContent).to.eql(originalValue);
       })
     );
 
@@ -550,8 +551,8 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-outputElement]', container);
-        changeInput(input, 'newValue');
+        const input = domQuery('[name=multiInstance-outputElement] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // then
         expect(getLoopCharacteristics(serviceTask).get('extensionElements')).to.exist;
@@ -573,11 +574,11 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-outputElement]', container);
-        changeInput(input, 'newValue');
+        const input = domQuery('[name=multiInstance-outputElement] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // then
-        expect(getZeebeLoopCharacteristics(serviceTask).get('outputElement')).to.eql('newValue');
+        expect(getZeebeLoopCharacteristics(serviceTask).get('outputElement')).to.eql('=newValue');
       })
     );
 
@@ -600,11 +601,11 @@ describe('provider/zeebe - MultiInstanceProps', function() {
         });
 
         // when
-        const input = domQuery('input[name=multiInstance-completionCondition]', container);
-        changeInput(input, '= newValue');
+        const input = domQuery('[name=multiInstance-completionCondition] [role="textbox"]', container);
+        await setEditorValue(input, 'newValue');
 
         // then
-        expect(getCompletionCondition(serviceTask).get('body')).to.eql('= newValue');
+        expect(getCompletionCondition(serviceTask).get('body')).to.eql('=newValue');
       })
     );
 
@@ -619,14 +620,14 @@ describe('provider/zeebe - MultiInstanceProps', function() {
           selection.select(serviceTask);
         });
 
-        const input = domQuery('input[name=multiInstance-completionCondition]', container);
+        const input = domQuery('[name=multiInstance-completionCondition] [role="textbox"]', container);
 
         // assume
-        changeInput(input, '= newValue');
+        await setEditorValue(input, 'newValue');
         expect(getCompletionCondition(serviceTask)).to.exist;
 
         // when
-        changeInput(input, '');
+        await setEditorValue(input, '');
 
         // then
         expect(getCompletionCondition(serviceTask)).not.to.exist;

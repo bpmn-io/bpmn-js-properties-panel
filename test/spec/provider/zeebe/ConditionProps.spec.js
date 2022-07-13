@@ -6,7 +6,6 @@ import {
 
 import {
   bootstrapPropertiesPanel,
-  changeInput,
   inject
 } from 'test/TestHelper';
 
@@ -27,6 +26,7 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './ConditionProps.bpmn';
+import { setEditorValue } from '../../../TestHelper';
 
 
 describe('provider/zeebe - ConditionProps', function() {
@@ -105,16 +105,16 @@ describe('provider/zeebe - ConditionProps', function() {
         selection.select(sequenceFlow);
       });
 
-      const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
+      const input = domQuery('[data-entry-id="conditionExpression"] [role="textbox"]', container);
 
       // when
-      changeInput(conditionExpressionInput, 'myExpression');
+      await setEditorValue(input, 'myExpression');
 
       const conditionExpressionVal = getConditionExpression(sequenceFlow);
 
       // then
       expect(conditionExpressionVal).to.exist;
-      expect(conditionExpressionVal).to.equal('myExpression');
+      expect(conditionExpressionVal).to.equal('=myExpression');
     }));
 
 
@@ -129,8 +129,9 @@ describe('provider/zeebe - ConditionProps', function() {
           selection.select(sequenceFlow);
         });
 
-        const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
-        changeInput(conditionExpressionInput, 'myExpression');
+        const conditionExpressionInput = domQuery('[data-entry-id="conditionExpression"] [role="textbox"]', container);
+
+        await setEditorValue(conditionExpressionInput, 'myExpression');
 
         // when
         await act(() => {
@@ -138,7 +139,7 @@ describe('provider/zeebe - ConditionProps', function() {
         });
 
         // then
-        expect(conditionExpressionInput.value).to.eql(originalValue);
+        expect('=' + conditionExpressionInput.textContent).to.eql(originalValue);
       })
     );
 
@@ -155,19 +156,19 @@ describe('provider/zeebe - ConditionProps', function() {
           selection.select(sequenceFlow);
         });
 
-        const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
+        const conditionExpressionInput = domQuery('[data-entry-id="conditionExpression"] [role="textbox"]', container);
 
         // assume
         expect(defaultSourceTaskBo.get('default')).to.exist;
 
         // when
-        changeInput(conditionExpressionInput, 'myExpression');
+        await setEditorValue(conditionExpressionInput, 'myExpression');
 
         const conditionExpressionVal = getConditionExpression(sequenceFlow);
 
         // then
         expect(conditionExpressionVal).to.exist;
-        expect(conditionExpressionVal).to.equal('myExpression');
+        expect(conditionExpressionVal).to.equal('=myExpression');
 
         expect(defaultSourceTaskBo.get('default')).not.to.exist;
       })
@@ -185,13 +186,13 @@ describe('provider/zeebe - ConditionProps', function() {
           selection.select(sequenceFlow);
         });
 
-        const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
+        const conditionExpressionInput = domQuery('[data-entry-id="conditionExpression"] [role="textbox"]', container);
 
         // assume
         expect(sequenceFlowBo.get('conditionExpression')).to.exist;
 
         // when
-        changeInput(conditionExpressionInput, '');
+        await setEditorValue(conditionExpressionInput, '');
 
         // then
         expect(sequenceFlowBo.get('conditionExpression')).not.to.exist;

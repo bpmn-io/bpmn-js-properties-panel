@@ -29,17 +29,17 @@
   </bpmn:process>
   <bpmn:message id="Message_1" name="Message_1">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="key1" />
+      <zeebe:subscription correlationKey="=key1" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmn:message id="Message_2" name="Message_2">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="key_2" />
+      <zeebe:subscription correlationKey="=key_2" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmn:message id="Message_3" name="Message_3">
     <bpmn:extensionElements>
-      <zeebe:subscription correlationKey="key_3" />
+      <zeebe:subscription correlationKey="=key_3" />
     </bpmn:extensionElements>
   </bpmn:message>
   <bpmn:message id="Message_noSubscription" name="Message_noSubscription">

@@ -622,8 +622,8 @@ describe('<ZeebePropertiesProvider>', function() {
 
       // when
       const multiInstanceGroups = getAllGroups(container, 'multiInstance');
-      const completionConditionInput = domQuery('input[name=completionCondition]', multiInstanceGroups[0]);
-      const inputCollectionInput = domQuery('input[name="multiInstance-inputCollection"]', multiInstanceGroups[0]);
+      const completionConditionInput = domQuery('[name=completionCondition]', multiInstanceGroups[0]);
+      const inputCollectionInput = domQuery('[name="multiInstance-inputCollection"]', multiInstanceGroups[0]);
 
       // then
       expect(multiInstanceGroups).to.have.length(1);

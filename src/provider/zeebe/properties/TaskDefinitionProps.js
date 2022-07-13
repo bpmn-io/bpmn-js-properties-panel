@@ -2,7 +2,7 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -32,12 +32,12 @@ export function TaskDefinitionProps(props) {
     {
       id: 'taskDefinitionType',
       component: TaskDefinitionType,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     },
     {
       id: 'taskDefinitionRetries',
       component: TaskDefinitionRetries,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     }
   ];
 }
@@ -120,7 +120,7 @@ function TaskDefinitionType(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id,
     label: translate('Type'),
@@ -208,7 +208,7 @@ function TaskDefinitionRetries(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id,
     label: translate('Retries'),

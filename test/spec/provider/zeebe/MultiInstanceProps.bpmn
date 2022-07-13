@@ -4,7 +4,7 @@
     <bpmn:serviceTask id="ServiceTask_1" name="task">
       <bpmn:multiInstanceLoopCharacteristics>
         <bpmn:extensionElements>
-          <zeebe:loopCharacteristics inputCollection="inputCollection" inputElement="inputElement" outputCollection="outputCollection" outputElement="outputElement" />
+          <zeebe:loopCharacteristics inputCollection="=inputCollection" inputElement="inputElement" outputCollection="outputCollection" outputElement="=outputElement" />
         </bpmn:extensionElements>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:serviceTask>

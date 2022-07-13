@@ -26,7 +26,7 @@
       <bpmn:outgoing>Flow1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow3" name="Flow3" sourceRef="Gateway_1qbye32" targetRef="Activity_0p2eypu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">foobar</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=foobar</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow2" name="Flow2" sourceRef="Activity_1ttjwvh" targetRef="Activity_0n6j795" />
     <bpmn:sequenceFlow id="Flow1" name="Flow1" sourceRef="StartEvent_1" targetRef="Activity_07689k4" />

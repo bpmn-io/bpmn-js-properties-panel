@@ -37,6 +37,7 @@ import {
 } from 'src/provider/bpmn/utils/EventDefinitionUtil';
 
 import diagramXML from './MessageProps.bpmn';
+import { setEditorValue } from '../../../TestHelper';
 
 
 describe('provider/zeebe - MessageProps', function() {
@@ -316,7 +317,7 @@ describe('provider/zeebe - MessageProps', function() {
       });
 
       // when
-      const correlationKeyInput = domQuery('input[name=messageSubscriptionCorrelationKey]', container);
+      const correlationKeyInput = domQuery('[name=messageSubscriptionCorrelationKey] [role="textbox"]', container);
 
       // then
       expect(correlationKeyInput).to.not.exist;
@@ -333,10 +334,10 @@ describe('provider/zeebe - MessageProps', function() {
       });
 
       // when
-      const correlationKeyInput = domQuery('input[name=messageSubscriptionCorrelationKey]', container);
+      const correlationKeyInput = domQuery('[name=messageSubscriptionCorrelationKey] [role="textbox"]', container);
 
       // then
-      expect(correlationKeyInput.value).to.eql(getCorrelationKey(startEvent));
+      expect('=' + correlationKeyInput.textContent).to.eql(getCorrelationKey(startEvent));
     }));
 
 
@@ -350,11 +351,11 @@ describe('provider/zeebe - MessageProps', function() {
       });
 
       // when
-      const correlationKeyInput = domQuery('input[name=messageSubscriptionCorrelationKey]', container);
-      changeInput(correlationKeyInput, 'newValue');
+      const correlationKeyInput = domQuery('[name=messageSubscriptionCorrelationKey] [role="textbox"]', container);
+      await setEditorValue(correlationKeyInput, 'newValue');
 
       // then
-      expect(getCorrelationKey(startEvent)).to.eql('newValue');
+      expect(getCorrelationKey(startEvent)).to.eql('=newValue');
     }));
 
 
@@ -368,8 +369,8 @@ describe('provider/zeebe - MessageProps', function() {
         await act(() => {
           selection.select(startEvent);
         });
-        const correlationKeyInput = domQuery('input[name=messageSubscriptionCorrelationKey]', container);
-        changeInput(correlationKeyInput, 'newValue');
+        const correlationKeyInput = domQuery('[name=messageSubscriptionCorrelationKey] [role="textbox"]', container);
+        await setEditorValue(correlationKeyInput, 'newValue');
 
         // when
         await act(() => {
@@ -377,7 +378,7 @@ describe('provider/zeebe - MessageProps', function() {
         });
 
         // then
-        expect(correlationKeyInput.value).to.eql(originalValue);
+        expect('=' + correlationKeyInput.textContent).to.eql(originalValue);
       })
     );
 
@@ -396,8 +397,8 @@ describe('provider/zeebe - MessageProps', function() {
         });
 
         // when
-        const correlationKeyInput = domQuery('input[name=messageSubscriptionCorrelationKey]', container);
-        changeInput(correlationKeyInput, 'newValue');
+        const correlationKeyInput = domQuery('[name=messageSubscriptionCorrelationKey] [role="textbox"]', container);
+        await setEditorValue(correlationKeyInput, 'newValue');
 
         // then
         expect(getMessage(receiveTask).get('extensionElements')).to.exist;
@@ -419,8 +420,8 @@ describe('provider/zeebe - MessageProps', function() {
         });
 
         // when
-        const correlationKeyInput = domQuery('input[name=messageSubscriptionCorrelationKey]', container);
-        changeInput(correlationKeyInput, 'newValue');
+        const correlationKeyInput = domQuery('[name=messageSubscriptionCorrelationKey] [role="textbox"]', container);
+        await setEditorValue(correlationKeyInput, 'newValue');
 
         // then
         expect(getSubscription(startEvent)).to.exist;

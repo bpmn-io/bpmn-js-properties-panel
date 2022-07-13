@@ -2,7 +2,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { TextFieldEntry } from '@bpmn-io/properties-panel';
+import { TextFieldEntry, FeelEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -91,7 +91,8 @@ function SourceProperty(props) {
     return parameter.source;
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
+    bpmnElement: element,
     element: parameter,
     id: idPrefix + '-source',
     label: translate('Variable assignment value'),

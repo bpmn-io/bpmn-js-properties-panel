@@ -3,7 +3,10 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
+import {
+  TextFieldEntry, isTextFieldEntryEdited,
+  FeelEntry, isFeelEntryEdited
+} from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -29,7 +32,7 @@ export function CalledDecisionProps(props) {
     {
       id: 'decisionId',
       component: DecisionID,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     },
     {
       id: 'resultVariable',
@@ -117,7 +120,7 @@ function DecisionID(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return TextFieldEntry({
+  return FeelEntry({
     element,
     id,
     label: translate('Decision ID'),
