@@ -6,6 +6,7 @@ import {
 } from '@testing-library/preact/pure';
 
 import {
+  changeInput,
   clearBpmnJS,
   expectNoViolations,
   setBpmnJS,
@@ -15,6 +16,7 @@ import {
 } from 'test/TestHelper';
 
 import {
+  classes as domClasses,
   query as domQuery,
   domify
 } from 'min-dom';
@@ -552,6 +554,79 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       expect(error).to.exist;
       expect(error.textContent).to.equal('foo');
+    });
+
+
+    /* Test case to reproduce: https://github.com/bpmn-io/bpmn-js-properties-panel/issues/712 */
+    it.only('test-case#712', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      function hasFocus(selector) {
+        return domClasses(document.activeElement).contains(selector);
+      }
+
+      let modeler;
+
+      await act(async () => {
+        const result = await createModeler(diagramXml, {
+          debounceInput: false,
+          layout: {
+            groups: {
+              'general': { open: true }
+            }
+          }
+        });
+
+        modeler = result.modeler;
+      });
+
+      const elementRegistry = modeler.get('elementRegistry');
+      const selection = modeler.get('selection');
+      const elementFactory = modeler.get('elementFactory');
+      const autoPlace = modeler.get('autoPlace');
+      const keyboard = modeler.get('keyboard');
+
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      // when
+
+      // (0) select service task
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // (1) focus name input
+      const nameInput = domQuery('input[name=name]', propertiesContainer);
+      nameInput.focus();
+      nameInput.select();
+
+      expect(hasFocus('bio-properties-panel-input')).to.be.true;
+
+      // (2) remove name
+      await act(() => {
+        changeInput(nameInput, '');
+      });
+
+      // (3) append task
+      const task = elementFactory.createShape({ type: 'bpmn:Task' });
+      await act(() => {
+        autoPlace.append(serviceTask, task);
+      });
+      expect(elementRegistry.get(task.id)).to.exist;
+
+      expect(hasFocus('bio-properties-panel-input')).to.be.false;
+      expect(hasFocus('djs-direct-editing-content')).to.be.true;
+
+      // (4) undo via keyboard
+      await act(() => {
+        keyboard._keyHandler({ key: 'z', metaKey: true, target: nameInput, preventDefault: () => {} });
+      });
+
+      // then
+      // appended task is removed again
+      expect(elementRegistry.get(task.id)).to.not.exist;
     });
 
   });
