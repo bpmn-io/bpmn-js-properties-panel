@@ -15,6 +15,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 import {
   FeelEntry, isFeelEntryEdited
 } from '@bpmn-io/properties-panel';
@@ -102,7 +104,7 @@ function ConditionExpression(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'conditionExpression',
     label: translate('Condition expression'),

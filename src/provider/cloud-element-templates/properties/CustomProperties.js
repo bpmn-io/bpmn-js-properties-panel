@@ -7,6 +7,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 import { PropertyDescription } from '../../element-templates/components/PropertyDescription';
 
 import { getPropertyValue, setPropertyValue } from '../util/propertyUtil';
@@ -274,7 +276,7 @@ function FeelTextAreaProperty(props) {
         debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  return FeelTextAreaEntry({
+  return withVariableContext(FeelTextAreaEntry)({
     debounce,
     element,
     getValue: propertyGetter(element, property),
@@ -307,7 +309,7 @@ function FeelProperty(props) {
         debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     debounce,
     element,
     getValue: propertyGetter(element, property),

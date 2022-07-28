@@ -7,6 +7,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 import {
   isTimerSupported,
   getTimerEventDefinition,
@@ -199,7 +201,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'timerEventDefinitionValue',
     label: translate('Value'),
@@ -280,7 +282,7 @@ function TimerEventDefinitionDurationValue(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'timerEventDefinitionDurationValue',
     label: translate('Timer duration'),

@@ -17,6 +17,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 
 export function MultiInstanceProps(props) {
   const {
@@ -74,7 +76,7 @@ function InputCollection(props) {
     return setProperty(element, 'inputCollection', value, commandStack, bpmnFactory);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
@@ -159,7 +161,7 @@ function OutputElement(props) {
     return setProperty(element, 'outputElement', value, commandStack, bpmnFactory);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'multiInstance-outputElement',
     label: translate('Output element'),
@@ -200,7 +202,7 @@ function CompletionCondition(props) {
     }
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'multiInstance-completionCondition',
     label: translate('Completion condition'),

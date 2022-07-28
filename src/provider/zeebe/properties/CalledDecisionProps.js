@@ -18,6 +18,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 
 export function CalledDecisionProps(props) {
   const {
@@ -120,7 +122,7 @@ function DecisionID(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id,
     label: translate('Decision ID'),

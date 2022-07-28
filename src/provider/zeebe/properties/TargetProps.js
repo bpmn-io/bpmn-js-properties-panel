@@ -18,6 +18,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 
 export function TargetProps(props) {
   const {
@@ -117,7 +119,7 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id,
     label: translate('Process ID'),
