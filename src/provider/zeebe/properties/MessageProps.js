@@ -10,6 +10,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 import {
   getMessage
 } from '../../bpmn/utils/EventDefinitionUtil';
@@ -80,7 +82,7 @@ function MessageName(props) {
     );
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'messageName',
     label: translate('Name'),
@@ -166,7 +168,7 @@ function SubscriptionCorrelationKey(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),

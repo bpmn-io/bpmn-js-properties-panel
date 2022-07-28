@@ -8,6 +8,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { withVariableContext } from '../../HOCs';
+
 
 export default function InputOutputParameter(props) {
 
@@ -91,7 +93,7 @@ function SourceProperty(props) {
     return parameter.source;
   };
 
-  return FeelEntry({
+  return withVariableContext(FeelEntry)({
     bpmnElement: element,
     element: parameter,
     id: idPrefix + '-source',
