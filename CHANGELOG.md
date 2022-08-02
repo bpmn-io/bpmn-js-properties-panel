@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.4.0
+
+* `FEAT`: use FEEL editor for FEEL expressions ([#706](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/706))
+* `FIX`: support jQuery as parent node ([#729](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/729))
+* `DEPS`: update to `@bpmn-io/properties-panel@0.18.0`
+* `DEPS`: update to `@bpmn-io/extract-process-variables@0.5.0`
+
 # 1.3.0
 
 * `FEAT`: set errors through context ([#160](https://github.com/bpmn-io/properties-panel/pull/160))
