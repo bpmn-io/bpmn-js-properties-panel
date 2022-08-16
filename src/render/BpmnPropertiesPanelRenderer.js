@@ -1,12 +1,18 @@
 import BpmnPropertiesPanel from './BpmnPropertiesPanel';
 
 import {
+  isUndo,
+  isRedo
+} from 'diagram-js/lib/features/keyboard/KeyboardUtil';
+
+import {
   render
 } from '@bpmn-io/properties-panel/preact';
 
 import {
   domify,
-  query as domQuery
+  query as domQuery,
+  event as domEvent
 } from 'min-dom';
 
 const DEFAULT_PRIORITY = 1000;
@@ -31,7 +37,13 @@ export default class BpmnPropertiesPanelRenderer {
     this._layoutConfig = layoutConfig;
     this._descriptionConfig = descriptionConfig;
 
-    this._container = domify('<div style="height: 100%" class="bio-properties-panel-container" input-handle-modified-keys="y,z"></div>');
+    this._container = domify(
+      '<div style="height: 100%" class="bio-properties-panel-container"></div>'
+    );
+
+    var commandStack = injector.get('commandStack', false);
+
+    commandStack && setupKeyboard(this._container, eventBus, commandStack);
 
     eventBus.on('diagram.init', () => {
       if (parent) {
@@ -175,4 +187,42 @@ function isImplicitRoot(element) {
 
   // Backwards compatibility for diagram-js<7.4.0, see https://github.com/bpmn-io/bpmn-properties-panel/pull/102
   return element && (element.isImplicit || element.id === '__implicitroot');
+}
+
+/**
+ * Setup keyboard bindings (undo, redo) on the given container.
+ *
+ * @param {Element} container
+ * @param {EventBus} eventBus
+ * @param {CommandStack} commandStack
+ */
+function setupKeyboard(container, eventBus, commandStack) {
+
+  function cancel(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function handleKeys(event) {
+
+    if (isUndo(event)) {
+      commandStack.undo();
+
+      return cancel(event);
+    }
+
+    if (isRedo(event)) {
+      commandStack.redo();
+
+      return cancel(event);
+    }
+  }
+
+  eventBus.on('keyboard.bind', function() {
+    domEvent.bind(container, 'keydown', handleKeys);
+  });
+
+  eventBus.on('keyboard.unbind', function() {
+    domEvent.unbind(container, 'keydown', handleKeys);
+  });
 }
