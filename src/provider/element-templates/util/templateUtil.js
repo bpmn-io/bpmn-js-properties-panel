@@ -1,5 +1,4 @@
 import { getLabel, setLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
-import { createCategoryValue } from 'bpmn-js/lib/features/modeling/behavior/util/CategoryUtil';
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
 
 import { isUndefined } from 'min-dash';
@@ -111,8 +110,7 @@ function leftPad(string, length, character) {
 }
 
 function createBlankBusinessObject(element, injector) {
-  const bpmnFactory = injector.get('bpmnFactory'),
-        bpmnJs = injector.get('bpmnjs');
+  const bpmnFactory = injector.get('bpmnFactory');
 
   const bo = getBusinessObject(element),
         newBo = bpmnFactory.create(bo.$type),
@@ -123,10 +121,7 @@ function createBlankBusinessObject(element, injector) {
   }
 
   if (is(element, 'bpmn:Group')) {
-    const definitions = bpmnJs.getDefinitions();
-    const categoryValue = createCategoryValue(definitions, bpmnFactory);
-
-    newBo.categoryValueRef = categoryValue;
+    newBo.categoryValueRef = bpmnFactory.create('bpmn:CategoryValue');
   }
 
   setLabel({ businessObject: newBo }, label);
