@@ -81,7 +81,7 @@
     "copy-webpack-plugin": "^9.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^5.2.6",
-    "diagram-js": "^8.6.0",
+    "diagram-js": "^8.8.0",
     "eslint": "^7.32.0",
     "eslint-plugin-bpmn-io": "^0.13.0",
     "eslint-plugin-import": "^2.23.4",
