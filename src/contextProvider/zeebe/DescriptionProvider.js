@@ -45,7 +45,7 @@ const DescriptionProvider = {
     const translate = useService('translate');
 
     return (
-      <a href="¥https://docs.camunda.io/docs/guides/utilizing-forms/#connect-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener" title={ translate('User task form documentation') }>
+      <a href="https://docs.camunda.io/docs/guides/utilizing-forms/#connect-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener" title={ translate('User task form documentation') }>
         { translate('How to link a form') }
       </a>
     );
