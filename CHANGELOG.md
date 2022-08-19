@@ -6,6 +6,18 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.5.0
+
+* `FEAT`: explicitly bind undo/redo to properties container ([#739](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/739))
+* `FIX`: render sticky headers correctly ([#726](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/726))
+* `FIX`: prevent undo events from affecting the wrong element ([#712](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/712))
+* `CHORE`: set `bpmn:Group` label in a side-effect free manner ([#739](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/739))
+* `CHORE`: update formType documentation link ([cb627c4](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/cb627c4e2c21aef5f37c4723f2cdb219a66ee310))
+* `DEPS`: update to `@bpmn-io/properties-panel@0.19.0`
+* `DEPS`: update to `bpmn-js@9.3.2`
+* `DEPS`: update to `diagram-js@8.8.0`
+* `DEPS`: update to `zeebe-bpmn-moddle@0.12.2`
+
 # 1.4.0
 
 * `FEAT`: use FEEL editor for FEEL expressions ([#706](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/706))
