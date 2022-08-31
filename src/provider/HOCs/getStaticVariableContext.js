@@ -1,32 +1,26 @@
-import { useMemo } from '@bpmn-io/properties-panel/preact/hooks';
 import { parser } from 'lezer-feel';
-import { domify } from 'min-dom';
-import { getExtensionElementsList } from '../../utils/ExtensionElementsUtil';
 
 import varContext from './Untitled-1.json';
 
+const context = {};
+
+for (const key of Object.keys(varContext)) {
+  context[key] = extractVariables(key);
+}
+
+console.log(context);
+
 export function useStaticVariableContext(bo) {
 
-  const type = 'send-message'; // getExtensionElementsList(bo, 'zeebe:TaskDefinition')[0]?.type;
-
-  return useMemo(() => extractVariables(type), [
-
-    //   type
-  ]);
+  return context;
 
 }
 
 function extractVariables(type) {
   const variables = [];
-  console.log(type);
-
-  if (!type) {
-    return variables;
-  }
 
 
-
-  const typeContext = varContext['type:' + type];
+  const typeContext = varContext[type];
   console.log(typeContext);
 
   if (!typeContext) {
