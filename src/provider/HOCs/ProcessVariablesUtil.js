@@ -1,7 +1,7 @@
 import { find, findIndex } from 'min-dash';
 import { getExtensionElementsList } from '../../utils/ExtensionElementsUtil';
 
-export function addVariableToList(variablesList, newVariable) {
+export function addVariableToList(variablesList, newVariable, details) {
   var foundIdx = findIndex(variablesList, function(variable) {
     return (
       variable.name === newVariable.name && variable.scope === newVariable.scope
@@ -28,13 +28,14 @@ export function addVariableToList(variablesList, newVariable) {
  *
  * @returns {ProcessVariable}
  */
-export function createProcessVariable(flowElement, name, defaultScope) {
+export function createProcessVariable(flowElement, name, defaultScope, details) {
   var scope = getScope(flowElement, defaultScope, name);
 
   return {
     name: name,
     origin: [ flowElement ],
-    scope: scope
+    scope: scope,
+    details
   };
 }
 
@@ -49,6 +50,7 @@ function getScope(element, globalScope, variableName) {
   var parents = getParents(element);
 
   if (hasOutputParameter(element)) {
+    console.log('has output parameter');
     return element;
   }
 
@@ -76,7 +78,7 @@ function hasInputParameter(element, name) {
 }
 
 function hasOutputParameter(element) {
-  return !!getOutputParameters(element).length;
+  return !!getOutputParameters(element)?.length;
 }
 
 function combineArrays(a, b) {
@@ -84,11 +86,11 @@ function combineArrays(a, b) {
 }
 
 function getInputParameters(element) {
-  getExtensionElementsList(element, 'zeebe:IoMapping')[0]?.get('inputParameters');
+  return getExtensionElementsList(element, 'zeebe:IoMapping')[0]?.get('inputParameters');
 }
 
 function getOutputParameters(element) {
-  getExtensionElementsList(element, 'zeebe:IoMapping')[0]?.get('outputParameters');
+  return getExtensionElementsList(element, 'zeebe:IoMapping')[0]?.get('outputParameters');
 }
 
 /**

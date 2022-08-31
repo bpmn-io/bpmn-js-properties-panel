@@ -33,7 +33,7 @@
             ]
         }
     },
-    "element:send_message_process": {
+    "id:Process_1": {
         "inputs": {
             "exampleData": [
                 {

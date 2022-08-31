@@ -2,7 +2,7 @@ import { forEach, isArray } from 'min-dash';
 import { getExtensionElementsList } from '../../utils/ExtensionElementsUtil';
 import { useStaticVariableContext } from './getStaticVariableContext';
 
-import { createProcessVariable, addVariableToList } from '@bpmn-io/extract-process-variables/lib/zeebe/util/ProcessVariablesUtil';
+import { createProcessVariable, addVariableToList } from './ProcessVariablesUtil';
 
 
 /**
@@ -28,9 +28,7 @@ export default function(options) {
     elements = [ elements ];
   }
 
-  console.log(options);
-
-
+  // Service Task topic mappings
   forEach(elements, function(element) {
     const context = useStaticVariableContext(element);
 
@@ -38,8 +36,6 @@ export default function(options) {
     if (!type) {
       return;
     }
-
-    console.log(type);
 
     context['type:' + type]?.forEach(variable => {
       var newVariable = createProcessVariable(
@@ -54,19 +50,26 @@ export default function(options) {
     });
   });
 
-  // mappings for topic
+  // ID mappings
+  forEach(elements, function(element) {
+    const context = useStaticVariableContext(element);
 
 
-  //     // extract all variables with correct scope
+    console.log('ID check', element.id, context['id:' + element.id]);
+    context['id:' + element.id]?.forEach(variable => {
+      console.log('global variable', variable);
+      var newVariable = createProcessVariable(
+        element,
+        variable.name,
+        containerElement,
+        variable
+      );
 
-  //       var newVariable = createProcessVariable(
-  //         element,
-  //         mapping.target,
-  //         element
-  //       );
+      addVariableToList(processVariables, newVariable);
 
-  //       addVariableToList(processVariables, newVariable);
-  //     });
+    });
+  });
+
 
   return processVariables;
 }
