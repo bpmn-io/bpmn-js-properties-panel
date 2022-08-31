@@ -76,7 +76,13 @@ module.exports = function(karma) {
                     'importSource': '@bpmn-io/properties-panel/preact',
                     'runtime': 'automatic'
                   } ]
-                ]
+                ].concat(coverage ? [
+                  [ 'istanbul', {
+                    include: [
+                      'lib/**'
+                    ]
+                  } ]
+                ] : [])
               }
             }
           },
@@ -84,18 +90,7 @@ module.exports = function(karma) {
             test: /\.svg$/,
             use: [ 'react-svg-loader' ]
           }
-        ].concat(coverage ?
-          {
-            test: /\.js$/,
-            use: {
-              loader: 'istanbul-instrumenter-loader',
-              options: { esModules: true }
-            },
-            enforce: 'post',
-            include: /src\.*/,
-            exclude: /node_modules/
-          } : []
-        )
+        ]
       },
       plugins: [
         new DefinePlugin({
