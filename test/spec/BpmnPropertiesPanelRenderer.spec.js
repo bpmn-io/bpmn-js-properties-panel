@@ -37,11 +37,12 @@ import CloudElementTemplatesPropertiesProvider from 'src/provider/cloud-element-
 import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
 import ElementTemplatesIconsRenderer from '@bpmn-io/element-templates-icons-renderer';
 
+import CamundaBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+import ZeebeBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
+
 import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
-import CamundaModdleExtension from 'camunda-bpmn-moddle/lib';
 
 import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
-import ZeebeModdleExtension from 'zeebe-bpmn-moddle/lib';
 
 import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
@@ -78,7 +79,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     const {
       shouldImport = true,
       additionalModules = [
-        ZeebeModdleExtension,
+        ZeebeBehaviorsModule,
         BpmnPropertiesPanel,
         BpmnPropertiesProvider,
         ZeebePropertiesProvider
@@ -135,7 +136,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       diagramXml,
       {
         additionalModules: [
-          ZeebeModdleExtension,
+          ZeebeBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           ZeebePropertiesProvider
@@ -162,7 +163,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       diagramXml,
       {
         additionalModules: [
-          CamundaModdleExtension,
+          CamundaBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           CamundaPropertiesProvider
@@ -188,7 +189,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       diagramXml,
       {
         additionalModules: [
-          CamundaModdleExtension,
+          CamundaBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider
         ]
@@ -212,7 +213,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       diagramXml,
       {
         additionalModules: [
-          CamundaModdleExtension,
+          CamundaBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           ElementTemplateChooserModule,
@@ -242,7 +243,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       diagramXml,
       {
         additionalModules: [
-          ZeebeModdleExtension,
+          ZeebeBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           CloudElementTemplatesPropertiesProvider,
@@ -404,7 +405,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     const diagramXml = require('test/fixtures/service-task.bpmn').default;
 
     const modules = [
-      ZeebeModdleExtension,
+      ZeebeBehaviorsModule,
       BpmnPropertiesPanel,
       BpmnPropertiesProvider,
       ZeebePropertiesProvider,
@@ -855,7 +856,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           diagramXml,
           {
             additionalModules: [
-              CamundaModdleExtension,
+              CamundaBehaviorsModule,
               BpmnPropertiesPanel,
               BpmnPropertiesProvider,
               CamundaPropertiesProvider
