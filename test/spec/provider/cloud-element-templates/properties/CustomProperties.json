@@ -61,6 +61,15 @@
           "type": "zeebe:output",
           "source": "output-2-source"
         }
+      },
+      {
+        "label": "property-1",
+        "type": "String",
+        "value": "property-1-value",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-1-name"
+        }
       }
     ]
   },

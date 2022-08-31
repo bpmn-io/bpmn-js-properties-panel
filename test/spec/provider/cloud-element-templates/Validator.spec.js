@@ -377,7 +377,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       templates.addAll(templateDescriptor);
 
       // then
-      expect(errors(templates)).to.contain('template(id: <invalid>, name: <Invalid>): optional is not supported for binding type "zeebe:taskHeader"; must be any of { zeebe:input, zeebe:output }');
+      expect(errors(templates)).to.contain('template(id: <invalid>, name: <Invalid>): optional is not supported for binding type "zeebe:taskHeader"; must be any of { zeebe:input, zeebe:output, zeebe:property }');
 
       expect(valid(templates)).to.be.empty;
     });

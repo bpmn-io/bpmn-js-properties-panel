@@ -493,7 +493,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
           const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
           const listItems = domQueryAll('.bio-properties-panel-entry', group);
 
-          expect(listItems).to.have.lengthOf(6);
+          expect(listItems).to.have.lengthOf(7);
         })
       );
 
@@ -516,7 +516,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
           const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
           let listItems = domQueryAll('.bio-properties-panel-entry', group);
 
-          expect(listItems).to.have.lengthOf(6);
+          expect(listItems).to.have.lengthOf(7);
 
           // when
           const input = domQuery('input', listItems[0]);
@@ -553,7 +553,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
           listItems = domQueryAll('.bio-properties-panel-entry', group);
 
           // then
-          expect(listItems).to.have.lengthOf(6);
+          expect(listItems).to.have.lengthOf(7);
         })
       );
 

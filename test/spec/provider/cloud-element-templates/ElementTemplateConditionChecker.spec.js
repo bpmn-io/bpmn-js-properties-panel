@@ -483,6 +483,112 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
 
   });
 
+
+  describe('update zeebe:property', function() {
+
+    describe('adding conditional entries', function() {
+
+      it('should add conditional entries', inject(
+        async function(elementRegistry, modeling) {
+
+          // given
+          const element = elementRegistry.get('Task_1'),
+                businessObject = getBusinessObject(element);
+
+          changeTemplate(element, template);
+
+          // when
+          modeling.updateProperties(element, {
+            name: 'foo'
+          });
+
+          // then
+          const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+
+          expect(zeebeProperties).to.exist;
+          expect(zeebeProperties.get('zeebe:properties')).to.have.lengthOf(1);
+        })
+      );
+
+
+      it('undo', inject(function(commandStack, elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_1'),
+              businessObject = getBusinessObject(element);
+
+        changeTemplate(element, template);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foo'
+        });
+
+        // assume
+        expect(findExtension(businessObject, 'zeebe:Properties')).to.exist;
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(findExtension(businessObject, 'zeebe:Properties')).not.to.exist;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_1'),
+              businessObject = getBusinessObject(element);
+
+        changeTemplate(element, template);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foo'
+        });
+
+        commandStack.undo();
+
+        // assume
+        expect(findExtension(businessObject, 'zeebe:TaskHeaders')).not.to.exist;
+
+        // when
+        commandStack.redo();
+
+        // then
+        const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+
+        expect(zeebeProperties).to.exist;
+        expect(zeebeProperties.get('zeebe:properties')).to.have.lengthOf(1);
+      }));
+
+    });
+
+
+    it('should remove conditional entries', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_2'),
+              businessObject = getBusinessObject(element);
+
+        changeTemplate(element, template);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'bar'
+        });
+
+        // then
+        const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+
+        expect(zeebeProperties).not.to.exist;
+      })
+    );
+
+  });
+
 });
 
 
