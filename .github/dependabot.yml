@@ -14,6 +14,16 @@ updates:
     allow:
       - dependency-name: "bpmn-js"
         dependency-type: "all"
+      - dependency-name: "diagram-js"
+        dependency-type: "all"
+      - dependency-name: "zeebe-bpmn-moddle"
+        dependency-type: "all"
+      - dependency-name: "camunda-bpmn-moddle"
+        dependency-type: "all"
+      - dependency-name: "camunda-bpmn-js-behaviors"
+        dependency-type: "all"
+      - dependency-name: "@bpmn-io/properties-panel"
+        dependency-type: "all"
     commit-message:
       prefix: "deps:"
     versioning-strategy: "increase"
