@@ -27,6 +27,7 @@ import {
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
+  ZEEBE_PROPERTY_TYPE,
   ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
 
@@ -185,6 +186,7 @@ function getDefaultType(property) {
     ZEEBE_TASK_DEFINITION_TYPE_TYPE,
     ZEBBE_INPUT_TYPE,
     ZEEBE_OUTPUT_TYPE,
+    ZEEBE_PROPERTY_TYPE,
     ZEEBE_TASK_HEADER_TYPE
   ].includes(type)) {
     return 'String';

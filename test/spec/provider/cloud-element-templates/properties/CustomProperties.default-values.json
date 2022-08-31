@@ -40,6 +40,14 @@
           "type": "zeebe:output",
           "source": "output-1-source"
         }
+      },
+      {
+        "label": "property-1",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-1-name"
+        }
       }
     ]
   }

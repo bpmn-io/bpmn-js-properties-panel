@@ -12,6 +12,7 @@ import {
   createOutputParameter,
   createTaskDefinitionWithType,
   createTaskHeader,
+  createZeebeProperty,
   shouldUpdate
 } from '../CreateHelper';
 
@@ -76,6 +77,9 @@ export default class ChangeElementTemplateHandler {
 
       // update zeebe:Header properties
       this._updateZeebeTaskHeaderProperties(element, oldTemplate, newTemplate);
+
+      // update zeebe:Property properties
+      this._updateZeebePropertyProperties(element, oldTemplate, newTemplate);
     }
   }
 
@@ -498,6 +502,107 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
+   * Update zeebe:Property properties of zeebe:Properties extension element.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateZeebePropertyProperties(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      return newBindingType === 'zeebe:property';
+    });
+
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    let zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+
+    // (1) remove old zeebe:Properties if no new zeebe:Property properties
+    if (!newProperties.length) {
+      if (!zeebeProperties) {
+        return;
+      }
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: without(businessObject.get('values'), zeebeProperties)
+        }
+      });
+    }
+
+    if (!zeebeProperties) {
+      zeebeProperties = bpmnFactory.create('zeebe:Properties');
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: businessObject,
+        properties: {
+          values: [ ...businessObject.get('values'), zeebeProperties ]
+        }
+      });
+    }
+
+    const oldZeebeProperties = zeebeProperties.get('properties')
+      ? zeebeProperties.get('properties').slice()
+      : [];
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldZeebeProperty = findBusinessObject(businessObject, newProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding;
+
+      // (2) update old zeebe:Property
+      if (oldZeebeProperty) {
+
+        if (!shouldKeepValue(oldZeebeProperty, oldProperty, newProperty)) {
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldZeebeProperty,
+            properties: {
+              value: newPropertyValue
+            }
+          });
+        }
+
+        remove(oldZeebeProperties, oldZeebeProperty);
+      }
+
+      // (3) add new zeebe:Property
+      else {
+        const newProperty = createZeebeProperty(newBinding, newPropertyValue, bpmnFactory);
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: zeebeProperties,
+          properties: {
+            properties: [ ...zeebeProperties.get('properties'), newProperty ]
+          }
+        });
+      }
+    });
+
+    // (4) remove old zeebe:Property
+    if (oldZeebeProperties.length) {
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: zeebeProperties,
+        properties: {
+          properties: without(zeebeProperties.get('properties'), zeebeProperty => oldZeebeProperties.includes(zeebeProperty))
+        }
+      });
+    }
+  }
+
+  /**
    * Replaces the element with the specified elementType
    *
    * @param {djs.model.Base} element
@@ -580,6 +685,18 @@ function findBusinessObject(element, property) {
       return value.get('zeebe:key') === binding.key;
     });
   }
+
+  if (bindingType === 'zeebe:property') {
+    const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+
+    if (!zeebeProperties) {
+      return;
+    }
+
+    return zeebeProperties.get('properties').find((value) => {
+      return value.get('name') === binding.name;
+    });
+  }
 }
 
 /**
@@ -658,6 +775,19 @@ export function findOldProperty(oldTemplate, newProperty) {
       return oldBinding.key === newBinding.key;
     });
   }
+
+  if (newBindingType === 'zeebe:property') {
+    return oldProperties.find((oldProperty) => {
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
+
+      if (oldBindingType !== 'zeebe:property') {
+        return;
+      }
+
+      return oldBinding.name === newBinding.name;
+    });
+  }
 }
 
 /**
@@ -722,6 +852,10 @@ function getPropertyValue(element, property) {
   }
 
   if (bindingType === 'zeebe:taskHeader') {
+    return businessObject.get('zeebe:value');
+  }
+
+  if (bindingType === 'zeebe:property') {
     return businessObject.get('zeebe:value');
   }
 }

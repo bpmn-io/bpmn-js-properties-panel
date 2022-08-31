@@ -623,5 +623,61 @@
         }
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Zeebe Property Type",
+    "id": "com.camunda.example.ZeebePropertyType",
+    "description": "A template with zeebe:Properties",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "documentationRef": "https://docs.camunda.io",
+    "properties": [
+      {
+        "label": "static (string)",
+        "type": "String",
+        "value": "1",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "static"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "dynamic (text)",
+        "type": "Text",
+        "value": "=1",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "dynamic"
+        },
+        "feel": "required"
+      },
+      {
+        "id": "parentProperty",
+        "label": "optional (string)",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "optional"
+        },
+        "optional": true
+      },
+      {
+        "label": "conditional (string)",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "conditional"
+        },
+        "condition": {
+          "property": "parentProperty",
+          "equals": "foo"
+        }
+      }
+    ]
   }
 ]

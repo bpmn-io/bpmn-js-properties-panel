@@ -90,6 +90,32 @@
         "property": "invalid",
         "equals": "foo"
       }
+    },
+    {
+      "label": "zeebe:property",
+      "value": "",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "someName"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foo"
+      }
+    },
+    {
+      "label": "invalid condition",
+      "value": "",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "someOtherName"
+      },
+      "condition": {
+        "property": "invalid",
+        "equals": "foo"
+      }
     }
   ]
 }

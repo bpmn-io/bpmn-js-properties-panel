@@ -10,6 +10,7 @@ import {
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
+  ZEEBE_PROPERTY_TYPE,
   ZEEBE_TASK_HEADER_TYPE,
   EXTENSION_BINDING_TYPES
 } from '../util/bindingTypes';
@@ -18,7 +19,8 @@ import {
   findExtension,
   findTaskHeader,
   findInputParameter,
-  findOutputParameter
+  findOutputParameter,
+  findZeebeProperty
 } from '../Helper';
 
 import {
@@ -26,6 +28,7 @@ import {
   createOutputParameter,
   createTaskDefinitionWithType,
   createTaskHeader,
+  createZeebeProperty,
   shouldUpdate
 } from '../CreateHelper';
 
@@ -118,6 +121,21 @@ export function getPropertyValue(element, property, scope) {
 
     if (header) {
       return header.get('value');
+    }
+
+    return defaultValue;
+  }
+
+  // zeebe:Property
+  if (type === ZEEBE_PROPERTY_TYPE) {
+    const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+
+    if (zeebeProperties) {
+      const zeebeProperty = findZeebeProperty(zeebeProperties, binding);
+
+      if (zeebeProperty) {
+        return zeebeProperty.get('value');
+      }
     }
 
     return defaultValue;
@@ -332,6 +350,43 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     });
   }
 
+  // zeebe:Property
+  if (type === ZEEBE_PROPERTY_TYPE) {
+    let zeebeProperties = findExtension(extensionElements, 'zeebe:Properties');
+
+    if (!zeebeProperties) {
+      zeebeProperties = createElement('zeebe:Properties', null, businessObject, bpmnFactory);
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), zeebeProperties ]
+          }
+        }
+      });
+    }
+
+    const oldZeebeProperty = findZeebeProperty(zeebeProperties, binding);
+
+    const newZeebeProperty = createZeebeProperty(binding, value, bpmnFactory);
+
+    const properties = zeebeProperties.get('properties').filter((property) => property !== oldZeebeProperty);
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: zeebeProperties,
+        properties: {
+          properties: [ ...properties, newZeebeProperty ]
+        }
+      }
+    });
+  }
+
   if (commands.length) {
     commandStack.execute(
       'properties-panel.multi-command-executor',
@@ -487,6 +542,42 @@ export function unsetProperty(commandStack, element, property) {
           ...context,
           moddleElement: taskHeaders,
           properties: { values: [ ...values ] }
+        }
+      });
+    }
+  }
+
+  // zeebe:Property
+  if (type === ZEEBE_PROPERTY_TYPE) {
+    let zeebeProperties = findExtension(extensionElements, 'zeebe:Properties');
+
+    if (!zeebeProperties)
+      return;
+
+    const oldZeebeProperty = findZeebeProperty(zeebeProperties, binding);
+
+    const properties = zeebeProperties.get('properties').filter((property) => property !== oldZeebeProperty);
+
+    if (!properties.length) {
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          ...context,
+          moddleElement: extensionElements,
+          properties: {
+            values: without(extensionElements.get('values'), zeebeProperties)
+          }
+        }
+      });
+    } else {
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          ...context,
+          moddleElement: zeebeProperties,
+          properties: {
+            properties: [ ...properties ]
+          }
         }
       });
     }

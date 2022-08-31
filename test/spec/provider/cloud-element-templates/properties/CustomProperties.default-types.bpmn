@@ -11,6 +11,9 @@
         <zeebe:taskHeaders>
           <zeebe:header key="header-1-key" value="header-1-value" />
         </zeebe:taskHeaders>
+        <zeebe:properties>
+          <zeebe:property name="property-1-name" value="property-1-value" />
+        </zeebe:properties>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
   </bpmn:process>

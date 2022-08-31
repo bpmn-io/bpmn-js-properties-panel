@@ -25,7 +25,8 @@ import {
   findExtension,
   findInputParameter,
   findOutputParameter,
-  findTaskHeader
+  findTaskHeader,
+  findZeebeProperty
 } from 'src/provider/cloud-element-templates/Helper';
 
 import coreModule from 'bpmn-js/lib/core';
@@ -548,6 +549,76 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
   });
 
 
+  describe('zeebe:property', function() {
+
+    it('should display', async function() {
+
+      // when
+      await expectSelected('RestTask');
+
+      // then
+      const entry = findEntry('custom-entry-com.example.rest-7', container),
+            input = findInput('text', entry);
+
+      expect(entry).to.exist;
+      expect(input).to.exist;
+      expect(input.value).to.equal('property-1-value');
+    });
+
+
+    it('should change, setting zeebe:Property (plain)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-7', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'property-1-changed-value');
+
+      // then
+      const zeebeProperties = findExtension(businessObject, 'zeebe:Properties'),
+            zeebeProperty = findZeebeProperty(zeebeProperties, { name: 'property-1-name' });
+
+      expect(zeebeProperty).to.exist;
+      expect(zeebeProperty).to.jsonEqual({
+        $type: 'zeebe:Property',
+        name: 'property-1-name',
+        value: 'property-1-changed-value'
+      });
+    }));
+
+
+    it('should change, creating zeebe:Property if non-existing', async function() {
+
+      // given
+      const task = await expectSelected('RestTask_noData'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-7', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'property-1-changed-value');
+
+      // then
+      const zeebeProperties = findExtension(businessObject, 'zeebe:Properties'),
+            zeebeProperty = findZeebeProperty(zeebeProperties, { name: 'property-1-name' });
+
+      // then
+      expect(zeebeProperty).to.exist;
+      expect(zeebeProperty).to.jsonEqual({
+        $type: 'zeebe:Property',
+        name: 'property-1-name',
+        value: 'property-1-changed-value'
+      });
+    });
+
+  });
+
+
   describe('types', function() {
 
     describe('dropdown', function() {
@@ -951,7 +1022,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-0', container),
+      const entry = findEntry('custom-entry-com.example.default-types-0', container),
             input = findInput('text', entry);
 
       // then
@@ -964,7 +1035,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-1', container),
+      const entry = findEntry('custom-entry-com.example.default-types-1', container),
             input = findInput('text', entry);
 
       // then
@@ -977,7 +1048,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-2', container),
+      const entry = findEntry('custom-entry-com.example.default-types-2', container),
             input = findInput('text', entry);
 
       // then
@@ -990,7 +1061,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-3', container),
+      const entry = findEntry('custom-entry-com.example.default-types-3', container),
             input = findInput('text', entry);
 
       // then
@@ -1003,7 +1074,20 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-4', container),
+      const entry = findEntry('custom-entry-com.example.default-types-4', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
+    });
+
+
+    it('should display String as default - zeebe:property', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-types-5', container),
             input = findInput('text', entry);
 
       // then
@@ -1036,7 +1120,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-0', container),
+      const entry = findEntry('custom-entry-com.example.default-types-0', container),
             input = findInput('text', entry);
 
       // then
@@ -1050,7 +1134,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-1', container),
+      const entry = findEntry('custom-entry-com.example.default-types-1', container),
             input = findInput('text', entry);
 
       // then
@@ -1064,7 +1148,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-2', container),
+      const entry = findEntry('custom-entry-com.example.default-types-2', container),
             input = findInput('text', entry);
 
       // then
@@ -1078,7 +1162,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-3', container),
+      const entry = findEntry('custom-entry-com.example.default-types-3', container),
             input = findInput('text', entry);
 
       // then
@@ -1092,7 +1176,21 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       // given
       await expectSelected('RestTask');
 
-      const entry = findEntry('custom-entry-com.example.default-type-4', container),
+      const entry = findEntry('custom-entry-com.example.default-types-4', container),
+            input = findInput('text', entry);
+
+      // then
+      expect(input).to.exist;
+      expect(input.value).to.eql('');
+    });
+
+
+    it('should display String as default - zeebe:property', async function() {
+
+      // given
+      await expectSelected('RestTask');
+
+      const entry = findEntry('custom-entry-com.example.default-types-5', container),
             input = findInput('text', entry);
 
       // then
@@ -1389,6 +1487,8 @@ function expectSelected(id) {
 }
 
 function expectError(entry, message) {
+  expect(entry).to.not.be.null;
+
   const errorMessage = domQuery('.bio-properties-panel-error', entry);
 
   const error = errorMessage && errorMessage.textContent;
@@ -1397,6 +1497,7 @@ function expectError(entry, message) {
 }
 
 function expectGroupOpen(group, open) {
+  expect(group).to.not.be.null;
 
   const entries = domQuery('.bio-properties-panel-group-entries', group);
 
@@ -1408,11 +1509,10 @@ function expectValid(entry) {
 }
 
 function getGroupIds(container) {
-  if (!container) {
-    throw new Error('container is missing');
-  }
+  expect(container).to.not.be.null;
 
   const groups = domQueryAll('[data-group-id]', container);
+
   const groupIds = map(groups, group => withoutPrefix(group.dataset.groupId));
 
   return groupIds;
@@ -1420,10 +1520,13 @@ function getGroupIds(container) {
 
 function getGroup(entry) {
   const parent = entry.closest('[data-group-id]');
+
   return parent && withoutPrefix(parent.dataset.groupId);
 }
 
 function getGroupById(id, container) {
+  expect(container).to.not.be.null;
+
   const group = domQuery(
     `[data-group-id=group-${id}]`,
     container
@@ -1437,17 +1540,25 @@ function withoutPrefix(groupId) {
 }
 
 function findEntry(id, container) {
+  expect(container).to.not.be.null;
+
   return domQuery(`[data-entry-id='${ id }']`, container);
 }
 
 function findInput(type, container) {
+  expect(container).to.not.be.null;
+
   return domQuery(`input[type='${ type }']`, container);
 }
 
 function findSelect(container) {
+  expect(container).to.not.be.null;
+
   return domQuery('select', container);
 }
 
 function findTextarea(container) {
+  expect(container).to.not.be.null;
+
   return domQuery('textarea', container);
 }

@@ -81,6 +81,24 @@ export function createTaskDefinitionWithType(value, bpmnFactory) {
 }
 
 /**
+ * Create zeebe:Property from the given binding.
+ *
+ * @param {PropertyBinding} binding
+ * @param {String} value
+ * @param {BpmnFactory} bpmnFactory
+ *
+ * @return {ModdleElement}
+ */
+export function createZeebeProperty(binding, value = '', bpmnFactory) {
+  const { name } = binding;
+
+  return bpmnFactory.create('zeebe:Property', {
+    name,
+    value
+  });
+}
+
+/**
  * Retrieves whether an element should be updated for a given property.
  *
  * That matches once

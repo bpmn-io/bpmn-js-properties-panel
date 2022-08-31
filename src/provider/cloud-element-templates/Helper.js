@@ -100,6 +100,12 @@ export function findExtensions(element, types) {
   });
 }
 
+export function findZeebeProperty(zeebeProperties, binding) {
+  return zeebeProperties.get('properties').find((value) => {
+    return value.name === binding.name;
+  });
+}
+
 export function findInputParameter(ioMapping, binding) {
   const parameters = ioMapping.get('inputParameters');
 
