@@ -11,7 +11,8 @@ import {
   setBpmnJS,
   insertCoreStyles,
   insertBpmnStyles,
-  withPropertiesPanel
+  withPropertiesPanel,
+  enableLogging
 } from 'test/TestHelper';
 
 import {
@@ -105,6 +106,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       },
       ...options
     });
+
+    enableLogging && enableLogging(modeler, !!singleStart);
 
     setBpmnJS(modeler);
 
