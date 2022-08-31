@@ -8,7 +8,6 @@ export { ConnectorOutputProps } from './ConnectorOutputProps';
 export { ErrorProps } from './ErrorProps';
 export { ErrorsProps } from './ErrorsProps';
 export { EscalationProps } from './EscalationProps';
-export { ExtensionPropertiesProps } from './ExtensionPropertiesProps';
 export { ExternalTaskPriorityProps } from './ExternalTaskPriorityProps';
 export { FieldInjectionProps } from './FieldInjectionProps';
 export { FormDataProps } from './FormDataProps';

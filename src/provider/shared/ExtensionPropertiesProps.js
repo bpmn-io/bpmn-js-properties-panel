@@ -7,16 +7,19 @@ import ExtensionProperty from './ExtensionProperty';
 
 import {
   createElement
-} from '../../../utils/ElementUtil';
+} from '../../utils/ElementUtil';
 
 import {
   getExtensionElementsList
-} from '../../../utils/ExtensionElementsUtil';
+} from '../../utils/ExtensionElementsUtil';
 
 import { without } from 'min-dash';
 
 
-export function ExtensionPropertiesProps({ element, injector }) {
+export function ExtensionPropertiesProps({ element, injector, namespace = 'camunda' }) {
+  if (namespace === 'zeebe' && !is(element, 'zeebe:PropertiesHolder')) {
+    return [];
+  }
 
   let businessObject = getRelevantBusinessObject(element);
 
@@ -25,7 +28,7 @@ export function ExtensionPropertiesProps({ element, injector }) {
     return;
   }
 
-  const properties = getPropertiesList(businessObject) || [];
+  const properties = getPropertiesList(businessObject, namespace) || [];
 
   const bpmnFactory = injector.get('bpmnFactory'),
         commandStack = injector.get('commandStack');
@@ -42,30 +45,32 @@ export function ExtensionPropertiesProps({ element, injector }) {
         property
       }),
       autoFocusEntry: id + '-name',
-      remove: removeFactory({ commandStack, element, property })
+      remove: removeFactory({ commandStack, element, property, namespace })
     };
   });
 
   return {
     items,
-    add: addFactory({ bpmnFactory, commandStack, element })
+    add: addFactory({ bpmnFactory, commandStack, element, namespace })
   };
 }
 
-function removeFactory({ commandStack, element, property }) {
+function removeFactory({ commandStack, element, property, namespace }) {
   return function(event) {
     event.stopPropagation();
 
     const commands = [];
 
     const businessObject = getRelevantBusinessObject(element);
-    const properties = getProperties(businessObject);
+    const properties = getProperties(businessObject, namespace);
 
     if (!properties) {
       return;
     }
 
-    const values = without(properties.get('values'), property);
+    const propertyName = getPropertyName(namespace);
+
+    const values = without(properties.get(propertyName), property);
 
     commands.push({
       cmd: 'element.updateModdleProperties',
@@ -73,7 +78,7 @@ function removeFactory({ commandStack, element, property }) {
         element,
         moddleElement: properties,
         properties: {
-          values
+          [ propertyName ]: values
         }
       }
     });
@@ -99,7 +104,7 @@ function removeFactory({ commandStack, element, property }) {
   };
 }
 
-function addFactory({ bpmnFactory, commandStack, element }) {
+function addFactory({ bpmnFactory, commandStack, element, namespace }) {
   return function(event) {
     event.stopPropagation();
 
@@ -128,14 +133,16 @@ function addFactory({ bpmnFactory, commandStack, element }) {
       });
     }
 
+    const propertyName = getPropertyName(namespace);
+
     // (2) ensure camunda:Properties
-    let properties = getProperties(businessObject);
+    let properties = getProperties(businessObject, namespace);
 
     if (!properties) {
       const parent = extensionElements;
 
-      properties = createElement('camunda:Properties', {
-        values: []
+      properties = createElement(`${ namespace }:Properties`, {
+        [ propertyName ]: []
       }, parent, bpmnFactory);
 
       commands.push({
@@ -151,7 +158,7 @@ function addFactory({ bpmnFactory, commandStack, element }) {
     }
 
     // (3) create camunda:Property
-    const property = createElement('camunda:Property', {}, properties, bpmnFactory);
+    const property = createElement(`${ namespace }:Property`, {}, properties, bpmnFactory);
 
     // (4) add property to list
     commands.push({
@@ -160,7 +167,7 @@ function addFactory({ bpmnFactory, commandStack, element }) {
         element,
         moddleElement: properties,
         properties: {
-          values: [ ...properties.get('values'), property ]
+          [ propertyName ]: [ ...properties.get(propertyName), property ]
         }
       }
     });
@@ -183,11 +190,20 @@ function getRelevantBusinessObject(element) {
   return businessObject;
 }
 
-function getProperties(businessObject) {
-  return getExtensionElementsList(businessObject, 'camunda:Properties')[0];
+function getPropertyName(namespace = 'camunda') {
+  if (namespace === 'zeebe') {
+    return 'properties';
+  }
+
+  return 'values';
 }
 
-function getPropertiesList(businessObject) {
-  const properties = getProperties(businessObject);
-  return properties && properties.get('values');
+export function getProperties(element, namespace = 'camunda') {
+  return getExtensionElementsList(getBusinessObject(element), `${namespace}:Properties`)[ 0 ];
+}
+
+export function getPropertiesList(element, namespace = 'camunda') {
+  const properties = getProperties(getBusinessObject(element), namespace);
+
+  return properties && properties.get(getPropertyName(namespace));
 }

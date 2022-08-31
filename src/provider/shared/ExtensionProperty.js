@@ -2,7 +2,7 @@ import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
-} from '../../../hooks';
+} from '../../hooks';
 
 
 export default function ExtensionProperty(props) {
