@@ -16,6 +16,9 @@ import {
   TaskDefinitionProps,
   TimerProps
 } from './properties';
+
+import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
+
 import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTaskUtil';
 
 const LOW_PRIORITY = 500;
@@ -31,7 +34,8 @@ const ZEEBE_GROUPS = [
   InputGroup,
   OutputPropagationGroup,
   OutputGroup,
-  HeaderGroup
+  HeaderGroup,
+  ExtensionPropertiesGroup
 ];
 
 export default class ZeebePropertiesProvider {
@@ -206,6 +210,21 @@ function AssignmentDefinitionGroup(element) {
   };
 
   return group.entries.length ? group : null;
+}
+
+function ExtensionPropertiesGroup(element, injector) {
+  const group = {
+    label: 'Extension properties',
+    id: 'Zeebe__ExtensionProperties',
+    component: ListGroup,
+    ...ExtensionPropertiesProps({ element, injector, namespace: 'zeebe' })
+  };
+
+  if (group.items) {
+    return group;
+  }
+
+  return null;
 }
 
 function updateMessageGroup(groups, element) {

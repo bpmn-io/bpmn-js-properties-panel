@@ -15,7 +15,6 @@ import {
   ErrorProps,
   ErrorsProps,
   EscalationProps,
-  ExtensionPropertiesProps,
   ExternalTaskPriorityProps,
   FieldInjectionProps,
   FormDataProps,
@@ -40,6 +39,7 @@ import {
   VersionTagProps
 } from './properties';
 
+import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
 
 const LOW_PRIORITY = 500;
 
@@ -72,7 +72,7 @@ const CAMUNDA_PLATFORM_GROUPS = [
   ExecutionListenerGroup,
   ExtensionPropertiesGroup,
   FieldInjectionGroup,
-  BusinessKeyGroup,
+  BusinessKeyGroup
 ];
 
 /**

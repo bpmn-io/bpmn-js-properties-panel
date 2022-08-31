@@ -34,7 +34,7 @@ import {
 import diagramXML from './ExtensionProperty.bpmn';
 
 
-describe('provider/camunda-platform - ExtensionProperty', function() {
+describe('provider/shared - ExtensionProperty', function() {
 
   const testModules = [
     CoreModule, SelectionModule, ModelingModule,
