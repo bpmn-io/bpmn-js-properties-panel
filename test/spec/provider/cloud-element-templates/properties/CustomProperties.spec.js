@@ -546,6 +546,26 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       });
     });
 
+
+    it('should remove if empty value', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders'),
+            header = findTaskHeader(taskHeaders, { key: 'header-1-key' });
+
+      expect(header).not.to.exist;
+    }));
+
   });
 
 

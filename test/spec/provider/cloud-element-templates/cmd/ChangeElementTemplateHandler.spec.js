@@ -870,6 +870,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
         beforeEach(bootstrap(require('./task-headers.bpmn').default));
 
+
         it('should override existing', inject(function(elementRegistry) {
 
           // given
@@ -885,6 +886,36 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
           expect(taskHeaders).not.to.exist;
 
+        }));
+
+      });
+
+
+      describe('empty value', function() {
+
+        const newTemplate = require('./task-template-header-empty.json');
+
+        beforeEach(bootstrap(require('./task-headers.bpmn').default));
+
+
+        it('should not create zeebe:Header', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_without_values');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template-header-empty');
+
+          const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
+
+          // legacy behavior; if no header values exist there should not
+          // be zeebe:taskHeader, too
+          expect(taskHeaders).to.exist;
+
+          expect(taskHeaders.values).to.be.empty;
         }));
 
       });

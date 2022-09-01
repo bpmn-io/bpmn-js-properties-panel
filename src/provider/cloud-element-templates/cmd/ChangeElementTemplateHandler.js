@@ -475,8 +475,8 @@ export default class ChangeElementTemplateHandler {
         remove(oldHeaders, oldHeader);
       }
 
-      // (3) add new headers
-      else {
+      // (3) add new (non-empty) headers
+      else if (newPropertyValue) {
         const newHeader = createTaskHeader(newBinding, newPropertyValue, bpmnFactory);
 
         commandStack.execute('element.updateModdleProperties', {
