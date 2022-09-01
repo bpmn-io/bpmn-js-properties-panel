@@ -616,6 +616,52 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       });
     });
 
+
+    it('should keep property (non optional)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-7', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const zeebeProperties = findExtension(businessObject, 'zeebe:Properties'),
+            zeebeProperty = findZeebeProperty(zeebeProperties, { name: 'property-1-name' });
+
+      expect(zeebeProperty).to.exist;
+      expect(zeebeProperty).to.jsonEqual({
+        $type: 'zeebe:Property',
+        name: 'property-1-name',
+        value: ''
+      });
+    }));
+
+
+    it('should not keep property (optional)', inject(async function() {
+
+      // given
+      const task = await expectSelected('RestTask_optional'),
+            businessObject = getBusinessObject(task);
+
+      // when
+      const entry = findEntry('custom-entry-com.example.rest-optional-8', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const zeebeProperties = findExtension(businessObject, 'zeebe:Properties'),
+            zeebeProperty = findZeebeProperty(zeebeProperties, { name: 'property-3-name' });
+
+      // then
+      expect(zeebeProperty).not.to.exist;
+    }));
+
   });
 
 

@@ -277,6 +277,31 @@
           "type": "zeebe:output",
           "source": "output-3-source"
         }
+      },
+      {
+        "type": "String",
+        "value": "property-1-value",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-1"
+        }
+      },
+      {
+        "type": "String",
+        "value": "property-2-value",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-2"
+        }
+      },
+      {
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-3"
+        }
       }
     ]
   }
