@@ -23,7 +23,8 @@ import {
 
 import {
   createInputParameter,
-  createOutputParameter
+  createOutputParameter,
+  createZeebeProperty
 } from 'src/provider/cloud-element-templates/CreateHelper';
 
 import {
@@ -1076,6 +1077,51 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
               value: 'property-2-value'
             }
           ]);
+        }));
+
+      });
+
+
+      describe('optional', function() {
+
+        beforeEach(bootstrap(require('./task.bpmn').default));
+
+        const newTemplate = require('./task-template-optional.json');
+
+
+        it('should create (non empty value)', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template-optional', 1);
+
+          const zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+          expect(zeebeProperties).to.exist;
+          expect(getZeebeProperty(task, 'property-1-name')).to.exist;
+        }));
+
+
+        it('should NOT create (empty value)', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template-optional', 1);
+
+          const zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+          expect(zeebeProperties).to.exist;
+          expect(getZeebeProperty(task, 'property-2-name')).not.to.exist;
         }));
 
       });
@@ -2689,6 +2735,312 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
             name: 'property-4-name',
             value: 'property-4-new-value'
           },
+        ]);
+      }));
+
+    });
+
+
+    describe('optional - zeebe:Property', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn').default));
+
+
+      it('should create - optional -> non optional', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        // assume
+        expect(zeebeProperties.get('zeebe:properties')).to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties).to.exist;
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+          {
+            $type: 'zeebe:Property',
+            name: 'property-1-name',
+            value: ''
+          }
+        ]);
+      }));
+
+
+      it('should remove - non optional -> optional (empty value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            value: 'property-1-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        // assume
+        expect(zeebeProperties.get('zeebe:properties')).not.to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties.get('zeebe:properties')).to.be.empty;
+      }));
+
+
+      it('should keep - non optional -> optional (new value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            value: 'property-1-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            value: 'property-1-new-value',
+            optional: true,
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        // assume
+        expect(zeebeProperties.get('zeebe:properties')).not.to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+          {
+            $type: 'zeebe:Property',
+            name: 'property-1-name',
+            value: 'property-1-new-value'
+          }
+        ]);
+      }));
+
+
+      it('should update - optional -> optional', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            value: 'property-1-old-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            value: 'property-1-new-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // assume
+        let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        // assume
+        expect(zeebeProperties.get('zeebe:properties')).to.be.not.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+          {
+            $type: 'zeebe:Property',
+            name: 'property-1-name',
+            value: 'property-1-new-value',
+          }
+        ]);
+      }));
+
+
+      it('should keep - optional -> optional (changed)',
+        inject(function(elementRegistry, bpmnFactory) {
+
+          // given
+          const task = elementRegistry.get('Task_1');
+
+          const oldTemplate = createTemplate([
+            {
+              optional: true,
+              binding: {
+                type: 'zeebe:property',
+                name: 'property-1-name'
+              }
+            }
+          ]);
+
+          const newTemplate = createTemplate([
+            {
+              optional: true,
+              binding: {
+                type: 'zeebe:property',
+                name: 'property-1-name'
+              }
+            }
+          ]);
+
+          changeTemplate('Task_1', oldTemplate);
+
+          const zeebeProperty = createZeebeProperty({
+            name: 'property-1-name'
+          }, 'property-1-changed-value', bpmnFactory);
+
+          let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+          updateBusinessObject('Task_1', zeebeProperties, {
+            properties: [ zeebeProperty ]
+          });
+
+          // when
+          changeTemplate(task, newTemplate, oldTemplate);
+
+          // then
+          zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+          expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+          expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+            {
+              $type: 'zeebe:Property',
+              name: 'property-1-name',
+              value: 'property-1-changed-value'
+            }
+          ]);
+        })
+      );
+
+
+      it('should create - optional -> optional (new value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            value: 'property-1-new-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        const zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+          {
+            $type: 'zeebe:Property',
+            name: 'property-1-name',
+            value: 'property-1-new-value'
+          }
         ]);
       }));
 
