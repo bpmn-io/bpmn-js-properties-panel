@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.6.0
+
+* `FEAT`: support `zeebe:property` ([#731](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/731))
+* `FIX`: copy full `FEEL` expression ([#728](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/728))
+* `FIX`: don't serialize `zeebe:taskHeader` template bindings without a value ([#684](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/684))
+* `DEPS`: update to `@bpmn-io/properties-panel@0.20.0`
+
 # 1.5.0
 
 * `FEAT`: explicitly bind undo/redo to properties container ([#739](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/739))
