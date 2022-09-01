@@ -371,9 +371,13 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
 
     const oldZeebeProperty = findZeebeProperty(zeebeProperties, binding);
 
-    const newZeebeProperty = createZeebeProperty(binding, value, bpmnFactory);
-
     const properties = zeebeProperties.get('properties').filter((property) => property !== oldZeebeProperty);
+
+    if (shouldUpdate(value, property)) {
+      const newZeebeProperty = createZeebeProperty(binding, value, bpmnFactory);
+
+      properties.push(newZeebeProperty);
+    }
 
     commands.push({
       cmd: 'element.updateModdleProperties',
@@ -381,7 +385,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
         element,
         moddleElement: zeebeProperties,
         properties: {
-          properties: [ ...properties, newZeebeProperty ]
+          properties
         }
       }
     });

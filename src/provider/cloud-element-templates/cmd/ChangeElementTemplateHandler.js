@@ -562,6 +562,10 @@ export default class ChangeElementTemplateHandler {
 
       // (2) update old zeebe:Property
       if (oldZeebeProperty) {
+        if (shouldUpdate(newPropertyValue, newProperty)
+          || shouldKeepValue(oldZeebeProperty, oldProperty, newProperty)) {
+          remove(oldZeebeProperties, oldZeebeProperty);
+        }
 
         if (!shouldKeepValue(oldZeebeProperty, oldProperty, newProperty)) {
           commandStack.execute('element.updateModdleProperties', {
@@ -572,12 +576,10 @@ export default class ChangeElementTemplateHandler {
             }
           });
         }
-
-        remove(oldZeebeProperties, oldZeebeProperty);
       }
 
       // (3) add new zeebe:Property
-      else {
+      else if (shouldUpdate(newPropertyValue, newProperty)) {
         const newProperty = createZeebeProperty(newBinding, newPropertyValue, bpmnFactory);
 
         commandStack.execute('element.updateModdleProperties', {
