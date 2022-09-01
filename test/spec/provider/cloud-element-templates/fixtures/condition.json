@@ -67,7 +67,7 @@
     },
     {
       "label": "zeebe:taskHeader",
-      "value": "",
+      "value": "1",
       "type": "String",
       "binding": {
         "type": "zeebe:taskHeader",
@@ -80,7 +80,7 @@
     },
     {
       "label": "invalid condition",
-      "value": "",
+      "value": "1",
       "type": "String",
       "binding": {
         "type": "zeebe:taskHeader",
