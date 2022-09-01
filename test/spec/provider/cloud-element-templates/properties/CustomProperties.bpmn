@@ -33,6 +33,11 @@
           <zeebe:output source="output-1-source" target="output-1-target" />
           <zeebe:output source="output-2-source" target="output-2-target" />
         </zeebe:ioMapping>
+        <zeebe:properties>
+          <zeebe:property name="property-1" value="property-1-value" />
+          <zeebe:property name="property-2" value="property-2-value" />
+          <zeebe:property name="property-3" value="property-3-value" />
+        </zeebe:properties>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
   </bpmn:process>
