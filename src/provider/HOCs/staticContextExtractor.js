@@ -37,7 +37,7 @@ export default function(options) {
       return;
     }
 
-    context['type:' + type]?.forEach(variable => {
+    context['type:' + type]?.out?.forEach(variable => {
       var newVariable = createProcessVariable(
         element,
         variable.name,
@@ -54,22 +54,19 @@ export default function(options) {
   forEach(elements, function(element) {
     const context = useStaticVariableContext(element);
 
-
-    console.log('ID check', element.id, context['id:' + element.id]);
-    context['id:' + element.id]?.forEach(variable => {
+    context['id:' + element.id]?.in?.forEach(variable => {
       console.log('global variable', variable);
       var newVariable = createProcessVariable(
         element,
         variable.name,
-        containerElement,
+        element,
         variable
       );
 
       addVariableToList(processVariables, newVariable);
-
     });
-  });
 
+  });
 
   return processVariables;
 }

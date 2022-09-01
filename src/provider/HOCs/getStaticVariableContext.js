@@ -17,61 +17,73 @@ export function useStaticVariableContext(bo) {
 }
 
 function extractVariables(type) {
-  const variables = [];
-
-
-  const typeContext = varContext[type];
-  console.log(typeContext);
-
-  if (!typeContext) {
-    return variables;
-  }
+  const currentContext = varContext[type];
 
   // parse example with feel
-  const example = typeContext.outputs?.exampleData?.[0];
-  const parseableExp = JSON.stringify(example);
+  const inExample = currentContext.inputs?.exampleData?.[0];
+  const inExapleExp = JSON.stringify(inExample);
 
+  const outExample = currentContext.outputs?.exampleData?.[0];
+  const outExapleExp = JSON.stringify(outExample);
+
+
+  const result = {};
+  result.in = getVariablesFromString(inExapleExp);
+  result.out = getVariablesFromString(outExapleExp);
+  return result;
+}
+
+// translate AST to types Variables
+function handleContextEntry(entry) {
+
+  const key = entry.children[0];
+  const value = entry.children[1];
+
+  const type = getType(value.name);
+  let info = 'Imported from external Context';
+
+  if (type !== 'Context') {
+    info += `\r\nExample: ${value.content}`;
+  }
+
+
+  let name = key.content;
+  if (name.startsWith('"')) {
+    name = name.substring(1, name.length - 1);
+  }
+
+  return {
+    name: name,
+    detail: type,
+    values: handleContextValue(value),
+    info: info,
+    value: value.content,
+    entry: value
+  };
+}
+
+function handleContextValue(value) {
+  if (value.name === 'Context') {
+    return value.children.map(handleContextEntry) ;
+  }
+
+  return [
+    {
+      detail: getType(value.name),
+      value: value.content,
+      info: 'Imported from external Context',
+      entry: value
+    }
+  ];
+}
+
+function getVariablesFromString(parseableExp) {
+  const variables = [];
   const rootContext = getRootContext(parseableExp);
-
-  console.log(rootContext);
 
   if (!rootContext || rootContext.name !== 'Context') {
     return variables;
   }
-
-  // translate AST to types Variables
-
-  const handleContextEntry = (entry) => {
-
-    const key = entry.children[0];
-    const value = entry.children[1];
-
-    const type = getType(value.name);
-    let info = 'Imported from external Context';
-
-    if (type !== 'Context') {
-      info += `\r\nExample: ${parseableExp.substring(value.from, value.to)}`;
-    }
-
-    return {
-      name: parseableExp.substring(key.from + 1, key.to - 1),
-      detail: type,
-      values: handleContextValue(value),
-      info: info
-    };
-  };
-
-  const handleContextValue = (value) => {
-    if (value.name === 'Context') {
-      return value.children.map(handleContextEntry) ;
-    }
-
-    return [ {
-      detail: getType(value.name),
-      value: parseableExp.substring(value.from, value.to),
-      info: 'Imported from external Context'
-    } ];
-  };
 
 
   rootContext.children.forEach(entry => {
@@ -80,6 +92,12 @@ function extractVariables(type) {
 
   return variables;
 }
+
+export {
+  handleContextEntry,
+  handleContextValue,
+  getVariablesFromString
+};
 
 function getRootContext(exp) {
   const tree = parser.parse(exp);
@@ -110,7 +128,8 @@ function getRootContext(exp) {
         from,
         to,
         children: [],
-        skip
+        skip,
+        content: exp.slice(from, to)
       };
 
       stack.push({
@@ -139,5 +158,16 @@ function getRootContext(exp) {
 
 
 function getType(type) {
-  return type.replace('Literal', '');
+  const name = type.replace('Literal', '');
+
+  switch (name) {
+  case 'Numeric':
+    return 'Number';
+  case 'VariableName':
+    return 'variable';
+  default:
+    return name;
+  }
+
+  // return type.replace('Literal', '');
 }

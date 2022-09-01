@@ -37,7 +37,11 @@
         "inputs": {
             "exampleData": [
                 {
-                    "text": ":wave: Hi from the slack connector! :partying_face:"
+                    "text": ":wave: Hi from the slack connector! :partying_face:",
+                    "data": {
+                        "channel": "D03FJ3UJHJM",
+                        "user": "John Doe"
+                    }
                 }
             ]
         },
