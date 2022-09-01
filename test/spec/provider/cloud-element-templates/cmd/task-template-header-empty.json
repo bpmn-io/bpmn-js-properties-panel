@@ -1,0 +1,17 @@
+{
+  "name": "Task Template Header Empty",
+  "version": 1,
+  "id": "task-template-header-empty",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-1-key"
+      }
+    }
+  ]
+}

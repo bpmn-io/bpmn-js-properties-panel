@@ -336,18 +336,30 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
 
     const oldTaskHeader = findTaskHeader(taskHeaders, binding);
 
-    const newTaskHeader = createTaskHeader(binding, value, bpmnFactory);
-
     const values = taskHeaders.get('values').filter((value) => value !== oldTaskHeader);
 
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        ...context,
-        moddleElement: taskHeaders,
-        properties: { values: [ ...values, newTaskHeader ] }
-      }
-    });
+    // do not persist task headers with empty value
+    if (!value) {
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          ...context,
+          moddleElement: taskHeaders,
+          properties: { values }
+        }
+      });
+    } else {
+      const newTaskHeader = createTaskHeader(binding, value, bpmnFactory);
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          ...context,
+          moddleElement: taskHeaders,
+          properties: { values: [ ...values, newTaskHeader ] }
+        }
+      });
+    }
   }
 
   // zeebe:Property
