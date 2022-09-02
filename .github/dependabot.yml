@@ -24,6 +24,10 @@ updates:
         dependency-type: "all"
       - dependency-name: "@bpmn-io/properties-panel"
         dependency-type: "all"
+      - dependency-name: "@bpmn-io/element-template-chooser"
+        dependency-type: "all"
+      - dependency-name: "@bpmn-io/element-templates-icons-renderer"
+        dependency-type: "all"
     commit-message:
       prefix: "deps:"
     versioning-strategy: "increase"
