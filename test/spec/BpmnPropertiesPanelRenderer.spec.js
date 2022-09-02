@@ -88,7 +88,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         zeebe: ZeebeModdle
       },
       description = {},
-      layout = {}
+      layout = {},
+      overrides = {},
     } = options;
 
     clearBpmnJS();
@@ -103,7 +104,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       propertiesPanel: {
         parent: propertiesContainer,
         description,
-        layout
+        layout,
+        overrides
       },
       ...options
     });
@@ -396,29 +398,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
     // then
     expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
-  });
-
-
-  it('should allow providing custom entries', async function() {
-
-    // given
-    const diagramXml = require('test/fixtures/service-task.bpmn').default;
-
-    const modules = [
-      ZeebeBehaviorsModule,
-      BpmnPropertiesPanel,
-      BpmnPropertiesProvider,
-      ZeebePropertiesProvider,
-      ExamplePropertiesProvider
-    ];
-
-    // when
-    await createModeler(diagramXml, {
-      additionalModules: modules
-    });
-
-    // then
-    expect(getGroup(propertiesContainer, 'foo-group')).to.exist;
   });
 
 
@@ -906,6 +885,84 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       // when
       await expectNoViolations(propertiesContainer);
+    });
+
+  });
+
+
+  describe('extensions', function() {
+
+    it('should allow providing custom entries', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const modules = [
+        ZeebeBehaviorsModule,
+        BpmnPropertiesPanel,
+        BpmnPropertiesProvider,
+        ZeebePropertiesProvider,
+        ExamplePropertiesProvider
+      ];
+
+      // when
+      await createModeler(diagramXml, {
+        additionalModules: modules
+      });
+
+      // then
+      expect(getGroup(propertiesContainer, 'foo-group')).to.exist;
+    });
+
+
+    it('should configure via overrides provider', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const overrides = {
+        'id': {
+          validate: () => 'Are you sure?'
+        },
+        'versionTag': {
+          getValue: () => {
+            return 'foo';
+          }
+        },
+        'name': {
+          validate: (value) => {
+            if (value === 'bar') {
+              return 'No <bar> please!';
+            }
+          }
+        },
+        'formType': {
+          getValue: () => 'formRef',
+          getOptions: () => {
+            return [
+              { value: '', label: '<none>' },
+              { value: 'formRef', label: 'Camunda Forms rocks! 🎸' }
+            ];
+          }
+        }
+      };
+
+      const modules = [
+        CamundaBehaviorsModule,
+        BpmnPropertiesPanel,
+        BpmnPropertiesProvider,
+        CamundaPropertiesProvider
+      ];
+
+      // when
+      await createModeler(diagramXml, {
+        additionalModules: modules,
+        moddleExtensions: { camunda: CamundaModdle },
+        overrides
+      });
+
+      // then
+      expect(domQuery('input[name="versionTag"]', propertiesContainer).value).to.eql('foo');
     });
 
   });

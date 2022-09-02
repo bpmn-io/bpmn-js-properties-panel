@@ -25,6 +25,7 @@ import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
  * @param {Injector} props.injector
  * @param { (djs.model.Base) => Array<PropertiesProvider> } props.getProviders
  * @param {Object} props.layoutConfig
+ * @param {Object} props.overridesConfig
  * @param {Object} props.descriptionConfig
  */
 export default function BpmnPropertiesPanel(props) {
@@ -33,7 +34,8 @@ export default function BpmnPropertiesPanel(props) {
     injector,
     getProviders,
     layoutConfig,
-    descriptionConfig
+    descriptionConfig,
+    overridesConfig
   } = props;
 
   const canvas = injector.get('canvas');
@@ -210,6 +212,7 @@ export default function BpmnPropertiesPanel(props) {
       layoutChanged={ onLayoutChanged }
       descriptionConfig={ descriptionConfig }
       descriptionLoaded={ onDescriptionLoaded }
+      overridesConfig={ overridesConfig }
       eventBus={ eventBus } />
   </BpmnPropertiesPanelContext.Provider>;
 }
