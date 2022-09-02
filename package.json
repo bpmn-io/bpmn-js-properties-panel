@@ -77,7 +77,7 @@
     "bpmn-js": "9.4.0",
     "bpmn-moddle": "^7.1.2",
     "camunda-bpmn-js-behaviors": "^0.2.0",
-    "camunda-bpmn-moddle": "^7.0.0",
+    "camunda-bpmn-moddle": "^7.0.1",
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^9.0.0",
     "cross-env": "^7.0.3",
