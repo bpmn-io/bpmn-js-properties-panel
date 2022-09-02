@@ -28,6 +28,8 @@ import {
 export const EMPTY_OPTION = '';
 export const CREATE_NEW_OPTION = 'create-new';
 
+const noop = (fn) => fn;
+
 
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
@@ -69,8 +71,13 @@ export function MessageProps(props) {
   return entries;
 }
 
-function MessageRef(props) {
-  const { element } = props;
+export function MessageRef(props) {
+  const {
+    element,
+    getOptions = noop,
+    getValue = noop,
+    setValue = noop
+  } = props;
 
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
@@ -78,7 +85,7 @@ function MessageRef(props) {
 
   const messageEventDefinition = getMessageEventDefinition(element);
 
-  const getValue = () => {
+  const _getValue = getValue(() => {
     const message = getMessage(element);
 
     if (message) {
@@ -86,9 +93,9 @@ function MessageRef(props) {
     }
 
     return EMPTY_OPTION;
-  };
+  });
 
-  const setValue = (value) => {
+  const _setValue = setValue((value) => {
     const root = getRoot(messageEventDefinition);
     const commands = [];
 
@@ -135,9 +142,9 @@ function MessageRef(props) {
 
     // (3) commit all updates
     return commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
+  });
 
-  const getOptions = () => {
+  const _getOptions = getOptions(() => {
 
     let options = [
       { value: EMPTY_OPTION, label: translate('<none>') },
@@ -154,20 +161,20 @@ function MessageRef(props) {
     });
 
     return options;
-  };
+  });
 
   return ReferenceSelect({
     element,
     id: 'messageRef',
     label: translate('Global message reference'),
     autoFocusEntry: 'messageName',
-    getValue,
-    setValue,
-    getOptions
+    getValue: _getValue,
+    setValue: _setValue,
+    getOptions: _getOptions
   });
 }
 
-function MessageName(props) {
+export function MessageName(props) {
   const { element } = props;
 
   const commandStack = useService('commandStack');

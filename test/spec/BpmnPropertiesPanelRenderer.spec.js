@@ -45,6 +45,7 @@ import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
 import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
+import GetterSetterValidateProvider from './extension/GetterSetterValidateProvider';
 
 import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
 
@@ -963,6 +964,42 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       // then
       expect(domQuery('input[name="versionTag"]', propertiesContainer).value).to.eql('foo');
+    });
+
+
+    it('should override existing component', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      const modules = [
+        CamundaBehaviorsModule,
+        BpmnPropertiesPanel,
+        BpmnPropertiesProvider,
+        CamundaPropertiesProvider,
+        GetterSetterValidateProvider
+      ];
+
+      let modeler;
+      await act(async () => {
+        const result = await createModeler(diagramXml, {
+          additionalModules: modules,
+          moddleExtensions: { camunda: CamundaModdle }
+        });
+
+        modeler = result.modeler;
+      });
+
+      const selection = modeler.get('selection');
+      const elementRegistry = modeler.get('elementRegistry');
+
+      // when
+      await act(() => {
+        selection.select(elementRegistry.get('StartEvent_1'));
+      });
+
+      // then
+      expect(domQuery('select[name="messageRef"]', propertiesContainer).value).to.eql('create-new');
     });
 
   });
