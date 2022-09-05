@@ -1,22 +1,27 @@
+import { useContext } from '@bpmn-io/properties-panel/preact/hooks';
 import { parser } from 'lezer-feel';
-
-import varContext from './Untitled-1.json';
-
-const context = {};
-
-for (const key of Object.keys(varContext)) {
-  context[key] = extractVariables(key);
-}
-
-console.log(context);
+import { BpmnPropertiesPanelContext } from '../../context';
 
 export function useStaticVariableContext(bo) {
+
+  const {
+    variableContext
+  } = useContext(BpmnPropertiesPanelContext);
+
+  const context = {};
+
+  for (const key of Object.keys(variableContext)) {
+    context[key] = extractVariables(key, variableContext);
+  }
+
+
+  console.log('context', context);
 
   return context;
 
 }
 
-function extractVariables(type) {
+function extractVariables(type, varContext) {
   const currentContext = varContext[type];
 
   // parse example with feel
@@ -40,10 +45,10 @@ function handleContextEntry(entry) {
   const value = entry.children[1];
 
   const type = getType(value.name);
-  let info = 'Imported from external Context';
+  let info;
 
   if (type !== 'Context') {
-    info += `\r\nExample: ${value.content}`;
+    info = `Example: ${value.content}`;
   }
 
 
@@ -71,7 +76,8 @@ function handleContextValue(value) {
     {
       detail: getType(value.name),
       value: value.content,
-      info: 'Imported from external Context',
+
+      // info: 'Imported from external Context',
       entry: value
     }
   ];

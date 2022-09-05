@@ -5,7 +5,8 @@ import {
 const BpmnPropertiesPanelContext = createContext({
   selectedElement: null,
   injector: null,
-  getService() { return null;}
+  getService() { return null;},
+  variableContext: {}
 });
 
 export default BpmnPropertiesPanelContext;

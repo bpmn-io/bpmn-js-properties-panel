@@ -49,6 +49,8 @@ import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
 import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
 
+import variableContext from './variableContext.json';
+
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
 insertCoreStyles();
@@ -89,7 +91,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         zeebe: ZeebeModdle
       },
       description = {},
-      layout = {}
+      layout = {},
+      variableContext = {}
     } = options;
 
     clearBpmnJS();
@@ -104,7 +107,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       propertiesPanel: {
         parent: propertiesContainer,
         description,
-        layout
+        layout,
+        variableContext
       },
       ...options
     });
@@ -145,7 +149,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           zeebe: ZeebeModdle
         },
-        description: DescriptionProvider
+        description: DescriptionProvider,
+        variableContext
       }
     );
 
@@ -223,7 +228,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           camunda: CamundaModdle
         },
-        elementTemplates
+        elementTemplates,
+        variableContext
       }
     );
 
@@ -255,7 +261,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           zeebe: ZeebeModdle
         },
-        elementTemplates
+        elementTemplates,
+        variableContext
       }
     );
 

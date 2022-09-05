@@ -5,20 +5,6 @@ import { useStaticVariableContext } from './getStaticVariableContext';
 import { createProcessVariable, addVariableToList } from './ProcessVariablesUtil';
 
 
-/**
- * Retrieves process variables defined in output mappings, e.g.
- *
- * <bpmn:serviceTask id="ServiceTask">
- *   <bpmn:extensionElements>
- *     <zeebe:ioMapping>
- *       <zeebe:input source="= source" target="variable1" />
- *     </zeebe:ioMapping>
- *   </bpmn:extensionElements>
- * </bpmn:serviceTask>
- *
- * => Adds one variable "variable1" to the list.
- *
- */
 export default function(options) {
   var elements = options.elements,
       processVariables = options.processVariables,

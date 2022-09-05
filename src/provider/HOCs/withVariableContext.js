@@ -59,7 +59,11 @@ function populateVariables(vars) {
 
     const origin = mappings.find(mapping => mapping.target === variable.name);
 
-    const expression = `{ ${variable.name}: ${origin.source.substring(1)} }`;
+    if (!origin) {
+      return;
+    }
+
+    const expression = `{ ${variable.name}: ${origin?.source?.substring(1)} }`;
 
     const context = getVariablesFromString(expression);
 
@@ -94,7 +98,9 @@ function resolveVariableReferences(variables) {
     if (context && context.name === 'VariableName') {
       const res = variables.find(v => v.name === sanitizeKey(context.content));
       console.log(res, variables, pathExpr);
-      context = res.details.entry;
+      if (res) {
+        context = res.details.entry;
+      }
     }
 
     if (context && context.name === 'PathExpression') {
@@ -115,7 +121,7 @@ function resolveVariableReferences(variables) {
     const res = resolvePathExpression(pathExpr.details.entry);
     console.log('result', res);
 
-    if (res.name === 'ContextEntry') {
+    if (res?.name === 'ContextEntry') {
       pathExpr.details = handleContextEntry(res);
     }
   });

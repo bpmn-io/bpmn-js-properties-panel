@@ -33,7 +33,8 @@ export default function BpmnPropertiesPanel(props) {
     injector,
     getProviders,
     layoutConfig,
-    descriptionConfig
+    descriptionConfig,
+    variableContext
   } = props;
 
   const canvas = injector.get('canvas');
@@ -166,7 +167,8 @@ export default function BpmnPropertiesPanel(props) {
   const bpmnPropertiesPanelContext = {
     selectedElement,
     injector,
-    getService(type, strict) { return injector.get(type, strict); }
+    getService(type, strict) { return injector.get(type, strict); },
+    variableContext
   };
 
   // (4) retrieve groups for selected element
