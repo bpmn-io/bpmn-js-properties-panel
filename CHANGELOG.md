@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.6.1
+
+* `DEPS`: update to `@bpmn-io/properties-panel@0.20.1`
+* `DEPS`: update to `@bpmn-io/element-templates-icons-renderer@0.2.0`
+* `DEPS`: update to `diagram-js@8.9.0`
+* `DEPS`: update to `bpmn-js@9.4.0`
+
 # 1.6.0
 
 * `FEAT`: support `zeebe:property` ([#731](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/731))
