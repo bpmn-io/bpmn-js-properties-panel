@@ -838,6 +838,80 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  describe('showEntry integration', function() {
+
+    it('should show and focus entry', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      let modeler;
+
+      await act(async () => {
+        ({ modeler } = await createModeler(diagramXml, {
+          propertiesPanel: {
+            parent: propertiesContainer
+          }
+        }));
+      });
+
+      await act(() => {
+        const elementRegistry = modeler.get('elementRegistry'),
+              eventBus = modeler.get('eventBus'),
+              selection = modeler.get('selection');
+
+        // when
+        selection.select(elementRegistry.get('ServiceTask_1'));
+
+        eventBus.fire('propertiesPanel.showEntry', {
+          id: 'name'
+        });
+      });
+
+      // then
+      expect(document.activeElement).to.exist;
+      expect(document.activeElement.closest('.bio-properties-panel-entry')).to.exist;
+      expect(document.activeElement.closest('.bio-properties-panel-entry').getAttribute('data-entry-id')).to.equal('name');
+    });
+
+
+    it('should show and focus entry (nested)', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      let modeler;
+
+      await act(async () => {
+        ({ modeler } = await createModeler(diagramXml, {
+          propertiesPanel: {
+            parent: propertiesContainer
+          }
+        }));
+      });
+
+      await act(() => {
+        const elementRegistry = modeler.get('elementRegistry'),
+              eventBus = modeler.get('eventBus'),
+              selection = modeler.get('selection');
+
+        // when
+        selection.select(elementRegistry.get('ServiceTask_1'));
+
+        eventBus.fire('propertiesPanel.showEntry', {
+          id: 'ServiceTask_1-input-0-target'
+        });
+      });
+
+      // then
+      expect(document.activeElement).to.exist;
+      expect(document.activeElement.closest('.bio-properties-panel-entry')).to.exist;
+      expect(document.activeElement.closest('.bio-properties-panel-entry').getAttribute('data-entry-id')).to.equal('ServiceTask_1-input-0-target');
+    });
+
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {
