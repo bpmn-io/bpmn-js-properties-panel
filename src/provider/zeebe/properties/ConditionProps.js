@@ -120,7 +120,8 @@ function ConditionExpression(props) {
 
 const CONDITIONAL_SOURCES = [
   'bpmn:Activity',
-  'bpmn:ExclusiveGateway'
+  'bpmn:ExclusiveGateway',
+  'bpmn:InclusiveGateway'
 ];
 
 function isConditionalSource(element) {
