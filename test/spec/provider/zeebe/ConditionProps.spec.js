@@ -61,7 +61,7 @@ describe('provider/zeebe - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const elements = [ 'Flow2', 'Flow3' ];
+      const elements = [ 'Flow2', 'Flow3', 'Flow4' ];
 
       elements.forEach(async ele => {
         const sequenceFlow = elementRegistry.get(ele);
