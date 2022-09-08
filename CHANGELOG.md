@@ -6,14 +6,21 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-# 1.6.0
+## 1.6.1
+
+* `DEPS`: update to `@bpmn-io/properties-panel@0.20.1`
+* `DEPS`: update to `@bpmn-io/element-templates-icons-renderer@0.2.0`
+* `DEPS`: update to `diagram-js@8.9.0`
+* `DEPS`: update to `bpmn-js@9.4.1`
+
+## 1.6.0
 
 * `FEAT`: support `zeebe:property` ([#731](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/731))
 * `FIX`: copy full `FEEL` expression ([#728](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/728))
 * `FIX`: don't serialize `zeebe:taskHeader` template bindings without a value ([#684](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/684))
 * `DEPS`: update to `@bpmn-io/properties-panel@0.20.0`
 
-# 1.5.0
+## 1.5.0
 
 * `FEAT`: explicitly bind undo/redo to properties container ([#739](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/739))
 * `FIX`: render sticky headers correctly ([#726](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/726))
@@ -25,14 +32,14 @@ ___Note:__ Yet to be released changes appear here._
 * `DEPS`: update to `diagram-js@8.8.0`
 * `DEPS`: update to `zeebe-bpmn-moddle@0.12.2`
 
-# 1.4.0
+## 1.4.0
 
 * `FEAT`: use FEEL editor for FEEL expressions ([#706](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/706))
 * `FIX`: support jQuery as parent node ([#729](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/729))
 * `DEPS`: update to `@bpmn-io/properties-panel@0.18.0`
 * `DEPS`: update to `@bpmn-io/extract-process-variables@0.5.0`
 
-# 1.3.0
+## 1.3.0
 
 * `FEAT`: set errors through context ([#160](https://github.com/bpmn-io/properties-panel/pull/160))
 * `DEPS`: update to `@bpmn-io/properties-panel@0.16.0`
