@@ -153,7 +153,7 @@ function addFactory({ element, bpmnFactory, commandStack }) {
 
     // (3) create parameter
     const newParameter = createElement('zeebe:Output', {
-      source: '=source',
+      source: '',
       target: nextId('OutputVariable_')
     }, ioMapping, bpmnFactory);
 
