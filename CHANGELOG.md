@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.6.2
+
+* `FIX`: ensure focus on `propertiesPanel.showEntry` ([#182](https://github.com/bpmn-io/properties-panel/pull/182))
+* `DEPS`: update to `@bpmn-io/properties-panel@0.20.1`
+
 ## 1.6.1
 
 * `DEPS`: update to `@bpmn-io/properties-panel@0.20.1`
