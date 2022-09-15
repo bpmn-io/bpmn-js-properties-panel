@@ -314,6 +314,34 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
     }));
 
 
+    it('should not create conditional properties', inject(function(elementTemplates) {
+
+      // given
+      const template = require('./fixtures/condition.json');
+
+      // when
+      const element = elementTemplates.createElement(template);
+
+      const businessObject = getBusinessObject(element);
+
+      // then
+      // expect properties
+      expect(businessObject.get('customProperty')).to.be.undefined;
+
+      // expect ioMapping
+      const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+      expect(ioMapping).to.be.undefined;
+
+      // expect taskHeaders
+      const taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders');
+      expect(taskHeaders).to.be.undefined;
+
+      // expect taskDefinition
+      const taskDefinition = findExtension(businessObject, 'zeebe:TaskDefinition');
+      expect(taskDefinition).to.be.undefined;
+    }));
+
+
     it('should throw error - no template', inject(function(elementTemplates) {
 
       // given

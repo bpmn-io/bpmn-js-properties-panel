@@ -23,6 +23,8 @@ import {
   ZEBBE_PROPERTY_TYPE
 } from '../util/bindingTypes';
 
+import { applyConditions } from '../Condition';
+
 export default class TemplateElementFactory {
 
   constructor(bpmnFactory, elementFactory, moddle) {
@@ -50,8 +52,7 @@ export default class TemplateElementFactory {
 
     const {
       appliesTo,
-      elementType,
-      properties
+      elementType
     } = template;
 
     const elementFactory = this._elementFactory;
@@ -84,6 +85,8 @@ export default class TemplateElementFactory {
     if (hasIcon(template)) {
       this._setModelerTemplateIcon(element, template);
     }
+
+    const { properties } = applyConditions(element, template);
 
     // (5) apply properties
     properties.forEach(function(property) {
