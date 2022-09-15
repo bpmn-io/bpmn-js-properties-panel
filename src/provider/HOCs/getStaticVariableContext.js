@@ -10,6 +10,8 @@ export function useStaticVariableContext(bo) {
 
   const context = {};
 
+  console.log(variableContext);
+
   for (const key of Object.keys(variableContext)) {
     context[key] = extractVariables(key, variableContext);
   }

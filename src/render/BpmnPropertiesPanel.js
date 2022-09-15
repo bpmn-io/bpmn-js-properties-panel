@@ -41,6 +41,23 @@ export default function BpmnPropertiesPanel(props) {
   const elementRegistry = injector.get('elementRegistry');
   const eventBus = injector.get('eventBus');
 
+
+  const [ localVariableContext, setLocalVariableContext ] = useState(variableContext);
+
+  useEffect(() => {
+    const onNewContext = (event) => {
+      const newContext = event.context;
+      console.log('new Context', newContext);
+      setLocalVariableContext(newContext);
+    };
+
+    eventBus.on('propertiesPanel.newVariableContext', onNewContext);
+
+    return () => {
+      eventBus.off('propertiesPanel.newVariableContext', onNewContext);
+    };
+  }, []);
+
   const [ state, setState ] = useState({
     selectedElement: element
   });
@@ -168,7 +185,7 @@ export default function BpmnPropertiesPanel(props) {
     selectedElement,
     injector,
     getService(type, strict) { return injector.get(type, strict); },
-    variableContext
+    variableContext: localVariableContext
   };
 
   // (4) retrieve groups for selected element
