@@ -1,5 +1,6 @@
 export const PROPERTY_TYPE = 'property';
 
+export const ZEBBE_PROPERTY_TYPE = 'zeebe:property';
 export const ZEBBE_INPUT_TYPE = 'zeebe:input';
 export const ZEEBE_OUTPUT_TYPE = 'zeebe:output';
 export const ZEEBE_PROPERTY_TYPE = 'zeebe:property';

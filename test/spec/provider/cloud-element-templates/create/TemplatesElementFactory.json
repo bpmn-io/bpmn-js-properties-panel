@@ -113,6 +113,23 @@
   },
   {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Zeebe:property binding",
+    "id": "example.camunda.ZeebePropertyBinding",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "value": "propertyValue",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "customPropertyName"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Task definition type binding",
     "id": "example.camunda.TaskDefinitionTypeBinding",
     "appliesTo": [

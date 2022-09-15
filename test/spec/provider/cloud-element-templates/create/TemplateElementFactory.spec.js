@@ -168,6 +168,29 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
     }));
 
 
+    it('should handle <zeebe:property>', inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = findTemplate('example.camunda.ZeebePropertyBinding');
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+
+      const zeebeProperties = findExtension(element, 'zeebe:Properties');
+      const properties = zeebeProperties.properties;
+
+      // then
+      expect(properties).to.exist;
+      expect(properties).to.jsonEqual([
+        {
+          $type: 'zeebe:Property',
+          name: 'customPropertyName',
+          value: 'propertyValue'
+        }
+      ]);
+    }));
+
+
     it('should handle <zeebe:taskDefinition:type>', inject(function(templateElementFactory) {
 
       // given
