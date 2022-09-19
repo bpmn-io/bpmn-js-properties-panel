@@ -747,6 +747,49 @@ describe('provider/cloud-element-templates - ElementTemplates - integration', fu
       }
     ));
 
+
+    it('REST Connector (Basic auth) => REST Connector', inject(
+      function(elementRegistry, elementTemplates) {
+        let task = elementRegistry.get('REST_TASK');
+        const template = elementTemplates.get('io.camunda.connectors.HttpJson.v2');
+
+        // assume
+        expectInputs(task, [
+          {
+            target: 'authentication.type',
+            source: 'basic'
+          },
+          {
+            target: 'url',
+            source: 'https://foo'
+          },
+          {
+            target: 'authentication.username',
+            source: 'aaa'
+          }
+        ]);
+
+        // when
+        task = elementTemplates.applyTemplate(task, template);
+
+        // then
+        expectInputs(task, [
+          {
+            target: 'authentication.type',
+            source: 'basic'
+          },
+          {
+            target: 'url',
+            source: 'https://foo'
+          },
+          {
+            target: 'authentication.username',
+            source: 'aaa'
+          }
+        ]);
+      }
+    ));
+
   });
 
 });
