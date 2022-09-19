@@ -819,6 +819,6 @@ function expectInputs(element, expected) {
       return i.get('source') === source && i.get('target') === target;
     });
 
-    expect(input).to.exist;
+    expect(input, `<${source}> -> <${target}> binding`).to.exist;
   });
 }
