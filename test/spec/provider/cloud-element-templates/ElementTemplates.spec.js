@@ -16,6 +16,7 @@ import {
 
 import coreModule from 'bpmn-js/lib/core';
 import elementTemplatesModule from 'src/provider/cloud-element-templates';
+import propertiesCommandsModule from 'src/cmd';
 import modelingModule from 'bpmn-js/lib/features/modeling';
 
 import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
@@ -43,6 +44,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       coreModule,
       elementTemplatesModule,
       modelingModule,
+      propertiesCommandsModule,
       {
         propertiesPanel: [ 'value', { registerProvider() {} } ]
       }
