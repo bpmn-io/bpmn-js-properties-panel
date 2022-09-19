@@ -119,7 +119,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
     }));
 
 
-    it('should not get template (no template with ID)', inject(function(elementTemplates) {
+    it('should not get template (no template with version)', inject(function(elementTemplates) {
 
       // when
       const template = elementTemplates.get('foo', -1);
@@ -143,6 +143,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
   });
 
+
   describe('getAll', function() {
 
     it('should get all templates', inject(function(elementTemplates) {
@@ -153,6 +154,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       // then
       expectTemplates(templates, [
         [ 'my.mail.Task' ],
+        [ 'deprecated' ],
         [ 'default', 1 ],
         [ 'foo' ],
         [ 'foo', 1 ],
@@ -239,6 +241,16 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       expectTemplates(templates, [
         [ 'bar', 2 ]
       ]);
+    }));
+
+
+    it('should hide deprecated template version', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('deprecated');
+
+      // then
+      expectTemplates(templates, []);
     }));
 
 
@@ -693,6 +705,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
   });
 
 });
+
 
 // helpers //////////////////////
 

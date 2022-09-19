@@ -129,7 +129,7 @@ export default class ElementTemplates {
     const templates = this._templates;
     const getVersions = (template) => {
       const { latest, ...versions } = template;
-      return latestOnly ? [ latest ] : values(versions) ;
+      return latestOnly ? (latest.deprecated ? [] : [ latest ]) : values(versions) ;
     };
 
     if (isUndefined(id)) {
