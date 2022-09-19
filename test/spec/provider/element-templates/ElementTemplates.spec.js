@@ -8,6 +8,7 @@ import { bootstrapModeler, inject } from 'test/TestHelper';
 
 import coreModule from 'bpmn-js/lib/core';
 import elementTemplatesModule from 'src/provider/element-templates';
+import propertiesCommandsModule from 'src/cmd';
 import modelingModule from 'bpmn-js/lib/features/modeling';
 
 import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
@@ -32,6 +33,7 @@ describe('provider/element-templates - ElementTemplates', function() {
       coreModule,
       elementTemplatesModule,
       modelingModule,
+      propertiesCommandsModule,
       {
         propertiesPanel: [ 'value', { registerProvider() {} } ]
       }
