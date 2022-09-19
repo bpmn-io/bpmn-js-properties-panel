@@ -108,7 +108,7 @@ describe('provider/element-templates - ElementTemplates', function() {
     }));
 
 
-    it('should not get template (no template with ID)', inject(function(elementTemplates) {
+    it('should not get template (no template with ID + version)', inject(function(elementTemplates) {
 
       // when
       const template = elementTemplates.get('foo', -1);
@@ -168,7 +168,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'foo', 3 ],
         [ 'bar', 1 ],
         [ 'bar', 2 ],
-        [ 'baz' ]
+        [ 'baz' ],
+        [ 'deprecated' ]
       ]);
     }));
 
@@ -204,7 +205,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'foo', 3 ],
         [ 'bar', 1 ],
         [ 'bar', 2 ],
-        [ 'baz' ]
+        [ 'baz' ],
+        [ 'deprecated' ]
       ]);
     }));
 
@@ -247,6 +249,16 @@ describe('provider/element-templates - ElementTemplates', function() {
       expectTemplates(templates, [
         [ 'bar', 2 ]
       ]);
+    }));
+
+
+    it('should hide deprecated template', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('deprecated');
+
+      // then
+      expectTemplates(templates, []);
     }));
 
 
