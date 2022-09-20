@@ -8,6 +8,11 @@
   --unknown-template-hover-background-color: var(--color-red-360-100-40);
 
   --select-template-information-text-color: var(--color-grey-225-10-55);
+
+  --deprecated-template-background-color: var(--color-grey-225-10-55);
+  --deprecated-template-hover-background-color: var(--color-grey-225-10-35);
+  --deprecated-template-fill-color: var(--color-white);
+  --deprecated-template-label-color: var(--color-white);
 }
 
 .bio-properties-panel-header-template-icon {
@@ -38,6 +43,16 @@
   background-color: var(--select-template-hover-background-color);
 }
 
+.bio-properties-panel-template-deprecated .bio-properties-panel-group-header-button {
+  background-color: var(--deprecated-template-background-color);
+  color: var(--deprecated-template-label-color);
+  fill: var(--deprecated-template-fill-color);
+}
+
+.bio-properties-panel-template-deprecated .bio-properties-panel-group-header-button:hover {
+  background-color: var(--deprecated-template-hover-background-color);
+}
+
 .bio-properties-panel-templates-group .bio-properties-panel-group-header-button * {
   color: inherit;
 }
@@ -54,7 +69,8 @@
 
 .bio-properties-panel-template-update-available:last-child,
 .bio-properties-panel-applied-template-button:last-child,
-.bio-properties-panel-template-not-found:last-child {
+.bio-properties-panel-template-not-found:last-child,
+.bio-properties-panel-template-deprecated:last-child {
   margin-right: 32px;
 }
 
@@ -73,11 +89,17 @@
 }
 
 .bio-properties-panel-template-not-found-text,
-.bio-properties-panel-template-update-available-text {
+.bio-properties-panel-template-update-available-text,
+.bio-properties-panel-template-deprecated-text {
   color: var(--select-template-information-text-color);
 }
 
 .bio-properties-panel-template-not-found-text,
-.bio-properties-panel-template-update-available-text {
+.bio-properties-panel-template-update-available-text,
+.bio-properties-panel-template-deprecated-text {
   width: 216px;
+}
+
+.bio-properties-panel-deprecation-link svg {
+  vertical-align: sub;
 }

@@ -3,7 +3,8 @@ import {
   CreateIcon,
   DropdownButton,
   HeaderButton,
-  useLayoutState
+  useLayoutState,
+  ExternalLinkIcon
 } from '@bpmn-io/properties-panel';
 
 import classnames from 'classnames';
@@ -23,7 +24,7 @@ import {
 
 
 /**
- * @typedef {NoTemplate|KnownTemplate|UnknownTemplate|OutdatedTemplate} TemplateState
+ * @typedef {NoTemplate|KnownTemplate|UnknownTemplate|OutdatedTemplate|DeprecatedTemplate} TemplateState
  */
 
 /**
@@ -42,6 +43,10 @@ import {
  * @property {'OUTDATED_TEMPLATE'} type
  * @property {object} template
  * @property {object} newerTemplate
+ *
+ * @typedef DeprecatedTemplate
+ * @property {'DEPRECATED_TEMPLATE'} type
+ * @property {object} template
  */
 
 /**
@@ -160,6 +165,11 @@ function TemplateGroupButtons({ element, getTemplateId, unlinkTemplate, updateTe
       templateState={ templateState }
       unlinkTemplate={ unlinkTemplate }
       updateTemplate={ updateTemplate } />;
+  } else if (templateState.type === 'DEPRECATED_TEMPLATE') {
+    return <DeprecatedTemplate
+      element={ element }
+      templateState={ templateState }
+      unlinkTemplate={ unlinkTemplate } />;
   }
 }
 
@@ -282,6 +292,59 @@ function UpdateAvailableText({ newerTemplate }) {
   return <div class="bio-properties-panel-template-update-available-text">{text}</div>;
 }
 
+/**
+ * @param {object} props
+ * @param {object} [props.element]
+ * @param {UnknownTemplate} [props.templateState]
+ * @param {function} [props.unlinkTemplate]
+ */
+function DeprecatedTemplate({ element, templateState, unlinkTemplate }) {
+  const { template } = templateState;
+
+  const translate = useService('translate'),
+        injector = useService('injector');
+
+  const menuItems = [
+    { entry: <DeprecationText deprecation={ template.deprecated } /> },
+    { separator: true },
+    { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
+    { entry: <RemoveTemplate />, action: () => removeTemplate(element, injector) }
+  ];
+
+  return (
+    <DropdownButton menuItems={ menuItems } class="bio-properties-panel-template-deprecated">
+      <HeaderButton>
+        <span>{ translate('Deprecated') }</span>
+        <ArrowIcon class="bio-properties-panel-arrow-down" />
+      </HeaderButton>
+    </DropdownButton>
+  );
+}
+
+function DeprecationText({ deprecation }) {
+  const translate = useService('translate');
+
+  const message = deprecation.message || 'This template is deprecated';
+
+  const documentationRef = deprecation.documentationRef;
+
+  const text = translate(message);
+
+  return (
+    <div class="bio-properties-panel-template-deprecated-text">{text} { documentationRef ?
+      <a
+        rel="noopener"
+        class="bio-properties-panel-deprecation-link"
+        href={ documentationRef }
+        title="Open documentation"
+        target="_blank">
+        <ExternalLinkIcon />
+      </a> :
+      null
+    }</div>
+  );
+}
+
 
 // helper //////
 
@@ -309,6 +372,10 @@ function getTemplateState(elementTemplates, element, getTemplateId) {
 
   if (newerTemplate !== template) {
     return { type: 'OUTDATED_TEMPLATE', template, newerTemplate };
+  }
+
+  if (template.deprecated) {
+    return { type: 'DEPRECATED_TEMPLATE', template };
   }
 
   return { type: 'KNOWN_TEMPLATE', template };
