@@ -145,6 +145,7 @@ export function getPropertyValue(element, property, scope) {
   throw unknownBindingError(element, property);
 }
 
+const NO_OP = null;
 export function setPropertyValue(bpmnFactory, commandStack, element, property, value) {
   let businessObject = getBusinessObject(element);
 
@@ -184,6 +185,9 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
         }
       });
     }
+    else {
+      commands.push(NO_OP);
+    }
   }
 
   // property
@@ -193,7 +197,9 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
 
     // if property not created yet
     if (!propertyDescriptor) {
-      propertyValue = value;
+
+      // make sure we create the property
+      propertyValue = value || '';
     }
 
     else {
@@ -230,6 +236,8 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
           properties: { [ name ]: propertyValue }
         }
       });
+    } else {
+      commands.push(NO_OP);
     }
 
   }
@@ -243,7 +251,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     if (type === ZEEBE_TASK_DEFINITION_TYPE_TYPE) {
       newTaskDefinition = createTaskDefinitionWithType(value, bpmnFactory);
     } else {
-      return unknownBindingError(element, property);
+      throw unknownBindingError(element, property);
     }
 
     const values = extensionElements.get('values').filter((value) => value !== oldTaskDefinition);
@@ -404,9 +412,11 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
   }
 
   if (commands.length) {
-    commandStack.execute(
+    const commandsToExecute = commands.filter((command) => command !== NO_OP);
+
+    commandsToExecute.length && commandStack.execute(
       'properties-panel.multi-command-executor',
-      commands
+      commandsToExecute
     );
 
     return;

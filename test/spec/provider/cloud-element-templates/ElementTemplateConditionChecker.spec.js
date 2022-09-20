@@ -65,6 +65,9 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
 
         // then
         expect(businessObject.get('customProperty')).to.exist;
+
+        expect(businessObject.get('noDefaultProperty')).to.exist;
+        expect(businessObject.get('noDefaultProperty')).to.equal('');
       })
     );
 
