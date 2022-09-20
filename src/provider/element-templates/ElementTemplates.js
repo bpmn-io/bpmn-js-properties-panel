@@ -2,6 +2,7 @@ import {
   filter,
   find,
   flatten,
+  isNil,
   isObject,
   isString,
   isUndefined,
@@ -74,11 +75,11 @@ export default class ElementTemplates {
   /**
    * Get all templates (with given ID or applicable to element).
    *
-   * @param {String|djs.model.Base} [id]
+   * @param {string|djs.model.Base} [id]
    * @return {Array<ElementTemplate>}
    */
   getAll(id) {
-    return this._getTemplateVerions(id, false);
+    return this._getTemplateVerions(id, { includeDeprecated: true });
   }
 
 
@@ -87,10 +88,15 @@ export default class ElementTemplates {
    * version.
    *
    * @param {String|djs.model.Base} [id]
+   * @param {{ deprecated?: boolean }} [options]
+   *
    * @return {Array<ElementTemplate>}
    */
-  getLatest(id) {
-    return this._getTemplateVerions(id, true);
+  getLatest(id, options = {}) {
+    return this._getTemplateVerions(id, {
+      ...options,
+      latest: true
+    });
   }
 
   /**
@@ -120,26 +126,35 @@ export default class ElementTemplates {
     });
   }
 
-  _getTemplateVerions(id, latestOnly) {
-    if (typeof id === 'boolean') {
-      latestOnly = id;
-      id = undefined;
-    }
+  /**
+   * @param {object|string|null} id
+   * @param { { latest?: boolean, deprecated?: boolean } [options]
+   *
+   * @return {Array<ElementTemplate>}
+   */
+  _getTemplateVerions(id, options = {}) {
+
+    const {
+      latest: latestOnly,
+      deprecated: includeDeprecated
+    } = options;
 
     const templates = this._templates;
     const getVersions = (template) => {
       const { latest, ...versions } = template;
-      return latestOnly ? (latest.deprecated ? [] : [ latest ]) : values(versions) ;
+      return latestOnly ? (
+        !includeDeprecated && latest.deprecated ? [] : [ latest ]
+      ) : values(versions) ;
     };
 
-    if (isUndefined(id)) {
+    if (isNil(id)) {
       return flatten(values(templates).map(getVersions));
     }
 
     if (isObject(id)) {
       const element = id;
 
-      return filter(this._getTemplateVerions(latestOnly), function(template) {
+      return filter(this._getTemplateVerions(null, options), function(template) {
         return isAny(element, template.appliesTo);
       }) || [];
     }
@@ -148,7 +163,7 @@ export default class ElementTemplates {
       return templates[ id ] && getVersions(templates[ id ]);
     }
 
-    throw new Error('argument must be of type {String|djs.model.Base|Undefined}');
+    throw new Error('argument must be of type {string|djs.model.Base|undefined}');
   }
 
   _getTemplateId(element) {

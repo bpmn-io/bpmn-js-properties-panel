@@ -305,7 +305,7 @@ function getTemplateState(elementTemplates, element, getTemplateId) {
     return { type: 'UNKNOWN_TEMPLATE', templateId };
   }
 
-  const newerTemplate = elementTemplates.getLatest(templateId)[0];
+  const newerTemplate = elementTemplates.getLatest(templateId, { deprecated: true })[0];
 
   if (newerTemplate !== template) {
     return { type: 'OUTDATED_TEMPLATE', template, newerTemplate };
