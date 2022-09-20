@@ -5,14 +5,15 @@ import {
 } from 'min-dash';
 
 import {
+  EXTENSION_BINDING_TYPES,
   IO_BINDING_TYPES,
+  PROPERTY_TYPE,
   TASK_DEFINITION_TYPES,
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_PROPERTY_TYPE,
-  ZEEBE_TASK_HEADER_TYPE,
-  EXTENSION_BINDING_TYPES
+  ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
 
 import {
@@ -191,7 +192,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
   }
 
   // property
-  if (type === 'property') {
+  if (type === PROPERTY_TYPE) {
 
     const propertyDescriptor = businessObject.$descriptor.propertiesByName[ name ];
 
