@@ -1,0 +1,79 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Deprecated Task",
+    "id": "deprecated",
+    "deprecated": {
+      "message": "Removed without replacement",
+      "documentationRef": "https://localhost/gone"
+    },
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Deprecated Upgrade",
+    "id": "deprecated-upgrade",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "version": 0,
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Deprecated Upgrade",
+    "id": "deprecated-upgrade",
+    "deprecated": {
+      "message": "Removed without replacement",
+      "documentationRef": "https://localhost/gone"
+    },
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "version": 1,
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "foo",
+    "name":"Foo",
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "foo",
+    "name":"Foo 1",
+    "version": 1,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "foo",
+    "name":"Foo 2",
+    "version": 2,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "foo",
+    "name":"Foo 3",
+    "version": 3,
+    "appliesTo": [ "bpmn:Task" ],
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "default",
+    "name": "Default Template",
+    "version": 1,
+    "isDefault": true,
+    "appliesTo": [ "bpmn:ServiceTask" ],
+    "properties": []
+  }
+]

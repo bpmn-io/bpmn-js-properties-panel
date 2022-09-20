@@ -28,7 +28,7 @@ import elementTemplatesModule from 'src/provider/cloud-element-templates';
 import bpmnPropertiesProvider from 'src/provider/bpmn';
 
 import diagramXML from './ElementTemplatesPropertiesProvider.bpmn';
-import templates from './fixtures/simple.json';
+import templates from './ElementTemplatesPropertiesProvider.templates.json';
 import entriesVisibleDiagramXML from './fixtures/entries-visible.bpmn';
 import entriesVisibleTemplates from './fixtures/entries-visible.json';
 
@@ -69,6 +69,44 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
         // given
         const element = elementRegistry.get('Task_1');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const group = domQuery('[data-group-id="group-ElementTemplates__Template"]', container);
+
+        expect(group).to.exist;
+      })
+    );
+
+
+    it('should display template group for deprecated template', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Deprecated');
+
+        // when
+        await act(() => {
+          selection.select(element);
+        });
+
+        // then
+        const group = domQuery('[data-group-id="group-ElementTemplates__Template"]', container);
+
+        expect(group).to.exist;
+      })
+    );
+
+
+    it('should display template group for deprecated template (upgrade available)', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Deprecated_Upgrade');
 
         // when
         await act(() => {
