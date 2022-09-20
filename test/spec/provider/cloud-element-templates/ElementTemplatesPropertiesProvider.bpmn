@@ -6,6 +6,8 @@
     <bpmn:task id="Task_3" />
     <bpmn:task id="UnknownTemplateTask" zeebe:modelerTemplate="unknown" />
     <bpmn:serviceTask id="ServiceTask" zeebe:modelerTemplate="default" />
+    <bpmn:serviceTask id="Deprecated" name="Deprecated" zeebe:modelerTemplate="deprecated" />
+    <bpmn:serviceTask id="Deprecated_Upgrade" name="Deprecated_Upgrade" zeebe:modelerTemplate="deprecated-upgrade" zeebe:modelerTemplateVersion="0" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -23,6 +25,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_di" bpmnElement="ServiceTask">
         <dc:Bounds x="150" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Deprecated_di" bpmnElement="Deprecated">
+        <dc:Bounds x="150" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Deprecated_Upgrade_di" bpmnElement="Deprecated_Upgrade">
+        <dc:Bounds x="270" y="300" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
