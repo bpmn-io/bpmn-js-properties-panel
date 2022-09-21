@@ -13,7 +13,6 @@ import {
   getTimerDefinitionType
 } from '../../../utils/EventDefinitionUtil';
 
-
 import {
   SelectEntry,
   isSelectEntryEdited,
@@ -211,10 +210,11 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
 
   case 'timeCycle':
     return (<div>
-      <p>{ translate('A cycle defined as ISO 8601 repeating intervals format.') }</p>
+      <p>{ translate('A cycle defined as ISO 8601 repeating intervals format, or a cron expression.') }</p>
       <ul>
         <li><code>R5/PT10S</code> - { translate('every 10 seconds, up to 5 times') }</li>
         <li><code>R/P1D</code> - { translate('every day, infinitely') }</li>
+        <li><code>0 0 9-17 * * MON-FRI</code> - { translate('every hour on the hour from 9-5 p.m. UTC Monday-Friday') }</li>
       </ul>
       <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-cycle" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);

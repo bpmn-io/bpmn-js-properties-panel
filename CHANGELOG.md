@@ -6,6 +6,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: support cron expressions for timer cycle ([#772](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/772))
 * `DEPS`: update to `@bpmn-io/properties-panel@0.21.0`
 
 ## 1.6.1

@@ -30,3 +30,4 @@ export { ScriptTaskProps } from './ScriptTaskProps';
 export { TasklistProps } from './TasklistProps';
 export { UserAssignmentProps } from './UserAssignmentProps';
 export { VersionTagProps } from './VersionTagProps';
+export { TimerProps } from './TimerProps';

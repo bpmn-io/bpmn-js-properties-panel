@@ -35,6 +35,7 @@ import {
   ProcessVariablesProps,
   ScriptTaskProps,
   TasklistProps,
+  TimerProps,
   UserAssignmentProps,
   VersionTagProps
 } from './properties';
@@ -119,6 +120,7 @@ export default class CamundaPlatformPropertiesProvider {
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
       updateMultiInstanceGroup(groups, element);
+      updateTimerGroup(groups, element);
 
       // (3) move groups given specific priorities
       moveImplementationGroup(groups);
@@ -201,6 +203,18 @@ function updateEscalationGroup(groups, element) {
   const { entries } = escalationGroup;
 
   EscalationProps({ element, entries });
+}
+
+function updateTimerGroup(groups, element) {
+  const timerEventGroup = findGroup(groups, 'timer');
+
+  if (!timerEventGroup) {
+    return;
+  }
+
+  timerEventGroup.entries = [
+    ...TimerProps({ element })
+  ];
 }
 
 function ImplementationGroup(element) {
