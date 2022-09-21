@@ -147,6 +147,7 @@ export function getPropertyValue(element, property, scope) {
 }
 
 const NO_OP = null;
+
 export function setPropertyValue(bpmnFactory, commandStack, element, property, value) {
   let businessObject = getBusinessObject(element);
 
@@ -185,8 +186,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
           properties: { extensionElements }
         }
       });
-    }
-    else {
+    } else {
       commands.push(NO_OP);
     }
   }
