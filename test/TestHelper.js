@@ -115,6 +115,11 @@ export function insertCoreStyles() {
     'element-template-chooser.css',
     require('@bpmn-io/element-template-chooser/dist/element-template-chooser.css').default
   );
+
+  insertCSS(
+    'connectors-extension.css',
+    require('bpmn-js-connectors-extension/dist/connectors-extension.css').default
+  );
 }
 
 export function insertBpmnStyles() {
