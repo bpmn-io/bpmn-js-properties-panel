@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08ir3wg" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_15zrarz" isExecutable="true">
+    <bpmn:startEvent id="TimerStartEvent_1" name="TimerStartEvent_1">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0tn0yrs" />
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="TimerCatchEvent_1" name="TimerCatchEvent_1">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0tfnvkk">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">myDate</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="Activity_11a7ywx" />
+    <bpmn:boundaryEvent id="TimerBoundaryEvent_1" name="TimerBoundaryEvent_1" attachedToRef="Activity_11a7ywx">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0mmj9td">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">myCycle</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="TimerBoundaryEvent_2" name="TimerBoundaryEvent_2" cancelActivity="false" attachedToRef="Activity_11a7ywx">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0vxm19z">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">myDuration</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:startEvent id="StartEvent_1" name="StartEvent_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_15zrarz">
+      <bpmndi:BPMNShape id="Event_04h5420_di" bpmnElement="TimerStartEvent_1">
+        <dc:Bounds x="259" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="234" y="122" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_05cdbsd_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="172" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="122" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ieqjz4_di" bpmnElement="TimerCatchEvent_1">
+        <dc:Bounds x="382" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="358" y="122" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11a7ywx_di" bpmnElement="Activity_11a7ywx">
+        <dc:Bounds x="227" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1692eg1_di" bpmnElement="TimerBoundaryEvent_1">
+        <dc:Bounds x="239" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="213" y="295" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_013xz2t_di" bpmnElement="TimerBoundaryEvent_2">
+        <dc:Bounds x="309" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="283" y="275" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
