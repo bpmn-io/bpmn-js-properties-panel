@@ -29,6 +29,19 @@
       }
     },
     {
+      "id": "noDefaultProperty",
+      "label": "property",
+      "type": "Hidden",
+      "binding": {
+        "type": "property",
+        "name": "noDefaultProperty"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foo"
+      }
+    },
+    {
       "label": "name",
       "value": "someValue",
       "binding": {

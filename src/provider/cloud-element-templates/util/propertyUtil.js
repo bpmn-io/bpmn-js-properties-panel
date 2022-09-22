@@ -5,14 +5,15 @@ import {
 } from 'min-dash';
 
 import {
+  EXTENSION_BINDING_TYPES,
   IO_BINDING_TYPES,
+  PROPERTY_TYPE,
   TASK_DEFINITION_TYPES,
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_PROPERTY_TYPE,
-  ZEEBE_TASK_HEADER_TYPE,
-  EXTENSION_BINDING_TYPES
+  ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
 
 import {
@@ -145,6 +146,8 @@ export function getPropertyValue(element, property, scope) {
   throw unknownBindingError(element, property);
 }
 
+const NO_OP = null;
+
 export function setPropertyValue(bpmnFactory, commandStack, element, property, value) {
   let businessObject = getBusinessObject(element);
 
@@ -183,17 +186,21 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
           properties: { extensionElements }
         }
       });
+    } else {
+      commands.push(NO_OP);
     }
   }
 
   // property
-  if (type === 'property') {
+  if (type === PROPERTY_TYPE) {
 
     const propertyDescriptor = businessObject.$descriptor.propertiesByName[ name ];
 
     // if property not created yet
     if (!propertyDescriptor) {
-      propertyValue = value;
+
+      // make sure we create the property
+      propertyValue = value || '';
     }
 
     else {
@@ -230,6 +237,8 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
           properties: { [ name ]: propertyValue }
         }
       });
+    } else {
+      commands.push(NO_OP);
     }
 
   }
@@ -243,7 +252,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     if (type === ZEEBE_TASK_DEFINITION_TYPE_TYPE) {
       newTaskDefinition = createTaskDefinitionWithType(value, bpmnFactory);
     } else {
-      return unknownBindingError(element, property);
+      throw unknownBindingError(element, property);
     }
 
     const values = extensionElements.get('values').filter((value) => value !== oldTaskDefinition);
@@ -404,9 +413,11 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
   }
 
   if (commands.length) {
-    commandStack.execute(
+    const commandsToExecute = commands.filter((command) => command !== NO_OP);
+
+    commandsToExecute.length && commandStack.execute(
       'properties-panel.multi-command-executor',
-      commands
+      commandsToExecute
     );
 
     return;

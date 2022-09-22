@@ -1,6 +1,6 @@
 {
   "name": "bpmn-js-properties-panel",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "A simple properties panel for bpmn-js",
   "files": [
     "dist"
@@ -75,13 +75,14 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.1.1",
     "bpmn-js": "9.4.1",
+    "bpmn-js-connectors-extension": "^0.4.1",
     "bpmn-moddle": "^7.1.2",
     "camunda-bpmn-js-behaviors": "^0.2.0",
     "camunda-bpmn-moddle": "^7.0.1",
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^9.0.0",
     "cross-env": "^7.0.3",
-    "diagram-js": "^8.9.0",
+    "diagram-js": "^9.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-bpmn-io": "^0.13.0",
     "eslint-plugin-import": "^2.23.4",

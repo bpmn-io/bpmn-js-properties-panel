@@ -108,7 +108,7 @@ describe('provider/element-templates - ElementTemplates', function() {
     }));
 
 
-    it('should not get template (no template with ID)', inject(function(elementTemplates) {
+    it('should not get template (no template with ID + version)', inject(function(elementTemplates) {
 
       // when
       const template = elementTemplates.get('foo', -1);
@@ -168,7 +168,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'foo', 3 ],
         [ 'bar', 1 ],
         [ 'bar', 2 ],
-        [ 'baz' ]
+        [ 'baz' ],
+        [ 'deprecated' ]
       ]);
     }));
 
@@ -204,7 +205,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'foo', 3 ],
         [ 'bar', 1 ],
         [ 'bar', 2 ],
-        [ 'baz' ]
+        [ 'baz' ],
+        [ 'deprecated' ]
       ]);
     }));
 
@@ -213,8 +215,8 @@ describe('provider/element-templates - ElementTemplates', function() {
 
       // then
       expect(function() {
-        elementTemplates.getAll(null);
-      }).to.throw('argument must be of type {String|djs.model.Base|Undefined}');
+        elementTemplates.getAll(false);
+      }).to.throw('argument must be of type {string|djs.model.Base|undefined}');
 
     }));
 
@@ -238,6 +240,22 @@ describe('provider/element-templates - ElementTemplates', function() {
     }));
 
 
+    it('should get all latest templates (including deprecated)', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest(null, { deprecated: true });
+
+      // then
+      expectTemplates(templates, [
+        [ 'default', 1 ],
+        [ 'foo', 3 ],
+        [ 'bar', 2 ],
+        [ 'baz' ],
+        [ 'deprecated' ]
+      ]);
+    }));
+
+
     it('should get latest template version', inject(function(elementTemplates) {
 
       // when
@@ -247,6 +265,28 @@ describe('provider/element-templates - ElementTemplates', function() {
       expectTemplates(templates, [
         [ 'bar', 2 ]
       ]);
+    }));
+
+
+    it('should get latest template version (including deprecated)', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('deprecated', { deprecated: true });
+
+      // then
+      expectTemplates(templates, [
+        [ 'deprecated' ]
+      ]);
+    }));
+
+
+    it('should hide deprecated template', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('deprecated');
+
+      // then
+      expectTemplates(templates, []);
     }));
 
 
@@ -295,8 +335,8 @@ describe('provider/element-templates - ElementTemplates', function() {
 
       // then
       expect(function() {
-        elementTemplates.getLatest(null);
-      }).to.throw('argument must be of type {String|djs.model.Base|Undefined}');
+        elementTemplates.getLatest(false);
+      }).to.throw('argument must be of type {string|djs.model.Base|undefined}');
 
     }));
 

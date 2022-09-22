@@ -119,7 +119,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
     }));
 
 
-    it('should not get template (no template with ID)', inject(function(elementTemplates) {
+    it('should not get template (no template with version)', inject(function(elementTemplates) {
 
       // when
       const template = elementTemplates.get('foo', -1);
@@ -143,6 +143,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
   });
 
+
   describe('getAll', function() {
 
     it('should get all templates', inject(function(elementTemplates) {
@@ -153,6 +154,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       // then
       expectTemplates(templates, [
         [ 'my.mail.Task' ],
+        [ 'deprecated' ],
         [ 'default', 1 ],
         [ 'foo' ],
         [ 'foo', 1 ],
@@ -200,12 +202,13 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       ]);
     }));
 
+
     it('should throw for invalid argument', inject(function(elementTemplates) {
 
       // then
       expect(function() {
-        elementTemplates.getAll(null);
-      }).to.throw('argument must be of type {String|djs.model.Base|Undefined}');
+        elementTemplates.getAll(false);
+      }).to.throw('argument must be of type {string|djs.model.Base|undefined}');
 
     }));
 
@@ -230,6 +233,23 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
     }));
 
 
+    it('should get all latest templates (including deprecated)', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest(null, { deprecated: true });
+
+      // then
+      expectTemplates(templates, [
+        [ 'my.mail.Task' ],
+        [ 'deprecated' ],
+        [ 'default', 1 ],
+        [ 'foo', 3 ],
+        [ 'bar', 2 ],
+        [ 'baz' ]
+      ]);
+    }));
+
+
     it('should get latest template version', inject(function(elementTemplates) {
 
       // when
@@ -239,6 +259,28 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       expectTemplates(templates, [
         [ 'bar', 2 ]
       ]);
+    }));
+
+
+    it('should get latest template version (including deprecated)', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('deprecated', { deprecated: true });
+
+      // then
+      expectTemplates(templates, [
+        [ 'deprecated' ]
+      ]);
+    }));
+
+
+    it('should hide deprecated template version', inject(function(elementTemplates) {
+
+      // when
+      const templates = elementTemplates.getLatest('deprecated');
+
+      // then
+      expectTemplates(templates, []);
     }));
 
 
@@ -287,8 +329,8 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
       // then
       expect(function() {
-        elementTemplates.getLatest(null);
-      }).to.throw('argument must be of type {String|djs.model.Base|Undefined}');
+        elementTemplates.getLatest(false);
+      }).to.throw('argument must be of type {string|djs.model.Base|undefined}');
 
     }));
 
@@ -693,6 +735,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
   });
 
 });
+
 
 // helpers //////////////////////
 
