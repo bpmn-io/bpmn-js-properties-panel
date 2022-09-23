@@ -39,6 +39,11 @@ export function AssignmentDefinitionProps(props) {
       id: 'assignmentDefinitionCandidateGroups',
       component: CandidateGroups,
       isEdited: isFeelEntryEdited
+    },
+    {
+      id: 'assignmentDefinitionCandidateUsers',
+      component: CandidateUsers,
+      isEdited: isFeelEntryEdited
     }
   ];
 }
@@ -211,6 +216,93 @@ function CandidateGroups(props) {
     element,
     id: 'assignmentDefinitionCandidateGroups',
     label: translate('Candidate groups'),
+    feel: 'optional',
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+function CandidateUsers(props) {
+  const {
+    element
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const bpmnFactory = useService('bpmnFactory');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const getValue = () => {
+    return (getAssignmentDefinition(element) || {}).candidateUsers;
+  };
+
+  const setValue = (value) => {
+    let commands = [];
+
+    const businessObject = getBusinessObject(element);
+
+    let extensionElements = businessObject.get('extensionElements');
+
+    // (1) ensure extension elements
+    if (!extensionElements) {
+      extensionElements = createElement(
+        'bpmn:ExtensionElements',
+        { values: [] },
+        businessObject,
+        bpmnFactory
+      );
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: businessObject,
+          properties: { extensionElements }
+        }
+      });
+    }
+
+    // (2) ensure assignmentDefinition
+    let assignmentDefinition = getAssignmentDefinition(element);
+
+    if (!assignmentDefinition) {
+      assignmentDefinition = createElement(
+        'zeebe:AssignmentDefinition',
+        { },
+        extensionElements,
+        bpmnFactory
+      );
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: extensionElements,
+          properties: {
+            values: [ ...extensionElements.get('values'), assignmentDefinition ]
+          }
+        }
+      });
+    }
+
+    // (3) update candidateUsers
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: assignmentDefinition,
+        properties: { candidateUsers: value }
+      }
+    });
+
+    commandStack.execute('properties-panel.multi-command-executor', commands);
+  };
+
+  return withVariableContext(FeelEntry)({
+    element,
+    id: 'assignmentDefinitionCandidateUsers',
+    label: translate('Candidate users'),
     feel: 'optional',
     getValue,
     setValue,
