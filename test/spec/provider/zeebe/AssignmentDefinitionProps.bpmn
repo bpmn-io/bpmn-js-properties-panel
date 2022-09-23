@@ -3,7 +3,7 @@
   <bpmn:process id="Process_1uy5s1w" isExecutable="true">
     <bpmn:userTask id="UserTask_1" name="UserTask_1">
       <bpmn:extensionElements>
-        <zeebe:assignmentDefinition assignee="= foo" candidateGroups="foo, bar, baz" />
+        <zeebe:assignmentDefinition assignee="= foo" candidateGroups="foo, bar, baz" candidateUsers="jack" />
       </bpmn:extensionElements>
     </bpmn:userTask>
     <bpmn:userTask id="UserTask_2" name="UserTask_2" />
@@ -25,14 +25,16 @@
         <zeebe:assignmentDefinition candidateGroups="bar" />
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:userTask id="UserTask_6" name="UserTask_6">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition candidateUsers="jack" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1uy5s1w">
       <bpmndi:BPMNShape id="Activity_142bos5_di" bpmnElement="UserTask_1">
         <dc:Bounds x="160" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0zf8xfc_di" bpmnElement="ServiceTask_1">
-        <dc:Bounds x="160" y="170" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1vtpecx_di" bpmnElement="UserTask_2">
         <dc:Bounds x="270" y="80" width="100" height="80" />
@@ -40,11 +42,18 @@
       <bpmndi:BPMNShape id="Activity_1r2gg29_di" bpmnElement="UserTask_3">
         <dc:Bounds x="380" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0zf8xfc_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="160" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_17xvqkv_di" bpmnElement="UserTask_4">
         <dc:Bounds x="490" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0maf5x1_di" bpmnElement="UserTask_5">
         <dc:Bounds x="600" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1wnl1uz" bpmnElement="UserTask_6">
+        <dc:Bounds x="710" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

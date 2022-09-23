@@ -337,6 +337,139 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
   });
 
 
+  describe('bpmn:UserTask#assignmentDefinition.candidateUsers', function() {
+
+    it('should NOT display for service task', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+
+      // then
+      expect(candidateUsersInput).to.not.exist;
+    }));
+
+
+    it('should display for user task', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_1');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // when
+      const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+
+      // then
+      const assignmentDefinition = getAssignmentDefinition(userTask);
+      expect(candidateUsersInput).to.exist;
+      expect(candidateUsersInput.value).to.equal(assignmentDefinition.get('candidateUsers'));
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_1');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // when
+      const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+      changeInput(candidateUsersInput, 'newValue');
+
+      // then
+      expect(getAssignmentDefinition(userTask).get('candidateUsers')).to.eql('newValue');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_1');
+        const originalValue = getAssignmentDefinition(userTask).get('candidateUsers');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+        const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+        changeInput(candidateUsersInput, 'newValue');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(candidateUsersInput.value).to.eql(originalValue);
+      })
+    );
+
+
+    it('should create non existing extension elements and assignment definition',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_2');
+
+        // assume
+        expect(getBusinessObject(userTask).get('extensionElements')).to.not.exist;
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+        changeInput(candidateUsersInput, 'newValue');
+
+        // then
+        expect(getBusinessObject(userTask).get('extensionElements')).to.exist;
+      })
+    );
+
+
+    it('should re-use existing extension elements, creating new assignment definition',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_3');
+
+        // assume
+        expect(getBusinessObject(userTask).get('extensionElements')).to.exist;
+        expect(getAssignmentDefinition(userTask)).not.to.exist;
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+        changeInput(candidateUsersInput, 'newValue');
+
+        // then
+        const extensionElements = getBusinessObject(userTask).get('extensionElements');
+        console.log(extensionElements.values);
+        console.log(getAssignmentDefinition(userTask));
+        expect(getAssignmentDefinition(userTask).get('candidateUsers')).to.eql('newValue');
+        expect(extensionElements.values).to.have.length(2);
+      })
+    );
+
+  });
+
+
   describe('integration', function() {
 
     describe('removing assignment definition when empty', function() {
@@ -373,6 +506,25 @@ describe('provider/zeebe - AssignmentDefinitionProps', function() {
         const candidateGroupsInput = domQuery('input[name=assignmentDefinitionCandidateGroups]', container);
 
         changeInput(candidateGroupsInput, '');
+
+        // then
+        expect(getAssignmentDefinition(userTask)).not.to.exist;
+      }));
+
+
+      it('removing candidate users', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('UserTask_6');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        const candidateUsersInput = domQuery('input[name=assignmentDefinitionCandidateUsers]', container);
+
+        changeInput(candidateUsersInput, '');
 
         // then
         expect(getAssignmentDefinition(userTask)).not.to.exist;
