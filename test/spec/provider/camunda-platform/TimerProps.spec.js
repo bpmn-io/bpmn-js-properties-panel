@@ -274,6 +274,31 @@ describe('provider/camunda-platform - TimerProps', function() {
           expect(eventBusSpy).to.not.have.been.called;
         }));
 
+
+        it('should unset correctly', inject(async function(elementRegistry, selection, eventBus) {
+
+          // given
+          const element = elementRegistry.get('TimerCatchEvent_1');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          const eventBusSpy = sinon.spy();
+
+          eventBus.on('propertiesPanel.updated', eventBusSpy);
+
+          // when
+          const select = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
+
+          changeInput(select, 'timeCycle');
+          changeInput(select, '');
+
+          // then
+          const timerEventDefiniton = getTimerEventDefinition(element);
+
+          expect(Object.keys(timerEventDefiniton.$attrs)).to.be.empty;
+        }));
       });
 
 

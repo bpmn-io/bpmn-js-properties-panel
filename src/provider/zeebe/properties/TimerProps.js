@@ -117,7 +117,10 @@ function TimerEventDefinitionType(props) {
       timeDate: undefined,
       timeCycle: undefined
     };
-    newProps[value] = formalExpression;
+
+    if (value !== '') {
+      newProps[value] = formalExpression;
+    }
 
     // (4) Execute businessObject update
     commandStack.execute('element.updateModdleProperties', {
