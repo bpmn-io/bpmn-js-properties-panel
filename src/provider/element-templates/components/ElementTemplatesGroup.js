@@ -155,11 +155,13 @@ function TemplateGroupButtons({ element, getTemplateId, unlinkTemplate, updateTe
   } else if (templateState.type === 'UNKNOWN_TEMPLATE') {
     return <UnknownTemplate element={ element } unlinkTemplate={ unlinkTemplate } />;
   } else if (templateState.type === 'OUTDATED_TEMPLATE') {
-    return <OutdatedTemplate
-      element={ element }
-      templateState={ templateState }
-      unlinkTemplate={ unlinkTemplate }
-      updateTemplate={ updateTemplate } />;
+    return (
+      <OutdatedTemplate
+        element={ element }
+        templateState={ templateState }
+        unlinkTemplate={ unlinkTemplate }
+        updateTemplate={ updateTemplate } />
+    );
   }
 }
 

@@ -473,15 +473,17 @@ function ConstraintList(props) {
     });
   }
 
-  return <ListEntry
-    element={ element }
-    autoFocusEntry={ `[data-entry-id="${id}-constraint-${constraints.length - 1}"] input` }
-    id={ id }
-    label={ translate('Constraints') }
-    items={ constraints }
-    component={ Constraint }
-    onAdd={ addConstraint }
-    onRemove={ removeConstraint } />;
+  return (
+    <ListEntry
+      element={ element }
+      autoFocusEntry={ `[data-entry-id="${id}-constraint-${constraints.length - 1}"] input` }
+      id={ id }
+      label={ translate('Constraints') }
+      items={ constraints }
+      component={ Constraint }
+      onAdd={ addConstraint }
+      onRemove={ removeConstraint } />
+  );
 }
 
 function Property(props) {
