@@ -80,7 +80,7 @@
     "camunda-bpmn-js-behaviors": "^0.2.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "chai": "^4.3.6",
-    "copy-webpack-plugin": "^9.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "diagram-js": "^9.0.0",
     "eslint": "^8.24.0",
