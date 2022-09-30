@@ -790,6 +790,63 @@ describe('provider/cloud-element-templates - ElementTemplates - integration', fu
       }
     ));
 
+
+    /**
+     * Dropdowns should always keep the last existing value if it is a valid
+     * option in the dropdown.
+     */
+    it('Template A => Template B (with dropdowns)', inject(
+      function(elementRegistry, elementTemplates) {
+        let task = elementRegistry.get('templateTask');
+        const template = elementTemplates.get('TemplateBDropdown');
+
+        // assume
+        expectInputs(task, [
+          {
+            target: 'normalValue',
+            source: 'A1'
+          },
+          {
+            target: 'defaultValue',
+            source: 'A1'
+          },
+          {
+            target: 'changedDefaultValue',
+            source: 'A1-changed'
+          },
+          {
+            target: 'hiddenValue',
+            source: 'A1'
+          }
+        ]);
+
+
+        // when
+        task = elementTemplates.applyTemplate(task, template);
+
+        // then
+        expectInputs(task, [
+          {
+            target: 'normalValue',
+            source: 'A1'
+          },
+          {
+            target: 'defaultValue',
+            source: 'A1'
+          },
+          {
+            target: 'changedDefaultValue',
+            source: 'B' // existing value is not a valid option, take the default
+          },
+          {
+            target: 'hiddenValue',
+            source: 'A1'
+          }
+        ]);
+
+      }
+    ));
+
   });
 
 });
