@@ -398,6 +398,60 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
 
       });
 
+
+      describe('dropdown', function() {
+
+        beforeEach(bootstrap(require('./task-input-output.bpmn').default));
+
+        const newTemplate = require('./task-template-1-dropdown.json');
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_existing_mapping');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping).to.exist;
+          expect(ioMapping.get('zeebe:inputParameters')).to.have.length(2);
+          expect(ioMapping.get('zeebe:outputParameters')).to.have.length(2);
+
+          expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Input',
+              target: 'input-1-target',
+              source: 'input-1-source-old',
+            },
+            {
+              $type: 'zeebe:Input',
+              source: 'input-2-source',
+              target: 'input-2-target'
+            }
+          ]);
+
+          expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Output',
+              target: 'output-1-target-old',
+              source: 'output-1-source'
+            },
+            {
+              $type: 'zeebe:Output',
+              source: 'output-2-source',
+              target: 'output-2-target'
+            }
+          ]);
+        }));
+
+      });
+
     });
 
 
@@ -670,6 +724,60 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       });
 
 
+      describe('dropdown', function() {
+
+        beforeEach(bootstrap(require('./task-input-output.bpmn').default));
+
+        const newTemplate = require('./task-template-1-dropdown.json');
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_existing_mapping');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+          expect(ioMapping).to.exist;
+          expect(ioMapping.get('zeebe:inputParameters')).to.have.length(2);
+          expect(ioMapping.get('zeebe:outputParameters')).to.have.length(2);
+
+          expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Input',
+              target: 'input-1-target',
+              source: 'input-1-source-old',
+            },
+            {
+              $type: 'zeebe:Input',
+              source: 'input-2-source',
+              target: 'input-2-target'
+            }
+          ]);
+
+          expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+            {
+              $type: 'zeebe:Output',
+              target: 'output-1-target-old',
+              source: 'output-1-source'
+            },
+            {
+              $type: 'zeebe:Output',
+              source: 'output-2-source',
+              target: 'output-2-target'
+            }
+          ]);
+        }));
+
+      });
+
+
       describe('zeebe:Input and zeebe:Output not specified', function() {
 
         beforeEach(bootstrap(require('./task-input-output.bpmn').default));
@@ -852,6 +960,46 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
               $type: 'zeebe:Header',
               key: 'header-1-key',
               value: 'header-1-value'
+            },
+            {
+              $type: 'zeebe:Header',
+              key: 'header-2-key',
+              value: 'header-2-value'
+            }
+          ]);
+        }));
+
+      });
+
+
+      describe('dropdown', function() {
+
+        beforeEach(bootstrap(require('./task-headers.bpmn').default));
+
+        const newTemplate = require('./task-template-1-dropdown.json');
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('Task_with_values');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
+
+          expect(taskHeaders).to.exist;
+          expect(taskHeaders.get('zeebe:values')).to.have.length(2);
+
+          expect(taskHeaders.get('zeebe:values')).to.jsonEqual([
+            {
+              $type: 'zeebe:Header',
+              key: 'header-1-key',
+              value: 'header-1-value-old'
             },
             {
               $type: 'zeebe:Header',
@@ -1196,6 +1344,48 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         }));
 
       });
+
+
+      describe('dropdown', function() {
+
+        beforeEach(bootstrap(require('./zeebe-properties.bpmn').default));
+
+        const newTemplate = require('./task-template-1-dropdown.json');
+
+
+        it('should not override existing', inject(function(elementRegistry) {
+
+          // given
+          const task = elementRegistry.get('ServiceTask_Properties');
+
+          // when
+          changeTemplate(task, newTemplate);
+
+          // then
+          expectElementTemplate(task, 'task-template', 1);
+
+          const zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+          expect(zeebeProperties).to.exist;
+          expect(zeebeProperties.get('properties')).to.have.length(2);
+
+          expect(zeebeProperties.get('properties')).to.jsonEqual([
+            {
+              $type: 'zeebe:Property',
+              name: 'property-1-name',
+              value: 'property-1-value-old'
+            },
+            {
+              $type: 'zeebe:Property',
+              name: 'property-2-name',
+              value: 'property-2-value'
+            }
+          ]);
+
+        }));
+
+      });
+
 
 
       describe('zeebe:Property not specified', function() {

@@ -1,0 +1,123 @@
+{
+  "name": "Task Template v1",
+  "version": 1,
+  "id": "task-template",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "type": "Hidden",
+      "value": "task-name",
+      "binding": {
+        "type": "property",
+        "name": "name"
+      }
+    },
+    {
+      "type": "Hidden",
+      "value": "task-type",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      }
+    },
+    {
+      "type": "Dropdown",
+      "value": "header-1-value",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-1-key"
+      },
+      "choices": [
+        { "name": "old", "value": "header-1-value-old" },
+        { "name": "new", "value": "header-1-value" }
+      ]
+    },
+    {
+      "type": "Dropdown",
+      "value": "header-2-value",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-2-key"
+      },
+      "choices": [
+        { "name": "old", "value": "header-2-value-old" },
+        { "name": "new", "value": "header-2-value" }
+      ]
+    },
+    {
+      "value": "input-1-source",
+      "type": "Dropdown",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-1-target"
+      },
+      "choices": [
+        { "name": "old", "value": "input-1-source-old" },
+        { "name": "new", "value": "input-1-source" }
+      ]
+    },
+    {
+      "value": "input-2-source",
+      "type": "Dropdown",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-2-target"
+      },
+      "choices": [
+        { "name": "old", "value": "input-2-source-old" },
+        { "name": "new", "value": "input-2-source" }
+      ]
+    },
+    {
+      "value": "output-1-target",
+      "type": "Dropdown",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-1-source"
+      },
+      "choices": [
+        { "name": "old", "value": "output-1-target-old" },
+        { "name": "new", "value": "output-1-target" }
+      ]
+    },
+    {
+      "value": "output-2-target",
+      "type": "Dropdown",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-2-source"
+      },
+      "choices": [
+        { "name": "old", "value": "output-2-source-old" },
+        { "name": "new", "value": "output-2-source" }
+      ]
+    },
+    {
+      "label": "property-1",
+      "type": "Dropdown",
+      "value": "property-1-value",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "property-1-name"
+      },
+      "choices": [
+        { "name": "old", "value": "property-1-value-old" },
+        { "name": "new", "value": "property-1-value" }
+      ]
+    },
+    {
+      "label": "property-2",
+      "type": "Dropdown",
+      "value": "property-2-value",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "property-2-name"
+      },
+      "choices": [
+        { "name": "old", "value": "property-2-value-old" },
+        { "name": "new", "value": "property-2-value" }
+      ]
+    }
+  ]
+}

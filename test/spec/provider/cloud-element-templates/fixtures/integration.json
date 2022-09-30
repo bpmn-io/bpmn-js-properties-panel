@@ -160,6 +160,89 @@
   },
   {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Template B (Dropdown)",
+    "id": "TemplateBDropdown",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "properties": [
+      {
+        "label": "Normal Value",
+        "value": "B",
+        "type": "String",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "normalValue"
+        }
+      },
+      {
+        "label": "Default Value",
+        "value": "B",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "label": "A1",
+            "value": "A1"
+          },
+          {
+            "label": "B",
+            "value": "B"
+          }
+        ],
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "defaultValue"
+        }
+      },
+      {
+        "label": "Changed Default Value",
+        "value": "B",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "label": "A1",
+            "value": "A1"
+          },
+          {
+            "label": "B",
+            "value": "B"
+          }
+        ],
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "changedDefaultValue"
+        }
+      },
+      {
+        "label": "Hidden Value (now dropdown)",
+        "value": "B",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "label": "A1",
+            "value": "A1"
+          },
+          {
+            "label": "B",
+            "value": "B"
+          }
+        ],
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "hiddenValue"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "REST Connector",
     "id": "io.camunda.connectors.HttpJson.v2",
     "icon": {

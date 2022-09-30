@@ -804,8 +804,22 @@ export function findOldProperty(oldTemplate, newProperty) {
  * @returns {boolean}
  */
 function shouldKeepValue(element, oldProperty, newProperty) {
+
+  // "Hidden" values are treated as a constant
   if (newProperty.type === 'Hidden') {
     return false;
+  }
+
+  // Dropdowns should keep existing configuration
+  // cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/767
+  if (newProperty.type === 'Dropdown') {
+
+    const currentValue = getPropertyValue(element, newProperty);
+
+    // only keep value if old value is a valid option
+    return newProperty.choices && newProperty.choices.some(
+      (choice) => choice.value === currentValue
+    );
   }
 
   if (oldProperty) {
