@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `DEPS`: update to `@bpmn-io/element-templates-validator@0.11.0`
+* `DEPS`: update to `@bpmn-io/extract-process-variables@0.6.0`
+* `CHORE`: relax peer dependency ranges
+
 ## 1.8.2
 
 * `FIX`: correct replace removing valid dropdown property ([#767](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/767))
