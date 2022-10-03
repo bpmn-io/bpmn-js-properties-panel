@@ -39,6 +39,7 @@ export default function BpmnPropertiesPanel(props) {
   const canvas = injector.get('canvas');
   const elementRegistry = injector.get('elementRegistry');
   const eventBus = injector.get('eventBus');
+  const translate = injector.get('translate');
 
   const [ state, setState ] = useState({
     selectedElement: element
@@ -204,7 +205,7 @@ export default function BpmnPropertiesPanel(props) {
     <PropertiesPanel
       element={ selectedElement }
       headerProvider={ PanelHeaderProvider }
-      placeholderProvider={ PanelPlaceholderProvider }
+      placeholderProvider={ PanelPlaceholderProvider(translate) }
       groups={ groups }
       layoutConfig={ layoutConfig }
       layoutChanged={ onLayoutChanged }

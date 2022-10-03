@@ -16,7 +16,8 @@ import {
   TimerProps
 } from './properties';
 
-function GeneralGroup(element) {
+function GeneralGroup(element, injector) {
+  const translate = injector.get('translate');
 
   const entries = [
     ...NameProps({ element }),
@@ -27,16 +28,17 @@ function GeneralGroup(element) {
 
   return {
     id: 'general',
-    label: 'General',
+    label: translate('General'),
     entries,
     component: Group
   };
 
 }
 
-function CompensationGroup(element) {
+function CompensationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Compensation',
+    label: translate('Compensation'),
     id: 'compensation',
     component: Group,
     entries: [
@@ -51,7 +53,8 @@ function CompensationGroup(element) {
   return null;
 }
 
-function DocumentationGroup(element) {
+function DocumentationGroup(element, injector) {
+  const translate = injector.get('translate');
 
   const entries = [
     ...DocumentationProps({ element })
@@ -59,17 +62,18 @@ function DocumentationGroup(element) {
 
   return {
     id: 'documentation',
-    label: 'Documentation',
+    label: translate('Documentation'),
     entries,
     component: Group
   };
 
 }
 
-function ErrorGroup(element) {
+function ErrorGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'error',
-    label: 'Error',
+    label: translate('Error'),
     component: Group,
     entries: [
       ...ErrorProps({ element })
@@ -83,10 +87,11 @@ function ErrorGroup(element) {
   return null;
 }
 
-function MessageGroup(element) {
+function MessageGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'message',
-    label: 'Message',
+    label: translate('Message'),
     component: Group,
     entries: [
       ...MessageProps({ element })
@@ -100,10 +105,11 @@ function MessageGroup(element) {
   return null;
 }
 
-function SignalGroup(element) {
+function SignalGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'signal',
-    label: 'Signal',
+    label: translate('Signal'),
     component: Group,
     entries: [
       ...SignalProps({ element })
@@ -117,9 +123,10 @@ function SignalGroup(element) {
   return null;
 }
 
-function LinkGroup(element) {
+function LinkGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Link',
+    label: translate('Link'),
     id: 'link',
     component: Group,
     entries: [
@@ -134,10 +141,11 @@ function LinkGroup(element) {
   return null;
 }
 
-function EscalationGroup(element) {
+function EscalationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'escalation',
-    label: 'Escalation',
+    label: translate('Escalation'),
     component: Group,
     entries: [
       ...EscalationProps({ element })
@@ -151,9 +159,10 @@ function EscalationGroup(element) {
   return null;
 }
 
-function TimerGroup(element) {
+function TimerGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Timer',
+    label: translate('Timer'),
     id: 'timer',
     component: Group,
     entries: [
@@ -168,9 +177,10 @@ function TimerGroup(element) {
   return null;
 }
 
-function MultiInstanceGroup(element) {
+function MultiInstanceGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Multi-instance',
+    label: translate('Multi-instance'),
     id: 'multiInstance',
     component: Group,
     entries: [
@@ -185,19 +195,19 @@ function MultiInstanceGroup(element) {
   return null;
 }
 
-function getGroups(element) {
+function getGroups(element, injector) {
 
   const groups = [
-    GeneralGroup(element),
-    DocumentationGroup(element),
-    CompensationGroup(element),
-    ErrorGroup(element),
-    LinkGroup(element),
-    MessageGroup(element),
-    MultiInstanceGroup(element),
-    SignalGroup(element),
-    EscalationGroup(element),
-    TimerGroup(element)
+    GeneralGroup(element, injector),
+    DocumentationGroup(element, injector),
+    CompensationGroup(element, injector),
+    ErrorGroup(element, injector),
+    LinkGroup(element, injector),
+    MessageGroup(element, injector),
+    MultiInstanceGroup(element, injector),
+    SignalGroup(element, injector),
+    EscalationGroup(element, injector),
+    TimerGroup(element, injector)
   ];
 
   // contract: if a group returns null, it should not be displayed at all
@@ -206,17 +216,18 @@ function getGroups(element) {
 
 export default class BpmnPropertiesProvider {
 
-  constructor(propertiesPanel) {
+  constructor(propertiesPanel, injector) {
     propertiesPanel.registerProvider(this);
+    this._injector = injector;
   }
 
   getGroups(element) {
     return (groups) => {
-      groups = groups.concat(getGroups(element));
+      groups = groups.concat(getGroups(element, this._injector));
       return groups;
     };
   }
 
 }
 
-BpmnPropertiesProvider.$inject = [ 'propertiesPanel' ];
+BpmnPropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];

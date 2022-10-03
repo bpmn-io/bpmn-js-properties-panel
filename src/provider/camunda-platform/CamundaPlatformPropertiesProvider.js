@@ -217,10 +217,11 @@ function updateTimerGroup(groups, element) {
   ];
 }
 
-function ImplementationGroup(element) {
+function ImplementationGroup(element, injector) {
+  const translate = injector.get('translate');
 
   const group = {
-    label: 'Implementation',
+    label: translate('Implementation'),
     id: 'CamundaPlatform__Implementation',
     component: Group,
     entries: [
@@ -236,8 +237,9 @@ function ImplementationGroup(element) {
 }
 
 function ErrorsGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Errors',
+    label: translate('Errors'),
     id: 'CamundaPlatform__Errors',
     component: ListGroup,
     ...ErrorsProps({ element, injector })
@@ -250,10 +252,11 @@ function ErrorsGroup(element, injector) {
   return null;
 }
 
-function UserAssignmentGroup(element) {
+function UserAssignmentGroup(element, injector) {
+  const translate = injector.get('translate');
 
   const group = {
-    label: 'User assignment',
+    label: translate('User assignment'),
     id: 'CamundaPlatform__UserAssignment',
     component: Group,
     entries: [
@@ -268,10 +271,11 @@ function UserAssignmentGroup(element) {
   return null;
 }
 
-function ScriptGroup(element) {
+function ScriptGroup(element, injector) {
+  const translate = injector.get('translate');
 
   const group = {
-    label: 'Script',
+    label: translate('Script'),
     id: 'CamundaPlatform__Script',
     component: Group,
     entries: [
@@ -286,10 +290,11 @@ function ScriptGroup(element) {
   return null;
 }
 
-function CallActivityGroup(element) {
+function CallActivityGroup(element, injector) {
+  const translate = injector.get('translate');
 
   const group = {
-    label: 'Called element',
+    label: translate('Called element'),
     id: 'CamundaPlatform__CallActivity',
     component: Group,
     entries: [ ...CallActivityProps({ element }) ]
@@ -302,9 +307,10 @@ function CallActivityGroup(element) {
   return null;
 }
 
-function ConditionGroup(element) {
+function ConditionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Condition',
+    label: translate('Condition'),
     id: 'CamundaPlatform__Condition',
     component: Group,
     entries: [
@@ -319,9 +325,10 @@ function ConditionGroup(element) {
   return null;
 }
 
-function StartInitiatorGroup(element) {
+function StartInitiatorGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Start initiator',
+    label: translate('Start initiator'),
     id: 'CamundaPlatform__StartInitiator',
     component: Group,
     entries: [
@@ -336,9 +343,10 @@ function StartInitiatorGroup(element) {
   return null;
 }
 
-function ExternalTaskGroup(element) {
+function ExternalTaskGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'External task',
+    label: translate('External task'),
     id: 'CamundaPlatform__ExternalTask',
     component: Group,
     entries: [
@@ -353,9 +361,10 @@ function ExternalTaskGroup(element) {
   return null;
 }
 
-function AsynchronousContinuationsGroup(element) {
+function AsynchronousContinuationsGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Asynchronous continuations',
+    label: translate('Asynchronous continuations'),
     id: 'CamundaPlatform__AsynchronousContinuations',
     component: Group,
     entries: [
@@ -370,9 +379,10 @@ function AsynchronousContinuationsGroup(element) {
   return null;
 }
 
-function JobExecutionGroup(element) {
+function JobExecutionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Job execution',
+    label: translate('Job execution'),
     id: 'CamundaPlatform__JobExecution',
     component: Group,
     entries: [
@@ -387,9 +397,10 @@ function JobExecutionGroup(element) {
   return null;
 }
 
-function CandidateStarterGroup(element) {
+function CandidateStarterGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Candidate starter',
+    label: translate('Candidate starter'),
     id: 'CamundaPlatform__CandidateStarter',
     component: Group,
     entries: [
@@ -405,8 +416,9 @@ function CandidateStarterGroup(element) {
 }
 
 function FieldInjectionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Field injections',
+    label: translate('Field injections'),
     id: 'CamundaPlatform__FieldInjection',
     component: ListGroup,
     ...FieldInjectionProps({ element, injector })
@@ -419,9 +431,10 @@ function FieldInjectionGroup(element, injector) {
   return null;
 }
 
-function HistoryCleanupGroup(element) {
+function HistoryCleanupGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'History cleanup',
+    label: translate('History cleanup'),
     id: 'CamundaPlatform__HistoryCleanup',
     component: Group,
     entries: [
@@ -436,9 +449,10 @@ function HistoryCleanupGroup(element) {
   return null;
 }
 
-function TasklistGroup(element) {
+function TasklistGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Tasklist',
+    label: translate('Tasklist'),
     id: 'CamundaPlatform__Tasklist',
     component: Group,
     entries: [
@@ -454,8 +468,9 @@ function TasklistGroup(element) {
 }
 
 function InMappingGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'In mappings',
+    label: translate('In mappings'),
     id: 'CamundaPlatform__InMapping',
     component: ListGroup,
     ...InMappingProps({ element, injector })
@@ -468,9 +483,10 @@ function InMappingGroup(element, injector) {
   return null;
 }
 
-function InMappingPropagationGroup(element) {
+function InMappingPropagationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'In mapping propagation',
+    label: translate('In mapping propagation'),
     id: 'CamundaPlatform__InMappingPropagation',
     component: Group,
     entries: [
@@ -486,8 +502,9 @@ function InMappingPropagationGroup(element) {
 }
 
 function OutMappingGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Out mappings',
+    label: translate('Out mappings'),
     id: 'CamundaPlatform__OutMapping',
     component: ListGroup,
     ...OutMappingProps({ element, injector })
@@ -500,9 +517,10 @@ function OutMappingGroup(element, injector) {
   return null;
 }
 
-function OutMappingPropagationGroup(element) {
+function OutMappingPropagationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Out mapping propagation',
+    label: translate('Out mapping propagation'),
     id: 'CamundaPlatform__OutMappingPropagation',
     component: Group,
     entries: [
@@ -518,8 +536,9 @@ function OutMappingPropagationGroup(element) {
 }
 
 function ProcessVariablesGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Process variables',
+    label: translate('Process variables'),
     id: 'CamundaPlatform__ProcessVariables',
     component: ListGroup,
     ...ProcessVariablesProps({ element, injector })
@@ -533,8 +552,9 @@ function ProcessVariablesGroup(element, injector) {
 }
 
 function FormDataGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Form fields',
+    label: translate('Form fields'),
     id: 'CamundaPlatform__FormData',
     component: ListGroup,
     ...FormDataProps({ element, injector })
@@ -547,9 +567,10 @@ function FormDataGroup(element, injector) {
   return null;
 }
 
-function BusinessKeyGroup(element) {
+function BusinessKeyGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Business key',
+    label: translate('Business key'),
     id: 'CamundaPlatform__BusinessKey',
     component: Group,
     entries: [
@@ -564,9 +585,10 @@ function BusinessKeyGroup(element) {
   return null;
 }
 
-function FormGroup(element) {
+function FormGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Forms',
+    label: translate('Forms'),
     id: 'CamundaPlatform__Form',
     component: Group,
     entries: [
@@ -582,8 +604,9 @@ function FormGroup(element) {
 }
 
 function ExecutionListenerGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Execution listeners',
+    label: translate('Execution listeners'),
     id: 'CamundaPlatform__ExecutionListener',
     component: ListGroup,
     ...ExecutionListenerProps({ element, injector })
@@ -597,8 +620,9 @@ function ExecutionListenerGroup(element, injector) {
 }
 
 function TaskListenerGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Task listeners',
+    label: translate('Task listeners'),
     id: 'CamundaPlatform__TaskListener',
     component: ListGroup,
     ...TaskListenerProps({ element, injector })
@@ -612,8 +636,9 @@ function TaskListenerGroup(element, injector) {
 }
 
 function InputGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Inputs',
+    label: translate('Inputs'),
     id: 'CamundaPlatform__Input',
     component: ListGroup,
     ...InputProps({ element, injector })
@@ -627,8 +652,9 @@ function InputGroup(element, injector) {
 }
 
 function OutputGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Outputs',
+    label: translate('Outputs'),
     id: 'CamundaPlatform__Output',
     component: ListGroup,
     ...OutputProps({ element, injector })
@@ -642,8 +668,9 @@ function OutputGroup(element, injector) {
 }
 
 function ConnectorInputGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Connector inputs',
+    label: translate('Connector inputs'),
     id: 'CamundaPlatform__ConnectorInput',
     component: ListGroup,
     ...ConnectorInputProps({ element, injector })
@@ -657,8 +684,9 @@ function ConnectorInputGroup(element, injector) {
 }
 
 function ConnectorOutputGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Connector outputs',
+    label: translate('Connector outputs'),
     id: 'CamundaPlatform__ConnectorOutput',
     component: ListGroup,
     ...ConnectorOutputProps({ element, injector })
@@ -672,8 +700,9 @@ function ConnectorOutputGroup(element, injector) {
 }
 
 function ExtensionPropertiesGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Extension properties',
+    label: translate('Extension properties'),
     id: 'CamundaPlatform__ExtensionProperties',
     component: ListGroup,
     ...ExtensionPropertiesProps({ element, injector })
