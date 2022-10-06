@@ -16,7 +16,9 @@ import {
 
 export function ExternalTaskPriorityProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const businessObject = getBusinessObject(element);
@@ -37,8 +39,11 @@ export function ExternalTaskPriorityProps(props) {
 }
 
 function ExternalTaskPriority(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate'),
         debounce = useService('debounceInput');

@@ -38,7 +38,9 @@ export const CREATE_NEW_OPTION = 'create-new';
  */
 export function MessageProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isMessageSupported(element)) {
@@ -70,8 +72,11 @@ export function MessageProps(props) {
 }
 
 function MessageRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
@@ -168,8 +173,11 @@ function MessageRef(props) {
 }
 
 function MessageName(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

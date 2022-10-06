@@ -31,7 +31,7 @@ import {
  */
 export function TimerProps(props) {
   const {
-    element,
+    'element': { value: element },
     listener,
     idPrefix
   } = props;

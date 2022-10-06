@@ -35,8 +35,11 @@ import { DelegateVariableMappingProps } from './DelegateVariableMappingProps';
  * Cf. https://docs.camunda.org/manual/7.15/reference/bpmn20/subprocesses/call-activity/
  */
 export function CallActivityProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   if (!is(element, 'bpmn:CallActivity')) {
     return [];
   }
@@ -86,7 +89,9 @@ const DEFAULT_BUSINESS_KEY = '#{execution.processBusinessKey}';
 
 function CalledElementType(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -125,8 +130,11 @@ function CalledElementType(props) {
 }
 
 function BusinessKeyProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const entries = [
     {
       id: 'calledElementBusinessKey',
@@ -147,8 +155,11 @@ function BusinessKeyProps(props) {
 }
 
 function BusinessKey(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const modeling = useService('modeling');
   const bpmnFactory = useService('bpmnFactory');
@@ -217,8 +228,11 @@ function BusinessKey(props) {
 }
 
 function BusinessKeyExpression(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

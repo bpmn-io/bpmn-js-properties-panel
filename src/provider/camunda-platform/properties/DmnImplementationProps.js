@@ -19,7 +19,9 @@ import {
 
 export function DmnImplementationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const entries = [];
@@ -91,8 +93,11 @@ export function DmnImplementationProps(props) {
 }
 
 function DecisionRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -124,8 +129,11 @@ function DecisionRef(props) {
 }
 
 function Binding(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
@@ -175,8 +183,11 @@ function Binding(props) {
 }
 
 function Version(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -208,8 +219,11 @@ function Version(props) {
 }
 
 function VersionTag(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -241,8 +255,11 @@ function VersionTag(props) {
 }
 
 function TenantId(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -274,8 +291,11 @@ function TenantId(props) {
 }
 
 function ResultVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -309,8 +329,11 @@ function ResultVariable(props) {
 }
 
 function MapDecisionResult(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 

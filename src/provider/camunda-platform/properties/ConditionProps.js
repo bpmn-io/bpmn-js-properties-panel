@@ -31,8 +31,11 @@ import {
  * Cf. https://docs.camunda.org/manual/latest/reference/bpmn20/gateways/sequence-flow/
  */
 export function ConditionProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   if (
     !(is(element, 'bpmn:SequenceFlow') && isConditionalSource(element.source)) &&
     !getConditionalEventDefinition(element)
@@ -74,7 +77,9 @@ export function ConditionProps(props) {
 
 function ConditionType(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -122,7 +127,9 @@ function ConditionType(props) {
 
 function ConditionExpression(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack'),
@@ -157,8 +164,11 @@ function ConditionExpression(props) {
 }
 
 function ConditionScriptProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const entries = [];
   const scriptType = getScriptType(element);
 
@@ -198,7 +208,9 @@ function ConditionScriptProps(props) {
 
 function Language(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -231,7 +243,9 @@ function Language(props) {
 
 function ScriptType(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -277,8 +291,11 @@ function ScriptType(props) {
 }
 
 function Script(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -309,8 +326,11 @@ function Script(props) {
 }
 
 function Resource(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -341,7 +361,9 @@ function Resource(props) {
 
 function VariableEventProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const entries = [];
@@ -366,7 +388,9 @@ function VariableEventProps(props) {
 
 function VariableName(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -400,7 +424,9 @@ function VariableName(props) {
 
 function VariableEvents(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');

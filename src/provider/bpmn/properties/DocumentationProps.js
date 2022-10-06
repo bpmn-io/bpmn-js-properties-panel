@@ -26,7 +26,9 @@ const DOCUMENTATION_TEXT_FORMAT = 'text/plain';
  */
 export function DocumentationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const entries = [
@@ -50,7 +52,9 @@ export function DocumentationProps(props) {
 
 function ElementDocumentationProperty(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const bpmnFactory = useService('bpmnFactory');
@@ -75,7 +79,9 @@ function ElementDocumentationProperty(props) {
 
 function ProcessDocumentationProperty(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const bpmnFactory = useService('bpmnFactory');

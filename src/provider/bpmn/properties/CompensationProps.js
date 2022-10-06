@@ -35,7 +35,9 @@ import {
  */
 export function CompensationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isCompensationSupported(element)) {
@@ -57,7 +59,11 @@ export function CompensationProps(props) {
 }
 
 function WaitForCompletion(props) {
-  const { element } = props;
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');
@@ -88,8 +94,11 @@ function WaitForCompletion(props) {
 }
 
 function ActivityRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const elementRegistry = useService('elementRegistry');
   const translate = useService('translate');

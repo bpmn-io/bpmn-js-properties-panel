@@ -18,7 +18,9 @@ import {
  */
 export function ExecutableProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!is(element, 'bpmn:Process') && !hasProcessRef(element)) {
@@ -36,7 +38,9 @@ export function ExecutableProps(props) {
 
 function Executable(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const modeling = useService('modeling');

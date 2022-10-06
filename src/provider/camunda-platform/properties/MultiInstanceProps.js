@@ -32,7 +32,9 @@ import {
  */
 export function MultiInstanceProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const loopCharacteristics = getLoopCharacteristics(element);
@@ -84,8 +86,11 @@ export function MultiInstanceProps(props) {
 }
 
 function Collection(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const debounce = useService('debounceInput');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
@@ -120,8 +125,11 @@ function Collection(props) {
 }
 
 function ElementVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const debounce = useService('debounceInput');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
@@ -156,8 +164,11 @@ function ElementVariable(props) {
 }
 
 function MultiInstanceAsynchronousBefore(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
@@ -192,8 +203,11 @@ function MultiInstanceAsynchronousBefore(props) {
 }
 
 function MultiInstanceAsynchronousAfter(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
@@ -223,8 +237,11 @@ function MultiInstanceAsynchronousAfter(props) {
 }
 
 function MultiInstanceExclusive(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate');
 
@@ -254,8 +271,11 @@ function MultiInstanceExclusive(props) {
 }
 
 function MultiInstanceRetryTimeCycle(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack'),
         translate = useService('translate'),

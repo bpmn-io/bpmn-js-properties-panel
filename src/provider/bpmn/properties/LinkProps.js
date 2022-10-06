@@ -18,7 +18,9 @@ import {
  */
 export function LinkProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isLinkSupported(element)) {
@@ -35,8 +37,11 @@ export function LinkProps(props) {
 }
 
 function LinkName(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

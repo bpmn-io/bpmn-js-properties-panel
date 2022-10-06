@@ -65,8 +65,11 @@ export function ImplementationTypeProps(props) {
 
 
 function ImplementationType(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
   const translate = useService('translate');

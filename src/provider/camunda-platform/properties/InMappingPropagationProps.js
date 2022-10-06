@@ -37,7 +37,9 @@ import {
  */
 export function InMappingPropagationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!areInMappingsSupported(element)) {
@@ -65,7 +67,9 @@ export function InMappingPropagationProps(props) {
 
 function PropagateAll(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -116,7 +120,9 @@ function PropagateAll(props) {
 
 function Local(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');

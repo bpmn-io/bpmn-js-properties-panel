@@ -22,7 +22,9 @@ import {
  */
 export function MultiInstanceProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isMultiInstanceSupported(element)) {
@@ -46,8 +48,11 @@ export function MultiInstanceProps(props) {
 }
 
 function LoopCardinality(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory');
   const debounce = useService('debounceInput');
   const commandStack = useService('commandStack');
@@ -75,8 +80,11 @@ function LoopCardinality(props) {
 }
 
 function CompletionCondition(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory');
   const debounce = useService('debounceInput');
   const commandStack = useService('commandStack');

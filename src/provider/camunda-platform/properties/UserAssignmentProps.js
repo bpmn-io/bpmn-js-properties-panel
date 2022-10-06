@@ -14,7 +14,9 @@ import {
  */
 export function UserAssignmentProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!is(element, 'camunda:Assignable')) {
@@ -56,8 +58,11 @@ export function UserAssignmentProps(props) {
 }
 
 function Assignee(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -89,8 +94,11 @@ function Assignee(props) {
 }
 
 function CandidateUsers(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -122,8 +130,11 @@ function CandidateUsers(props) {
 }
 
 function CandidateGroups(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -155,8 +166,11 @@ function CandidateGroups(props) {
 }
 
 function DueDate(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -189,8 +203,11 @@ function DueDate(props) {
 }
 
 function FollowUpDate(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -224,8 +241,11 @@ function FollowUpDate(props) {
 }
 
 function Priority(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

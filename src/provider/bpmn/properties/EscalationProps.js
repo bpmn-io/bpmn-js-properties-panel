@@ -43,7 +43,9 @@ const CREATE_NEW_OPTION = 'create-new';
  */
 export function EscalationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isEscalationSupported(element)) {
@@ -80,8 +82,11 @@ export function EscalationProps(props) {
 }
 
 function EscalationRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
@@ -174,8 +179,11 @@ function EscalationRef(props) {
 }
 
 function EscalationName(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -210,8 +218,11 @@ function EscalationName(props) {
 }
 
 function EscalationCode(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

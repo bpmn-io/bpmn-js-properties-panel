@@ -17,7 +17,9 @@ import {
 
 export function FormProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isFormSupported(element)) {
@@ -63,8 +65,11 @@ export function FormProps(props) {
 }
 
 function FormKey(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const debounce = useService('debounceInput');
   const modeling = useService('modeling');
   const translate = useService('translate');
@@ -92,8 +97,11 @@ function FormKey(props) {
 }
 
 function FormRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const debounce = useService('debounceInput');
   const modeling = useService('modeling');
   const translate = useService('translate');
@@ -121,8 +129,11 @@ function FormRef(props) {
 }
 
 function Binding(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
 
@@ -160,8 +171,11 @@ function Binding(props) {
 }
 
 function Version(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const debounce = useService('debounceInput');
   const modeling = useService('modeling');
   const translate = useService('translate');

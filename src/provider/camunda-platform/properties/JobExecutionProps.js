@@ -24,7 +24,9 @@ import {
 
 export function JobExecutionProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const businessObject = getBusinessObject(element);
@@ -61,8 +63,11 @@ export function JobExecutionProps(props) {
 }
 
 function JobPriority(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate'),
         debounce = useService('debounceInput');
@@ -96,8 +101,11 @@ function JobPriority(props) {
 }
 
 function RetryTimeCycle(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack'),
         translate = useService('translate'),

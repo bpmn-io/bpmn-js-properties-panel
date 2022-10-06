@@ -79,7 +79,9 @@ export default {
 
 function SimpleInputEntry(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const modeling = useService('modeling');
@@ -96,7 +98,7 @@ function SimpleInputEntry(props) {
   };
 
   const getValue = (element) => {
-    return element.businessObject.$attrs.foo;
+    return element.value.businessObject.$attrs.foo;
   };
 
   return TextFieldEntry({
@@ -196,7 +198,9 @@ function AsyncDataEntry(props) {
 
 function OrderingEntry(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const {

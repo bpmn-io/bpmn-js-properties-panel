@@ -19,7 +19,9 @@ import {
  */
 export function ProcessProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!hasProcessRef(element)) {
@@ -41,8 +43,11 @@ export function ProcessProps(props) {
 }
 
 function ProcessName(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -76,8 +81,11 @@ function ProcessName(props) {
 }
 
 function ProcessId(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

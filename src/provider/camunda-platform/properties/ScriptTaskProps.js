@@ -16,7 +16,9 @@ import {
 
 export function ScriptTaskProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!is(element, 'bpmn:ScriptTask')) {
@@ -37,8 +39,11 @@ export function ScriptTaskProps(props) {
 }
 
 function ResultVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

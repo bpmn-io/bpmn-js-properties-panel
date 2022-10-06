@@ -42,8 +42,11 @@ export function EscalationProps(props) {
 }
 
 function EscalationCodeVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

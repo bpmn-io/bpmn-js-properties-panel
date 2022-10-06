@@ -66,8 +66,11 @@ export function ErrorProps(props) {
 }
 
 function ErrorMessage(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -102,8 +105,11 @@ function ErrorMessage(props) {
 }
 
 function ErrorCodeVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -139,8 +145,11 @@ function ErrorCodeVariable(props) {
 }
 
 function ErrorMessageVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

@@ -12,7 +12,9 @@ import {
 
 export function CandidateStarterProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const businessObject = getBusinessObject(element);
@@ -37,8 +39,11 @@ export function CandidateStarterProps(props) {
 }
 
 function CandidateStarterGroups(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate'),
         debounce = useService('debounceInput');
@@ -71,8 +76,11 @@ function CandidateStarterGroups(props) {
 }
 
 function CandidateStarterUsers(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate'),
         debounce = useService('debounceInput');

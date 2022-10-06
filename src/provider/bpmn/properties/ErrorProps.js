@@ -43,7 +43,9 @@ export const CREATE_NEW_OPTION = 'create-new';
  */
 export function ErrorProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isErrorSupported(element)) {
@@ -80,7 +82,11 @@ export function ErrorProps(props) {
 }
 
 function ErrorRef(props) {
-  const { element } = props;
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
 
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
@@ -176,8 +182,11 @@ function ErrorRef(props) {
 }
 
 function ErrorName(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -212,8 +221,11 @@ function ErrorName(props) {
 }
 
 function ErrorCode(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

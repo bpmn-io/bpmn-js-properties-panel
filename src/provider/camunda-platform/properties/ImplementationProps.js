@@ -19,7 +19,9 @@ import {
 
 export function ImplementationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!getServiceTaskLikeBusinessObject(element)) {
@@ -155,8 +157,11 @@ export function Expression(props) {
 }
 
 function ResultVariable(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -223,8 +228,11 @@ export function DelegateExpression(props) {
 }
 
 function Topic(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -256,8 +264,11 @@ function Topic(props) {
 }
 
 function ConnectorId(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

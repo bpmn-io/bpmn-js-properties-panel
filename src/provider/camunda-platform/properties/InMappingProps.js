@@ -30,7 +30,7 @@ import InOutMapping from './InOutMapping';
 /**
  * Cf. https://docs.camunda.org/manual/latest/reference/bpmn20/custom-extensions/extension-elements/#in
  */
-export function InMappingProps({ element, injector }) {
+export function InMappingProps({ 'element': { value: element }, injector }) {
   if (!areInMappingsSupported(element)) {
     return null;
   }

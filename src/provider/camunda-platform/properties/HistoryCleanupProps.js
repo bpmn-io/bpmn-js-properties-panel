@@ -12,7 +12,9 @@ import {
 
 export function HistoryCleanupProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const businessObject = getBusinessObject(element);
@@ -32,8 +34,11 @@ export function HistoryCleanupProps(props) {
 }
 
 function HistoryTimeToLive(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

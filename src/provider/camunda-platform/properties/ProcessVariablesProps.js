@@ -28,7 +28,9 @@ import {
 export function ProcessVariablesProps(props) {
 
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!canHaveProcessVariables(element)) {

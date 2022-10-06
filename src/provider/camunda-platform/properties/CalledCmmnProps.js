@@ -18,8 +18,11 @@ import {
  * Cf. https://docs.camunda.org/manual/7.15/reference/bpmn20/subprocesses/call-activity/#create-a-case-instance
  */
 export function CalledCmmnProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const entries = [
     {
       id: 'calledElementCaseRef',
@@ -52,8 +55,11 @@ export function CalledCmmnProps(props) {
 }
 
 function CaseRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -77,8 +83,11 @@ function CaseRef(props) {
 }
 
 function CaseBinding(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
 
@@ -113,8 +122,11 @@ function CaseBinding(props) {
 }
 
 function CaseVersion(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -138,8 +150,11 @@ function CaseVersion(props) {
 }
 
 function CaseTenantId(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

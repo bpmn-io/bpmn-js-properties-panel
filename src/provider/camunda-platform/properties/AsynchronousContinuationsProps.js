@@ -15,7 +15,9 @@ import {
 
 export function AsynchronousContinuationsProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const checkboxIsEditedInverted = (node) => {
@@ -55,8 +57,11 @@ export function AsynchronousContinuationsProps(props) {
 }
 
 function AsynchronousContinuationBefore(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate');
 
@@ -92,8 +97,11 @@ function AsynchronousContinuationBefore(props) {
 }
 
 function AsynchronousContinuationAfter(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate');
 
@@ -123,8 +131,11 @@ function AsynchronousContinuationAfter(props) {
 }
 
 function Exclusive(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack'),
         translate = useService('translate');
 

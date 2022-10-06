@@ -12,7 +12,9 @@ import {
 
 export function VersionTagProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const businessObject = getBusinessObject(element);
@@ -32,7 +34,11 @@ export function VersionTagProps(props) {
 }
 
 function VersionTag(props) {
-  const { element } = props;
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
 
   const commandStack = useService('commandStack');
   const translate = useService('translate');

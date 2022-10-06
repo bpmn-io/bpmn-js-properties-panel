@@ -4,6 +4,8 @@ import {
   useEffect
 } from '@bpmn-io/properties-panel/preact/hooks';
 
+import { computed, signal, useComputed } from '@bpmn-io/properties-panel/@preact/signals';
+
 import {
   find,
   isArray,
@@ -40,11 +42,7 @@ export default function BpmnPropertiesPanel(props) {
   const elementRegistry = injector.get('elementRegistry');
   const eventBus = injector.get('eventBus');
 
-  const [ state, setState ] = useState({
-    selectedElement: element
-  });
-
-  const selectedElement = state.selectedElement;
+  const selectedElement = signal(element);
 
   /**
    * @param {djs.model.Base | Array<djs.model.Base>} element
@@ -62,10 +60,7 @@ export default function BpmnPropertiesPanel(props) {
       newSelectedElement = newSelectedElement.labelTarget;
     }
 
-    setState({
-      ...state,
-      selectedElement: newSelectedElement
-    });
+    selectedElement.value = newSelectedElement;
 
     // notify interested parties on property panel updates
     eventBus.fire('propertiesPanel.updated', {
@@ -107,7 +102,7 @@ export default function BpmnPropertiesPanel(props) {
     const onElementsChanged = (e) => {
       const elements = e.elements;
 
-      const updatedElement = findElement(elements, selectedElement);
+      const updatedElement = findElement(elements, selectedElement.value);
 
       if (updatedElement && elementExists(updatedElement, elementRegistry)) {
         _update(updatedElement);
@@ -119,7 +114,7 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('elements.changed', onElementsChanged);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (2c) root element changed
   useEffect(() => {
@@ -134,7 +129,7 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('root.added', onRootAdded);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (2d) provided entries changed
   useEffect(() => {
@@ -147,7 +142,7 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('propertiesPanel.providersChanged', onProvidersChanged);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (2e) element templates changed
   useEffect(() => {
@@ -160,7 +155,7 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('elementTemplates.changed', onTemplatesChanged);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (3) create properties panel context
   const bpmnPropertiesPanelContext = {
@@ -170,13 +165,15 @@ export default function BpmnPropertiesPanel(props) {
   };
 
   // (4) retrieve groups for selected element
-  const providers = getProviders(selectedElement);
+  const providers = useComputed(() => {
+    return getProviders(selectedElement.value);
+  });
 
-  const groups = useMemo(() => {
-    return reduce(providers, function(groups, provider) {
+  const groups = computed(() => {
+    return reduce(providers.value, function(groups, provider) {
 
       // do not collect groups for multi element state
-      if (isArray(selectedElement)) {
+      if (isArray(selectedElement.value)) {
         return [];
       }
 
@@ -184,7 +181,7 @@ export default function BpmnPropertiesPanel(props) {
 
       return updater(groups);
     }, []);
-  }, [ providers, selectedElement ]);
+  });
 
   // (5) notify layout changes
   const onLayoutChanged = (layout) => {

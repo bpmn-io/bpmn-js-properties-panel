@@ -17,7 +17,7 @@ import {
   without
 } from 'min-dash';
 
-export function FormDataProps({ element, injector }) {
+export function FormDataProps({ 'element': { value: element }, injector }) {
   if (!isFormDataSupported(element)) {
     return;
   }

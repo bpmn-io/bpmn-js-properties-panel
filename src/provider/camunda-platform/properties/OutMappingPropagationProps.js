@@ -29,7 +29,9 @@ import {
  */
 export function OutMappingPropagationProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!areOutMappingsSupported(element)) {
@@ -57,7 +59,9 @@ export function OutMappingPropagationProps(props) {
 
 function PropagateAll(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -108,7 +112,9 @@ function PropagateAll(props) {
 
 function Local(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');

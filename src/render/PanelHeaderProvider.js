@@ -72,25 +72,25 @@ export const PanelHeaderProvider = {
     const elementTemplates = getTemplatesService();
 
     if (elementTemplates) {
-      return getTemplateDocumentation(element, elementTemplates);
+      return getTemplateDocumentation(element.value, elementTemplates);
     }
   },
 
   getElementLabel: (element) => {
-    if (is(element, 'bpmn:Process')) {
-      return getBusinessObject(element).name;
+    if (is(element.value, 'bpmn:Process')) {
+      return getBusinessObject(element.value).name;
     }
 
-    return getLabel(element);
+    return getLabel(element.value);
   },
 
   getElementIcon: (element) => {
-    const concreteType = getConcreteType(element);
+    const concreteType = getConcreteType(element.value);
 
     const elementTemplates = getTemplatesService();
 
     if (elementTemplates) {
-      const template = getTemplate(element, elementTemplates);
+      const template = getTemplate(element.value, elementTemplates);
 
       if (template && template.icon) {
         return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ template.icon.contents } />;
@@ -104,14 +104,14 @@ export const PanelHeaderProvider = {
     const elementTemplates = getTemplatesService();
 
     if (elementTemplates) {
-      const template = getTemplate(element, elementTemplates);
+      const template = getTemplate(element.value, elementTemplates);
 
       if (template && template.name) {
         return template.name;
       }
     }
 
-    const concreteType = getConcreteType(element);
+    const concreteType = getConcreteType(element.value);
 
     return concreteType
       .replace(/(\B[A-Z])/g, ' $1')

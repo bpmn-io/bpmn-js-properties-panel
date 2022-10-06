@@ -18,7 +18,9 @@ export const EMPTY_OPTION = '';
 
 export function BusinessKeyProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!is(element, 'bpmn:StartEvent') || !hasFormFields(element)) {
@@ -35,8 +37,11 @@ export function BusinessKeyProps(props) {
 }
 
 function BusinessKey(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 

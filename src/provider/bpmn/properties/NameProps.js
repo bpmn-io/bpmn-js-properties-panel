@@ -24,7 +24,9 @@ import {
  */
 export function NameProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (isAny(element, [ 'bpmn:Collaboration', 'bpmn:DataAssociation', 'bpmn:Association' ])) {
@@ -42,7 +44,9 @@ export function NameProps(props) {
 
 function Name(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const modeling = useService('modeling');

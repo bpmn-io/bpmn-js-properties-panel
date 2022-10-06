@@ -40,8 +40,11 @@ export function FormTypeProps(props) {
 }
 
 function FormType(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const translate = useService('translate');
   const bpmnFactory = useService('bpmnFactory');
   const businessObject = getBusinessObject(element);

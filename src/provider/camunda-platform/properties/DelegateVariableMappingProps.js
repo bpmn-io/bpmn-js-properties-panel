@@ -12,8 +12,11 @@ import {
 
 
 export function DelegateVariableMappingProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const entries = [
     {
       id: 'calledElementDelegateVariableMappingType',
@@ -47,7 +50,9 @@ const DEFAULT_PROPS = {
 
 function DelegateVariableMappingType(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const commandStack = useService('commandStack');
@@ -86,8 +91,11 @@ function DelegateVariableMappingType(props) {
 }
 
 function VariableMappingDelegateExpression(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -114,8 +122,11 @@ function VariableMappingDelegateExpression(props) {
 }
 
 function VariableMappingClass(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

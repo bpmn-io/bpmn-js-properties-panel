@@ -19,8 +19,11 @@ import {
  * Cf. https://docs.camunda.org/manual/7.15/reference/bpmn20/subprocesses/call-activity/#calledelement-tenant-id
  */
 export function CalledBpmnProps(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const entries = [
     {
       id: 'calledElement',
@@ -62,8 +65,11 @@ export function CalledBpmnProps(props) {
 }
 
 function CalledElement(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -87,8 +93,11 @@ function CalledElement(props) {
 }
 
 function CalledElementBinding(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
 
@@ -125,8 +134,11 @@ function CalledElementBinding(props) {
 }
 
 function CalledElementVersion(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -150,8 +162,11 @@ function CalledElementVersion(props) {
 }
 
 function CalledElementVersionTag(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
@@ -175,8 +190,11 @@ function CalledElementVersionTag(props) {
 }
 
 function CalledElementTenantId(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

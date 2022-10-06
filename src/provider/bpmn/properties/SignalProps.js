@@ -40,7 +40,9 @@ export const CREATE_NEW_OPTION = 'create-new';
  */
 export function SignalProps(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   if (!isSignalSupported(element)) {
@@ -72,8 +74,11 @@ export function SignalProps(props) {
 }
 
 function SignalRef(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const bpmnFactory = useService('bpmnFactory');
   const commandStack = useService('commandStack');
   const translate = useService('translate');
@@ -170,8 +175,11 @@ function SignalRef(props) {
 }
 
 function SignalName(props) {
-  const { element } = props;
-
+  const {
+    'element': {
+      value: element
+    }
+  } = props;
   const commandStack = useService('commandStack');
   const translate = useService('translate');
   const debounce = useService('debounceInput');

@@ -42,6 +42,8 @@ module.exports = function(karma) {
       suite
     ],
 
+    reportSlowerThan: 20,
+
     preprocessors: {
       [ suite ]: [ 'webpack', 'env' ]
     },
@@ -122,6 +124,10 @@ module.exports = function(karma) {
         new NormalModuleReplacementPlugin(
           /^preact\/hooks/,
           path.resolve('node_modules/@bpmn-io/properties-panel/preact/hooks/dist/hooks.module.js')
+        ),
+        new NormalModuleReplacementPlugin(
+          /^@preact\/signals-core/,
+          path.resolve('node_modules/@bpmn-io/properties-panel/@preact/signals-core/dist/signals-core.module.js')
         )
       ],
       resolve: {
@@ -131,6 +137,7 @@ module.exports = function(karma) {
           'main'
         ],
         alias: {
+          '@preact': '@bpmn-io/properties-panel/@preact',
           'preact': '@bpmn-io/properties-panel/preact',
           'react': '@bpmn-io/properties-panel/preact/compat',
           'react-dom': '@bpmn-io/properties-panel/preact/compat'

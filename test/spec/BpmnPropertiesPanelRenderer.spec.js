@@ -987,6 +987,55 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   });
 
+
+  describe.only('benchmark', function() {
+
+    it('should select like crazy', async function() {
+
+      // given
+
+      // (0) this test needs some time
+      this.timeout(5000);
+
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      let modeler;
+      await act(async () => {
+        const result = await createModeler(
+          diagramXml,
+          {
+            additionalModules: [
+              CamundaBehaviorsModule,
+              BpmnPropertiesPanel,
+              BpmnPropertiesProvider,
+              CamundaPropertiesProvider
+            ],
+            moddleExtensions: {
+              camunda: CamundaModdle
+            }
+          }
+        );
+        modeler = result.modeler;
+      });
+
+      const selection = modeler.get('selection');
+      const elementRegistry = modeler.get('elementRegistry');
+
+      // when
+      let element;
+      for (let i = 0; i < 500; i++) {
+        element = element === 'ServiceTask_1' ? 'StartEvent_1' : 'ServiceTask_1';
+        await act(() => selection.select(elementRegistry.get(element)));
+      }
+
+      const header = domQuery('.bio-properties-panel-header-type', propertiesContainer);
+
+      // then
+      expect(header.textContent).to.eql('Start Event');
+    });
+
+  });
+
 });
 
 

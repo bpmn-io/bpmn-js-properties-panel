@@ -16,7 +16,7 @@ import {
 import { without } from 'min-dash';
 
 
-export function ExtensionPropertiesProps({ element, injector, namespace = 'camunda' }) {
+export function ExtensionPropertiesProps({ 'element': { value: element }, injector, namespace = 'camunda' }) {
   if (namespace === 'zeebe' && !is(element, 'zeebe:PropertiesHolder')) {
     return [];
   }

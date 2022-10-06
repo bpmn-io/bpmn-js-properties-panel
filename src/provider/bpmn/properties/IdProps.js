@@ -33,7 +33,9 @@ export function IdProps() {
 
 function Id(props) {
   const {
-    element
+    'element': {
+      value: element
+    }
   } = props;
 
   const modeling = useService('modeling');
