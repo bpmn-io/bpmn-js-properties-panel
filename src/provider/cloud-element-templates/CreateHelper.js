@@ -99,6 +99,18 @@ export function createZeebeProperty(binding, value = '', bpmnFactory) {
 }
 
 /**
+ * Create a called activity element representing the given processId.
+ *
+ * @param {String} processId
+ * @param {BpmnFactory} bpmnFactory
+ *
+ * @return {ModdleElement}
+ */
+export function createCallActivityCalledElement(processId, bpmnFactory) {
+  return bpmnFactory.create('zeebe:CalledElement', { processId });
+}
+
+/**
  * Retrieves whether an element should be updated for a given property.
  *
  * That matches once

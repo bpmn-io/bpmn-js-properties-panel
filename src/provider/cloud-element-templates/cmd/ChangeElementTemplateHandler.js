@@ -8,6 +8,7 @@ import {
 } from '../Helper';
 
 import {
+  createCallActivityCalledElement,
   createInputParameter,
   createOutputParameter,
   createTaskDefinitionWithType,
@@ -22,6 +23,7 @@ import {
   without
 } from 'min-dash';
 import { applyConditions } from '../Condition';
+import { ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE } from '../util/bindingTypes';
 
 /**
  * Applies an element template to an element. Sets `zeebe:modelerTemplate` and
@@ -80,6 +82,8 @@ export default class ChangeElementTemplateHandler {
 
       // update zeebe:Property properties
       this._updateZeebePropertyProperties(element, oldTemplate, newTemplate);
+
+      this._updateZeebeCalledElement(element, oldTemplate, newTemplate);
     }
   }
 
@@ -605,6 +609,83 @@ export default class ChangeElementTemplateHandler {
   }
 
   /**
+   * Update `zeebe:CalledElement` properties of specified business object. This
+   * can only exist in `bpmn:ExtensionElements`.
+   *
+   * @param {djs.model.Base} element
+   * @param {Object} oldTemplate
+   * @param {Object} newTemplate
+   */
+  _updateZeebeCalledElement(element, oldTemplate, newTemplate) {
+    const bpmnFactory = this._bpmnFactory,
+          commandStack = this._commandStack;
+
+    const newProperties = newTemplate.properties.filter((newProperty) => {
+      const { binding: { type } } = newProperty;
+      return type === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE;
+    });
+
+    // (1) do not override old element if no new properties specified
+    if (!newProperties.length) {
+      return;
+    }
+
+    const businessObject = this._getOrCreateExtensionElements(element);
+
+    newProperties.forEach((newProperty) => {
+      const oldProperty = findOldProperty(oldTemplate, newProperty),
+            oldBinding = oldProperty && oldProperty.binding,
+            oldBindingType = oldBinding && oldBinding.type,
+            oldCalledElement = findBusinessObject(businessObject, newProperty),
+            newPropertyValue = newProperty.value,
+            newBinding = newProperty.binding,
+            newBindingType = newBinding.type;
+
+      // (2) update old called element
+      if (oldCalledElement) {
+
+        if (!shouldKeepValue(oldCalledElement, oldProperty, newProperty)) {
+
+          // TODO(pinussilvestrus): for now we only support <type>
+          // this needs to be adjusted once we support more
+          let properties = {};
+
+          if (oldBindingType === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE || !oldBindingType) {
+            properties = {
+              processId: newPropertyValue
+            };
+          }
+
+          commandStack.execute('element.updateModdleProperties', {
+            element,
+            moddleElement: oldCalledElement,
+            properties
+          });
+        }
+      }
+
+      // (3) add new called element
+      else {
+        let newCalledElement;
+
+        // TODO(pinussilvestrus): for now we only support <type>
+        // this needs to be adjusted once we support more
+        if (newBindingType === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+          newCalledElement = createCallActivityCalledElement(newPropertyValue, bpmnFactory);
+        }
+
+        commandStack.execute('element.updateModdleProperties', {
+          element,
+          moddleElement: businessObject,
+          properties: {
+            values: [ ...businessObject.get('values'), newCalledElement ]
+          }
+        });
+      }
+    });
+  }
+
+  /**
    * Replaces the element with the specified elementType
    *
    * @param {djs.model.Base} element
@@ -699,6 +780,11 @@ function findBusinessObject(element, property) {
       return value.get('name') === binding.name;
     });
   }
+
+  if (bindingType === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+    return findExtension(businessObject, 'zeebe:CalledElement');
+  }
+
 }
 
 /**
@@ -735,6 +821,15 @@ export function findOldProperty(oldTemplate, newProperty) {
             oldBindingType = oldBinding.type;
 
       return oldBindingType === 'zeebe:taskDefinition:type';
+    });
+  }
+
+  if (newBindingType === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+    return find(oldProperties, function(oldProperty) {
+      const oldBinding = oldProperty.binding,
+            oldBindingType = oldBinding.type;
+
+      return oldBindingType === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE;
     });
   }
 
@@ -873,6 +968,10 @@ function getPropertyValue(element, property) {
 
   if (bindingType === 'zeebe:property') {
     return businessObject.get('zeebe:value');
+  }
+
+  if (bindingType === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+    return businessObject.get('zeebe:processId');
   }
 }
 

@@ -6,13 +6,15 @@ export const ZEEBE_OUTPUT_TYPE = 'zeebe:output';
 export const ZEEBE_PROPERTY_TYPE = 'zeebe:property';
 export const ZEEBE_TASK_DEFINITION_TYPE_TYPE = 'zeebe:taskDefinition:type';
 export const ZEEBE_TASK_HEADER_TYPE = 'zeebe:taskHeader';
+export const ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE = 'zeebe:calledElement:processId';
 
 export const EXTENSION_BINDING_TYPES = [
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_PROPERTY_TYPE,
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
-  ZEEBE_TASK_HEADER_TYPE
+  ZEEBE_TASK_HEADER_TYPE,
+  ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE,
 ];
 
 export const TASK_DEFINITION_TYPES = [

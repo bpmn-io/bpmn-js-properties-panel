@@ -13,7 +13,8 @@ import {
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_PROPERTY_TYPE,
-  ZEEBE_TASK_HEADER_TYPE
+  ZEEBE_TASK_HEADER_TYPE,
+  ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE,
 } from '../util/bindingTypes';
 
 import {
@@ -25,6 +26,7 @@ import {
 } from '../Helper';
 
 import {
+  createCallActivityCalledElement,
   createInputParameter,
   createOutputParameter,
   createTaskDefinitionWithType,
@@ -137,6 +139,16 @@ export function getPropertyValue(element, property, scope) {
       if (zeebeProperty) {
         return zeebeProperty.get('value');
       }
+    }
+
+    return defaultValue;
+  }
+
+  if (type === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+    const calledElement = findExtension(businessObject, 'zeebe:CalledElement');
+
+    if (calledElement) {
+      return calledElement.get('processId');
     }
 
     return defaultValue;
@@ -412,6 +424,21 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     });
   }
 
+  if (type === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+    const oldCalledElement = findExtension(extensionElements, 'zeebe:CalledElement');
+    const newCalledElement = createCallActivityCalledElement(value, bpmnFactory);
+    const values = extensionElements.get('values').filter((value) => value !== oldCalledElement);
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        ...context,
+        moddleElement: extensionElements,
+        properties: { values: [ ...values, newCalledElement ] }
+      }
+    });
+  }
+
   if (commands.length) {
     const commandsToExecute = commands.filter((command) => command !== NO_OP);
 
@@ -608,6 +635,19 @@ export function unsetProperty(commandStack, element, property) {
         }
       });
     }
+  }
+
+  if (type === ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE) {
+    const oldCalledElement = findExtension(extensionElements, 'zeebe:CalledElement');
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        ...context,
+        moddleElement: extensionElements,
+        properties: { values:  without(extensionElements.get('values'), oldCalledElement) }
+      }
+    });
   }
 
   if (commands.length) {

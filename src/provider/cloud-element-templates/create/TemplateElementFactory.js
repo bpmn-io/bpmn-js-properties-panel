@@ -12,6 +12,7 @@ import InputBindingProvider from './InputBindingProvider';
 import OutputBindingProvider from './OutputBindingProvider';
 import TaskHeaderBindingProvider from './TaskHeaderBindingProvider';
 import ZeebePropertiesProvider from './ZeebePropertiesProvider';
+import { CallActivityProcessIdBindingProvider } from './CallActivityBindingProvider';
 
 import {
   EXTENSION_BINDING_TYPES,
@@ -20,7 +21,8 @@ import {
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_TASK_HEADER_TYPE,
-  ZEBBE_PROPERTY_TYPE
+  ZEBBE_PROPERTY_TYPE,
+  ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE,
 } from '../util/bindingTypes';
 
 import { applyConditions } from '../Condition';
@@ -38,7 +40,8 @@ export default class TemplateElementFactory {
       [ZEBBE_PROPERTY_TYPE]: ZeebePropertiesProvider,
       [ZEBBE_INPUT_TYPE]: InputBindingProvider,
       [ZEEBE_OUTPUT_TYPE]: OutputBindingProvider,
-      [ZEEBE_TASK_HEADER_TYPE]: TaskHeaderBindingProvider
+      [ZEEBE_TASK_HEADER_TYPE]: TaskHeaderBindingProvider,
+      [ZEEBE_ACTIVITY_CALLED_ELEMENT_PROCESS_ID_TYPE]: CallActivityProcessIdBindingProvider,
     };
   }
 
