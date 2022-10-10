@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dxdt1l" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.8.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dxdt1l" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
   <bpmn:process id="Process_033aedt" isExecutable="true">
     <bpmn:startEvent id="timerStartEventCycle" name="timerStartEventCycle">
       <bpmn:timerEventDefinition id="TimerEventDefinition_1papscu">
@@ -37,9 +37,27 @@
       <bpmn:timerEventDefinition id="TimerEventDefinition_0xsp1dx" />
     </bpmn:startEvent>
     <bpmn:intermediateCatchEvent id="intermediateTimerCatchEventDurationEmpty" name="intermediateTimerCatchEventDurationEmpty">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_1966fbi">
-      </bpmn:timerEventDefinition>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1966fbi" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:subProcess id="Activity_0pesngd" name="event subprocess" triggeredByEvent="true">
+      <bpmn:startEvent id="interruptingTimerStartEventDate" name="interruptingTimerStartEventDate">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_12r4dq7">
+          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">today()</bpmn:timeDate>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+      <bpmn:startEvent id="nonInterruptingTimerStartEventDate" name="nonInterruptingTimerStartEventDate" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_0qa1ogs">
+          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">today()</bpmn:timeDate>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="Activity_16tsjf9" name="event subprocess" triggeredByEvent="true">
+      <bpmn:startEvent id="nonInterruptingTimerStartEventCycle" name="nonInterruptingTimerStartEventCycle" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_0kiq3dw">
+          <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R-1/P1D</bpmn:timeCycle>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
     <bpmn:group id="Group_0evc7ip" categoryValueRef="CategoryValue_0vsifnx" />
     <bpmn:group id="Group_0333nab" categoryValueRef="CategoryValue_03ljmd0" />
     <bpmn:group id="Group_08mza04" categoryValueRef="CategoryValue_1lexm62" />
@@ -56,75 +74,101 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_033aedt">
       <bpmndi:BPMNShape id="Event_1r3xl4t_di" bpmnElement="timerStartEventCycle">
-        <dc:Bounds x="372" y="182" width="36" height="36" />
+        <dc:Bounds x="492" y="132" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="348" y="225" width="84" height="27" />
+          <dc:Bounds x="468" y="175" width="84" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_18omnka_di" bpmnElement="timerStartEventDate">
-        <dc:Bounds x="372" y="282" width="36" height="36" />
+        <dc:Bounds x="492" y="212" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="348" y="325" width="84" height="27" />
+          <dc:Bounds x="468" y="255" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1alb6ws_di" bpmnElement="intermediateTimerCatchEventDuration">
+        <dc:Bounds x="982" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="959" y="255" width="88" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_02nwjbf_di" bpmnElement="Activity_02nwjbf">
-        <dc:Bounds x="490" y="270" width="100" height="80" />
+        <dc:Bounds x="710" y="246" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_06vbwdw_di" bpmnElement="Activity_06vbwdw">
-        <dc:Bounds x="660" y="330" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1alb6ws_di" bpmnElement="intermediateTimerCatchEventDuration">
-        <dc:Bounds x="692" y="212" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="669" y="255" width="88" height="40" />
-        </bpmndi:BPMNLabel>
+        <dc:Bounds x="950" y="370" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_16sp5dx_di" bpmnElement="timerStartEventEmpty">
-        <dc:Bounds x="382" y="512" width="36" height="36" />
+        <dc:Bounds x="602" y="672" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="358" y="555" width="84" height="27" />
+          <dc:Bounds x="578" y="715" width="84" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_02ht84m_di" bpmnElement="intermediateTimerCatchEventDurationEmpty">
-        <dc:Bounds x="522" y="452" width="36" height="36" />
+        <dc:Bounds x="832" y="512" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="501" y="495" width="85" height="40" />
+          <dc:Bounds x="811" y="555" width="85" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1q7eln8" bpmnElement="Activity_16tsjf9" isExpanded="true">
+        <dc:Bounds x="400" y="340" width="150" height="123" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gz0uqw_di" bpmnElement="nonInterruptingTimerStartEventCycle">
+        <dc:Bounds x="432" y="372" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="408" y="415" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cf5wox_di" bpmnElement="Activity_0pesngd" isExpanded="true">
+        <dc:Bounds x="190" y="500" width="290" height="123" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1b2d0yw_di" bpmnElement="interruptingTimerStartEventDate">
+        <dc:Bounds x="222" y="532" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="199" y="575" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07j7ht3" bpmnElement="nonInterruptingTimerStartEventDate">
+        <dc:Bounds x="362" y="532" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338" y="575" width="87" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_0evc7ip_di" bpmnElement="Group_0evc7ip">
-        <dc:Bounds x="160" y="160" width="300" height="300" />
+        <dc:Bounds x="160" y="120" width="450" height="520" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="258" y="167" width="24" height="14" />
+          <dc:Bounds x="313" y="127" width="24" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_0333nab_di" bpmnElement="Group_0333nab">
-        <dc:Bounds x="320" y="80" width="300" height="300" />
+        <dc:Bounds x="340" y="80" width="550" height="410" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="456" y="87" width="28" height="14" />
+          <dc:Bounds x="601" y="87" width="28" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_08mza04_di" bpmnElement="Group_08mza04">
-        <dc:Bounds x="470" y="160" width="300" height="370" />
+        <dc:Bounds x="620" y="120" width="490" height="520" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="719" y="173" width="42" height="14" />
+          <dc:Bounds x="1040" y="133" width="42" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1r5vs15_di" bpmnElement="interruptingBoundaryEventDuration">
-        <dc:Bounds x="662" y="392" width="36" height="36" />
+        <dc:Bounds x="952" y="432" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="638" y="435" width="85" height="40" />
+          <dc:Bounds x="928" y="475" width="85" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0u6kxk1_di" bpmnElement="nonInterruptingBoundaryEventCycle">
-        <dc:Bounds x="572" y="262" width="36" height="36" />
+        <dc:Bounds x="792" y="238" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="546" y="220" width="88" height="40" />
+          <dc:Bounds x="767" y="196" width="87" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_06kv99i_di" bpmnElement="nonInterruptingBoundaryEventDuration">
-        <dc:Bounds x="572" y="332" width="36" height="36" />
+        <dc:Bounds x="792" y="308" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="548" y="375" width="86" height="40" />
+          <dc:Bounds x="768" y="351" width="86" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

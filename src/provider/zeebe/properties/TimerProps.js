@@ -30,8 +30,11 @@ import {
  */
 export function TimerProps(props) {
   const {
-    element
+    element,
+    injector
   } = props;
+
+  const translate = injector.get('translate');
 
   const businessObject = getBusinessObject(element),
         timerEventDefinition = getTimerEventDefinition(businessObject),
@@ -42,37 +45,59 @@ export function TimerProps(props) {
     return [];
   }
 
-  // (2) Return duration-specific TexField only if only duration is supported
-  const onlySupportDuration = !isTimerDefinitionTypeSupported('timeCycle', element) &&
-   !isTimerDefinitionTypeSupported('timeDate', element);
+  const timerOptions = getTimerOptions(element, translate);
+  const singleOption = timerOptions.length === 1;
 
-  // (3) Only provide duration-specific textField if only duration is supported,
-  // otherwise push type-select and generic textField is type was selected
   const entries = [];
 
-  if (onlySupportDuration) {
-    entries.push({
-      id: 'timerEventDefinitionDurationValue',
-      component: TimerEventDefinitionDurationValue,
-      isEdited: isFeelEntryEdited
-    });
-  } else {
+  if (!singleOption) {
     entries.push({
       id: 'timerEventDefinitionType',
       component: TimerEventDefinitionType,
-      isEdited: isSelectEntryEdited
+      isEdited: isSelectEntryEdited,
+      options: timerOptions
     });
+  }
 
-    if (timerEventDefinitionType) {
-      entries.push({
-        id: 'timerEventDefinitionValue',
-        component: TimerEventDefinitionValue,
-        isEdited: isFeelEntryEdited
-      });
-    }
+  if (timerEventDefinitionType || singleOption) {
+    entries.push({
+      id: 'timerEventDefinitionValue',
+      component: TimerEventDefinitionValue,
+      isEdited: isFeelEntryEdited,
+      label: singleOption ? timerOptions[0].label : undefined,
+      timerEventDefinitionType: timerEventDefinitionType || timerOptions[0].value
+    });
   }
 
   return entries;
+}
+
+function getTimerOptions(element, translate) {
+
+  const options = [];
+
+  if (isTimerDefinitionTypeSupported('timeDate', element)) {
+    options.push({
+      value: 'timeDate',
+      label: translate('Date')
+    });
+  }
+
+  if (isTimerDefinitionTypeSupported('timeDuration', element)) {
+    options.push({
+      value: 'timeDuration',
+      label: translate('Duration')
+    });
+  }
+
+  if (isTimerDefinitionTypeSupported('timeCycle', element)) {
+    options.push({
+      value: 'timeCycle',
+      label: translate('Cycle')
+    });
+  }
+
+  return options;
 }
 
 
@@ -85,7 +110,8 @@ export function TimerProps(props) {
  */
 function TimerEventDefinitionType(props) {
   const {
-    element
+    element,
+    options
   } = props;
 
   const commandStack = useService('commandStack'),
@@ -108,8 +134,7 @@ function TimerEventDefinitionType(props) {
     }
 
     // (2) Create empty formalExpression element
-    const formalExpression = bpmnFactory.create('bpmn:FormalExpression', { body: undefined });
-    formalExpression.$parent = timerEventDefinition;
+    const formalExpression = createTimerFormalExpression(bpmnFactory, timerEventDefinition);
 
     // (3) Set the value for selected timerEventDefinitionType
     const newProps = {
@@ -131,31 +156,10 @@ function TimerEventDefinitionType(props) {
   };
 
   const getOptions = (element) => {
-
-    const options = [ { value: '', label: translate('<none>') } ];
-
-    if (isTimerDefinitionTypeSupported('timeDate', element)) {
-      options.push({
-        value: 'timeDate',
-        label: translate('Date')
-      });
-    }
-
-    if (isTimerDefinitionTypeSupported('timeDuration', element)) {
-      options.push({
-        value: 'timeDuration',
-        label: translate('Duration')
-      });
-    }
-
-    if (isTimerDefinitionTypeSupported('timeCycle', element)) {
-      options.push({
-        value: 'timeCycle',
-        label: translate('Cycle')
-      });
-    }
-
-    return options;
+    return [
+      { value: '', label: translate('<none>') },
+      ...options
+    ];
   };
 
   return SelectEntry({
@@ -173,28 +177,52 @@ function TimerEventDefinitionType(props) {
  * timerEventDefintionValue based on the set timerEventDefintionType. To be used
  * together with timerEventDefinitionType.
  *
- * @param  {type} props
+ * @param {object} props
+ * @param {ModdleElement} props.element
+ * @param {'timeCycle'|'timeDate'|'timeDuration'} props.timerEventDefinitionType?
+ * @param {string} props.label?
  * @return {TextFieldEntry}
  */
 function TimerEventDefinitionValue(props) {
   const {
-    element
+    element,
+    label,
+    timerEventDefinitionType
   } = props;
 
   const commandStack = useService('commandStack'),
         translate = useService('translate'),
-        debounce = useService('debounceInput');
+        debounce = useService('debounceInput'),
+        bpmnFactory = useService('bpmnFactory');
 
   const businessObject = getBusinessObject(element),
         timerEventDefinition = getTimerEventDefinition(businessObject),
-        timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition),
         timerEventFormalExpression = timerEventDefinition.get(timerEventDefinitionType);
+
+  // TODO(@barmac): remove with next major release
+  // support `timerEventDefinitionDurationValue` for backwards compatibility
+  const legacyId = getLegacyId(element);
 
   const getValue = () => {
     return timerEventFormalExpression && timerEventFormalExpression.get('body');
   };
 
   const setValue = (value) => {
+    if (!timerEventFormalExpression) {
+      const expression = createTimerFormalExpression(bpmnFactory, timerEventDefinition);
+      expression.set('body', value);
+
+      commandStack.execute('element.updateModdleProperties', {
+        element,
+        moddleElement: timerEventDefinition,
+        properties: {
+          [ timerEventDefinitionType ]: expression
+        }
+      });
+
+      return;
+    }
+
     commandStack.execute('element.updateModdleProperties', {
       element,
       moddleElement: timerEventFormalExpression,
@@ -206,8 +234,8 @@ function TimerEventDefinitionValue(props) {
 
   return withVariableContext(FeelEntry)({
     element,
-    id: 'timerEventDefinitionValue',
-    label: translate('Value'),
+    id: legacyId || 'timerEventDefinitionValue',
+    label: label || translate('Value'),
     feel: 'optional',
     getValue,
     setValue,
@@ -216,86 +244,6 @@ function TimerEventDefinitionValue(props) {
   });
 }
 
-/**
- * TimerEventDefinitionDurationValue - textField entry allowing to specify the
- * duration value. This is to be used stand-alone, without the TimerEventDefinitionType
- *
- * @param  {type} props
- * @return {TextFieldEntry}
- */
-function TimerEventDefinitionDurationValue(props) {
-  const {
-    element
-  } = props;
-
-  const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack'),
-        translate = useService('translate'),
-        debounce = useService('debounceInput');
-
-  const businessObject = getBusinessObject(element),
-        timerEventDefinition = getTimerEventDefinition(businessObject);
-
-  let timerEventFormalExpression = timerEventDefinition.get('timeDuration');
-
-  const getValue = () => {
-    return timerEventFormalExpression && timerEventFormalExpression.get('body');
-  };
-
-  const setValue = (value) => {
-    const commands = [];
-
-    // (1) re-use formalExpression
-    if (!timerEventFormalExpression) {
-      timerEventFormalExpression = bpmnFactory.create('bpmn:FormalExpression', { body: undefined });
-      timerEventFormalExpression.$parent = timerEventDefinition;
-
-      // (1.1) update the formalExpression
-      const properties = {
-        timeDuration: timerEventFormalExpression,
-        timeDate: undefined,
-        timeCycle: undefined
-      };
-
-      // (1.2) push command
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: timerEventDefinition,
-          properties
-        }
-      });
-
-    }
-
-    // (2) update value
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: timerEventFormalExpression,
-        properties: {
-          body: value
-        }
-      }
-    });
-
-    // (3) commit all commands
-    commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
-
-  return withVariableContext(FeelEntry)({
-    element,
-    id: 'timerEventDefinitionDurationValue',
-    label: translate('Timer duration'),
-    feel: 'optional',
-    getValue,
-    setValue,
-    debounce,
-    description: getTimerEventDefinitionValueDescription('timeDuration', translate)
-  });
-}
 
 
 // helper //////////////////////////
@@ -320,7 +268,7 @@ function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
     return false;
 
   case 'timeCycle':
-    if (is(element, 'bpmn:StartEvent')) {
+    if (is(element, 'bpmn:StartEvent') && !isInterruptingStartEvent(businessObject)) {
       return true;
     }
 
@@ -334,7 +282,7 @@ function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
       return true;
     }
 
-    if (is(element, 'bpmn:BoundaryEvent') && !businessObject.cancelActivity) {
+    if (is(element, 'bpmn:BoundaryEvent')) {
       return true;
     }
     return false;
@@ -342,6 +290,13 @@ function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
   default:
     return undefined;
   }
+}
+
+function createTimerFormalExpression(bpmnFactory, eventDefinition) {
+  const formalExpression = bpmnFactory.create('bpmn:FormalExpression', { body: undefined });
+  formalExpression.$parent = eventDefinition;
+
+  return formalExpression;
 }
 
 function getTimerEventDefinitionValueDescription(timerDefinitionType, translate) {
@@ -378,4 +333,26 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
       <a href="https://docs.camunda.io/docs/reference/bpmn-processes/timer-events/timer-events#time-duration" target="_blank" rel="noopener" title={ translate('Timer documentation') }>{ translate('How to configure a timer') }</a>
     </div>);
   }
+}
+
+function isInterruptingStartEvent(bo) {
+  return isInEventSubProcess(bo) && bo.get('isInterrupting') !== false;
+}
+
+function isInEventSubProcess(bo) {
+  const parent = bo.$parent;
+
+  return is(parent, 'bpmn:SubProcess') && parent.triggeredByEvent;
+}
+
+function getLegacyId(event) {
+  if (is(event, 'bpmn:IntermediateCatchEvent') || isInterruptingBoundaryEvent(event)) {
+    return 'timerEventDefinitionDurationValue';
+  }
+}
+
+function isInterruptingBoundaryEvent(event) {
+  const bo = getBusinessObject(event);
+
+  return is(bo, 'bpmn:BoundaryEvent') && bo.get('cancelActivity') !== false;
 }
