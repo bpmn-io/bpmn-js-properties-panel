@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.10.0
+
+* `FEAT`: allow to translate group names ([#798](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/798))
+* `FIX`: remove `timeCycle` property in interrupting timer start event ([#802](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/802))
+
 ## 1.9.0
 
 * `DEPS`: update to `@bpmn-io/element-templates-validator@0.11.0`
