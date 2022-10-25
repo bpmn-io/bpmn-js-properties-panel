@@ -82,7 +82,7 @@
     "chai": "^4.3.6",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
-    "diagram-js": "^9.1.0",
+    "diagram-js": "^10.0.0",
     "eslint": "^8.24.0",
     "eslint-plugin-bpmn-io": "^0.16.0",
     "eslint-plugin-import": "^2.26.0",
