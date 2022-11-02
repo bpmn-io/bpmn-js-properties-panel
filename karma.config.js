@@ -136,7 +136,13 @@ module.exports = function(karma) {
         modules: [
           'node_modules',
           absoluteBasePath
-        ]
+        ],
+        fallback: {
+
+          'util': require.resolve('util/')
+
+          // 'url': false
+        }
       },
       devtool: 'eval-source-map'
     }

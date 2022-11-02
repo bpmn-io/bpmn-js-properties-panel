@@ -1,8 +1,8 @@
 import { forEach, isArray } from 'min-dash';
 import { getExtensionElementsList } from '../../utils/ExtensionElementsUtil';
-import { useStaticVariableContext } from './getStaticVariableContext';
+import { useStaticVariableContext } from '../HOCs/getStaticVariableContext';
 
-import { createProcessVariable, addVariableToList } from './ProcessVariablesUtil';
+import { createProcessVariable, addVariableToList } from '../HOCs/ProcessVariablesUtil';
 
 
 export default function(options) {

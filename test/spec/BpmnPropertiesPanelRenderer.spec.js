@@ -51,6 +51,9 @@ import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
 
 import variableContext from './variableContext.json';
 
+import ExtactProcessVariablesPlugin from 'extract-process-variables-plugin';
+import ZeebeVariableExtractors from '../../src/provider/variableExtractors';
+
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
 insertCoreStyles();
@@ -144,7 +147,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           ZeebeBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          ZeebePropertiesProvider
+          ZeebePropertiesProvider,
+          ZeebeVariableExtractors,
+          ExtactProcessVariablesPlugin
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle

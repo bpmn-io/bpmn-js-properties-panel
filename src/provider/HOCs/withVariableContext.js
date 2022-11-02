@@ -1,21 +1,30 @@
 import { getVariablesForElement } from '@bpmn-io/extract-process-variables/zeebe';
-import { useMemo } from '@bpmn-io/properties-panel/preact/hooks';
+import { useContext, useMemo } from '@bpmn-io/properties-panel/preact/hooks';
+import { BpmnPropertiesPanelContext } from '../../context';
 import { getExtensionElementsList } from '../../utils/ExtensionElementsUtil';
 import { getVariablesFromString, handleContextEntry } from './getStaticVariableContext';
 
 // import { useStaticVariableContext } from './getStaticVariableContext';
-import staticContextExtractor from './staticContextExtractor';
+// import staticContextExtractor from './staticContextExtractor';
 
 export function withVariableContext(Component) {
   return props => {
+    const {
+      getService
+    } = useContext(BpmnPropertiesPanelContext);
+
+    const eventBus = getService('eventBus');
+
     const { bpmnElement, element } = props;
 
     const bo = (bpmnElement || element).businessObject;
 
     // const staticVars = useStaticVariableContext(bo);
+    const ebContext = { element: bo, extractors: [] };
+    eventBus.fire('getExtractors', ebContext);
 
     const context = useMemo(() => {
-      const variables = getVariablesForElement(bo, [ staticContextExtractor ]);
+      const variables = getVariablesForElement(bo, ebContext.extractors);
       populateVariables(variables);
 
       resolveVariableReferences(variables);
@@ -73,8 +82,6 @@ function populateVariables(vars) {
 
 function resolveVariableReferences(variables) {
 
-  console.log(variables);
-
   // Fix basic unresolved variable types
   const missingVariables = variables.filter(variable => variable.details?.detail === 'variable');
   const pathExpression = variables.filter(variable => variable.details?.detail === 'PathExpression');
@@ -97,7 +104,6 @@ function resolveVariableReferences(variables) {
 
     if (context && context.name === 'VariableName') {
       const res = variables.find(v => v.name === sanitizeKey(context.content));
-      console.log(res, variables, pathExpr);
       if (res) {
         context = res.details.entry;
       }
