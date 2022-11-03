@@ -33,8 +33,6 @@ export default class BpmnPropertiesPanelRenderer {
       variableContext
     } = config || {};
 
-    console.log(variableContext);
-
     this._eventBus = eventBus;
     this._injector = injector;
     this._layoutConfig = layoutConfig;

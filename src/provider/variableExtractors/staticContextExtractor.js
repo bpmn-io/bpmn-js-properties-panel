@@ -41,7 +41,6 @@ export default function(options) {
     const context = useStaticVariableContext(element);
 
     context['id:' + element.id]?.in?.forEach(variable => {
-      console.log('global variable', variable);
       var newVariable = createProcessVariable(
         element,
         variable.name,

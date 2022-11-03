@@ -48,7 +48,6 @@ export function withVariableContext(Component) {
 
 function populateVariables(vars) {
   vars.forEach(variable => {
-    console.log(variable);
     const ioMapping = getExtensionElementsList(variable.origin[0], 'zeebe:IoMapping')?.[0];
 
     if (!ioMapping) {
@@ -117,7 +116,6 @@ function resolveVariableReferences(variables) {
       return null;
     }
 
-    console.log('context, key', context, key);
     return context.children.find(contEntry => {
       return sanitizeKey(contEntry.children[0].content) === sanitizeKey(key.content);
     });
@@ -125,7 +123,6 @@ function resolveVariableReferences(variables) {
 
   pathExpression.forEach(pathExpr => {
     const res = resolvePathExpression(pathExpr.details.entry);
-    console.log('result', res);
 
     if (res?.name === 'ContextEntry') {
       pathExpr.details = handleContextEntry(res);

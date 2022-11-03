@@ -50,7 +50,6 @@ function getScope(element, globalScope, variableName) {
   var parents = getParents(element);
 
   if (hasOutputParameter(element)) {
-    console.log('has output parameter');
     return element;
   }
 
