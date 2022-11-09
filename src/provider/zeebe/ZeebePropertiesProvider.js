@@ -54,7 +54,7 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateMessageGroup(groups, element);
-      updateTimerGroup(groups, element);
+      updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
 
       // (3) remove message group when not applicable
@@ -241,7 +241,7 @@ function updateMessageGroup(groups, element) {
 }
 
 // overwrite bpmn generic timerEventDefinition group with zeebe-specific one
-function updateTimerGroup(groups, element) {
+function updateTimerGroup(groups, element, injector) {
   const timerEventGroup = findGroup(groups, 'timer');
 
   if (!timerEventGroup) {
@@ -249,7 +249,7 @@ function updateTimerGroup(groups, element) {
   }
 
   timerEventGroup.entries = [
-    ...TimerProps({ element })
+    ...TimerProps({ element, injector })
   ];
 }
 

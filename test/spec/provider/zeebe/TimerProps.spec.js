@@ -71,7 +71,9 @@ describe('provider/zeebe - TimerProps', function() {
           const elements = [
             elementRegistry.get('timerStartEventCycle'),
             elementRegistry.get('nonInterruptingBoundaryEventCycle'),
-            elementRegistry.get('timerStartEventEmpty')
+            elementRegistry.get('timerStartEventEmpty'),
+            elementRegistry.get('nonInterruptingTimerStartEventCycle'),
+            elementRegistry.get('nonInterruptingTimerStartEventDate')
           ];
 
           for (const element of elements) {
@@ -94,7 +96,8 @@ describe('provider/zeebe - TimerProps', function() {
           // given
           const elements = [
             elementRegistry.get('intermediateTimerCatchEventDuration'),
-            elementRegistry.get('interruptingBoundaryEventDuration')
+            elementRegistry.get('interruptingBoundaryEventDuration'),
+            elementRegistry.get('interruptingTimerStartEventDate')
           ];
 
           for (const element of elements) {
@@ -116,7 +119,7 @@ describe('provider/zeebe - TimerProps', function() {
 
       describe('generic textField', function() {
 
-        it('should display if only duration is available', inject(async function(elementRegistry, selection) {
+        it('should display if type is selected', inject(async function(elementRegistry, selection) {
 
           // given
           const elements = [
@@ -139,7 +142,41 @@ describe('provider/zeebe - TimerProps', function() {
         }));
 
 
-        it('should NOT display if multiple options are available', inject(async function(elementRegistry, selection) {
+        it('should display if only one type is available', inject(async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('interruptingTimerStartEventDate');
+
+          // when
+          await act(() => {
+            selection.select(element);
+          });
+
+          const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
+
+          // then
+          expect(definitionTypeTextField).to.exist;
+        }));
+
+
+        it('should display correct label for only one type available', inject(async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('interruptingTimerStartEventDate');
+
+          // when
+          await act(() => {
+            selection.select(element);
+          });
+
+          const label = domQuery('[data-entry-id="timerEventDefinitionValue"] label', container);
+
+          // then
+          expect(label).to.have.property('textContent', 'Date');
+        }));
+
+
+        it('should NOT display if only duration is available', inject(async function(elementRegistry, selection) {
 
           // given
           const elements = [
