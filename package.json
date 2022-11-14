@@ -72,7 +72,7 @@
     "@testing-library/preact": "^2.0.1",
     "@testing-library/preact-hooks": "^1.1.0",
     "axe-core": "^4.4.2",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^9.0.0",
     "babel-plugin-istanbul": "^6.1.1",
     "bpmn-js": "^10.2.0",
     "bpmn-js-connectors-extension": "^0.4.2",
