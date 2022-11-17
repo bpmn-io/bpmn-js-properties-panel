@@ -108,7 +108,7 @@ function DecisionRef(props) {
       element,
       moddleElement: businessObject,
       properties: {
-        'camunda:decisionRef': value
+        'camunda:decisionRef': value || ''
       }
     });
   };
