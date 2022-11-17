@@ -382,6 +382,9 @@ function ImplementationDetails(props) {
   } else if (type === 'script') {
     return ScriptProps({ element, script: listener.get('script'), prefix: idPrefix });
   }
+
+  // should never happen
+  return [];
 }
 
 function EventTypeDetails(props) {

@@ -104,7 +104,7 @@ export function JavaClass(props) {
       element,
       moddleElement: businessObject,
       properties: {
-        'camunda:class': value
+        'camunda:class': value || ''
       }
     });
   };
@@ -139,7 +139,7 @@ export function Expression(props) {
       element,
       moddleElement: businessObject,
       properties: {
-        'camunda:expression': value
+        'camunda:expression': value || ''
       }
     });
   };
@@ -207,7 +207,7 @@ export function DelegateExpression(props) {
       element,
       moddleElement: businessObject,
       properties: {
-        'camunda:delegateExpression': value
+        'camunda:delegateExpression': value || ''
       }
     });
   };

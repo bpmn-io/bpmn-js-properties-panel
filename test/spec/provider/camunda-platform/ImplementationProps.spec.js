@@ -122,6 +122,29 @@ describe('provider/camunda-platform - ImplementationProps', function() {
     }));
 
 
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_class');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const input = domQuery('input[name=javaClass]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const camundaClass = getBusinessObject(serviceTask).get('camunda:class');
+
+      expect(camundaClass).to.exist;
+      expect(camundaClass).eql('');
+    }));
+
+
     it('should update on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 
@@ -213,6 +236,29 @@ describe('provider/camunda-platform - ImplementationProps', function() {
 
       // then
       expect(getServiceTaskLikeBusinessObject(messageEvent).get('camunda:class')).to.eql('newValue');
+    }));
+
+
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_class');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const input = domQuery('input[name=javaClass]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const camundaClass = getBusinessObject(serviceTask).get('camunda:class');
+
+      expect(camundaClass).to.exist;
+      expect(camundaClass).eql('');
     }));
 
 
@@ -310,6 +356,29 @@ describe('provider/camunda-platform - ImplementationProps', function() {
     }));
 
 
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_expression');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const input = domQuery('input[name=expression]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const expression = getBusinessObject(serviceTask).get('camunda:expression');
+
+      expect(expression).to.exist;
+      expect(expression).eql('');
+    }));
+
+
     it('should update on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 
@@ -401,6 +470,29 @@ describe('provider/camunda-platform - ImplementationProps', function() {
 
       // then
       expect(getServiceTaskLikeBusinessObject(messageEvent).get('camunda:expression')).to.eql('newValue');
+    }));
+
+
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_Expression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      const input = domQuery('input[name=expression]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const expression = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:expression');
+
+      expect(expression).to.exist;
+      expect(expression).eql('');
     }));
 
 
@@ -688,6 +780,29 @@ describe('provider/camunda-platform - ImplementationProps', function() {
     }));
 
 
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_delegateExpression');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const input = domQuery('input[name=delegateExpression]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const delegateExpression = getBusinessObject(serviceTask).get('camunda:delegateExpression');
+
+      expect(delegateExpression).to.exist;
+      expect(delegateExpression).eql('');
+    }));
+
+
     it('should update on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 
@@ -781,6 +896,29 @@ describe('provider/camunda-platform - ImplementationProps', function() {
       expect(
         getServiceTaskLikeBusinessObject(messageEvent).get('camunda:delegateExpression')
       ).to.eql('newValue');
+    }));
+
+
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('MessageEndEvent_DelegateExpression');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      const input = domQuery('input[name=delegateExpression]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const delegateExpression = getServiceTaskLikeBusinessObject(messageEvent).get('camunda:delegateExpression');
+
+      expect(delegateExpression).to.exist;
+      expect(delegateExpression).eql('');
     }));
 
 

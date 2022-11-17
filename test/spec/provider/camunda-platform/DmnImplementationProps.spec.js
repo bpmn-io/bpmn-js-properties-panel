@@ -119,6 +119,29 @@ describe('provider/camunda-platform - DmnImplementationProps', function() {
     }));
 
 
+    it('should NOT delete property on empty value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const businessRuleTask = elementRegistry.get('BusinessRuleTask_dmn');
+
+      await act(() => {
+        selection.select(businessRuleTask);
+      });
+
+      const input = domQuery('input[name=decisionRef]', container);
+      changeInput(input, 'newValue');
+
+      // when
+      changeInput(input, '');
+
+      // then
+      const decisionRef = getBusinessObject(businessRuleTask).get('camunda:decisionRef');
+
+      expect(decisionRef).to.exist;
+      expect(decisionRef).to.eql('');
+    }));
+
+
     it('should update on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 
