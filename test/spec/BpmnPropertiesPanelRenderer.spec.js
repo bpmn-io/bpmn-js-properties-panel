@@ -63,6 +63,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   afterEach(() => cleanup());
 
+  let container;
+
   beforeEach(function() {
     modelerContainer = document.createElement('div');
     modelerContainer.classList.add('modeler-container');
@@ -70,7 +72,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     propertiesContainer = document.createElement('div');
     propertiesContainer.classList.add('properties-container');
 
-    const container = TestContainer.get(this);
+    container = TestContainer.get(this);
 
     container.appendChild(modelerContainer);
     container.appendChild(propertiesContainer);
@@ -103,6 +105,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       moddleExtensions,
       propertiesPanel: {
         parent: propertiesContainer,
+        feelTooltipContainer: container,
         description,
         layout
       },

@@ -7,8 +7,6 @@ import {
   useService
 } from '../../../hooks';
 
-import { withVariableContext } from '../../HOCs';
-
 import {
   isTimerSupported,
   getTimerEventDefinition,
@@ -16,9 +14,11 @@ import {
 } from '../../../utils/EventDefinitionUtil';
 
 import {
-  FeelEntry, isFeelEntryEdited,
+  isFeelEntryEdited,
   SelectEntry, isSelectEntryEdited,
 } from '@bpmn-io/properties-panel';
+
+import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
 
 
 /**
@@ -232,7 +232,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     element,
     id: legacyId || 'timerEventDefinitionValue',
     label: label || translate('Value'),

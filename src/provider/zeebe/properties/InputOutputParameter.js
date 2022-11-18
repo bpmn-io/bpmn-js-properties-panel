@@ -2,13 +2,13 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { TextFieldEntry, FeelEntry } from '@bpmn-io/properties-panel';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
 } from '../../../hooks';
 
-import { withVariableContext } from '../../HOCs';
+import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
 
 
 export default function InputOutputParameter(props) {
@@ -93,7 +93,7 @@ function SourceProperty(props) {
     return parameter.source;
   };
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     bpmnElement: element,
     element: parameter,
     id: idPrefix + '-source',

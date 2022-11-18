@@ -7,8 +7,6 @@ import {
 
 import { useService } from '../../../hooks';
 
-import { withVariableContext } from '../../HOCs';
-
 import { PropertyDescription } from '../../element-templates/components/PropertyDescription';
 
 import { getPropertyValue, setPropertyValue } from '../util/propertyUtil';
@@ -19,7 +17,7 @@ import {
   CheckboxEntry, isCheckboxEntryEdited,
   TextAreaEntry, isTextAreaEntryEdited,
   TextFieldEntry, isTextFieldEntryEdited,
-  FeelEntry, FeelTextAreaEntry, isFeelEntryEdited
+  isFeelEntryEdited
 } from '@bpmn-io/properties-panel';
 
 import {
@@ -30,6 +28,8 @@ import {
   ZEEBE_PROPERTY_TYPE,
   ZEEBE_TASK_HEADER_TYPE
 } from '../util/bindingTypes';
+
+import { FeelEntryWithContext, FeelTextAreaEntryWithContext } from '../../../entries/FeelEntryWithContext';
 
 const DEFAULT_CUSTOM_GROUP = {
   id: 'ElementTemplates__CustomProperties',
@@ -278,7 +278,7 @@ function FeelTextAreaProperty(props) {
         debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  return withVariableContext(FeelTextAreaEntry)({
+  return FeelTextAreaEntryWithContext({
     debounce,
     element,
     getValue: propertyGetter(element, property),
@@ -311,7 +311,7 @@ function FeelProperty(props) {
         debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     debounce,
     element,
     getValue: propertyGetter(element, property),

@@ -3,7 +3,7 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { FeelEntry, isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 import {
   getExtensionElementsList
@@ -17,7 +17,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { withVariableContext } from '../../HOCs';
+import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function AssignmentDefinitionProps(props) {
@@ -125,7 +125,7 @@ function Assignee(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     element,
     id: 'assignmentDefinitionAssignee',
     label: translate('Assignee'),
@@ -212,7 +212,7 @@ function CandidateGroups(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     element,
     id: 'assignmentDefinitionCandidateGroups',
     label: translate('Candidate groups'),
@@ -299,7 +299,7 @@ function CandidateUsers(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     element,
     id: 'assignmentDefinitionCandidateUsers',
     label: translate('Candidate users'),
