@@ -4,7 +4,7 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  FeelEntry, isFeelEntryEdited
+  isFeelEntryEdited
 } from '@bpmn-io/properties-panel';
 
 import {
@@ -18,7 +18,7 @@ import {
 
 import { useService } from '../../../hooks';
 
-import { withVariableContext } from '../../HOCs';
+import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function TargetProps(props) {
@@ -119,7 +119,7 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return withVariableContext(FeelEntry)({
+  return FeelEntryWithContext({
     element,
     id,
     label: translate('Process ID'),
