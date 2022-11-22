@@ -1,5 +1,6 @@
 import { getVariablesForElement } from '@bpmn-io/extract-process-variables/zeebe';
-import { useMemo } from '@bpmn-io/properties-panel/preact/hooks';
+import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
+import { useService } from '../../hooks';
 
 export function withVariableContext(Component) {
   return props => {
@@ -7,17 +8,29 @@ export function withVariableContext(Component) {
 
     const bo = (bpmnElement || element).businessObject;
 
-    const context = useMemo(() => {
-      const variables = getVariablesForElement(bo);
+    const [ variables, setVariables ] = useState([]);
+    const eventBus = useService('eventBus');
 
-      return variables.map(variable => {
-        return {
-          name: variable.name,
-          info: 'Written in ' + variable.origin.map(origin => origin.name || origin.id).join(', '),
-        };
-      });
+    useEffect(() => {
+      const callback = () => {
+        const variables = getVariablesForElement(bo);
+
+        setVariables(variables.map(variable => {
+          return {
+            name: variable.name,
+            info: 'Written in ' + variable.origin.map(origin => origin.name || origin.id).join(', '),
+          };
+        }));
+      };
+
+      eventBus.on('commandStack.changed', callback);
+      callback();
+
+      return () => {
+        eventBus.off('commandStack.changed', callback);
+      };
     }, [ bo ]);
 
-    return <Component { ...props } variables={ context }></Component>;
+    return <Component { ...props } variables={ variables }></Component>;
   };
 }
