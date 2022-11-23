@@ -92,6 +92,33 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
     );
 
 
+    it('should switch between conditional properties', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_1');
+        let businessObject = getBusinessObject(element);
+        changeTemplate(element, template);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foo'
+        });
+
+        // then
+        expectPropertyValue(businessObject, 'default value');
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'bar'
+        });
+
+        // then
+        expectPropertyValue(businessObject, 'default value v2');
+      })
+    );
+
+
     it('undo', inject(function(commandStack, elementRegistry, modeling) {
 
       // given
@@ -184,6 +211,34 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
 
         // then
         expect(taskDefinition).to.be.undefined;
+      })
+    );
+
+
+    it('should switch between conditional properties', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_1');
+        let businessObject = getBusinessObject(element);
+
+        changeTemplate(element, template);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foo'
+        });
+
+        // then
+        expectTaskDefinitionType(businessObject, 'someValue');
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foobar'
+        });
+
+        // then
+        expectTaskDefinitionType(businessObject, 'someValue2');
       })
     );
 
@@ -312,6 +367,34 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
     );
 
 
+    it('should switch between conditional properties', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_1');
+        changeTemplate(element, template);
+
+        const businessObject = getBusinessObject(element);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foo'
+        });
+
+        // then
+        expectOutputTarget(businessObject, '');
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foobar'
+        });
+
+        // then
+        expectOutputTarget(businessObject, 'someValue');
+      })
+    );
+
+
     it('undo', inject(function(commandStack, elementRegistry, modeling) {
 
       // given
@@ -433,6 +516,34 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
     );
 
 
+    it('should switch between conditional properties', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Task_1');
+        changeTemplate(element, template);
+
+        const businessObject = getBusinessObject(element);
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foo'
+        });
+
+        // then
+        expectTaskHeaderValue(businessObject, '1');
+
+        // when
+        modeling.updateProperties(element, {
+          name: 'foobar'
+        });
+
+        // then
+        expectTaskHeaderValue(businessObject, '2');
+      })
+    );
+
+
     it('undo', inject(function(commandStack, elementRegistry, modeling) {
 
       // given
@@ -514,6 +625,34 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
       );
 
 
+      it('should switch between conditional properties', inject(
+        async function(elementRegistry, modeling) {
+
+          // given
+          const element = elementRegistry.get('Task_1'),
+                businessObject = getBusinessObject(element);
+
+          changeTemplate(element, template);
+
+          // when
+          modeling.updateProperties(element, {
+            name: 'foo'
+          });
+
+          // then
+          expectZeebePropertyValue(businessObject, '');
+
+          // when
+          modeling.updateProperties(element, {
+            name: 'foobar'
+          });
+
+          // then
+          expectZeebePropertyValue(businessObject, 'someValue');
+        })
+      );
+
+
       it('undo', inject(function(commandStack, elementRegistry, modeling) {
 
         // given
@@ -585,7 +724,6 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
 
         // then
         const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
-
         expect(zeebeProperties).not.to.exist;
       })
     );
@@ -615,4 +753,43 @@ function changeTemplate(element, newTemplate, oldTemplate) {
 
     return elementTemplates.applyTemplate(element, newTemplate);
   });
+}
+
+function expectPropertyValue(businessObject, value) {
+  const property = businessObject.get('customProperty');
+
+  expect(property).to.exist;
+  expect(property).to.eql(value);
+}
+
+function expectTaskDefinitionType(businessObject, type) {
+  const taskDefinition = findExtension(businessObject, 'zeebe:TaskDefinition');
+
+  expect(taskDefinition).to.exist;
+  expect(taskDefinition.type).to.eql(type);
+}
+
+function expectOutputTarget(businessObject, target) {
+  const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+  const outputs = ioMapping.get('zeebe:outputParameters');
+
+  expect(outputs).to.have.lengthOf(1);
+  expect(outputs[0].target).to.eql(target);
+}
+
+
+function expectTaskHeaderValue(businessObject, value) {
+  const taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders').get('values');
+
+  expect(taskHeaders).to.have.lengthOf(1);
+  expect(taskHeaders[0].value).to.eql(value);
+}
+
+function expectZeebePropertyValue(businessObject, value) {
+  const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
+  const properties = zeebeProperties.get('zeebe:properties');
+
+  expect(zeebeProperties).to.exist;
+  expect(properties).to.have.lengthOf(1);
+  expect(properties[0].value).to.eql(value);
 }
