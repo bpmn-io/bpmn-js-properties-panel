@@ -8,8 +8,7 @@ jobs:
         os: [ ubuntu-latest ]
         node-version: [ 16 ]
         integration-deps:
-        - "@bpmn-io/properties-panel@0.17.x"
-        - "@bpmn-io/properties-panel@0.20.x"
+        - "@bpmn-io/properties-panel@0.25.x"
         - diagram-js@8.x bpmn-js@9.x
         - "" # as defined in package.json
 
