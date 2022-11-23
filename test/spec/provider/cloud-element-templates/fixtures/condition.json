@@ -29,6 +29,20 @@
       }
     },
     {
+      "id": "otherProperty2",
+      "label": "property",
+      "type": "String",
+      "value": "default value v2",
+      "binding": {
+        "type": "property",
+        "name": "customProperty"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "bar"
+      }
+    },
+    {
       "id": "noDefaultProperty",
       "label": "property",
       "type": "Hidden",
@@ -43,6 +57,7 @@
     },
     {
       "label": "name",
+      "type": "String",
       "value": "someValue",
       "binding": {
         "type": "zeebe:taskDefinition:type"
@@ -50,6 +65,18 @@
       "condition": {
         "property": "parentProperty",
         "equals": "foo"
+      }
+    },
+    {
+      "label": "name",
+      "type": "String",
+      "value": "someValue2",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foobar"
       }
     },
     {
@@ -79,6 +106,19 @@
       }
     },
     {
+      "label": "zeebe:output2",
+      "value": "someValue",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "= body"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foobar"
+      }
+    },
+    {
       "label": "zeebe:taskHeader",
       "value": "1",
       "type": "String",
@@ -89,6 +129,19 @@
       "condition": {
         "property": "parentProperty",
         "equals": "foo"
+      }
+    },
+    {
+      "label": "zeebe:taskHeader2",
+      "value": "2",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "someOtherKey"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foobar"
       }
     },
     {
@@ -115,6 +168,19 @@
       "condition": {
         "property": "parentProperty",
         "equals": "foo"
+      }
+    },
+    {
+      "label": "zeebe:property2",
+      "value": "someValue",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "someName"
+      },
+      "condition": {
+        "property": "parentProperty",
+        "equals": "foobar"
       }
     },
     {
