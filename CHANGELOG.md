@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: update available variables on commandstack changes ([#393](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/814))
+* `FEAT`: configure feel tooltip placement using the properties panel configuration ([#393](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/814))
+
+### Breaking changes
+This release requires `@bpmn-io/properties-panel@0.25.0` or higher. Older releases of `@bpmn-io/properties-panel` will break the feel editor.
+
 ## 1.11.2
 
 * `FIX`: ensure `ImplementationProps` does not remove empty properties ([#811](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/811))
