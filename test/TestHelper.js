@@ -16,6 +16,8 @@ import semver from 'semver';
 
 import fileDrop from 'file-drops';
 
+import download from 'downloadjs';
+
 import Modeler from 'bpmn-js/lib/Modeler';
 
 import axe from 'axe-core';
@@ -235,3 +237,22 @@ insertCSS('file-drops.css', `
     transform: translateX(-50%);
   }
 `);
+
+// be able to download diagrams using CTRL/CMD+S
+document.addEventListener('keydown', function(event) {
+  const bpmnJS = getBpmnJS();
+
+  if (!bpmnJS) {
+    return;
+  }
+
+  if (!(event.ctrlKey || event.metaKey) || event.code !== 'KeyS') {
+    return;
+  }
+
+  event.preventDefault();
+
+  bpmnJS.saveXML({ format: true }).then(function(result) {
+    download(result.xml, 'test.bpmn', 'application/xml');
+  });
+});
