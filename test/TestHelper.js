@@ -7,11 +7,14 @@ import TestContainer from 'mocha-test-container-support';
 
 import {
   bootstrapBpmnJS,
+  getBpmnJS,
   inject,
   insertCSS
 } from 'bpmn-js/test/helper';
 
 import semver from 'semver';
+
+import fileDrop from 'file-drops';
 
 import Modeler from 'bpmn-js/lib/Modeler';
 
@@ -209,3 +212,26 @@ export async function setEditorValue(editor, value) {
   // Requires 2 ticks to propagate the change to bpmn-js
   await act(() => {});
 }
+
+// be able to load files into running bpmn-js test cases
+document.documentElement.addEventListener('dragover', fileDrop('Drop a BPMN diagram to open it in the currently active test.', function(files) {
+  const bpmnJS = getBpmnJS();
+
+  if (bpmnJS && files.length === 1) {
+    bpmnJS.importXML(files[0].contents);
+  }
+}));
+
+insertCSS('file-drops.css', `
+  .drop-overlay .box {
+    background: orange;
+    border-radius: 3px;
+    display: inline-block;
+    font-family: sans-serif;
+    padding: 4px 10px;
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+`);
