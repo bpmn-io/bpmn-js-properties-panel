@@ -207,7 +207,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     // given
     const diagramXml = require('test/spec/provider/element-templates/fixtures/complex.bpmn').default;
 
-    const elementTemplates = require('test/spec/provider/element-templates/fixtures/complex.json');
+    const elementTemplateContext = require.context('test/spec/provider/element-templates/fixtures', false, /\.json$/);
+
+    const elementTemplates = elementTemplateContext.keys().map(key => elementTemplateContext(key)).flat();
 
     // when
     const result = await createModeler(
@@ -237,7 +239,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     // given
     const diagramXml = require('test/spec/provider/cloud-element-templates/fixtures/complex.bpmn').default;
 
-    const elementTemplates = require('test/spec/provider/cloud-element-templates/fixtures/complex.json');
+    const elementTemplateContext = require.context('test/spec/provider/cloud-element-templates/fixtures', false, /\.json$/);
+
+    const elementTemplates = elementTemplateContext.keys().map(key => elementTemplateContext(key)).flat();
 
     // when
     const result = await createModeler(
