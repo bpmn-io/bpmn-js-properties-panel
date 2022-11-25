@@ -24,8 +24,8 @@
         "name": "customProperty"
       },
       "condition": {
-        "property": "nameProp",
-        "equals": "foo"
+        "equals": "foo",
+        "property": "nameProp"
       }
     },
     {
