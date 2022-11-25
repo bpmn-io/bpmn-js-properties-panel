@@ -6,7 +6,7 @@
   "appliesTo": ["bpmn:Task"],
   "properties": [
     {
-      "id": "parentProperty",
+      "id": "nameProp",
       "label": "name",
       "type": "String",
       "binding": {
@@ -18,13 +18,13 @@
       "id": "otherProperty",
       "label": "property",
       "type": "String",
-      "value": "default value",
+      "value": "nameProp=foo",
       "binding": {
         "type": "property",
         "name": "customProperty"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foo"
       }
     },
@@ -32,13 +32,13 @@
       "id": "otherProperty2",
       "label": "property",
       "type": "String",
-      "value": "default value v2",
+      "value": "nameProp=bar",
       "binding": {
         "type": "property",
         "name": "customProperty"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "bar"
       }
     },
@@ -51,31 +51,31 @@
         "name": "noDefaultProperty"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foo"
       }
     },
     {
       "label": "name",
       "type": "String",
-      "value": "someValue",
+      "value": "nameProp=foo",
       "binding": {
         "type": "zeebe:taskDefinition:type"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foo"
       }
     },
     {
       "label": "name",
       "type": "String",
-      "value": "someValue2",
+      "value": "nameProp=foobar",
       "binding": {
         "type": "zeebe:taskDefinition:type"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foobar"
       }
     },
@@ -88,7 +88,7 @@
         "name": "body"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "oneOf": ["foo", "bar"]
       }
     },
@@ -101,46 +101,46 @@
         "source": "= body"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foo"
       }
     },
     {
       "label": "zeebe:output2",
-      "value": "someValue",
+      "value": "nameProp=foobar",
       "type": "String",
       "binding": {
         "type": "zeebe:output",
         "source": "= body"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foobar"
       }
     },
     {
       "label": "zeebe:taskHeader",
-      "value": "1",
+      "value": "nameProp=foo",
       "type": "String",
       "binding": {
         "type": "zeebe:taskHeader",
         "key": "someOtherKey"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foo"
       }
     },
     {
       "label": "zeebe:taskHeader2",
-      "value": "2",
+      "value": "nameProp=foobar",
       "type": "String",
       "binding": {
         "type": "zeebe:taskHeader",
         "key": "someOtherKey"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foobar"
       }
     },
@@ -166,20 +166,20 @@
         "name": "someName"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foo"
       }
     },
     {
       "label": "zeebe:property2",
-      "value": "someValue",
+      "value": "nameProp=foobar",
       "type": "String",
       "binding": {
         "type": "zeebe:property",
         "name": "someName"
       },
       "condition": {
-        "property": "parentProperty",
+        "property": "nameProp",
         "equals": "foobar"
       }
     },
