@@ -1,0 +1,74 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Condition (dropdown, dynamic values)",
+  "id": "condition-dropdown-dynamic-values",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "properties": [
+    {
+      "id": "operation",
+      "label": "operation",
+      "description": "Operation to be done",
+      "type": "Dropdown",
+      "value": "action1",
+      "choices": [
+        {
+          "name": "Action 1",
+          "value": "action1"
+        },
+        {
+          "name": "Action 2",
+          "value": "action2"
+        },
+        {
+          "name": "Action 3",
+          "value": "action3"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "functionType"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Type",
+      "type": "String",
+      "value": "action1-value",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      },
+      "condition": {
+        "property": "operation",
+        "equals": "action1"
+      }
+    },
+    {
+      "label": "Type",
+      "type": "String",
+      "value": "action2-value",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      },
+      "condition": {
+        "property": "operation",
+        "equals": "action2"
+      }
+    },
+    {
+      "label": "Type",
+      "type": "String",
+      "value": "action3-value",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      },
+      "condition": {
+        "property": "operation",
+        "equals": "action3"
+      }
+    }
+  ]
+}

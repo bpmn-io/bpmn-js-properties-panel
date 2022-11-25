@@ -465,6 +465,52 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       expect(taskDefinitions[0].get('type')).to.eql('http');
     }));
 
+
+    it('should apply valid dynamic property binding', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      elementTemplates.set([
+        require('./fixtures/condition-dropdown-dynamic-values.json'),
+        require('./fixtures/condition-dropdown-dynamic-values-1.json')
+      ]);
+
+      const template = elementTemplates.get('condition-dropdown-dynamic-values');
+      const task = elementTemplates.applyTemplate(elementRegistry.get('Task_3'), template);
+
+      // assume
+      expect(
+        task.businessObject.extensionElements.values[0].inputParameters[0].source
+      ).to.eql(
+        'action1'
+      );
+
+      expect(
+        task.businessObject.extensionElements.values[1].type
+      ).to.eql(
+        'action1-value'
+      );
+
+      // when
+      const newTemplate = elementTemplates.get('condition-dropdown-dynamic-values-1');
+      const updatedTask = elementTemplates.applyTemplate(task, newTemplate);
+
+      // then
+      expect(updatedTask).to.exist;
+
+      // assume
+      expect(
+        updatedTask.businessObject.extensionElements.values[0].inputParameters[0].source
+      ).to.eql(
+        'action1'
+      );
+
+      expect(
+        updatedTask.businessObject.extensionElements.values[1].type
+      ).to.eql(
+        'action1-value-2'
+      );
+    }));
+
   });
 
 });
