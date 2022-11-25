@@ -106,7 +106,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectPropertyValue(businessObject, 'default value');
+        expectPropertyValue(businessObject, 'nameProp=foo');
 
         // when
         modeling.updateProperties(element, {
@@ -114,7 +114,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectPropertyValue(businessObject, 'default value v2');
+        expectPropertyValue(businessObject, 'nameProp=bar');
       })
     );
 
@@ -230,7 +230,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectTaskDefinitionType(businessObject, 'someValue');
+        expectTaskDefinitionType(businessObject, 'nameProp=foo');
 
         // when
         modeling.updateProperties(element, {
@@ -238,7 +238,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectTaskDefinitionType(businessObject, 'someValue2');
+        expectTaskDefinitionType(businessObject, 'nameProp=foobar');
       })
     );
 
@@ -390,7 +390,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectOutputTarget(businessObject, 'someValue');
+        expectOutputTarget(businessObject, 'nameProp=foobar');
       })
     );
 
@@ -531,7 +531,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectTaskHeaderValue(businessObject, '1');
+        expectTaskHeaderValue(businessObject, 'nameProp=foo');
 
         // when
         modeling.updateProperties(element, {
@@ -539,7 +539,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectTaskHeaderValue(businessObject, '2');
+        expectTaskHeaderValue(businessObject, 'nameProp=foobar');
       })
     );
 
@@ -564,7 +564,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
       commandStack.undo();
 
       // then
-      expect(findExtension(businessObject, 'zeebe:TaskHeaders')).to.be.undefined;
+      expect(findExtension(businessObject, 'zeebe:TaskHeaders')).not.to.exist;
 
     }));
 
@@ -585,14 +585,13 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
       commandStack.undo();
 
       // assume
-      expect(findExtension(businessObject, 'zeebe:TaskHeaders')).to.be.undefined;
+      expect(findExtension(businessObject, 'zeebe:TaskHeaders')).not.to.exist;
 
       // when
       commandStack.redo();
 
       // then
       expect(findExtension(businessObject, 'zeebe:TaskHeaders')).to.exist;
-
     }));
 
   });
@@ -648,7 +647,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
           });
 
           // then
-          expectZeebePropertyValue(businessObject, 'someValue');
+          expectZeebePropertyValue(businessObject, 'nameProp=foobar');
         })
       );
 
