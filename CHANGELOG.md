@@ -6,8 +6,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 2.0.0
+
 * `FEAT`: update available variables on commandstack changes ([#393](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/814))
 * `FEAT`: configure feel tooltip placement using the properties panel configuration ([#393](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/814))
+* `FIX`: render conditional properties with same binding reliably ([#3029](https://github.com/camunda/camunda-modeler/issues/3029))
+* `DEPS`: update to `diagram-js@11.0.0`
+* `DEPS`: update to `bpmn-js@11.0.0`
+* `DEPS`: update to `@bpmn-io/properties-panel@0.25.0`
 
 ### Breaking changes
 This release requires `@bpmn-io/properties-panel@0.25.0` or higher. Older releases of `@bpmn-io/properties-panel` will break the feel editor.
