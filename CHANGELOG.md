@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.11.3
+* `FIX`: render conditional properties with same binding reliably ([#3029](https://github.com/camunda/camunda-modeler/issues/3029))
+
 ## 1.11.2
 
 * `FIX`: ensure `ImplementationProps` does not remove empty properties ([#811](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/811))
