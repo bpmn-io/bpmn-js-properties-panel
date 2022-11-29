@@ -63,7 +63,7 @@
     "@babel/plugin-transform-react-jsx": "^7.14.3",
     "@bpmn-io/element-template-chooser": "^0.1.0",
     "@bpmn-io/element-templates-icons-renderer": "^0.3.0",
-    "@bpmn-io/properties-panel": "^0.25.0",
+    "@bpmn-io/properties-panel": "^1.0.0",
     "@rollup/plugin-alias": "^4.0.0",
     "@rollup/plugin-babel": "^6.0.0",
     "@rollup/plugin-commonjs": "^23.0.0",
@@ -112,7 +112,7 @@
     "zeebe-bpmn-moddle": "^0.16.0"
   },
   "peerDependencies": {
-    "@bpmn-io/properties-panel": ">= 0.25",
+    "@bpmn-io/properties-panel": "^1.0.0",
     "bpmn-js": ">= 8",
     "camunda-bpmn-js-behaviors": ">= 0.4",
     "diagram-js": ">= 7"
