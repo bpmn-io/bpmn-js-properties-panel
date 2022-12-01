@@ -18,6 +18,7 @@ import {
 
 import {
   find,
+  isDefined,
   isUndefined,
   without
 } from 'min-dash';
@@ -352,8 +353,9 @@ export default class ChangeElementTemplateHandler {
         }
       }
 
-      // (3) add new inputs and outputs (unless optional)
-      else if (shouldUpdate(newPropertyValue, newProperty)) {
+      // (3) add new inputs and outputs (unless optional or undefined value)
+      else if (isDefined(newPropertyValue) && shouldUpdate(newPropertyValue, newProperty)) {
+
         if (newBindingType === 'zeebe:input') {
           propertyName = 'inputParameters';
 

@@ -382,7 +382,7 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         });
 
         // then
-        expectOutputTarget(businessObject, '');
+        expectOutputTarget(businessObject, 'nameProp=foo');
 
         // when
         modeling.updateProperties(element, {
