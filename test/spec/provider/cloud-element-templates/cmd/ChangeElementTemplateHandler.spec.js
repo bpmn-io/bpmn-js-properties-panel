@@ -1982,7 +1982,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       beforeEach(bootstrap(require('./task.bpmn').default));
 
 
-      it('should create - optional -> non optional', inject(function(elementRegistry) {
+      it('should create - optional -> non optional (no value)', inject(function(elementRegistry) {
 
         // given
         const task = elementRegistry.get('Task_1');
@@ -2055,7 +2055,82 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       }));
 
 
-      it('should remove - non optional -> optional (empty value)', inject(function(elementRegistry) {
+      it('should create - optional -> non optional (value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            value: 'input-1-new-value',
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            value: 'output-1-new-value',
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        // assume
+        expect(ioMapping.get('zeebe:inputParameters')).to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping).to.exist;
+        expect(ioMapping.get('zeebe:inputParameters')).to.have.length(1);
+        expect(ioMapping.get('zeebe:outputParameters')).to.have.length(1);
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Input',
+            source: 'input-1-new-value',
+            target: 'input-1-target'
+          }
+        ]);
+
+        expect(ioMapping.get('zeebe:outputParameters')).to.jsonEqual([
+          {
+            $type: 'zeebe:Output',
+            source: 'output-1-source',
+            target: 'output-1-new-value'
+          }
+        ]);
+      }));
+
+
+      it('should remove - non optional (value) -> optional (no value)', inject(function(elementRegistry) {
 
         // given
         const task = elementRegistry.get('Task_1');
@@ -2069,7 +2144,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
             }
           },
           {
-            value: 'input-2-source',
+            value: 'output-2-source',
             binding: {
               type: 'zeebe:output',
               source: 'output-1-source'
@@ -2113,7 +2188,63 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       }));
 
 
-      it('should keep - non optional -> optional (new value)', inject(function(elementRegistry) {
+      it('should remove - non optional (no value)  -> optional (no value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:input',
+              name: 'input-1-target'
+            }
+          },
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:output',
+              source: 'output-1-source'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        // assume
+        expect(ioMapping.get('zeebe:inputParameters')).not.to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).not.to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        expect(ioMapping.get('zeebe:inputParameters')).to.be.empty;
+        expect(ioMapping.get('zeebe:outputParameters')).to.to.be.empty;
+      }));
+
+
+      it('should update - non optional -> optional (new value)', inject(function(elementRegistry) {
 
         // given
         const task = elementRegistry.get('Task_1');
@@ -2967,7 +3098,58 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       beforeEach(bootstrap(require('./task.bpmn').default));
 
 
-      it('should create - optional -> non optional', inject(function(elementRegistry) {
+      it('should create - optional -> non optional (value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            value: 'property-1-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        // assume
+        expect(zeebeProperties.get('zeebe:properties')).to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties).to.exist;
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+          {
+            $type: 'zeebe:Property',
+            name: 'property-1-name',
+            value: 'property-1-value'
+          }
+        ]);
+      }));
+
+
+      it('should create - optional -> non optional (no value)', inject(function(elementRegistry) {
 
         // given
         const task = elementRegistry.get('Task_1');
@@ -3005,8 +3187,6 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         zeebeProperties = findExtension(task, 'zeebe:Properties');
 
         expect(zeebeProperties).to.exist;
-        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
-
         expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
           {
             $type: 'zeebe:Property',

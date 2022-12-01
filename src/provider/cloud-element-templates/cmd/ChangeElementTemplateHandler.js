@@ -21,6 +21,7 @@ import {
   isUndefined,
   without
 } from 'min-dash';
+
 import { applyConditions } from '../Condition';
 
 /**
@@ -354,6 +355,7 @@ export default class ChangeElementTemplateHandler {
 
       // (3) add new inputs and outputs (unless optional)
       else if (shouldUpdate(newPropertyValue, newProperty)) {
+
         if (newBindingType === 'zeebe:input') {
           propertyName = 'inputParameters';
 
@@ -822,11 +824,14 @@ function shouldKeepValue(element, oldProperty, newProperty) {
     );
   }
 
+  // keep existing old property if
+  // user changed it from the original
   if (oldProperty) {
     return propertyChanged(element, oldProperty);
-  } else {
-    return !!getPropertyValue(element, newProperty);
   }
+
+  // keep existing property value
+  return !!(getPropertyValue(element, newProperty));
 }
 
 /**
