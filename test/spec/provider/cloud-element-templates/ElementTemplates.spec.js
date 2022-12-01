@@ -469,53 +469,89 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       expect(taskDefinitions[0].get('type')).to.eql('http');
     }));
 
-
-    it('should apply valid dynamic property binding', inject(function(elementRegistry, elementTemplates) {
-
-      // given
-      elementTemplates.set([
-        require('./fixtures/condition-dropdown-dynamic-values.json'),
-        require('./fixtures/condition-dropdown-dynamic-values-1.json')
-      ]);
-
-      const template = elementTemplates.get('condition-dropdown-dynamic-values');
-      const task = elementTemplates.applyTemplate(elementRegistry.get('Task_3'), template);
-
-      // assume
-      expect(
-        task.businessObject.extensionElements.values[0].inputParameters[0].source
-      ).to.eql(
-        'action1'
-      );
-
-      expect(
-        task.businessObject.extensionElements.values[1].type
-      ).to.eql(
-        'action1-value'
-      );
-
-      // when
-      const newTemplate = elementTemplates.get('condition-dropdown-dynamic-values-1');
-      const updatedTask = elementTemplates.applyTemplate(task, newTemplate);
-
-      // then
-      expect(updatedTask).to.exist;
-
-      // assume
-      expect(
-        updatedTask.businessObject.extensionElements.values[0].inputParameters[0].source
-      ).to.eql(
-        'action1'
-      );
-
-      expect(
-        updatedTask.businessObject.extensionElements.values[1].type
-      ).to.eql(
-        'action1-value-2'
-      );
-    }));
-
   });
+
+});
+
+
+describe('provider/cloud-element-templates - ElementTemplates - conditional properties', function() {
+
+  const conditionalTemplates = [
+    require('./fixtures/condition-dropdown-dynamic-values.json'),
+    require('./fixtures/condition-dropdown-dynamic-values-1.json')
+  ];
+
+  const conditionalDiagramXML = require('./ElementTemplates.conditional-properties.bpmn').default;
+
+  let container;
+
+  beforeEach(function() {
+    container = TestContainer.get(this);
+  });
+
+  beforeEach(bootstrapModeler(conditionalDiagramXML, {
+    container: container,
+    modules: testModules,
+    moddleExtensions: testModdleExtensions
+  }));
+
+  beforeEach(inject(function(elementTemplates) {
+    elementTemplates.set(conditionalTemplates);
+  }));
+
+
+  it('should establish binding', inject(function(elementRegistry, elementTemplates) {
+
+    // given
+    const template = elementTemplates.get('condition-dropdown-dynamic-values');
+
+    const task = elementRegistry.get('TASK_BLANK');
+
+    // when
+    const updatedTask = elementTemplates.applyTemplate(task, template);
+
+    // then
+    // condition property established
+    expect(
+      updatedTask.businessObject.extensionElements.values[0].inputParameters[0].source
+    ).to.eql(
+      'action1'
+    );
+
+    // dependent active property established
+    expect(
+      updatedTask.businessObject.extensionElements.values[1].type
+    ).to.eql(
+      'action1-value'
+    );
+  }));
+
+
+  it('should change dynamic value', inject(function(elementRegistry, elementTemplates) {
+
+    // given
+    const task = elementRegistry.get('TASK_CONDITIONAL_APPLIED');
+
+    const newTemplate = elementTemplates.get('condition-dropdown-dynamic-values-1');
+    const updatedTask = elementTemplates.applyTemplate(task, newTemplate);
+
+    // then
+    expect(updatedTask).to.exist;
+
+    // condition property stays
+    expect(
+      updatedTask.businessObject.extensionElements.values[0].inputParameters[0].source
+    ).to.eql(
+      'action1'
+    );
+
+    // dependent active property changes
+    expect(
+      updatedTask.businessObject.extensionElements.values[1].type
+    ).to.eql(
+      'action1-value-2'
+    );
+  }));
 
 });
 
