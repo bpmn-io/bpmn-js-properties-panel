@@ -30,6 +30,20 @@ import integrationTemplates from './fixtures/integration';
 import { findExtensions, findExtension } from 'src/provider/cloud-element-templates/Helper';
 
 
+const testModules = [
+  coreModule,
+  elementTemplatesModule,
+  modelingModule,
+  propertiesCommandsModule,
+  {
+    propertiesPanel: [ 'value', { registerProvider() {} } ]
+  }
+];
+
+const testModdleExtensions = {
+  zeebe: zeebeModdlePackage
+};
+
 describe('provider/cloud-element-templates - ElementTemplates', function() {
 
   let container;
@@ -40,18 +54,8 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
   beforeEach(bootstrapModeler(diagramXML, {
     container: container,
-    modules: [
-      coreModule,
-      elementTemplatesModule,
-      modelingModule,
-      propertiesCommandsModule,
-      {
-        propertiesPanel: [ 'value', { registerProvider() {} } ]
-      }
-    ],
-    moddleExtensions: {
-      zeebe: zeebeModdlePackage
-    }
+    modules: testModules,
+    moddleExtensions: testModdleExtensions
   }));
 
   beforeEach(inject(function(elementTemplates) {
@@ -542,18 +546,8 @@ describe('provider/cloud-element-templates - ElementTemplates - integration', fu
 
     beforeEach(bootstrapModeler(integrationXML, {
       container: container,
-      modules: [
-        coreModule,
-        elementTemplatesModule,
-        modelingModule,
-        propertiesCommandsModule,
-        {
-          propertiesPanel: [ 'value', { registerProvider() {} } ]
-        }
-      ],
-      moddleExtensions: {
-        zeebe: zeebeModdlePackage
-      }
+      modules: testModules,
+      moddleExtensions: testModdleExtensions
     }));
 
 
