@@ -176,107 +176,7 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
         expect(updateAvailable).not.to.exist;
       })
     );
-  });
 
-
-  describe('template#entriesVisible', function() {
-
-    beforeEach(bootstrapPropertiesPanel(entriesVisibleDiagramXML, {
-      container,
-      modules: [
-        BpmnPropertiesPanel,
-        coreModule,
-        bpmnPropertiesProvider,
-        elementTemplatesModule,
-        modelingModule
-      ],
-      moddleExtensions: {
-        zeebe: zeebeModdlePackage
-      },
-      debounceInput: false,
-      elementTemplates: entriesVisibleTemplates
-    }));
-
-
-    it('should show only general group, and template-related entries when entriesVisible is unset',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const element = elementRegistry.get('ServiceTask');
-
-        // when
-        await act(() => {
-          selection.select(element);
-        });
-
-        // then
-        expectOnlyGroups(container, [
-          'general',
-          'ElementTemplates__Template'
-        ]);
-      })
-    );
-
-
-    it('should show only general group, and template-related entries when entriesVisible=false',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const element = elementRegistry.get('Task_2');
-
-        // when
-        await act(() => {
-          selection.select(element);
-        });
-
-        // then
-        expectOnlyGroups(container, [
-          'general',
-          'ElementTemplates__Template'
-        ]);
-      })
-    );
-
-
-    it('should show only general group, and template group when template is unknown',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const element = elementRegistry.get('UnknownTemplateTask');
-
-        // when
-        await act(() => {
-          selection.select(element);
-        });
-
-        // then
-        expectOnlyGroups(container, [
-          'general',
-          'ElementTemplates__Template'
-        ]);
-      })
-    );
-
-
-    it('should show all available groups when entriesVisible=true',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const element = elementRegistry.get('Task_1');
-
-        // when
-        await act(() => {
-          selection.select(element);
-        });
-
-        // then
-        const groups = getGroupIds(container);
-
-        expect(groups).to.contain('general');
-        expect(groups).to.contain('ElementTemplates__Template');
-        expect(groups).to.contain('documentation');
-      })
-    );
   });
 
 
@@ -601,6 +501,113 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
 });
 
+
+describe('provider/cloud-element-templates - ElementTemplates - template#entriesVisible', function() {
+
+  let container;
+
+  beforeEach(function() {
+    container = TestContainer.get(this);
+  });
+
+  beforeEach(bootstrapPropertiesPanel(entriesVisibleDiagramXML, {
+    container,
+    modules: [
+      BpmnPropertiesPanel,
+      coreModule,
+      bpmnPropertiesProvider,
+      elementTemplatesModule,
+      modelingModule
+    ],
+    moddleExtensions: {
+      zeebe: zeebeModdlePackage
+    },
+    debounceInput: false,
+    elementTemplates: entriesVisibleTemplates
+  }));
+
+
+  it('should show only general group, and template-related entries when entriesVisible is unset',
+    inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('ServiceTask');
+
+      // when
+      await act(() => {
+        selection.select(element);
+      });
+
+      // then
+      expectOnlyGroups(container, [
+        'general',
+        'ElementTemplates__Template'
+      ]);
+    })
+  );
+
+
+  it('should show only general group, and template-related entries when entriesVisible=false',
+    inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_2');
+
+      // when
+      await act(() => {
+        selection.select(element);
+      });
+
+      // then
+      expectOnlyGroups(container, [
+        'general',
+        'ElementTemplates__Template'
+      ]);
+    })
+  );
+
+
+  it('should show only general group, and template group when template is unknown',
+    inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('UnknownTemplateTask');
+
+      // when
+      await act(() => {
+        selection.select(element);
+      });
+
+      // then
+      expectOnlyGroups(container, [
+        'general',
+        'ElementTemplates__Template'
+      ]);
+    })
+  );
+
+
+  it('should show all available groups when entriesVisible=true',
+    inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(element);
+      });
+
+      // then
+      const groups = getGroupIds(container);
+
+      expect(groups).to.contain('general');
+      expect(groups).to.contain('ElementTemplates__Template');
+      expect(groups).to.contain('documentation');
+    })
+  );
+
+});
 
 
 // helper ////
