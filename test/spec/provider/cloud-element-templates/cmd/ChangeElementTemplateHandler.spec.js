@@ -2051,7 +2051,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
           {
             $type: 'zeebe:Output',
             source: 'output-1-source',
-            target: undefined
+            target: 'output-1-new-value'
           }
         ]);
       }));
@@ -3026,7 +3026,58 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
       beforeEach(bootstrap(require('./task.bpmn').default));
 
 
-      it('should create - optional -> non optional', inject(function(elementRegistry) {
+      it('should create - optional -> non optional (value)', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        const oldTemplate = createTemplate([
+          {
+            optional: true,
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        const newTemplate = createTemplate([
+          {
+            value: 'property-1-value',
+            binding: {
+              type: 'zeebe:property',
+              name: 'property-1-name'
+            }
+          }
+        ]);
+
+        changeTemplate('Task_1', oldTemplate);
+
+        let zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        // assume
+        expect(zeebeProperties.get('zeebe:properties')).to.be.empty;
+
+        // when
+        changeTemplate(task, newTemplate, oldTemplate);
+
+        // then
+        zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        expect(zeebeProperties).to.exist;
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
+
+        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
+          {
+            $type: 'zeebe:Property',
+            name: 'property-1-name',
+            value: 'property-1-value'
+          }
+        ]);
+      }));
+
+
+      it('should not create - optional -> non optional (no value)', inject(function(elementRegistry) {
 
         // given
         const task = elementRegistry.get('Task_1');
@@ -3064,15 +3115,7 @@ describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
         zeebeProperties = findExtension(task, 'zeebe:Properties');
 
         expect(zeebeProperties).to.exist;
-        expect(zeebeProperties.get('zeebe:properties')).to.have.length(1);
-
-        expect(zeebeProperties.get('zeebe:properties')).to.jsonEqual([
-          {
-            $type: 'zeebe:Property',
-            name: 'property-1-name',
-            value: ''
-          }
-        ]);
+        expect(zeebeProperties.get('zeebe:properties')).to.have.length(0);
       }));
 
 

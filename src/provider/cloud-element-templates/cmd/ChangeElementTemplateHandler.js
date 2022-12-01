@@ -581,7 +581,7 @@ export default class ChangeElementTemplateHandler {
       }
 
       // (3) add new zeebe:Property
-      else if (shouldUpdate(newPropertyValue, newProperty)) {
+      else if (isDefined(newPropertyValue) && shouldUpdate(newPropertyValue, newProperty)) {
         const newProperty = createZeebeProperty(newBinding, newPropertyValue, bpmnFactory);
 
         commandStack.execute('element.updateModdleProperties', {
