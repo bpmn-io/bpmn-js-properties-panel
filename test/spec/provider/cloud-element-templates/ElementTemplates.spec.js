@@ -532,17 +532,16 @@ describe('provider/cloud-element-templates - ElementTemplates - integration', fu
   describe('applyTemplate', function() {
 
     /*
-      These Tests confirm that our assumptions for keeping bindings hold true
-      over differnt scenrios. The basic assumptions are:
-
-       * Existing values will be kept, if they are valid in the new template
-       * Hidden values defined in the new template override existing values
-       * New default values override old (unchanged) default values
-
-      For unit tests over all possbile values, see `./cmd/ChangeElementTemplateHandler.spec.js`
-      cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/638
-    */
-
+     * These Tests confirm that our assumptions for keeping bindings hold true
+     * over differnt scenrios. The basic assumptions are:
+     *
+     *  * Existing values will be kept, if they are valid in the new template
+     *  * Hidden values defined in the new template override existing values
+     *  * New default values override old (unchanged) default values
+     *
+     * For unit tests over all possbile values, see `./cmd/ChangeElementTemplateHandler.spec.js`
+     * cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/638
+     */
 
     beforeEach(bootstrapModeler(integrationXML, {
       container: container,
