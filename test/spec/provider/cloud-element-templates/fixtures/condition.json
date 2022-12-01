@@ -81,7 +81,7 @@
     },
     {
       "label": "zeebe:input",
-      "value": "",
+      "value": "nameProp=foo",
       "type": "String",
       "binding": {
         "type": "zeebe:input",
@@ -94,7 +94,7 @@
     },
     {
       "label": "zeebe:output",
-      "value": "",
+      "value": "nameProp=foo",
       "type": "String",
       "binding": {
         "type": "zeebe:output",
