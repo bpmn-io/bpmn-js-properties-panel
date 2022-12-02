@@ -118,6 +118,40 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
     }));
 
 
+    it('should NOT display for scriptTask without taskDefinition', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('ScriptTask_1');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const typeInput = domQuery('input[name=taskDefinitionType]', container);
+
+      // then
+      expect(typeInput).to.not.exist;
+    }));
+
+
+    it('should display for scriptTask with taskDefinition', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('ScriptTask_2');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const typeInput = domQuery('input[name=taskDefinitionType]', container);
+
+      // then
+      expect(typeInput).to.exist;
+    }));
+
+
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
@@ -262,7 +296,7 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
     it('should display correct documentation for ScriptTask', inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('ScriptTask_1');
+      const serviceTask = elementRegistry.get('ScriptTask_2');
 
       await act(() => {
         selection.select(serviceTask);

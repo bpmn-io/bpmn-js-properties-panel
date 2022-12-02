@@ -1,5 +1,6 @@
 import {
-  is
+  is,
+  isAny
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -22,9 +23,9 @@ export function isZeebeServiceTask(element) {
     return !!getMessageEventDefinition(element);
   }
 
-  // A BusinessRuleTask is per default not a ServiceTask, only if it has a TaskDefinition
+  // BusinessRuleTask and ScriptTask are ServiceTasks only if they have a TaskDefinition
   // (ie. if the implementation is set to ==JobWorker)
-  if (is(element, 'bpmn:BusinessRuleTask') && !getTaskDefinition(element)) {
+  if (isAny(element, [ 'bpmn:BusinessRuleTask', 'bpmn:ScriptTask' ]) && !getTaskDefinition(element)) {
     return false;
   }
 

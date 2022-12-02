@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_16ejc8c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.5.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.1.0">
+  <bpmn:process id="Process_0mgn9vm" isExecutable="true">
+    <bpmn:task id="Task_1" name="Task_1" />
+    <bpmn:scriptTask id="ScriptTask_1" name="ScriptTask_1">
+      <bpmn:extensionElements>
+        <zeebe:script expression="=today()" resultVariable="myResultVariable" />
+      </bpmn:extensionElements>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="ScriptTask_2" name="ScriptTask_2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0mgn9vm">
+      <bpmndi:BPMNShape id="Activity_1xp1gxe_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18d1loj_di" bpmnElement="ScriptTask_1">
+        <dc:Bounds x="320" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h1wnsx_di" bpmnElement="ScriptTask_2">
+        <dc:Bounds x="480" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

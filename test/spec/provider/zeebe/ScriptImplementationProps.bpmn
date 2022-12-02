@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08bspca" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.1.0">
+  <bpmn:process id="Process_1xnlrhl" isExecutable="true">
+    <bpmn:scriptTask id="ScriptTask_1" name="ScriptTask_1" />
+    <bpmn:scriptTask id="ScriptTask_2" name="ScriptTask_2">
+      <bpmn:extensionElements>
+        <zeebe:script />
+      </bpmn:extensionElements>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="ScriptTask_3" name="ScriptTask_3">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="a" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="myKey" value="myValue" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1xnlrhl">
+      <bpmndi:BPMNShape id="Activity_0xmhutk_di" bpmnElement="ScriptTask_1">
+        <dc:Bounds x="300" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1thgxra_di" bpmnElement="ScriptTask_2">
+        <dc:Bounds x="440" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01sqhwb_di" bpmnElement="ScriptTask_3">
+        <dc:Bounds x="590" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ylxc60_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

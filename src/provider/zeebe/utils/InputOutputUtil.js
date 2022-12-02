@@ -67,7 +67,8 @@ export function areInputParametersSupported(element) {
     'bpmn:UserTask',
     'bpmn:SubProcess',
     'bpmn:CallActivity',
-    'bpmn:BusinessRuleTask'
+    'bpmn:BusinessRuleTask',
+    'bpmn:ScriptTask'
   ]) || isZeebeServiceTask(element);
 }
 

@@ -12,6 +12,8 @@ import {
   MultiInstanceProps,
   OutputPropagationProps,
   OutputProps,
+  ScriptImplementationProps,
+  ScriptProps,
   TargetProps,
   TaskDefinitionProps,
   TimerProps
@@ -26,6 +28,8 @@ const LOW_PRIORITY = 500;
 const ZEEBE_GROUPS = [
   BusinessRuleImplementationGroup,
   CalledDecisionGroup,
+  ScriptImplementationGroup,
+  ScriptGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
   FormGroup,
@@ -81,6 +85,19 @@ function CalledDecisionGroup(element) {
     label: 'Called decision',
     entries: [
       ...CalledDecisionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function ScriptGroup(element) {
+  const group = {
+    id: 'script',
+    label: 'Script',
+    entries: [
+      ...ScriptProps({ element })
     ],
     component: Group
   };
@@ -192,6 +209,19 @@ function BusinessRuleImplementationGroup(element) {
     label: 'Implementation',
     entries: [
       ...BusinessRuleImplementationProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function ScriptImplementationGroup(element) {
+  const group = {
+    id: 'scriptImplementation',
+    label: 'Implementation',
+    entries: [
+      ...ScriptImplementationProps({ element })
     ],
     component: Group
   };

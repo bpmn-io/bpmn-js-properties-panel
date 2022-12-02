@@ -18,6 +18,11 @@
       </bpmn:extensionElements>
     </bpmn:businessRuleTask>
     <bpmn:scriptTask id="ScriptTask_1" name="ScriptTask_1" />
+    <bpmn:scriptTask id="ScriptTask_2" name="ScriptTask_2">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foobar" />
+      </bpmn:extensionElements>
+    </bpmn:scriptTask>
     <bpmn:sendTask id="SendTask_1" name="SendTask_1" />
     <bpmn:serviceTask id="ServiceTask_noTaskDefinitionType" name="service task no task definition type">
       <bpmn:extensionElements>
@@ -52,6 +57,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0u7x1id_di" bpmnElement="ScriptTask_1">
         <dc:Bounds x="810" y="390" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_2_di" bpmnElement="ScriptTask_2">
+        <dc:Bounds x="810" y="480" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0sypdy6_di" bpmnElement="SendTask_1">
         <dc:Bounds x="660" y="390" width="100" height="80" />
