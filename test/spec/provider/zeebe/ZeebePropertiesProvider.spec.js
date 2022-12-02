@@ -446,7 +446,7 @@ describe('<ZeebePropertiesProvider>', function() {
     }));
 
 
-    it('should show for scriptTasks', inject(async function(selection, elementRegistry) {
+    it('should show for scriptTasks with task definition', inject(async function(selection, elementRegistry) {
 
       // given
       const scriptTask = elementRegistry.get('ScriptTask_1');
@@ -457,11 +457,55 @@ describe('<ZeebePropertiesProvider>', function() {
       });
 
       // then
-      expect(getGroup(container, 'inputs')).to.exist;
-      expect(getGroup(container, 'outputs')).to.exist;
-      expect(getGroup(container, 'multiInstance')).to.exist;
-      expect(getGroup(container, 'taskDefinition')).to.exist;
-      expect(getGroup(container, 'headers')).to.exist;
+      expectGroup(container, 'inputs').to.exist;
+      expectGroup(container, 'outputs').to.exist;
+      expectGroup(container, 'multiInstance').to.exist;
+      expectGroup(container, 'scriptImplementation').to.exist;
+      expectGroup(container, 'script').not.to.exist;
+      expectGroup(container, 'taskDefinition').to.exist;
+      expectGroup(container, 'headers').to.exist;
+    }));
+
+
+    it('should show for scriptTasks with script', inject(async function(selection, elementRegistry) {
+
+      // given
+      const scriptTask = elementRegistry.get('ScriptTask_2');
+
+      // when
+      await act(() => {
+        selection.select(scriptTask);
+      });
+
+      // then
+      expectGroup(container, 'inputs').to.exist;
+      expectGroup(container, 'outputs').to.exist;
+      expectGroup(container, 'multiInstance').to.exist;
+      expectGroup(container, 'scriptImplementation').to.exist;
+      expectGroup(container, 'script').to.exist;
+      expectGroup(container, 'taskDefinition').not.to.exist;
+      expectGroup(container, 'headers').not.to.exist;
+    }));
+
+
+    it('should show for scriptTasks without implementation', inject(async function(selection, elementRegistry) {
+
+      // given
+      const scriptTask = elementRegistry.get('ScriptTask_3');
+
+      // when
+      await act(() => {
+        selection.select(scriptTask);
+      });
+
+      // then
+      expectGroup(container, 'inputs').to.exist;
+      expectGroup(container, 'outputs').to.exist;
+      expectGroup(container, 'multiInstance').to.exist;
+      expectGroup(container, 'scriptImplementation').to.exist;
+      expectGroup(container, 'script').not.to.exist;
+      expectGroup(container, 'taskDefinition').not.to.exist;
+      expectGroup(container, 'headers').not.to.exist;
     }));
 
 
@@ -644,4 +688,8 @@ function getGroup(container, id) {
 
 function getAllGroups(container, id) {
   return domQueryAll(`[data-group-id="group-${id}"`, container);
+}
+
+function expectGroup(container, id) {
+  return expect(getGroup(container, id), `Group: "${id}"`);
 }

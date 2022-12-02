@@ -46,6 +46,26 @@
           <zeebe:input source="inputSourceValue" target="inputTargetValue" />
           <zeebe:output source="outputSourceValue" target="outputTargetValue" />
         </zeebe:ioMapping>
+        <zeebe:taskDefinition type="foobar" />
+      </bpmn:extensionElements>
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="ScriptTask_2">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="inputSourceValue" target="inputTargetValue" />
+          <zeebe:output source="outputSourceValue" target="outputTargetValue" />
+        </zeebe:ioMapping>
+        <zeebe:script expression="=today()" resultVariable="variable" />
+      </bpmn:extensionElements>
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="ScriptTask_3">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="inputSourceValue" target="inputTargetValue" />
+          <zeebe:output source="outputSourceValue" target="outputTargetValue" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:multiInstanceLoopCharacteristics />
     </bpmn:scriptTask>
@@ -125,6 +145,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1xwcq1n_di" bpmnElement="ScriptTask_1">
         <dc:Bounds x="420" y="370" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_2_di" bpmnElement="ScriptTask_2">
+        <dc:Bounds x="420" y="450" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_3_di" bpmnElement="ScriptTask_3">
+        <dc:Bounds x="420" y="530" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0pq7z6l_di" bpmnElement="BusinessRuleTask_1">
         <dc:Bounds x="560" y="370" width="100" height="80" />

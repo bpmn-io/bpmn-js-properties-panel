@@ -9,6 +9,8 @@ export { MessageProps } from './MessageProps';
 export { MultiInstanceProps } from './MultiInstanceProps';
 export { OutputPropagationProps } from './OutputPropagationProps';
 export { OutputProps } from './OutputProps';
+export { ScriptImplementationProps } from './ScriptImplementationProps';
+export { ScriptProps } from './ScriptProps';
 export { TargetProps } from './TargetProps';
 export { TaskDefinitionProps } from './TaskDefinitionProps';
 export { TimerProps } from './TimerProps';
