@@ -33,7 +33,7 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 import diagramXML from './CalledDecisionProps.bpmn';
 
 
-describe('provider/zeebe - TargetProps', function() {
+describe('provider/zeebe - CalledDecisionProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,
