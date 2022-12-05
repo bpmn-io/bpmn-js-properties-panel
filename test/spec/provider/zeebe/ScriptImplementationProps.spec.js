@@ -35,6 +35,10 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 import diagramXML from './ScriptImplementationProps.bpmn';
 
 
+const GROUP_SELECTOR = '[data-group-id="group-scriptImplementation"]';
+const IMPLEMENTATION_SELECTOR = 'select[name=scriptImplementation]';
+
+
 describe('provider/zeebe - ScriptImplementationProps', function() {
 
   const testModules = [
@@ -110,6 +114,7 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('');
+      expectEditedIndicator(container).to.not.exist;
     }));
 
 
@@ -126,6 +131,7 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('script');
+      expectEditedIndicator(container).to.exist;
     }));
 
 
@@ -142,6 +148,7 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('jobWorker');
+      expectEditedIndicator(container).to.exist;
     }));
 
 
@@ -312,8 +319,14 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
 
 // helper /////////////////
 
+function expectEditedIndicator(container) {
+  const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
+
+  return expect(indicator);
+}
+
 function getImplementationSelect(container) {
-  return domQuery('select[name=scriptImplementation]', container);
+  return domQuery(IMPLEMENTATION_SELECTOR, container);
 }
 
 function getTaskDefinition(element) {

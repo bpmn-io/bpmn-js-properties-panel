@@ -139,7 +139,7 @@ function getTaskHeaders(element) {
 }
 
 function isScriptImplementationEdited(element) {
-  return getTaskDefinition(element);
+  return getTaskDefinition(element) || getScript(element);
 }
 
 function resetElement(element, commandStack) {
