@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.13.0
+
+* `FEAT`: add FEEL expression implementation for Script Task ([#825](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/825))
+* `DEPS`: update to `@bpmn-io/properties-panel@1.0.1` ([#810](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/810))
+
 ## 1.12.0
 
 * `FEAT`: update available variables on commandstack changes ([#393](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/814))
