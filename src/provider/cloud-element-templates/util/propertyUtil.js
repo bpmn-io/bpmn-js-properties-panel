@@ -1,6 +1,7 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
+  isDefined,
   isUndefined, without
 } from 'min-dash';
 
@@ -29,8 +30,7 @@ import {
   createOutputParameter,
   createTaskDefinitionWithType,
   createTaskHeader,
-  createZeebeProperty,
-  shouldUpdate
+  createZeebeProperty
 } from '../CreateHelper';
 
 import { createElement } from '../../../utils/ElementUtil';
@@ -286,10 +286,14 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     // zeebe:Input
     if (type === ZEBBE_INPUT_TYPE) {
       const oldZeebeInputParameter = findInputParameter(ioMapping, binding);
-      const values = ioMapping.get('inputParameters').filter((value) => value !== oldZeebeInputParameter);
+      let values = ioMapping.get('inputParameters').filter((value) => value !== oldZeebeInputParameter);
 
-      // do not persist empty parameters when configured as <optional>
-      if (shouldUpdate(value, property)) {
+      // do not persist empty parameters
+      if (!isDefined(value)) {
+        values = without(values, oldZeebeInputParameter);
+
+      }
+      else {
         const newZeebeInputParameter = createInputParameter(binding, value, bpmnFactory);
         values.push(newZeebeInputParameter);
       }
@@ -307,10 +311,13 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     // zeebe:Output
     if (type === ZEEBE_OUTPUT_TYPE) {
       const oldZeebeOutputParameter = findOutputParameter(ioMapping, binding);
-      const values = ioMapping.get('outputParameters').filter((value) => value !== oldZeebeOutputParameter);
+      let values = ioMapping.get('outputParameters').filter((value) => value !== oldZeebeOutputParameter);
 
-      // do not persist empty parameters when configured as <optional>
-      if (shouldUpdate(value, property)) {
+      // do not persist empty parameters
+      if (!isDefined(value)) {
+        values = without(values, oldZeebeOutputParameter);
+      }
+      else {
         const newZeebeOutputParameter = createOutputParameter(binding, value, bpmnFactory);
         values.push(newZeebeOutputParameter);
       }
@@ -348,7 +355,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     const values = taskHeaders.get('values').filter((value) => value !== oldTaskHeader);
 
     // do not persist task headers with empty value
-    if (!value) {
+    if (!isDefined(value)) {
       commands.push({
         cmd: 'element.updateModdleProperties',
         context: {
@@ -392,9 +399,13 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
 
     const oldZeebeProperty = findZeebeProperty(zeebeProperties, binding);
 
-    const properties = zeebeProperties.get('properties').filter((property) => property !== oldZeebeProperty);
+    let properties = zeebeProperties.get('properties').filter((property) => property !== oldZeebeProperty);
 
-    if (shouldUpdate(value, property)) {
+    // do not persist empty parameters
+    if (!isDefined(value)) {
+      properties = without(properties, oldZeebeProperty);
+    }
+    else {
       const newZeebeProperty = createZeebeProperty(binding, value, bpmnFactory);
 
       properties.push(newZeebeProperty);

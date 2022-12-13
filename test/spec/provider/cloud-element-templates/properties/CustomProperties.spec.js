@@ -302,7 +302,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
     });
 
 
-    it('should keep input (non optional)', inject(async function() {
+    it('should not keep input (non optional)', inject(async function() {
 
       // given
       const task = await expectSelected('RestTask_optional'),
@@ -318,12 +318,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       const ioMapping = findExtension(businessObject, 'zeebe:IoMapping'),
             inputParameter = findInputParameter(ioMapping, { name: 'input-1-target' });
 
-      expect(inputParameter).to.exist;
-      expect(inputParameter).to.jsonEqual({
-        $type: 'zeebe:Input',
-        source: undefined,
-        target: 'input-1-target'
-      });
+      expect(inputParameter).to.not.exist;
     }));
 
 
@@ -432,7 +427,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
     });
 
 
-    it('should keep output (non optional)', inject(async function() {
+    it('should NOT keep output (non optional)', inject(async function() {
 
       // given
       const task = await expectSelected('RestTask_optional'),
@@ -448,12 +443,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       const ioMapping = findExtension(businessObject, 'zeebe:IoMapping'),
             outputParameter = findOutputParameter(ioMapping, { source: 'output-1-source' });
 
-      expect(outputParameter).to.exist;
-      expect(outputParameter).to.jsonEqual({
-        $type: 'zeebe:Output',
-        source: 'output-1-source',
-        target: undefined
-      });
+      expect(outputParameter).to.not.exist;
     }));
 
 
@@ -637,7 +627,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
     });
 
 
-    it('should keep property (non optional)', inject(async function() {
+    it('should not keep property (non optional)', inject(async function() {
 
       // given
       const task = await expectSelected('RestTask'),
@@ -653,12 +643,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       const zeebeProperties = findExtension(businessObject, 'zeebe:Properties'),
             zeebeProperty = findZeebeProperty(zeebeProperties, { name: 'property-1-name' });
 
-      expect(zeebeProperty).to.exist;
-      expect(zeebeProperty).to.jsonEqual({
-        $type: 'zeebe:Property',
-        name: 'property-1-name',
-        value: ''
-      });
+      expect(zeebeProperty).to.not.exist;
     }));
 
 
