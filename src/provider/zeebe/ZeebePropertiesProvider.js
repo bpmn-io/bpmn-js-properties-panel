@@ -5,6 +5,7 @@ import {
   BusinessRuleImplementationProps,
   CalledDecisionProps,
   ConditionProps,
+  ErrorProps,
   FormProps,
   HeaderProps,
   InputProps,
@@ -57,6 +58,7 @@ export default class ZeebePropertiesProvider {
       groups = groups.concat(this._getGroups(element));
 
       // (2) update existing groups with zeebe specific properties
+      updateErrorGroup(groups, element);
       updateMessageGroup(groups, element);
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
@@ -255,6 +257,19 @@ function ExtensionPropertiesGroup(element, injector) {
   }
 
   return null;
+}
+
+function updateErrorGroup(groups, element) {
+  const errorGroup = findGroup(groups, 'error');
+
+  if (!errorGroup) {
+    return;
+  }
+
+  errorGroup.entries = overrideGenericEntries(
+    errorGroup.entries,
+    ErrorProps({ element })
+  );
 }
 
 function updateMessageGroup(groups, element) {
