@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0upqbpl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="Process_17fhhp5" isExecutable="true">
+    <bpmn:task id="Activity_0n7ntz0" />
+    <bpmn:boundaryEvent id="ErrorEventNoExpression" name="Error Boundary Event (no expression)" attachedToRef="Activity_0n7ntz0">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0ggzuvs" errorRef="ErrorNoExpression" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="ErrorEventWithExpression" name="Error Boundary Event (expression)" attachedToRef="Activity_0n7ntz0">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_02zwcmh" errorRef="ErrorWithExpression" />
+    </bpmn:boundaryEvent>
+  </bpmn:process>
+  <bpmn:error id="ErrorNoExpression" name="ErrorNoExpression" errorCode="myCode" />
+  <bpmn:error id="ErrorWithExpression" name="ErrorWithExpression" errorCode="=myCode" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_17fhhp5">
+      <bpmndi:BPMNShape id="Activity_0n7ntz0_di" bpmnElement="Activity_0n7ntz0">
+        <dc:Bounds x="180" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0cfnu3k" bpmnElement="ErrorEventWithExpression">
+        <dc:Bounds x="162" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="145" y="185" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uqj7t6_di" bpmnElement="ErrorEventNoExpression">
+        <dc:Bounds x="262" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="245" y="185" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

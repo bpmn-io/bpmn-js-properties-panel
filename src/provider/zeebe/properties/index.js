@@ -2,6 +2,7 @@ export { AssignmentDefinitionProps } from './AssignmentDefinitionProps';
 export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { CalledDecisionProps } from './CalledDecisionProps';
 export { ConditionProps } from './ConditionProps';
+export { ErrorProps } from './ErrorProps';
 export { FormProps } from './FormProps';
 export { HeaderProps } from './HeaderProps';
 export { InputProps } from './InputProps';
