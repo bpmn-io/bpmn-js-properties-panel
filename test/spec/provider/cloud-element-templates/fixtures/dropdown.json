@@ -1,0 +1,101 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Dropdown",
+  "id": "example.com.dropdown",
+  "description": "A dropdown template.",
+  "appliesTo": ["bpmn:Task"],
+  "properties": [
+    {
+      "label": "No default value",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "ONE",
+          "value": "ONE"
+        },
+        {
+          "name": "TWO",
+          "value": "TWO"
+        },
+        {
+          "name": "THREE",
+          "value": "THREE"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "noDefault"
+      }
+    },
+    {
+      "label": "Default value",
+      "type": "Dropdown",
+      "value": "TWO",
+      "choices": [
+        {
+          "name": "ONE",
+          "value": "ONE"
+        },
+        {
+          "name": "TWO",
+          "value": "TWO"
+        },
+        {
+          "name": "THREE",
+          "value": "THREE"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "defaultValue"
+      }
+    },
+    {
+      "label": "No default value + optional",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "ONE",
+          "value": "ONE"
+        },
+        {
+          "name": "TWO",
+          "value": "TWO"
+        },
+        {
+          "name": "THREE",
+          "value": "THREE"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "noDefaultOptional"
+      },
+      "optional": true
+    },
+    {
+      "label": "Default value + optional",
+      "type": "Dropdown",
+      "value": "TWO",
+      "choices": [
+        {
+          "name": "ONE",
+          "value": "ONE"
+        },
+        {
+          "name": "TWO",
+          "value": "TWO"
+        },
+        {
+          "name": "THREE",
+          "value": "THREE"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "defaultValueOptional"
+      },
+      "optional": true
+    }
+  ]
+}
