@@ -1,0 +1,79 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Undefined input binding (optional)",
+  "id": "undefined-input-binding-optional",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "properties": [
+    {
+      "id": "default-changer",
+      "label": "Change the default",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "Set it as 1",
+          "value": "set-1"
+        },
+        {
+          "name": "Set it as 2",
+          "value": "set-2"
+        },
+        {
+          "name": "Set it as 3",
+          "value": "set-3"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "ignore"
+      },
+      "optional": true
+    },
+    {
+      "label": "Input Test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "test"
+      },
+      "optional": true
+    },
+    {
+      "label": "Property test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "test"
+      },
+      "optional": true
+    },
+    {
+      "label": "Output Test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "test"
+      },
+      "optional": true
+    },
+    {
+      "label": "Task Header Test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "test"
+      }
+    },
+    {
+      "label": "Task Definition Type",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      }
+    }
+  ]
+}
