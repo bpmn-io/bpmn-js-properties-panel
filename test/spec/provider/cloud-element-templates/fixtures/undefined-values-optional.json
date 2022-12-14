@@ -1,0 +1,62 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Undefined values (optional)",
+  "id": "undefined-values-optional",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "properties": [
+    {
+      "label": "Input Test (Dropdown)",
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "ONE",
+          "value": "ONE"
+        },
+        {
+          "name": "TWO",
+          "value": "TWO"
+        },
+        {
+          "name": "THREE",
+          "value": "THREE"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "dropdownTest"
+      }
+    },
+    {
+      "label": "Input Test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "test"
+      },
+      "optional": true
+    },
+    {
+      "label": "Property test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "test"
+      },
+      "optional": true
+    },
+    {
+      "label": "Output Test",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "test"
+      },
+      "optional": true
+    }
+  ]
+}
