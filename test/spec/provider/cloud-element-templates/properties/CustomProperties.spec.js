@@ -727,6 +727,28 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       });
 
 
+      it('should display options (no visual selection)', async function() {
+
+        // when
+        await expectSelected('DropdownNoSelection');
+
+        // then
+        const entry = findEntry('custom-entry-my.example.dropdown-1-0', container),
+              options = domQueryAll('select option', entry);
+
+        expect(Array.from(options).map(({ selected, value }) => {
+          return {
+            selected,
+            value
+          };
+        })).to.eql([
+          { value: 'low', selected: false },
+          { value: 'medium', selected: false },
+          { value: 'high', selected: false }
+        ]);
+      });
+
+
       it('should change, updating binding', async function() {
 
         // given

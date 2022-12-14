@@ -26,7 +26,7 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="RestTask_optional" name="optional" zeebe:modelerTemplate="com.example.rest-optional">
-       <bpmn:extensionElements>
+      <bpmn:extensionElements>
         <zeebe:ioMapping>
           <zeebe:input source="input-1-source" target="input-1-target" />
           <zeebe:input source="input-2-source" target="input-2-target" />
@@ -40,6 +40,7 @@
         </zeebe:properties>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="DropdownNoSelection" name="DropdownNoSelection" zeebe:modelerTemplate="my.example.dropdown-1" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -51,6 +52,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0sxtp96_di" bpmnElement="DropdownTask">
         <dc:Bounds x="220" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0p6pet6_di" bpmnElement="ValidateTask">
         <dc:Bounds x="310" y="200" width="100" height="80" />
@@ -63,6 +65,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="RestTask_optional_di" bpmnElement="RestTask_optional">
         <dc:Bounds x="470" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c7o61d_di" bpmnElement="DropdownNoSelection">
+        <dc:Bounds x="360" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
