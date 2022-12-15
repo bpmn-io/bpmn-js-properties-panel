@@ -1,0 +1,60 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Rest Template",
+    "id": "com.example.rest",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "task-name",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      },
+      {
+        "type": "String",
+        "value": "task-type",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "type": "String",
+        "value": "header",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-key"
+        }
+      },
+      {
+        "value": "input-source",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-target"
+        }
+      },
+      {
+        "value": "output-target",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-source"
+        }
+      },
+      {
+        "label": "property",
+        "type": "String",
+        "value": "property-value",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-name"
+        }
+      }
+    ]
+  }
+]
