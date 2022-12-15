@@ -193,7 +193,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
     }));
 
 
-    it('should change, creating zeebe:Input if non-existing', async function() {
+    it('should change, creating zeebe:TaskDefinition if non-existing', async function() {
 
       // given
       const task = await expectSelected('RestTask_noData'),
