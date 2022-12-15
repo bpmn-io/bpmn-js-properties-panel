@@ -41,7 +41,7 @@ const PRIMITIVE_MODDLE_TYPES = [
   'String'
 ];
 
-export function getPropertyValue(element, property, scope) {
+export function getPropertyValue(element, property) {
   let businessObject = getBusinessObject(element);
 
   const defaultValue = '';
