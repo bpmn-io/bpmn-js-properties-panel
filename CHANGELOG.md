@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.14.0
+
 * `FEAT`: allow to set error code as FEEL expression ([#836](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/836))
 
 ## 1.13.1
