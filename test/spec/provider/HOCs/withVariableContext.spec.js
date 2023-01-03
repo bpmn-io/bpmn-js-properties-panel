@@ -1,7 +1,12 @@
 import TestContainer from 'mocha-test-container-support';
 import { act, render } from '@testing-library/preact';
 
-import { bootstrapModeler, inject } from 'bpmn-js/test/helper';
+import {
+  bootstrapModeler,
+  expectEventually,
+  inject
+} from 'test/TestHelper';
+
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
@@ -14,6 +19,11 @@ import {
 
 import xml from './withVariableContext.bpmn';
 
+
+/**
+ * As of @bpmn-io/extract-process-variables@0.7.0, the extraction is async. To get the
+ * correct process variables, we use `expectEventually` in all test cases.
+ */
 describe('HOCs - withVariableContext.js', function() {
 
 
@@ -37,7 +47,7 @@ describe('HOCs - withVariableContext.js', function() {
 
   beforeEach(bootstrap(xml));
 
-  it('should supply Variables to Component', inject(function(elementRegistry) {
+  it('should supply Variables to Component', inject(async function(elementRegistry) {
 
     // given
     const mockComponent = sinon.spy();
@@ -49,21 +59,22 @@ describe('HOCs - withVariableContext.js', function() {
     createVariableComponent({ component: mockComponent, props });
 
     // then
-    expect(mockComponent).to.have.been.calledWith(
-      sinon.match({
-        variables: [
-          {
-            name: 'OutputVariable_0svilsd',
-            info: 'Written in Task_2'
-          }
-        ]
-      })
-    );
-
+    await expectEventually(() => {
+      expect(mockComponent).to.have.been.calledWith(
+        sinon.match({
+          variables: [
+            {
+              name: 'OutputVariable_0svilsd',
+              info: 'Written in Task_2'
+            }
+          ]
+        })
+      );
+    });
   }));
 
 
-  it('should supply variables to extension element', inject(function(elementRegistry) {
+  it('should supply variables to extension element', inject(async function(elementRegistry) {
 
     // given
     const mockComponent = sinon.spy();
@@ -79,16 +90,18 @@ describe('HOCs - withVariableContext.js', function() {
     createVariableComponent({ component: mockComponent, props });
 
     // then
-    expect(mockComponent).to.have.been.calledWith(
-      sinon.match({
-        variables: [
-          {
-            name: 'OutputVariable_0svilsd',
-            info: 'Written in Task_2'
-          }
-        ]
-      })
-    );
+    await expectEventually(() => {
+      expect(mockComponent).to.have.been.calledWith(
+        sinon.match({
+          variables: [
+            {
+              name: 'OutputVariable_0svilsd',
+              info: 'Written in Task_2'
+            }
+          ]
+        })
+      );
+    });
 
   }));
 
@@ -129,17 +142,18 @@ describe('HOCs - withVariableContext.js', function() {
     });
 
     // then
-    expect(mockComponent.lastCall).to.have.been.calledWith(
-      sinon.match({
-        variables: [
-          {
-            name: 'newVariable',
-            info: 'Written in Task_2'
-          }
-        ]
-      })
-    );
-
+    await expectEventually(() => {
+      expect(mockComponent.lastCall).to.have.been.calledWith(
+        sinon.match({
+          variables: [
+            {
+              name: 'newVariable',
+              info: 'Written in Task_2'
+            }
+          ]
+        })
+      );
+    });
   }));
 
 });

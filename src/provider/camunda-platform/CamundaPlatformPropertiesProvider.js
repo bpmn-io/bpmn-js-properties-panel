@@ -537,18 +537,21 @@ function OutMappingPropagationGroup(element, injector) {
 
 function ProcessVariablesGroup(element, injector) {
   const translate = injector.get('translate');
+
+  const variableProps = ProcessVariablesProps({ element, injector });
+
+  if (!variableProps) {
+    return null;
+  }
+
   const group = {
     label: translate('Process variables'),
     id: 'CamundaPlatform__ProcessVariables',
-    component: ListGroup,
-    ...ProcessVariablesProps({ element, injector })
+    ...variableProps
   };
 
-  if (group.items) {
-    return group;
-  }
+  return group;
 
-  return null;
 }
 
 function FormDataGroup(element, injector) {

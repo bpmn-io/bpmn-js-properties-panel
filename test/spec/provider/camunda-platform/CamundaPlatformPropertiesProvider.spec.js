@@ -6,6 +6,7 @@ import {
 
 import {
   bootstrapPropertiesPanel,
+  expectEventually,
   inject
 } from 'test/TestHelper';
 
@@ -285,15 +286,20 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         // given
         const process = elementRegistry.get('Process_1');
 
+        // when
         await act(() => {
           selection.select(process);
         });
 
-        // when
-        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
-
         // then
-        expect(processVariablesGroup).to.exist;
+
+        // as of @bpmn-io/extract-process-variables@0.7.0, process variable extraction is async
+        await expectEventually(() => {
+          const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+          expect(processVariablesGroup).to.exist;
+        });
+
       }));
 
 
@@ -1159,15 +1165,20 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         // given
         const participant = elementRegistry.get('Participant_1');
 
+        // when
         await act(() => {
           selection.select(participant);
         });
 
-        // when
-        const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
-
         // then
-        expect(processVariablesGroup).to.exist;
+
+        // as of @bpmn-io/extract-process-variables@0.7.0, process variable extraction is async
+        await expectEventually(() => {
+          const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
+
+          expect(processVariablesGroup).to.exist;
+        });
+
       }));
 
 
