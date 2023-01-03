@@ -52,7 +52,8 @@ export function InputProps(props) {
 
   return {
     items,
-    add
+    add,
+    shouldSort: false
   };
 }
 

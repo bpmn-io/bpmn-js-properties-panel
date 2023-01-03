@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1y626cn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
   <bpmn:process id="Process_1" isExecutable="true">
-    <bpmn:serviceTask id="ServiceTask_1">
+    <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="output1" />
@@ -27,6 +27,16 @@
         </camunda:inputOutput>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="UnsortedServiceTask" name="UnsortedServiceTask">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="5" />
+          <camunda:outputParameter name="z" />
+          <camunda:outputParameter name="a" />
+          <camunda:outputParameter name="1" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -45,6 +55,9 @@
       <bpmndi:BPMNShape id="Activity_0q7lx4s_di" bpmnElement="ServiceTask_OneOutput">
         <dc:Bounds x="160" y="540" width="100" height="80" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UnsortedServiceTask_di" bpmnElement="UnsortedServiceTask">
+        <dc:Bounds x="640" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

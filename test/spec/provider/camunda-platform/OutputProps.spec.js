@@ -107,6 +107,50 @@ describe('provider/camunda-platform - OutputProps', function() {
     }));
 
 
+    it('should add new output to bottom', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const group = getGroup(container, 'CamundaPlatform__Output');
+      const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+      // when
+      await act(() => {
+        addEntry.click();
+      });
+
+      // then
+      const outputItemLabel = getOutputItemLabel(container, 0);
+
+      expect(outputItemLabel.innerHTML).to.equal('output1');
+    }));
+
+
+    it('should sort output items according to XML', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('UnsortedServiceTask');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // then
+      const outputParameters = getOutputParameters(serviceTask);
+
+      for (let idx = 0; idx < outputParameters.length; idx++) {
+        const outputItemLabel = getOutputItemLabel(container, idx).innerHTML;
+
+        expect(outputParameters[idx].name).to.equal(outputItemLabel);
+      }
+    }));
+
+
     it('should create non existing extension elements',
       inject(async function(elementRegistry, selection) {
 
@@ -257,4 +301,8 @@ function getListItems(container, type) {
 
 function getOutputListItems(container) {
   return getListItems(container, 'outputParameter');
+}
+
+function getOutputItemLabel(container, id) {
+  return domQueryAll('.bio-properties-panel-collapsible-entry-header-title', container)[id];
 }
