@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: do not sort IO mappings alphabetically ([#845](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/845), [#843](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/843))
+
 ## 1.14.0
 
 * `FEAT`: allow to set error code as FEEL expression ([#836](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/836))
