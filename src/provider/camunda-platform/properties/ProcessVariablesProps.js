@@ -24,31 +24,36 @@ import {
   useService
 } from '../../../hooks';
 
+import { ListGroup } from '@bpmn-io/properties-panel';
+import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
-export function ProcessVariablesProps(props) {
 
+function ProcessVariablesEntry(props) {
   const {
     element
   } = props;
 
-  if (!canHaveProcessVariables(element)) {
-    return null;
-  }
 
-  const businessObject = getBusinessObject(element);
-  const rootElement = getRootElement(businessObject);
-  const scope = getScope(element);
+  const [ variables, setVariables ] = useState([]);
 
-  // (1) fetch available process variables for given scope
-  const variables = getVariablesForScope(scope, rootElement);
+  useEffect(async () => {
+    const businessObject = getBusinessObject(element);
+    const rootElement = getRootElement(businessObject);
+    const scope = getScope(element);
+
+    const rawVariables = await getVariablesForScope(scope, rootElement);
+
+    const withName = populateElementNames(sortByName(rawVariables));
+
+    setVariables(withName);
+  }, [ element ]);
+
 
   if (!variables.length) {
     return null;
   }
 
-  const withNames = populateElementNames(sortByName(variables));
-
-  const byScope = groupByScope(withNames);
+  const byScope = groupByScope(variables);
   const multiScope = isMultiScope(byScope);
 
   let variableItems = [];
@@ -64,7 +69,7 @@ export function ProcessVariablesProps(props) {
   } else {
 
     // (2b) single scope
-    variableItems = withNames;
+    variableItems = variables;
   }
 
   const items = variableItems.map((variable, index) => {
@@ -83,8 +88,21 @@ export function ProcessVariablesProps(props) {
     };
   });
 
+  return <ListGroup { ...props } items={ items } shouldSort={ false } />;
+}
+
+export function ProcessVariablesProps(props) {
+
+  const {
+    element
+  } = props;
+
+  if (!canHaveProcessVariables(element)) {
+    return null;
+  }
+
   return {
-    items,
+    component: ProcessVariablesEntry,
     shouldSort: false
   };
 }

@@ -12,8 +12,8 @@ export function withVariableContext(Component) {
     const eventBus = useService('eventBus');
 
     useEffect(() => {
-      const callback = () => {
-        const variables = getVariablesForElement(bo);
+      const callback = async () => {
+        const variables = await getVariablesForElement(bo);
 
         setVariables(variables.map(variable => {
           return {

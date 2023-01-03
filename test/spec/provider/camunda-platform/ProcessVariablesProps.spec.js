@@ -10,6 +10,7 @@ import {
 
 import {
   bootstrapPropertiesPanel,
+  expectEventually,
   inject,
   withBpmnJs
 } from 'test/TestHelper';
@@ -33,6 +34,11 @@ import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json'
 import collaborationDiagramXML from './ProcessVariablesProps-collaboration.bpmn';
 import processDiagramXML from './ProcessVariablesProps-process.bpmn';
 
+
+/**
+ * As of @bpmn-io/extract-process-variables@0.7.0, the extraction is async. To get the
+ * correct count of process variables, we use `expectEventually` in all test cases.
+ */
 
 describe('provider/camunda-platform - ProcessVariableProps', function() {
 
@@ -70,17 +76,19 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const process = elementRegistry.get('Process_1');
 
+      // when
       await act(() => {
         selection.select(process);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-
       // then
-      expect(items.length).to.equal(4);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        expect(items.length).to.equal(4);
+      });
+
     }));
 
 
@@ -90,23 +98,27 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         // given
         const process = elementRegistry.get('Process_1');
 
+        // when
         await act(() => {
           selection.select(process);
         });
 
-        const group = findProcessVariablesGroup(container);
-
-        // when
-        const list = domQuery('.bio-properties-panel-list', group);
-        const ordering = getListOrdering(list);
-
         // then
-        expect(ordering).to.eql([
-          'variable1',
-          'variable2',
-          'variable3',
-          'variable4'
-        ]);
+        await expectEventually(() => {
+          const group = findProcessVariablesGroup(container);
+
+          // when
+          const list = domQuery('.bio-properties-panel-list', group);
+          const ordering = getListOrdering(list);
+
+          expect(ordering).to.eql([
+            'variable1',
+            'variable2',
+            'variable3',
+            'variable4'
+          ]);
+        });
+
       }
     ));
 
@@ -116,18 +128,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const process = elementRegistry.get('Process_1');
 
+      // when
       await act(() => {
         selection.select(process);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
-
       // then
-      expect(headerTitle.innerText).to.eql('variable1');
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
+        expect(headerTitle.innerText).to.eql('variable1');
+      });
+
     }));
 
 
@@ -137,18 +151,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const process = elementRegistry.get('Process_1');
       const task = elementRegistry.get('Task_1');
 
+      // when
       await act(() => {
         selection.select(process);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-Process_1-variable-0-createdIn', items[0]);
-
       // then
-      expect(createdIn.innerText).to.eql(getBusinessObject(task).get('name'));
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-Process_1-variable-0-createdIn', items[0]);
+        expect(createdIn.innerText).to.eql(getBusinessObject(task).get('name'));
+      });
+
     }));
 
 
@@ -158,18 +174,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const process = elementRegistry.get('Process_1');
       const task = elementRegistry.get('Task_3');
 
+      // when
       await act(() => {
         selection.select(process);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-Process_1-variable-2-createdIn', items[2]);
-
       // then
-      expect(createdIn.innerText).to.equal(task.id);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-Process_1-variable-2-createdIn', items[2]);
+        expect(createdIn.innerText).to.equal(task.id);
+      });
+
     }));
 
 
@@ -180,18 +198,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const task = elementRegistry.get('Task_4');
       const subProcess = elementRegistry.get('SubProcess_1');
 
+      // when
       await act(() => {
         selection.select(process);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-Process_1-variable-3-createdIn', items[3]);
-
       // then
-      expect(createdIn.innerText).to.equal(`${getBusinessObject(subProcess).get('name')}, ${task.id}`);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-Process_1-variable-3-createdIn', items[3]);
+        expect(createdIn.innerText).to.equal(`${getBusinessObject(subProcess).get('name')}, ${task.id}`);
+      });
+
     }));
 
 
@@ -200,18 +220,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const process = elementRegistry.get('Process_1');
 
+      // when
       await act(() => {
         selection.select(process);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const scope = domQuery('#bio-properties-panel-Process_1-variable-0-scope', items[0]);
-
       // then
-      expect(scope).to.not.exist;
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const scope = domQuery('#bio-properties-panel-Process_1-variable-0-scope', items[0]);
+        expect(scope).to.not.exist;
+      });
+
     }));
 
   });
@@ -235,17 +257,19 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const participant = elementRegistry.get('Participant_1');
 
+      // when
       await act(() => {
         selection.select(participant);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-
       // then
-      expect(items.length).to.equal(4);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        expect(items.length).to.equal(4);
+      });
+
     }));
 
 
@@ -255,24 +279,28 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         // given
         const participant = elementRegistry.get('Participant_1');
 
+        // when
         await act(() => {
           selection.select(participant);
         });
 
-        const group = findProcessVariablesGroup(container);
-
-        // when
-        const list = domQuery('.bio-properties-panel-list', group);
-        const ordering = getListOrdering(list);
-
         // then
-        expect(ordering).to.eql([
-          'variable1',
-          'variable2',
-          'variable3',
-          'variable4'
-        ]);
+        await expectEventually(() => {
+          const group = findProcessVariablesGroup(container);
+
+          // when
+          const list = domQuery('.bio-properties-panel-list', group);
+          const ordering = getListOrdering(list);
+
+          expect(ordering).to.eql([
+            'variable1',
+            'variable2',
+            'variable3',
+            'variable4'
+          ]);
+        });
       }
+
     ));
 
 
@@ -281,18 +309,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const participant = elementRegistry.get('Participant_1');
 
+      // when
       await act(() => {
         selection.select(participant);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
-
       // then
-      expect(headerTitle.innerText).to.eql('variable1');
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
+        expect(headerTitle.innerText).to.eql('variable1');
+      });
+
     }));
 
 
@@ -302,18 +332,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const participant = elementRegistry.get('Participant_1');
       const task = elementRegistry.get('Task_1');
 
+      // when
       await act(() => {
         selection.select(participant);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-0-createdIn', items[0]);
-
       // then
-      expect(createdIn.innerText).to.eql(getBusinessObject(task).get('name'));
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-0-createdIn', items[0]);
+        expect(createdIn.innerText).to.eql(getBusinessObject(task).get('name'));
+      });
+
     }));
 
 
@@ -323,18 +355,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const participant = elementRegistry.get('Participant_1');
       const task = elementRegistry.get('Task_3');
 
+      // when
       await act(() => {
         selection.select(participant);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-2-createdIn', items[2]);
-
       // then
-      expect(createdIn.innerText).to.equal(task.id);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-2-createdIn', items[2]);
+        expect(createdIn.innerText).to.equal(task.id);
+      });
+
     }));
 
 
@@ -345,18 +379,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const task = elementRegistry.get('Task_4');
       const subProcess = elementRegistry.get('SubProcess_1');
 
+      // when
       await act(() => {
         selection.select(participant);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-3-createdIn', items[3]);
-
       // then
-      expect(createdIn.innerText).to.equal(`${subProcess.id}, ${task.id}`);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-Participant_1-variable-3-createdIn', items[3]);
+        expect(createdIn.innerText).to.equal(`${subProcess.id}, ${task.id}`);
+      });
+
     }));
 
 
@@ -365,18 +401,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const participant = elementRegistry.get('Participant_1');
 
+      // when
       await act(() => {
         selection.select(participant);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const scope = domQuery('#bio-properties-panel-Participant_1-variable-0-scope', items[0]);
-
       // then
-      expect(scope).to.not.exist;
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const scope = domQuery('#bio-properties-panel-Participant_1-variable-0-scope', items[0]);
+        expect(scope).to.not.exist;
+      });
+
     }));
 
   });
@@ -400,17 +438,19 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const subProcess = elementRegistry.get('SubProcess_1');
 
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-
       // then
-      expect(items.length).to.equal(5);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        expect(items.length).to.equal(5);
+      });
+
     }));
 
 
@@ -423,17 +463,21 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         // SubProcess can be root from bpmn-js@9 and later
         canvas.setRootElement(subProcess);
 
+        // when
         await act(() => {
           selection.select(subProcess);
         });
 
-        const group = findProcessVariablesGroup(container);
-
-        // when
-        const items = getProcessVariablesItems(group);
-
         // then
-        expect(items.length).to.equal(5);
+        await expectEventually(() => {
+          const group = findProcessVariablesGroup(container);
+
+          // when
+          const items = getProcessVariablesItems(group);
+
+          expect(items.length).to.equal(5);
+        });
+
       })
     );
 
@@ -444,24 +488,28 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         // given
         const subProcess = elementRegistry.get('SubProcess_1');
 
+        // when
         await act(() => {
           selection.select(subProcess);
         });
 
-        const group = findProcessVariablesGroup(container);
-
-        // when
-        const list = domQuery('.bio-properties-panel-list', group);
-        const ordering = getListOrdering(list);
-
         // then
-        expect(ordering).to.eql([
-          'variable5',
-          'variable1',
-          'variable2',
-          'variable3',
-          'variable4'
-        ]);
+        await expectEventually(() => {
+          const group = findProcessVariablesGroup(container);
+
+          // when
+          const list = domQuery('.bio-properties-panel-list', group);
+          const ordering = getListOrdering(list);
+
+          expect(ordering).to.eql([
+            'variable5',
+            'variable1',
+            'variable2',
+            'variable3',
+            'variable4'
+          ]);
+        });
+
       }
     ));
 
@@ -471,18 +519,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const subProcess = elementRegistry.get('SubProcess_1');
 
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
-
       // then
-      expect(headerTitle.innerText).to.eql('variable5');
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const headerTitle = domQuery('.bio-properties-panel-collapsible-entry-header-title', items[0]);
+        expect(headerTitle.innerText).to.eql('variable5');
+      });
+
     }));
 
 
@@ -491,18 +541,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const subProcess = elementRegistry.get('SubProcess_1');
 
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-0-createdIn', items[0]);
-
       // then
-      expect(createdIn.innerText).to.equal('Task 2');
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-0-createdIn', items[0]);
+        expect(createdIn.innerText).to.equal('Task 2');
+      });
+
     }));
 
 
@@ -512,18 +564,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const subProcess = elementRegistry.get('SubProcess_1');
       const task = elementRegistry.get('Task_3');
 
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-3-createdIn', items[3]);
-
       // then
-      expect(createdIn.innerText).to.equal(task.id);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-3-createdIn', items[3]);
+        expect(createdIn.innerText).to.equal(task.id);
+      });
+
     }));
 
 
@@ -533,18 +587,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const subProcess = elementRegistry.get('SubProcess_1');
       const task = elementRegistry.get('Task_4');
 
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-4-createdIn', items[4]);
-
       // then
-      expect(createdIn.innerText).to.equal(`${getBusinessObject(subProcess).get('name')}, ${task.id}`);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const createdIn = domQuery('#bio-properties-panel-SubProcess_1-variable-4-createdIn', items[4]);
+        expect(createdIn.innerText).to.equal(`${getBusinessObject(subProcess).get('name')}, ${task.id}`);
+      });
+
     }));
 
 
@@ -553,18 +609,21 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       // given
       const subProcess = elementRegistry.get('SubProcess_1');
 
+      // when
+
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const scope = domQuery('#bio-properties-panel-SubProcess_1-variable-0-scope', items[0]);
-
       // then
-      expect(scope.innerText).to.equal(getBusinessObject(subProcess).get('name'));
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const scope = domQuery('#bio-properties-panel-SubProcess_1-variable-0-scope', items[0]);
+        expect(scope.innerText).to.equal(getBusinessObject(subProcess).get('name'));
+      });
     }));
 
 
@@ -574,18 +633,20 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       const subProcess = elementRegistry.get('SubProcess_1');
       const process = elementRegistry.get('Process_1');
 
+      // when
       await act(() => {
         selection.select(subProcess);
       });
 
-      const group = findProcessVariablesGroup(container);
-
-      // when
-      const items = getProcessVariablesItems(group);
-      const scope = domQuery('#bio-properties-panel-SubProcess_1-variable-1-scope', items[1]);
-
       // then
-      expect(scope.innerText).to.equal(process.id);
+      await expectEventually(() => {
+        const group = findProcessVariablesGroup(container);
+
+        const items = getProcessVariablesItems(group);
+        const scope = domQuery('#bio-properties-panel-SubProcess_1-variable-1-scope', items[1]);
+        expect(scope.innerText).to.equal(process.id);
+      });
+
     }));
 
   });
