@@ -121,6 +121,50 @@ describe('provider/zeebe - InputProps', function() {
     }));
 
 
+    it('should add new input to bottom', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_2');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const inputGroup = getGroup(container, 'inputs');
+      const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+      // when
+      await act(() => {
+        addEntry.click();
+      });
+
+      // then
+      const inputItemLabel = getInputItemLabel(container, 0);
+
+      expect(inputItemLabel.innerHTML).to.equal('inputTargetValue1');
+    }));
+
+
+    it('should sort input items according to XML', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('UnsortedServiceTask');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // then
+      const inputParameters = getInputParameters(serviceTask);
+
+      for (let idx = 0; idx < inputParameters.length; idx++) {
+        const inputItemLabel = getInputItemLabel(container, idx).innerHTML;
+
+        expect(inputParameters[idx].target).to.equal(inputItemLabel);
+      }
+    }));
+
+
     it('should create non existing extension elements',
       inject(async function(elementRegistry, selection) {
 
@@ -267,4 +311,8 @@ function getListItems(container, type) {
 
 function getInputListItems(container) {
   return getListItems(container, 'input');
+}
+
+function getInputItemLabel(container, id) {
+  return domQueryAll('.bio-properties-panel-collapsible-entry-header-title', container)[id];
 }
