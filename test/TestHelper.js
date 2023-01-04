@@ -215,27 +215,6 @@ export async function setEditorValue(editor, value) {
   await act(() => {});
 }
 
-
-export async function expectEventually(fn) {
-  const nextFrame = () => new Promise(resolve => {
-    requestAnimationFrame(resolve);
-  });
-
-  let e, i = 10;
-  do {
-    try {
-      await nextFrame();
-      await fn();
-      return;
-    } catch (error) {
-      e = error;
-    }
-  } while (i--);
-
-  throw e;
-}
-
-
 // be able to load files into running bpmn-js test cases
 document.documentElement.addEventListener('dragover', fileDrop('Drop a BPMN diagram to open it in the currently active test.', function(files) {
   const bpmnJS = getBpmnJS();

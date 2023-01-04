@@ -1,9 +1,8 @@
 import TestContainer from 'mocha-test-container-support';
-import { act, render } from '@testing-library/preact';
+import { act, render, waitFor } from '@testing-library/preact';
 
 import {
   bootstrapModeler,
-  expectEventually,
   inject
 } from 'test/TestHelper';
 
@@ -22,7 +21,7 @@ import xml from './withVariableContext.bpmn';
 
 /**
  * As of @bpmn-io/extract-process-variables@0.7.0, the extraction is async. To get the
- * correct process variables, we use `expectEventually` in all test cases.
+ * correct process variables, we use `eventually` in all test cases.
  */
 describe('HOCs - withVariableContext.js', function() {
 
@@ -59,7 +58,7 @@ describe('HOCs - withVariableContext.js', function() {
     createVariableComponent({ component: mockComponent, props });
 
     // then
-    await expectEventually(() => {
+    await waitFor(() => {
       expect(mockComponent).to.have.been.calledWith(
         sinon.match({
           variables: [
@@ -90,7 +89,7 @@ describe('HOCs - withVariableContext.js', function() {
     createVariableComponent({ component: mockComponent, props });
 
     // then
-    await expectEventually(() => {
+    await waitFor(() => {
       expect(mockComponent).to.have.been.calledWith(
         sinon.match({
           variables: [
@@ -142,7 +141,7 @@ describe('HOCs - withVariableContext.js', function() {
     });
 
     // then
-    await expectEventually(() => {
+    await waitFor(() => {
       expect(mockComponent.lastCall).to.have.been.calledWith(
         sinon.match({
           variables: [

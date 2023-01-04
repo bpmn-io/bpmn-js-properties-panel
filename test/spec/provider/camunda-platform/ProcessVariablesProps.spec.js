@@ -1,7 +1,7 @@
 import TestContainer from 'mocha-test-container-support';
 
 import {
-  act
+  act, waitFor
 } from '@testing-library/preact';
 
 import {
@@ -10,7 +10,6 @@ import {
 
 import {
   bootstrapPropertiesPanel,
-  expectEventually,
   inject,
   withBpmnJs
 } from 'test/TestHelper';
@@ -37,7 +36,7 @@ import processDiagramXML from './ProcessVariablesProps-process.bpmn';
 
 /**
  * As of @bpmn-io/extract-process-variables@0.7.0, the extraction is async. To get the
- * correct count of process variables, we use `expectEventually` in all test cases.
+ * correct count of process variables, we use `eventually` in all test cases.
  */
 
 describe('provider/camunda-platform - ProcessVariableProps', function() {
@@ -82,7 +81,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -104,7 +103,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         });
 
         // then
-        await expectEventually(() => {
+        await waitFor(() => {
           const group = findProcessVariablesGroup(container);
 
           // when
@@ -134,7 +133,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -157,7 +156,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -180,7 +179,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -204,7 +203,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -226,7 +225,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -263,7 +262,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -285,7 +284,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         });
 
         // then
-        await expectEventually(() => {
+        await waitFor(() => {
           const group = findProcessVariablesGroup(container);
 
           // when
@@ -315,7 +314,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -338,7 +337,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -361,7 +360,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -385,7 +384,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -407,7 +406,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -444,7 +443,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -469,7 +468,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         });
 
         // then
-        await expectEventually(() => {
+        await waitFor(() => {
           const group = findProcessVariablesGroup(container);
 
           // when
@@ -494,7 +493,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
         });
 
         // then
-        await expectEventually(() => {
+        await waitFor(() => {
           const group = findProcessVariablesGroup(container);
 
           // when
@@ -525,7 +524,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -547,7 +546,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -570,7 +569,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -593,7 +592,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -617,7 +616,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
@@ -639,7 +638,7 @@ describe('provider/camunda-platform - ProcessVariableProps', function() {
       });
 
       // then
-      await expectEventually(() => {
+      await waitFor(() => {
         const group = findProcessVariablesGroup(container);
 
         const items = getProcessVariablesItems(group);
