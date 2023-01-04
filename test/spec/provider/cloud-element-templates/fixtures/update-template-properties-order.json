@@ -1,0 +1,134 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Update Properties - Order",
+  "id": "cloud-element-templates.properties.update-properties-order",
+  "appliesTo": [
+    "bpmn:ServiceTask"
+  ],
+  "properties": [
+    {
+      "id": "name",
+      "type": "Hidden",
+      "value": "task-name",
+      "binding": {
+        "type": "property",
+        "name": "name"
+      }
+    },
+    {
+      "label": "Task Header 1 (conditional)",
+      "type": "String",
+      "value": "header-1-value",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-1-key"
+      },
+      "condition": {
+         "equals": "update template properties order",
+        "property": "name"
+      }
+    },
+    {
+      "label": "Task Header 2",
+      "type": "String",
+      "value": "header-2-value",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "header-2-key"
+      }
+    },
+    {
+      "label": "Input 1 (conditional)",
+      "type": "String",
+      "value": "input-1-source",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-1-target"
+      },
+      "condition": {
+         "equals": "update template properties order",
+        "property": "name"
+      }
+    },
+    {
+      "label": "Input 2 (optional)",
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-2-target"
+      }
+    },
+    {
+      "label": "Input 3",
+      "type": "String",
+      "value": "input-3-source",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "input-3-target"
+      }
+    },
+    {
+      "label": "Output 1 (conditional)",
+      "type": "String",
+      "value": "output-1-target",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-1-source"
+      },
+      "condition": {
+         "equals": "update template properties order",
+        "property": "name"
+      }
+    },
+    {
+      "label": "Output 2 (optional)",
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-2-source"
+      }
+    },
+    {
+      "label": "Output 3",
+      "type": "String",
+      "value": "output-3-target",
+      "binding": {
+        "type": "zeebe:output",
+        "source": "output-3-source"
+      }
+    },
+    {
+      "label": "Property 1 (conditional)",
+      "type": "String",
+      "value": "property-1-value",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "property-1-name"
+      },
+      "condition": {
+         "equals": "update template properties order",
+        "property": "name"
+      }
+    },
+    {
+      "label": "Property 2 (optional)",
+      "type": "String",
+      "optional": true,
+      "binding": {
+        "type": "zeebe:property",
+        "name": "property-2-name"
+      }
+    },
+    {
+      "label": "Property 3",
+      "type": "String",
+      "value": "property-3-value",
+      "binding": {
+        "type": "zeebe:property",
+        "name": "property-3-name"
+      }
+    }
+  ]
+}
