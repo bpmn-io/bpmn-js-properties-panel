@@ -1,12 +1,11 @@
 import TestContainer from 'mocha-test-container-support';
 
 import {
-  act
+  act, waitFor
 } from '@testing-library/preact';
 
 import {
   bootstrapPropertiesPanel,
-  expectEventually,
   inject
 } from 'test/TestHelper';
 
@@ -294,7 +293,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         // then
 
         // as of @bpmn-io/extract-process-variables@0.7.0, process variable extraction is async
-        await expectEventually(() => {
+        await waitFor(() => {
           const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
 
           expect(processVariablesGroup).to.exist;
@@ -1173,7 +1172,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
         // then
 
         // as of @bpmn-io/extract-process-variables@0.7.0, process variable extraction is async
-        await expectEventually(() => {
+        await waitFor(() => {
           const processVariablesGroup = getGroup(container, 'CamundaPlatform__ProcessVariables');
 
           expect(processVariablesGroup).to.exist;
