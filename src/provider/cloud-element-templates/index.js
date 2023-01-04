@@ -7,6 +7,7 @@ import ReplaceBehavior from './ReplaceBehavior';
 import commandsModule from './cmd';
 import templateElementFactoryModule from './create';
 import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';
+import UpdateTemplatePropertiesOrder from './UpdateTemplatePropertiesOrder';
 
 import zeebePropertiesProviderModule from '../zeebe';
 
@@ -21,11 +22,13 @@ export default {
     'elementTemplatesLoader',
     'replaceBehavior',
     'elementTemplatesPropertiesProvider',
-    'elementTemplatesConditionChecker'
+    'elementTemplatesConditionChecker',
+    'updateTemplatePropertiesOrder'
   ],
   elementTemplates: [ 'type', ElementTemplates ],
   elementTemplatesLoader: [ 'type', ElementTemplatesLoader ],
   replaceBehavior: [ 'type', ReplaceBehavior ],
   elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ],
-  elementTemplatesConditionChecker: [ 'type', ElementTemplatesConditionChecker ]
+  elementTemplatesConditionChecker: [ 'type', ElementTemplatesConditionChecker ],
+  updateTemplatePropertiesOrder: [ 'type', UpdateTemplatePropertiesOrder ]
 };
