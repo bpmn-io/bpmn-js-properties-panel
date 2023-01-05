@@ -1,36 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
 
-html, body, .modeler-container, .modeler-container > div {
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
   height: 100%;
   margin: 0;
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .test-container {
-  height: 800px !important;
+  display: flex;
+  flex-direction: column;
+  height: 100vh !important;
 }
 
 .test-content-container {
-  width: 100%;
-  height: calc(100% - 24px) !important;
   display: flex;
   flex: 1;
   flex-direction: row;
+  overflow: hidden;
 }
 
 .modeler-container {
   flex: 1;
-  position: relative;
-}
-
-.modeler-container, .properties-container {
-  overflow-y: auto;
 }
 
 .properties-container {
-  position: relative;
   flex: none;
-  height: 100%;
   width: 300px;
   border-left: solid 1px #cccccc;
 }
