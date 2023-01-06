@@ -18,7 +18,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 1.13.1
 
-* `FIX`: correctly element template defined `Dropdown` showing incorrect value
+* `FIX`: correct element template defined `Dropdown` showing incorrect value ([`b3248fea`](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/b3248fea0a19dabca7a9b969121cf07fba7a8f0a))
 * `DEPS`: update to `@bpmn-io/properties-panel@1.1.1`
 
 ## 1.13.0
@@ -33,7 +33,8 @@ ___Note:__ Yet to be released changes appear here._
 * `DEPS`: update to `@bpmn-io/properties-panel@1.0.0`
 
 ## 1.11.3
-* `FIX`: render conditional properties with same binding reliably ([#3029](https://github.com/camunda/camunda-modeler/issues/3029))
+
+* `FIX`: render conditional properties with same binding reliably ([#824](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/824))
 
 ## 1.11.2
 
