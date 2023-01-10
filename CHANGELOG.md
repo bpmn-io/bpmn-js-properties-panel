@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.15.1
+
+* `FIX`: don't stop propagation of events ([#850](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/850))
+
 ## 1.15.0
 
 * `FIX`: serialize templated properties in stable order ([#838](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/838))
