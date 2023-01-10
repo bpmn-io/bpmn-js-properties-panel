@@ -155,6 +155,34 @@ describe('HOCs - withVariableContext.js', function() {
     });
   }));
 
+
+  it('should NOT stop propagation of events when updating variables', inject(async function(elementRegistry, injector, eventBus) {
+
+    // given
+    const bpmnElement = elementRegistry.get('Task_1');
+    const props = {
+      element: bpmnElement,
+    };
+
+    createVariableComponent({
+      component: () => {},
+      context: {
+        getService: injector.get
+      },
+      props,
+      container
+    });
+
+    const commandStackChangedSpy = sinon.spy();
+    eventBus.on('commandStack.changed', 0, commandStackChangedSpy);
+
+    // when
+    eventBus.fire('commandStack.changed');
+
+    // then
+    commandStackChangedSpy.should.have.been.called;
+  }));
+
 });
 
 // helpers ////////////////////////
