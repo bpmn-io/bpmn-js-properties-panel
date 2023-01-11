@@ -16,6 +16,10 @@ import {
   createElement
 } from '../../../utils/ElementUtil';
 
+import {
+  getTaskHeaders
+} from '../utils/HeadersUtil';
+
 import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
@@ -137,16 +141,14 @@ function isBusinessRuleImplementationEdited(element) {
 
 function resetElement(element, commandStack) {
   const businessObject = getBusinessObject(element);
-  const taskDefintion = getTaskDefinition(element);
-  const calledDecision = getCalledDecision(element);
 
-  if (taskDefintion) {
-    removeExtensionElements(element, businessObject, taskDefintion, commandStack);
-  }
+  const toRemove = [
+    getTaskDefinition(element),
+    getTaskHeaders(element),
+    getCalledDecision(element)
+  ].filter(Boolean);
 
-  if (calledDecision) {
-    removeExtensionElements(element, businessObject, calledDecision, commandStack);
-  }
+  removeExtensionElements(element, businessObject, toRemove, commandStack);
 }
 
 function updateExtensionElements(element, extensionElementToAdd, bpmnFactory, commandStack) {

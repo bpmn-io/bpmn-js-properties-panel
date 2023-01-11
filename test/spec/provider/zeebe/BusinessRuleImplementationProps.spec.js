@@ -145,28 +145,49 @@ describe('provider/zeebe - TargetProps', function() {
     }));
 
 
-    it('should not have taskDefinition or calledDecision', inject(async function(elementRegistry, selection) {
+    it('should remove taskDefinition and taskHeaders when set to none', inject(
+      async function(elementRegistry, selection) {
 
-      // given
-      const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_3');
 
-      await act(() => {
-        selection.select(businessRuleTask);
-      });
+        await act(() => {
+          selection.select(businessRuleTask);
+        });
 
-      // when
-      const implementation = getImplementationSelect(container);
+        // when
+        const implementationSelect = getImplementationSelect(container);
+        changeInput(implementationSelect, '');
 
-      // then
-      expect(implementation.value).to.eql('');
+        // then
+        const taskDefinition = getTaskDefinition(businessRuleTask);
+        expect(taskDefinition).to.not.exist;
 
-      const taskDefinition = getTaskDefinition(businessRuleTask);
-      expect(taskDefinition).to.not.exist;
+        const taskHeaders = getTaskHeaders(businessRuleTask);
+        expect(taskHeaders).to.not.exist;
+      }
+    ));
 
-      const caledDecision = getCalledDecision(businessRuleTask);
-      expect(caledDecision).to.not.exist;
 
-    }));
+    it('should remove calledDecision when set to none', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
+
+        await act(() => {
+          selection.select(businessRuleTask);
+        });
+
+        // when
+        const implementationSelect = getImplementationSelect(container);
+        changeInput(implementationSelect, '');
+
+        // then
+        const calledDecision = getCalledDecision(businessRuleTask);
+        expect(calledDecision).to.not.exist;
+      }
+    ));
 
 
     it('should create taskDefinition', inject(async function(elementRegistry, selection) {
