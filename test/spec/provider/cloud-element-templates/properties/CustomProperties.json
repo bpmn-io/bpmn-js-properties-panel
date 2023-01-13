@@ -157,6 +157,31 @@
   },
   {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Task Template 4",
+    "id": "my.example.dropdown-2",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "Optional dropdown",
+        "type": "Dropdown",
+        "choices": [
+          { "name": "low", "value": "low" },
+          { "name": "medium", "value": "medium" },
+          { "name": "high", "value": "high" }
+        ],
+        "value": "low",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "valueInput"
+        },
+        "optional": true
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Validated Inputs Task",
     "id": "com.validated-inputs.Task",
     "appliesTo": [

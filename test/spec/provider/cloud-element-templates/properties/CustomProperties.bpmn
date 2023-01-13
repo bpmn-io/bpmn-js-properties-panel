@@ -41,6 +41,13 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="DropdownNoSelection" name="DropdownNoSelection" zeebe:modelerTemplate="my.example.dropdown-1" />
+    <bpmn:serviceTask id="OptionalDropdownTask" name="OptionalDropdownTask" zeebe:modelerTemplate="my.example.dropdown-2" >
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="low" target="valueInput" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -68,6 +75,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0c7o61d_di" bpmnElement="DropdownNoSelection">
         <dc:Bounds x="360" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0v9dgs2" bpmnElement="OptionalDropdownTask">
+        <dc:Bounds x="500" y="480" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
