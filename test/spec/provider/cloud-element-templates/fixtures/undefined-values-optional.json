@@ -29,7 +29,8 @@
       "binding": {
         "type": "zeebe:input",
         "name": "dropdownTest"
-      }
+      },
+      "optional": true
     },
     {
       "label": "Input Test",
