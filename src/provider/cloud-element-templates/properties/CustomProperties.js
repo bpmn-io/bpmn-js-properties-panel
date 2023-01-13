@@ -237,14 +237,21 @@ function DropdownProperty(props) {
         commandStack = useService('commandStack');
 
   const getOptions = () => {
-    const { choices } = property;
+    const { choices, optional } = property;
+    let dropdownOptions = [];
 
-    return choices.map(({ name, value }) => {
+    dropdownOptions = choices.map(({ name, value }) => {
       return {
         label: name,
         value
       };
     });
+
+    if (optional) {
+      dropdownOptions = [ { label: '', value: undefined }, ...dropdownOptions ];
+    }
+
+    return dropdownOptions;
   };
 
   return SelectEntry({
