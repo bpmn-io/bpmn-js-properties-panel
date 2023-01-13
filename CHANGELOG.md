@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: make it possible to clear `optional` `Dropdown` field defined through element template ([#834](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/834))
+
 ## 1.15.1
 
 * `FIX`: don't stop propagation of events ([#850](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/850))
