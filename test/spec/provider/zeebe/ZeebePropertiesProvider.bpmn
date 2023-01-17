@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Start Event">
       <bpmn:extensionElements>
@@ -108,17 +108,12 @@
       <bpmn:multiInstanceLoopCharacteristics />
     </bpmn:businessRuleTask>
     <bpmn:userTask id="UserTask_1" name="UserTask_1" />
+    <bpmn:endEvent id="EscalationEvent" name="EscalationEvent">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1i8kp4g" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNEdge id="Flow_0pxbkit_di" bpmnElement="Flow_2">
-        <di:waypoint x="380" y="160" />
-        <di:waypoint x="462" y="160" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_10peumi_di" bpmnElement="Flow_1">
-        <di:waypoint x="198" y="160" />
-        <di:waypoint x="280" y="160" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="162" y="142" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -206,6 +201,12 @@
       <bpmndi:BPMNShape id="Activity_19u8iy4_di" bpmnElement="UserTask_1">
         <dc:Bounds x="590" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1bjixel_di" bpmnElement="EscalationEvent">
+        <dc:Bounds x="562" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="541" y="705" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ii3c12_di" bpmnElement="InterruptingTimerBoundaryEvent_1">
         <dc:Bounds x="342" y="562" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -218,6 +219,14 @@
           <dc:Bounds x="256" y="605" width="88" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_10peumi_di" bpmnElement="Flow_1">
+        <di:waypoint x="198" y="160" />
+        <di:waypoint x="280" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pxbkit_di" bpmnElement="Flow_2">
+        <di:waypoint x="380" y="160" />
+        <di:waypoint x="462" y="160" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

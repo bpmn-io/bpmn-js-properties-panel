@@ -602,6 +602,36 @@ describe('<ZeebePropertiesProvider>', function() {
       expect(getGroup(container, 'assignmentDefinition')).to.not.exist;
     }));
 
+
+    it('should show escalation group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('EscalationEvent');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // then
+      expect(getGroup(container, 'escalation')).to.exist;
+    }));
+
+
+    it('should NOT show escalation group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(task);
+      });
+
+      // then
+      expect(getGroup(container, 'escalation')).to.not.exist;
+    }));
+
   });
 
 
