@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0upqbpl" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="Process_17fhhp5" isExecutable="true">
+    <bpmn:task id="Activity_0n7ntz0" />
+    <bpmn:boundaryEvent id="CatchEscalationWithStatic" name="Escalation Boundary Event (no expression)" attachedToRef="Activity_0n7ntz0">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0ggzuvs" escalationRef="EscalationNoExpression" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="CatchEscalationWithExpression" name="Escalation Boundary Event (expression)" attachedToRef="Activity_0n7ntz0">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_02zwcmh" escalationRef="EscalationWithExpression" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="ThrowEscalationWithExpression" name="Escalation End Event (expression)">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_0tak8t6" escalationRef="EscalationWithExpression" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="ThrowEscalationWithStatic" name="Escalation End Event (no expression)">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1bn7qkg" escalationRef="EscalationNoExpression" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:escalation id="EscalationNoExpression" name="EscalationNoExpression" escalationCode="myCode" />
+  <bpmn:escalation id="EscalationWithExpression" name="EscalationWithExpression" escalationCode="=myCode" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_17fhhp5">
+      <bpmndi:BPMNShape id="Activity_0n7ntz0_di" bpmnElement="Activity_0n7ntz0">
+        <dc:Bounds x="180" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0cyrnqc_di" bpmnElement="ThrowEscalationWithExpression">
+        <dc:Bounds x="332" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="314" y="265" width="74" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fooads_di" bpmnElement="ThrowEscalationWithStatic">
+        <dc:Bounds x="332" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="314" y="145" width="74" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0cfnu3k" bpmnElement="CatchEscalationWithExpression">
+        <dc:Bounds x="162" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="143" y="185" width="79" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uqj7t6_di" bpmnElement="CatchEscalationWithStatic">
+        <dc:Bounds x="262" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="243" y="185" width="79" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -6,6 +6,7 @@ import {
   CalledDecisionProps,
   ConditionProps,
   ErrorProps,
+  EscalationProps,
   FormProps,
   HeaderProps,
   InputProps,
@@ -59,6 +60,7 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateErrorGroup(groups, element);
+      updateEscalationGroup(groups, element);
       updateMessageGroup(groups, element);
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
@@ -269,6 +271,19 @@ function updateErrorGroup(groups, element) {
   errorGroup.entries = overrideGenericEntries(
     errorGroup.entries,
     ErrorProps({ element })
+  );
+}
+
+function updateEscalationGroup(groups, element) {
+  const escalationGroup = findGroup(groups, 'escalation');
+
+  if (!escalationGroup) {
+    return;
+  }
+
+  escalationGroup.entries = overrideGenericEntries(
+    escalationGroup.entries,
+    EscalationProps({ element })
   );
 }
 

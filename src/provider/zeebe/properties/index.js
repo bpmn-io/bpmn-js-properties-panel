@@ -3,6 +3,7 @@ export { BusinessRuleImplementationProps } from './BusinessRuleImplementationPro
 export { CalledDecisionProps } from './CalledDecisionProps';
 export { ConditionProps } from './ConditionProps';
 export { ErrorProps } from './ErrorProps';
+export { EscalationProps } from './EscalationProps';
 export { FormProps } from './FormProps';
 export { HeaderProps } from './HeaderProps';
 export { InputProps } from './InputProps';
