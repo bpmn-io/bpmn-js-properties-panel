@@ -89,7 +89,7 @@ describe('provider/zeebe - ErrorProps', function() {
     it('should display (FEEL expression)', inject(async function(elementRegistry, selection) {
 
       // given
-      const errorEvent = elementRegistry.get('ErrorEventWithExpression');
+      const errorEvent = elementRegistry.get('ErrorThrowEventExpression');
 
       await act(() => {
         selection.select(errorEvent);
@@ -103,10 +103,27 @@ describe('provider/zeebe - ErrorProps', function() {
     }));
 
 
-    it('should display FEEL icon', inject(async function(elementRegistry, selection) {
+    it('should display expresion-like as text (catch event)', inject(async function(elementRegistry, selection) {
 
       // given
-      const errorEvent = elementRegistry.get('ErrorEventNoExpression');
+      const errorEvent = elementRegistry.get('ErrorEventWithExpression');
+
+      await act(() => {
+        selection.select(errorEvent);
+      });
+
+      // when
+      const errorCodeInput = domQuery('input[name=errorCode]', container);
+
+      // then
+      expect(errorCodeInput).to.exist;
+    }));
+
+
+    it('should display FEEL icon for throw event', inject(async function(elementRegistry, selection) {
+
+      // given
+      const errorEvent = elementRegistry.get('ErrorThrowEventExpression');
 
       await act(() => {
         selection.select(errorEvent);
@@ -117,6 +134,23 @@ describe('provider/zeebe - ErrorProps', function() {
 
       // then
       expect(errorCodeIcon).to.exist;
+    }));
+
+
+    it('should NOT display FEEL icon for catch event', inject(async function(elementRegistry, selection) {
+
+      // given
+      const errorEvent = elementRegistry.get('ErrorEventWithExpression');
+
+      await act(() => {
+        selection.select(errorEvent);
+      });
+
+      // when
+      const errorCodeIcon = domQuery('[data-entry-id="errorCode"] .bio-properties-panel-feel-icon', container);
+
+      // then
+      expect(errorCodeIcon).not.to.exist;
     }));
 
 
@@ -143,7 +177,7 @@ describe('provider/zeebe - ErrorProps', function() {
     it('should update (FEEL expression)', inject(async function(elementRegistry, selection) {
 
       // given
-      const errorEvent = elementRegistry.get('ErrorEventWithExpression');
+      const errorEvent = elementRegistry.get('ErrorThrowEventExpression');
 
       await act(() => {
         selection.select(errorEvent);
