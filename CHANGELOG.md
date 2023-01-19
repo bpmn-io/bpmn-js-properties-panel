@@ -6,6 +6,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: use FEEL editor for error code in throw events only
 * `FIX`: make it possible to clear `optional` `Dropdown` field defined through element template ([#834](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/834))
 
 ## 1.15.1

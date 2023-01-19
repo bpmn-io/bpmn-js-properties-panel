@@ -8,6 +8,12 @@
     <bpmn:boundaryEvent id="ErrorEventWithExpression" name="Error Boundary Event (expression)" attachedToRef="Activity_0n7ntz0">
       <bpmn:errorEventDefinition id="ErrorEventDefinition_02zwcmh" errorRef="ErrorWithExpression" />
     </bpmn:boundaryEvent>
+    <bpmn:endEvent id="ErrorThrowEventExpression" name="Error Throw Event (Expression)">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1g0yj9e" errorRef="ErrorWithExpression" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="ErrorThrowEventNoExpression" name="Error Throw Event (no expression)">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1fwygmj" errorRef="ErrorNoExpression" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:error id="ErrorNoExpression" name="ErrorNoExpression" errorCode="myCode" />
   <bpmn:error id="ErrorWithExpression" name="ErrorWithExpression" errorCode="=myCode" />
@@ -15,6 +21,18 @@
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_17fhhp5">
       <bpmndi:BPMNShape id="Activity_0n7ntz0_di" bpmnElement="Activity_0n7ntz0">
         <dc:Bounds x="180" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qdq6xp_di" bpmnElement="ErrorThrowEventExpression">
+        <dc:Bounds x="422" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="396" y="245" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ro1myn_di" bpmnElement="ErrorThrowEventNoExpression">
+        <dc:Bounds x="422" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="396" y="145" width="90" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0cfnu3k" bpmnElement="ErrorEventWithExpression">
         <dc:Bounds x="162" y="142" width="36" height="36" />

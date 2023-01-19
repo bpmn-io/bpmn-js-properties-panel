@@ -1,4 +1,8 @@
 import {
+  is
+} from 'bpmn-js/lib/util/ModelUtil';
+
+import {
   isFeelEntryEdited
 } from '@bpmn-io/properties-panel';
 
@@ -21,7 +25,7 @@ export function ErrorProps(props) {
 
   const entries = [];
 
-  if (error) {
+  if (error && is(element, 'bpmn:ThrowEvent')) {
     entries.push(
       {
         id: 'errorCode',
