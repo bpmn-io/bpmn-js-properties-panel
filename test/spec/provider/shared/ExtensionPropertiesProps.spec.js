@@ -20,7 +20,8 @@ import {
 
 import {
   getProperties,
-  getPropertiesList
+  getPropertiesList,
+  getRelevantBusinessObject
 } from 'src/provider/shared/ExtensionPropertiesProps';
 
 import CoreModule from 'bpmn-js/lib/core';
@@ -271,6 +272,185 @@ describe('provider/shared - ExtensionPropertiesProps', function() {
             expect(listItems.length).to.eql(originalProperties.length);
           }
         ));
+
+      });
+
+
+      describe('bpmn:Participant#properties', function() {
+
+        it('should display', inject(async function(elementRegistry, selection) {
+
+          // given
+          const participant = elementRegistry.get('Participant_1');
+
+          await act(() => {
+            selection.select(participant);
+          });
+
+          // when
+          const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+
+          const listItems = getPropertiesListItems(group);
+
+          // then
+          expect(group).to.exist;
+          expect(listItems.length).to.equal(getPropertiesList(participant, namespace).length);
+        }));
+
+
+        it('should add new property', inject(async function(elementRegistry, selection) {
+
+          // given
+          const participant = elementRegistry.get('Participant_1');
+
+          await act(() => {
+            selection.select(participant);
+          });
+
+          const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+          const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+          // when
+          await act(() => {
+            addEntry.click();
+          });
+
+          // then
+          expect(getPropertiesList(participant, namespace)).to.have.length(4);
+        }));
+
+
+        it('should create non existing extension elements', inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const participant = elementRegistry.get('Participant_empty');
+
+            await act(() => {
+              selection.select(participant);
+            });
+
+            // assume
+            expect(getRelevantBusinessObject(participant).get('extensionElements')).not.to.exist;
+
+            const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+            const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+            // when
+            await act(() => {
+              addEntry.click();
+            });
+
+            // then
+            expect(getRelevantBusinessObject(participant).get('extensionElements')).to.exist;
+          }
+        ));
+
+
+        it(`should create non existing ${ namespace }:Properties`, inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const participant = elementRegistry.get('Participant_noProperties');
+            await act(() => {
+              selection.select(participant);
+            });
+
+            // assume
+            expect(getProperties(participant, namespace)).not.to.exist;
+
+            const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+            const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+            // when
+            await act(() => {
+              addEntry.click();
+            });
+
+            // then
+            expect(getProperties(participant, namespace)).to.exist;
+          }
+        ));
+
+
+        it('should delete property', inject(async function(elementRegistry, selection) {
+
+          // given
+          const participant = elementRegistry.get('Participant_1');
+
+          await act(() => {
+            selection.select(participant);
+          });
+
+          const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+          const listItems = getPropertiesListItems(group);
+          const removeEntry = domQuery('.bio-properties-panel-remove-entry', listItems[ 0 ]);
+
+          // when
+          await act(() => {
+            removeEntry.click();
+          });
+
+          // then
+          expect(getPropertiesList(participant, namespace)).to.have.length(2);
+        }));
+
+
+        it(`should remove ${ namespace }:Properties on last delete`, inject(
+          async function(elementRegistry, selection) {
+
+            // given
+            const participant = elementRegistry.get('Participant_2');
+
+            await act(() => {
+              selection.select(participant);
+            });
+
+            // assume
+            expect(getProperties(participant, namespace)).to.exist;
+
+            const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+            const listItems = getPropertiesListItems(group, namespace);
+            const removeEntry = domQuery('.bio-properties-panel-remove-entry', listItems[ 0 ]);
+
+            // when
+            await act(() => {
+              removeEntry.click();
+            });
+
+            // then
+            expect(getProperties(participant, namespace)).not.to.exist;
+          })
+        );
+
+
+        it('should update on external change', inject(
+          async function(elementRegistry, selection, commandStack) {
+
+            // given
+            const participant = elementRegistry.get('Participant_1');
+            const originalProperties = getPropertiesList(participant, namespace);
+
+            await act(() => {
+              selection.select(participant);
+            });
+
+            const addEntry = domQuery('.bio-properties-panel-add-entry', container);
+            await act(() => {
+              addEntry.click();
+            });
+
+            // when
+            await act(() => {
+              commandStack.undo();
+            });
+
+            const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+            const listItems = getPropertiesListItems(group, namespace);
+
+            // then
+            expect(listItems.length).to.eql(originalProperties.length);
+          }));
 
       });
 
