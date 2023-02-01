@@ -58,6 +58,7 @@ function removeFactory({ commandStack, element, property, namespace }) {
     const commands = [];
 
     const businessObject = getRelevantBusinessObject(element);
+    const extensionElements = businessObject.get('extensionElements');
     const properties = getProperties(businessObject, namespace);
 
     if (!properties) {
@@ -81,8 +82,6 @@ function removeFactory({ commandStack, element, property, namespace }) {
 
     // remove camunda:Properties if there are no properties anymore
     if (!values.length) {
-      const businessObject = getBusinessObject(element),
-            extensionElements = businessObject.get('extensionElements');
 
       commands.push({
         cmd: 'element.updateModdleProperties',
@@ -176,7 +175,7 @@ function addFactory({ bpmnFactory, commandStack, element, namespace }) {
 
 // helper //////////////////
 
-function getRelevantBusinessObject(element) {
+export function getRelevantBusinessObject(element) {
   let businessObject = getBusinessObject(element);
 
   if (is(element, 'bpmn:Participant')) {
@@ -195,11 +194,13 @@ function getPropertyName(namespace = 'camunda') {
 }
 
 export function getProperties(element, namespace = 'camunda') {
-  return getExtensionElementsList(getBusinessObject(element), `${namespace}:Properties`)[ 0 ];
+  const businessObject = getRelevantBusinessObject(element);
+  return getExtensionElementsList(businessObject, `${namespace}:Properties`)[ 0 ];
 }
 
 export function getPropertiesList(element, namespace = 'camunda') {
-  const properties = getProperties(getBusinessObject(element), namespace);
+  const businessObject = getRelevantBusinessObject(element);
+  const properties = getProperties(businessObject, namespace);
 
   return properties && properties.get(getPropertyName(namespace));
 }

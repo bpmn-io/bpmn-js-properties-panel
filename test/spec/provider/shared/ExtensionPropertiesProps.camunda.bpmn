@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1md541i" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.9.0">
-  <bpmn:process id="Process_1" isExecutable="true">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1md541i" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0-rc.1">
+  <bpmn:collaboration id="Collaboration_006qxhc">
+    <bpmn:participant id="Participant_noProperties" name="no properties" processRef="Process_noProperties" />
+    <bpmn:participant id="Participant_1" processRef="Process_1" />
+    <bpmn:participant id="Participant_2" name="one property" processRef="Process_2" />
+    <bpmn:participant id="Participant_empty" name="empty" processRef="Process_empty" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_noProperties" isExecutable="false">
+    <bpmn:extensionElements />
+  </bpmn:process>
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="property1" value="value1" />
+        <camunda:property name="property2" value="value2" />
+        <camunda:property name="property3" value="value3" />
+      </camunda:properties>
+    </bpmn:extensionElements>
+  </bpmn:process>
+  <bpmn:process id="Process_2" isExecutable="false">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="property1" value="value1" />
+      </camunda:properties>
+    </bpmn:extensionElements>
+  </bpmn:process>
+  <bpmn:process id="Process_empty" isExecutable="false">
     <bpmn:serviceTask id="ServiceTask_1">
       <bpmn:extensionElements>
         <camunda:properties>
@@ -10,7 +35,6 @@
         </camunda:properties>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_empty" name="empty" />
     <bpmn:serviceTask id="ServiceTask_2">
       <bpmn:extensionElements>
         <camunda:properties>
@@ -18,23 +42,37 @@
         </camunda:properties>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="ServiceTask_noProperties" name="no properties">
-      <bpmn:extensionElements />
-    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_empty" name="empty" />
+    <bpmn:serviceTask id="ServiceTask_noProperties" name="no properties" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-      <bpmndi:BPMNShape id="ServiceTask_0rud1s3_di" bpmnElement="ServiceTask_1">
-        <dc:Bounds x="160" y="77" width="100" height="80" />
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_006qxhc">
+      <bpmndi:BPMNShape id="Participant_0s8dnh2_di" bpmnElement="Participant_noProperties" isHorizontal="true">
+        <dc:Bounds x="160" y="390" width="600" height="250" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0v1cphs_di" bpmnElement="ServiceTask_empty">
-        <dc:Bounds x="190" y="370" width="100" height="80" />
+      <bpmndi:BPMNShape id="BPMNShape_1bfryhp" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds x="160" y="700" width="600" height="250" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1dticgb_di" bpmnElement="ServiceTask_2">
-        <dc:Bounds x="420" y="100" width="100" height="80" />
+      <bpmndi:BPMNShape id="BPMNShape_1o82rlz" bpmnElement="Participant_2" isHorizontal="true">
+        <dc:Bounds x="160" y="1010" width="600" height="250" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_08s4ehk_di" bpmnElement="ServiceTask_noProperties">
-        <dc:Bounds x="420" y="400" width="100" height="80" />
+      <bpmndi:BPMNShape id="BPMNShape_0g6intl" bpmnElement="Participant_empty" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0t1n8ku" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="280" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0f6cc9o" bpmnElement="ServiceTask_2">
+        <dc:Bounds x="540" y="133" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0p0tluo" bpmnElement="ServiceTask_empty">
+        <dc:Bounds x="300" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1s5ws39" bpmnElement="ServiceTask_noProperties">
+        <dc:Bounds x="530" y="240" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
