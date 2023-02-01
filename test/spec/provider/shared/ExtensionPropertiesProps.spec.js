@@ -165,7 +165,7 @@ describe('provider/shared - ExtensionPropertiesProps', function() {
         ));
 
 
-        it('should create non existing camunda:Properties', inject(
+        it(`should create non existing ${ namespace }:Properties`, inject(
           async function(elementRegistry, selection) {
 
             // given
@@ -215,7 +215,7 @@ describe('provider/shared - ExtensionPropertiesProps', function() {
         }));
 
 
-        it('should remove camunda:Properties on last delete', inject(
+        it(`should remove ${ namespace }:Properties on last delete`, inject(
           async function(elementRegistry, selection) {
 
             // given
