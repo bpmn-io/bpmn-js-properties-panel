@@ -17,10 +17,6 @@ import { without } from 'min-dash';
 
 
 export function ExtensionPropertiesProps({ element, injector, namespace = 'camunda' }) {
-  if (namespace === 'zeebe' && !is(element, 'zeebe:PropertiesHolder')) {
-    return [];
-  }
-
   let businessObject = getRelevantBusinessObject(element);
 
   // do not offer for empty pools
