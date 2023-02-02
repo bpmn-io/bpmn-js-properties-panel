@@ -44,6 +44,15 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ServiceTask_empty" name="empty" />
     <bpmn:serviceTask id="ServiceTask_noProperties" name="no properties" />
+    <bpmn:task id="ServiceTask_unsorted" name="unsorted">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="z" />
+          <camunda:property name="a" />
+          <camunda:property name="5" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_006qxhc">
@@ -73,6 +82,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1s5ws39" bpmnElement="ServiceTask_noProperties">
         <dc:Bounds x="530" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ictbo8_di" bpmnElement="ServiceTask_unsorted">
+        <dc:Bounds x="410" y="110" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

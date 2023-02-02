@@ -27,6 +27,15 @@
     <bpmn:serviceTask id="ServiceTask_noProperties">
       <bpmn:extensionElements />
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_unsorted" name="unsorted">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="z" value="" />
+          <zeebe:property name="a" value="" />
+          <zeebe:property name="5" value="" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmn:process id="Process_noProperties" isExecutable="false">
     <bpmn:extensionElements />
@@ -64,6 +73,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1leos9w_di" bpmnElement="ServiceTask_noProperties">
         <dc:Bounds x="630" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15fgyss_di" bpmnElement="ServiceTask_unsorted">
+        <dc:Bounds x="530" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1qc9339_di" bpmnElement="Participant_noProperties" isHorizontal="true">
         <dc:Bounds x="160" y="340" width="600" height="250" />
