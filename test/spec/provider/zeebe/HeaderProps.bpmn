@@ -23,6 +23,15 @@
     <bpmn:serviceTask id="ServiceTask_noTaskHeaders" name="no taskHeaders">
       <bpmn:extensionElements />
     </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTasj_unsorted" name="unsorted">
+      <bpmn:extensionElements>
+        <zeebe:taskHeaders>
+          <zeebe:header key="z" />
+          <zeebe:header key="a" />
+          <zeebe:header key="5" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -40,6 +49,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_08s4ehk_di" bpmnElement="ServiceTask_noTaskHeaders">
         <dc:Bounds x="420" y="400" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_19ejp4y" bpmnElement="ServiceTasj_unsorted">
+        <dc:Bounds x="500" y="260" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
