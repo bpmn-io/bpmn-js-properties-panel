@@ -59,7 +59,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
 
       // then
       expect(nameInput).to.be.null;
@@ -80,7 +80,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
 
       // then
       expect(nameInput).to.be.null;
@@ -101,7 +101,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
 
       // then
       expect(nameInput.value).to.eql(getBusinessObject(startEvent).get('name'));
@@ -118,7 +118,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
       changeInput(nameInput, 'newValue');
 
       // then
@@ -136,7 +136,7 @@ describe('provider/bpmn - NameProps', function() {
         await act(() => {
           selection.select(startEvent);
         });
-        const nameInput = domQuery('input[name=name]', container);
+        const nameInput = domQuery('textarea[name=name]', container);
         changeInput(nameInput, 'newValue');
 
         // when
@@ -164,7 +164,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
 
       // then
       expect(nameInput.value).to.eql(getBusinessObject(task).get('name'));
@@ -181,7 +181,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
       changeInput(nameInput, 'newValue');
 
       // then
@@ -199,7 +199,7 @@ describe('provider/bpmn - NameProps', function() {
         await act(() => {
           selection.select(task);
         });
-        const nameInput = domQuery('input[name=name]', container);
+        const nameInput = domQuery('textarea[name=name]', container);
         changeInput(nameInput, 'newValue');
 
         // when
@@ -227,7 +227,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
 
       // then
       expect(nameInput.value).to.eql(getBusinessObject(textAnnotation).get('text'));
@@ -244,7 +244,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
       changeInput(nameInput, 'newValue');
 
       // then
@@ -262,7 +262,7 @@ describe('provider/bpmn - NameProps', function() {
         await act(() => {
           selection.select(textAnnotation);
         });
-        const nameInput = domQuery('input[name=name]', container);
+        const nameInput = domQuery('textarea[name=name]', container);
         changeInput(nameInput, 'newValue');
 
         // when
@@ -290,7 +290,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
 
       // then
       expect(nameInput.value).to.eql(getCategoryValue(group).get('value'));
@@ -307,7 +307,7 @@ describe('provider/bpmn - NameProps', function() {
       });
 
       // when
-      const nameInput = domQuery('input[name=name]', container);
+      const nameInput = domQuery('textarea[name=name]', container);
       changeInput(nameInput, 'newValue');
 
       // then
@@ -325,7 +325,7 @@ describe('provider/bpmn - NameProps', function() {
         await act(() => {
           selection.select(group);
         });
-        const nameInput = domQuery('input[name=name]', container);
+        const nameInput = domQuery('textarea[name=name]', container);
         changeInput(nameInput, 'newValue');
 
         // when
@@ -353,7 +353,7 @@ describe('provider/bpmn - NameProps', function() {
         expect(getCategoryValue(group)).not.to.exist;
 
         // when
-        const nameInput = domQuery('input[name=name]', container);
+        const nameInput = domQuery('textarea[name=name]', container);
         changeInput(nameInput, 'newValue');
 
         // then
