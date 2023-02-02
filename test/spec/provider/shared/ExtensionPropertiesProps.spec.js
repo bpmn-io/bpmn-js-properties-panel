@@ -139,6 +139,50 @@ describe('provider/shared - ExtensionPropertiesProps', function() {
         }));
 
 
+        it('should add new property to bottom', inject(async function(elementRegistry, selection) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_1');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const group = getGroup(container, `${ getPrefix(namespace) }__ExtensionProperties`);
+          const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+          // when
+          await act(() => {
+            addEntry.click();
+          });
+
+          // then
+          const propertyLabel = getPropertyLabel(container, 0);
+
+          expect(propertyLabel.innerHTML).to.equal('property1');
+        }));
+
+
+        it('should sort input items according to XML', inject(async function(elementRegistry, selection) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_unsorted');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          // then
+          const properties = getPropertiesList(serviceTask, namespace);
+
+          for (let idx = 0; idx < properties.length; idx++) {
+            const propertyLabel = getPropertyLabel(container, idx).innerHTML;
+
+            expect(properties[idx].name).to.equal(propertyLabel);
+          }
+        }));
+
+
         it('should create non existing extension elements', inject(
           async function(elementRegistry, selection) {
 
@@ -473,4 +517,8 @@ function getListItems(container, type) {
 
 function getPropertiesListItems(container) {
   return getListItems(container, 'extensionProperty');
+}
+
+function getPropertyLabel(container, id) {
+  return domQueryAll('.bio-properties-panel-collapsible-entry-header-title', container)[id];
 }
