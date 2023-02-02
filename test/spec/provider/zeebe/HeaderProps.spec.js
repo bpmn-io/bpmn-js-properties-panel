@@ -121,6 +121,50 @@ describe('provider/zeebe - HeaderProps', function() {
     }));
 
 
+    it('should add new header to bottom', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      const headerGroup = getGroup(container, 'headers');
+      const addEntry = domQuery('.bio-properties-panel-add-entry', headerGroup);
+
+      // when
+      await act(() => {
+        addEntry.click();
+      });
+
+      // then
+      const headerLabel = getHeaderLabel(container, 0);
+
+      expect(headerLabel.innerHTML).to.equal('headerKey_1');
+    }));
+
+
+    it('should sort input items according to XML', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // then
+      const headers = getHeaders(serviceTask);
+
+      for (let idx = 0; idx < headers.length; idx++) {
+        const headerLabel = getHeaderLabel(container, idx).innerHTML;
+
+        expect(headers[idx].key).to.equal(headerLabel);
+      }
+    }));
+
+
     it('should create non existing extension elements',
       inject(async function(elementRegistry, selection) {
 
@@ -267,4 +311,8 @@ function getListItems(container, type) {
 
 function getHeaderListItems(container) {
   return getListItems(container, 'header');
+}
+
+function getHeaderLabel(container, id) {
+  return domQueryAll('.bio-properties-panel-collapsible-entry-header-title', container)[id];
 }
