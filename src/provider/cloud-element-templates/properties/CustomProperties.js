@@ -391,6 +391,7 @@ function TextAreaProperty(props) {
     label,
     feel,
     monospace: !!language,
+    autoResize: true,
     description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property),
     setValue: propertySetter(bpmnFactory, commandStack, element, property),

@@ -4,6 +4,7 @@ import {
   bootstrapPropertiesPanel,
   changeInput,
   getBpmnJS,
+  withPropertiesPanel,
   inject
 } from 'test/TestHelper';
 
@@ -822,6 +823,19 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
         const input = findTextarea(entry);
 
         expect(input.className).to.include('bio-properties-panel-input-monospace');
+      });
+
+
+      withPropertiesPanel('>=1.3.0')('should be auto-resizable', async function() {
+
+        // when
+        await expectSelected('textTask');
+
+        // then
+        const entry = findEntry('custom-entry-my.example.custom-language-text-0', container);
+        const input = findTextarea(entry);
+
+        expect(input.className).to.include('auto-resize');
       });
 
     });
