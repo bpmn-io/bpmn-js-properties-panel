@@ -1,0 +1,23 @@
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Custom Language Text",
+    "id": "my.example.custom-language-text",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {
+        "label": "GraphQL query",
+        "type": "Text",
+        "language": "graphql",
+        "value": "{}",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "valueInput"
+        },
+        "optional": true
+      }
+    ]
+  }
+]

@@ -376,7 +376,8 @@ function TextAreaProperty(props) {
     description,
     editable,
     label,
-    feel
+    feel,
+    language
   } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
@@ -389,6 +390,7 @@ function TextAreaProperty(props) {
     id,
     label,
     feel,
+    monospace: !!language,
     description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property),
     setValue: propertySetter(bpmnFactory, commandStack, element, property),
