@@ -281,6 +281,23 @@ describe('provider/cloud-element-templates - Validator', function() {
     });
 
 
+    it('should accept optional bindings', function() {
+
+      // given
+      const templates = new Validator(moddle);
+
+      const templateDescriptor = require('./fixtures/optional-valid');
+
+      // when
+      templates.addAll(templateDescriptor);
+
+      // then
+      expect(errors(templates)).to.be.empty;
+
+      expect(valid(templates)).to.have.length(templateDescriptor.length);
+    });
+
+
     it('should reject missing name', function() {
 
       // given
@@ -377,7 +394,7 @@ describe('provider/cloud-element-templates - Validator', function() {
       templates.addAll(templateDescriptor);
 
       // then
-      expect(errors(templates)).to.contain('template(id: <invalid>, name: <Invalid>): optional is not supported for binding type "zeebe:taskHeader"; must be any of { zeebe:input, zeebe:output, zeebe:property }');
+      expect(errors(templates)).to.contain('template(id: <invalid>, name: <Invalid>): optional is not supported for binding type "property"; must be any of { zeebe:input, zeebe:output, zeebe:property, zeebe:taskHeader }');
 
       expect(valid(templates)).to.be.empty;
     });
