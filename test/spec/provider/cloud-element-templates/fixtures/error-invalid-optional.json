@@ -11,7 +11,7 @@
         "type": "String",
         "optional": true,
         "binding": {
-          "type": "zeebe:taskHeader",
+          "type": "property",
           "key": "header"
         }
       }
