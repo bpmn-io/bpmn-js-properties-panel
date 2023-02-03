@@ -59,6 +59,9 @@ import defaultValuesElementTemplates from './CustomProperties.default-values.jso
 import groupsDiagramXML from './CustomProperties.groups.bpmn';
 import groupsElementTemplates from './CustomProperties.groups.json';
 
+import textLanguageDiagramXML from './CustomProperties.text-language.bpmn';
+import textLanguageElementTemplates from './CustomProperties.text-language.json';
+
 
 describe('provider/cloud-element-templates - CustomProperties', function() {
 
@@ -687,7 +690,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
   describe('types', function() {
 
-    describe('dropdown', function() {
+    describe('Dropdown', function() {
 
       beforeEach(bootstrapPropertiesPanel(diagramXML, {
         container,
@@ -786,6 +789,39 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
         // then
         expect(businessObject.get('name')).to.equal('medium');
+      });
+
+    });
+
+
+    describe('Text', function() {
+
+      beforeEach(bootstrapPropertiesPanel(textLanguageDiagramXML, {
+        container,
+        debounceInput: false,
+        elementTemplates: textLanguageElementTemplates,
+        moddleExtensions: {
+          zeebe: zeebeModdlePackage
+        },
+        modules: [
+          BpmnPropertiesPanel,
+          coreModule,
+          elementTemplatesModule,
+          modelingModule
+        ]
+      }));
+
+
+      it('should display <language> annotated with monospace font', async function() {
+
+        // when
+        await expectSelected('textTask');
+
+        // then
+        const entry = findEntry('custom-entry-my.example.custom-language-text-0', container);
+        const input = findTextarea(entry);
+
+        expect(input.className).to.include('bio-properties-panel-input-monospace');
       });
 
     });
