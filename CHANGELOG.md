@@ -6,6 +6,18 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.17.0
+
+* `FEAT`: Camunda 8 template properties can have `language` property ([#869](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/869))
+* `FEAT`: Camunda 8 template properties of type `Text` are resizable textareas ([#870](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/870))
+* `FIX`: _Name_ entry is resizable textarea ([#864](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/864))
+* `FIX`: _Extension properties_ group is shown for all elements ([#861](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/861))
+* `FIX`: _Extension properties_ can be removed from participant ([#862](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/862))
+* `FIX`: _Extension properties_ and _Headers_ are not sorted alphabetically ([#867](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/867))
+* `FIX`: result variables of script tasks are shown in FEEL suggestions ([extract-process-variables#25](https://github.com/bpmn-io/extract-process-variables/issues/25))
+* `DEPS`: update to `@bpmn-io/extract-process-variables@0.8.0`
+* `DEPS`: update to `@bpmn-io/properties-panel@1.3.0`
+
 ## 1.16.0
 
 * `FEAT`: allow escalation code to be a FEEL expression ([#855](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/855))
