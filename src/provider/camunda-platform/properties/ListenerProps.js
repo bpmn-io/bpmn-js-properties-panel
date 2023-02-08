@@ -134,7 +134,8 @@ export function ExecutionListenerProps({ element, injector }) {
         remove: removeListenerFactory({ element, listener, commandStack })
       };
     }),
-    add: addExecutionListenerFactory({ bpmnFactory, commandStack, element })
+    add: addExecutionListenerFactory({ bpmnFactory, commandStack, element }),
+    shouldSort: false
   };
 }
 
@@ -194,7 +195,9 @@ export function TaskListenerProps({ element, injector }) {
       };
     }),
 
-    add: addTaskListenerFactory({ bpmnFactory, commandStack, element })
+    add: addTaskListenerFactory({ bpmnFactory, commandStack, element }),
+
+    shouldSort: false
   };
 }
 
