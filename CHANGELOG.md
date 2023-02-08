@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.17.1
+
+* `DEPS`: update to `@bpmn-io/properties-panel@1.3.1`
+
 # 1.17.0
 
 * `FEAT`: Camunda 8 template properties can have `language` property ([#869](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/869))
