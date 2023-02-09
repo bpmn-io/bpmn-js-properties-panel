@@ -7,13 +7,31 @@ function registerHandlers(commandStack, elementTemplates, eventBus) {
   );
 
   // apply default element templates on shape creation
-  eventBus.on([ 'commandStack.shape.create.postExecuted' ], function(context) {
-    applyDefaultTemplate(context.context.shape, elementTemplates, commandStack);
+  eventBus.on([ 'commandStack.shape.create.postExecuted' ], function(event) {
+    const {
+      context: {
+        hints = {},
+        shape
+      }
+    } = event;
+
+    if (hints.createElementsBehavior !== false) {
+      applyDefaultTemplate(shape, elementTemplates, commandStack);
+    }
   });
 
   // apply default element templates on connection creation
-  eventBus.on([ 'commandStack.connection.create.postExecuted' ], function(context) {
-    applyDefaultTemplate(context.context.connection, elementTemplates, commandStack);
+  eventBus.on([ 'commandStack.connection.create.postExecuted' ], function(event) {
+    const {
+      context: {
+        hints = {},
+        connection
+      }
+    } = event;
+
+    if (hints.createElementsBehavior !== false) {
+      applyDefaultTemplate(connection, elementTemplates, commandStack);
+    }
   });
 }
 
