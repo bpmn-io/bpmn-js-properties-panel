@@ -49,7 +49,7 @@ const moddleExtensions = {
 };
 
 
-describe('cloud-element-templates - ChangeElementTemplateHandler', function() {
+describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function() {
 
   let container;
 
