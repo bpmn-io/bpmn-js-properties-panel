@@ -28,7 +28,7 @@ const moddleExtensions = {
   camunda: camundaModdlePackage
 };
 
-describe('default element templates', function() {
+describe('element-templates/cmd - default element templates', function() {
 
   let container;
 
@@ -48,35 +48,108 @@ describe('default element templates', function() {
   }));
 
 
-  it('should apply default element template on shape creation', inject(function(canvas, elementFactory, modeling) {
+  it('should apply default element template on shape creation', inject(
+    function(canvas, elementFactory, modeling, elementTemplates) {
 
-    // given
-    const element = elementFactory.createShape({
-      id: 'Task_3',
-      type: 'bpmn:Task'
-    });
+      // given
+      const element = elementFactory.createShape({
+        id: 'Task_3',
+        type: 'bpmn:Task'
+      });
 
-    // when
-    modeling.createShape(element, { x: 100, y: 100 }, canvas.getRootElement());
+      const defaultTemplate = elementTemplates.get('com.foo.bar.default');
 
-    // then
-    expect(getBusinessObject(element).get('name')).to.equal('DEFAULT FOO BAR');
-  }));
+      // assume
+      expect(defaultTemplate).to.exist;
+
+      // when
+      modeling.createShape(element, { x: 100, y: 100 }, canvas.getRootElement());
+
+      // then
+      expect(elementTemplates.get(element)).to.eql(defaultTemplate);
+
+      expect(getBusinessObject(element).get('name')).to.equal('DEFAULT FOO BAR');
+    })
+  );
 
 
-  it('should apply default element template on connection creation', inject(function(elementRegistry, modeling) {
+  it('should apply default element template on connection creation', inject(
+    function(elementRegistry, modeling, elementTemplates) {
 
-    // given
-    const task1 = elementRegistry.get('Task_1'),
-          task2 = elementRegistry.get('Task_2');
+      // given
+      const task1 = elementRegistry.get('Task_1'),
+            task2 = elementRegistry.get('Task_2');
 
-    // when
-    modeling.connect(task1, task2);
+      const defaultTemplate = elementTemplates.get('com.foo.bar.default.flow');
 
-    const connection = elementRegistry.find((element) => is(element, 'bpmn:SequenceFlow'));
+      // assume
+      expect(defaultTemplate).to.exist;
 
-    // then
-    expect(getBusinessObject(connection).get('name')).to.equal('DEFAULT FOO BAR FLOW');
-  }));
+      // when
+      const connection = modeling.connect(task1, task2);
+
+      // then
+      expect(elementTemplates.get(connection)).to.eql(defaultTemplate);
+
+      // then
+      expect(getBusinessObject(connection).get('name')).to.equal('DEFAULT FOO BAR FLOW');
+    })
+  );
+
+
+  it('should not apply default template on paste', inject(
+    function(canvas, elementRegistry, modeling, elementTemplates, copyPaste) {
+
+      // given
+      const noTemplateTask = elementRegistry.get('Task_2');
+
+      const defaultTemplate = elementTemplates.get('com.foo.bar.default');
+
+      // assume
+      expect(defaultTemplate).to.exist;
+
+      // when
+      copyPaste.copy([ noTemplateTask ]);
+
+      const [ pastedShape ] = copyPaste.paste({
+        element: canvas.getRootElement(),
+        point: { x: 100, y: 100 }
+      });
+
+      // then
+      expect(elementTemplates.get(pastedShape)).not.to.exist;
+
+      expect(getBusinessObject(pastedShape).get('name')).to.equal('EXISTING_NAME');
+    })
+  );
+
+
+  it('should not apply default template on connection paste', inject(
+    function(canvas, elementRegistry, modeling, elementTemplates, copyPaste) {
+
+      // given
+      const elements = [ 'Task_1', 'Task_2', 'SequenceFlow_1' ].map(id => elementRegistry.get(id));
+
+      const defaultTemplate = elementTemplates.get('com.foo.bar.default');
+
+      // assume
+      expect(defaultTemplate).to.exist;
+
+      // when
+      copyPaste.copy(elements);
+
+      const pastedElements = copyPaste.paste({
+        element: canvas.getRootElement(),
+        point: { x: 100, y: 100 }
+      });
+
+      const pastedFlow = pastedElements.find(element => is(element, 'bpmn:SequenceFlow'));
+
+      // then
+      expect(elementTemplates.get(pastedFlow)).not.to.exist;
+
+      expect(getBusinessObject(pastedFlow).get('name')).to.equal('EXISTING_NAME');
+    })
+  );
 
 });

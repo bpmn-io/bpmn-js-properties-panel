@@ -48,7 +48,7 @@ const moddleExtensions = {
 };
 
 
-describe('element-templates - ChangeElementTemplateHandler', function() {
+describe('element-templates/cmd - ChangeElementTemplateHandler', function() {
 
   let container;
 
