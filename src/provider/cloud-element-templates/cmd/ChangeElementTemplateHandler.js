@@ -10,6 +10,7 @@ import {
 import {
   createInputParameter,
   createOutputParameter,
+  createTaskDefinitionWithRetries,
   createTaskDefinitionWithType,
   createTaskHeader,
   createZeebeProperty,
@@ -206,13 +207,17 @@ export default class ChangeElementTemplateHandler {
 
         if (!shouldKeepValue(oldTaskDefinition, oldProperty, newProperty)) {
 
-          // TODO(pinussilvestrus): for now we only support <type>
+          // TODO(pinussilvestrus): for now we only support <type> and <retries>
           // this needs to be adjusted once we support more
           let properties = {};
 
           if (oldBindingType === 'zeebe:taskDefinition:type' || !oldBindingType) {
             properties = {
               type: newPropertyValue
+            };
+          } else if (oldBindingType === 'zeebe:taskDefinition:retries' || !oldBindingType) {
+            properties = {
+              retries: newPropertyValue
             };
           }
 
@@ -228,10 +233,12 @@ export default class ChangeElementTemplateHandler {
       else {
         let newTaskDefinition;
 
-        // TODO(pinussilvestrus): for now we only support <type>
+        // TODO(pinussilvestrus): for now we only support <type> and <retries>
         // this needs to be adjusted once we support more
         if (newBindingType === 'zeebe:taskDefinition:type') {
           newTaskDefinition = createTaskDefinitionWithType(newPropertyValue, bpmnFactory);
+        } else if (newBindingType === 'zeebe:taskDefinition:retries') {
+          newTaskDefinition = createTaskDefinitionWithRetries(newPropertyValue, bpmnFactory);
         }
 
         commandStack.execute('element.updateModdleProperties', {

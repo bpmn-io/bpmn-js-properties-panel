@@ -149,10 +149,17 @@
     "entriesVisible": true,
     "properties": [
       {
-        "type": "Hidden",
+        "type": "String",
         "value": "http",
         "binding": {
           "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "type": "String",
+        "value": "5",
+        "binding": {
+          "type": "zeebe:taskDefinition:retries"
         }
       },
       {

@@ -13,7 +13,7 @@ import {
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
   ZEEBE_PROPERTY_TYPE,
-  ZEEBE_TASK_HEADER_TYPE
+  ZEEBE_TASK_HEADER_TYPE, ZEEBE_TASK_DEFINITION_RETRIES_TYPE
 } from '../util/bindingTypes';
 
 import {
@@ -26,7 +26,7 @@ import {
 
 import {
   createInputParameter,
-  createOutputParameter,
+  createOutputParameter, createTaskDefinitionWithRetries,
   createTaskDefinitionWithType,
   createTaskHeader,
   createZeebeProperty,
@@ -251,6 +251,8 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
 
     if (type === ZEEBE_TASK_DEFINITION_TYPE_TYPE) {
       newTaskDefinition = createTaskDefinitionWithType(value, bpmnFactory);
+    } else if (type === ZEEBE_TASK_DEFINITION_RETRIES_TYPE) {
+      newTaskDefinition = createTaskDefinitionWithRetries(value, bpmnFactory);
     } else {
       throw unknownBindingError(element, property);
     }
