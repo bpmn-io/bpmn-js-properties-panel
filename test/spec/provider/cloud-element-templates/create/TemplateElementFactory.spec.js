@@ -23,6 +23,8 @@ import diagramXML from '../fixtures/simple.bpmn';
 
 import templates from './TemplatesElementFactory.json';
 
+import conditionTemplates from './TemplateElementFactory.conditions.json';
+
 
 describe('provider/cloud-element-templates - TemplateElementFactory', function() {
 
@@ -341,6 +343,64 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
 
   });
 
+
+  describe('conditional properties', function() {
+
+    it('should apply conditional properties - conditions met', inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = conditionTemplates[0];
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+      const businessObject = getBusinessObject(element);
+
+      // then
+      expectTaskDefinitionType(businessObject, 'nameProp=foo');
+
+      expectInputSource(businessObject, 'nameProp=foo');
+      expectOutputTarget(businessObject, 'nameProp=foo');
+      expectTaskHeaderValue(businessObject, 'nameProp=foo');
+      expectZeebePropertyValue(businessObject, 'nameProp=foo');
+    }));
+
+
+    it('should not apply conditional properties - unmet conditions', inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = conditionTemplates[0];
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+      const businessObject = getBusinessObject(element);
+
+      // then
+      expectTaskDefinitionType(businessObject, 'nameProp=foo');
+      expectInputSource(businessObject, 'nameProp=bar', false);
+      expectOutputTarget(businessObject, 'nameProp=bar', false);
+      expectTaskHeaderValue(businessObject, 'nameProp=bar', false);
+      expectZeebePropertyValue(businessObject, 'nameProp=bar', false);
+    }));
+
+
+    it('should apply parent properties first - unordered conditions' , inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = conditionTemplates[1];
+
+      // // when
+      const element = templateElementFactory.create(elementTemplate);
+      const businessObject = getBusinessObject(element);
+
+      // then
+      expectTaskDefinitionType(businessObject, 'bar');
+      expectInputSource(businessObject, 'foo');
+      expectOutputTarget(businessObject, 'bar');
+      expectTaskHeaderValue(businessObject, 'foo');
+      expectZeebePropertyValue(businessObject, 'bar');
+    }));
+
+  });
 });
 
 
@@ -348,4 +408,48 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
 
 function findTemplate(id) {
   return find(templates, t => t.id === id);
+}
+
+function expectTaskDefinitionType(businessObject, type, result = true) {
+  const taskDefinition = findExtension(businessObject, 'zeebe:TaskDefinition');
+
+  result ?
+    expect(taskDefinition.type).to.eql(type)
+    : expect(taskDefinition.type).to.not.eql(type);
+}
+
+function expectInputSource(businessObject, source, result = true) {
+  const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+  const inputs = ioMapping.get('zeebe:inputParameters');
+
+  result ?
+    expect(inputs.find(input => input.source === source)).to.exist
+    : expect(inputs.find(input => input.source === source)).to.not.exist;
+}
+
+function expectOutputTarget(businessObject, target, result = true) {
+  const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
+  const outputs = ioMapping.get('zeebe:outputParameters');
+
+  result ?
+    expect(outputs.find(output => output.target === target)).to.exist
+    : expect(outputs.find(output => output.target === target)).to.not.exist;
+}
+
+
+function expectTaskHeaderValue(businessObject, value, result = true) {
+  const taskHeaders = findExtension(businessObject, 'zeebe:TaskHeaders').get('values');
+
+  result ?
+    expect(taskHeaders.find(taskHeader => taskHeader.value === value)).to.exist
+    : expect(taskHeaders.find(taskHeader => taskHeader.value === value)).to.not.exist;
+}
+
+function expectZeebePropertyValue(businessObject, value, result = true) {
+  const zeebePropertiesExtension = findExtension(businessObject, 'zeebe:Properties');
+  const properties = zeebePropertiesExtension.get('zeebe:properties');
+
+  result ?
+    expect(properties.find(property => property.value === value)).to.exist
+    : expect(properties.find(property => property.value === value)).to.not.exist;
 }

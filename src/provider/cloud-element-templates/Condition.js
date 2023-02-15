@@ -16,7 +16,7 @@ export function applyConditions(element, elementTemplate) {
   };
 }
 
-function isConditionMet(element, properties, property) {
+export function isConditionMet(element, properties, property) {
   const { condition } = property;
 
   // If no condition is defined, return true.
@@ -43,7 +43,7 @@ function isSimpleConditionMet(element, properties, condition) {
   return false;
 }
 
-function getValue(element, properties, propertyId) {
+export function getValue(element, properties, propertyId) {
   const property = properties.find(p => p.id === propertyId);
 
   if (!property) {
