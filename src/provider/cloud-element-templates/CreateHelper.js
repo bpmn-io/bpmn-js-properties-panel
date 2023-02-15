@@ -81,6 +81,20 @@ export function createTaskDefinitionWithType(value, bpmnFactory) {
 }
 
 /**
+ * Create a task definition representing the given value.
+ *
+ * @param {String} value
+ * @param {BpmnFactory} bpmnFactory
+ *
+ * @return {ModdleElement}
+ */
+export function createTaskDefinitionWithRetries(value, bpmnFactory) {
+  return bpmnFactory.create('zeebe:TaskDefinition', {
+    retries: value
+  });
+}
+
+/**
  * Create zeebe:Property from the given binding.
  *
  * @param {PropertyBinding} binding

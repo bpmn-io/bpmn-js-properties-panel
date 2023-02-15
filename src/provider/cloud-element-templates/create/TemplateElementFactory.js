@@ -7,6 +7,7 @@ import { find } from 'min-dash';
 import validate from '../util/validate';
 
 import PropertyBindingProvider from './PropertyBindingProvider';
+import TaskDefinitionRetriesBindingProvider from './TaskDefinitionRetriesBindingProvider';
 import TaskDefinitionTypeBindingProvider from './TaskDefinitionTypeBindingProvider';
 import InputBindingProvider from './InputBindingProvider';
 import OutputBindingProvider from './OutputBindingProvider';
@@ -16,6 +17,7 @@ import ZeebePropertiesProvider from './ZeebePropertiesProvider';
 import {
   EXTENSION_BINDING_TYPES,
   PROPERTY_TYPE,
+  ZEEBE_TASK_DEFINITION_RETRIES_TYPE,
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
   ZEEBE_OUTPUT_TYPE,
@@ -34,6 +36,7 @@ export default class TemplateElementFactory {
 
     this._providers = {
       [PROPERTY_TYPE]: PropertyBindingProvider,
+      [ZEEBE_TASK_DEFINITION_RETRIES_TYPE]: TaskDefinitionRetriesBindingProvider,
       [ZEEBE_TASK_DEFINITION_TYPE_TYPE]: TaskDefinitionTypeBindingProvider,
       [ZEBBE_PROPERTY_TYPE]: ZeebePropertiesProvider,
       [ZEBBE_INPUT_TYPE]: InputBindingProvider,
