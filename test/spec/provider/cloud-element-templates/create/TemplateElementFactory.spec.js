@@ -413,6 +413,8 @@ function findTemplate(id) {
 function expectTaskDefinitionType(businessObject, type, result = true) {
   const taskDefinition = findExtension(businessObject, 'zeebe:TaskDefinition');
 
+  expect(taskDefinition, `#${businessObject.id} -> zeebe:taskDefinition`).to.exist;
+
   result ?
     expect(taskDefinition.type).to.eql(type)
     : expect(taskDefinition.type).to.not.eql(type);
@@ -420,7 +422,10 @@ function expectTaskDefinitionType(businessObject, type, result = true) {
 
 function expectInputSource(businessObject, source, result = true) {
   const ioMapping = findExtension(businessObject, 'zeebe:IoMapping');
-  const inputs = ioMapping.get('zeebe:inputParameters');
+
+  result && expect(ioMapping, `#${businessObject.id} -> zeebe:ioMapping`).to.exist;
+
+  const inputs = ioMapping && ioMapping.get('zeebe:inputParameters') || [];
 
   result ?
     expect(inputs.find(input => input.source === source)).to.exist
