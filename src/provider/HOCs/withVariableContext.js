@@ -2,6 +2,16 @@ import { getVariablesForElement } from '@bpmn-io/extract-process-variables/zeebe
 import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 import { useService } from '../../hooks';
 
+function useServiceIfAvailable(service, fallback) {
+  const resolved = useService(service, false);
+
+  if (!resolved) {
+    return fallback;
+  }
+
+  return resolved;
+}
+
 export function withVariableContext(Component) {
   return props => {
     const { bpmnElement, element } = props;
@@ -11,14 +21,18 @@ export function withVariableContext(Component) {
     const [ variables, setVariables ] = useState([]);
     const eventBus = useService('eventBus');
 
+    const variableResolver = useServiceIfAvailable('variableResolver', { getVariablesForElement });
+
     useEffect(() => {
       const extractVariables = async () => {
-        const variables = await getVariablesForElement(bo);
+
+        const variables = await variableResolver.getVariablesForElement(bo);
 
         setVariables(variables.map(variable => {
           return {
-            name: variable.name,
-            info: 'Written in ' + variable.origin.map(origin => origin.name || origin.id).join(', '),
+            ...variable,
+            info: variable.info ||
+                  (variable.origin && ('Written in ' + variable.origin.map(origin => origin.name || origin.id).join(', ')))
           };
         }));
       };

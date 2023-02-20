@@ -10,6 +10,12 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import {
+  ZeebeVariableResolverModule
+} from '@bpmn-io/variable-resolver';
+
+import VariableProvider from '@bpmn-io/variable-resolver/lib/VariableProvider';
+
 import { withVariableContext } from 'src/provider/HOCs';
 
 import {
@@ -24,7 +30,6 @@ import xml from './withVariableContext.bpmn';
  * correct process variables, we use `eventually` in all test cases.
  */
 describe('HOCs - withVariableContext.js', function() {
-
 
   const moddleExtensions = {
     zeebe: zeebeModdleExtensions
@@ -46,114 +51,299 @@ describe('HOCs - withVariableContext.js', function() {
 
   beforeEach(bootstrap(xml));
 
-  it('should supply Variables to Component', inject(async function(elementRegistry) {
 
-    // given
-    const mockComponent = sinon.spy();
-    const props = {
-      element: elementRegistry.get('Task_1'),
-    };
+  describe('without variableResolver', function() {
 
-    // when
-    createVariableComponent({ component: mockComponent, props });
+    it('should supply Variables to Component', inject(async function(elementRegistry, injector) {
 
-    // then
-    await waitFor(() => {
-      expect(mockComponent).to.have.been.calledWith(
-        sinon.match({
-          variables: [
-            {
-              name: 'OutputVariable_0svilsd',
-              info: 'Written in Task_2'
-            }
-          ]
-        })
-      );
-    });
-  }));
+      // given
+      const mockComponent = sinon.spy();
+      const props = {
+        element: elementRegistry.get('Task_1'),
+      };
 
-
-  it('should supply variables to extension element', inject(async function(elementRegistry) {
-
-    // given
-    const mockComponent = sinon.spy();
-    const bpmnElement = elementRegistry.get('Task_2');
-    const ioMappings = getIoMappings(bpmnElement);
-
-    const props = {
-      bpmnElement,
-      element: ioMappings.outputParameters[0]
-    };
-
-    // when
-    createVariableComponent({ component: mockComponent, props });
-
-    // then
-    await waitFor(() => {
-      expect(mockComponent).to.have.been.calledWith(
-        sinon.match({
-          variables: [
-            {
-              name: 'OutputVariable_0svilsd',
-              info: 'Written in Task_2'
-            }
-          ]
-        })
-      );
-    });
-
-  }));
-
-
-  it('should update variables to Component', inject(async function(elementRegistry, commandStack, injector) {
-
-    // given
-    const mockComponent = sinon.spy();
-
-    const bpmnElement = elementRegistry.get('Task_2');
-
-    const ioMappings = getIoMappings(bpmnElement);
-
-    const props = {
-      element: bpmnElement,
-    };
-
-    createVariableComponent({
-      component: mockComponent,
-      context: {
-        getService: injector.get
-      },
-      props,
-      container
-    });
-
-    const ioMapping = ioMappings.outputParameters[0];
-
-    // when
-    await act(() => {
-      commandStack.execute('element.updateModdleProperties', {
-        element: bpmnElement,
-        moddleElement: ioMapping,
-        properties: {
-          target: 'newVariable'
+      // when
+      createVariableComponent({
+        component: mockComponent,
+        props,
+        context: {
+          getService: injector.get
         }
       });
-    });
 
-    // then
-    await waitFor(() => {
-      expect(mockComponent.lastCall).to.have.been.calledWith(
-        sinon.match({
-          variables: [
+      // then
+      await waitFor(() => {
+        expect(mockComponent).to.have.been.calledWith(
+          matchesVariables([
+            {
+              name: 'OutputVariable_0svilsd',
+              info: 'Written in Task_2'
+            }
+          ])
+        );
+      });
+    }));
+
+
+    it('should supply variables to extension element', inject(async function(elementRegistry, injector) {
+
+      // given
+      const mockComponent = sinon.spy();
+      const bpmnElement = elementRegistry.get('Task_2');
+      const ioMappings = getIoMappings(bpmnElement);
+
+      const props = {
+        bpmnElement,
+        element: ioMappings.outputParameters[0]
+      };
+
+      // when
+      createVariableComponent({
+        component: mockComponent,
+        props,
+        context: {
+          getService: injector.get
+        },
+      });
+
+      // then
+      await waitFor(() => {
+        expect(mockComponent).to.have.been.calledWith(
+          matchesVariables([
+            {
+              name: 'OutputVariable_0svilsd',
+              info: 'Written in Task_2'
+            }
+          ])
+        );
+      });
+
+    }));
+
+
+    it('should update variables to Component', inject(async function(elementRegistry, commandStack, injector) {
+
+      // given
+      const mockComponent = sinon.spy();
+
+      const bpmnElement = elementRegistry.get('Task_2');
+
+      const ioMappings = getIoMappings(bpmnElement);
+
+      const props = {
+        element: bpmnElement,
+      };
+
+      createVariableComponent({
+        component: mockComponent,
+        context: {
+          getService: injector.get
+        },
+        props,
+        container
+      });
+
+      const ioMapping = ioMappings.outputParameters[0];
+
+      // when
+      await act(() => {
+        commandStack.execute('element.updateModdleProperties', {
+          element: bpmnElement,
+          moddleElement: ioMapping,
+          properties: {
+            target: 'newVariable'
+          }
+        });
+      });
+
+      // then
+      await waitFor(() => {
+        expect(mockComponent.lastCall).to.have.been.calledWith(
+          matchesVariables([
             {
               name: 'newVariable',
               info: 'Written in Task_2'
             }
-          ]
-        })
-      );
-    });
-  }));
+          ])
+        );
+      });
+    }));
+
+  });
+
+
+  describe('with variableResolver', function() {
+
+    class AdditionalVariableProvider extends VariableProvider {
+
+      getVariables(element) {
+        if (!is(element, 'bpmn:Process')) {
+          return;
+        }
+
+        return [
+          {
+            name: 'globalVariable',
+            type: 'TestType',
+            info: 'TestInfo'
+          }
+        ];
+
+      }
+    }
+
+    const AdditionalVariableModule = {
+      __init__: [
+        'additionalVariableProvider',
+      ],
+      additionalVariableProvider: [ 'type', AdditionalVariableProvider ],
+    };
+
+    function bootstrap(diagramXML) {
+      return bootstrapModeler(diagramXML, {
+        container,
+        moddleExtensions,
+        additionalModules: [
+          ZeebeVariableResolverModule,
+          AdditionalVariableModule
+        ]
+      });
+    }
+
+    beforeEach(bootstrap(xml));
+
+    it('should supply Variables to Component', inject(async function(elementRegistry, injector) {
+
+      // given
+      const mockComponent = sinon.spy();
+      const props = {
+        element: elementRegistry.get('Task_1'),
+      };
+
+      // when
+      createVariableComponent({
+        component: mockComponent,
+        props,
+        context: {
+          getService: injector.get
+        }
+      });
+
+      // then
+      await waitFor(() => {
+        expect(mockComponent).to.have.been.calledWith(
+          matchesVariables([
+            {
+              name: 'OutputVariable_0svilsd',
+              info: 'Written in Task_2'
+            },
+            {
+              name: 'globalVariable',
+              detail: 'TestType',
+              info: 'TestInfo'
+            }
+          ])
+        );
+      });
+    }));
+
+
+    it('should supply variables to extension element', inject(async function(elementRegistry, injector) {
+
+      // given
+      const mockComponent = sinon.spy();
+      const bpmnElement = elementRegistry.get('Task_2');
+      const ioMappings = getIoMappings(bpmnElement);
+
+      const props = {
+        bpmnElement,
+        element: ioMappings.outputParameters[0]
+      };
+
+      // when
+      createVariableComponent({
+        component: mockComponent,
+        props,
+        context: {
+          getService: injector.get
+        },
+      });
+
+      // then
+      await waitFor(() => {
+        expect(mockComponent).to.have.been.calledWith(
+          matchesVariables([
+            {
+              name: 'OutputVariable_0svilsd',
+              info: 'Written in Task_2'
+            },
+            {
+              name: 'globalVariable',
+              detail: 'TestType',
+              info: 'TestInfo'
+            }
+          ])
+        );
+      });
+
+    }));
+
+
+    it('should update variables to Component', inject(async function(elementRegistry, commandStack, injector) {
+
+      // given
+      const mockComponent = sinon.spy();
+
+      const bpmnElement = elementRegistry.get('Task_2');
+
+      const ioMappings = getIoMappings(bpmnElement);
+
+      const props = {
+        element: bpmnElement,
+      };
+
+      createVariableComponent({
+        component: mockComponent,
+        context: {
+          getService: injector.get
+        },
+        props,
+        container
+      });
+
+      const ioMapping = ioMappings.outputParameters[0];
+
+      // when
+      await act(() => {
+        commandStack.execute('element.updateModdleProperties', {
+          element: bpmnElement,
+          moddleElement: ioMapping,
+          properties: {
+            target: 'newVariable'
+          }
+        });
+      });
+
+      // then
+      await waitFor(() => {
+        expect(mockComponent.lastCall).to.have.been.calledWith(
+          matchesVariables([
+            {
+              name: 'newVariable',
+              info: 'Written in Task_2'
+            },
+            {
+              name: 'globalVariable',
+              detail: 'TestType',
+              info: 'TestInfo'
+            }
+          ])
+        );
+      });
+    }));
+
+
+  });
 
 
   it('should NOT stop propagation of events when updating variables', inject(async function(elementRegistry, injector, eventBus) {
@@ -221,3 +411,25 @@ function getIoMappings(element) {
   });
 
 }
+
+
+const matchesVariables = expectedVariables => sinon.match(({ variables }) => {
+
+  if (variables.length !== expectedVariables.length) {
+    return false;
+  }
+
+  return variables.every((variable) => {
+    const expectedVariable = expectedVariables.find((expectedVariable) => {
+      return expectedVariable.name === variable.name;
+    });
+
+    if (!expectedVariable) {
+      return false;
+    }
+
+
+    return expectedVariable.info === variable.info &&
+     expectedVariable.detail === variable.detail;
+  });
+});
