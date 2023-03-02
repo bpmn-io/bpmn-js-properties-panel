@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.18.0
+
+* `FEAT`: support optional `zeebe:taskHeader` bindings ([#840](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/840))
+* `FEAT`: use `variablesResolver` service, when registered ([#881](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/881))
+* `FIX`: evaluate conditional properties on `createElement` ([#878](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/878))
+
 # 1.17.2
 
 * `FIX`: don't apply default template during paste ([#877](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/877))
