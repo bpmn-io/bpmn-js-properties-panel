@@ -24,6 +24,16 @@ export function isConditionMet(element, properties, property) {
     return true;
   }
 
+  // multiple ("and") conditions
+  if (condition.allMatch) {
+    const conditions = condition.allMatch;
+
+    return conditions.every(
+      condition => isSimpleConditionMet(element, properties, condition)
+    );
+  }
+
+  // single condition
   return isSimpleConditionMet(element, properties, condition);
 }
 
