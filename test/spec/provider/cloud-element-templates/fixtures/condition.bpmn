@@ -3,7 +3,7 @@
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:task id="Task_1" name="" zeebe:modelerTemplate="example.com.condition" />
     <bpmn:task id="Task_2" name="foo" zeebe:modelerTemplate="example.com.condition" />
-    <bpmn:task id="Task_3" name="foo" />
+    <bpmn:task id="Task_3" name="foo" customProperty="foo" customProperty2="foo" zeebe:modelerTemplate="example.com.condition-multiple"/>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">

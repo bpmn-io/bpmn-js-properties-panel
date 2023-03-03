@@ -33,6 +33,7 @@ import entriesVisibleDiagramXML from './fixtures/entries-visible.bpmn';
 import entriesVisibleTemplates from './fixtures/entries-visible.json';
 
 import conditionTemplate from './fixtures/condition.json';
+import multipleConditionTemplate from './fixtures/multiple-conditions.json';
 import conditionXML from './fixtures/condition.bpmn';
 import { changeInput } from '../../../TestHelper';
 
@@ -490,7 +491,10 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
         zeebe: zeebeModdlePackage
       },
       debounceInput: false,
-      elementTemplates: [ conditionTemplate ]
+      elementTemplates: [
+        conditionTemplate,
+        multipleConditionTemplate
+      ]
     }));
 
 
@@ -592,6 +596,81 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
 
           // then
           expect(listItems).to.have.lengthOf(7);
+        })
+      );
+
+    });
+
+
+    describe('multiple conditions', function() {
+
+      it('should show if all conditions are met', inject(
+        async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('Task_3');
+
+          // when
+          await act(() => {
+            selection.select(element);
+          });
+
+          // then
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          const listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+          expect(listItems).to.have.lengthOf(3);
+        })
+      );
+
+
+      it('should not show if no condition is met', inject(
+        async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('Task_3');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          let listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+          // when
+          const input1 = domQuery('input', listItems[0]);
+          const input2 = domQuery('input', listItems[1]);
+          changeInput(input1, 'bar');
+          changeInput(input2, 'bar');
+
+
+          // then
+          listItems = domQueryAll('.bio-properties-panel-entry', group);
+          expect(listItems, group).to.have.lengthOf(2);
+        })
+      );
+
+
+      it('should not show if at least one condition is not met', inject(
+        async function(elementRegistry, selection) {
+
+          // given
+          const element = elementRegistry.get('Task_3');
+
+          await act(() => {
+            selection.select(element);
+          });
+
+          const group = domQuery('div[data-group-id="group-ElementTemplates__CustomProperties"]', container);
+          let listItems = domQueryAll('.bio-properties-panel-entry', group);
+
+          // when
+          const input = domQuery('input', listItems[0]);
+          changeInput(input, 'bar');
+
+          // then
+          listItems = domQueryAll('.bio-properties-panel-entry', group);
+          expect(listItems, group).to.have.lengthOf(2);
         })
       );
 

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Multiple conditions",
+  "id": "example.com.condition-multiple",
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "properties": [
+    {
+      "id": "property1",
+      "label": "name",
+      "type": "String",
+      "value": "foo",
+      "binding": {
+        "type": "property",
+        "name": "name"
+      }
+    },
+    {
+      "id": "property2",
+      "label": "property 2",
+      "type": "String",
+      "value": "foo",
+      "binding": {
+        "type": "property",
+        "name": "customProperty"
+      }
+    },
+    {
+      "id": "property3",
+      "label": "property 3",
+      "description": "I'm visible if property1 and property2 equal foo.",
+      "type": "String",
+      "value": "foo",
+      "binding": {
+        "type": "property",
+        "name": "customProperty2"
+      },
+      "condition": {
+        "allMatch": [
+          {
+            "equals": "foo",
+            "property": "property1"
+          },
+          {
+            "equals": "foo",
+            "property": "property2"
+          }
+        ]
+      }
+    }
+  ]
+}
