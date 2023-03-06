@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.19.0
+
+* `FEAT`: support multiple property conditions ([#884](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/884))
+
 # 1.18.0
 
 * `FEAT`: support optional `zeebe:taskHeader` bindings ([#840](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/840))
