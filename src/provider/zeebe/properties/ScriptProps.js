@@ -33,14 +33,14 @@ export function ScriptProps(props) {
 
   return [
     {
-      id: 'scriptExpression',
-      component: Expression,
-      isEdited: isFeelEntryEdited
-    },
-    {
       id: 'resultVariable',
       component: ResultVariable,
       isEdited: isTextFieldEntryEdited
+    },
+    {
+      id: 'scriptExpression',
+      component: Expression,
+      isEdited: isFeelEntryEdited
     }
   ];
 }

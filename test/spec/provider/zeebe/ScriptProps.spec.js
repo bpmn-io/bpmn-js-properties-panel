@@ -12,7 +12,8 @@ import {
 } from 'test/TestHelper';
 
 import {
-  query as domQuery
+  query as domQuery,
+  queryAll as domQueryAll
 } from 'min-dom';
 
 import {
@@ -245,6 +246,24 @@ describe('provider/zeebe - ScriptProps', function() {
       );
 
     });
+
+
+    it('should show elements in the correct order', inject(async function(elementRegistry, selection) {
+
+      // given
+      const scriptTask = elementRegistry.get('ScriptTask_1');
+
+      // when
+      await act(() => {
+        selection.select(scriptTask);
+      });
+
+      const entries = domQueryAll('[data-group-id="group-script"] .bio-properties-panel-entry', container);
+
+      // then
+      expect(entries[0].getAttribute('data-entry-id')).to.eql('resultVariable');
+      expect(entries[1].getAttribute('data-entry-id')).to.eql('scriptExpression');
+    }));
 
   });
 
