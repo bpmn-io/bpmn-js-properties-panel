@@ -18,6 +18,7 @@ import {
   ScriptProps,
   TargetProps,
   TaskDefinitionProps,
+  TaskScheduleProps,
   TimerProps
 } from './properties';
 
@@ -238,7 +239,8 @@ function AssignmentDefinitionGroup(element) {
     id: 'assignmentDefinition',
     label: 'Assignment',
     entries: [
-      ...AssignmentDefinitionProps({ element })
+      ...AssignmentDefinitionProps({ element }),
+      ...TaskScheduleProps({ element })
     ],
     component: Group
   };

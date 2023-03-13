@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sp2msp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.8.0-rc.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <bpmn:process id="Process_08jq0zy" isExecutable="true">
+    <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1" />
+    <bpmn:userTask id="UserTask_1" name="UserTask_1">
+      <bpmn:extensionElements>
+        <zeebe:taskSchedule dueDate="=dueDate" followUpDate="=followUpDate" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_2" name="UserTask_2" />
+    <bpmn:userTask id="UserTask_3" name="UserTask_3">
+      <bpmn:extensionElements>
+        <zeebe:assignmentDefinition assignee="foo" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_4" name="UserTask_4">
+      <bpmn:extensionElements>
+        <zeebe:taskSchedule dueDate="=dueDate" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_5" name="UserTask_5">
+      <bpmn:extensionElements>
+        <zeebe:taskSchedule followUpDate="=followUpDate" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_08jq0zy">
+      <bpmndi:BPMNShape id="Activity_1c08csw_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0618037_di" bpmnElement="UserTask_1">
+        <dc:Bounds x="280" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13kad5p_di" bpmnElement="UserTask_2">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1puoc3v_di" bpmnElement="UserTask_3">
+        <dc:Bounds x="520" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0zxgguv_di" bpmnElement="UserTask_4">
+        <dc:Bounds x="280" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lv93hf_di" bpmnElement="UserTask_5">
+        <dc:Bounds x="400" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
