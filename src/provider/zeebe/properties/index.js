@@ -15,4 +15,5 @@ export { ScriptImplementationProps } from './ScriptImplementationProps';
 export { ScriptProps } from './ScriptProps';
 export { TargetProps } from './TargetProps';
 export { TaskDefinitionProps } from './TaskDefinitionProps';
+export { TaskScheduleProps } from './TaskScheduleProps';
 export { TimerProps } from './TimerProps';
