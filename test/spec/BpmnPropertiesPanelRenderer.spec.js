@@ -727,6 +727,35 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('#setLayout', async function() {
+
+    // given
+    const newLayout = {
+      myCustomLayout: 'foo'
+    };
+    const spy = sinon.spy();
+
+    const container = domify('<div></div>');
+    TestContainer.get(this).appendChild(container);
+
+    const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+    const { modeler } = await createModeler(diagramXml);
+
+    const eventBus = modeler.get('eventBus');
+    const propertiesPanel = modeler.get('propertiesPanel');
+
+    eventBus.on('propertiesPanel.setLayout', spy);
+
+    // when
+    propertiesPanel.setLayout(newLayout);
+
+    // then
+    expect(spy).to.have.been.calledOnce;
+    expect(spy).to.have.been.calledWith(sinon.match({ layout: newLayout }));
+
+  });
+
   describe('event emitting', function() {
 
     it('should emit <propertiesPanel.attach>', async function() {

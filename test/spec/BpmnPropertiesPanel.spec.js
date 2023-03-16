@@ -284,20 +284,53 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
-    it('should notify on layout changed', function() {
+    describe('layout', function() {
 
-      // given
-      const updateSpy = sinon.spy();
+      it('should notify on layout changed', function() {
 
-      const eventBus = new eventBusMock();
+        // given
+        const updateSpy = sinon.spy();
 
-      eventBus.on('propertiesPanel.layoutChanged', updateSpy);
+        const eventBus = new eventBusMock();
 
-      // when
-      createBpmnPropertiesPanel({ container, eventBus });
+        eventBus.on('propertiesPanel.layoutChanged', updateSpy);
 
-      // then
-      expect(updateSpy).to.have.been.calledOnce;
+        // when
+        createBpmnPropertiesPanel({ container, eventBus });
+
+        // then
+        expect(updateSpy).to.have.been.called;
+      });
+
+
+      withPropertiesPanel('>=1.5.0')('should react to external changes', async function() {
+
+        // given
+        const originalLayout = {
+          open: false
+        };
+        const newLayout = {
+          open: true
+        };
+
+        const updateSpy = sinon.spy();
+        const eventBus = new eventBusMock();
+        eventBus.on('propertiesPanel.layoutChanged', updateSpy);
+
+        createBpmnPropertiesPanel({ container, eventBus, layoutConfig: originalLayout });
+
+        // assume
+        expect(updateSpy).to.have.been.calledWith(sinon.match({ layout: originalLayout }));
+
+        // when
+        await act(() => {
+          eventBus.fire('propertiesPanel.setLayout', { layout: newLayout });
+        });
+
+        // then
+        expect(updateSpy.lastCall).to.have.been.calledWith(sinon.match({ layout: newLayout }));
+      });
+
     });
 
 
@@ -314,7 +347,7 @@ describe('<BpmnPropertiesPanel>', function() {
       createBpmnPropertiesPanel({ container, eventBus });
 
       // then
-      expect(loadedSpy).to.have.been.calledOnce;
+      expect(loadedSpy).to.have.been.called;
     });
 
 

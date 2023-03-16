@@ -133,6 +133,14 @@ export default class BpmnPropertiesPanelRenderer {
     this._eventBus.fire('propertiesPanel.providersChanged');
   }
 
+  /**
+   * Updates the layout of the properties panel.
+   * @param {Object} layout
+   */
+  setLayout(layout) {
+    this._eventBus.fire('propertiesPanel.setLayout', { layout });
+  }
+
   _getProviders() {
     const event = this._eventBus.createEvent({
       type: 'propertiesPanel.getProviders',
