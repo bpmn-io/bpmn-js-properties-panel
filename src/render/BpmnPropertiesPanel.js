@@ -1,7 +1,8 @@
 import {
   useState,
   useMemo,
-  useEffect
+  useEffect,
+  useCallback
 } from '@bpmn-io/properties-panel/preact/hooks';
 
 import {
@@ -32,7 +33,7 @@ export default function BpmnPropertiesPanel(props) {
     element,
     injector,
     getProviders,
-    layoutConfig,
+    layoutConfig: initialLayoutConfig,
     descriptionConfig
   } = props;
 
@@ -188,11 +189,24 @@ export default function BpmnPropertiesPanel(props) {
   }, [ providers, selectedElement ]);
 
   // (5) notify layout changes
-  const onLayoutChanged = (layout) => {
+  const [ layoutConfig, setLayoutConfig ] = useState(initialLayoutConfig || {});
+
+  const onLayoutChanged = useCallback((newLayout) => {
     eventBus.fire('propertiesPanel.layoutChanged', {
-      layout
+      layout: newLayout
     });
-  };
+  }, [ eventBus, layoutConfig ]);
+
+  // React to external layout changes
+  useEffect(() => {
+    const cb = (e) => {
+      const { layout } = e;
+      setLayoutConfig(layout);
+    };
+
+    eventBus.on('propertiesPanel.setLayout', cb);
+    return () => eventBus.off('propertiesPanel.setLayout', cb);
+  }, [ eventBus, setLayoutConfig ]);
 
   // (6) notify description changes
   const onDescriptionLoaded = (description) => {
