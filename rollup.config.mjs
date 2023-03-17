@@ -6,7 +6,11 @@ import json from '@rollup/plugin-json';
 import reactSvg from 'rollup-plugin-react-svg';
 import resolve from '@rollup/plugin-node-resolve';
 
-import pkg from './package.json';
+import {
+  readFileSync
+} from 'fs';
+
+const pkg = importPkg();
 
 const nonbundledDependencies = Object.keys({ ...pkg.dependencies, ...pkg.peerDependencies });
 const nonExternalDependencies = [ 'preact-markup' ];
@@ -86,4 +90,8 @@ function externalDependencies() {
     return nonbundledDependencies.find(dep => id.startsWith(dep)) &&
       !nonExternalDependencies.find(dep => id.startsWith(dep));
   };
+}
+
+function importPkg() {
+  return JSON.parse(readFileSync('./package.json', { encoding:'utf8' }));
 }
