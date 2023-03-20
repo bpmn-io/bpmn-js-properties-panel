@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.20.0
+
+* `FEAT`: add Due date and Follow up date properties ([#889](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/889))
+* `CHORE`: update to `camunda-bpmn-js-behaviors@0.5.0`
+* `CHORE`: update to `zeebe-bpmn-moddle@0.18.0`
+
 # 1.19.1
 
 * `CHORE`: keep variable name and expression order consistent ([#886](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/886))
