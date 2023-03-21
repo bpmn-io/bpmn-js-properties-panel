@@ -1,174 +1,410 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dxdt1l" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
-  <bpmn:process id="Process_033aedt" isExecutable="true">
-    <bpmn:startEvent id="timerStartEventCycle" name="timerStartEventCycle">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_1papscu">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">myCycle</bpmn:timeCycle>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1w3xyk9" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.11.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.3.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_Cycle" name="StartEvent_Cycle">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_StartEvent_Cycle">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
-    <bpmn:startEvent id="timerStartEventDate" name="timerStartEventDate">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0y5v7kb">
-        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">myDate</bpmn:timeDate>
-      </bpmn:timerEventDefinition>
-    </bpmn:startEvent>
-    <bpmn:intermediateCatchEvent id="intermediateTimerCatchEventDuration" name="intermediateTimerCatchEventDuration">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0rntt0k">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">myDuration</bpmn:timeDuration>
-      </bpmn:timerEventDefinition>
-    </bpmn:intermediateCatchEvent>
-    <bpmn:task id="Activity_02nwjbf" />
-    <bpmn:boundaryEvent id="nonInterruptingBoundaryEventDuration" name="nonInterruptingBoundaryEventDuration" cancelActivity="false" attachedToRef="Activity_02nwjbf">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0g9s9gu">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">myDuration</bpmn:timeDuration>
-      </bpmn:timerEventDefinition>
-    </bpmn:boundaryEvent>
-    <bpmn:boundaryEvent id="nonInterruptingBoundaryEventCycle" name="nonInterruptingBoundaryEventCycle" cancelActivity="false" attachedToRef="Activity_02nwjbf">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0jbwunb">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">myCycle</bpmn:timeCycle>
-      </bpmn:timerEventDefinition>
-    </bpmn:boundaryEvent>
-    <bpmn:task id="Activity_06vbwdw" />
-    <bpmn:boundaryEvent id="interruptingBoundaryEventDuration" name="interruptingBoundaryEventDuration" attachedToRef="Activity_06vbwdw">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_1keqphx">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">myDuration</bpmn:timeDuration>
-      </bpmn:timerEventDefinition>
-    </bpmn:boundaryEvent>
-    <bpmn:startEvent id="timerStartEventEmpty" name="timerStartEventEmpty">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0xsp1dx" />
-    </bpmn:startEvent>
-    <bpmn:intermediateCatchEvent id="intermediateTimerCatchEventDurationEmpty" name="intermediateTimerCatchEventDurationEmpty">
-      <bpmn:timerEventDefinition id="TimerEventDefinition_1966fbi" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:subProcess id="Activity_0pesngd" name="event subprocess" triggeredByEvent="true">
-      <bpmn:startEvent id="interruptingTimerStartEventDate" name="interruptingTimerStartEventDate">
-        <bpmn:timerEventDefinition id="TimerEventDefinition_12r4dq7">
-          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">today()</bpmn:timeDate>
-        </bpmn:timerEventDefinition>
-      </bpmn:startEvent>
-      <bpmn:startEvent id="nonInterruptingTimerStartEventDate" name="nonInterruptingTimerStartEventDate" isInterrupting="false">
-        <bpmn:timerEventDefinition id="TimerEventDefinition_0qa1ogs">
-          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">today()</bpmn:timeDate>
+    <bpmn:task id="Task_1" />
+    <bpmn:task id="Task_2" />
+    <bpmn:subProcess id="SubProcess_Cycle" name="SubProcess_Cycle" triggeredByEvent="true">
+      <bpmn:startEvent id="EventSubProcess_NonInterruptingStartEvent_Cycle" name="EventSubProcess_NonInterruptingStartEvent_Cycle" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_NonInterruptingStartEvent_Cycle">
+          <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
         </bpmn:timerEventDefinition>
       </bpmn:startEvent>
     </bpmn:subProcess>
-    <bpmn:subProcess id="Activity_16tsjf9" name="event subprocess" triggeredByEvent="true">
-      <bpmn:startEvent id="nonInterruptingTimerStartEventCycle" name="nonInterruptingTimerStartEventCycle" isInterrupting="false">
-        <bpmn:timerEventDefinition id="TimerEventDefinition_0kiq3dw">
-          <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R-1/P1D</bpmn:timeCycle>
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_Date" name="IntermediateCatchEvent_Date">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_IntermediateCatchEvent_Date">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2019-10-01T12:00:00Z</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:startEvent id="StartEvent_Date" name="StartEvent_Date">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_StartEvent_Date">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2019-10-01T12:00:00Z</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_5" />
+    <bpmn:task id="Task_6" />
+    <bpmn:subProcess id="SubProcess_Date" name="SubProcess_Date" triggeredByEvent="true">
+      <bpmn:startEvent id="EventSubProcess_StartEvent_Date" name="EventSubProcess_StartEvent_Date">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_StartEvent_Date">
+          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2019-10-01T12:00:00Z</bpmn:timeDate>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+      <bpmn:startEvent id="EventSubProcess_NonInterruptingStartEvent_Date" name="EventSubProcess_NonInterruptingStartEvent_Date" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_NonInterruptingStartEvent_Date">
+          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2019-10-01T12:00:00Z</bpmn:timeDate>
         </bpmn:timerEventDefinition>
       </bpmn:startEvent>
     </bpmn:subProcess>
-    <bpmn:group id="Group_0evc7ip" categoryValueRef="CategoryValue_0vsifnx" />
-    <bpmn:group id="Group_0333nab" categoryValueRef="CategoryValue_03ljmd0" />
-    <bpmn:group id="Group_08mza04" categoryValueRef="CategoryValue_1lexm62" />
+    <bpmn:boundaryEvent id="BoundaryEvent_Date" name="BoundaryEvent_Date" attachedToRef="Task_5">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_BoundaryEvent_Date">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2019-10-01T12:00:00Z</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="NonInterruptingBoundaryEvent_Date" name="NonInterruptingBoundaryEvent_Date" cancelActivity="false" attachedToRef="Task_6">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_NonInterruptingBoundaryEvent_Date">
+        <bpmn:timeDate xsi:type="bpmn:tFormalExpression">2019-10-01T12:00:00Z</bpmn:timeDate>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_Duration" name="IntermediateCatchEvent_Duration">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_IntermediateCatchEvent_Duration">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P14D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="Task_7" />
+    <bpmn:task id="Task_8" />
+    <bpmn:subProcess id="SubProcess_Duration" name="SubProcess_Duration" triggeredByEvent="true">
+      <bpmn:startEvent id="EventSubProcess_StartEvent_Duration" name="EventSubProcess_StartEvent_Duration">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_StartEvent_Duration">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P14D</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+      <bpmn:startEvent id="EventSubProcess_NonInterruptingStartEvent_Duration" name="EventSubProcess_NonInterruptingStartEvent_Duration" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_NonInterruptingStartEvent_Duration">
+          <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P14D</bpmn:timeDuration>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="BoundaryEvent_Duration" name="BoundaryEvent_Duration" attachedToRef="Task_7">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_BoundaryEvent_Duration">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P14D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="NonInterruptingBoundaryEvent_Duration" name="NonInterruptingBoundaryEvent_Duration" cancelActivity="false" attachedToRef="Task_8">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_NonInterruptingBoundaryEvent_Duration">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P14D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:startEvent id="StartEvent_CycleCron" name="StartEvent_CycleCron">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_StartEvent_CycleCron">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0 0 9-17 * * MON-FRI</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:task id="Task_3" />
+    <bpmn:task id="Task_4" />
+    <bpmn:subProcess id="SubProcess_CycleCron" name="SubProcess_CycleCron" triggeredByEvent="true">
+      <bpmn:startEvent id="EventSubProcess_NonInterruptingStartEvent_CycleCron" name="EventSubProcess_NonInterruptingStartEvent_CycleCron" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_NonInterruptingStartEvent_CycleCron">
+          <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0 0 9-17 * * MON-FRI</bpmn:timeCycle>
+        </bpmn:timerEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_Empty" name="IntermediateCatchEvent_Empty">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_IntermediateCatchEvent_Empty" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:startEvent id="StartEvent_Empty" name="StartEvent_Empty">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_StartEvent_Empty" />
+    </bpmn:startEvent>
+    <bpmn:task id="Task_9" />
+    <bpmn:task id="Task_10" />
+    <bpmn:subProcess id="SubProcess_Empty" name="SubProcess_Empty" triggeredByEvent="true">
+      <bpmn:startEvent id="EventSubProcess_StartEvent_Empty" name="EventSubProcess_StartEvent_Empty">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_StartEvent_Empty" />
+      </bpmn:startEvent>
+      <bpmn:startEvent id="EventSubProcess_NonInterruptingStartEvent_Empty" name="EventSubProcess_NonInterruptingStartEvent_Empty" isInterrupting="false">
+        <bpmn:timerEventDefinition id="TimerEventDefinition_EventSubProcess_NonInterruptingStartEvent_Empty" />
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="BoundaryEvent_Empty" name="BoundaryEvent_Empty" attachedToRef="Task_9">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_BoundaryEvent_Empty" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="NonInterruptingBoundaryEvent_Empty" name="NonInterruptingBoundaryEvent_Empty" cancelActivity="false" attachedToRef="Task_10">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_NonInterruptingBoundaryEvent_Empty" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Task_11" />
+    <bpmn:startEvent id="StartEvent_Blank" name="StartEvent_Blank" />
+    <bpmn:boundaryEvent id="BoundaryEvent_Blank" name="BoundaryEvent_Blank" attachedToRef="Task_11" />
+    <bpmn:endEvent id="EndEvent_Blank" name="EndEvent_Blank" />
+    <bpmn:intermediateThrowEvent id="IntermediateCatchEvent_Blank" name="IntermediateCatchEvent_Blank" />
+    <bpmn:boundaryEvent id="NonInterruptingBoundaryEvent_Cycle" name="NonInterruptingBoundaryEvent_Cycle" cancelActivity="false" attachedToRef="Task_2">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_NonInterruptingBoundaryEvent_Cycle">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="NonInterruptingBoundaryEvent_CycleCron" name="NonInterruptingBoundaryEvent_CycleCron" cancelActivity="false" attachedToRef="Task_4">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_NonInterruptingBoundaryEvent_CycleCron">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">0 0 9-17 * * MON-FRI</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:group id="Group_Cycle" categoryValueRef="CategoryValue_Cycle" />
+    <bpmn:group id="Group_Date" categoryValueRef="CategoryValue_Date" />
+    <bpmn:group id="Group_Duration" categoryValueRef="CategoryValue_Duration" />
+    <bpmn:group id="Group_CycleCron" categoryValueRef="CategoryValue_CycleCron" />
+    <bpmn:group id="Group_Empty" categoryValueRef="CategoryValue_Empty" />
+    <bpmn:group id="Group_Blank" categoryValueRef="CategoryValue_1qnxo9z" />
   </bpmn:process>
-  <bpmn:category id="Category_050txki">
-    <bpmn:categoryValue id="CategoryValue_0vsifnx" value="Date" />
+  <bpmn:category id="Category_Cycle">
+    <bpmn:categoryValue id="CategoryValue_Cycle" value="Cycle" />
   </bpmn:category>
-  <bpmn:category id="Category_0g2gcxt">
-    <bpmn:categoryValue id="CategoryValue_03ljmd0" value="Cycle" />
+  <bpmn:category id="Category_Date">
+    <bpmn:categoryValue id="CategoryValue_Date" value="Date" />
   </bpmn:category>
-  <bpmn:category id="Category_1vf5mdy">
-    <bpmn:categoryValue id="CategoryValue_1lexm62" value="Duration" />
+  <bpmn:category id="Category_Duration">
+    <bpmn:categoryValue id="CategoryValue_Duration" value="Duration" />
+  </bpmn:category>
+  <bpmn:category id="Category_CycleCron">
+    <bpmn:categoryValue id="CategoryValue_CycleCron" value="Cycle (CRON)" />
+  </bpmn:category>
+  <bpmn:category id="Category_0eanx02">
+    <bpmn:categoryValue id="CategoryValue_Empty" value="Empty" />
+  </bpmn:category>
+  <bpmn:category id="Category_1v4a6vb">
+    <bpmn:categoryValue id="CategoryValue_1qnxo9z" value="Blank" />
   </bpmn:category>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_033aedt">
-      <bpmndi:BPMNShape id="Event_1r3xl4t_di" bpmnElement="timerStartEventCycle">
-        <dc:Bounds x="492" y="132" width="36" height="36" />
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Event_1a2aqqq_di" bpmnElement="StartEvent_Cycle">
+        <dc:Bounds x="202" y="852" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="468" y="175" width="84" height="27" />
+          <dc:Bounds x="179" y="895" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_18omnka_di" bpmnElement="timerStartEventDate">
-        <dc:Bounds x="492" y="212" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="468" y="255" width="84" height="27" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_158bxus_di" bpmnElement="Task_1">
+        <dc:Bounds x="440" y="830" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1alb6ws_di" bpmnElement="intermediateTimerCatchEventDuration">
-        <dc:Bounds x="982" y="212" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="959" y="255" width="88" height="40" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNShape id="Activity_1c7yu62_di" bpmnElement="Task_2">
+        <dc:Bounds x="620" y="830" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_02nwjbf_di" bpmnElement="Activity_02nwjbf">
-        <dc:Bounds x="710" y="246" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_06vbwdw_di" bpmnElement="Activity_06vbwdw">
-        <dc:Bounds x="950" y="370" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_16sp5dx_di" bpmnElement="timerStartEventEmpty">
-        <dc:Bounds x="602" y="672" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="578" y="715" width="84" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_02ht84m_di" bpmnElement="intermediateTimerCatchEventDurationEmpty">
-        <dc:Bounds x="832" y="512" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="811" y="555" width="85" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1q7eln8" bpmnElement="Activity_16tsjf9" isExpanded="true">
-        <dc:Bounds x="400" y="340" width="150" height="123" />
+      <bpmndi:BPMNShape id="Activity_0si6fbo_di" bpmnElement="SubProcess_Cycle" isExpanded="true">
+        <dc:Bounds x="810" y="780" width="350" height="200" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1gz0uqw_di" bpmnElement="nonInterruptingTimerStartEventCycle">
-        <dc:Bounds x="432" y="372" width="36" height="36" />
+      <bpmndi:BPMNShape id="Event_1hvn2kh_di" bpmnElement="EventSubProcess_NonInterruptingStartEvent_Cycle">
+        <dc:Bounds x="1012" y="862" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="408" y="415" width="87" height="40" />
+          <dc:Bounds x="990" y="905" width="86" height="53" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1cf5wox_di" bpmnElement="Activity_0pesngd" isExpanded="true">
-        <dc:Bounds x="190" y="500" width="290" height="123" />
+      <bpmndi:BPMNShape id="BPMNShape_1noobtj" bpmnElement="IntermediateCatchEvent_Date">
+        <dc:Bounds x="292" y="1172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="272" y="1215" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1daj4e0" bpmnElement="StartEvent_Date">
+        <dc:Bounds x="202" y="1172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="181" y="1215" width="81" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1godq1i" bpmnElement="Task_5">
+        <dc:Bounds x="440" y="1150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1cqtk6t" bpmnElement="Task_6">
+        <dc:Bounds x="620" y="1150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1nhun69" bpmnElement="SubProcess_Date" isExpanded="true">
+        <dc:Bounds x="810" y="1100" width="350" height="200" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1b2d0yw_di" bpmnElement="interruptingTimerStartEventDate">
-        <dc:Bounds x="222" y="532" width="36" height="36" />
+      <bpmndi:BPMNShape id="BPMNShape_1679ksi" bpmnElement="EventSubProcess_StartEvent_Date">
+        <dc:Bounds x="922" y="1182" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="199" y="575" width="83" height="27" />
+          <dc:Bounds x="896" y="1225" width="88" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_07j7ht3" bpmnElement="nonInterruptingTimerStartEventDate">
-        <dc:Bounds x="362" y="532" width="36" height="36" />
+      <bpmndi:BPMNShape id="BPMNShape_0n27xdi" bpmnElement="EventSubProcess_NonInterruptingStartEvent_Date">
+        <dc:Bounds x="1012" y="1182" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="338" y="575" width="87" height="40" />
+          <dc:Bounds x="989" y="1225" width="87" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Group_0evc7ip_di" bpmnElement="Group_0evc7ip">
-        <dc:Bounds x="160" y="120" width="450" height="520" />
+      <bpmndi:BPMNShape id="BPMNShape_0b7rl6t" bpmnElement="IntermediateCatchEvent_Duration">
+        <dc:Bounds x="292" y="1492" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="313" y="127" width="24" height="14" />
+          <dc:Bounds x="268" y="1535" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Group_0333nab_di" bpmnElement="Group_0333nab">
-        <dc:Bounds x="340" y="80" width="550" height="410" />
+      <bpmndi:BPMNShape id="BPMNShape_09h1dj0" bpmnElement="Task_7">
+        <dc:Bounds x="440" y="1470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_13qr05v" bpmnElement="Task_8">
+        <dc:Bounds x="620" y="1470" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0sopxbu" bpmnElement="SubProcess_Duration" isExpanded="true">
+        <dc:Bounds x="810" y="1420" width="350" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0n0geh0" bpmnElement="EventSubProcess_StartEvent_Duration">
+        <dc:Bounds x="922" y="1502" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="601" y="87" width="28" height="14" />
+          <dc:Bounds x="896" y="1545" width="88" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Group_08mza04_di" bpmnElement="Group_08mza04">
-        <dc:Bounds x="620" y="120" width="490" height="520" />
+      <bpmndi:BPMNShape id="BPMNShape_01typqg" bpmnElement="EventSubProcess_NonInterruptingStartEvent_Duration">
+        <dc:Bounds x="1012" y="1502" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1040" y="133" width="42" height="14" />
+          <dc:Bounds x="987" y="1545" width="88" height="53" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1r5vs15_di" bpmnElement="interruptingBoundaryEventDuration">
-        <dc:Bounds x="952" y="432" width="36" height="36" />
+      <bpmndi:BPMNShape id="BPMNShape_114olyo" bpmnElement="StartEvent_CycleCron">
+        <dc:Bounds x="1272" y="852" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="928" y="475" width="85" height="40" />
+          <dc:Bounds x="1249" y="895" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0u6kxk1_di" bpmnElement="nonInterruptingBoundaryEventCycle">
-        <dc:Bounds x="792" y="238" width="36" height="36" />
+      <bpmndi:BPMNShape id="BPMNShape_0sp4b5v" bpmnElement="Task_3">
+        <dc:Bounds x="1510" y="830" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0j20tgx" bpmnElement="Task_4">
+        <dc:Bounds x="1690" y="830" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0gooim1" bpmnElement="SubProcess_CycleCron" isExpanded="true">
+        <dc:Bounds x="1880" y="780" width="350" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11c780k" bpmnElement="EventSubProcess_NonInterruptingStartEvent_CycleCron">
+        <dc:Bounds x="2082" y="862" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="767" y="196" width="87" height="40" />
+          <dc:Bounds x="2059" y="905" width="88" height="53" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_06kv99i_di" bpmnElement="nonInterruptingBoundaryEventDuration">
-        <dc:Bounds x="792" y="308" width="36" height="36" />
+      <bpmndi:BPMNShape id="BPMNShape_1an1qwo" bpmnElement="IntermediateCatchEvent_Empty">
+        <dc:Bounds x="292" y="532" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="768" y="351" width="86" height="40" />
+          <dc:Bounds x="272" y="575" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0gco7bn" bpmnElement="StartEvent_Empty">
+        <dc:Bounds x="202" y="532" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="177" y="575" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1xcb7zk" bpmnElement="Task_9">
+        <dc:Bounds x="440" y="510" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0et7d6j" bpmnElement="Task_10">
+        <dc:Bounds x="620" y="510" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_005r8np" bpmnElement="SubProcess_Empty" isExpanded="true">
+        <dc:Bounds x="810" y="460" width="350" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ff8e7y" bpmnElement="EventSubProcess_StartEvent_Empty">
+        <dc:Bounds x="922" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="896" y="585" width="88" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ucdpb8" bpmnElement="EventSubProcess_NonInterruptingStartEvent_Empty">
+        <dc:Bounds x="1012" y="542" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="988" y="585" width="90" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_15o5nws" bpmnElement="Task_11">
+        <dc:Bounds x="440" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1tuz9gm_di" bpmnElement="StartEvent_Blank">
+        <dc:Bounds x="202" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="179" y="255" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1j05y35_di" bpmnElement="EndEvent_Blank">
+        <dc:Bounds x="967" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="944" y="255" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1aglcm1_di" bpmnElement="IntermediateCatchEvent_Blank">
+        <dc:Bounds x="292" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="270" y="255" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hdiole_di" bpmnElement="NonInterruptingBoundaryEvent_Cycle">
+        <dc:Bounds x="702" y="892" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="677" y="935" width="88" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0lzenly" bpmnElement="NonInterruptingBoundaryEvent_CycleCron">
+        <dc:Bounds x="1772" y="892" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1746" y="935" width="90" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0oqi537_di" bpmnElement="Group_Cycle">
+        <dc:Bounds x="160" y="720" width="1050" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="672" y="727" width="28" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1lmj4kq" bpmnElement="Group_Date">
+        <dc:Bounds x="160" y="1040" width="1050" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="675" y="1047" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_100yato" bpmnElement="Group_Duration">
+        <dc:Bounds x="160" y="1360" width="1050" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="664" y="1367" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0m8h7pu" bpmnElement="Group_CycleCron">
+        <dc:Bounds x="1230" y="720" width="1050" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1721" y="727" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0h4cbzd" bpmnElement="Group_Empty">
+        <dc:Bounds x="160" y="400" width="1050" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="671" y="407" width="32" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0p5q7tr" bpmnElement="Group_Blank">
+        <dc:Bounds x="160" y="80" width="1050" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="673" y="87" width="29" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0p5bs30_di" bpmnElement="BoundaryEvent_Blank">
+        <dc:Bounds x="522" y="252" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="496" y="295" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1py9dkq" bpmnElement="NonInterruptingBoundaryEvent_Empty">
+        <dc:Bounds x="702" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="681" y="615" width="83" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0vsnq0p" bpmnElement="BoundaryEvent_Empty">
+        <dc:Bounds x="522" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="615" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0nwveo1" bpmnElement="NonInterruptingBoundaryEvent_Duration">
+        <dc:Bounds x="702" y="1532" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="676" y="1575" width="89" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1q4qstq" bpmnElement="BoundaryEvent_Duration">
+        <dc:Bounds x="522" y="1532" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="496" y="1575" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_02pg78j" bpmnElement="NonInterruptingBoundaryEvent_Date">
+        <dc:Bounds x="702" y="1212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="681" y="1255" width="83" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ktlobl" bpmnElement="BoundaryEvent_Date">
+        <dc:Bounds x="522" y="1212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="1255" width="83" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

@@ -59,21 +59,22 @@ describe('provider/zeebe - TimerProps', function() {
   }));
 
 
-  describe('provider/zeebe - TimerEventDefinition', function() {
+  describe('provider/zeebe - TimerProps', function() {
 
-    describe('input entries', function() {
+    describe('Type entry', function() {
 
-      describe('select', function() {
+      describe('display', function() {
 
-        it('should display if multiple types are possible', inject(async function(elementRegistry, selection) {
+        it('should display', inject(async function(elementRegistry, selection) {
 
           // given
           const elements = [
-            elementRegistry.get('timerStartEventCycle'),
-            elementRegistry.get('nonInterruptingBoundaryEventCycle'),
-            elementRegistry.get('timerStartEventEmpty'),
-            elementRegistry.get('nonInterruptingTimerStartEventCycle'),
-            elementRegistry.get('nonInterruptingTimerStartEventDate')
+            elementRegistry.get('StartEvent_Empty'),
+            elementRegistry.get('IntermediateCatchEvent_Empty'),
+            elementRegistry.get('BoundaryEvent_Empty'),
+            elementRegistry.get('NonInterruptingBoundaryEvent_Empty'),
+            elementRegistry.get('EventSubProcess_StartEvent_Empty'),
+            elementRegistry.get('EventSubProcess_NonInterruptingStartEvent_Empty')
           ];
 
           for (const element of elements) {
@@ -91,13 +92,14 @@ describe('provider/zeebe - TimerProps', function() {
         }));
 
 
-        it('should NOT display if only one type is possible', inject(async function(elementRegistry, selection) {
+        it('should NOT display', inject(async function(elementRegistry, selection) {
 
           // given
           const elements = [
-            elementRegistry.get('intermediateTimerCatchEventDuration'),
-            elementRegistry.get('interruptingBoundaryEventDuration'),
-            elementRegistry.get('interruptingTimerStartEventDate')
+            elementRegistry.get('StartEvent_Blank'),
+            elementRegistry.get('IntermediateCatchEvent_Blank'),
+            elementRegistry.get('BoundaryEvent_Blank'),
+            elementRegistry.get('EndEvent_Blank')
           ];
 
           for (const element of elements) {
@@ -117,182 +119,25 @@ describe('provider/zeebe - TimerProps', function() {
       });
 
 
-      describe('generic textField', function() {
+      describe('behavior', function() {
 
-        it('should display if type is selected', inject(async function(elementRegistry, selection) {
-
-          // given
-          const elements = [
-            elementRegistry.get('timerStartEventDate'),
-            elementRegistry.get('nonInterruptingBoundaryEventDuration')
-          ];
-
-          for (const element of elements) {
-
-            // when
-            await act(() => {
-              selection.select(element);
-            });
-
-            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
-
-            // then
-            expect(definitionTypeTextField).to.exist;
-          }
-        }));
-
-
-        it('should display if only one type is available', inject(async function(elementRegistry, selection) {
+        it('should set <do>', inject(async function(elementRegistry, selection) {
 
           // given
-          const element = elementRegistry.get('interruptingTimerStartEventDate');
-
-          // when
-          await act(() => {
-            selection.select(element);
-          });
-
-          const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
-
-          // then
-          expect(definitionTypeTextField).to.exist;
-        }));
-
-
-        it('should display correct label for only one type available', inject(async function(elementRegistry, selection) {
-
-          // given
-          const element = elementRegistry.get('interruptingTimerStartEventDate');
-
-          // when
-          await act(() => {
-            selection.select(element);
-          });
-
-          const label = domQuery('[data-entry-id="timerEventDefinitionValue"] label', container);
-
-          // then
-          expect(label).to.have.property('textContent', 'Date');
-        }));
-
-
-        it('should NOT display if only duration is available', inject(async function(elementRegistry, selection) {
-
-          // given
-          const elements = [
-            elementRegistry.get('intermediateTimerCatchEventDuration'),
-            elementRegistry.get('interruptingBoundaryEventDuration')
-          ];
-
-          for (const element of elements) {
-
-            // when
-            await act(() => {
-              selection.select(element);
-            });
-
-            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
-
-            // then
-            expect(definitionTypeTextField).not.to.exist;
-          }
-        }));
-
-
-        it('should NOT display if no type was selected', inject(async function(elementRegistry, selection) {
-
-          // given
-          const elements = [
-            elementRegistry.get('timerStartEventEmpty')
-          ];
-
-          for (const element of elements) {
-
-            // when
-            await act(() => {
-              selection.select(element);
-            });
-
-            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
-
-            // then
-            expect(definitionTypeTextField).not.to.exist;
-          }
-        }));
-
-      });
-
-
-      describe('specific duration textField', function() {
-
-        it('should display if only duration is available', inject(async function(elementRegistry, selection) {
-
-          // given
-          const elements = [
-            elementRegistry.get('intermediateTimerCatchEventDuration'),
-            elementRegistry.get('interruptingBoundaryEventDuration')
-          ];
-
-          for (const element of elements) {
-
-            // when
-            await act(() => {
-              selection.select(element);
-            });
-
-            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
-
-            // then
-            expect(definitionTypeTextField).to.exist;
-          }
-        }));
-
-
-        it('should NOT display if multiple types are available', inject(async function(elementRegistry, selection) {
-
-          // given
-          const elements = [
-            elementRegistry.get('timerStartEventDate'),
-            elementRegistry.get('nonInterruptingBoundaryEventDuration')
-          ];
-
-          for (const element of elements) {
-
-            // when
-            await act(() => {
-              selection.select(element);
-            });
-
-            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
-
-            // then
-            expect(definitionTypeTextField).not.to.exist;
-          }
-        }));
-
-      });
-
-    });
-
-
-    describe('update', function() {
-
-      describe('select', function() {
-
-        it('should execute', inject(async function(elementRegistry, selection) {
-
-          // given
-          const timerStartEvent = elementRegistry.get('timerStartEventDate');
+          const startEvent = elementRegistry.get('StartEvent_Date');
 
           await act(() => {
-            selection.select(timerStartEvent);
+            selection.select(startEvent);
           });
 
           // assume
-          const orginalTimer = getTimerEventDefinition(timerStartEvent);
-          expect(orginalTimer.timeCycle).not.to.exist;
-          expect(orginalTimer.timeDate).to.exist;
-          expect(orginalTimer.timeDate.body).to.equal('myDate');
+          const timerEventDefinition = getTimerEventDefinition(startEvent);
+
+          expect(timerEventDefinition.get('timeCycle')).not.to.exist;
+          expect(timerEventDefinition.get('timeDuration')).not.to.exist;
+
+          expect(timerEventDefinition.get('timeDate')).to.exist;
+          expect(timerEventDefinition.get('timeDate').get('body')).to.equal('2019-10-01T12:00:00Z');
 
           // when
           const select = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
@@ -300,20 +145,20 @@ describe('provider/zeebe - TimerProps', function() {
           changeInput(select, 'timeCycle');
 
           // then
-          const newTimer = getTimerEventDefinition(timerStartEvent);
-          expect(newTimer.timeDate).not.to.exist;
-          expect(newTimer.timeCycle).to.exist;
-          expect(newTimer.timeCycle.body).to.be.undefined;
+          expect(timerEventDefinition.get('timeDate')).not.to.exist;
+          expect(timerEventDefinition.get('timeDuration')).not.to.exist;
+
+          expect(timerEventDefinition.get('timeCycle')).to.exist;
         }));
 
 
-        it('should execute on external change', inject(async function(elementRegistry, selection, commandStack) {
+        it('should set <undo>', inject(async function(elementRegistry, selection, commandStack) {
 
           // given
-          const timerStartEvent = elementRegistry.get('timerStartEventDate');
+          const startEvent = elementRegistry.get('StartEvent_Date');
 
           await act(() => {
-            selection.select(timerStartEvent);
+            selection.select(startEvent);
           });
 
           const select = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
@@ -326,20 +171,23 @@ describe('provider/zeebe - TimerProps', function() {
           });
 
           // then
-          const orginalTimer = getTimerEventDefinition(timerStartEvent);
-          expect(orginalTimer.timeCycle).not.to.exist;
-          expect(orginalTimer.timeDate).to.exist;
-          expect(orginalTimer.timeDate.body).to.equal('myDate');
+          const timerEventDefinition = getTimerEventDefinition(startEvent);
+
+          expect(timerEventDefinition.get('timeCycle')).not.to.exist;
+          expect(timerEventDefinition.get('timeDuration')).not.to.exist;
+
+          expect(timerEventDefinition.get('timeDate')).to.exist;
+          expect(timerEventDefinition.get('timeDate').get('body')).to.equal('2019-10-01T12:00:00Z');
         }));
 
 
-        it('should not execute given no value change', inject(async function(elementRegistry, selection, eventBus) {
+        it('should not set (no change)', inject(async function(elementRegistry, selection, eventBus) {
 
           // given
-          const element = elementRegistry.get('timerStartEventDate');
+          const startEvent = elementRegistry.get('StartEvent_Date');
 
           await act(() => {
-            selection.select(element);
+            selection.select(startEvent);
           });
 
           const eventBusSpy = sinon.spy();
@@ -356,13 +204,13 @@ describe('provider/zeebe - TimerProps', function() {
         }));
 
 
-        it('should unset correctly', inject(async function(elementRegistry, selection, eventBus) {
+        it('should unset', inject(async function(elementRegistry, selection, eventBus) {
 
           // given
-          const element = elementRegistry.get('timerStartEventDate');
+          const startEvent = elementRegistry.get('StartEvent_Date');
 
           await act(() => {
-            selection.select(element);
+            selection.select(startEvent);
           });
 
           const eventBusSpy = sinon.spy();
@@ -372,60 +220,134 @@ describe('provider/zeebe - TimerProps', function() {
           // when
           const select = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
 
-          changeInput(select, 'timeCycle');
           changeInput(select, '');
 
           // then
-          const timerEventDefiniton = getTimerEventDefinition(element);
+          const timerEventDefinition = getTimerEventDefinition(startEvent);
 
-          expect(Object.keys(timerEventDefiniton.$attrs)).to.be.empty;
+          expect(timerEventDefinition.get('timeCycle')).not.to.exist;
+          expect(timerEventDefinition.get('timeDuration')).not.to.exist;
+          expect(timerEventDefinition.get('timeDate')).not.to.exist;
+
+          expect(Object.keys(timerEventDefinition.$attrs)).to.be.empty;
+        }));
+
+      });
+
+    });
+
+
+    describe('Value entry', function() {
+
+      describe('display', function() {
+
+        it('should display if type set', inject(async function(elementRegistry, selection) {
+
+          // given
+          const elements = [
+            elementRegistry.get('StartEvent_Cycle'),
+            elementRegistry.get('EventSubProcess_NonInterruptingStartEvent_Cycle'),
+            elementRegistry.get('StartEvent_CycleCron'),
+            elementRegistry.get('EventSubProcess_NonInterruptingStartEvent_CycleCron'),
+            elementRegistry.get('StartEvent_Date'),
+            elementRegistry.get('IntermediateCatchEvent_Date'),
+            elementRegistry.get('BoundaryEvent_Date'),
+            elementRegistry.get('NonInterruptingBoundaryEvent_Date'),
+            elementRegistry.get('EventSubProcess_StartEvent_Date'),
+            elementRegistry.get('EventSubProcess_NonInterruptingStartEvent_Date'),
+            elementRegistry.get('IntermediateCatchEvent_Duration'),
+            elementRegistry.get('BoundaryEvent_Duration'),
+            elementRegistry.get('NonInterruptingBoundaryEvent_Duration'),
+            elementRegistry.get('EventSubProcess_StartEvent_Duration'),
+            elementRegistry.get('EventSubProcess_NonInterruptingStartEvent_Duration')
+          ];
+
+          for (const element of elements) {
+
+            // when
+            await act(() => {
+              selection.select(element);
+            });
+
+            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
+
+            // then
+            expect(definitionTypeTextField).to.exist;
+          }
+        }));
+
+
+        it('should not display if no type set', inject(async function(elementRegistry, selection) {
+
+          // given
+          const elements = [
+            elementRegistry.get('StartEvent_Empty'),
+            elementRegistry.get('IntermediateCatchEvent_Empty'),
+            elementRegistry.get('BoundaryEvent_Empty'),
+            elementRegistry.get('NonInterruptingBoundaryEvent_Empty'),
+            elementRegistry.get('EventSubProcess_StartEvent_Empty'),
+            elementRegistry.get('EventSubProcess_NonInterruptingStartEvent_Empty')
+          ];
+
+          for (const element of elements) {
+
+            // when
+            await act(() => {
+              selection.select(element);
+            });
+
+            const definitionTypeTextField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
+
+            // then
+            expect(definitionTypeTextField).not.to.exist;
+          }
         }));
 
       });
 
 
-      describe('generic textField', function() {
+      describe('behavior', function() {
 
-        describe('date', function() {
+        describe('cycle', function() {
 
-          it('should execute', inject(async function(elementRegistry, selection) {
+          it('should set <do>', inject(async function(elementRegistry, selection) {
 
             // given
-            const timerStartEvent = elementRegistry.get('timerStartEventDate');
+            const startEvent = elementRegistry.get('StartEvent_Cycle');
 
             await act(() => {
-              selection.select(timerStartEvent);
+              selection.select(startEvent);
             });
 
             // assume
-            const orginalTimer = getTimerEventDefinition(timerStartEvent);
-            expect(orginalTimer.timeDate).to.exist;
-            expect(orginalTimer.timeDate.body).to.equal('myDate');
+            const timerEventDefinition = getTimerEventDefinition(startEvent);
+
+            expect(timerEventDefinition.get('timeCycle')).to.exist;
+            expect(timerEventDefinition.get('timeCycle').get('body')).to.equal('R/P1D');
 
             // when
             const textField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
 
-            changeInput(textField, 'fooBar');
+            changeInput(textField, 'foo');
 
             // then
-            const newTimer = getTimerEventDefinition(timerStartEvent);
-            expect(newTimer.timeDate).to.exist;
-            expect(newTimer.timeDate.body).to.equal('fooBar');
+            expect(timerEventDefinition.get('timeCycle')).to.exist;
+            expect(timerEventDefinition.get('timeCycle').get('body')).to.equal('foo');
           }));
 
 
-          it('should execute on external change', inject(async function(elementRegistry, selection, commandStack) {
+          it('should set <undo>', inject(async function(elementRegistry, selection, commandStack) {
 
             // given
-            const timerStartEvent = elementRegistry.get('timerStartEventDate');
+            const startEvent = elementRegistry.get('StartEvent_Cycle');
 
             await act(() => {
-              selection.select(timerStartEvent);
+              selection.select(startEvent);
             });
 
             const textField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
 
-            changeInput(textField, 'fooBar');
+            changeInput(textField, 'foo');
 
             // when
             await act(() => {
@@ -433,54 +355,55 @@ describe('provider/zeebe - TimerProps', function() {
             });
 
             // then
-            const orginalTimer = getTimerEventDefinition(timerStartEvent);
-            expect(orginalTimer.timeDate).to.exist;
-            expect(orginalTimer.timeDate.body).to.equal('myDate');
+            const timerEventDefinition = getTimerEventDefinition(startEvent);
+
+            expect(timerEventDefinition.get('timeCycle')).to.exist;
+            expect(timerEventDefinition.get('timeCycle').get('body')).to.equal('R/P1D');
           }));
 
         });
 
 
-        describe('cycle', function() {
+        describe('date', function() {
 
-          it('should execute', inject(async function(elementRegistry, selection) {
+          it('should set <do>', inject(async function(elementRegistry, selection) {
 
             // given
-            const timerStartEvent = elementRegistry.get('timerStartEventCycle');
+            const startEvent = elementRegistry.get('StartEvent_Date');
 
             await act(() => {
-              selection.select(timerStartEvent);
+              selection.select(startEvent);
             });
 
             // assume
-            const orginalTimer = getTimerEventDefinition(timerStartEvent);
-            expect(orginalTimer.timeCycle).to.exist;
-            expect(orginalTimer.timeCycle.body).to.equal('myCycle');
+            const timerEventDefinition = getTimerEventDefinition(startEvent);
+
+            expect(timerEventDefinition.get('timeDate')).to.exist;
+            expect(timerEventDefinition.get('timeDate').get('body')).to.equal('2019-10-01T12:00:00Z');
 
             // when
             const textField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
 
-            changeInput(textField, 'fooBar');
+            changeInput(textField, 'foo');
 
             // then
-            const newTimer = getTimerEventDefinition(timerStartEvent);
-            expect(newTimer.timeCycle).to.exist;
-            expect(newTimer.timeCycle.body).to.equal('fooBar');
+            expect(timerEventDefinition.get('timeDate')).to.exist;
+            expect(timerEventDefinition.get('timeDate').get('body')).to.equal('foo');
           }));
 
 
-          it('should execute on external change', inject(async function(elementRegistry, selection, commandStack) {
+          it('should set <undo>', inject(async function(elementRegistry, selection, commandStack) {
 
             // given
-            const timerStartEvent = elementRegistry.get('timerStartEventCycle');
+            const startEvent = elementRegistry.get('StartEvent_Date');
 
             await act(() => {
-              selection.select(timerStartEvent);
+              selection.select(startEvent);
             });
 
             const textField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
 
-            changeInput(textField, 'fooBar');
+            changeInput(textField, 'foo');
 
             // when
             await act(() => {
@@ -488,9 +411,10 @@ describe('provider/zeebe - TimerProps', function() {
             });
 
             // then
-            const orginalTimer = getTimerEventDefinition(timerStartEvent);
-            expect(orginalTimer.timeCycle).to.exist;
-            expect(orginalTimer.timeCycle.body).to.equal('myCycle');
+            const timerEventDefinition = getTimerEventDefinition(startEvent);
+
+            expect(timerEventDefinition.get('timeDate')).to.exist;
+            expect(timerEventDefinition.get('timeDate').get('body')).to.equal('2019-10-01T12:00:00Z');
           }));
 
         });
@@ -498,44 +422,44 @@ describe('provider/zeebe - TimerProps', function() {
 
         describe('duration', function() {
 
-          it('should execute', inject(async function(elementRegistry, selection) {
+          it('should set <do>', inject(async function(elementRegistry, selection) {
 
             // given
-            const timerStartEvent = elementRegistry.get('nonInterruptingBoundaryEventDuration');
+            const intermediateCatchEvent = elementRegistry.get('IntermediateCatchEvent_Duration');
 
             await act(() => {
-              selection.select(timerStartEvent);
+              selection.select(intermediateCatchEvent);
             });
 
             // assume
-            const orginalTimer = getTimerEventDefinition(timerStartEvent);
-            expect(orginalTimer.timeDuration).to.exist;
-            expect(orginalTimer.timeDuration.body).to.equal('myDuration');
+            const timerEventDefinition = getTimerEventDefinition(intermediateCatchEvent);
+
+            expect(timerEventDefinition.get('timeDuration')).to.exist;
+            expect(timerEventDefinition.get('timeDuration').get('body')).to.equal('P14D');
 
             // when
             const textField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
 
-            changeInput(textField, 'fooBar');
+            changeInput(textField, 'foo');
 
             // then
-            const newTimer = getTimerEventDefinition(timerStartEvent);
-            expect(newTimer.timeDuration).to.exist;
-            expect(newTimer.timeDuration.body).to.equal('fooBar');
+            expect(timerEventDefinition.get('timeDuration')).to.exist;
+            expect(timerEventDefinition.get('timeDuration').get('body')).to.equal('foo');
           }));
 
 
-          it('should execute on external change', inject(async function(elementRegistry, selection, commandStack) {
+          it('should set <undo>', inject(async function(elementRegistry, selection, commandStack) {
 
             // given
-            const timerStartEvent = elementRegistry.get('nonInterruptingBoundaryEventDuration');
+            const intermediateCatchEvent = elementRegistry.get('IntermediateCatchEvent_Duration');
 
             await act(() => {
-              selection.select(timerStartEvent);
+              selection.select(intermediateCatchEvent);
             });
 
             const textField = domQuery('#bio-properties-panel-timerEventDefinitionValue', container);
 
-            changeInput(textField, 'fooBar');
+            changeInput(textField, 'foo');
 
             // when
             await act(() => {
@@ -543,92 +467,13 @@ describe('provider/zeebe - TimerProps', function() {
             });
 
             // then
-            const orginalTimer = getTimerEventDefinition(timerStartEvent);
-            expect(orginalTimer.timeDuration).to.exist;
-            expect(orginalTimer.timeDuration.body).to.equal('myDuration');
+            const timerEventDefinition = getTimerEventDefinition(intermediateCatchEvent);
+
+            expect(timerEventDefinition.get('timeDuration')).to.exist;
+            expect(timerEventDefinition.get('timeDuration').get('body')).to.equal('P14D');
           }));
 
         });
-
-      });
-
-
-      describe('specific duration textField', function() {
-
-        it('should execute', inject(async function(elementRegistry, selection) {
-
-          // given
-          const timerStartEvent = elementRegistry.get('intermediateTimerCatchEventDuration');
-
-          await act(() => {
-            selection.select(timerStartEvent);
-          });
-
-          // assume
-          const orginalTimer = getTimerEventDefinition(timerStartEvent);
-          expect(orginalTimer.timeDuration).to.exist;
-          expect(orginalTimer.timeDuration.body).to.equal('myDuration');
-
-          // when
-          const textField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
-
-          changeInput(textField, 'fooBar');
-
-          // then
-          const newTimer = getTimerEventDefinition(timerStartEvent);
-          expect(newTimer.timeDuration).to.exist;
-          expect(newTimer.timeDuration.body).to.equal('fooBar');
-        }));
-
-
-        it('should execute on external change', inject(async function(elementRegistry, selection, commandStack) {
-
-          // given
-          const timerStartEvent = elementRegistry.get('intermediateTimerCatchEventDuration');
-
-          await act(() => {
-            selection.select(timerStartEvent);
-          });
-
-          const textField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
-
-          changeInput(textField, 'fooBar');
-
-          // when
-          await act(() => {
-            commandStack.undo();
-          });
-
-          // then
-          const orginalTimer = getTimerEventDefinition(timerStartEvent);
-          expect(orginalTimer.timeDuration).to.exist;
-          expect(orginalTimer.timeDuration.body).to.equal('myDuration');
-        }));
-
-
-        it('should create new formalExpression', inject(async function(elementRegistry, selection) {
-
-          // given
-          const timerStartEvent = elementRegistry.get('intermediateTimerCatchEventDurationEmpty');
-
-          await act(() => {
-            selection.select(timerStartEvent);
-          });
-
-          // assume
-          const orginalTimer = getTimerEventDefinition(timerStartEvent);
-          expect(orginalTimer.timeDuration).not.to.exist;
-
-          // when
-          const textField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
-
-          changeInput(textField, 'fooBar');
-
-          // then
-          const newTimer = getTimerEventDefinition(timerStartEvent);
-          expect(newTimer.timeDuration).to.exist;
-          expect(newTimer.timeDuration.body).to.equal('fooBar');
-        }));
 
       });
 

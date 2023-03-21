@@ -1,7 +1,4 @@
-import {
-  getBusinessObject,
-  is
-} from 'bpmn-js/lib/util/ModelUtil';
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
   useService
@@ -19,6 +16,8 @@ import {
 } from '@bpmn-io/properties-panel';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+
+import { isTimerExpressionTypeSupported } from '../utils/TimerUtil';
 
 
 /**
@@ -46,25 +45,21 @@ export function TimerProps(props) {
   }
 
   const timerOptions = getTimerOptions(element, translate);
-  const singleOption = timerOptions.length === 1;
 
   const entries = [];
 
-  if (!singleOption) {
-    entries.push({
-      id: 'timerEventDefinitionType',
-      component: TimerEventDefinitionType,
-      isEdited: isSelectEntryEdited,
-      options: timerOptions
-    });
-  }
+  entries.push({
+    id: 'timerEventDefinitionType',
+    component: TimerEventDefinitionType,
+    isEdited: isSelectEntryEdited,
+    options: timerOptions
+  });
 
-  if (timerEventDefinitionType || singleOption) {
+  if (timerEventDefinitionType) {
     entries.push({
       id: 'timerEventDefinitionValue',
       component: TimerEventDefinitionValue,
       isEdited: isFeelEntryEdited,
-      label: singleOption ? timerOptions[0].label : undefined,
       timerEventDefinitionType: timerEventDefinitionType || timerOptions[0].value
     });
   }
@@ -76,21 +71,21 @@ function getTimerOptions(element, translate) {
 
   const options = [];
 
-  if (isTimerDefinitionTypeSupported('timeDate', element)) {
+  if (isTimerExpressionTypeSupported('timeDate', element)) {
     options.push({
       value: 'timeDate',
       label: translate('Date')
     });
   }
 
-  if (isTimerDefinitionTypeSupported('timeDuration', element)) {
+  if (isTimerExpressionTypeSupported('timeDuration', element)) {
     options.push({
       value: 'timeDuration',
       label: translate('Duration')
     });
   }
 
-  if (isTimerDefinitionTypeSupported('timeCycle', element)) {
+  if (isTimerExpressionTypeSupported('timeCycle', element)) {
     options.push({
       value: 'timeCycle',
       label: translate('Cycle')
@@ -199,10 +194,6 @@ function TimerEventDefinitionValue(props) {
         timerEventDefinition = getTimerEventDefinition(businessObject),
         timerEventFormalExpression = timerEventDefinition.get(timerEventDefinitionType);
 
-  // TODO(@barmac): remove with next major release
-  // support `timerEventDefinitionDurationValue` for backwards compatibility
-  const legacyId = getLegacyId(element);
-
   const getValue = () => {
     return timerEventFormalExpression && timerEventFormalExpression.get('body');
   };
@@ -234,7 +225,7 @@ function TimerEventDefinitionValue(props) {
 
   return FeelEntryWithVariableContext({
     element,
-    id: legacyId || 'timerEventDefinitionValue',
+    id: 'timerEventDefinitionValue',
     label: label || translate('Value'),
     feel: 'optional',
     getValue,
@@ -247,50 +238,6 @@ function TimerEventDefinitionValue(props) {
 
 
 // helper //////////////////////////
-
-/**
- * isTimerDefinitionTypeSupported - Checks whether a given timerDefinitionType
- * is supported for a given element
- *
- * @param  {string} timerDefinitionType
- * @param  {ModdleElement} element
- *
- * @return {boolean}
- */
-function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
-  const businessObject = getBusinessObject(element);
-
-  switch (timerDefinitionType) {
-  case 'timeDate':
-    if (is(element, 'bpmn:StartEvent')) {
-      return true;
-    }
-    return false;
-
-  case 'timeCycle':
-    if (is(element, 'bpmn:StartEvent') && !isInterruptingStartEvent(businessObject)) {
-      return true;
-    }
-
-    if (is(element, 'bpmn:BoundaryEvent') && !businessObject.cancelActivity) {
-      return true;
-    }
-    return false;
-
-  case 'timeDuration':
-    if (is(element, 'bpmn:IntermediateCatchEvent')) {
-      return true;
-    }
-
-    if (is(element, 'bpmn:BoundaryEvent')) {
-      return true;
-    }
-    return false;
-
-  default:
-    return undefined;
-  }
-}
 
 function createTimerFormalExpression(bpmnFactory, eventDefinition) {
   const formalExpression = bpmnFactory.create('bpmn:FormalExpression', { body: undefined });
@@ -333,26 +280,4 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
       <a href="https://docs.camunda.io/docs/reference/bpmn-processes/timer-events/timer-events#time-duration" target="_blank" rel="noopener" title={ translate('Timer documentation') }>{ translate('How to configure a timer') }</a>
     </div>);
   }
-}
-
-function isInterruptingStartEvent(bo) {
-  return isInEventSubProcess(bo) && bo.get('isInterrupting') !== false;
-}
-
-function isInEventSubProcess(bo) {
-  const parent = bo.$parent;
-
-  return is(parent, 'bpmn:SubProcess') && parent.triggeredByEvent;
-}
-
-function getLegacyId(event) {
-  if (is(event, 'bpmn:IntermediateCatchEvent') || isInterruptingBoundaryEvent(event)) {
-    return 'timerEventDefinitionDurationValue';
-  }
-}
-
-function isInterruptingBoundaryEvent(event) {
-  const bo = getBusinessObject(event);
-
-  return is(bo, 'bpmn:BoundaryEvent') && bo.get('cancelActivity') !== false;
 }

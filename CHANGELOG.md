@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: allow time date in boundary and intermediate catch events ([#931](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/931))
+
+### Breaking Changes
+
+* support of legacy `timerEventDefinitionDurationValue` ID for Camunda 8 _Timer_ group _Value_ entry was removed; `timerEventDefinitionValue` ID is now used for all _Value_ entries ([#931](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/931))
+
 ## 1.26.0
 
 * `FEAT`: change FEEL toggle ([@bpmn-io/properties-panel#240](https://github.com/bpmn-io/properties-panel/issues/240))
@@ -271,7 +277,7 @@ _A complete rewrite of the library, based on modern foundations._
 
 For more changes, read the alpha releases entries below.
 
-### Breaking changes
+### Breaking Changes
 
 * `PropertiesProvider#getTabs` is no longer used. Migrate to the new `PropertiesProvider#getGroups` API instead.
   Check out [the example migration](https://github.com/bpmn-io/bpmn-js-examples/pull/142) and [this pull request](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/590) for guidance.
