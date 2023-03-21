@@ -265,6 +265,10 @@ function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
     if (is(element, 'bpmn:StartEvent')) {
       return true;
     }
+
+    if (is(element, 'bpmn:BoundaryEvent')) {
+      return true;
+    }
     return false;
 
   case 'timeCycle':
