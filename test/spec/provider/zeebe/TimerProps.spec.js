@@ -73,7 +73,8 @@ describe('provider/zeebe - TimerProps', function() {
             elementRegistry.get('nonInterruptingBoundaryEventCycle'),
             elementRegistry.get('timerStartEventEmpty'),
             elementRegistry.get('nonInterruptingTimerStartEventCycle'),
-            elementRegistry.get('nonInterruptingTimerStartEventDate')
+            elementRegistry.get('nonInterruptingTimerStartEventDate'),
+            elementRegistry.get('interruptingBoundaryEventDuration')
           ];
 
           for (const element of elements) {
@@ -96,7 +97,6 @@ describe('provider/zeebe - TimerProps', function() {
           // given
           const elements = [
             elementRegistry.get('intermediateTimerCatchEventDuration'),
-            elementRegistry.get('interruptingBoundaryEventDuration'),
             elementRegistry.get('interruptingTimerStartEventDate')
           ];
 
