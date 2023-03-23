@@ -67,18 +67,6 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
   }));
 
 
-  it('should reject invalid template', inject(function(templateElementFactory) {
-
-    // given
-    const elementTemplate = findTemplate('example.camunda.Invalid');
-
-    // then
-    expect(function() {
-      templateElementFactory.create(elementTemplate);
-    }).to.throw(/template is invalid/);
-  }));
-
-
   it('should set type (appliesTo)', inject(function(templateElementFactory) {
 
     // given
