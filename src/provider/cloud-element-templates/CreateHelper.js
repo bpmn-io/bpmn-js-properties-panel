@@ -1,6 +1,7 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { findExtension } from './Helper';
+import { createElement } from '../../utils/ElementUtil';
 
 
 /**
@@ -125,7 +126,12 @@ export function shouldUpdate(value, property) {
  */
 export function ensureExtension(element, type, bpmnFactory) {
   const businessObject = getBusinessObject(element);
-  const extensionElements = businessObject.get('extensionElements');
+  let extensionElements = businessObject.get('extensionElements');
+
+  if (!extensionElements) {
+    extensionElements = createElement('bpmn:ExtensionElements', {}, businessObject, bpmnFactory);
+    businessObject.set('extensionElements', extensionElements);
+  }
 
   let extension = findExtension(extensionElements, type);
 

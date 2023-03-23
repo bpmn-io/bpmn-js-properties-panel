@@ -14,7 +14,6 @@ import TaskHeaderBindingProvider from './TaskHeaderBindingProvider';
 import ZeebePropertiesProvider from './ZeebePropertiesProvider';
 
 import {
-  EXTENSION_BINDING_TYPES,
   PROPERTY_TYPE,
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
@@ -74,20 +73,15 @@ export default class TemplateElementFactory {
     // (1) create element from appliesTo
     const element = elementFactory.createShape({ type });
 
-    // (2) ensure extension elements
-    if (hasExtensionBindings(template)) {
-      this._ensureExtensionElements(element);
-    }
-
-    // (3) apply template
+    // (2) apply template
     this._setModelerTemplate(element, template);
 
-    // (4) apply icon
+    // (3) apply icon
     if (hasIcon(template)) {
       this._setModelerTemplateIcon(element, template);
     }
 
-    // (5) apply properties
+    // (4) apply properties
     this._applyProperties(element, properties);
 
     return element;
@@ -204,29 +198,10 @@ export default class TemplateElementFactory {
   }
 }
 
-TemplateElementFactory.$inject = [ 'bpmnFactory', 'elementFactory', 'moddle' ];
+TemplateElementFactory.$inject = [ 'bpmnFactory', 'elementFactory' ];
 
 
 // helper ////////////////
-
-function hasExtensionBindings(template) {
-  const {
-    properties
-  } = template;
-
-  // find icon first
-  if (hasIcon(template)) {
-    return true;
-  }
-
-  return find(properties, function(property) {
-    const {
-      binding
-    } = property;
-
-    return EXTENSION_BINDING_TYPES.includes(binding.type);
-  });
-}
 
 function hasIcon(template) {
   const {
