@@ -16,8 +16,9 @@ The properties panel allows users to edit invisible BPMN properties in a conveni
 Some of the features are:
 
 * Edit element ids, multi-instance details and more
-* Edit execution related [Camunda](http://camunda.org) properties
+* Edit execution related [Camunda 7](https://docs.camunda.org) and [Camunda 8](https://docs.camunda.io/) properties
 * Redo and undo (plugs into the [bpmn-js](https://github.com/bpmn-io/bpmn-js) editing cycle)
+* [Element templates](https://github.com/bpmn-io/element-templates) provider for Camunda 7 and Camunda 8
 
 
 ## Usage
