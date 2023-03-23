@@ -1,6 +1,6 @@
-import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
-
-import { createTaskDefinitionWithType } from '../CreateHelper';
+import {
+  ensureExtension
+} from '../CreateHelper';
 
 
 export default class TaskDefinitionTypeBindingProvider {
@@ -14,10 +14,7 @@ export default class TaskDefinitionTypeBindingProvider {
       value
     } = property;
 
-    const extensionElements = getBusinessObject(element).get('extensionElements');
-
-    const taskDefinition = createTaskDefinitionWithType(value, bpmnFactory);
-    taskDefinition.$parent = extensionElements;
-    extensionElements.get('values').push(taskDefinition);
+    const taskDefinition = ensureExtension(element, 'zeebe:TaskDefinition', bpmnFactory);
+    taskDefinition.set('type', value);
   }
 }

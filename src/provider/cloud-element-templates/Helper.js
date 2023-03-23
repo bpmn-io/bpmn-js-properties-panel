@@ -72,7 +72,7 @@ export function findExtension(element, type) {
   }
 
   if (!extensionElements) {
-    return null;
+    return;
   }
 
   return extensionElements.get('values').find((value) => {
