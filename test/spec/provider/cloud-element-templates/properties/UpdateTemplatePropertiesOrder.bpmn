@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_00cqa19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_00cqa19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:serviceTask id="TASK" name="TASK" zeebe:modelerTemplate="cloud-element-templates.properties.UpdateProperties.order">
       <bpmn:extensionElements>
@@ -20,7 +20,7 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="TASK_condition" name="TASK_condition" zeebe:modelerTemplate="cloud-element-templates.properties.UpdateProperties.order">
-       <bpmn:extensionElements>
+      <bpmn:extensionElements>
         <zeebe:ioMapping>
           <zeebe:input source="input-2-source" target="input-2-target" />
           <zeebe:input source="input-3-source" target="input-3-target" />
@@ -36,6 +36,24 @@
         </zeebe:properties>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:task id="Task2_conditions" name="foo" zeebe:modelerTemplate="cloud-element-templates.properties.UpdateProperties.order-conditions">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="2" target="input-2" />
+          <zeebe:input source="1" target="input-1" />
+          <zeebe:output source="output-2" target="2" />
+          <zeebe:output source="output-1" target="1" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="header-2" value="2" />
+          <zeebe:header key="header-1" value="1" />
+        </zeebe:taskHeaders>
+        <zeebe:properties>
+          <zeebe:property name="property-2" value="2" />
+          <zeebe:property name="property-1" value="1" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+    </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -46,6 +64,9 @@
       <bpmndi:BPMNShape id="Activity_11gpt0o_di" bpmnElement="TASK_condition">
         <dc:Bounds x="310" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07pe8vo_di" bpmnElement="Task2_conditions">
+        <dc:Bounds x="160" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

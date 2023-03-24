@@ -1,7 +1,7 @@
 [
   {
     "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
-    "name": "Update Properties - Order",
+    "name": "Update Properties Order",
     "id": "cloud-element-templates.properties.UpdateProperties.order",
     "appliesTo": [
       "bpmn:ServiceTask"
@@ -129,6 +129,170 @@
         "binding": {
           "type": "zeebe:property",
           "name": "property-3-name"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Update Properties Order - conditions",
+    "id": "cloud-element-templates.properties.UpdateProperties.order-conditions",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "foo",
+        "id": "parentProp",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      },
+      {
+        "type": "String",
+        "label": "Input 2",
+        "id":"hello",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "bar"
+        }
+      },
+      {
+        "label": "Input 1",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-1"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "type": "String",
+        "label": "Input 2",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "type": "String",
+        "label": "Output 2",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "bar"
+        }
+      },
+      {
+        "label": "Output 1",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-1"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "type": "String",
+        "label": "Output 2",
+        "binding": {
+          "type": "zeebe:output",
+          "source": "output-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "type": "String",
+        "label": "Task Header 2",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "bar"
+        }
+      },
+      {
+        "label": "Task Header 1",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-1"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "type": "String",
+        "label": "Task Header 2",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "label": "Property 2",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "bar"
+        }
+      },
+      {
+        "label": "Property 1",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-1"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
+        }
+      },
+      {
+        "label": "Property 2",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property-2"
+        },
+        "condition": {
+          "property": "parentProp",
+          "equals": "foo"
         }
       }
     ]

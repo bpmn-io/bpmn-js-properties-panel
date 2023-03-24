@@ -142,6 +142,26 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         expectOrder(ioMapping.inputParameters, expectedInputs);
       }));
 
+
+      it('properties with matching binding but different conditions', function() {
+
+        // given
+        const task = el('Task2_conditions');
+
+        // when
+        update(task, 'Input 1', 'foo');
+
+        // then
+        const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        const expectedInputs = [
+          findInputParameter(ioMapping, binding(task, 'Input 1')),
+          findInputParameter(ioMapping, binding(task, 'Input 2'))
+        ];
+
+        expectOrder(ioMapping.inputParameters, expectedInputs);
+      });
+
     });
 
 
@@ -208,6 +228,26 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
 
         expectOrder(ioMapping.outputParameters, expectedOutputs);
       }));
+
+
+      it('properties with matching binding but different conditions', function() {
+
+        // given
+        const task = el('Task2_conditions');
+
+        // when
+        update(task, 'Output 1', 'foo');
+
+        // then
+        const ioMapping = findExtension(task, 'zeebe:IoMapping');
+
+        const expectedOutputs = [
+          findOutputParameter(ioMapping, binding(task, 'Output 1')),
+          findOutputParameter(ioMapping, binding(task, 'Output 2'))
+        ];
+
+        expectOrder(ioMapping.outputParameters, expectedOutputs);
+      });
 
     });
 
@@ -277,6 +317,26 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         expectOrder(zeebeProperties.properties, expectedProperties);
       }));
 
+
+      it('properties with matching binding but different conditions', function() {
+
+        // given
+        const task = el('Task2_conditions');
+
+        // when
+        update(task, 'Property 1', 'foo');
+
+        // then
+        const zeebeProperties = findExtension(task, 'zeebe:Properties');
+
+        const expectedProperties = [
+          findZeebeProperty(zeebeProperties, binding(task, 'Property 1')),
+          findZeebeProperty(zeebeProperties, binding(task, 'Property 2'))
+        ];
+
+        expectOrder(zeebeProperties.properties, expectedProperties);
+      });
+
     });
 
 
@@ -322,6 +382,26 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
 
         expectOrder(taskHeaders.values, expectedHeaders);
       }));
+
+
+      it('properties with matching binding but different conditions', function() {
+
+        // given
+        const task = el('Task2_conditions');
+
+        // when
+        update(task, 'Task Header 1', 'foo');
+
+        // then
+        const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
+
+        const expectedHeaders = [
+          findTaskHeader(taskHeaders, binding(task, 'Task Header 1')),
+          findTaskHeader(taskHeaders, binding(task, 'Task Header 2'))
+        ];
+
+        expectOrder(taskHeaders.values, expectedHeaders);
+      });
 
 
     });

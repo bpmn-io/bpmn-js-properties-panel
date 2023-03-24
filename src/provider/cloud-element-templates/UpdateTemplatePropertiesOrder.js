@@ -1,6 +1,7 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 import { isObject } from 'min-dash';
+import { applyConditions } from './Condition';
 import { findExtension } from './Helper';
 
 /**
@@ -34,7 +35,7 @@ export default class UpdateTemplatePropertiesOrder extends CommandInterceptor {
       return;
     }
 
-    const templateProperties = template.properties;
+    const templateProperties = applyConditions(element, template).properties;
 
     // zeebe:Property
     const zeebeProperties = findExtension(businessObject, 'zeebe:Properties');
