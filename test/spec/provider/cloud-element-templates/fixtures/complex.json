@@ -683,5 +683,933 @@
         }
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "GitLab Connector",
+    "id": "io.camunda.connectors.GitLab.v1",
+    "version": 1,
+    "description": "Administer and work with issues and releases",
+    "icon": {
+      "contents": "data:image/svg+xml;utf8,%3Csvg width='18px' height='18px' viewBox='0 -10 256 256' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' preserveAspectRatio='xMidYMid'%3E%3Cg%3E%3Cpath d='M128.07485,236.074667 L128.07485,236.074667 L175.17885,91.1043048 L80.9708495,91.1043048 L128.07485,236.074667 L128.07485,236.074667 Z' fill='%23E24329'%3E%3C/path%3E%3Cpath d='M128.07485,236.074423 L80.9708495,91.104061 L14.9557638,91.104061 L128.07485,236.074423 L128.07485,236.074423 Z' fill='%23FC6D26'%3E%3C/path%3E%3Cpath d='M14.9558857,91.1044267 L14.9558857,91.1044267 L0.641828571,135.159589 C-0.663771429,139.17757 0.766171429,143.57955 4.18438095,146.06275 L128.074971,236.074789 L14.9558857,91.1044267 L14.9558857,91.1044267 Z' fill='%23FCA326'%3E%3C/path%3E%3Cpath d='M14.9558857,91.1045486 L80.9709714,91.1045486 L52.6000762,3.79026286 C51.1408762,-0.703146667 44.7847619,-0.701927619 43.3255619,3.79026286 L14.9558857,91.1045486 L14.9558857,91.1045486 Z' fill='%23E24329'%3E%3C/path%3E%3Cpath d='M128.07485,236.074423 L175.17885,91.104061 L241.193935,91.104061 L128.07485,236.074423 L128.07485,236.074423 Z' fill='%23FC6D26'%3E%3C/path%3E%3Cpath d='M241.193935,91.1044267 L241.193935,91.1044267 L255.507992,135.159589 C256.813592,139.17757 255.38365,143.57955 251.96544,146.06275 L128.07485,236.074789 L241.193935,91.1044267 L241.193935,91.1044267 Z' fill='%23FCA326'%3E%3C/path%3E%3Cpath d='M241.193935,91.1045486 L175.17885,91.1045486 L203.549745,3.79026286 C205.008945,-0.703146667 211.365059,-0.701927619 212.824259,3.79026286 L241.193935,91.1045486 L241.193935,91.1045486 Z' fill='%23E24329'%3E%3C/path%3E%3C/g%3E%3C/svg%3E"
+    },
+    "category": {
+      "id": "connectors",
+      "name": "Connectors"
+    },
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "endpoint",
+        "label": "HTTP Endpoint"
+      },
+      {
+        "id": "operation",
+        "label": "Operation"
+      },
+      {
+        "id": "output",
+        "label": "Response Mapping"
+      },
+      {
+        "id": "errors",
+        "label": "Error Handling"
+      }
+    ],
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "io.camunda:http-json:1",
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "group": "authentication",
+        "type": "Hidden",
+        "value": "noAuth",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "authentication.type"
+        }
+      },
+      {
+        "label": "GitLab base URL",
+        "group": "endpoint",
+        "type": "String",
+        "value": "https://gitlab.example.com",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "baseUrl"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "pattern": {
+            "value": "^(=|http://|https://|secrets).*$",
+            "message": "Must be a http(s) URL."
+          }
+        }
+      },
+      {
+        "label": "GitLab access token",
+        "group": "endpoint",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "gitlabAccessToken"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "={\"PRIVATE-TOKEN\":gitlabAccessToken, \"Content-Type\":\"application/json\"}",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "headers"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Operation group",
+        "id": "operationGroup",
+        "group": "operation",
+        "description": "Choose operation group",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "name": "Issues",
+            "value": "issues"
+          },
+          {
+            "name": "Releases",
+            "value": "releases"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "operationGroup"
+        }
+      },
+      {
+        "label": "Operation",
+        "id": "operation",
+        "group": "operation",
+        "description": "Choose operation to perform",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "name": "Get an issue by ID",
+            "value": "getIssueById"
+          },
+          {
+            "name": "Create an issue",
+            "value": "createAnIssue"
+          },
+          {
+            "name": "Delete an issue",
+            "value": "deleteAnIssue"
+          },
+          {
+            "name": "Comment to an issue",
+            "value": "commentToAnIssue"
+          },
+          {
+            "name": "Search issues",
+            "value": "searchIssues"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "operation"
+        },
+        "condition": {
+          "property": "operationGroup",
+          "equals": "issues"
+        }
+      },
+      {
+        "label": "Operation",
+        "id": "operation",
+        "group": "operation",
+        "description": "Choose operation to perform",
+        "type": "Dropdown",
+        "choices": [
+          {
+            "name": "List all releases by project ID",
+            "value": "getReleasesByProjectId"
+          },
+          {
+            "name": "Get release by a tag name",
+            "value": "getReleaseByTagName"
+          },
+          {
+            "name": "Create a release",
+            "value": "createRelease"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "operation"
+        },
+        "condition": {
+          "property": "operationGroup",
+          "equals": "releases"
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "get",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "method"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getIssueById",
+            "searchIssues",
+            "getReleasesByProjectId",
+            "getReleaseByTagName"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "post",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "method"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue",
+            "createAnIssue",
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "delete",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "method"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "deleteAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getIssueById"
+          ]
+        }
+      },
+      {
+        "label": "Issue ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "issueId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getIssueById"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/issues/\" + issueId",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getIssueById"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Title",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "issueTitle"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Description",
+        "group": "operation",
+        "type": "Text",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "issueDescription"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createAnIssue"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/issues\"",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createAnIssue"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "={\"title\":issueTitle, \"description\":issueDescription}",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "queryParameters"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "deleteAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Issue ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "issueId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "deleteAnIssue"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/issues/\" + issueId",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "deleteAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Issue ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "issueId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Note text",
+        "group": "operation",
+        "type": "Text",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "commentBody"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Level on confidentiality",
+        "group": "operation",
+        "description": "Define whether issue is confidential",
+        "type": "Dropdown",
+        "value": "false",
+        "choices": [
+          {
+            "name": "Confidential",
+            "value": "true"
+          },
+          {
+            "name": "Non-confidential",
+            "value": "false"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "issueIsConfidential"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "={\"body\":commentBody, \"confidential\":issueIsConfidential}",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "queryParameters"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/issues/\" + issueId + \"notes\"",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "commentToAnIssue"
+          ]
+        }
+      },
+      {
+        "label": "Scope",
+        "group": "operation",
+        "type": "Dropdown",
+        "optional": true,
+        "value": "all",
+        "choices": [
+          {
+            "name": "All",
+            "value": "all"
+          },
+          {
+            "name": "Created by access token owner",
+            "value": "created_by_me"
+          },
+          {
+            "name": "Assigned by access token owner",
+            "value": "assigned_to_me"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "searchIssueScope"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "label": "State",
+        "group": "operation",
+        "type": "Dropdown",
+        "value": "all",
+        "optional": true,
+        "choices": [
+          {
+            "name": "All",
+            "value": "all"
+          },
+          {
+            "name": "Opened",
+            "value": "opened"
+          },
+          {
+            "name": "Closed",
+            "value": "closed"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "searchIssueState"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "label": "Assignee ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "searchIssueAssigneeId"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "label": "Assignee username",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "searchIssueAssigneeUsername"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "label": "Author ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "searchIssueAuthorId"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "label": "Contains text",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "searchIssueSearch"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "={\"state\":if searchIssueState = null then null else searchIssueState, \"scope\": if searchIssueScope = null then null else searchIssueScope, \"assignee_id\": if searchIssueAssigneeId = null then null else searchIssueAssigneeId, \"assignee_username\": if searchIssueAssigneeUsername = null then null else searchIssueAssigneeUsername, \"author_id\": if searchIssueAuthorId = null then null else searchIssueAuthorId, \"search\": if searchIssueSearch = null then null else searchIssueSearch}",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "queryParameters"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/issues\"",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "searchIssues"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getReleasesByProjectId"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/releases\"",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getReleasesByProjectId"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getReleaseByTagName"
+          ]
+        }
+      },
+      {
+        "label": "Tag name",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "releaseTagName"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getReleaseByTagName"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/releases/\" + releaseTagName",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "getReleaseByTagName"
+          ]
+        }
+      },
+      {
+        "label": "Project ID",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "projectId"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "label": "Tag name",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "releaseTagName"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "label": "Ref",
+        "description": "Commit or branch name to create release from",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "releaseRef"
+        },
+        "constraints": {
+          "notEmpty": true
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "label": "Release name",
+        "group": "operation",
+        "type": "String",
+        "feel": "optional",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "releaseName"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "label": "Description",
+        "group": "operation",
+        "type": "Text",
+        "feel": "optional",
+        "optional": true,
+        "binding": {
+          "type": "zeebe:input",
+          "name": "releaseDescription"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=baseUrl + \"/api/v4/projects/\"+ projectId +\"/releases\"",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "url"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "={\"tag_name\": if releaseTagName = null then null else releaseTagName, \"name\": if releaseName = null then null else releaseName, \"description\": if releaseDescription = null then releaseDescription else releaseDescription, \"ref\": if releaseRef = null then null else releaseRef}",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "body"
+        },
+        "condition": {
+          "property": "operation",
+          "oneOf": [
+            "createRelease"
+          ]
+        }
+      },
+      {
+        "label": "Result Variable",
+        "description": "Name of variable to store the response in. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/#result-variable\" target=\"_blank\">documentation</a>",
+        "group": "output",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "resultVariable"
+        }
+      },
+      {
+        "label": "Result Expression",
+        "description": "Expression to map the response into process variables. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/#result-expression\" target=\"_blank\">documentation</a>",
+        "group": "output",
+        "type": "Text",
+        "feel": "required",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "resultExpression"
+        }
+      },
+      {
+        "label": "Error Expression",
+        "description": "Expression to handle errors. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/#bpmn-errors\" target=\"_blank\">documentation</a>",
+        "group": "errors",
+        "type": "Text",
+        "feel": "required",
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "errorExpression"
+        }
+      }
+    ]
   }
 ]
