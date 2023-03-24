@@ -79,7 +79,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
 
     describe('zeebe:input', function() {
 
-      it('property set', inject(function(elementRegistry, bpmnjs) {
+      it('property set', function() {
 
         // given
         const task = el('TASK');
@@ -96,10 +96,10 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(ioMapping.inputParameters, expectedInputs);
-      }));
+      });
 
 
-      it('property not set - optional', inject(function(elementRegistry, bpmnjs) {
+      it('property not set - optional', function() {
 
         // given
         const task = el('TASK');
@@ -117,7 +117,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(ioMapping.inputParameters, expectedInputs);
-      }));
+      });
 
 
       it('property not set - conditional', inject(function(modeling) {
@@ -167,7 +167,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
 
     describe('zeebe:output', function() {
 
-      it('porperty set', inject(function(elementRegistry, bpmnjs) {
+      it('porperty set', function() {
 
         // given
         const task = el('TASK');
@@ -184,10 +184,10 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(ioMapping.outputParameters, expectedOutputs);
-      }));
+      });
 
 
-      it('porperty not set - optional', inject(function(elementRegistry, bpmnjs) {
+      it('porperty not set - optional', function() {
 
         // given
         const task = el('TASK');
@@ -205,7 +205,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(ioMapping.outputParameters, expectedOutputs);
-      }));
+      });
 
 
       it('porperty not set - conditional', inject(function(modeling) {
@@ -254,7 +254,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
 
     describe('zeebe:property', function() {
 
-      it('property set', inject(function(elementRegistry, bpmnjs) {
+      it('property set', function() {
 
         // given
         const task = el('TASK');
@@ -271,10 +271,10 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(zeebeProperties.properties, expectedProperties);
-      }));
+      });
 
 
-      it('property not set - optional', inject(function(elementRegistry, bpmnjs) {
+      it('property not set - optional', function() {
 
         // given
         const task = el('TASK');
@@ -292,7 +292,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(zeebeProperties.properties, expectedProperties);
-      }));
+      });
 
 
       it('property not set - conditional', inject(function(modeling) {
@@ -342,7 +342,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
 
     describe('zeebe:taskHeader', function() {
 
-      it('property set', inject(function(elementRegistry, bpmnjs) {
+      it('property set', function() {
 
         // given
         const task = el('TASK');
@@ -359,7 +359,7 @@ describe('provider/cloud-element-templates - UpdateTemplatePropertiesOrder', fun
         ];
 
         expectOrder(taskHeaders.values, expectedHeaders);
-      }));
+      });
 
 
       it('property not set - conditional', inject(function(modeling) {
