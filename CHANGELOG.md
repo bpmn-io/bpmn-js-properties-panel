@@ -6,7 +6,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-# 1.22.1
+# 1.20.1
 
 * `FIX`: esure element template properties order is maintained ([#898](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/898))
 
