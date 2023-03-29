@@ -30,8 +30,8 @@ import {
 } from '../util/bindingTypes';
 
 import {
-  FeelEntryWithContext,
-  FeelTextAreaEntryWithContext,
+  FeelEntryWithVariableContext,
+  FeelTextAreaEntryWithVariableContext,
   FeelEntry,
   FeelTextAreaEntry
 } from '../../../entries/FeelEntryWithContext';
@@ -293,7 +293,7 @@ function FeelTextAreaProperty(props) {
 
   const TextAreaComponent =
     isIOMappingProperty(property)
-      ? FeelTextAreaEntryWithContext
+      ? FeelTextAreaEntryWithVariableContext
       : FeelTextAreaEntry;
 
   return TextAreaComponent({
@@ -331,7 +331,7 @@ function FeelProperty(props) {
 
   const TextFieldComponent =
     isIOMappingProperty(property)
-      ? FeelEntryWithContext
+      ? FeelEntryWithVariableContext
       : FeelEntry;
 
   return TextFieldComponent({

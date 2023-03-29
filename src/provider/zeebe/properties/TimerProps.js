@@ -18,7 +18,7 @@ import {
   SelectEntry, isSelectEntryEdited,
 } from '@bpmn-io/properties-panel';
 
-import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 
 /**
@@ -232,7 +232,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id: legacyId || 'timerEventDefinitionValue',
     label: label || translate('Value'),

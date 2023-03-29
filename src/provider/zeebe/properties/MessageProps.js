@@ -23,7 +23,7 @@ import {
   getExtensionElementsList
 } from '../../../utils/ExtensionElementsUtil';
 
-import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function MessageProps(props) {
@@ -83,7 +83,7 @@ function MessageName(props) {
     );
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id: 'messageName',
     label: translate('Name'),
@@ -169,7 +169,7 @@ function SubscriptionCorrelationKey(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),

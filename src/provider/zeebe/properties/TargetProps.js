@@ -18,7 +18,7 @@ import {
 
 import { useService } from '../../../hooks';
 
-import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function TargetProps(props) {
@@ -119,7 +119,7 @@ function TargetProcessId(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id,
     label: translate('Process ID'),
