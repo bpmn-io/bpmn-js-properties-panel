@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.20.3
+
+* `FIX`: only provide variable suggestions for fields backed by IO mappings ([#902](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/902)
+
 # 1.20.2
 
 * `DEPS`: update to `@bpmn-io/variable-resolver@0.1.3`
