@@ -428,8 +428,24 @@ const matchesVariables = expectedVariables => sinon.match(({ variables }) => {
       return false;
     }
 
+    if (
+      isDefined(expectedVariable.info) &&
+      expectedVariable.info !== variable.info
+    ) {
+      return false;
+    }
 
-    return expectedVariable.info === variable.info &&
-     expectedVariable.detail === variable.detail;
+    if (
+      isDefined(expectedVariable.detail) &&
+      expectedVariable.detail !== variable.detail
+    ) {
+      return false;
+    }
+
+    return true;
   });
 });
+
+function isDefined(any) {
+  return typeof any !== 'undefined';
+}
