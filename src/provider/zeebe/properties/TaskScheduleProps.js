@@ -17,7 +17,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function TaskScheduleProps(props) {
@@ -125,7 +125,7 @@ function DueDate(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id: 'taskScheduleDueDate',
     label: translate('Due date'),
@@ -218,7 +218,7 @@ function FollowUpDate(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id: 'taskScheduleFollowUpDate',
     label: translate('Follow up date'),

@@ -17,7 +17,7 @@ import {
 
 import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-import { FeelEntryWithContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function ConditionProps(props) {
@@ -102,7 +102,7 @@ function ConditionExpression(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithContext({
+  return FeelEntryWithVariableContext({
     element,
     id: 'conditionExpression',
     label: translate('Condition expression'),

@@ -4,5 +4,5 @@ import { withTooltipContainer, withVariableContext } from '../provider/HOCs';
 export const FeelEntry = withTooltipContainer(BaseFeelEntry);
 export const FeelTextAreaEntry = withTooltipContainer(BaseFeelTextAreaEntry);
 
-export const FeelEntryWithContext = withVariableContext(FeelEntry);
-export const FeelTextAreaEntryWithContext = withVariableContext(FeelTextAreaEntry);
+export const FeelEntryWithVariableContext = withVariableContext(FeelEntry);
+export const FeelTextAreaEntryWithVariableContext = withVariableContext(FeelTextAreaEntry);
