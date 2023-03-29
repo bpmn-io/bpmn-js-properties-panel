@@ -1,5 +1,8 @@
-import { FeelEntry, FeelTextAreaEntry } from '@bpmn-io/properties-panel';
+import { FeelEntry as BaseFeelEntry, FeelTextAreaEntry as BaseFeelTextAreaEntry } from '@bpmn-io/properties-panel';
 import { withTooltipContainer, withVariableContext } from '../provider/HOCs';
 
-export const FeelEntryWithContext = withVariableContext(withTooltipContainer(FeelEntry));
-export const FeelTextAreaEntryWithContext = withVariableContext(withTooltipContainer(FeelTextAreaEntry));
+export const FeelEntry = withTooltipContainer(BaseFeelEntry);
+export const FeelTextAreaEntry = withTooltipContainer(BaseFeelTextAreaEntry);
+
+export const FeelEntryWithContext = withVariableContext(FeelEntry);
+export const FeelTextAreaEntryWithContext = withVariableContext(FeelTextAreaEntry);

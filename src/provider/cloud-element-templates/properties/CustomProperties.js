@@ -31,13 +31,11 @@ import {
 
 import {
   FeelEntryWithContext,
-  FeelTextAreaEntryWithContext
-} from '../../../entries/FeelEntryWithContext';
-
-import {
+  FeelTextAreaEntryWithContext,
   FeelEntry,
   FeelTextAreaEntry
-} from '@bpmn-io/properties-panel';
+} from '../../../entries/FeelEntryWithContext';
+
 
 const DEFAULT_CUSTOM_GROUP = {
   id: 'ElementTemplates__CustomProperties',
