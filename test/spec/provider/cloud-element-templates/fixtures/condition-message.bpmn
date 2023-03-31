@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:intermediateCatchEvent id="Event_1" name="one" zeebe:modelerTemplate="example.com.condition">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="select" value="one" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:messageEventDefinition messageRef="Message_1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_2" name="two" zeebe:modelerTemplate="example.com.condition">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="select" value="two" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:messageEventDefinition messageRef="Message_2" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_3" name="foo">
+      <bpmn:messageEventDefinition messageRef="Message_3" />
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1" name="one"></bpmn:message>
+  <bpmn:message id="Message_2" name="two"></bpmn:message>
+  <bpmn:message id="Message_3"></bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Event_1_di" bpmnElement="Event_1">
+        <dc:Bounds x="180" y="120" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u1i5ib_di" bpmnElement="Event_2">
+        <dc:Bounds x="310" y="120" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0warlfb_di" bpmnElement="Event_3">
+        <dc:Bounds x="440" y="120" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

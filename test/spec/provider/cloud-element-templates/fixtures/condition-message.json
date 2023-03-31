@@ -1,0 +1,62 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "Condition",
+  "id": "example.com.condition",
+  "description": "A conditional template.",
+  "appliesTo": ["bpmn:Event"],
+  "elementType": {
+    "value": "bpmn:IntermediateCatchEvent",
+    "eventDefinition": "bpmn:MessageEventDefinition"
+  },
+  "properties": [
+    {
+      "id": "select",
+      "type": "Dropdown",
+      "value": "one",
+      "choices": [
+        {
+          "name": "one",
+          "value": "one"
+        },
+        {
+          "name": "two",
+          "value": "two"
+        },
+        {
+          "name": "three",
+          "value": "three"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:property",
+        "name": "select"
+      }
+    },
+    {
+      "label": "name",
+      "type": "String",
+      "value": "one",
+      "binding": {
+        "type": "bpmn:Message#property",
+        "name": "name"
+      },
+      "condition": {
+        "property": "select",
+        "equals": "one"
+      }
+    },
+    {
+      "label": "name",
+      "type": "String",
+      "value": "two",
+      "binding": {
+        "type": "bpmn:Message#property",
+        "name": "name"
+      },
+      "condition": {
+        "property": "select",
+        "equals": "two"
+      }
+    }
+  ]
+}

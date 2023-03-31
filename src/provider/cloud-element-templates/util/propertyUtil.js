@@ -538,6 +538,14 @@ export function unsetProperty(commandStack, element, property) {
     property
   };
 
+  if (MESSAGE_BINDING_TYPES.includes(type)) {
+    businessObject = findMessage(businessObject);
+
+    if (!businessObject) {
+      return;
+    }
+  }
+
 
   if (EXTENSION_BINDING_TYPES.includes(type)) {
     extensionElements = businessObject.get('extensionElements');
@@ -699,6 +707,21 @@ export function unsetProperty(commandStack, element, property) {
       });
     }
   }
+
+  // bpmn:Message#property
+  if (type === MESSAGE_PROPERTY_TYPE) {
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        ...context,
+        moddleElement: businessObject,
+        properties: {
+          [ binding.name ]: undefined
+        }
+      }
+    });
+  }
+
 
   if (commands.length) {
     commandStack.execute(

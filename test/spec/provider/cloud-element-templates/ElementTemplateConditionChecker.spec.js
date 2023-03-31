@@ -12,10 +12,12 @@ import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 import PropertiesPanelCommandsModule from 'src/cmd';
 
 import diagramXML from './fixtures/condition.bpmn';
+import messageDiagramXML from './fixtures/condition-message.bpmn';
 
 import template from './fixtures/condition.json';
+import messageTemplate from './fixtures/condition-message.json';
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
-import { findExtension } from '../../../../src/provider/cloud-element-templates/Helper';
+import { findExtension, findMessage } from '../../../../src/provider/cloud-element-templates/Helper';
 import ElementTemplatesConditionChecker from 'src/provider/cloud-element-templates/ElementTemplatesConditionChecker';
 import { getBpmnJS } from 'bpmn-js/test/helper';
 import { isString } from 'min-dash';
@@ -726,6 +728,139 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
         expect(zeebeProperties).not.to.exist;
       })
     );
+
+  });
+
+
+  describe('update bpmn:Message#property', function() {
+
+    const template = messageTemplate;
+
+    beforeEach(bootstrapModeler(messageDiagramXML, {
+      container: container,
+      modules: [
+        coreModule,
+        elementTemplatesModule,
+        modelingModule,
+        ElementTemplatesConditionChecker,
+        PropertiesPanelCommandsModule,
+        {
+          propertiesPanel: [ 'value', { registerProvider() {} } ]
+        }
+      ],
+      moddleExtensions: {
+        zeebe: zeebeModdlePackage
+      }
+    }));
+
+    beforeEach(inject(function(elementTemplates) {
+      elementTemplates.set([ template ]);
+    }));
+
+
+    it('should add conditional entries', inject(async function(elementRegistry) {
+
+      // given
+      let element = elementRegistry.get('Event_3');
+
+      // when
+      element = changeTemplate(element, template);
+
+      // then
+      const message = findMessage(getBusinessObject(element));
+
+      expect(message).to.have.property('name', 'one');
+    }));
+
+
+    it('should remove conditional entries', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Event_1');
+        const property = findExtension(element, 'zeebe:Properties').get('properties')[0];
+
+        // when
+        modeling.updateModdleProperties(element, property, {
+          value: 'three'
+        });
+
+        // then
+        const message = findMessage(getBusinessObject(element));
+
+        expect(message).not.to.have.property('name');
+      })
+    );
+
+
+    it('should switch between conditional properties', inject(
+      async function(elementRegistry, modeling) {
+
+        // given
+        const element = elementRegistry.get('Event_1');
+        const property = findExtension(element, 'zeebe:Properties').get('properties')[0];
+
+        // when
+        modeling.updateModdleProperties(element, property, {
+          value: 'two'
+        });
+
+        // then
+        const message = findMessage(getBusinessObject(element));
+
+        expect(message).to.have.property('name', 'two');
+      })
+    );
+
+
+    it('undo', inject(function(commandStack, elementRegistry, modeling) {
+
+      // given
+      let element = elementRegistry.get('Event_1');
+      const property = findExtension(element, 'zeebe:Properties').get('properties')[0];
+
+      // when
+      modeling.updateModdleProperties(element, property, {
+        value: 'three'
+      });
+
+      // assume
+      const message = findMessage(getBusinessObject(element));
+      expect(message).not.to.have.property('name');
+
+      // when
+      commandStack.undo();
+
+      expect(message).to.have.property('name', 'one');
+    }));
+
+
+    it('redo', inject(function(commandStack, elementRegistry, modeling) {
+
+      // given
+      let element = elementRegistry.get('Event_1');
+      const property = findExtension(element, 'zeebe:Properties').get('properties')[0];
+
+      // when
+      modeling.updateModdleProperties(element, property, {
+        value: 'three'
+      });
+
+      // assume
+      const message = findMessage(getBusinessObject(element));
+
+      // when
+      commandStack.undo();
+
+      // assume
+      expect(message).to.have.property('name', 'one');
+
+      // when
+      commandStack.redo();
+
+      // then
+      expect(message).not.to.have.property('name');
+    }));
 
   });
 
