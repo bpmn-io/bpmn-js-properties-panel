@@ -138,6 +138,6 @@ export function findMessage(businessObject) {
   return businessObject.get('messageRef');
 }
 
-export function findZeebeSubscripton(message) {
+export function findZeebeSubscription(message) {
   return findExtension(message, 'zeebe:Subscription');
 }

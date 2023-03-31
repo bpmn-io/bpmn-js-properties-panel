@@ -29,7 +29,7 @@ import {
   findOutputParameter,
   findTaskHeader,
   findZeebeProperty,
-  findZeebeSubscripton
+  findZeebeSubscription
 } from 'src/provider/cloud-element-templates/Helper';
 
 import coreModule from 'bpmn-js/lib/core';
@@ -828,7 +828,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
       // then
       const message = findMessage(businessObject);
-      const subscription = findZeebeSubscripton(message);
+      const subscription = findZeebeSubscription(message);
 
       expect(subscription).to.exist;
       expect(subscription).to.have.property('correlationKey', 'meaningfulCorrelationKey');
@@ -849,7 +849,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
       // then
       const message = findMessage(businessObject);
-      const subscription = findZeebeSubscripton(message);
+      const subscription = findZeebeSubscription(message);
 
       // then
       expect(subscription).to.exist;
@@ -871,7 +871,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
       // then
       const message = findMessage(businessObject);
-      const subscription = findZeebeSubscripton(message);
+      const subscription = findZeebeSubscription(message);
 
       expect(subscription).to.exist;
       expect(subscription).to.have.property('correlationKey', '');
