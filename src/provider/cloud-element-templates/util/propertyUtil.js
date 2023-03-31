@@ -28,7 +28,8 @@ import {
   findInputParameter,
   findMessage,
   findOutputParameter,
-  findZeebeProperty
+  findZeebeProperty,
+  findZeebeSubscription
 } from '../Helper';
 
 import {
@@ -715,6 +716,26 @@ export function unsetProperty(commandStack, element, property) {
       context: {
         ...context,
         moddleElement: businessObject,
+        properties: {
+          [ binding.name ]: undefined
+        }
+      }
+    });
+  }
+
+  // bpmn:Message#property
+  if (type === MESSAGE_ZEEBE_SUBSCRIPTION_PROPERTY_TYPE) {
+    const subscription = findZeebeSubscription(businessObject);
+
+    if (!subscription) {
+      return;
+    }
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        ...context,
+        moddleElement: subscription,
         properties: {
           [ binding.name ]: undefined
         }

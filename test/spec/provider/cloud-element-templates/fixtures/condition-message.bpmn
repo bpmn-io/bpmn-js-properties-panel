@@ -20,10 +20,40 @@
     <bpmn:intermediateCatchEvent id="Event_3" name="foo">
       <bpmn:messageEventDefinition messageRef="Message_3" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="SubscriptionEvent_1" name="one" zeebe:modelerTemplate="example.com.condition-1">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="select" value="one" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:messageEventDefinition messageRef="SubscriptionMessage_1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="SubscriptionEvent_2" name="two" zeebe:modelerTemplate="example.com.condition-1">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="select" value="two" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:messageEventDefinition messageRef="SubscriptionMessage_2" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="SubscriptionEvent_3" name="foo">
+      <bpmn:messageEventDefinition messageRef="SubscriptionMessage_3" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmn:message id="Message_1" name="one"></bpmn:message>
   <bpmn:message id="Message_2" name="two"></bpmn:message>
   <bpmn:message id="Message_3"></bpmn:message>
+  <bpmn:message id="SubscriptionMessage_1" name="one">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="one"/>
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="SubscriptionMessage_2" name="two">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="two"/>
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="SubscriptionMessage_3"></bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="Event_1_di" bpmnElement="Event_1">
@@ -36,6 +66,18 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0warlfb_di" bpmnElement="Event_3">
         <dc:Bounds x="440" y="120" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubscriptionEvent_1_di" bpmnElement="SubscriptionEvent_1">
+        <dc:Bounds x="180" y="170" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubscriptionEvent_2_di" bpmnElement="SubscriptionEvent_2">
+        <dc:Bounds x="310" y="170" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubscriptionEvent_3_di" bpmnElement="SubscriptionEvent_3">
+        <dc:Bounds x="440" y="170" width="36" height="36" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
