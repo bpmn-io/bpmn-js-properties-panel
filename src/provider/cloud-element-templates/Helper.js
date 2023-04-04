@@ -4,6 +4,8 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
+import { v4 as uuid } from 'uuid';
+
 /**
  * The BPMN 2.0 extension attribute name under
  * which the element template ID is stored.
@@ -140,4 +142,19 @@ export function findMessage(businessObject) {
 
 export function findZeebeSubscription(message) {
   return findExtension(message, 'zeebe:Subscription');
+}
+
+export function getDefaultValue(property) {
+
+  if (property.value !== undefined) {
+    return property.value;
+  }
+
+  if (property.generatedValue) {
+    const { type } = property.generatedValue;
+
+    if (type === 'uuid') {
+      return uuid();
+    }
+  }
 }

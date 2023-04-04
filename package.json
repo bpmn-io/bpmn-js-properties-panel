@@ -56,7 +56,8 @@
     "min-dash": "^4.0.0",
     "min-dom": "^4.0.3",
     "preact-markup": "^2.1.1",
-    "semver-compare": "^1.0.0"
+    "semver-compare": "^1.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

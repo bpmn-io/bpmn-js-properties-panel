@@ -4,7 +4,8 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  findExtension
+  findExtension,
+  getDefaultValue
 } from '../Helper';
 
 import {
@@ -157,7 +158,7 @@ export default class ChangeElementTemplateHandler {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             newBinding = newProperty.binding,
             newBindingName = newBinding.name,
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             changedElement = businessObject;
 
       let properties = {};
@@ -207,7 +208,7 @@ export default class ChangeElementTemplateHandler {
             oldBinding = oldProperty && oldProperty.binding,
             oldBindingType = oldBinding && oldBinding.type,
             oldTaskDefinition = findBusinessObject(businessObject, newProperty),
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             newBinding = newProperty.binding,
             newBindingType = newBinding.type;
 
@@ -318,7 +319,7 @@ export default class ChangeElementTemplateHandler {
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             inputOrOutput = findBusinessObject(businessObject, newProperty),
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             newBinding = newProperty.binding,
             newBindingType = newBinding.type;
 
@@ -466,7 +467,7 @@ export default class ChangeElementTemplateHandler {
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             oldHeader = findBusinessObject(businessObject, newProperty),
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             newBinding = newProperty.binding;
 
       // (2) update old headers
@@ -569,7 +570,7 @@ export default class ChangeElementTemplateHandler {
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             oldZeebeProperty = findBusinessObject(businessObject, newProperty),
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             newBinding = newProperty.binding;
 
       // (2) update old zeebe:Property
@@ -631,17 +632,17 @@ export default class ChangeElementTemplateHandler {
       return newBindingType === MESSAGE_PROPERTY_TYPE;
     });
 
-    const message = this._getOrCreateMessage(element);
 
     if (!newProperties.length) {
       return;
     }
 
+    const message = this._getOrCreateMessage(element);
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             newBinding = newProperty.binding,
             newBindingName = newBinding.name,
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             changedElement = message;
 
       let properties = {};
@@ -671,19 +672,18 @@ export default class ChangeElementTemplateHandler {
       return newBindingType === MESSAGE_ZEEBE_SUBSCRIPTION_PROPERTY_TYPE;
     });
 
-    const message = this._getOrCreateMessage(element);
-
     if (!newProperties.length) {
       return;
     }
 
+    const message = this._getOrCreateMessage(element);
     const zeebeSubscription = this._getOrCreateExtension(element, message, 'zeebe:Subscription');
 
     newProperties.forEach((newProperty) => {
       const oldProperty = findOldProperty(oldTemplate, newProperty),
             newBinding = newProperty.binding,
             newBindingName = newBinding.name,
-            newPropertyValue = newProperty.value,
+            newPropertyValue = getDefaultValue(newProperty),
             changedElement = zeebeSubscription;
 
       let properties = {};

@@ -18,7 +18,13 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  findExtension
+  findExtension,
+  findInputParameter,
+  findMessage,
+  findOutputParameter,
+  findTaskHeader,
+  findZeebeProperty,
+  findZeebeSubscription
 } from 'src/provider/cloud-element-templates/Helper';
 
 import {
@@ -1414,6 +1420,93 @@ describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function(
 
       });
 
+    });
+
+
+    describe('generated value', function() {
+
+      beforeEach(bootstrap(require('./generated-values.bpmn').default));
+
+
+      it('should apply generated value (uuid)', inject(function(elementRegistry) {
+
+        // given
+        const uuidRegex = /^[\w\d]{8}(-[\w\d]{4}){3}-[\w\d]{12}$/;
+        let task = elementRegistry.get('Task_1');
+
+        // when
+        task = changeTemplate(task, require('./generated-values.json')[0]);
+
+        // then
+        const bo = getBusinessObject(task);
+        expect(bo.get('name')).to.match(uuidRegex, 'name is not a uuid');
+
+        const zeebeProperties = findExtension(task, 'zeebe:Properties');
+        const property = findZeebeProperty(zeebeProperties, { name: 'property' });
+        expect(property.get('value')).to.match(uuidRegex, 'zeebe property is not a uuid');
+
+        const ioMapping = findExtension(task, 'zeebe:IoMapping');
+        const input = findInputParameter(ioMapping, { name: 'input' });
+        expect(input.get('source')).to.match(uuidRegex, 'input parameter is not a uuid');
+
+        const output = findOutputParameter(ioMapping, { source: 'source' });
+        expect(output.get('target')).to.match(uuidRegex, 'output parameter is not a uuid');
+
+        const taskHeaders = findExtension(task, 'zeebe:TaskHeaders');
+        const taskHeader = findTaskHeader(taskHeaders, { key: 'header' });
+        expect(taskHeader.get('value')).to.match(uuidRegex, 'task header is not a uuid');
+
+        const taskDefinition = findExtension(task, 'zeebe:TaskDefinition');
+        expect(taskDefinition.get('type')).to.match(uuidRegex, 'task definition type is not a uuid');
+      }));
+
+
+      it('should apply generated value on message (uuid)', inject(function(elementRegistry) {
+
+        // given
+        const uuidRegex = /^[\w\d]{8}(-[\w\d]{4}){3}-[\w\d]{12}$/;
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        event = changeTemplate(event, require('./generated-values.json')[1]);
+
+        // then
+        const bo = getBusinessObject(event);
+
+        const message = findMessage(bo);
+        expect(message.get('name')).to.match(uuidRegex, 'message name is not a uuid');
+
+        const subscription = findZeebeSubscription(message);
+        expect(subscription.get('correlationKey')).to.match(uuidRegex, 'correlation key is not a uuid');
+      }));
+    });
+
+
+    describe('integration', function() {
+
+      beforeEach(bootstrap(require('./task.bpmn').default));
+
+      it('should NOT create unnecessary message', inject(function(elementRegistry) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        changeTemplate(task, {
+          '$schema': 'https://unpkg.com/browse/@camunda/zeebe-element-templates-json-schema/resources/schema.json',
+          'id': 'com.camunda.example.test',
+          'name': 'TEST',
+          'appliesTo': [
+            'bpmn:FlowNode'
+          ],
+          'properties': []
+        });
+
+        // then
+        const bo = getBusinessObject(task);
+
+        expect(bo.$attrs).not.to.have.property('messageRef');
+      }));
     });
 
   });
