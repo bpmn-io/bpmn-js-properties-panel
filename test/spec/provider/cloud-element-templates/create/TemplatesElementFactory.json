@@ -331,5 +331,111 @@
         }
       }
     ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "REST Connector",
+    "id": "generatedTask",
+    "description": "A generic REST service.",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "properties": [
+      {
+        "type": "Hidden",
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "property",
+          "name": "name"
+        }
+      },
+      {
+        "type": "Hidden",
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "zeebe:input",
+          "name": "input"
+        }
+      },
+      {
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "zeebe:output",
+          "source": "source"
+        }
+      },
+      {
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "zeebe:property",
+          "name": "property"
+        }
+      },
+      {
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "zeebe:taskDefinition:type"
+        }
+      },
+      {
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "zeebe:taskHeader",
+          "key": "header"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Message Property",
+    "id": "generatedEvent",
+    "description": "A template.",
+    "appliesTo": [
+      "bpmn:Event"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "label": "message name",
+        "type": "Hidden",
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        }
+      },
+      {
+        "label": "correlation key",
+        "type": "Hidden",
+        "generatedValue": {
+          "type": "uuid"
+        },
+        "binding": {
+          "type": "bpmn:Message#zeebe:subscription#property",
+          "name": "correlationKey"
+        }
+      }
+    ]
   }
 ]

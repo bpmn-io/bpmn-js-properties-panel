@@ -2,6 +2,7 @@ import {
   createTaskHeader,
   ensureExtension
 } from '../CreateHelper';
+import { getDefaultValue } from '../Helper';
 
 
 export default class TaskHeaderBindingProvider {
@@ -12,9 +13,10 @@ export default class TaskHeaderBindingProvider {
     } = options;
 
     const {
-      binding,
-      value
+      binding
     } = property;
+
+    const value = getDefaultValue(property);
 
     const taskHeaders = ensureExtension(element, 'zeebe:TaskHeaders', bpmnFactory);
 

@@ -1,6 +1,7 @@
 import {
   ensureExtension
 } from '../CreateHelper';
+import { getDefaultValue } from '../Helper';
 
 
 export default class TaskDefinitionTypeBindingProvider {
@@ -10,9 +11,7 @@ export default class TaskDefinitionTypeBindingProvider {
       bpmnFactory
     } = options;
 
-    const {
-      value
-    } = property;
+    const value = getDefaultValue(property);
 
     const taskDefinition = ensureExtension(element, 'zeebe:TaskDefinition', bpmnFactory);
     taskDefinition.set('type', value);

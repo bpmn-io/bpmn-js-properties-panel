@@ -3,6 +3,7 @@ import {
   ensureExtension,
   shouldUpdate
 } from '../CreateHelper';
+import { getDefaultValue } from '../Helper';
 
 
 export default class ZeebePropertiesProvider {
@@ -14,8 +15,9 @@ export default class ZeebePropertiesProvider {
 
     const {
       binding,
-      value
     } = property;
+
+    const value = getDefaultValue(property);
 
     const zeebeProperties = ensureExtension(element, 'zeebe:Properties', bpmnFactory);
 

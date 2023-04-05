@@ -1,4 +1,5 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import { getDefaultValue } from '../Helper';
 
 
 export default class PropertyBindingProvider {
@@ -8,13 +9,14 @@ export default class PropertyBindingProvider {
     } = options;
 
     const {
-      binding,
-      value
+      binding
     } = property;
 
     const {
       name
     } = binding;
+
+    const value = getDefaultValue(property);
 
     const businessObject = getBusinessObject(element);
 

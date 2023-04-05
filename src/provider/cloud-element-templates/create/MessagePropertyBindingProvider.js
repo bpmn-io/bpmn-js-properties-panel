@@ -1,4 +1,5 @@
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
+import { getDefaultValue } from '../Helper';
 
 export class MessagePropertyBindingProvider {
   static create(element, options) {
@@ -8,13 +9,14 @@ export class MessagePropertyBindingProvider {
     } = options;
 
     const {
-      binding,
-      value
+      binding
     } = property;
 
     const {
       name
     } = binding;
+
+    const value = getDefaultValue(property);
 
     let businessObject = getBusinessObject(element);
 
