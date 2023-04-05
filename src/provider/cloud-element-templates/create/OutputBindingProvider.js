@@ -3,6 +3,7 @@ import {
   ensureExtension,
   shouldUpdate
 } from '../CreateHelper';
+import { getDefaultValue } from '../Helper';
 
 
 export default class OutputBindingProvider {
@@ -13,9 +14,10 @@ export default class OutputBindingProvider {
     } = options;
 
     const {
-      binding,
-      value
+      binding
     } = property;
+
+    const value = getDefaultValue(property);
 
     const ioMapping = ensureExtension(element, 'zeebe:IoMapping', bpmnFactory);
 

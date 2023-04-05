@@ -4,6 +4,7 @@ import {
   ensureExtension,
   shouldUpdate
 } from '../CreateHelper';
+import { getDefaultValue } from '../Helper';
 
 export class MessageZeebeSubscriptionBindingProvider {
   static create(element, options) {
@@ -13,13 +14,14 @@ export class MessageZeebeSubscriptionBindingProvider {
     } = options;
 
     const {
-      binding,
-      value
+      binding
     } = property;
 
     const {
       name
     } = binding;
+
+    const value = getDefaultValue(property);
 
     let businessObject = getBusinessObject(element);
     if (is(businessObject, 'bpmn:Event')) {
