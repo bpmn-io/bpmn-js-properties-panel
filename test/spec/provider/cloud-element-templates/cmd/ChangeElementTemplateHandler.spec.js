@@ -1423,6 +1423,142 @@ describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function(
     });
 
 
+    describe('update bpmn:Message#property', function() {
+
+      beforeEach(bootstrap(require('./event.bpmn').default));
+
+      const newTemplate = require('./event-template-1.json');
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        changeTemplate(event, newTemplate);
+
+        // then
+        event = elementRegistry.get('Event_1');
+        expectElementTemplate(event, 'event-template', 1);
+
+        const message = findMessage(getBusinessObject(event));
+
+        expect(message).to.exist;
+        expect(message.get('name')).to.equal('name');
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        changeTemplate(event, newTemplate);
+        commandStack.undo();
+
+        // then
+        event = elementRegistry.get('Event_1');
+        expectNoElementTemplate(event);
+
+        const message = findMessage(getBusinessObject(event));
+
+        expect(message).not.to.exist;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        changeTemplate(event, newTemplate);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        event = elementRegistry.get('Event_1');
+        expectElementTemplate(event, 'event-template', 1);
+
+        const message = findMessage(getBusinessObject(event));
+
+        expect(message).to.exist;
+        expect(message.get('name')).to.equal('name');
+      }));
+    });
+
+
+    describe('update bpmn:Message#zeebe:subscription#property', function() {
+
+      beforeEach(bootstrap(require('./event.bpmn').default));
+
+      const newTemplate = require('./event-template-1.json');
+
+
+      it('execute', inject(function(elementRegistry) {
+
+        // given
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        changeTemplate(event, newTemplate);
+
+        // then
+        event = elementRegistry.get('Event_1');
+        expectElementTemplate(event, 'event-template', 1);
+
+        const message = findMessage(getBusinessObject(event));
+        const subscription = findZeebeSubscription(message);
+
+        expect(subscription).to.exist;
+        expect(subscription.get('correlationKey')).to.equal('correlationKey');
+      }));
+
+
+      it('undo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        changeTemplate(event, newTemplate);
+        commandStack.undo();
+
+        // then
+        event = elementRegistry.get('Event_1');
+        expectNoElementTemplate(event);
+
+        const message = findMessage(getBusinessObject(event));
+
+        expect(message).not.to.exist;
+      }));
+
+
+      it('redo', inject(function(commandStack, elementRegistry) {
+
+        // given
+        let event = elementRegistry.get('Event_1');
+
+        // when
+        changeTemplate(event, newTemplate);
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        event = elementRegistry.get('Event_1');
+        expectElementTemplate(event, 'event-template', 1);
+
+        const message = findMessage(getBusinessObject(event));
+        const subscription = findZeebeSubscription(message);
+
+        expect(subscription).to.exist;
+        expect(subscription.get('correlationKey')).to.equal('correlationKey');
+      }));
+    });
+
+
     describe('generated value', function() {
 
       beforeEach(bootstrap(require('./generated-values.bpmn').default));
