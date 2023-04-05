@@ -292,7 +292,7 @@ function FeelTextAreaProperty(props) {
         translate = useService('translate');
 
   const TextAreaComponent =
-    isIOMappingProperty(property)
+    !isExternalProperty(property)
       ? FeelTextAreaEntryWithVariableContext
       : FeelTextAreaEntry;
 
@@ -330,7 +330,7 @@ function FeelProperty(props) {
         translate = useService('translate');
 
   const TextFieldComponent =
-    isIOMappingProperty(property)
+    !isExternalProperty(property)
       ? FeelEntryWithVariableContext
       : FeelEntry;
 
@@ -483,11 +483,11 @@ function findCustomGroup(groups, id) {
 }
 
 /**
- * Is the given propery backed by an IO mapping?
+ * Is the given property executed by the engine?
  *
  * @param { { binding: { type: string } } } property
  * @return {boolean}
  */
-function isIOMappingProperty(property) {
-  return [ 'zeebe:input', 'zeebe:output' ].includes(property.binding.type);
+function isExternalProperty(property) {
+  return [ 'zeebe:property', 'zeebe:taskHeader' ].includes(property.binding.type);
 }
