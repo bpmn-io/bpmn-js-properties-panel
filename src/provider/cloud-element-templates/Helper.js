@@ -134,7 +134,13 @@ export function findTaskHeader(taskHeaders, binding) {
 
 export function findMessage(businessObject) {
   if (is(businessObject, 'bpmn:Event')) {
-    businessObject = businessObject.get('eventDefinitions')[0];
+    const eventDefinitions = businessObject.get('eventDefinitions');
+
+    if (!eventDefinitions || !eventDefinitions.length) {
+      return;
+    }
+
+    businessObject = eventDefinitions[0];
   }
 
   return businessObject.get('messageRef');
