@@ -269,6 +269,10 @@ function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
     if (is(element, 'bpmn:BoundaryEvent')) {
       return true;
     }
+
+    if (is(element, 'bpmn:IntermediateCatchEvent')) {
+      return true;
+    }
     return false;
 
   case 'timeCycle':
@@ -287,6 +291,10 @@ function isTimerDefinitionTypeSupported(timerDefinitionType, element) {
     }
 
     if (is(element, 'bpmn:BoundaryEvent')) {
+      return true;
+    }
+
+    if (is(element, 'bpmn:StartEvent') && isInEventSubProcess(businessObject)) {
       return true;
     }
     return false;

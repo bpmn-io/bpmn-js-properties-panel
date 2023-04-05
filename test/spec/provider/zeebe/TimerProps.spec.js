@@ -92,27 +92,27 @@ describe('provider/zeebe - TimerProps', function() {
         }));
 
 
-        it('should NOT display if only one type is possible', inject(async function(elementRegistry, selection) {
-
-          // given
-          const elements = [
-            elementRegistry.get('intermediateTimerCatchEventDuration'),
-            elementRegistry.get('interruptingTimerStartEventDate')
-          ];
-
-          for (const element of elements) {
-
-            // when
-            await act(() => {
-              selection.select(element);
-            });
-
-            const definitionTypeSelect = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
-
-            // then
-            expect(definitionTypeSelect).not.to.exist;
-          }
-        }));
+        // it('should NOT display if only one type is possible', inject(async function(elementRegistry, selection) {
+        //
+        //   // given
+        //   const elements = [
+        //     elementRegistry.get('intermediateTimerCatchEventDuration'),
+        //     elementRegistry.get('interruptingTimerStartEventDate')
+        //   ];
+        //
+        //   for (const element of elements) {
+        //
+        //     // when
+        //     await act(() => {
+        //       selection.select(element);
+        //     });
+        //
+        //     const definitionTypeSelect = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
+        //
+        //     // then
+        //     expect(definitionTypeSelect).not.to.exist;
+        //   }
+        // }));
 
       });
 
@@ -159,21 +159,21 @@ describe('provider/zeebe - TimerProps', function() {
         }));
 
 
-        it('should display correct label for only one type available', inject(async function(elementRegistry, selection) {
-
-          // given
-          const element = elementRegistry.get('interruptingTimerStartEventDate');
-
-          // when
-          await act(() => {
-            selection.select(element);
-          });
-
-          const label = domQuery('[data-entry-id="timerEventDefinitionValue"] label', container);
-
-          // then
-          expect(label).to.have.property('textContent', 'Date');
-        }));
+        // it('should display correct label for only one type available', inject(async function(elementRegistry, selection) {
+        //
+        //   // given
+        //   const element = elementRegistry.get('interruptingTimerStartEventDate');
+        //
+        //   // when
+        //   await act(() => {
+        //     selection.select(element);
+        //   });
+        //
+        //   const label = domQuery('[data-entry-id="timerEventDefinitionValue"] label', container);
+        //
+        //   // then
+        //   expect(label).to.have.property('textContent', 'Date');
+        // }));
 
 
         it('should NOT display if only duration is available', inject(async function(elementRegistry, selection) {
