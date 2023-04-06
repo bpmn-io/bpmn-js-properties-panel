@@ -4,7 +4,8 @@ import {
 } from '../element-templates/components';
 
 import {
-  CustomProperties
+  CustomProperties,
+  MessageProps
 } from './properties';
 
 import { getTemplateId } from './Helper';
@@ -27,6 +28,9 @@ export default class ElementTemplatesPropertiesProvider {
 
   getGroups(element) {
     return (groups) => {
+
+      updateMessageGroup(groups, element);
+
       if (!this._shouldShowTemplateProperties(element)) {
         return groups;
       }
@@ -84,6 +88,29 @@ ElementTemplatesPropertiesProvider.$inject = [
 
 
 // helper /////////////////////
+
+function updateMessageGroup(groups, element) {
+  const messageGroup = findGroup(groups, 'message');
+
+  if (!messageGroup) {
+    return;
+  }
+
+  messageGroup.entries = overrideGenericEntries(
+    messageGroup.entries,
+    MessageProps({ element })
+  );
+}
+
+function findGroup(groups, id) {
+  return groups.find(g => g.id === id);
+}
+
+function overrideGenericEntries(oldEntries, newEntries) {
+  return oldEntries.map(oldEntry => (
+    newEntries.find(newEntry => newEntry.id === oldEntry.id) || oldEntry
+  ));
+}
 
 /**
  *
