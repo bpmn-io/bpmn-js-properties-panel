@@ -75,5 +75,24 @@
     "isDefault": true,
     "appliesTo": [ "bpmn:ServiceTask" ],
     "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "messageTemplate",
+    "appliesTo": [
+      "bpmn:IntermediateCatchEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        }
+      }
+    ]
   }
 ]
