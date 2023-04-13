@@ -1494,7 +1494,7 @@ describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function(
 
       beforeEach(bootstrap(require('./event.bpmn').default));
 
-      const newTemplate = require('./event-template-1.json');
+      const newTemplate = require('./event-template-2.json');
 
 
       it('execute', inject(function(elementRegistry) {
@@ -1606,6 +1606,31 @@ describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function(
           expect(message.get('zeebe:modelerTemplate')).to.equal(newTemplate.id);
         })
       );
+
+
+      it('should create a new message but keep existing one on definitions', inject(
+        function(elementRegistry, bpmnjs) {
+
+          // given
+          const newTemplate = require('./event-template-1.json');
+          let event = elementRegistry.get('Event_2');
+          const originalMessage = findMessage(getBusinessObject(event));
+
+          // when
+          changeTemplate(event, newTemplate);
+
+          // then
+          event = elementRegistry.get('Event_2');
+          expectElementTemplate(event, newTemplate.id, 1);
+
+          const message = findMessage(getBusinessObject(event));
+          expect(message).to.exist;
+
+          const definitions = bpmnjs.getDefinitions(event);
+          const rootElements = definitions.get('rootElements');
+          expect(rootElements.find(e => e === message)).to.exist;
+          expect(rootElements.find(e => e === originalMessage)).to.exist;
+        }));
     });
 
 
