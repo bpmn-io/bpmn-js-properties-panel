@@ -47,41 +47,44 @@ describe('provider/cloud-element-template - templateUtil', function() {
   }));
 
 
-  it('should unlink task template', inject(function(elementRegistry, injector) {
+  describe('#unlinkTemplate', function() {
 
-    // given
-    const task = elementRegistry.get('Task_1');
+    it('should unlink task template', inject(function(elementRegistry, injector) {
 
-    // when
-    unlinkTemplate(task, injector);
+      // given
+      const task = elementRegistry.get('Task_1');
 
-    // then
-    const taskBo = getBusinessObject(task);
+      // when
+      unlinkTemplate(task, injector);
 
-    expect(taskBo.modelerTemplate).not.to.exist;
-    expect(taskBo.modelerTemplateVersion).not.to.exist;
-    expect(taskBo.name).to.equal('foo');
-  }));
+      // then
+      const taskBo = getBusinessObject(task);
 
-
-  it('should remove template icon', inject(function(elementRegistry, injector) {
-
-    // given
-    let task = elementRegistry.get('Task_2');
-
-    // assume
-    expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.exist;
-
-    // when
-    unlinkTemplate(task, injector);
-
-    // then
-    task = elementRegistry.get('Task_1');
-    expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.not.exist;
-  }));
+      expect(taskBo.modelerTemplate).not.to.exist;
+      expect(taskBo.modelerTemplateVersion).not.to.exist;
+      expect(taskBo.name).to.equal('foo');
+    }));
 
 
-  describe('removal', function() {
+    it('should remove template icon', inject(function(elementRegistry, injector) {
+
+      // given
+      let task = elementRegistry.get('Task_2');
+
+      // assume
+      expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.exist;
+
+      // when
+      unlinkTemplate(task, injector);
+
+      // then
+      task = elementRegistry.get('Task_1');
+      expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.not.exist;
+    }));
+  });
+
+
+  describe('#removeTemplate', function() {
 
     it('should remove task template', inject(function(elementRegistry, injector) {
 
@@ -139,43 +142,45 @@ describe('provider/cloud-element-template - templateUtil', function() {
       expect(label).to.eql('Text Annotation');
     }));
 
+
+    it('should remove conditional event template', inject(function(elementRegistry, injector) {
+
+      // given
+      let event = elementRegistry.get('ConditionalEvent');
+
+      // when
+      removeTemplate(event, injector);
+
+      // then
+      event = elementRegistry.get('ConditionalEvent');
+      const eventBo = getBusinessObject(event);
+
+      expect(eventBo.modelerTemplate).not.to.exist;
+      expect(eventBo.modelerTemplateVersion).not.to.exist;
+      expect(eventBo.eventDefinitions).to.have.length(1);
+    }));
   });
 
 
-  it('should remove conditional event template', inject(function(elementRegistry, injector) {
+  describe('#updateTemplate', function() {
 
-    // given
-    let event = elementRegistry.get('ConditionalEvent');
+    it('should update template', inject(function(elementRegistry, injector) {
 
-    // when
-    removeTemplate(event, injector);
+      // given
+      const newTemplate = templates.find(
+        template => template.id === 'foo' && template.version === 2);
+      const task = elementRegistry.get('Task_1');
 
-    // then
-    event = elementRegistry.get('ConditionalEvent');
-    const eventBo = getBusinessObject(event);
+      // when
+      updateTemplate(task, newTemplate, injector);
 
-    expect(eventBo.modelerTemplate).not.to.exist;
-    expect(eventBo.modelerTemplateVersion).not.to.exist;
-    expect(eventBo.eventDefinitions).to.have.length(1);
-  }));
+      // then
+      const taskBo = getBusinessObject(task);
 
-
-  it('should update template', inject(function(elementRegistry, injector) {
-
-    // given
-    const newTemplate = templates.find(
-      template => template.id === 'foo' && template.version === 2);
-    const task = elementRegistry.get('Task_1');
-
-    // when
-    updateTemplate(task, newTemplate, injector);
-
-    // then
-    const taskBo = getBusinessObject(task);
-
-    expect(taskBo.modelerTemplate).to.eql('foo');
-    expect(taskBo.modelerTemplateVersion).to.eql(2);
-  }));
+      expect(taskBo.modelerTemplate).to.eql('foo');
+      expect(taskBo.modelerTemplateVersion).to.eql(2);
+    }));
+  });
 
 
   describe('#getVersionOrDateFromTemplate', function() {
