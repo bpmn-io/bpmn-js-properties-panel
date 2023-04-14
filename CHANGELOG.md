@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.21.0
+
+* `FEAT`: add `setLayout` method to change the layout of a properties panel instance ([#891](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/891))
+
 # 1.20.3
 
 * `FIX`: only provide variable suggestions for fields backed by IO mappings ([#902](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/902)
@@ -16,7 +20,7 @@ ___Note:__ Yet to be released changes appear here._
 
 # 1.20.1
 
-* `FIX`: esure element template properties order is maintained ([#898](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/898))
+* `FIX`: ensure element template properties order is maintained ([#898](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/898))
 
 # 1.20.0
 
