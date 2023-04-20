@@ -1,5 +1,6 @@
 import { getBusinessObject, isAny } from 'bpmn-js/lib/util/ModelUtil';
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
+import { isString } from 'min-dash';
 
 import { findMessage, getTemplateId, TEMPLATE_ID_ATTR } from './Helper';
 
@@ -26,16 +27,16 @@ export class ReferencedElementBehavior extends CommandInterceptor {
   }
 
   /**
-   * Remove template id from referenced element when template is unlinked.
+   * Remove referenced element when template is unlinked.
    */
   _handlePropertiesUpdate(context) {
-    const { element } = context;
+    const { element, properties } = context;
 
     if (!canHaveReferencedElement(element)) {
       return;
     }
 
-    if (getTemplateId(element)) {
+    if (!(TEMPLATE_ID_ATTR in properties) || isString(properties[TEMPLATE_ID_ATTR])) {
       return;
     }
 
@@ -43,9 +44,13 @@ export class ReferencedElementBehavior extends CommandInterceptor {
     const message = findMessage(bo);
 
     if (message && getTemplateId(message)) {
-      this._modeling.updateModdleProperties(element, message, {
-        [TEMPLATE_ID_ATTR]: undefined
+      const messageEventDefinition = bo.eventDefinitions[0];
+
+      this._modeling.updateModdleProperties(element, messageEventDefinition, {
+        'messageRef': undefined
       });
+
+      this._removeRootElement(message);
     }
   }
 
