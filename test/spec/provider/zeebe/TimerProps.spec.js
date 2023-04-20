@@ -620,8 +620,10 @@ describe('provider/zeebe - TimerProps', function() {
           expect(orginalTimer.timeDuration).not.to.exist;
 
           // when
-          const textField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
+          const select = domQuery('#bio-properties-panel-timerEventDefinitionType', container);
+          changeInput(select, 'timeDuration');
 
+          const textField = domQuery('#bio-properties-panel-timerEventDefinitionDurationValue', container);
           changeInput(textField, 'fooBar');
 
           // then
