@@ -42,31 +42,53 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
   }));
 
 
+  describe('apply template', function() {
+
+    it('should NOT remove message when template is applied', inject(
+      function(elementRegistry, elementTemplates) {
+
+        // given
+        const event = elementRegistry.get('MessageEvent_2');
+        const initialMessages = getMessages();
+
+        // when
+        elementTemplates.applyTemplate(event, templates[0]);
+
+        // then
+        expect(getMessages()).to.have.lengthOf(initialMessages.length + 1);
+      })
+    );
+  });
+
+
   describe('unlink template', function() {
 
-    it('should unlink message event template', inject(function(elementRegistry, injector) {
+    it('should remove templated message when template is unlinked', inject(
+      function(elementRegistry, injector) {
 
-      // given
-      const event = elementRegistry.get('MessageEvent');
+        // given
+        const event = elementRegistry.get('MessageEvent');
+        const initialMessages = getMessages();
 
-      // when
-      unlinkTemplate(event, injector);
+        // when
+        unlinkTemplate(event, injector);
 
-      // then
-      const eventBo = getBusinessObject(event);
+        // then
+        const eventBo = getBusinessObject(event);
 
-      expect(eventBo.modelerTemplate).not.to.exist;
-      expect(eventBo.modelerTemplateVersion).not.to.exist;
-      expect(eventBo.name).to.equal('Event');
+        expect(eventBo.modelerTemplate).not.to.exist;
+        expect(eventBo.modelerTemplateVersion).not.to.exist;
+        expect(eventBo.name).to.equal('Event');
 
-      const eventDefinitions = eventBo.get('eventDefinitions');
-      expect(eventDefinitions).to.have.length(1);
+        const eventDefinitions = eventBo.get('eventDefinitions');
+        expect(eventDefinitions).to.have.length(1);
 
-      const message = eventDefinitions[0].get('messageRef');
-      expect(message).to.exist;
-      expect(message.get('name')).to.eql('messageName');
-      expect(message.get('zeebe:modelerTemplate')).not.to.exist;
-    }));
+        const message = eventDefinitions[0].get('messageRef');
+        expect(message).not.to.exist;
+
+        expect(getMessages()).to.have.lengthOf(initialMessages.length - 1);
+      })
+    );
   });
 
 
@@ -98,22 +120,6 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
 
       expect(getMessages()).to.have.lengthOf(initialMessages.length - 1);
     }));
-
-
-    it('should NOT remove message when template is applied', inject(
-      function(elementRegistry, elementTemplates) {
-
-        // given
-        const event = elementRegistry.get('MessageEvent_2');
-        const initialMessages = getMessages();
-
-        // when
-        elementTemplates.applyTemplate(event, templates[0]);
-
-        // then
-        expect(getMessages()).to.have.lengthOf(initialMessages.length + 1);
-      })
-    );
   });
 
 
@@ -148,6 +154,41 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
         // then
         expect(elementRegistry.get('MessageEvent')).to.exist;
         expect(getMessages()).to.have.lengthOf(initialMessages.length);
+      })
+    );
+  });
+
+
+  describe('replace element', function() {
+
+    it('should remove templated message when element replaced', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        let event = elementRegistry.get('MessageEvent');
+        const initialMessages = getMessages();
+
+        // when
+        bpmnReplace.replaceElement(event, {
+          type: 'bpmn:IntermediateCatchEvent',
+          eventDefinitionType: 'bpmn:TimerEventDefinition'
+        });
+
+        // then
+        event = elementRegistry.get('MessageEvent');
+        const eventBo = getBusinessObject(event);
+
+        expect(eventBo.modelerTemplate).not.to.exist;
+        expect(eventBo.modelerTemplateVersion).not.to.exist;
+        expect(eventBo.name).to.equal('Event');
+
+        const eventDefinitions = eventBo.get('eventDefinitions');
+        expect(eventDefinitions).to.have.length(1);
+
+        const message = eventDefinitions[0].get('messageRef');
+        expect(message).not.to.exist;
+
+        expect(getMessages()).to.have.lengthOf(initialMessages.length - 1);
       })
     );
   });
