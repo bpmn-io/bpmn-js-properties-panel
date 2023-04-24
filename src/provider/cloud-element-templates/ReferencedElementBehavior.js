@@ -8,7 +8,7 @@ import { findMessage, getTemplateId, TEMPLATE_ID_ATTR } from './Helper';
  * Handles referenced elements.
  */
 export class ReferencedElementBehavior extends CommandInterceptor {
-  constructor(eventBus, elementTemplates, modeling, canvas, bpmnjs) {
+  constructor(eventBus, elementTemplates, modeling, canvas, bpmnjs, moddleCopy, bpmnFactory) {
     super(eventBus);
 
     this._eventBus = eventBus;
@@ -24,6 +24,27 @@ export class ReferencedElementBehavior extends CommandInterceptor {
     this.postExecuted('shape.replace', this._handleReplacement, true, this);
 
     this.postExecuted('shape.delete', this._handleRemoval, true, this);
+
+
+    // copy templated root element when pasting
+    eventBus.on('copyPaste.pasteElement', function(context) {
+      const {
+        referencedRootElement
+      } = context.descriptor;
+
+      if (!referencedRootElement) {
+        return;
+      }
+
+      if (!getTemplateId(referencedRootElement)) {
+        return;
+      }
+
+      context.descriptor.referencedRootElement = moddleCopy.copyElement(
+        referencedRootElement,
+        bpmnFactory.create(referencedRootElement.$type)
+      );
+    });
   }
 
   /**
@@ -113,7 +134,9 @@ ReferencedElementBehavior.$inject = [
   'elementTemplates',
   'modeling',
   'canvas',
-  'bpmnjs'
+  'bpmnjs',
+  'moddleCopy',
+  'bpmnFactory'
 ];
 
 function canHaveReferencedElement(element) {
