@@ -129,3 +129,15 @@ export function findTaskHeader(taskHeaders, binding) {
     return header.key === binding.key;
   });
 }
+
+export function findMessage(businessObject) {
+  if (is(businessObject, 'bpmn:Event')) {
+    businessObject = businessObject.get('eventDefinitions')[0];
+  }
+
+  return businessObject.get('messageRef');
+}
+
+export function findZeebeSubscripton(message) {
+  return findExtension(message, 'zeebe:Subscription');
+}

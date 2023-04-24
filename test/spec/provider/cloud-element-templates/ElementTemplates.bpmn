@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-rc.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_08adx7k" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.8.0-rc.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:task id="Task_1" zeebe:modelerTemplate="foo" />
     <bpmn:task id="Task_2" zeebe:modelerTemplate="foo" zeebe:modelerTemplateVersion="1" />
@@ -18,7 +18,15 @@
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:intermediateThrowEvent id="IntermediateThrow" />
+    <bpmn:intermediateCatchEvent id="MessageCatch">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0mtk8nq" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="IntermediateCatchMessage">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0hexnlk" messageRef="Message" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
+  <bpmn:message id="Message"/>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="Activity_1srimyz_di" bpmnElement="Task_1">
@@ -38,6 +46,15 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1f9tp9t_di" bpmnElement="ConfiguredTask">
         <dc:Bounds x="270" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07znust_di" bpmnElement="IntermediateThrow">
+        <dc:Bounds x="182" y="362" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ah90fv_di" bpmnElement="MessageCatch">
+        <dc:Bounds x="252" y="362" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12vn43k_di" bpmnElement="IntermediateCatchMessage">
+        <dc:Bounds x="322" y="362" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
