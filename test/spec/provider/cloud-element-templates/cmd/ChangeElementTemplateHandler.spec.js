@@ -1559,6 +1559,56 @@ describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function(
     });
 
 
+    describe('create message with zeebe:modelerTemplate', function() {
+
+      beforeEach(bootstrap(require('./event.bpmn').default));
+
+
+      it('should apply zeebe:modelerTemplate if bpmn:Message#property specified', inject(
+        function(elementRegistry) {
+
+          // given
+          const newTemplate = require('./event-template-1.json');
+          let event = elementRegistry.get('Event_1');
+
+          // when
+          changeTemplate(event, newTemplate);
+
+          // then
+          event = elementRegistry.get('Event_1');
+          expectElementTemplate(event, newTemplate.id, 1);
+
+          const message = findMessage(getBusinessObject(event));
+
+          expect(message).to.exist;
+          expect(message.get('zeebe:modelerTemplate')).to.equal(newTemplate.id);
+        })
+      );
+
+
+      it('should apply zeebe:modelerTemplate if bpmn:Message#zeebe:subscription#property specified', inject(
+        function(elementRegistry) {
+
+          // given
+          const newTemplate = require('./event-template-2.json');
+          let event = elementRegistry.get('Event_1');
+
+          // when
+          changeTemplate(event, newTemplate);
+
+          // then
+          event = elementRegistry.get('Event_1');
+          expectElementTemplate(event, newTemplate.id, 1);
+
+          const message = findMessage(getBusinessObject(event));
+
+          expect(message).to.exist;
+          expect(message.get('zeebe:modelerTemplate')).to.equal(newTemplate.id);
+        })
+      );
+    });
+
+
     describe('generated value', function() {
 
       beforeEach(bootstrap(require('./generated-values.bpmn').default));

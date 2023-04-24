@@ -133,6 +133,42 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
   }));
 
 
+  it('should apply <modelerTemplate> on templated message (bpmn:Message#property)',
+    inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = findTemplate('example.camunda.MessageTemplate');
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+
+      const businessObject = getBusinessObject(element);
+      const message = findMessage(businessObject);
+
+      // then
+      expect(message.get('zeebe:modelerTemplate')).to.equal('example.camunda.MessageTemplate');
+    })
+  );
+
+
+  it('should apply <modelerTemplate> on templated message (bpmn:Message#zeebe:subscription#property',
+    inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = findTemplate('example.camunda.SubscriptionMessageTemplate');
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+
+      const businessObject = getBusinessObject(element);
+      const message = findMessage(businessObject);
+
+      // then
+      expect(message.get('zeebe:modelerTemplate')).to.equal('example.camunda.SubscriptionMessageTemplate');
+    })
+  );
+
+
   describe('providers', function() {
 
 

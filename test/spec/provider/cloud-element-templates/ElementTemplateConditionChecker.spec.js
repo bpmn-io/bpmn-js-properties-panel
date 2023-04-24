@@ -862,6 +862,20 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
       expect(message).not.to.have.property('name');
     }));
 
+
+    it('should set zeebe:modelerTemplate on created message', inject(function(elementRegistry) {
+
+      // given
+      let element = elementRegistry.get('Event_3');
+
+      // when
+      element = changeTemplate(element, template);
+
+      // then
+      const message = findMessage(getBusinessObject(element));
+
+      expect(message.get('zeebe:modelerTemplate')).to.eql(template.id);
+    }));
   });
 
 
@@ -998,6 +1012,21 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
 
       // then
       expect(subscription).not.to.have.property('correlationKey');
+    }));
+
+
+    it('should set zeebe:modelerTemplate on created message', inject(function(elementRegistry) {
+
+      // given
+      let element = elementRegistry.get('SubscriptionEvent_3');
+
+      // when
+      element = changeTemplate(element, template);
+
+      // then
+      const message = findMessage(getBusinessObject(element));
+
+      expect(message.get('zeebe:modelerTemplate')).to.eql(template.id);
     }));
 
   });
