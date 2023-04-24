@@ -25,9 +25,11 @@ import {
 import {
   findExtension,
   findInputParameter,
+  findMessage,
   findOutputParameter,
   findTaskHeader,
-  findZeebeProperty
+  findZeebeProperty,
+  findZeebeSubscripton
 } from 'src/provider/cloud-element-templates/Helper';
 
 import coreModule from 'bpmn-js/lib/core';
@@ -684,6 +686,195 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
       // then
       expect(zeebeProperty).not.to.exist;
+    }));
+
+  });
+
+
+  describe('bpmn:Message#property', function() {
+
+
+    it('should display', async function() {
+
+      // when
+      await expectSelected('MessageEvent');
+
+      // then
+      const entry = findEntry('custom-entry-messageEventTemplate-0', container),
+            input = findInput('text', entry);
+
+      expect(entry).to.exist;
+      expect(input).to.exist;
+      expect(input.value).to.equal('name');
+    });
+
+
+    it('should NOT display (type=hidden)', async function() {
+
+      // when
+      await expectSelected('MessageEvent_hidden');
+
+      // then
+      const entry = findEntry('custom-entry-messageEventTemplate_hidden-0', container);
+
+      expect(entry).to.not.exist;
+    });
+
+
+    it('should change, setting bpmn:Message#property (plain)', async function() {
+
+      // given
+      const event = await expectSelected('MessageEvent'),
+            businessObject = getBusinessObject(event);
+
+      // when
+      const entry = findEntry('custom-entry-messageEventTemplate-0', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'meaningfulMessageName');
+
+      // then
+      const message = findMessage(businessObject);
+
+      expect(message).to.exist;
+      expect(message).to.have.property('name', 'meaningfulMessageName');
+    });
+
+
+    it('should change, creating bpmn:Message if non-existing', async function() {
+
+      // given
+      const event = await expectSelected('MessageEvent_noData'),
+            businessObject = getBusinessObject(event);
+
+      // when
+      const entry = findEntry('custom-entry-messageEventTemplate-0', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'meaningfulMessageName');
+
+      // then
+      const message = findMessage(businessObject);
+
+      // then
+      expect(message).to.exist;
+      expect(message).to.have.property('name', 'meaningfulMessageName');
+    });
+
+
+    it('should NOT remove bpmn:Message when changed to empty value', inject(async function() {
+
+      // given
+      const event = await expectSelected('MessageEvent'),
+            businessObject = getBusinessObject(event);
+
+      // when
+      const entry = findEntry('custom-entry-messageEventTemplate-0', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const message = findMessage(businessObject);
+
+      expect(message).to.exist;
+      expect(message).to.have.property('name', '');
+    }));
+
+  });
+
+
+  describe('bpmn:Message#zeebe:subscription#property', function() {
+
+
+    it('should display', async function() {
+
+      // when
+      await expectSelected('MessageEvent');
+
+      // then
+      const entry = findEntry('custom-entry-messageEventTemplate-1', container),
+            input = findInput('text', entry);
+
+      expect(entry).to.exist;
+      expect(input).to.exist;
+      expect(input.value).to.equal('correlationKey');
+    });
+
+
+    it('should NOT display (type=hidden)', async function() {
+
+      // when
+      await expectSelected('MessageEvent_hidden');
+
+      // then
+      const entry = findEntry('custom-entry-messageEventTemplate_hidden-1', container);
+
+      expect(entry).to.not.exist;
+    });
+
+
+    it('should change, setting zeebe:subscription#property (plain)', async function() {
+
+      // given
+      const event = await expectSelected('MessageEvent'),
+            businessObject = getBusinessObject(event);
+
+      // when
+      const entry = findEntry('custom-entry-messageEventTemplate-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'meaningfulCorrelationKey');
+
+      // then
+      const message = findMessage(businessObject);
+      const subscription = findZeebeSubscripton(message);
+
+      expect(subscription).to.exist;
+      expect(subscription).to.have.property('correlationKey', 'meaningfulCorrelationKey');
+    });
+
+
+    it('should change, creating bpmn:Message if non-existing', async function() {
+
+      // given
+      const event = await expectSelected('MessageEvent_noData'),
+            businessObject = getBusinessObject(event);
+
+      // when
+      const entry = findEntry('custom-entry-messageEventTemplate-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, 'meaningfulCorrelationKey');
+
+      // then
+      const message = findMessage(businessObject);
+      const subscription = findZeebeSubscripton(message);
+
+      // then
+      expect(subscription).to.exist;
+      expect(subscription).to.have.property('correlationKey', 'meaningfulCorrelationKey');
+    });
+
+
+    it('should NOT remove zeebe:subscription when changed to empty value', inject(async function() {
+
+      // given
+      const event = await expectSelected('MessageEvent'),
+            businessObject = getBusinessObject(event);
+
+      // when
+      const entry = findEntry('custom-entry-messageEventTemplate-1', container),
+            input = findInput('text', entry);
+
+      changeInput(input, '');
+
+      // then
+      const message = findMessage(businessObject);
+      const subscription = findZeebeSubscripton(message);
+
+      expect(subscription).to.exist;
+      expect(subscription).to.have.property('correlationKey', '');
     }));
 
   });

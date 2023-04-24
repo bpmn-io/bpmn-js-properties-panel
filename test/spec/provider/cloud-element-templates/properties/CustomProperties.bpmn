@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_00cqa19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.13.0-nightly.20220123">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_00cqa19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:serviceTask id="RestTask" name="REST Task" zeebe:modelerTemplate="com.example.rest">
       <bpmn:extensionElements>
@@ -41,14 +41,33 @@
       </bpmn:extensionElements>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="DropdownNoSelection" name="DropdownNoSelection" zeebe:modelerTemplate="my.example.dropdown-1" />
-    <bpmn:serviceTask id="OptionalDropdownTask" name="OptionalDropdownTask" zeebe:modelerTemplate="my.example.dropdown-2" >
+    <bpmn:serviceTask id="OptionalDropdownTask" name="OptionalDropdownTask" zeebe:modelerTemplate="my.example.dropdown-2">
       <bpmn:extensionElements>
         <zeebe:ioMapping>
           <zeebe:input source="low" target="valueInput" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="MessageEvent" name="Displayed" zeebe:modelerTemplate="messageEventTemplate">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0mxf9ma" messageRef="Message" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="MessageEvent_hidden" name="Hidden" zeebe:modelerTemplate="messageEventTemplateHidden">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0migon0" messageRef="Message_hidden" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="MessageEvent_noData" name="No data" zeebe:modelerTemplate="messageEventTemplate">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1hzq0o7" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
+  <bpmn:message id="Message" name="name">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="correlationKey" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="Message_hidden" name="hiddenName">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="correlationKey" />
+    </bpmn:extensionElements>
+  </bpmn:message>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="Activity_1d5ac68_di" bpmnElement="RestTask">
@@ -80,6 +99,24 @@
       <bpmndi:BPMNShape id="BPMNShape_0v9dgs2" bpmnElement="OptionalDropdownTask">
         <dc:Bounds x="500" y="480" width="100" height="80" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0s72lq5_di" bpmnElement="MessageEvent">
+        <dc:Bounds x="132" y="652" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="126" y="695" width="49" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0kkwpp4" bpmnElement="MessageEvent_hidden">
+        <dc:Bounds x="192" y="652" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="193" y="695" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1upeqbd" bpmnElement="MessageEvent_noData">
+        <dc:Bounds x="132" y="722" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="131" y="765" width="39" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
