@@ -1,7 +1,8 @@
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
 import ReplaceModule from 'bpmn-js/lib/features/replace';
-import { is } from 'bpmn-js/lib/util/ModelUtil';
+import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
+import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import {
   bootstrapModeler,
@@ -13,14 +14,10 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ElementTemplatesModule from 'src/provider/cloud-element-templates';
 import { removeTemplate, unlinkTemplate } from 'src/provider/cloud-element-templates/util/templateUtil';
+import { findMessage } from 'src/provider/cloud-element-templates/Helper';
 
-
-import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
-
-import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import diagramXML from './fixtures/referenced-element-behavior.bpmn';
-
 import templates from './fixtures/referenced-element-behavior.json';
 
 
@@ -193,6 +190,57 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
     );
   });
 
+
+  describe('copy element', function() {
+
+    it('should create new message when element copied', inject(
+      function(elementRegistry, copyPaste, canvas) {
+
+        // given
+        const element = elementRegistry.get('MessageEvent');
+        const copiedMessage = findMessage(getBusinessObject(element));
+        const initialMessages = getMessages();
+
+        // when
+        copyPaste.copy([ element ]);
+
+        const [ pastedShape ] = copyPaste.paste({
+          element: canvas.getRootElement(),
+          point: { x: 100, y: 100 }
+        });
+        const pastedMessage = findMessage(getBusinessObject(pastedShape));
+
+        // then
+        expect(getMessages()).to.have.lengthOf(initialMessages.length + 1);
+        expect(pastedMessage).to.exist;
+        expect(pastedMessage).not.to.eql(copiedMessage);
+      })
+    );
+
+
+    it('should NOT create new message when non-templated element copied', inject(
+      function(elementRegistry, copyPaste, canvas) {
+
+        // given
+        const element = elementRegistry.get('MessageEvent_2');
+        const copiedMessage = findMessage(getBusinessObject(element));
+        const initialMessages = getMessages();
+
+        // when
+        copyPaste.copy([ element ]);
+
+        const [ pastedShape ] = copyPaste.paste({
+          element: canvas.getRootElement(),
+          point: { x: 100, y: 100 }
+        });
+        const pastedMessage = findMessage(getBusinessObject(pastedShape));
+
+        // then
+        expect(getMessages()).to.have.lengthOf(initialMessages.length);
+        expect(pastedMessage).to.eql(copiedMessage);
+      })
+    );
+  });
 });
 
 
