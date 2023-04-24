@@ -1,5 +1,5 @@
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
-import { getDefaultValue } from '../Helper';
+import { getDefaultValue, getTemplateId } from '../Helper';
 
 export class MessagePropertyBindingProvider {
   static create(element, options) {
@@ -27,7 +27,7 @@ export class MessagePropertyBindingProvider {
     let message = businessObject.get('messageRef');
 
     if (!message) {
-      message = bpmnFactory.create('bpmn:Message');
+      message = bpmnFactory.create('bpmn:Message', { 'zeebe:modelerTemplate': getTemplateId(element) });
       businessObject.set('messageRef', message);
     }
 

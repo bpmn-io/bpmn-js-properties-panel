@@ -14,10 +14,10 @@
   "properties": [
     {
       "type": "Hidden",
-      "value": "name",
+      "value": "correlationKey",
       "binding": {
-        "type": "bpmn:Message#property",
-        "name": "name"
+        "type": "bpmn:Message#zeebe:subscription#property",
+        "name": "correlationKey"
       }
     }
   ]

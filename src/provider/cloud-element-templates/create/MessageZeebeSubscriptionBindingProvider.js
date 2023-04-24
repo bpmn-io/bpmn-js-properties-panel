@@ -4,7 +4,7 @@ import {
   ensureExtension,
   shouldUpdate
 } from '../CreateHelper';
-import { getDefaultValue } from '../Helper';
+import { getDefaultValue, getTemplateId } from '../Helper';
 
 export class MessageZeebeSubscriptionBindingProvider {
   static create(element, options) {
@@ -30,7 +30,7 @@ export class MessageZeebeSubscriptionBindingProvider {
 
     let message = businessObject.get('messageRef');
     if (!message) {
-      message = bpmnFactory.create('bpmn:Message');
+      message = bpmnFactory.create('bpmn:Message', { 'zeebe:modelerTemplate': getTemplateId(element) });
       businessObject.set('messageRef', message);
     }
 

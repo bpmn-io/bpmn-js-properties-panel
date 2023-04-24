@@ -29,7 +29,8 @@ import {
   findMessage,
   findOutputParameter,
   findZeebeProperty,
-  findZeebeSubscription
+  findZeebeSubscription,
+  getTemplateId
 } from '../Helper';
 
 import {
@@ -218,7 +219,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     let message = findMessage(businessObject);
 
     if (!message) {
-      message = bpmnFactory.create('bpmn:Message');
+      message = bpmnFactory.create('bpmn:Message', { 'zeebe:modelerTemplate': getTemplateId(element) });
 
       commands.push({
         cmd: 'element.updateModdleProperties',
