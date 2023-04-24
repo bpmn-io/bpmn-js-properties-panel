@@ -1,6 +1,7 @@
 import TestContainer from 'mocha-test-container-support';
 
 import {
+  is,
   isAny
 } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -355,6 +356,65 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       expect(element.businessObject.get('name')).to.eql('Rest Task');
       expect(extensionElements).to.exist;
       expect(extensionElements.get('values')).to.have.length(3);
+    }));
+
+
+    it('should create element with bpmn:MessageEventDefinition', inject(function(elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+
+      // when
+      const element = elementTemplates.createElement(templates[0]);
+
+      const businessObject = getBusinessObject(element);
+      const eventDefinitions = businessObject.get('eventDefinitions');
+
+      // then
+      expect(businessObject.get('name')).to.eql('Message Event');
+      expect(eventDefinitions).to.have.lengthOf(1);
+      expect(is(eventDefinitions[0], 'bpmn:MessageEventDefinition')).to.be.true;
+    }));
+
+
+    it('should create message', inject(function(elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+
+      // when
+      const element = elementTemplates.createElement(templates[0]);
+
+      const businessObject = getBusinessObject(element);
+      const eventDefinitions = businessObject.get('eventDefinitions');
+
+      // then
+      const message = eventDefinitions[0].get('messageRef');
+
+      expect(message).to.exist;
+      expect(message.get('name')).to.eql('hiddenName');
+    }));
+
+
+    it('should create message subscription', inject(function(elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+
+      // when
+      const element = elementTemplates.createElement(templates[1]);
+
+      const businessObject = getBusinessObject(element);
+      const eventDefinitions = businessObject.get('eventDefinitions');
+
+      // then
+      const message = eventDefinitions[0].get('messageRef');
+
+      expect(message).to.exist;
+
+      const subscription = findExtension(message, 'zeebe:Subscription');
+      expect(subscription).to.exist;
+      expect(subscription.get('correlationKey')).to.eql('=correlationKey');
     }));
 
 
