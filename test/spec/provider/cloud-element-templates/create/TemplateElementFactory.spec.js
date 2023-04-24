@@ -329,6 +329,45 @@ describe('provider/cloud-element-templates - TemplateElementFactory', function()
       ]);
     }));
 
+
+    it('should handle <bpmn:Message#property>', inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = findTemplate('example.camunda.MessageTemplate');
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+      const bo = getBusinessObject(element);
+
+      const eventDefinition = bo.get('eventDefinitions')[0];
+      const message = eventDefinition.get('messageRef');
+
+      // then
+      expect(message).to.exist;
+      expect(message).to.have.property('name', 'hard-coded');
+    }));
+
+
+    it('should handle <bpmn:Message#zeebe:subscription>', inject(function(templateElementFactory) {
+
+      // given
+      const elementTemplate = findTemplate('example.camunda.SubscriptionMessageTemplate');
+
+      // when
+      const element = templateElementFactory.create(elementTemplate);
+      const bo = getBusinessObject(element);
+
+      const eventDefinition = bo.get('eventDefinitions')[0];
+      const message = eventDefinition.get('messageRef');
+      const subscription = findExtension(message, 'zeebe:Subscription');
+
+      // then
+      expect(subscription).to.exist;
+      expect(subscription).to.jsonEqual({
+        $type: 'zeebe:Subscription',
+        correlationKey: '=variable'
+      });
+    }));
   });
 
 
