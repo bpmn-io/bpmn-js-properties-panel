@@ -571,6 +571,118 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       );
     }));
 
+
+    it('should apply event definition', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+      elementTemplates.set(templates);
+
+      const template = templates[0];
+      const event = elementRegistry.get('IntermediateThrow');
+
+      // assume
+      expect(template).to.exist;
+
+      // when
+      const updatedEvent = elementTemplates.applyTemplate(event, template);
+
+      // then
+      expect(updatedEvent).to.exist;
+      expect(elementTemplates.get(updatedEvent)).to.equal(template);
+
+      expect(is(updatedEvent, 'bpmn:IntermediateCatchEvent')).to.be.true;
+
+      const eventDefinitions = getBusinessObject(updatedEvent).get('eventDefinitions');
+      expect(eventDefinitions).to.have.length(1);
+      expect(is(eventDefinitions[0], 'bpmn:MessageEventDefinition')).to.be.true;
+    }));
+
+
+    it('should replace existing event definition', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+      elementTemplates.set(templates);
+
+      const template = templates[0];
+      const event = elementRegistry.get('IntermediateCatchMessage');
+      const oldMessageEventDefinition = getBusinessObject(event).get('eventDefinitions')[0];
+
+      // assume
+      expect(template).to.exist;
+
+      // when
+      const updatedEvent = elementTemplates.applyTemplate(event, template);
+
+      // then
+      expect(updatedEvent).to.exist;
+      expect(elementTemplates.get(updatedEvent)).to.equal(template);
+
+      expect(is(updatedEvent, 'bpmn:IntermediateCatchEvent')).to.be.true;
+
+      const eventDefinitions = getBusinessObject(updatedEvent).get('eventDefinitions');
+      expect(eventDefinitions).to.have.length(1);
+      expect(is(eventDefinitions[0], 'bpmn:MessageEventDefinition')).to.be.true;
+      expect(eventDefinitions[0]).not.to.eql(oldMessageEventDefinition);
+    }));
+
+
+    it('should apply message binding', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+      elementTemplates.set(templates);
+
+      const template = templates[0];
+      const event = elementRegistry.get('IntermediateCatchMessage');
+
+      // assume
+      expect(template).to.exist;
+
+      // when
+      const updatedEvent = elementTemplates.applyTemplate(event, template);
+
+      // then
+      const businessObject = getBusinessObject(updatedEvent);
+      const eventDefinitions = businessObject.get('eventDefinitions');
+
+      // then
+      const message = eventDefinitions[0].get('messageRef');
+
+      expect(message).to.exist;
+      expect(message.get('name')).to.eql('hiddenName');
+    }));
+
+
+    it('should apply message zeebe:subscription binding', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const templates = require('./fixtures/message.json');
+      elementTemplates.set(templates);
+
+      const template = templates[1];
+      const event = elementRegistry.get('IntermediateCatchMessage');
+
+      // assume
+      expect(template).to.exist;
+
+      // when
+      const updatedEvent = elementTemplates.applyTemplate(event, template);
+
+      // then
+      const businessObject = getBusinessObject(updatedEvent);
+      const eventDefinitions = businessObject.get('eventDefinitions');
+
+      // then
+      const message = eventDefinitions[0].get('messageRef');
+
+      expect(message).to.exist;
+
+      const subscription = findExtension(message, 'zeebe:Subscription');
+      expect(subscription).to.exist;
+      expect(subscription.get('correlationKey')).to.eql('=correlationKey');
+    }));
   });
 
 });

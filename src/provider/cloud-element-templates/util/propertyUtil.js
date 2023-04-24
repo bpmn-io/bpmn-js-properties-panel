@@ -1,4 +1,7 @@
-import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import {
+  getBusinessObject,
+  is
+} from 'bpmn-js/lib/util/ModelUtil';
 
 import {
   isUndefined, without
@@ -7,7 +10,10 @@ import {
 import {
   EXTENSION_BINDING_TYPES,
   IO_BINDING_TYPES,
-  PROPERTY_TYPE,
+  MESSAGE_BINDING_TYPES,
+  MESSAGE_PROPERTY_TYPE,
+  MESSAGE_ZEEBE_SUBSCRIPTION_PROPERTY_TYPE,
+  PROPERTY_BINDING_TYPES,
   TASK_DEFINITION_TYPES,
   ZEEBE_TASK_DEFINITION_TYPE_TYPE,
   ZEBBE_INPUT_TYPE,
@@ -20,6 +26,7 @@ import {
   findExtension,
   findTaskHeader,
   findInputParameter,
+  findMessage,
   findOutputParameter,
   findZeebeProperty
 } from '../Helper';
@@ -142,6 +149,36 @@ export function getPropertyValue(element, property, scope) {
     return defaultValue;
   }
 
+  // bpmn:Message#property
+  if (type === MESSAGE_PROPERTY_TYPE) {
+    const message = findMessage(businessObject);
+
+    const value = message ? message.get(name) : undefined;
+
+    if (!isUndefined(value)) {
+      return value;
+    }
+
+    return defaultValue;
+  }
+
+  // bpmn:Message#zeebe:subscription#property
+  if (type === MESSAGE_ZEEBE_SUBSCRIPTION_PROPERTY_TYPE) {
+    const message = findMessage(businessObject);
+
+    if (message) {
+      const subscription = findExtension(message, 'zeebe:Subscription');
+
+      const value = subscription ? subscription.get(name) : undefined;
+
+      if (!isUndefined(value)) {
+        return subscription.get(name);
+      }
+    }
+
+    return defaultValue;
+  }
+
   // should never throw as templates are validated beforehand
   throw unknownBindingError(element, property);
 }
@@ -171,6 +208,30 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
     property
   };
 
+  // ensure message exists
+  if (MESSAGE_BINDING_TYPES.includes(type)) {
+    if (is(businessObject, 'bpmn:Event')) {
+      businessObject = businessObject.get('eventDefinitions')[0];
+    }
+
+    let message = findMessage(businessObject);
+
+    if (!message) {
+      message = bpmnFactory.create('bpmn:Message');
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          ...context,
+          moddleElement: businessObject,
+          properties: { messageRef: message }
+        }
+      });
+    }
+
+    businessObject = message;
+  }
+
   // ensure extension elements
   if (EXTENSION_BINDING_TYPES.includes(type)) {
     extensionElements = businessObject.get('extensionElements');
@@ -192,7 +253,7 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
   }
 
   // property
-  if (type === PROPERTY_TYPE) {
+  if (PROPERTY_BINDING_TYPES.includes(type)) {
 
     const propertyDescriptor = businessObject.$descriptor.propertiesByName[ name ];
 
@@ -407,6 +468,35 @@ export function setPropertyValue(bpmnFactory, commandStack, element, property, v
         moddleElement: zeebeProperties,
         properties: {
           properties
+        }
+      }
+    });
+  }
+
+  // bpmn:Message#zeebe:subscription#property
+  if (type === MESSAGE_ZEEBE_SUBSCRIPTION_PROPERTY_TYPE) {
+    let subscription = findExtension(extensionElements, 'zeebe:Subscription');
+
+    if (!subscription) {
+      subscription = createElement('zeebe:Subscription', null, extensionElements, bpmnFactory);
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          ...context,
+          moddleElement: extensionElements,
+          properties: { values: [ ...extensionElements.get('values'), subscription ] }
+        }
+      });
+    }
+
+    commands.push({
+      cmd: 'element.updateModdleProperties',
+      context: {
+        element,
+        moddleElement: subscription,
+        properties: {
+          [ name ]: value || ''
         }
       }
     });
