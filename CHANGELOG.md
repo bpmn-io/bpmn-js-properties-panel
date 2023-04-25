@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `DEPS`: update to `@bpmn-io/element-templates-validator@0.14.0`
+
 # 1.21.0
 
 * `FEAT`: add `setLayout` method to change the layout of a properties panel instance ([#891](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/891))
