@@ -1,11 +1,13 @@
 [
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "foo",
     "name":"Foo",
     "appliesTo": [ "bpmn:Task" ],
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "foo",
     "name":"Foo 1",
     "version": 1,
@@ -22,6 +24,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "foo",
     "name":"Foo 2",
     "version": 2,
@@ -38,6 +41,7 @@
     ]
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "bar",
     "name":"Bar 1",
     "version": 1,
@@ -45,6 +49,7 @@
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "bar",
     "name":"Bar 2",
     "version": 2,
@@ -52,12 +57,14 @@
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "baz",
     "name":"Baz",
     "appliesTo": [ "bpmn:Task" ],
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "icon",
     "name":"Icon",
     "appliesTo": [ "bpmn:Task" ],
@@ -67,12 +74,14 @@
     }
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "id": "qux",
     "name":"Qux",
     "appliesTo": [ "bpmn:BaseElement" ],
     "properties": []
   },
   {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
     "name": "Message Event Template",
     "id": "messageEventTemplate",
     "appliesTo": [
@@ -87,6 +96,70 @@
       {
         "type": "Hidden",
         "value": "messageName",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=correlationKey",
+        "binding": {
+          "type": "bpmn:Message#zeebe:subscription#property",
+          "name": "correlationKey"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Message Event Template - outdated",
+    "id": "updateTemplate",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:IntermediateCatchEvent",
+      "bpmn:IntermediateThrowEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "type": "String",
+        "value": "version_1",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        }
+      },
+      {
+        "type": "Hidden",
+        "value": "=correlationKey",
+        "binding": {
+          "type": "bpmn:Message#zeebe:subscription#property",
+          "name": "correlationKey"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Message Event Template - new",
+    "id": "updateTemplate",
+    "version": 2,
+    "appliesTo": [
+      "bpmn:IntermediateCatchEvent",
+      "bpmn:IntermediateThrowEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "type": "String",
+        "value": "version_2",
         "binding": {
           "type": "bpmn:Message#property",
           "name": "name"

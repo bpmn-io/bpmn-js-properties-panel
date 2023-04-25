@@ -11,6 +11,9 @@
     <bpmn:intermediateCatchEvent id="MessageEvent" name="Event" zeebe:modelerTemplate="messageEventTemplate">
       <bpmn:messageEventDefinition id="MessageEventDefinition_0klf6zr" messageRef="Message_1" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="MessageEvent_2" zeebe:modelerTemplate="updateTemplate" zeebe:modelerTemplateVersion="1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ki3umf" messageRef="Message_2" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:group id="Group_1" categoryValueRef="CategoryValue_025ggwq" zeebe:modelerTemplate="qux" />
     <bpmn:textAnnotation id="TextAnnotation_1" zeebe:modelerTemplate="qux">
       <bpmn:text>Text Annotation</bpmn:text>
@@ -21,6 +24,11 @@
     <bpmn:categoryValue id="CategoryValue_025ggwq" value="Group Name" />
   </bpmn:category>
   <bpmn:message id="Message_1" name="messageName" zeebe:modelerTemplate="messageEventTemplate">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=correlationKey" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:message id="Message_2" name="version_1" zeebe:modelerTemplate="updateTemplate">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="=correlationKey" />
     </bpmn:extensionElements>
@@ -41,6 +49,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0cwpnu8_di" bpmnElement="MessageEvent">
         <dc:Bounds x="182" y="402" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0rxdmt7_di" bpmnElement="MessageEvent_2">
+        <dc:Bounds x="182" y="542" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_1_di" bpmnElement="Group_1">
         <dc:Bounds x="450" y="130" width="300" height="300" />

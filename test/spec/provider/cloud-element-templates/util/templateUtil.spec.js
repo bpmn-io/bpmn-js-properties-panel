@@ -4,6 +4,7 @@ import {
   unlinkTemplate,
   updateTemplate
 } from 'src/provider/cloud-element-templates/util/templateUtil';
+import { findMessage } from 'src/provider/cloud-element-templates/Helper';
 
 import TestContainer from 'mocha-test-container-support';
 
@@ -180,6 +181,54 @@ describe('provider/cloud-element-template - templateUtil', function() {
       expect(taskBo.modelerTemplate).to.eql('foo');
       expect(taskBo.modelerTemplateVersion).to.eql(2);
     }));
+
+
+    it('should update message event template', inject(function(elementRegistry, injector) {
+
+      // given
+      const newTemplate = templates.find(
+        template => template.id === 'updateTemplate' && template.version === 2);
+      let event = elementRegistry.get('MessageEvent_2');
+
+      // when
+      updateTemplate(event, newTemplate, injector);
+
+      // then
+      event = elementRegistry.get('MessageEvent_2');
+      const eventBo = getBusinessObject(event);
+
+      expect(eventBo.modelerTemplate).to.eql('updateTemplate');
+      expect(eventBo.modelerTemplateVersion).to.eql(2);
+
+      const message = findMessage(eventBo);
+      expect(message.name).to.eql('version_2');
+    }));
+
+
+    it('should update message event template but keep user-edited name',
+      inject(function(elementRegistry, modeling, injector) {
+
+        // given
+        const newTemplate = templates.find(
+          template => template.id === 'updateTemplate' && template.version === 2);
+        let event = elementRegistry.get('MessageEvent_2'),
+            eventBo = getBusinessObject(event);
+        modeling.updateModdleProperties(event, findMessage(eventBo), { name: 'user_edited' });
+
+        // when
+        updateTemplate(event, newTemplate, injector);
+
+        // then
+        event = elementRegistry.get('MessageEvent_2');
+        eventBo = getBusinessObject(event);
+
+        expect(eventBo.modelerTemplate).to.eql('updateTemplate');
+        expect(eventBo.modelerTemplateVersion).to.eql(2);
+
+        const message = findMessage(eventBo);
+        expect(message.name).to.eql('user_edited');
+      })
+    );
   });
 
 
