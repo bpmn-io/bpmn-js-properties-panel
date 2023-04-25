@@ -1,4 +1,4 @@
-import { getBusinessObject, isAny } from 'bpmn-js/lib/util/ModelUtil';
+import { getBusinessObject, is, isAny } from 'bpmn-js/lib/util/ModelUtil';
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 import { isString } from 'min-dash';
 
@@ -77,11 +77,14 @@ export class ReferencedElementBehavior extends CommandInterceptor {
 
   /**
    * Remove referenced element when template is removed.
+   * Keep referenced element when template is replaced.
    */
   _handleReplacement(context) {
-    const { oldShape } = context;
+    const { oldShape, newShape } = context;
+    const oldTemplate = getTemplateId(oldShape),
+          newTemplate = getTemplateId(newShape);
 
-    if (!canHaveReferencedElement(oldShape)) {
+    if (!canHaveReferencedElement(oldShape) || !oldTemplate) {
       return;
     }
 
@@ -92,7 +95,12 @@ export class ReferencedElementBehavior extends CommandInterceptor {
       return;
     }
 
-    this._removeRootElement(message);
+    if (!canHaveReferencedElement(newShape) || !newTemplate) {
+      this._removeRootElement(message);
+      return;
+    }
+
+    this._addMessage(newShape, message);
   }
 
   _handleRemoval(context) {
@@ -127,6 +135,14 @@ export class ReferencedElementBehavior extends CommandInterceptor {
       rootElements: rootElements.filter(e => e !== rootElement)
     });
   }
+
+  _addMessage(element, message) {
+    const bo = getReferringElement(element);
+
+    this._modeling.updateModdleProperties(element, bo, {
+      'messageRef': message
+    });
+  }
 }
 
 ReferencedElementBehavior.$inject = [
@@ -145,6 +161,16 @@ function canHaveReferencedElement(element) {
     'bpmn:SendTask',
     'bpmn:Event'
   ]);
+}
+
+function getReferringElement(element) {
+  const bo = getBusinessObject(element);
+
+  if (is(bo, 'bpmn:Event')) {
+    return bo.get('eventDefinitions')[0];
+  }
+
+  return bo;
 }
 
 function isLabel(element) {
