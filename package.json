@@ -115,8 +115,8 @@
   },
   "peerDependencies": {
     "@bpmn-io/properties-panel": "^1.0.1",
-    "bpmn-js": ">= 8",
+    "bpmn-js": ">= 11.5",
     "camunda-bpmn-js-behaviors": ">= 0.4",
-    "diagram-js": ">= 7"
+    "diagram-js": ">= 11.9"
   }
 }
