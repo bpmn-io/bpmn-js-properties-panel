@@ -36,7 +36,7 @@ export default class ReplaceBehavior extends CommandInterceptor {
       const { appliesTo, elementType } = elementTemplate;
 
       if (elementType) {
-        if (!is(newShape, elementType.value)) {
+        if (!is(newShape, elementType.value) || shouldUnlinkEvent(newShape, elementType)) {
           unlinkTemplate(newShape, injector);
         }
 
@@ -58,3 +58,19 @@ ReplaceBehavior.$inject = [
   'elementTemplates',
   'injector'
 ];
+
+function shouldUnlinkEvent(newShape, elementType) {
+  if (!is(newShape, 'bpmn:Event')) {
+    return false;
+  }
+
+  const { eventDefinition } = elementType,
+        bo = getBusinessObject(newShape),
+        eventDefinitions = bo.get('eventDefinitions');
+
+  if (!eventDefinition) {
+    return eventDefinitions.length === 0;
+  }
+
+  return !is(eventDefinitions[0], eventDefinition);
+}

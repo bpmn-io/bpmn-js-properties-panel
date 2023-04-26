@@ -106,6 +106,64 @@ describe('provider/cloud-element-templates - ReplaceBehavior', function() {
       expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
     }));
 
+
+    it('should unlink when templated none event is replaced with event definition', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        const event = elementRegistry.get('StartEventNoVersion');
+
+        const newElementData = { type: 'bpmn:StartEvent' };
+
+        // when
+        const newElement = bpmnReplace.replaceElement(event, newElementData);
+
+        // then
+        const businessObject = getBusinessObject(newElement);
+
+        expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
+      })
+    );
+
+
+    it('should not unlink when templated event is replaced with the same event definition', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        let event = elementRegistry.get('MessageEventNoVersion');
+
+        const newElementData = {
+          type: 'bpmn:IntermediateCatchEvent', eventDefinitionType: 'bpmn:MessageEventDefinition' };
+
+        // when
+        const newElement = bpmnReplace.replaceElement(event, newElementData);
+
+        // then
+        const businessObject = getBusinessObject(newElement);
+
+        expect(businessObject.get('zeebe:modelerTemplate')).to.exist;
+      })
+    );
+
+
+    it('should unlink when templated event is replaced with different event definition', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        const event = elementRegistry.get('MessageEventNoVersion');
+
+        const newElementData = {
+          type: 'bpmn:IntermediateCatchEvent', eventDefinitionType: 'bpmn:TimerEventDefinition' };
+
+        // when
+        const newElement = bpmnReplace.replaceElement(event, newElementData);
+
+        // then
+        const businessObject = getBusinessObject(newElement);
+
+        expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
+      })
+    );
   });
 
 
@@ -181,6 +239,65 @@ describe('provider/cloud-element-templates - ReplaceBehavior', function() {
       expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
       expect(businessObject.get('zeebe:modelerTemplateVersion')).not.to.exist;
     }));
+
+
+    it('should unlink when templated none event is replaced with event definition', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        const event = elementRegistry.get('StartEventVersion');
+
+        const newElementData = { type: 'bpmn:StartEvent' };
+
+        // when
+        const newElement = bpmnReplace.replaceElement(event, newElementData);
+
+        // then
+        const businessObject = getBusinessObject(newElement);
+
+        expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
+      })
+    );
+
+
+    it('should not unlink when templated event is replaced with the same event definition', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        let event = elementRegistry.get('MessageEventVersion');
+
+        const newElementData = {
+          type: 'bpmn:IntermediateCatchEvent', eventDefinitionType: 'bpmn:MessageEventDefinition' };
+
+        // when
+        const newElement = bpmnReplace.replaceElement(event, newElementData);
+
+        // then
+        const businessObject = getBusinessObject(newElement);
+
+        expect(businessObject.get('zeebe:modelerTemplate')).to.exist;
+      })
+    );
+
+
+    it('should unlink when templated event is replaced with different event definition', inject(
+      function(elementRegistry, bpmnReplace) {
+
+        // given
+        const event = elementRegistry.get('MessageEventVersion');
+
+        const newElementData = {
+          type: 'bpmn:IntermediateCatchEvent', eventDefinitionType: 'bpmn:TimerEventDefinition' };
+
+        // when
+        const newElement = bpmnReplace.replaceElement(event, newElementData);
+
+        // then
+        const businessObject = getBusinessObject(newElement);
+
+        expect(businessObject.get('zeebe:modelerTemplate')).not.to.exist;
+      })
+    );
 
   });
 

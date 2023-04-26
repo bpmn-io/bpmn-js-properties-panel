@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_1j2zudw" targetNamespace="http://bpmn.io/schema/bpmn" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1j2zudw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
   <bpmn:process id="Process_1" isExecutable="false">
-    <bpmn:task id="Task_1" name="Task_1" zeebe:modelerTemplate="replace_1">
-    </bpmn:task>
-    <bpmn:serviceTask id="Task_elementType_1" name="Task_elementType_1" zeebe:modelerTemplate="replace_elementType_1">
-    </bpmn:serviceTask>
-    <bpmn:task id="Task_2" name="Task_2" zeebe:modelerTemplate="replace_2" zeebe:modelerTemplateVersion="1">
-    </bpmn:task>
-    <bpmn:serviceTask id="Task_elementType_2" name="Task_elementType_2" zeebe:modelerTemplate="replace_elementType_2" zeebe:modelerTemplateVersion="1">
-    </bpmn:serviceTask>
+    <bpmn:task id="Task_1" name="Task_1" zeebe:modelerTemplate="replace_1" />
+    <bpmn:serviceTask id="Task_elementType_1" name="Task_elementType_1" zeebe:modelerTemplate="replace_elementType_1" />
+    <bpmn:task id="Task_2" name="Task_2" zeebe:modelerTemplate="replace_2" zeebe:modelerTemplateVersion="1" />
+    <bpmn:serviceTask id="Task_elementType_2" name="Task_elementType_2" zeebe:modelerTemplate="replace_elementType_2" zeebe:modelerTemplateVersion="1" />
+    <bpmn:intermediateCatchEvent id="MessageEventNoVersion" name="No version" zeebe:modelerTemplate="replace_elementType_message_event_no_version">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_06cxt66" messageRef="Message_1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="MessageEventVersion" name="Version" zeebe:modelerTemplate="replace_elementType_message_event_1" zeebe:modelerTemplateVersion="1">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_03rdqqm" messageRef="Message_2" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:startEvent id="StartEventNoVersion" name="No version" zeebe:modelerTemplate="replace_elementType_event_no_version" />
+    <bpmn:startEvent id="StartEventVersion" name="Version" zeebe:modelerTemplate="replace_elementType_event_1" zeebe:modelerTemplateVersion="1" />
   </bpmn:process>
+  <bpmn:message id="Message_1" zeebe:modelerTemplate="replace_elementType_message_event_no_version" name="hiddenName"/>
+  <bpmn:message id="Message_2" zeebe:modelerTemplate="replace_elementType_message_event_1" name="hiddenName"/>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
@@ -23,6 +29,30 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_elementType_2_di" bpmnElement="Task_elementType_2">
         <dc:Bounds x="545" y="374" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jg54ud_di" bpmnElement="MessageEventNoVersion">
+        <dc:Bounds x="577" y="482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="525" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1hmnsv8" bpmnElement="MessageEventVersion">
+        <dc:Bounds x="577" y="562" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="577" y="605" width="37" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEventNoVersion_di" bpmnElement="StartEventNoVersion">
+        <dc:Bounds x="377" y="482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="369" y="525" width="53" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1grzzmw" bpmnElement="StartEventVersion">
+        <dc:Bounds x="377" y="562" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="377" y="605" width="37" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
