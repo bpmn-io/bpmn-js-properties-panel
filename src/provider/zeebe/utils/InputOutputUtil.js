@@ -15,6 +15,8 @@ import {
 } from '../../../utils/ElementUtil';
 import { isZeebeServiceTask } from './ZeebeServiceTaskUtil';
 
+import { getEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
+
 function getElements(bo, type, prop) {
   const elems = getExtensionElementsList(bo, type);
   return !prop ? elems : (elems[0] || {})[prop] || [];
@@ -69,7 +71,7 @@ export function areInputParametersSupported(element) {
     'bpmn:CallActivity',
     'bpmn:BusinessRuleTask',
     'bpmn:ScriptTask'
-  ]) || isZeebeServiceTask(element);
+  ]) || isZeebeServiceTask(element) || isSignalThrowEvent(element);
 }
 
 export function areOutputParametersSupported(element) {
@@ -86,4 +88,15 @@ export function areOutputParametersSupported(element) {
 
 export function createIOMapping(properties, parent, bpmnFactory) {
   return createElement('zeebe:IoMapping', properties, parent, bpmnFactory);
+}
+
+function isSignalThrowEvent(element) {
+  if (!isAny(element, [
+    'bpmn:EndEvent',
+    'bpmn:IntermediateThrowEvent'
+  ])) {
+    return false;
+  }
+
+  return !!getEventDefinition(element, 'bpmn:SignalEventDefinition');
 }
