@@ -46,5 +46,77 @@
       "value": "bpmn:ServiceTask"
     },
     "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "replace_elementType_event_1",
+    "id": "replace_elementType_event_1",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:StartEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:StartEvent"
+    },
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "replace_elementType_event_no_version",
+    "id": "replace_elementType_event_no_version",
+    "appliesTo": [
+      "bpmn:StartEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:StartEvent"
+    },
+    "properties": []
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "replace_elementType_message_event_1",
+    "id": "replace_elementType_message_event_1",
+    "version": 1,
+    "appliesTo": [
+      "bpmn:IntermediateCatchEvent",
+      "bpmn:IntermediateThrowEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "hiddenName",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        }
+      }
+    ]
+  },
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "replace_elementType_message_event_no_version",
+    "id": "replace_elementType_message_event_no_version",
+    "appliesTo": [
+      "bpmn:IntermediateCatchEvent",
+      "bpmn:IntermediateThrowEvent"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "type": "Hidden",
+        "value": "hiddenName",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        }
+      }
+    ]
   }
 ]
