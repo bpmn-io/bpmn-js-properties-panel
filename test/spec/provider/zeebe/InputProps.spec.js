@@ -148,7 +148,7 @@ describe('provider/zeebe - InputProps', function() {
     it('should sort input items according to XML', inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('UnsortedServiceTask');
+      const serviceTask = elementRegistry.get('ServiceTask_Unsorted');
 
       await act(() => {
         selection.select(serviceTask);
@@ -169,7 +169,7 @@ describe('provider/zeebe - InputProps', function() {
       inject(async function(elementRegistry, selection) {
 
         // given
-        const serviceTask = elementRegistry.get('ServiceTask_empty');
+        const serviceTask = elementRegistry.get('ServiceTask_NoExtensionElements');
 
         await act(() => {
           selection.select(serviceTask);
@@ -196,7 +196,7 @@ describe('provider/zeebe - InputProps', function() {
       inject(async function(elementRegistry, selection) {
 
         // given
-        const serviceTask = elementRegistry.get('ServiceTask_noIoMapping');
+        const serviceTask = elementRegistry.get('ServiceTask_NoIoMapping');
 
         await act(() => {
           selection.select(serviceTask);
