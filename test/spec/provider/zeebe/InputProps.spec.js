@@ -61,32 +61,36 @@ describe('provider/zeebe - InputProps', function() {
   }));
 
 
-  describe('bpmn:ServiceTask#input', function() {
+  it('should NOT display for receive task', inject(async function(elementRegistry, selection) {
 
-    it('should NOT display for receive task', inject(async function(elementRegistry, selection) {
+    // given
+    const receiveTask = elementRegistry.get('ReceiveTask_1');
+
+    await act(() => {
+      selection.select(receiveTask);
+    });
+
+    // when
+    const inputGroup = getGroup(container, 'inputs');
+
+    // then
+    expect(inputGroup).to.not.exist;
+  }));
+
+
+  [
+    [ 'service task', 'ServiceTask_1' ],
+    [ 'signal intermediate throw event', 'SignalIntermediateThrowEvent_1' ],
+    [ 'signal end event', 'SignalEndEvent_1' ]
+  ].forEach(([ label, id ]) => {
+
+    it(`should display - ${ label }`, inject(async function(elementRegistry, selection) {
 
       // given
-      const receiveTask = elementRegistry.get('ReceiveTask_1');
+      const element = elementRegistry.get(id);
 
       await act(() => {
-        selection.select(receiveTask);
-      });
-
-      // when
-      const inputGroup = getGroup(container, 'inputs');
-
-      // then
-      expect(inputGroup).to.not.exist;
-    }));
-
-
-    it('should display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const serviceTask = elementRegistry.get('ServiceTask_1');
-
-      await act(() => {
-        selection.select(serviceTask);
+        selection.select(element);
       });
 
       // when
@@ -95,14 +99,14 @@ describe('provider/zeebe - InputProps', function() {
 
       // then
       expect(inputGroup).to.exist;
-      expect(inputListItems.length).to.equal(getInputParameters(serviceTask).length);
+      expect(inputListItems.length).to.equal(getInputParameters(element).length);
     }));
 
 
-    it('should add new input', inject(async function(elementRegistry, selection) {
+    it(`should add new input - ${ label }`, inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const serviceTask = elementRegistry.get(id);
 
       await act(() => {
         selection.select(serviceTask);
@@ -121,108 +125,10 @@ describe('provider/zeebe - InputProps', function() {
     }));
 
 
-    it('should add new input to bottom', inject(async function(elementRegistry, selection) {
+    it(`should delete input - ${ label }`, inject(async function(elementRegistry, selection) {
 
       // given
-      const serviceTask = elementRegistry.get('ServiceTask_2');
-
-      await act(() => {
-        selection.select(serviceTask);
-      });
-
-      const inputGroup = getGroup(container, 'inputs');
-      const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
-
-      // when
-      await act(() => {
-        addEntry.click();
-      });
-
-      // then
-      const inputItemLabel = getInputItemLabel(container, 0);
-
-      expect(inputItemLabel.innerHTML).to.equal('inputTargetValue1');
-    }));
-
-
-    it('should sort input items according to XML', inject(async function(elementRegistry, selection) {
-
-      // given
-      const serviceTask = elementRegistry.get('ServiceTask_Unsorted');
-
-      await act(() => {
-        selection.select(serviceTask);
-      });
-
-      // then
-      const inputParameters = getInputParameters(serviceTask);
-
-      for (let idx = 0; idx < inputParameters.length; idx++) {
-        const inputItemLabel = getInputItemLabel(container, idx).innerHTML;
-
-        expect(inputParameters[idx].target).to.equal(inputItemLabel);
-      }
-    }));
-
-
-    it('should create non existing extension elements',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_NoExtensionElements');
-
-        await act(() => {
-          selection.select(serviceTask);
-        });
-
-        // assume
-        expect(getBusinessObject(serviceTask).get('extensionElements')).not.to.exist;
-
-        const inputGroup = getGroup(container, 'inputs');
-        const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
-
-        // when
-        await act(() => {
-          addEntry.click();
-        });
-
-        // then
-        expect(getBusinessObject(serviceTask).get('extensionElements')).to.exist;
-      })
-    );
-
-
-    it('should create non existing ioMapping',
-      inject(async function(elementRegistry, selection) {
-
-        // given
-        const serviceTask = elementRegistry.get('ServiceTask_NoIoMapping');
-
-        await act(() => {
-          selection.select(serviceTask);
-        });
-
-        // assume
-        expect(getIoMapping(serviceTask)).not.to.exist;
-
-        const inputGroup = getGroup(container, 'inputs');
-        const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
-
-        // when
-        await act(() => {
-          addEntry.click();
-        });
-
-        // then
-        expect(getIoMapping(serviceTask)).to.exist;
-      })
-    );
-
-
-    it('should delete input', inject(async function(elementRegistry, selection) {
-
-      // given
-      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const serviceTask = elementRegistry.get(id);
 
       await act(() => {
         selection.select(serviceTask);
@@ -241,36 +147,11 @@ describe('provider/zeebe - InputProps', function() {
     }));
 
 
-    it('should remove ioMapping on last delete', inject(async function(elementRegistry, selection) {
-
-      // given
-      const serviceTask = elementRegistry.get('ServiceTask_2');
-
-      await act(() => {
-        selection.select(serviceTask);
-      });
-
-      // assume
-      expect(getIoMapping(serviceTask)).to.exist;
-
-      const inputListItems = getInputListItems(getGroup(container, 'inputs'));
-      const removeEntry = domQuery('.bio-properties-panel-remove-entry', inputListItems[0]);
-
-      // when
-      await act(() => {
-        removeEntry.click();
-      });
-
-      // then
-      expect(getIoMapping(serviceTask)).not.to.exist;
-    }));
-
-
-    it('should update on external change',
+    it(`should update on external change - ${ label }`,
       inject(async function(elementRegistry, selection, commandStack) {
 
         // given
-        const serviceTask = elementRegistry.get('ServiceTask_1');
+        const serviceTask = elementRegistry.get(id);
         const originalInputs = getInputParameters(serviceTask);
 
         await act(() => {
@@ -295,6 +176,129 @@ describe('provider/zeebe - InputProps', function() {
     );
 
   });
+
+
+  it('should add new input to bottom', inject(async function(elementRegistry, selection) {
+
+    // given
+    const serviceTask = elementRegistry.get('ServiceTask_2');
+
+    await act(() => {
+      selection.select(serviceTask);
+    });
+
+    const inputGroup = getGroup(container, 'inputs');
+    const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+    // when
+    await act(() => {
+      addEntry.click();
+    });
+
+    // then
+    const inputItemLabel = getInputItemLabel(container, 0);
+
+    expect(inputItemLabel.innerHTML).to.equal('inputTargetValue1');
+  }));
+
+
+  it('should sort input items according to XML', inject(async function(elementRegistry, selection) {
+
+    // given
+    const serviceTask = elementRegistry.get('ServiceTask_Unsorted');
+
+    await act(() => {
+      selection.select(serviceTask);
+    });
+
+    // then
+    const inputParameters = getInputParameters(serviceTask);
+
+    for (let idx = 0; idx < inputParameters.length; idx++) {
+      const inputItemLabel = getInputItemLabel(container, idx).innerHTML;
+
+      expect(inputParameters[idx].target).to.equal(inputItemLabel);
+    }
+  }));
+
+
+  it('should create non existing extension elements',
+    inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_NoExtensionElements');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // assume
+      expect(getBusinessObject(serviceTask).get('extensionElements')).not.to.exist;
+
+      const inputGroup = getGroup(container, 'inputs');
+      const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+      // when
+      await act(() => {
+        addEntry.click();
+      });
+
+      // then
+      expect(getBusinessObject(serviceTask).get('extensionElements')).to.exist;
+    })
+  );
+
+
+  it('should create non existing ioMapping',
+    inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_NoIoMapping');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // assume
+      expect(getIoMapping(serviceTask)).not.to.exist;
+
+      const inputGroup = getGroup(container, 'inputs');
+      const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+      // when
+      await act(() => {
+        addEntry.click();
+      });
+
+      // then
+      expect(getIoMapping(serviceTask)).to.exist;
+    })
+  );
+
+
+  it('should remove ioMapping on last delete', inject(async function(elementRegistry, selection) {
+
+    // given
+    const serviceTask = elementRegistry.get('ServiceTask_2');
+
+    await act(() => {
+      selection.select(serviceTask);
+    });
+
+    // assume
+    expect(getIoMapping(serviceTask)).to.exist;
+
+    const inputListItems = getInputListItems(getGroup(container, 'inputs'));
+    const removeEntry = domQuery('.bio-properties-panel-remove-entry', inputListItems[0]);
+
+    // when
+    await act(() => {
+      removeEntry.click();
+    });
+
+    // then
+    expect(getIoMapping(serviceTask)).not.to.exist;
+  }));
 
 });
 

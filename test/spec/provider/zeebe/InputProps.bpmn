@@ -33,6 +33,28 @@
         </zeebe:ioMapping>
       </bpmn:extensionElements>
     </bpmn:serviceTask>
+    <bpmn:intermediateThrowEvent id="SignalIntermediateThrowEvent_1" name="SignalIntermediateThrowEvent_1">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="= inputSourceValue1" target="inputTargetValue1" />
+          <zeebe:input source="= inputSourceValue2" target="inputTargetValue2" />
+          <zeebe:input source="= inputSourceValue3" target="inputTargetValue3" />
+          <zeebe:input source="= inputSourceValue4" target="inputTargetValue4" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0kvpcac" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="SignalEndEvent_1" name="SignalEndEvent_1">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="= inputSourceValue1" target="inputTargetValue1" />
+          <zeebe:input source="= inputSourceValue2" target="inputTargetValue2" />
+          <zeebe:input source="= inputSourceValue3" target="inputTargetValue3" />
+          <zeebe:input source="= inputSourceValue4" target="inputTargetValue4" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_0syfq4h" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -59,6 +81,18 @@
       <bpmndi:BPMNShape id="Activity_08s4ehk_di" bpmnElement="ServiceTask_NoIoMapping">
         <dc:Bounds x="240" y="170" width="100" height="80" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fg4k22_di" bpmnElement="SignalIntermediateThrowEvent_1">
+        <dc:Bounds x="392" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="369" y="125" width="83" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_160gbv9_di" bpmnElement="SignalEndEvent_1">
+        <dc:Bounds x="512" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="487" y="125" width="86" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
