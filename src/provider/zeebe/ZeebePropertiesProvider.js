@@ -26,6 +26,10 @@ import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
 
 import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTaskUtil';
 
+/**
+ * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
+ */
+
 const LOW_PRIORITY = 500;
 
 const ZEEBE_GROUPS = [
@@ -270,7 +274,7 @@ function updateErrorGroup(groups, element) {
     return;
   }
 
-  errorGroup.entries = overrideGenericEntries(
+  errorGroup.entries = replaceEntries(
     errorGroup.entries,
     ErrorProps({ element })
   );
@@ -283,7 +287,7 @@ function updateEscalationGroup(groups, element) {
     return;
   }
 
-  escalationGroup.entries = overrideGenericEntries(
+  escalationGroup.entries = replaceEntries(
     escalationGroup.entries,
     EscalationProps({ element })
   );
@@ -296,7 +300,7 @@ function updateMessageGroup(groups, element) {
     return;
   }
 
-  messageGroup.entries = overrideGenericEntries(
+  messageGroup.entries = replaceEntries(
     messageGroup.entries,
     MessageProps({ element })
   );
@@ -347,13 +351,14 @@ function findGroup(groups, id) {
 }
 
 /**
- * Replace generic bpmn components with specific zeebe ones.
+ * Replace entries with the same ID.
+ *s
+ * @param {Entry[]} oldEntries
+ * @param {Entry[]} newEntries
  *
- * @param {Array} oldEntries
- * @param {Array} newEntries
- * @returns {Array} combined entries
+ * @returns {Entry[]} combined entries
  */
-function overrideGenericEntries(oldEntries, newEntries) {
+function replaceEntries(oldEntries, newEntries) {
 
   const filteredEntries = oldEntries.filter(oldEntry => (
     !newEntries.find(newEntry => newEntry.id === oldEntry.id)
