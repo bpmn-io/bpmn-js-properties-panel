@@ -1,6 +1,5 @@
 import {
-  getBusinessObject,
-  is
+  getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -12,7 +11,6 @@ import {
   getTimerEventDefinition,
   getTimerDefinitionType
 } from '../../../utils/EventDefinitionUtil';
-
 
 import {
   SelectEntry,
@@ -32,7 +30,6 @@ import {
 export function TimerProps(props) {
   const {
     element,
-    listener,
     idPrefix
   } = props;
 
@@ -48,7 +45,7 @@ export function TimerProps(props) {
   const timerEventDefinitionType = getTimerDefinitionType(timerEventDefinition);
 
   // (1) Only show for supported elements
-  if (!isTimerSupported(element) && !isTimerSupportedOnListener(listener)) {
+  if (!isTimerSupported(element)) {
     return [];
   }
 
@@ -230,10 +227,6 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
       <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-duration" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
     </div>);
   }
-}
-
-function isTimerSupportedOnListener(listener) {
-  return listener && is(listener, 'camunda:TaskListener') && getTimerEventDefinition(listener);
 }
 
 function getId(idPrefix, id) {
