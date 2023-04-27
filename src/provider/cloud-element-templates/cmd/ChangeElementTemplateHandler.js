@@ -5,7 +5,9 @@ import {
 
 import {
   findExtension,
-  getDefaultValue
+  findMessage,
+  getDefaultValue,
+  getTemplateId
 } from '../Helper';
 
 import {
@@ -94,6 +96,8 @@ export default class ChangeElementTemplateHandler {
 
       // update bpmn:Message zeebe:subscription properties
       this._updateMessageZeebeSubscriptionProperties(element, oldTemplate, newTemplate);
+
+      this._updateZeebeModelerTemplateOnReferencedElement(element, oldTemplate, newTemplate);
     }
   }
 
@@ -694,6 +698,24 @@ export default class ChangeElementTemplateHandler {
       properties[ newBindingName ] = newPropertyValue;
 
       this._modeling.updateModdleProperties(element, changedElement, properties);
+    });
+  }
+
+  _updateZeebeModelerTemplateOnReferencedElement(element, oldTemplate, newTemplate) {
+    const businessObject = getBusinessObject(element);
+
+    const message = findMessage(businessObject);
+
+    if (!message) {
+      return;
+    }
+
+    if (getTemplateId(message) === newTemplate.id) {
+      return;
+    }
+
+    this._modeling.updateModdleProperties(element, message, {
+      'zeebe:modelerTemplate': newTemplate.id
     });
   }
 

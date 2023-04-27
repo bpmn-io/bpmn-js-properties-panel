@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema@0.7.0/resources/schema.json",
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
   "name": "Message Event Template",
   "id": "event-template",
   "version": 1,
