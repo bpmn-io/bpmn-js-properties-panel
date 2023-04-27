@@ -35,7 +35,7 @@ import {
 } from './ImplementationProps';
 
 import { ScriptProps } from './ScriptProps';
-import { TimerProps } from '../../bpmn/properties';
+import { TimerProps } from './TimerProps';
 import { getTimerEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
 
 import { without } from 'min-dash';
