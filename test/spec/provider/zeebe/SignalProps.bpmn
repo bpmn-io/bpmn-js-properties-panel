@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1nq3bn3" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.10.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:intermediateThrowEvent id="SignalIntermediateThrowEvent_Static" name="SignalIntermediateThrowEvent_Static">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1g3f14b" signalRef="Signal_2edkina" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateThrowEvent id="SignalIntermediateThrowEvent_Expression" name="SignalIntermediateThrowEvent_Expression">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_196tqut" signalRef="Signal_0rg0snp" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="SignalEndEvent_Static" name="SignalEndEvent_Static">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1szkkeb" signalRef="Signal_2edkina" />
+    </bpmn:endEvent>
+    <bpmn:endEvent id="SignalEndEvent_Expression" name="SignalEndEvent_Expression">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1yl4jow" signalRef="Signal_0rg0snp" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:signal id="Signal_2edkina" name="foo" />
+  <bpmn:signal id="Signal_0rg0snp" name="=foo" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Event_148s8p3_di" bpmnElement="SignalIntermediateThrowEvent_Static">
+        <dc:Bounds x="182" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="122" width="84" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0b2tbaq_di" bpmnElement="SignalIntermediateThrowEvent_Expression">
+        <dc:Bounds x="182" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="157" y="205" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0x4l2mz_di" bpmnElement="SignalEndEvent_Static">
+        <dc:Bounds x="292" y="79" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="268" y="122" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1e82e3p_di" bpmnElement="SignalEndEvent_Expression">
+        <dc:Bounds x="292" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="268" y="205" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
