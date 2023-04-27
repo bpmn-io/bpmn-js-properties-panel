@@ -7,6 +7,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 ___Note:__ Yet to be released changes appear here._
 
 * `DEPS`: update to `@bpmn-io/element-templates-validator@0.14.0`
+* `DEPS`: update to `zeebe-bpmn-moddle@0.19.0`
 
 # 1.21.0
 
