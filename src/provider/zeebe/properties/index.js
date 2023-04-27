@@ -13,6 +13,7 @@ export { OutputPropagationProps } from './OutputPropagationProps';
 export { OutputProps } from './OutputProps';
 export { ScriptImplementationProps } from './ScriptImplementationProps';
 export { ScriptProps } from './ScriptProps';
+export { SignalProps } from './SignalProps';
 export { TargetProps } from './TargetProps';
 export { TaskDefinitionProps } from './TaskDefinitionProps';
 export { TaskScheduleProps } from './TaskScheduleProps';

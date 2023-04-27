@@ -16,6 +16,7 @@ import {
   OutputProps,
   ScriptImplementationProps,
   ScriptProps,
+  SignalProps,
   TargetProps,
   TaskDefinitionProps,
   TaskScheduleProps,
@@ -67,6 +68,7 @@ export default class ZeebePropertiesProvider {
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
       updateMessageGroup(groups, element);
+      updateSignalGroup(groups, element);
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
 
@@ -290,6 +292,19 @@ function updateEscalationGroup(groups, element) {
   escalationGroup.entries = replaceEntries(
     escalationGroup.entries,
     EscalationProps({ element })
+  );
+}
+
+function updateSignalGroup(groups, element) {
+  const signalGroup = findGroup(groups, 'signal');
+
+  if (!signalGroup) {
+    return;
+  }
+
+  signalGroup.entries = replaceEntries(
+    signalGroup.entries,
+    SignalProps({ element })
   );
 }
 

@@ -27,16 +27,15 @@ import {
   nextId
 } from '../../../utils/ElementUtil';
 
-export const EMPTY_OPTION = '';
-export const CREATE_NEW_OPTION = 'create-new';
-
-
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
 
+export const EMPTY_OPTION = '';
+export const CREATE_NEW_OPTION = 'create-new';
+
 /**
- * @returns {Array<Entry>} entries
+ * @returns {Entry[]}
  */
 export function SignalProps(props) {
   const {
