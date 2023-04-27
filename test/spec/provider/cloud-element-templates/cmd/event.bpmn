@@ -5,8 +5,12 @@
     <bpmn:intermediateCatchEvent id="Event_2">
       <bpmn:messageEventDefinition messageRef="Message_1"></bpmn:messageEventDefinition>
     </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_3" zeebe:modelerTemplate="event-template" zeebe:modelerTemplateVersion="1">
+      <bpmn:messageEventDefinition messageRef="Message_2"></bpmn:messageEventDefinition>
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
-  <bpmn:message id="Message_1"></bpmn:message>
+  <bpmn:message id="Message_1" />
+  <bpmn:message id="Message_2" name="name" zeebe:modelerTemplate="event-template" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
       <bpmndi:BPMNShape id="Event_1_di" bpmnElement="Event_1">
@@ -14,6 +18,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_2_di" bpmnElement="Event_2">
         <dc:Bounds x="100" y="50" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_3_di" bpmnElement="Event_3">
+        <dc:Bounds x="150" y="50" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

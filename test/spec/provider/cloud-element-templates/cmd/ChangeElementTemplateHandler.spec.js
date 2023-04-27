@@ -3751,6 +3751,31 @@ describe('cloud-element-templates/cmd - ChangeElementTemplateHandler', function(
 
     });
 
+
+    describe('update bpmn:Message', function() {
+
+      beforeEach(bootstrap(require('./event.bpmn').default));
+
+
+      it('should update zeebe:modelerTemplate', inject(function(elementRegistry) {
+
+        // given
+        const oldTemplate = require('./event-template-1.json'),
+              newTemplate = { ...oldTemplate, id: 'newId' };
+        let event = elementRegistry.get('Event_3');
+
+        // when
+        event = changeTemplate(event, newTemplate, oldTemplate);
+
+        // then
+        expectElementTemplate(event, newTemplate.id, 1);
+
+        const message = findMessage(getBusinessObject(event));
+        expect(message).to.exist;
+        expect(message.get('zeebe:modelerTemplate')).to.eql(newTemplate.id);
+      }));
+    });
+
   });
 
 
