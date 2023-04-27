@@ -103,7 +103,7 @@ describe('provider/zeebe - ErrorProps', function() {
     }));
 
 
-    it('should display expresion-like as text (catch event)', inject(async function(elementRegistry, selection) {
+    it('should display expression-like as text (catch event)', inject(async function(elementRegistry, selection) {
 
       // given
       const errorEvent = elementRegistry.get('ErrorEventWithExpression');
