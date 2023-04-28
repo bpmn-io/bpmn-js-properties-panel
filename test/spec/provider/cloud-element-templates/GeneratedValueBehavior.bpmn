@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:serviceTask id="Task_1" name="f01851c5-91b5-4b97-912d-ff79e00d68b2" zeebe:modelerTemplate="io.camunda.connectors.RestConnector-s1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="6a1ce32e-dd1e-4e2f-8b26-c05648d43f56" />
+        <zeebe:ioMapping>
+          <zeebe:input source="64314a50-2808-47fa-b714-7cfc3adf8311" target="input" />
+          <zeebe:output source="source" target="9732bd55-0fc9-43f9-bc44-55e880202d94" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="header" value="6ab5610d-423a-4f67-9e4f-0bfdb32b4a70" />
+        </zeebe:taskHeaders>
+        <zeebe:properties>
+          <zeebe:property name="property" value="945a902b-e577-4efc-ad88-002348436af0" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Event_1" zeebe:modelerTemplate="example.com.generated">
+      <bpmn:extensionElements />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_12aq1bm" messageRef="Message_1z0d818" />
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1z0d818" name="c21469ab-0f36-4caa-9550-d8be365d6f78" zeebe:modelerTemplate="example.com.generated">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="62277ddf-d1d1-4324-8f0f-f8076858b798" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Activity_0idy629_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hw8398_di" bpmnElement="Event_1">
+        <dc:Bounds x="192" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

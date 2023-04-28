@@ -9,6 +9,7 @@ import templateElementFactoryModule from './create';
 import ElementTemplatesPropertiesProvider from './ElementTemplatesPropertiesProvider';
 import UpdateTemplatePropertiesOrder from './UpdateTemplatePropertiesOrder';
 import { ReferencedElementBehavior } from './ReferencedElementBehavior';
+import { GeneratedValueBehavior } from './GeneratedValueBehavior';
 
 import zeebePropertiesProviderModule from '../zeebe';
 
@@ -24,6 +25,7 @@ export default {
     'replaceBehavior',
     'elementTemplatesPropertiesProvider',
     'elementTemplatesConditionChecker',
+    'generatedValueBehavior',
     'referencedElementBehavior',
     'updateTemplatePropertiesOrder'
   ],
@@ -32,6 +34,7 @@ export default {
   replaceBehavior: [ 'type', ReplaceBehavior ],
   elementTemplatesPropertiesProvider: [ 'type', ElementTemplatesPropertiesProvider ],
   elementTemplatesConditionChecker: [ 'type', ElementTemplatesConditionChecker ],
+  generatedValueBehavior: [ 'type', GeneratedValueBehavior ],
   referencedElementBehavior: [ 'type', ReferencedElementBehavior ],
   updateTemplatePropertiesOrder: [ 'type', UpdateTemplatePropertiesOrder ]
 };
