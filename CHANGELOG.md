@@ -6,8 +6,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.22.0
+
+* `FEAT`: support `bpmn:Message` templating in events ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))
+* `FEAT`: suggest variables for templates properties ([#904](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/904))
+* `FIX`: separate Camunda 7 and BPMN concerns in Timer Props ([#910](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/910))
 * `DEPS`: update to `@bpmn-io/element-templates-validator@0.14.0`
 * `DEPS`: update to `zeebe-bpmn-moddle@0.19.0`
+* `DEPS`: support bpmn-js >=11.5 and diagram-js >=11.9
 
 # 1.21.0
 
