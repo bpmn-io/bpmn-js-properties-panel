@@ -14,7 +14,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ElementTemplatesModule from 'src/provider/cloud-element-templates';
 import { removeTemplate, unlinkTemplate } from 'src/provider/cloud-element-templates/util/templateUtil';
-import { findMessage } from 'src/provider/cloud-element-templates/Helper';
+import { findMessage, getTemplateId } from 'src/provider/cloud-element-templates/Helper';
 
 
 import diagramXML from './fixtures/referenced-element-behavior.bpmn';
@@ -214,6 +214,7 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
         expect(getMessages()).to.have.lengthOf(initialMessages.length + 1);
         expect(pastedMessage).to.exist;
         expect(pastedMessage).not.to.eql(copiedMessage);
+        expect(getTemplateId(pastedMessage)).to.equal(getTemplateId(copiedMessage));
       })
     );
 
