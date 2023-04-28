@@ -7,14 +7,12 @@ import { getPropertyValue, setPropertyValue } from './util/propertyUtil';
  * Handles generated value properties.
  */
 export class GeneratedValueBehavior extends CommandInterceptor {
-  constructor(eventBus, elementTemplates, modeling, canvas, bpmnjs, commandStack, bpmnFactory) {
+  constructor(eventBus, elementTemplates, modeling, commandStack, bpmnFactory) {
     super(eventBus);
 
     this._eventBus = eventBus;
     this._elementTemplates = elementTemplates;
     this._modeling = modeling;
-    this._canvas = canvas;
-    this._bpmnjs = bpmnjs;
 
     this.preExecute('shape.create', context => {
       const element = context.shape;
@@ -43,8 +41,6 @@ GeneratedValueBehavior.$inject = [
   'eventBus',
   'elementTemplates',
   'modeling',
-  'canvas',
-  'bpmnjs',
   'commandStack',
   'bpmnFactory'
 ];
