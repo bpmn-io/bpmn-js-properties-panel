@@ -572,6 +572,34 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
     }));
 
 
+    it('should apply start event template without event definition', inject(
+      function(elementRegistry, elementTemplates) {
+
+        // given
+        const templates = require('./fixtures/start-event.json');
+        elementTemplates.set(templates);
+
+        const template = templates[0];
+        const event = elementRegistry.get('IntermediateThrow');
+
+        // assume
+        expect(template).to.exist;
+
+        // when
+        const updatedEvent = elementTemplates.applyTemplate(event, template);
+
+        // then
+        expect(updatedEvent).to.exist;
+        expect(elementTemplates.get(updatedEvent)).to.equal(template);
+
+        expect(is(updatedEvent, 'bpmn:StartEvent')).to.be.true;
+
+        const eventDefinitions = getBusinessObject(updatedEvent).get('eventDefinitions');
+        expect(eventDefinitions).to.be.empty;
+      })
+    );
+
+
     it('should apply event definition', inject(function(elementRegistry, elementTemplates) {
 
       // given

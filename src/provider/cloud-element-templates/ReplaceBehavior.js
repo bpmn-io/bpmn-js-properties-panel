@@ -69,7 +69,7 @@ function shouldUnlinkEvent(newShape, elementType) {
         eventDefinitions = bo.get('eventDefinitions');
 
   if (!eventDefinition) {
-    return eventDefinitions.length === 0;
+    return eventDefinitions.length !== 0;
   }
 
   return !is(eventDefinitions[0], eventDefinition);
