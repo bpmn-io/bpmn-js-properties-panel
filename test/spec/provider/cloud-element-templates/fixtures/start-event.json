@@ -1,0 +1,24 @@
+
+[
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "id": "com.camunda.example.START",
+    "name": "START",
+    "appliesTo": [
+      "bpmn:Event"
+    ],
+    "elementType": {
+      "value": "bpmn:StartEvent"
+    },
+    "properties":[
+      {
+        "type": "Hidden",
+        "value": "some",
+        "binding": {
+          "type": "zeebe:property",
+          "name": "inbound.type"
+        }
+      }
+    ]
+  }
+]

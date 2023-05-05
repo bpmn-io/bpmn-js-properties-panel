@@ -113,7 +113,7 @@ describe('provider/cloud-element-templates - ReplaceBehavior', function() {
         // given
         const event = elementRegistry.get('StartEventNoVersion');
 
-        const newElementData = { type: 'bpmn:StartEvent' };
+        const newElementData = { type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition' };
 
         // when
         const newElement = bpmnReplace.replaceElement(event, newElementData);
@@ -247,7 +247,7 @@ describe('provider/cloud-element-templates - ReplaceBehavior', function() {
         // given
         const event = elementRegistry.get('StartEventVersion');
 
-        const newElementData = { type: 'bpmn:StartEvent' };
+        const newElementData = { type: 'bpmn:StartEvent', eventDefinitionType: 'bpmn:MessageEventDefinition' };
 
         // when
         const newElement = bpmnReplace.replaceElement(event, newElementData);
