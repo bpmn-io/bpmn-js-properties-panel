@@ -36,6 +36,10 @@ import {
   CreateAppendAnythingModule
 } from 'bpmn-js-create-append-anything';
 
+import {
+  ZeebeVariableResolverModule
+} from '@bpmn-io/variable-resolver';
+
 import CamundaBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
 import ZeebeBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
 
@@ -144,7 +148,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           ZeebePropertiesProvider,
-          CreateAppendAnythingModule
+          CreateAppendAnythingModule,
+          ZeebeVariableResolverModule
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
