@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.22.1
+
+* `FIX`: do not unlink none event templates ([#917](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/917))
+
 # 1.22.0
 
 * `FEAT`: support `bpmn:Message` templating in events ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))
