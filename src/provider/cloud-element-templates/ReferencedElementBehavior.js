@@ -48,7 +48,7 @@ export class ReferencedElementBehavior extends CommandInterceptor {
   }
 
   /**
-   * Remove referenced element when template is unlinked.
+   * Unlink referenced element when template is unlinked.
    */
   _handlePropertiesUpdate(context) {
     const { element, properties } = context;
@@ -65,13 +65,9 @@ export class ReferencedElementBehavior extends CommandInterceptor {
     const message = findMessage(bo);
 
     if (message && getTemplateId(message)) {
-      const messageEventDefinition = bo.eventDefinitions[0];
-
-      this._modeling.updateModdleProperties(element, messageEventDefinition, {
-        'messageRef': undefined
+      this._modeling.updateModdleProperties(element, message, {
+        [TEMPLATE_ID_ATTR]: null
       });
-
-      this._removeRootElement(message);
     }
   }
 
