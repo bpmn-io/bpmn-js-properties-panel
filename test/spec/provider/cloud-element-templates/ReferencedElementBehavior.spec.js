@@ -14,7 +14,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ElementTemplatesModule from 'src/provider/cloud-element-templates';
 import { removeTemplate, unlinkTemplate } from 'src/provider/cloud-element-templates/util/templateUtil';
-import { findMessage, getTemplateId } from 'src/provider/cloud-element-templates/Helper';
+import { findMessage, getTemplateId, TEMPLATE_ID_ATTR } from 'src/provider/cloud-element-templates/Helper';
 
 
 import diagramXML from './fixtures/referenced-element-behavior.bpmn';
@@ -60,7 +60,7 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
 
   describe('unlink template', function() {
 
-    it('should remove templated message when template is unlinked', inject(
+    it('should unlink templated message when template is unlinked', inject(
       function(elementRegistry, injector) {
 
         // given
@@ -81,9 +81,10 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
         expect(eventDefinitions).to.have.length(1);
 
         const message = eventDefinitions[0].get('messageRef');
-        expect(message).not.to.exist;
+        expect(message).to.exist;
+        expect(message.get(TEMPLATE_ID_ATTR)).not.to.exist;
 
-        expect(getMessages()).to.have.lengthOf(initialMessages.length - 1);
+        expect(getMessages()).to.have.lengthOf(initialMessages.length);
       })
     );
   });
