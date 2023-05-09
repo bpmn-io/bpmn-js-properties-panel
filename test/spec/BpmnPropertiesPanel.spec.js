@@ -299,7 +299,7 @@ describe('<BpmnPropertiesPanel>', function() {
         createBpmnPropertiesPanel({ container, eventBus });
 
         // then
-        expect(updateSpy).to.have.been.called;
+        expect(updateSpy).to.have.been.calledOnce;
       });
 
 
@@ -322,12 +322,15 @@ describe('<BpmnPropertiesPanel>', function() {
         // assume
         expect(updateSpy).to.have.been.calledWith(sinon.match({ layout: originalLayout }));
 
+        updateSpy.resetHistory();
+
         // when
         await act(() => {
           eventBus.fire('propertiesPanel.setLayout', { layout: newLayout });
         });
 
         // then
+        expect(updateSpy).to.have.been.calledOnce;
         expect(updateSpy.lastCall).to.have.been.calledWith(sinon.match({ layout: newLayout }));
       });
 

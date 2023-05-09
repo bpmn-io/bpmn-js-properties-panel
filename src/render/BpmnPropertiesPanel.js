@@ -195,7 +195,7 @@ export default function BpmnPropertiesPanel(props) {
     eventBus.fire('propertiesPanel.layoutChanged', {
       layout: newLayout
     });
-  }, [ eventBus, layoutConfig ]);
+  }, [ eventBus ]);
 
   // React to external layout changes
   useEffect(() => {
