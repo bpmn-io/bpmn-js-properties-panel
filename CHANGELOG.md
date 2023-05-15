@@ -6,13 +6,18 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.23.0
+
+* `FEAT`: add _Inputs_ group for signal intermediate throw and end events ([#911](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/911))
+* `FEAT`: change signal _Name_ entry to optional FEEL entry ([#911](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/911))
+
 # 1.22.1
 
 * `FIX`: do not unlink none event templates ([#917](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/917))
 
 # 1.22.0
 
-* `FEAT`: support `bpmn:Message` templating in events ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))
+* `FEAT`: support `bpmn:Message` templating in events ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))c
 * `FEAT`: support `generatedValue` in templates ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))
 * `FEAT`: suggest variables for templates properties ([#904](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/904))
 * `FIX`: separate Camunda 7 and BPMN concerns in Timer Props ([#910](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/910))
