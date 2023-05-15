@@ -187,11 +187,26 @@
     "appliesTo": [
       "bpmn:Task"
     ],
+    "groups": [
+      {
+        "id": "input",
+        "label": "Textfield"
+      },
+      {
+        "id": "textarea",
+        "label": "Textarea"
+      },
+      {
+        "id": "select",
+        "label": "Select"
+      }
+    ],
     "properties": [
       {
         "label": "NotEmpty",
         "description": "Must not be empty",
         "type": "String",
+        "group": "input",
         "binding": {
           "type": "property",
           "name": "name"
@@ -204,6 +219,7 @@
         "label": "MinLength",
         "description": "Must have min length 5",
         "type": "String",
+        "group": "input",
         "binding": {
           "type": "property",
           "name": "name"
@@ -216,6 +232,7 @@
         "label": "MaxLength",
         "description": "Must have max length 5",
         "type": "String",
+        "group": "input",
         "binding": {
           "type": "property",
           "name": "name"
@@ -228,6 +245,7 @@
         "label": "Pattern (String)",
         "description": "Must match /A+B/",
         "type": "String",
+        "group": "input",
         "binding": {
           "type": "property",
           "name": "name"
@@ -240,6 +258,7 @@
         "label": "Pattern (String + Message)",
         "description": "Must be https url",
         "type": "String",
+        "group": "input",
         "binding": {
           "type": "property",
           "name": "name"
@@ -255,10 +274,197 @@
         "label": "Pattern (Integer)",
         "description": "Must be integer",
         "type": "String",
+        "group": "input",
         "binding": {
           "type": "property",
           "name": "name"
         },
+        "constraints": {
+          "pattern": {
+            "message": "Must be positive integer",
+            "value": "\\d+"
+          }
+        }
+      },
+      {
+        "label": "TextArea - NotEmpty",
+        "description": "Must not be empty",
+        "type": "Text",
+        "group": "textarea",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "TextArea - MinLength",
+        "description": "Must have min length 5",
+        "type": "Text",
+        "group": "textarea",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "minLength": 5
+        }
+      },
+      {
+        "label": "TextArea - MaxLength",
+        "description": "Must have max length 5",
+        "type": "Text",
+        "group": "textarea",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "maxLength": 5
+        }
+      },
+      {
+        "label": "TextArea - Pattern (String)",
+        "description": "Must match /A+B/",
+        "type": "Text",
+        "group": "textarea",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": "A+B"
+        }
+      },
+      {
+        "label": "TextArea - Pattern (String + Message)",
+        "description": "Must be https url",
+        "type": "Text",
+        "group": "textarea",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must start with https://",
+            "value": "https://.*"
+          }
+        }
+      },
+      {
+        "label": "TextArea - Pattern (Integer)",
+        "description": "Must be integer",
+        "type": "Text",
+        "group": "textarea",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must be positive integer",
+            "value": "\\d+"
+          }
+        }
+      },
+      {
+        "label": "Select - NotEmpty",
+        "description": "Must not be empty",
+        "type": "Dropdown",
+        "choices": [
+          { "name": "FOOO", "value": "FOO" }
+        ],
+        "group": "select",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "notEmpty": true
+        }
+      },
+      {
+        "label": "Select - MinLength",
+        "description": "Must have min length 5",
+        "type": "Dropdown",
+        "group": "select",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "choices": [
+          { "name": "FOOOOOOO", "value": "FOOOOOOO" }
+        ],
+        "constraints": {
+          "minLength": 5
+        }
+      },
+      {
+        "label": "Select - MaxLength",
+        "description": "Must have max length 5",
+        "type": "Dropdown",
+        "group": "select",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "choices": [
+          { "name": "FOOOOOOO", "value": "FOOOOOOO" }
+        ],
+        "constraints": {
+          "maxLength": 5
+        }
+      },
+      {
+        "label": "Select - Pattern (String)",
+        "description": "Must match /A+B/",
+        "type": "Dropdown",
+        "group": "select",
+        "choices": [
+          { "name": "AAAB", "value": "AAAB" }
+        ],
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": "A+B"
+        }
+      },
+      {
+        "label": "Select - Pattern (String + Message)",
+        "description": "Must be https url",
+        "type": "Dropdown",
+        "group": "select",
+        "choices": [
+          { "name": "https://", "value": "https://" }
+        ],
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "constraints": {
+          "pattern": {
+            "message": "Must start with https://",
+            "value": "https://.*"
+          }
+        }
+      },
+      {
+        "label": "Select - Pattern (Integer)",
+        "description": "Must be integer",
+        "type": "Dropdown",
+        "group": "select",
+        "binding": {
+          "type": "property",
+          "name": "name"
+        },
+        "choices": [
+          { "name": "20", "value": "20" }
+        ],
         "constraints": {
           "pattern": {
             "message": "Must be positive integer",
