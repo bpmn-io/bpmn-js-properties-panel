@@ -240,7 +240,8 @@ function DropdownProperty(props) {
   } = property;
 
   const bpmnFactory = useService('bpmnFactory'),
-        commandStack = useService('commandStack');
+        commandStack = useService('commandStack'),
+        translate = useService('translate');
 
   const getOptions = () => {
     const { choices, optional } = property;
@@ -268,6 +269,7 @@ function DropdownProperty(props) {
     description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property),
     setValue: propertySetter(bpmnFactory, commandStack, element, property),
+    validate: propertyValidator(translate, property),
     disabled: editable === false
   });
 }
@@ -398,7 +400,8 @@ function TextAreaProperty(props) {
 
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack'),
-        debounce = useService('debounceInput');
+        debounce = useService('debounceInput'),
+        translate = useService('translate');
 
   return TextAreaEntry({
     debounce,
@@ -411,6 +414,7 @@ function TextAreaProperty(props) {
     description: PropertyDescription({ description }),
     getValue: propertyGetter(element, property),
     setValue: propertySetter(bpmnFactory, commandStack, element, property),
+    validate: propertyValidator(translate, property),
     disabled: editable === false
   });
 }
@@ -437,7 +441,7 @@ function propertyValidator(translate, property) {
       notEmpty
     } = constraints;
 
-    if (notEmpty && isEmptyString(value)) {
+    if (notEmpty && isEmpty(value)) {
       return translate('Must not be empty.');
     }
 
@@ -466,8 +470,12 @@ function propertyValidator(translate, property) {
   };
 }
 
-function isEmptyString(string) {
-  return !string || !string.trim().length;
+function isEmpty(value) {
+  if (typeof value === 'string') {
+    return !value.trim().length;
+  }
+
+  return value !== undefined;
 }
 
 function matchesPattern(string, pattern) {
