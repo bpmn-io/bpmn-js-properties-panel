@@ -6,7 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `FIX`: allow to configure variable events for conditional start event in event subprocess
+# 1.24.0
+
+* `FEAT`: validate custom dropdown and textArea entries ([#922](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/922))
+* `FIX`: allow to configure variable events for conditional start event in event subprocess ([#925](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/925))
+* `FIX`: unlink templated message instead of removing ([#914](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/914))
+* `DEPS`: update to `@bpmn-io/properties-panel@2.0.0`
 
 # 1.23.0
 
