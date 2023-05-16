@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: allow to configure variable events for conditional start event in event subprocess
+
 # 1.23.0
 
 * `FEAT`: add _Inputs_ group for signal intermediate throw and end events ([#911](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/911))
