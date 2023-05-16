@@ -352,7 +352,7 @@ function VariableEventProps(props) {
     isEdited: isTextFieldEntryEdited
   });
 
-  if (!is(element, 'bpmn:StartEvent')) {
+  if (!is(element, 'bpmn:StartEvent') || isInEventSubProcess(element)) {
     entries.push({
       id: 'conditionVariableEvents',
       component: VariableEvents,
@@ -518,4 +518,11 @@ function createFormalExpression(parent, attributes, bpmnFactory) {
     is(parent, 'bpmn:SequenceFlow') ? getBusinessObject(parent) : getConditionalEventDefinition(parent),
     bpmnFactory
   );
+}
+
+function isInEventSubProcess(element) {
+  const bo = getBusinessObject(element),
+        parent = bo.$parent;
+
+  return is(parent, 'bpmn:SubProcess') && parent.triggeredByEvent;
 }

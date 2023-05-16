@@ -258,7 +258,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
       // given
       const elements = [ 'Flow1', 'Flow2' ];
 
-      elements.forEach(async ele => {
+      for (const ele of elements) {
         const sequenceFlow = elementRegistry.get(ele);
 
         // when
@@ -270,7 +270,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(conditionExpressionInput).not.to.exist;
-      });
+      }
     }));
 
 
@@ -346,7 +346,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
       // given
       const elements = [ 'NoneEvent', 'ConditionalStartEvent' ];
 
-      elements.forEach(async ele => {
+      for (const ele of elements) {
         const element = elementRegistry.get(ele);
 
         // when
@@ -358,7 +358,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(conditionExpressionInput).not.to.exist;
-      });
+      }
     }));
 
 
@@ -449,9 +449,9 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should NOT display', inject(async function(elementRegistry, selection) {
 
       // given
-      const elements = [ 'NoneEvent', 'ConditionalStartEvent' ];
+      const elements = [ 'NoneEvent' ];
 
-      elements.forEach(async ele => {
+      for (const ele of elements) {
         const element = elementRegistry.get(ele);
 
         // when
@@ -463,7 +463,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(conditionVariableNameInput).not.to.exist;
-      });
+      }
     }));
 
 
@@ -520,17 +520,21 @@ describe('provider/camunda-platform - ConditionProps', function() {
     it('should display (intermediate event)', inject(async function(elementRegistry, selection) {
 
       // given
-      const conditionalEvent = elementRegistry.get('ConditionVariableEvent');
+      const elements = [ 'ConditionVariableEvent', 'ConditionalStartEventSubprocess' ];
 
-      // when
-      await act(() => {
-        selection.select(conditionalEvent);
-      });
+      for (const ele of elements) {
+        const element = elementRegistry.get(ele);
 
-      const conditionVariableEventsInput = domQuery('input[name=conditionVariableEvents]', container);
+        // when
+        await act(() => {
+          selection.select(element);
+        });
 
-      // then
-      expect(conditionVariableEventsInput).to.exist;
+        const conditionVariableEventsInput = domQuery('input[name=conditionVariableEvents]', container);
+
+        // then
+        expect(conditionVariableEventsInput).to.exist;
+      }
     }));
 
 
@@ -539,7 +543,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
       // given
       const elements = [ 'NoneEvent', 'ConditionalStartEvent', 'ConditionalStartEvent' ];
 
-      elements.forEach(async ele => {
+      for (const ele of elements) {
         const element = elementRegistry.get(ele);
 
         // when
@@ -551,7 +555,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(conditionVariableEventsInput).not.to.exist;
-      });
+      }
     }));
 
 
@@ -999,7 +1003,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
         'InlineScriptEvent', 'ConditionExpressionEvent'
       ];
 
-      elements.forEach(async ele => {
+      for (const ele of elements) {
         const sequenceFlow = elementRegistry.get(ele);
 
         // when
@@ -1011,7 +1015,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(conditionExpressionInput).not.to.exist;
-      });
+      }
     }));
 
 
