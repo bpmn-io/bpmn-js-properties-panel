@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+# 1.24.1
+
+* `FIX`: handle `undefined` values in custom properties validator ([#926](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/926))
+
 # 1.24.0
 
 * `FEAT`: validate custom dropdown and textArea entries ([#922](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/922))

@@ -620,5 +620,65 @@
         }
       }
     ]
+  },
+
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Validated-inputs-conditional",
+    "id": "com.validated-inputs-conditional.Task",
+    "appliesTo": [
+      "bpmn:Task"
+    ],
+    "elementType": {
+      "value": "bpmn:ServiceTask"
+    },
+    "groups": [
+      {
+        "id": "authentication",
+        "label": "Authentication"
+      }
+    ],
+    "properties": [
+      {
+        "id": "authenticationType",
+        "label": "Type",
+        "group": "authentication",
+        "type": "Dropdown",
+        "value": "bearer",
+        "choices": [
+          {
+            "name": "Bearer token",
+            "value": "bearer"
+          },
+          {
+            "name": "Refresh token",
+            "value": "refresh"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:input",
+          "name": "authentication.authType"
+        }
+      },
+      {
+        "label": "Bearer token",
+        "description": "Enter Google API Bearer token that is authorized to interact with desired Drive",
+        "group": "authentication",
+        "type": "String",
+        "binding": {
+          "type": "zeebe:input",
+          "name": "authentication.bearerToken"
+        },
+        "constraints": {
+          "notEmpty": true,
+          "minLength": 5,
+          "maxLength": 76
+        },
+        "condition": {
+          "property": "authenticationType",
+          "equals": "bearer"
+        }
+      }
+    ]
   }
 ]

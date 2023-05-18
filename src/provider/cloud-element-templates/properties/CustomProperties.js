@@ -445,11 +445,11 @@ function propertyValidator(translate, property) {
       return translate('Must not be empty.');
     }
 
-    if (maxLength && value.length > maxLength) {
+    if (maxLength && (value || '').length > maxLength) {
       return translate('Must have max length {maxLength}.', { maxLength });
     }
 
-    if (minLength && value.length < minLength) {
+    if (minLength && (value || '').length < minLength) {
       return translate('Must have min length {minLength}.', { minLength });
     }
 
@@ -475,7 +475,7 @@ function isEmpty(value) {
     return !value.trim().length;
   }
 
-  return value !== undefined;
+  return value === undefined;
 }
 
 function matchesPattern(string, pattern) {
