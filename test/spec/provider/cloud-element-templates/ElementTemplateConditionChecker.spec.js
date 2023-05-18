@@ -1031,6 +1031,90 @@ describe('provider/cloud-element-templates - ElementTemplatesConditionChecker', 
 
   });
 
+
+  describe('update referenced element', function() {
+
+    const template = messageTemplates[2];
+
+    beforeEach(bootstrapModeler(messageDiagramXML, {
+      container: container,
+      modules: [
+        coreModule,
+        elementTemplatesModule,
+        modelingModule,
+        ElementTemplatesConditionChecker,
+        PropertiesPanelCommandsModule,
+        {
+          propertiesPanel: [ 'value', { registerProvider() {} } ]
+        }
+      ],
+      moddleExtensions: {
+        zeebe: zeebeModdlePackage
+      }
+    }));
+
+    beforeEach(inject(function(elementTemplates) {
+      elementTemplates.set([ template ]);
+    }));
+
+
+    it('should remove bpmn:Message if none bpmn:Message bindings are left', inject(
+      async function(elementRegistry, modeling, bpmnjs) {
+
+        // given
+        const element = elementRegistry.get('Event_4');
+        const property = findExtension(element, 'zeebe:Properties').get('properties')[0];
+        const initialMessage = findMessage(getBusinessObject(element));
+        const initialRootElements = bpmnjs.getDefinitions().get('rootElements');
+
+        // assume
+        expect(initialMessage).to.exist;
+
+        // when
+        modeling.updateModdleProperties(element, property, {
+          value: 'three'
+        });
+
+        // then
+        const message = findMessage(getBusinessObject(element));
+
+        expect(message).not.to.exist;
+
+        const rootElements = bpmnjs.getDefinitions().get('rootElements');
+        expect(rootElements).to.have.lengthOf(initialRootElements.length - 1);
+      })
+    );
+
+
+    it('should recreate bpmn:Message if message bindings are active again', inject(
+      async function(elementRegistry, modeling, bpmnjs) {
+
+        // given
+        const element = elementRegistry.get('Event_4');
+        const property = findExtension(element, 'zeebe:Properties').get('properties')[0];
+        const initialMessage = findMessage(getBusinessObject(element));
+        const initialRootElements = bpmnjs.getDefinitions().get('rootElements');
+
+        // assume
+        expect(initialMessage).to.exist;
+
+        // when
+        modeling.updateModdleProperties(element, property, {
+          value: 'three'
+        });
+        modeling.updateModdleProperties(element, property, {
+          value: 'two'
+        });
+
+        // then
+        const message = findMessage(getBusinessObject(element));
+        expect(message).to.exist;
+
+        const rootElements = bpmnjs.getDefinitions().get('rootElements');
+        expect(rootElements).to.have.lengthOf(initialRootElements.length);
+      })
+    );
+  });
 });
 
 

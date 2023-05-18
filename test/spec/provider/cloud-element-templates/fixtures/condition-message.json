@@ -60,6 +60,15 @@
           "property": "select",
           "equals": "two"
         }
+      },
+      {
+        "label": "unconditional - to prevent message removal",
+        "type": "Hidden",
+        "value": "two",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "foo"
+        }
       }
     ]
   },
@@ -119,6 +128,80 @@
         "binding": {
           "type": "bpmn:Message#zeebe:subscription#property",
           "name": "correlationKey"
+        },
+        "condition": {
+          "property": "select",
+          "equals": "two"
+        }
+      },
+      {
+        "label": "unconditional - to prevent message removal",
+        "type": "Hidden",
+        "value": "two",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "foo"
+        }
+      }
+    ]
+  },
+
+  {
+    "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+    "name": "Message Property (limited props)",
+    "id": "example.com.condition-short",
+    "description": "A conditional template.",
+    "appliesTo": [
+      "bpmn:Event"
+    ],
+    "elementType": {
+      "value": "bpmn:IntermediateCatchEvent",
+      "eventDefinition": "bpmn:MessageEventDefinition"
+    },
+    "properties": [
+      {
+        "id": "select",
+        "type": "Dropdown",
+        "value": "one",
+        "choices": [
+          {
+            "name": "one",
+            "value": "one"
+          },
+          {
+            "name": "two",
+            "value": "two"
+          },
+          {
+            "name": "three",
+            "value": "three"
+          }
+        ],
+        "binding": {
+          "type": "zeebe:property",
+          "name": "select"
+        }
+      },
+      {
+        "label": "name",
+        "type": "Hidden",
+        "value": "one",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
+        },
+        "condition": {
+          "property": "select",
+          "equals": "one"
+        }
+      },
+      {
+        "label": "name",
+        "type": "Hidden",
+        "value": "two",
+        "binding": {
+          "type": "bpmn:Message#property",
+          "name": "name"
         },
         "condition": {
           "property": "select",

@@ -1,21 +1,24 @@
-import { getBusinessObject, is, isAny } from 'bpmn-js/lib/util/ModelUtil';
+import { getBusinessObject, isAny } from 'bpmn-js/lib/util/ModelUtil';
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 import { isString } from 'min-dash';
 
 import { findMessage, getTemplateId, TEMPLATE_ID_ATTR } from './Helper';
+import {
+  getReferringElement,
+  removeRootElement
+} from './util/rootElementUtil';
 
 /**
  * Handles referenced elements.
  */
 export class ReferencedElementBehavior extends CommandInterceptor {
-  constructor(eventBus, elementTemplates, modeling, canvas, bpmnjs, moddleCopy, bpmnFactory) {
+  constructor(eventBus, elementTemplates, modeling, injector, moddleCopy, bpmnFactory) {
     super(eventBus);
 
     this._eventBus = eventBus;
     this._elementTemplates = elementTemplates;
     this._modeling = modeling;
-    this._canvas = canvas;
-    this._bpmnjs = bpmnjs;
+    this._injector = injector;
 
     this.postExecuted([
       'element.updateProperties', 'element.updateModdleProperties'
@@ -92,7 +95,7 @@ export class ReferencedElementBehavior extends CommandInterceptor {
     }
 
     if (!canHaveReferencedElement(newShape) || !newTemplate) {
-      this._removeRootElement(message);
+      removeRootElement(message, this._injector);
       return;
     }
 
@@ -118,18 +121,8 @@ export class ReferencedElementBehavior extends CommandInterceptor {
     const message = findMessage(bo);
 
     if (message && getTemplateId(message)) {
-      this._removeRootElement(message);
+      removeRootElement(message, this._injector);
     }
-  }
-
-  _removeRootElement(rootElement) {
-    const element = this._canvas.getRootElement();
-    const definitions = this._bpmnjs.getDefinitions();
-    const rootElements = definitions.get('rootElements');
-
-    this._modeling.updateModdleProperties(element, definitions, {
-      rootElements: rootElements.filter(e => e !== rootElement)
-    });
   }
 
   _addMessage(element, message) {
@@ -145,8 +138,7 @@ ReferencedElementBehavior.$inject = [
   'eventBus',
   'elementTemplates',
   'modeling',
-  'canvas',
-  'bpmnjs',
+  'injector',
   'moddleCopy',
   'bpmnFactory'
 ];
@@ -157,16 +149,6 @@ function canHaveReferencedElement(element) {
     'bpmn:SendTask',
     'bpmn:Event'
   ]);
-}
-
-function getReferringElement(element) {
-  const bo = getBusinessObject(element);
-
-  if (is(bo, 'bpmn:Event')) {
-    return bo.get('eventDefinitions')[0];
-  }
-
-  return bo;
 }
 
 function isLabel(element) {

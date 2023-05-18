@@ -2,23 +2,26 @@ import {
   applyConditions
 } from './Condition';
 
+import { isObject } from 'min-dash';
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 import { setPropertyValue, unsetProperty } from './util/propertyUtil';
-import { isObject } from 'min-dash';
+import { MESSAGE_BINDING_TYPES } from './util/bindingTypes';
+import { removeMessage } from './util/rootElementUtil';
 
 /**
  * Checks the conditions of an element template and sets/resets the
  * corresponding properties on the element.
  */
 export default class ElementTemplatesConditionChecker extends CommandInterceptor {
-  constructor(eventBus, elementTemplates, commandStack, bpmnFactory) {
+  constructor(eventBus, elementTemplates, commandStack, bpmnFactory, injector) {
     super(eventBus);
 
     this._eventBus = eventBus;
     this._elementTemplates = elementTemplates;
     this._commandStack = commandStack;
     this._bpmnFactory = bpmnFactory;
+    this._injector = injector;
 
     this.preExecute([
       'element.updateProperties', 'element.updateModdleProperties'
@@ -60,6 +63,8 @@ export default class ElementTemplatesConditionChecker extends CommandInterceptor
     const propertiesToAdd = getMissingProperties(oldTemplate, newTemplate);
     const propertiesToRemove = getPropertiesToRemove(newTemplate, oldTemplate);
 
+    this._updateReferencedElement(element, oldTemplate, newTemplate);
+
     propertiesToAdd.forEach(property =>
       setPropertyValue(this._bpmnFactory, this._commandStack, element, property, property.value)
     );
@@ -68,6 +73,12 @@ export default class ElementTemplatesConditionChecker extends CommandInterceptor
       unsetProperty(this._commandStack, element, property)
     );
   }
+
+  _updateReferencedElement(element, oldTemplate, newTemplate) {
+    if (hasMessageProperties(oldTemplate) && !hasMessageProperties(newTemplate)) {
+      removeMessage(element, this._injector);
+    }
+  }
 }
 
 
@@ -75,7 +86,8 @@ ElementTemplatesConditionChecker.$inject = [
   'eventBus',
   'elementTemplates',
   'commandStack',
-  'bpmnFactory'
+  'bpmnFactory',
+  'injector'
 ];
 
 
@@ -130,4 +142,8 @@ function normalizeReplacer(key, value) {
 
 function equals(a, b) {
   return JSON.stringify(a, normalizeReplacer) === JSON.stringify(b, normalizeReplacer);
+}
+
+function hasMessageProperties(template) {
+  return template.properties.some(p => MESSAGE_BINDING_TYPES.includes(p.binding.type));
 }

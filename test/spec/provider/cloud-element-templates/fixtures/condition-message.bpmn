@@ -20,6 +20,14 @@
     <bpmn:intermediateCatchEvent id="Event_3" name="foo">
       <bpmn:messageEventDefinition messageRef="Message_3" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_4" name="four" zeebe:modelerTemplate="example.com.condition-short">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="select" value="one" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:messageEventDefinition messageRef="Message_4" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:intermediateCatchEvent id="SubscriptionEvent_1" name="one" zeebe:modelerTemplate="example.com.condition-1">
       <bpmn:extensionElements>
         <zeebe:properties>
@@ -43,6 +51,7 @@
   <bpmn:message id="Message_1" name="one"></bpmn:message>
   <bpmn:message id="Message_2" name="two"></bpmn:message>
   <bpmn:message id="Message_3"></bpmn:message>
+  <bpmn:message id="Message_4" name="one"></bpmn:message>
   <bpmn:message id="SubscriptionMessage_1" name="one">
     <bpmn:extensionElements>
       <zeebe:subscription correlationKey="one"/>
@@ -66,6 +75,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0warlfb_di" bpmnElement="Event_3">
         <dc:Bounds x="440" y="120" width="36" height="36" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_4_di" bpmnElement="Event_4">
+        <dc:Bounds x="180" y="220" width="36" height="36" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubscriptionEvent_1_di" bpmnElement="SubscriptionEvent_1">
