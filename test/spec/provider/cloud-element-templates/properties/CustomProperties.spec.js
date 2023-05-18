@@ -42,7 +42,7 @@ import BpmnPropertiesPanel from 'src/render';
 import elementTemplatesModule from 'src/provider/cloud-element-templates';
 
 import diagramXML from './CustomProperties.bpmn';
-import elementTemplates from './CustomProperties.json';
+import templates from './CustomProperties.json';
 
 import descriptionDiagramXML from './CustomProperties.description.bpmn';
 import descriptionElementTemplates from './CustomProperties.description.json';
@@ -77,7 +77,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
   beforeEach(bootstrapPropertiesPanel(diagramXML, {
     container,
     debounceInput: false,
-    elementTemplates,
+    elementTemplates: templates,
     moddleExtensions: {
       zeebe: zeebeModdlePackage
     },
@@ -887,7 +887,7 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
       beforeEach(bootstrapPropertiesPanel(diagramXML, {
         container,
         debounceInput: false,
-        elementTemplates,
+        elementTemplates: templates,
         moddleExtensions: {
           zeebe: zeebeModdlePackage
         },
@@ -1360,6 +1360,32 @@ describe('provider/cloud-element-templates - CustomProperties', function() {
 
     });
 
+
+    it('should work with conditional properties', inject(
+      async function(elementTemplates, elementRegistry) {
+
+        // given
+        await expectSelected('ValidatedConditionalTask');
+        const task = elementRegistry.get('ValidatedConditionalTask');
+        const template = templates.find(t => t.id === 'com.validated-inputs-conditional.Task');
+
+        // when
+        await act(() => {
+          elementTemplates.applyTemplate(task, template);
+        });
+
+        // then
+        const entry = findEntry('custom-entry-com.validated-inputs-conditional.Task-authentication-1', container),
+              input = domQuery('input', entry);
+        expectError(entry, 'Must not be empty.');
+
+        // and when
+        changeInput(input, '123456');
+
+        // then
+        expectValid(entry);
+      })
+    );
   });
 
 

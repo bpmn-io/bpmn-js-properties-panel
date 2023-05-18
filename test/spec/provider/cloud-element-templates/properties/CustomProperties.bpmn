@@ -57,6 +57,7 @@
     <bpmn:intermediateCatchEvent id="MessageEvent_noData" name="No data" zeebe:modelerTemplate="messageEventTemplate">
       <bpmn:messageEventDefinition id="MessageEventDefinition_1hzq0o7" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="ValidatedConditionalTask" name="Validated Conditional Task" />
   </bpmn:process>
   <bpmn:message id="Message" name="name">
     <bpmn:extensionElements>
@@ -117,6 +118,10 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="131" y="765" width="39" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0c7o61daaa_di" bpmnElement="ValidatedConditionalTask">
+        <dc:Bounds x="760" y="480" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
