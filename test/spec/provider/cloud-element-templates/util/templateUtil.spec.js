@@ -82,6 +82,24 @@ describe('provider/cloud-element-template - templateUtil', function() {
       task = elementRegistry.get('Task_1');
       expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.not.exist;
     }));
+
+    it('should fire elementTemplates.unlink event', inject(function(elementRegistry, injector, eventBus) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.unlink', spy);
+
+      // when
+      unlinkTemplate(task, injector);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task
+      });
+    }));
   });
 
 
@@ -160,6 +178,25 @@ describe('provider/cloud-element-template - templateUtil', function() {
       expect(eventBo.modelerTemplateVersion).not.to.exist;
       expect(eventBo.eventDefinitions).to.have.length(1);
     }));
+
+
+    it('should fire elementTemplates.remove event', inject(function(elementRegistry, injector, eventBus) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.remove', spy);
+
+      // when
+      removeTemplate(task, injector);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task
+      });
+    }));
   });
 
 
@@ -229,6 +266,29 @@ describe('provider/cloud-element-template - templateUtil', function() {
         expect(message.name).to.eql('user_edited');
       })
     );
+
+
+    it('should fire elementTemplates.update event', inject(function(elementRegistry, injector, eventBus) {
+
+      // given
+      const newTemplate = templates.find(
+        template => template.id === 'foo' && template.version === 2);
+
+      const task = elementRegistry.get('Task_1');
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.update', spy);
+
+      // when
+      updateTemplate(task, newTemplate, injector);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task,
+        newTemplate
+      });
+    }));
   });
 
 
