@@ -5,7 +5,10 @@ import { isUndefined } from 'min-dash';
 
 
 export function unlinkTemplate(element, injector) {
-  const modeling = injector.get('modeling');
+  const modeling = injector.get('modeling'),
+        eventBus = injector.get('eventBus');
+
+  eventBus.fire('elementTemplates.unlink', { element });
 
   modeling.updateProperties(element, {
     'camunda:modelerTemplate': null,
@@ -15,7 +18,10 @@ export function unlinkTemplate(element, injector) {
 
 export function removeTemplate(element, injector) {
   const replace = injector.get('replace'),
-        selection = injector.get('selection');
+        selection = injector.get('selection'),
+        eventBus = injector.get('eventBus');
+
+  eventBus.fire('elementTemplates.remove', { element });
 
   const businessObject = getBusinessObject(element);
 
@@ -34,7 +40,10 @@ export function removeTemplate(element, injector) {
 }
 
 export function updateTemplate(element, newTemplate, injector) {
-  const elementTemplates = injector.get('elementTemplates');
+  const elementTemplates = injector.get('elementTemplates'),
+        eventBus = injector.get('eventBus');
+
+  eventBus.fire('elementTemplates.update', { element, newTemplate });
 
   return elementTemplates.applyTemplate(element, newTemplate);
 }
