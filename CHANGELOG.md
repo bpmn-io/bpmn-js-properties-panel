@@ -6,31 +6,31 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-# 1.25.0
+## 1.25.0
 
 * `FEAT`: fire `elementTemplats.unlink`, `elementTemplats.update` and `elementTemplats.remove` events ([#927](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/927))
 
-# 1.24.1
+## 1.24.1
 
 * `FIX`: handle `undefined` values in custom properties validator ([#926](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/926))
 
-# 1.24.0
+## 1.24.0
 
 * `FEAT`: validate custom dropdown and textArea entries ([#922](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/922))
 * `FIX`: allow to configure variable events for conditional start event in event subprocess ([#925](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/925))
 * `FIX`: unlink templated message instead of removing ([#914](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/914))
 * `DEPS`: update to `@bpmn-io/properties-panel@2.0.0`
 
-# 1.23.0
+## 1.23.0
 
 * `FEAT`: add _Inputs_ group for signal intermediate throw and end events ([#911](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/911))
 * `FEAT`: change signal _Name_ entry to optional FEEL entry ([#911](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/911))
 
-# 1.22.1
+## 1.22.1
 
 * `FIX`: do not unlink none event templates ([#917](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/917))
 
-# 1.22.0
+## 1.22.0
 
 * `FEAT`: support `bpmn:Message` templating in events ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))c
 * `FEAT`: support `generatedValue` in templates ([#890](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/890))
@@ -40,51 +40,51 @@ ___Note:__ Yet to be released changes appear here._
 * `DEPS`: update to `zeebe-bpmn-moddle@0.19.0`
 * `DEPS`: support bpmn-js >=11.5 and diagram-js >=11.9
 
-# 1.21.0
+## 1.21.0
 
 * `FEAT`: add `setLayout` method to change the layout of a properties panel instance ([#891](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/891))
 
-# 1.20.3
+## 1.20.3
 
 * `FIX`: only provide variable suggestions for fields backed by IO mappings ([#902](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/902)
 
-# 1.20.2
+## 1.20.2
 
 * `DEPS`: update to `@bpmn-io/variable-resolver@0.1.3`
 
-# 1.20.1
+## 1.20.1
 
 * `FIX`: ensure element template properties order is maintained ([#898](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/898))
 
-# 1.20.0
+## 1.20.0
 
 * `FEAT`: add Due date and Follow up date properties ([#889](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/889))
 * `CHORE`: update to `camunda-bpmn-js-behaviors@0.5.0`
 * `CHORE`: update to `zeebe-bpmn-moddle@0.18.0`
 
-# 1.19.1
+## 1.19.1
 
 * `CHORE`: keep variable name and expression order consistent ([#886](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/886))
 
-# 1.19.0
+## 1.19.0
 
 * `FEAT`: support multiple property conditions ([#884](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/884))
 
-# 1.18.0
+## 1.18.0
 
 * `FEAT`: support optional `zeebe:taskHeader` bindings ([#840](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/840))
 * `FEAT`: use `variablesResolver` service, when registered ([#881](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/881))
 * `FIX`: evaluate conditional properties on `createElement` ([#878](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/878))
 
-# 1.17.2
+## 1.17.2
 
 * `FIX`: don't apply default template during paste ([#877](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/877))
 
-# 1.17.1
+## 1.17.1
 
 * `DEPS`: update to `@bpmn-io/properties-panel@1.3.1`
 
-# 1.17.0
+## 1.17.0
 
 * `FEAT`: Camunda 8 template properties can have `language` property ([#869](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/869))
 * `FEAT`: Camunda 8 template properties of type `Text` are resizable textareas ([#870](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/870))
