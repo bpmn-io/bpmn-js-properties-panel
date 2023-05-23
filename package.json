@@ -77,7 +77,7 @@
     "babel-loader": "^9.0.0",
     "babel-plugin-istanbul": "^6.1.1",
     "bpmn-js": "^13.0.0",
-    "bpmn-js-connectors-extension": "^0.4.5",
+    "bpmn-js-create-append-anything": "^0.1.0",
     "bpmn-moddle": "^8.0.0",
     "camunda-bpmn-js-behaviors": "^0.5.0",
     "camunda-bpmn-moddle": "^7.0.1",
