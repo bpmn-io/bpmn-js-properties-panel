@@ -36,7 +36,10 @@ import CloudElementTemplatesPropertiesProvider from 'src/provider/cloud-element-
 
 import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
 import ElementTemplatesIconsRenderer from '@bpmn-io/element-templates-icons-renderer';
-import ConnectorsExtensionModule from 'bpmn-js-connectors-extension';
+import {
+  CreateAppendAnythingModule,
+  CreateAppendElementTemplatesModule
+} from 'bpmn-js-create-append-anything';
 
 import CamundaBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
 import ZeebeBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
@@ -143,7 +146,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           ZeebeBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          ZeebePropertiesProvider
+          ZeebePropertiesProvider,
+          CreateAppendAnythingModule
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
@@ -170,7 +174,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CamundaBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          CamundaPropertiesProvider
+          CamundaPropertiesProvider,
+          CreateAppendAnythingModule
         ],
         moddleExtensions: {
           camunda: CamundaModdle
@@ -195,7 +200,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         additionalModules: [
           CamundaBehaviorsModule,
           BpmnPropertiesPanel,
-          BpmnPropertiesProvider
+          BpmnPropertiesProvider,
+          CreateAppendAnythingModule
         ]
       }
     );
@@ -223,7 +229,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           ElementTemplateChooserModule,
-          ElementTemplatesPropertiesProvider
+          ElementTemplatesPropertiesProvider,
+          CreateAppendAnythingModule
         ],
         moddleExtensions: {
           camunda: CamundaModdle
@@ -257,7 +264,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CloudElementTemplatesPropertiesProvider,
           ElementTemplateChooserModule,
           ElementTemplatesIconsRenderer,
-          ConnectorsExtensionModule
+          CreateAppendAnythingModule,
+          CreateAppendElementTemplatesModule
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
