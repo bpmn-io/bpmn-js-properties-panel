@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 1.26.0
+
+* `FEAT`: change FEEL toggle ([@bpmn-io/properties-panel#240](https://github.com/bpmn-io/properties-panel/issues/240))
+* `DEPS`: update to `@bpmn-io/properties-panel@2.2.0`
+
 ## 1.25.0
 
 * `FEAT`: fire `elementTemplats.unlink`, `elementTemplats.update` and `elementTemplats.remove` events ([#927](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/927))
