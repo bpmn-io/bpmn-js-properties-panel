@@ -1,7 +1,6 @@
 import CommandInterceptor from 'diagram-js/lib/command/CommandInterceptor';
 
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
-import { unlinkTemplate } from './util/templateUtil';
 
 /**
  * This Behavior checks if the new element's type is in
@@ -29,7 +28,7 @@ export default class ReplaceBehavior extends CommandInterceptor {
       const elementTemplate = elementTemplates.get(template, version);
 
       if (!elementTemplate) {
-        unlinkTemplate(newShape, injector);
+        elementTemplates.unlinkTemplate(newShape, injector);
         return;
       }
 
@@ -37,7 +36,7 @@ export default class ReplaceBehavior extends CommandInterceptor {
 
       if (elementType) {
         if (!is(newShape, elementType.value)) {
-          unlinkTemplate(newShape, injector);
+          elementTemplates.unlinkTemplate(newShape, injector);
         }
 
         return;
@@ -48,7 +47,7 @@ export default class ReplaceBehavior extends CommandInterceptor {
       }, false);
 
       if (!allowed) {
-        unlinkTemplate(newShape, injector);
+        elementTemplates.unlinkTemplate(newShape, injector);
       }
     });
   }

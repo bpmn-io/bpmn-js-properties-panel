@@ -11,6 +11,9 @@ import elementTemplatesModule from 'src/provider/element-templates';
 import propertiesCommandsModule from 'src/cmd';
 import modelingModule from 'bpmn-js/lib/features/modeling';
 
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import { getLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
+
 import camundaModdlePackage from 'camunda-bpmn-moddle/resources/camunda';
 
 import diagramXML from './ElementTemplates.bpmn';
@@ -171,7 +174,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'bar', 1 ],
         [ 'bar', 2 ],
         [ 'baz' ],
-        [ 'deprecated' ]
+        [ 'deprecated' ],
+        [ 'qux' ]
       ]);
     }));
 
@@ -237,7 +241,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'default', 1 ],
         [ 'foo', 3 ],
         [ 'bar', 2 ],
-        [ 'baz' ]
+        [ 'baz' ],
+        [ 'qux' ]
       ]);
     }));
 
@@ -253,7 +258,8 @@ describe('provider/element-templates - ElementTemplates', function() {
         [ 'foo', 3 ],
         [ 'bar', 2 ],
         [ 'baz' ],
-        [ 'deprecated' ]
+        [ 'deprecated' ],
+        [ 'qux' ]
       ]);
     }));
 
@@ -389,6 +395,126 @@ describe('provider/element-templates - ElementTemplates', function() {
       // then
       expect(updatedTask).to.exist;
       expect(elementTemplates.get(updatedTask)).to.equal(template);
+    }));
+
+  });
+
+
+  describe('removeTemplate', function() {
+
+    it('should remove task template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let task = elementRegistry.get('Task_4');
+
+      // when
+      task = elementTemplates.removeTemplate(task);
+
+      // then
+      const taskBo = getBusinessObject(task);
+      const label = getLabel(task);
+
+      expect(taskBo.modelerTemplate).not.to.exist;
+      expect(taskBo.modelerTemplateVersion).not.to.exist;
+      expect(taskBo.asyncBefore).to.be.false;
+      expect(label).to.eql('Task 4');
+    }));
+
+
+    it('should remove group template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let group = elementRegistry.get('Group_1');
+
+      // when
+      group = elementTemplates.removeTemplate(group);
+
+      // then
+      const groupBo = getBusinessObject(group);
+      const label = getLabel(group);
+
+      expect(groupBo.modelerTemplate).not.to.exist;
+      expect(groupBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('Group 1');
+    }));
+
+
+    it('should remove annotation template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let annotation = elementRegistry.get('TextAnnotation_1');
+
+      // when
+      annotation = elementTemplates.removeTemplate(annotation);
+
+      // then
+      const annotationBo = getBusinessObject(annotation);
+      const label = getLabel(annotation);
+
+      expect(annotationBo.modelerTemplate).not.to.exist;
+      expect(annotationBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('Text Annotation 1');
+    }));
+
+
+    it('should remove conditional event template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let event = elementRegistry.get('ConditionalEvent');
+
+      // when
+      event = elementTemplates.removeTemplate(event);
+
+      // then
+      const eventBo = getBusinessObject(event);
+
+      expect(eventBo.modelerTemplate).not.to.exist;
+      expect(eventBo.modelerTemplateVersion).not.to.exist;
+      expect(eventBo.eventDefinitions).to.have.length(1);
+      expect(eventBo.asyncBefore).to.be.false;
+    }));
+
+  });
+
+
+  describe('unlinkTemplate', function() {
+
+    it('should unlink task template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_4');
+
+      // when
+      elementTemplates.unlinkTemplate(task);
+
+      // then
+      const taskBo = getBusinessObject(task);
+
+      expect(taskBo.modelerTemplate).not.to.exist;
+      expect(taskBo.modelerTemplateVersion).not.to.exist;
+      expect(taskBo.asyncBefore).to.be.true;
+    }));
+
+  });
+
+
+  describe('updateTemplate', function() {
+
+    it('should update template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const newTemplate = templates.find(
+        template => template.id === 'foo' && template.version === 2);
+      const task = elementRegistry.get('Task_4');
+
+      // when
+      elementTemplates.applyTemplate(task, newTemplate);
+
+      // then
+      const taskBo = getBusinessObject(task);
+
+      expect(taskBo.modelerTemplate).to.eql('foo');
+      expect(taskBo.modelerTemplateVersion).to.eql(2);
     }));
 
   });
