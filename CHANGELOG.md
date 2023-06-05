@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 2.0.0
+
 * `FEAT`: remove templated `bpmn:Message` if no message bindings are active ([#915](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/915))
 * `FEAT`: allow time date in boundary and intermediate catch events ([#931](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/931))
 
