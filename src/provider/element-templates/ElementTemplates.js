@@ -14,14 +14,18 @@ import {
   getTemplateVersion
 } from './Helper';
 
-import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
+import { getBusinessObject, is, isAny } from 'bpmn-js/lib/util/ModelUtil';
+import { getLabel, setLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
 
 /**
  * Registry for element templates.
  */
 export default class ElementTemplates {
-  constructor(commandStack) {
+  constructor(commandStack, eventBus, modeling, injector) {
     this._commandStack = commandStack;
+    this._eventBus = eventBus;
+    this._injector = injector;
+    this._modeling = modeling;
 
     this._templates = {};
   }
@@ -184,7 +188,18 @@ export default class ElementTemplates {
    */
   applyTemplate(element, newTemplate) {
 
+    let action = 'apply';
+    let payload = { element, newTemplate };
     const oldTemplate = this.get(element);
+
+    if (oldTemplate && !newTemplate) {
+      action = 'unlink';
+      payload = { element };
+    }
+
+    if (newTemplate && oldTemplate && (newTemplate.id === oldTemplate.id)) {
+      action = 'update';
+    }
 
     const context = {
       element,
@@ -194,8 +209,91 @@ export default class ElementTemplates {
 
     this._commandStack.execute('propertiesPanel.camunda.changeTemplate', context);
 
+    this._eventBus.fire(`elementTemplates.${action}`, payload);
+
     return context.element;
   }
+
+  /**
+   * Remove template from a given element.
+   *
+   * @param {djs.model.Base} element
+   *
+   * @return {djs.model.Base} the updated element
+   */
+  removeTemplate(element) {
+    const replace = this._injector.get('replace'),
+          eventBus = this._injector.get('eventBus');
+
+    eventBus.fire('elementTemplates.remove', { element });
+
+    const businessObject = getBusinessObject(element);
+
+    const type = businessObject.$type,
+          eventDefinitionType = getEventDefinitionType(businessObject);
+
+    const newBusinessObject = createBlankBusinessObject(element, this._injector);
+
+    return replace.replaceElement(element, {
+      type: type,
+      businessObject: newBusinessObject,
+      eventDefinitionType: eventDefinitionType
+    });
+  }
+
+  /**
+   * Unlink template from a given element.
+   *
+   * @param {djs.model.Base} element
+   *
+   * @return {djs.model.Base} the updated element
+   */
+  unlinkTemplate(element) {
+    return this.applyTemplate(element, null);
+  }
+
 }
 
-ElementTemplates.$inject = [ 'commandStack' ];
+ElementTemplates.$inject = [
+  'commandStack',
+  'eventBus',
+  'modeling',
+  'injector'
+];
+
+
+// helper ///////////
+
+function getEventDefinitionType(businessObject) {
+  if (!businessObject.eventDefinitions) {
+    return null;
+  }
+
+  const eventDefinition = businessObject.eventDefinitions[ 0 ];
+
+  if (!eventDefinition) {
+    return null;
+  }
+
+  return eventDefinition.$type;
+}
+
+function createBlankBusinessObject(element, injector) {
+  const bpmnFactory = injector.get('bpmnFactory');
+
+  const bo = getBusinessObject(element),
+        newBo = bpmnFactory.create(bo.$type),
+        label = getLabel(element);
+
+  if (!label) {
+    return newBo;
+  }
+
+  if (is(element, 'bpmn:Group')) {
+    newBo.categoryValueRef = bpmnFactory.create('bpmn:CategoryValue');
+  }
+
+  setLabel({ businessObject: newBo }, label);
+
+  return newBo;
+}

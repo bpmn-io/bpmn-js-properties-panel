@@ -65,5 +65,11 @@
       "bpmn:Task"
     ],
     "properties": []
+  },
+    {
+    "id": "qux",
+    "name":"Qux",
+    "appliesTo": [ "bpmn:TextAnnotation" ],
+    "properties": []
   }
 ]

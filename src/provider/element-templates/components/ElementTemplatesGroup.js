@@ -15,10 +15,7 @@ import {
 import { getTemplateId as defaultGetTemplateId } from '../Helper';
 
 import {
-  getVersionOrDateFromTemplate,
-  removeTemplate,
-  unlinkTemplate as defaultUnlinkTemplate,
-  updateTemplate as defaultUpdateTemplate
+  getVersionOrDateFromTemplate
 } from '../util/templateUtil';
 
 
@@ -55,9 +52,7 @@ import {
 export function createElementTemplatesGroup(props = {}) {
 
   const {
-    getTemplateId = defaultGetTemplateId,
-    unlinkTemplate = defaultUnlinkTemplate,
-    updateTemplate = defaultUpdateTemplate
+    getTemplateId = defaultGetTemplateId
   } = props;
 
   return function ElementTemplatesGroup(props) {
@@ -93,9 +88,7 @@ export function createElementTemplatesGroup(props = {}) {
         <div class="bio-properties-panel-group-header-buttons">
           <TemplateGroupButtons
             element={ element }
-            getTemplateId={ getTemplateId }
-            unlinkTemplate={ unlinkTemplate }
-            updateTemplate={ updateTemplate } />
+            getTemplateId={ getTemplateId } />
           { !empty && <SectionToggle open={ open } /> }
         </div>
       </div>
@@ -143,7 +136,7 @@ function SectionToggle({ open }) {
  * @param {function} props.unlinkTemplate
  * @param {function} props.updateTemplate
  */
-function TemplateGroupButtons({ element, getTemplateId, unlinkTemplate, updateTemplate }) {
+function TemplateGroupButtons({ element, getTemplateId }) {
   const elementTemplates = useService('elementTemplates');
 
   const templateState = getTemplateState(elementTemplates, element, getTemplateId);
@@ -151,16 +144,14 @@ function TemplateGroupButtons({ element, getTemplateId, unlinkTemplate, updateTe
   if (templateState.type === 'NO_TEMPLATE') {
     return <SelectEntryTemplate element={ element } />;
   } else if (templateState.type === 'KNOWN_TEMPLATE') {
-    return <AppliedTemplate element={ element } unlinkTemplate={ unlinkTemplate } />;
+    return <AppliedTemplate element={ element } />;
   } else if (templateState.type === 'UNKNOWN_TEMPLATE') {
-    return <UnknownTemplate element={ element } unlinkTemplate={ unlinkTemplate } />;
+    return <UnknownTemplate element={ element } />;
   } else if (templateState.type === 'OUTDATED_TEMPLATE') {
     return (
       <OutdatedTemplate
         element={ element }
-        templateState={ templateState }
-        unlinkTemplate={ unlinkTemplate }
-        updateTemplate={ updateTemplate } />
+        templateState={ templateState } />
     );
   }
 }
@@ -183,13 +174,13 @@ function SelectEntryTemplate({ element }) {
   );
 }
 
-function AppliedTemplate({ element, unlinkTemplate }) {
+function AppliedTemplate({ element }) {
   const translate = useService('translate'),
-        injector = useService('injector');
+        elementTemplates = useService('elementTemplates');
 
   const menuItems = [
-    { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
-    { entry: <RemoveTemplate />, action: () => removeTemplate(element, injector) }
+    { entry: translate('Unlink'), action: () => elementTemplates.unlinkTemplate(element) },
+    { entry: <RemoveTemplate />, action: () => elementTemplates.removeTemplate(element) }
   ];
 
   return (
@@ -208,15 +199,15 @@ function RemoveTemplate() {
   return <span class="bio-properties-panel-remove-template">{ translate('Remove') }</span>;
 }
 
-function UnknownTemplate({ element, unlinkTemplate }) {
+function UnknownTemplate({ element }) {
   const translate = useService('translate'),
-        injector = useService('injector');
+        elementTemplates = useService('elementTemplates');
 
   const menuItems = [
     { entry: <NotFoundText /> },
     { separator: true },
-    { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
-    { entry: <RemoveTemplate />, action: () => removeTemplate(element, injector) }
+    { entry: translate('Unlink'), action: () => elementTemplates.unlinkTemplate(element) },
+    { entry: <RemoveTemplate />, action: () => elementTemplates.removeTemplate(element) }
   ];
 
   return (
@@ -249,18 +240,18 @@ function NotFoundText() {
  * @param {function} unlinkTemplate
  * @param {function} updateTemplate
  */
-function OutdatedTemplate({ element, templateState, unlinkTemplate, updateTemplate }) {
+function OutdatedTemplate({ element, templateState }) {
   const { newerTemplate } = templateState;
 
   const translate = useService('translate'),
-        injector = useService('injector');
+        elementTemplates = useService('elementTemplates');
 
   const menuItems = [
     { entry: <UpdateAvailableText newerTemplate={ newerTemplate } /> },
     { separator: true },
-    { entry: translate('Update'), action: () => updateTemplate(element, newerTemplate, injector) },
-    { entry: translate('Unlink'), action: () => unlinkTemplate(element, injector) },
-    { entry: <RemoveTemplate />, action: () => removeTemplate(element, injector) }
+    { entry: translate('Update'), action: () => elementTemplates.applyTemplate(element, newerTemplate) },
+    { entry: translate('Unlink'), action: () => elementTemplates.unlinkTemplate(element) },
+    { entry: <RemoveTemplate />, action: () => elementTemplates.removeTemplate(element) }
   ];
 
   return (
