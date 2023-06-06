@@ -24,11 +24,14 @@ import zeebeModdlePackage from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './ElementTemplates.bpmn';
 import integrationXML from './fixtures/integration.bpmn';
+import messageTemplates from './ElementTemplates.message-templates.json';
 
 import templates from './fixtures/simple';
 import complexTemplates from './fixtures/complex';
 import integrationTemplates from './fixtures/integration';
 import { findExtensions, findExtension } from 'src/provider/cloud-element-templates/Helper';
+import { getLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
+import { findMessage } from 'src/provider/cloud-element-templates/Helper';
 
 
 describe('provider/cloud-element-templates - ElementTemplates', function() {
@@ -710,6 +713,291 @@ describe('provider/cloud-element-templates - ElementTemplates', function() {
       const subscription = findExtension(message, 'zeebe:Subscription');
       expect(subscription).to.exist;
       expect(subscription.get('correlationKey')).to.eql('=correlationKey');
+    }));
+
+
+    it('should fire elementTemplates.apply event', inject(function(elementRegistry, elementTemplates, eventBus) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+      const newTemplate = templates[6];
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.apply', spy);
+
+      // when
+      elementTemplates.applyTemplate(task, newTemplate);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task,
+        newTemplate
+      });
+    }));
+  });
+
+
+  describe('unlinkTemplate', function() {
+
+    it('should unlink task template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      // when
+      elementTemplates.unlinkTemplate(task);
+
+      // then
+      const taskBo = getBusinessObject(task);
+
+      expect(taskBo.modelerTemplate).not.to.exist;
+      expect(taskBo.modelerTemplateVersion).not.to.exist;
+      expect(taskBo.name).to.equal('foo');
+    }));
+
+
+    it('should remove template icon', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let task = elementRegistry.get('Task_2');
+
+      // assume
+      expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.exist;
+
+      // when
+      elementTemplates.unlinkTemplate(task);
+
+      // then
+      task = elementRegistry.get('Task_1');
+      expect(getBusinessObject(task).get('zeebe:modelerTemplateIcon')).to.not.exist;
+    }));
+
+    it('should fire elementTemplates.unlink event', inject(function(elementRegistry, elementTemplates, eventBus) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.unlink', spy);
+
+      // when
+      elementTemplates.unlinkTemplate(task);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task
+      });
+    }));
+  });
+
+
+  describe('removeTemplate', function() {
+
+    it('should remove task template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let task = elementRegistry.get('Task_1');
+
+      // when
+      task = elementTemplates.removeTemplate(task);
+
+      // then
+      const taskBo = getBusinessObject(task);
+      const label = getLabel(task);
+
+      expect(taskBo.modelerTemplate).not.to.exist;
+      expect(taskBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('foo');
+    }));
+
+
+    it('should remove group template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let group = elementRegistry.get('Group_1');
+
+      // when
+      group = elementTemplates.removeTemplate(group);
+
+      // then
+      const groupBo = getBusinessObject(group);
+      const label = getLabel(group);
+
+      expect(groupBo.modelerTemplate).not.to.exist;
+      expect(groupBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('Group Name');
+    }));
+
+
+    it('should remove annotation template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let annotation = elementRegistry.get('TextAnnotation_1');
+
+      // when
+      annotation = elementTemplates.removeTemplate(annotation);
+
+      // then
+      const annotationBo = getBusinessObject(annotation);
+      const label = getLabel(annotation);
+
+      expect(annotationBo.modelerTemplate).not.to.exist;
+      expect(annotationBo.modelerTemplateVersion).not.to.exist;
+      expect(label).to.eql('Text Annotation');
+    }));
+
+
+    it('should remove conditional event template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      let event = elementRegistry.get('ConditionalEvent');
+
+      // when
+      event = elementTemplates.removeTemplate(event);
+
+      // then
+      const eventBo = getBusinessObject(event);
+
+      expect(eventBo.modelerTemplate).not.to.exist;
+      expect(eventBo.modelerTemplateVersion).not.to.exist;
+      expect(eventBo.eventDefinitions).to.have.length(1);
+    }));
+
+
+    it('should fire elementTemplates.remove event', inject(function(elementRegistry, elementTemplates, eventBus) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.remove', spy);
+
+      // when
+      elementTemplates.removeTemplate(task);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task
+      });
+    }));
+  });
+
+
+  describe('updateTemplate', function() {
+
+    let container;
+
+    beforeEach(function() {
+      container = TestContainer.get(this);
+    });
+
+    beforeEach(bootstrapModeler(diagramXML, {
+      container: container,
+      modules: [
+        coreModule,
+        elementTemplatesModule,
+        modelingModule,
+        {
+          propertiesPanel: [ 'value', { registerProvider() {} } ]
+        }
+      ],
+      moddleExtensions: {
+        zeebe: zeebeModdlePackage
+      },
+      elementTemplates: [
+        ...templates,
+        ...messageTemplates
+      ]
+    }));
+
+    it('should update template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const newTemplate = templates.find(
+        template => template.id === 'foo' && template.version === 2);
+      const task = elementRegistry.get('Task_1');
+
+      // when
+      elementTemplates.applyTemplate(task, newTemplate);
+
+      // then
+      const taskBo = getBusinessObject(task);
+
+      expect(taskBo.modelerTemplate).to.eql('foo');
+      expect(taskBo.modelerTemplateVersion).to.eql(2);
+    }));
+
+
+    it('should update message event template', inject(function(elementRegistry, elementTemplates) {
+
+      // given
+      const newTemplate = messageTemplates.find(
+        template => template.id === 'updateTemplate' && template.version === 2);
+      let event = elementRegistry.get('MessageEvent');
+
+
+      // when
+      event = elementTemplates.applyTemplate(event, newTemplate);
+
+      // then
+      const eventBo = getBusinessObject(event);
+
+      expect(eventBo.modelerTemplate).to.eql('updateTemplate');
+      expect(eventBo.modelerTemplateVersion).to.eql(2);
+
+      const message = findMessage(eventBo);
+      expect(message.name).to.eql('version_2');
+    }));
+
+
+    it('should update message event template but keep user-edited name',
+      inject(function(elementRegistry, modeling, elementTemplates) {
+
+        // given
+        const newTemplate = messageTemplates.find(
+          template => template.id === 'updateTemplate' && template.version === 2);
+        let event = elementRegistry.get('MessageEvent'),
+            eventBo = getBusinessObject(event);
+        modeling.updateModdleProperties(event, findMessage(eventBo), { name: 'user_edited' });
+
+        // when
+        event = elementTemplates.applyTemplate(event, newTemplate);
+
+        // then
+        eventBo = getBusinessObject(event);
+
+        expect(eventBo.modelerTemplate).to.eql('updateTemplate');
+        expect(eventBo.modelerTemplateVersion).to.eql(2);
+
+        const message = findMessage(eventBo);
+        expect(message.name).to.eql('user_edited');
+      })
+    );
+
+
+    it('should fire elementTemplates.update event', inject(function(elementRegistry, elementTemplates, eventBus) {
+
+      // given
+      const newTemplate = templates.find(
+        template => template.id === 'foo' && template.version === 2);
+
+      const task = elementRegistry.get('Task_1');
+      const spy = sinon.spy();
+
+      eventBus.on('elementTemplates.update', spy);
+
+      // when
+      elementTemplates.applyTemplate(task, newTemplate);
+
+      // then
+      expect(spy).to.have.been.calledOnce;
+      expect(spy.getCalls()[0].args[1]).to.eql({
+        element: task,
+        newTemplate
+      });
     }));
   });
 

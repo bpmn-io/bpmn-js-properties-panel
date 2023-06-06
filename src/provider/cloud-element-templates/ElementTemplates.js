@@ -9,11 +9,14 @@ import { default as DefaultElementTemplates } from '../element-templates/Element
  * Registry for element templates.
  */
 export default class ElementTemplates extends DefaultElementTemplates {
-  constructor(templateElementFactory, commandStack) {
+  constructor(templateElementFactory, commandStack, modeling, eventBus, injector) {
     super(commandStack);
 
     this._commandStack = commandStack;
     this._templateElementFactory = templateElementFactory;
+    this._modeling = modeling;
+    this._eventBus = eventBus;
+    this._injector = injector;
   }
 
   _getTemplateId(element) {
@@ -50,7 +53,19 @@ export default class ElementTemplates extends DefaultElementTemplates {
    */
   applyTemplate(element, newTemplate) {
 
+    let action = 'apply';
+    let payload = { element, newTemplate };
+
     const oldTemplate = this.get(element);
+
+    if (oldTemplate && !newTemplate) {
+      action = 'unlink';
+      payload = { element };
+    }
+
+    if (newTemplate && oldTemplate && (newTemplate.id === oldTemplate.id)) {
+      action = 'update';
+    }
 
     const context = {
       element,
@@ -60,8 +75,16 @@ export default class ElementTemplates extends DefaultElementTemplates {
 
     this._commandStack.execute('propertiesPanel.zeebe.changeTemplate', context);
 
+    this._eventBus.fire(`elementTemplates.${action}`, payload);
+
     return context.element;
   }
 }
 
-ElementTemplates.$inject = [ 'templateElementFactory', 'commandStack' ];
+ElementTemplates.$inject = [
+  'templateElementFactory',
+  'commandStack',
+  'modeling',
+  'eventBus',
+  'injector'
+];
