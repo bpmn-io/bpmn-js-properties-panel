@@ -13,7 +13,6 @@ import {
 import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ElementTemplatesModule from 'src/provider/cloud-element-templates';
-import { removeTemplate, unlinkTemplate } from 'src/provider/cloud-element-templates/util/templateUtil';
 import { findMessage, getTemplateId, TEMPLATE_ID_ATTR } from 'src/provider/cloud-element-templates/Helper';
 
 
@@ -61,14 +60,14 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
   describe('unlink template', function() {
 
     it('should unlink templated message when template is unlinked', inject(
-      function(elementRegistry, injector) {
+      function(elementRegistry, elementTemplates) {
 
         // given
         const event = elementRegistry.get('MessageEvent');
         const initialMessages = getMessages();
 
         // when
-        unlinkTemplate(event, injector);
+        elementTemplates.unlinkTemplate(event);
 
         // then
         const eventBo = getBusinessObject(event);
@@ -92,7 +91,7 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
 
   describe('remove template', function() {
 
-    it('should remove template message', inject(function(elementRegistry, injector) {
+    it('should remove template message', inject(function(elementRegistry, elementTemplates) {
 
       // given
       let event = elementRegistry.get('MessageEvent'),
@@ -100,7 +99,7 @@ describe('provider/cloud-element-templates - ReferencedElementBehavior', functio
       const initialMessages = getMessages();
 
       // when
-      removeTemplate(event, injector);
+      elementTemplates.removeTemplate(event);
 
       // then
       event = elementRegistry.get('MessageEvent');

@@ -1,52 +1,4 @@
-import { getLabel, setLabel } from 'bpmn-js/lib/features/label-editing/LabelUtil';
-import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
-
 import { isUndefined } from 'min-dash';
-
-
-export function unlinkTemplate(element, injector) {
-  const modeling = injector.get('modeling'),
-        eventBus = injector.get('eventBus');
-
-  eventBus.fire('elementTemplates.unlink', { element });
-
-  modeling.updateProperties(element, {
-    'camunda:modelerTemplate': null,
-    'camunda:modelerTemplateVersion': null
-  });
-}
-
-export function removeTemplate(element, injector) {
-  const replace = injector.get('replace'),
-        selection = injector.get('selection'),
-        eventBus = injector.get('eventBus');
-
-  eventBus.fire('elementTemplates.remove', { element });
-
-  const businessObject = getBusinessObject(element);
-
-  const type = businessObject.$type,
-        eventDefinitionType = getEventDefinitionType(businessObject);
-
-  const newBusinessObject = createBlankBusinessObject(element, injector);
-
-  const newElement = replace.replaceElement(element, {
-    type: type,
-    businessObject: newBusinessObject,
-    eventDefinitionType: eventDefinitionType
-  });
-
-  selection.select(newElement);
-}
-
-export function updateTemplate(element, newTemplate, injector) {
-  const elementTemplates = injector.get('elementTemplates'),
-        eventBus = injector.get('eventBus');
-
-  eventBus.fire('elementTemplates.update', { element, newTemplate });
-
-  return elementTemplates.applyTemplate(element, newTemplate);
-}
 
 export function getVersionOrDateFromTemplate(template) {
   const metadata = template.metadata,
@@ -69,20 +21,6 @@ export function getVersionOrDateFromTemplate(template) {
 
 
 // helper ///////////
-
-function getEventDefinitionType(businessObject) {
-  if (!businessObject.eventDefinitions) {
-    return null;
-  }
-
-  const eventDefinition = businessObject.eventDefinitions[ 0 ];
-
-  if (!eventDefinition) {
-    return null;
-  }
-
-  return eventDefinition.$type;
-}
 
 /**
  * Example: 01.01.1900 01:01
@@ -116,24 +54,4 @@ function leftPad(string, length, character) {
   }
 
   return string;
-}
-
-function createBlankBusinessObject(element, injector) {
-  const bpmnFactory = injector.get('bpmnFactory');
-
-  const bo = getBusinessObject(element),
-        newBo = bpmnFactory.create(bo.$type),
-        label = getLabel(element);
-
-  if (!label) {
-    return newBo;
-  }
-
-  if (is(element, 'bpmn:Group')) {
-    newBo.categoryValueRef = bpmnFactory.create('bpmn:CategoryValue');
-  }
-
-  setLabel({ businessObject: newBo }, label);
-
-  return newBo;
 }

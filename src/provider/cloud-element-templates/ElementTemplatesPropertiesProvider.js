@@ -10,7 +10,6 @@ import {
 
 import { getTemplateId } from './Helper';
 
-import { unlinkTemplate, updateTemplate } from './util/templateUtil';
 import { applyConditions } from './Condition';
 import { getPropertyValue } from './util/propertyUtil';
 
@@ -43,9 +42,7 @@ export default class ElementTemplatesPropertiesProvider {
         id: 'ElementTemplates__Template',
         label: 'Template',
         component: createElementTemplatesGroup({
-          getTemplateId,
-          unlinkTemplate,
-          updateTemplate
+          getTemplateId
         }),
         entries: TemplateProps({ element, elementTemplates: this._elementTemplates })
       };
