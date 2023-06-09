@@ -9,14 +9,10 @@ import { default as DefaultElementTemplates } from '../element-templates/Element
  * Registry for element templates.
  */
 export default class ElementTemplates extends DefaultElementTemplates {
-  constructor(templateElementFactory, commandStack, modeling, eventBus, injector) {
-    super(commandStack);
+  constructor(templateElementFactory, commandStack, eventBus, modeling, injector) {
+    super(commandStack, eventBus, modeling, injector);
 
-    this._commandStack = commandStack;
     this._templateElementFactory = templateElementFactory;
-    this._modeling = modeling;
-    this._eventBus = eventBus;
-    this._injector = injector;
   }
 
   _getTemplateId(element) {
@@ -84,7 +80,7 @@ export default class ElementTemplates extends DefaultElementTemplates {
 ElementTemplates.$inject = [
   'templateElementFactory',
   'commandStack',
-  'modeling',
   'eventBus',
+  'modeling',
   'injector'
 ];
