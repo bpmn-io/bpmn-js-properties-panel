@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `CHORE`: remove element templates
+
+### Breaking Changes
+
+* Element Template Modules are no longer exported from this package. Please use [`bpmn-js-element-templates`](https://github.com/bpmn-io/bpmn-js-element-templates) instead.
+
 ## 2.1.0
 
 * `FEAT`: add `ElementTemplates#unlinkTemplate` and `ElementTemplates#removeTemplate` API ([#935](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/935))

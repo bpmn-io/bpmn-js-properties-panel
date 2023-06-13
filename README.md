@@ -18,8 +18,6 @@ Some of the features are:
 * Edit element ids, multi-instance details and more
 * Edit execution related [Camunda 7](https://docs.camunda.org) and [Camunda 8](https://docs.camunda.io/) properties
 * Redo and undo (plugs into the [bpmn-js](https://github.com/bpmn-io/bpmn-js) editing cycle)
-* [Element templates](https://github.com/bpmn-io/element-templates) provider for Camunda 7 and Camunda 8
-
 
 ## Usage
 
@@ -60,12 +58,6 @@ For proper styling include the necessary stylesheets:
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/bpmn-js-properties-panel/dist/assets/properties-panel.css">
-```
-
-If you use the `ElementTemplatesProviderModule`, include also its stylesheet:
-
-```html
-<link rel="stylesheet" href="https://unpkg.com/bpmn-js-properties-panel/dist/assets/element-templates.css">
 ```
 
 
