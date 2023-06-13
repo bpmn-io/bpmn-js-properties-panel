@@ -31,14 +31,9 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPropertiesProvider from 'src/provider/camunda-platform';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
-import ElementTemplatesPropertiesProvider from 'src/provider/element-templates';
-import CloudElementTemplatesPropertiesProvider from 'src/provider/cloud-element-templates';
 
-import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
-import ElementTemplatesIconsRenderer from '@bpmn-io/element-templates-icons-renderer';
 import {
-  CreateAppendAnythingModule,
-  CreateAppendElementTemplatesModule
+  CreateAppendAnythingModule
 } from 'bpmn-js-create-append-anything';
 
 import CamundaBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
@@ -203,74 +198,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesProvider,
           CreateAppendAnythingModule
         ]
-      }
-    );
-
-    // then
-    expect(result.error).not.to.exist;
-  });
-
-
-  (singleStart === 'templates' ? it.only : it)('should import simple process (templates)', async function() {
-
-    // given
-    const diagramXml = require('test/spec/provider/element-templates/fixtures/complex.bpmn').default;
-
-    const elementTemplateContext = require.context('test/spec/provider/element-templates/fixtures', false, /\.json$/);
-
-    const elementTemplates = elementTemplateContext.keys().map(key => elementTemplateContext(key)).flat();
-
-    // when
-    const result = await createModeler(
-      diagramXml,
-      {
-        additionalModules: [
-          CamundaBehaviorsModule,
-          BpmnPropertiesPanel,
-          BpmnPropertiesProvider,
-          ElementTemplateChooserModule,
-          ElementTemplatesPropertiesProvider,
-          CreateAppendAnythingModule
-        ],
-        moddleExtensions: {
-          camunda: CamundaModdle
-        },
-        elementTemplates
-      }
-    );
-
-    // then
-    expect(result.error).not.to.exist;
-  });
-
-
-  (singleStart === 'cloud-templates' ? it.only : it)('should import simple process (cloud-templates)', async function() {
-
-    // given
-    const diagramXml = require('test/spec/provider/cloud-element-templates/fixtures/complex.bpmn').default;
-
-    const elementTemplateContext = require.context('test/spec/provider/cloud-element-templates/fixtures', false, /\.json$/);
-
-    const elementTemplates = elementTemplateContext.keys().map(key => elementTemplateContext(key)).flat();
-
-    // when
-    const result = await createModeler(
-      diagramXml,
-      {
-        additionalModules: [
-          ZeebeBehaviorsModule,
-          BpmnPropertiesPanel,
-          BpmnPropertiesProvider,
-          CloudElementTemplatesPropertiesProvider,
-          ElementTemplateChooserModule,
-          ElementTemplatesIconsRenderer,
-          CreateAppendAnythingModule,
-          CreateAppendElementTemplatesModule
-        ],
-        moddleExtensions: {
-          zeebe: ZeebeModdle
-        },
-        elementTemplates
       }
     );
 
