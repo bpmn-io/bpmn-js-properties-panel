@@ -87,7 +87,11 @@ function ProcessId(props) {
     return process.get('id');
   };
 
-  const setValue = (value) => {
+  const setValue = (value, error) => {
+    if (error) {
+      return;
+    }
+
     commandStack.execute(
       'element.updateModdleProperties',
       {
