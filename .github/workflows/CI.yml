@@ -9,6 +9,7 @@ jobs:
         node-version: [ 16 ]
         integration-deps:
         - diagram-js@11.9 bpmn-js@11.5
+        - "@bpmn-io/properties-panel@2"
         - "" # as defined in package.json
 
     runs-on: ${{ matrix.os }}
