@@ -6,7 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: support line breaks in FEEL statements ([#879](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/879)) 
 * `CHORE`: remove element templates
+* `DEPS`: update to `@bpmn-io/properties-panel@3.0.0`
 
 ### Breaking Changes
 
