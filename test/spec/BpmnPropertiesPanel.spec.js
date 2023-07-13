@@ -354,6 +354,23 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
+    it('should notify on tooltip loaded', function() {
+
+      // given
+      const loadedSpy = sinon.spy();
+
+      const eventBus = new eventBusMock();
+
+      eventBus.on('propertiesPanel.tooltipLoaded', loadedSpy);
+
+      // when
+      createBpmnPropertiesPanel({ container, eventBus });
+
+      // then
+      expect(loadedSpy).to.have.been.called;
+    });
+
+
     it('should notify on properties panel changed', function() {
 
       // given
@@ -427,6 +444,8 @@ function createBpmnPropertiesPanel(options = {}) {
     layoutConfig,
     descriptionConfig,
     descriptionLoaded,
+    tooltipConfig,
+    tooltipLoaded,
     container
   } = options;
 
@@ -452,6 +471,8 @@ function createBpmnPropertiesPanel(options = {}) {
       layoutConfig={ layoutConfig }
       descriptionConfig={ descriptionConfig }
       descriptionLoaded={ descriptionLoaded }
+      tooltipConfig={ tooltipConfig }
+      tooltipLoaded={ tooltipLoaded }
     />,
     {
       container

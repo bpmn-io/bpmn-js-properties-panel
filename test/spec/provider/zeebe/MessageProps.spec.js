@@ -7,7 +7,8 @@ import {
 import {
   bootstrapPropertiesPanel,
   changeInput,
-  inject
+  inject,
+  mouseEnter
 } from 'test/TestHelper';
 
 import {
@@ -24,7 +25,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
-import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
+import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
@@ -55,20 +56,33 @@ describe('provider/zeebe - MessageProps', function() {
     zeebe: zeebeModdleExtensions
   };
 
-  let container;
+  let container, clock;
 
   beforeEach(function() {
     container = TestContainer.get(this);
+    clock = sinon.useFakeTimers();
   });
 
   beforeEach(bootstrapPropertiesPanel(diagramXML, {
     modules: testModules,
     moddleExtensions,
     propertiesPanel: {
-      description: DescriptionProvider
+      tooltip: TooltipProvider
     },
     debounceInput: false
   }));
+
+  afterEach(function() {
+    clock.restore();
+  });
+
+  function openTooltip() {
+    return act(() => {
+      const wrapper = domQuery('.bio-properties-panel-tooltip-wrapper', container);
+      mouseEnter(wrapper);
+      clock.tick(200);
+    });
+  }
 
 
   describe('bpmn:StartEvent#messageRef.name', function() {
@@ -439,11 +453,13 @@ describe('provider/zeebe - MessageProps', function() {
       });
 
       // when
-      const documentationLink = domQuery('div[data-entry-id=messageName] a', container);
+      await openTooltip();
+
+      const documentationLinkGroup = domQuery('.bio-properties-panel-tooltip-content a', container);
 
       // then
-      expect(documentationLink).to.exist;
-      expect(documentationLink.title).to.equal('Message event documentation');
+      expect(documentationLinkGroup).to.exist;
+      expect(documentationLinkGroup.title).to.equal('Message event documentation');
     }));
 
 
@@ -457,14 +473,19 @@ describe('provider/zeebe - MessageProps', function() {
       });
 
       // when
+      await openTooltip();
+
       const documentationLinkMessageName = domQuery('div[data-entry-id=messageName] a', container);
       const documentationLinkMessageCorrelation = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+      const documentationLinkGroup = domQuery('.bio-properties-panel-tooltip-content a', container);
+
 
       // then
       expect(documentationLinkMessageName).to.not.exist;
+      expect(documentationLinkMessageCorrelation).to.not.exist;
 
-      expect(documentationLinkMessageCorrelation).to.exist;
-      expect(documentationLinkMessageCorrelation.title).to.equal('Message event documentation');
+      expect(documentationLinkGroup).to.exist;
+      expect(documentationLinkGroup.title).to.equal('Message event documentation');
     }));
 
 
@@ -482,14 +503,18 @@ describe('provider/zeebe - MessageProps', function() {
         });
 
         // when
+        await openTooltip();
+
         const documentationLinkMessageName = domQuery('div[data-entry-id=messageName] a', container);
         const documentationLinkMessageCorrelation = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+        const documentationLinkGroup = domQuery('.bio-properties-panel-tooltip-content a', container);
 
         // then
         expect(documentationLinkMessageName).to.not.exist;
+        expect(documentationLinkMessageCorrelation).to.not.exist;
 
-        expect(documentationLinkMessageCorrelation).to.exist;
-        expect(documentationLinkMessageCorrelation.title).to.equal('Message event documentation');
+        expect(documentationLinkGroup).to.exist;
+        expect(documentationLinkGroup.title).to.equal('Message event documentation');
       }
     }));
 
@@ -504,11 +529,13 @@ describe('provider/zeebe - MessageProps', function() {
       });
 
       // when
-      const documentationLink = domQuery('div[data-entry-id=messageSubscriptionCorrelationKey] a', container);
+      await openTooltip();
+
+      const documentationLinkGroup = domQuery('.bio-properties-panel-tooltip-content a', container);
 
       // then
-      expect(documentationLink).to.exist;
-      expect(documentationLink.title).to.equal('Receive task documentation');
+      expect(documentationLinkGroup).to.exist;
+      expect(documentationLinkGroup.title).to.equal('Receive task documentation');
     }));
 
   });
