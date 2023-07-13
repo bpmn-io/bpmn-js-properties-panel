@@ -8,7 +8,7 @@ import {
   useService
 } from '../../hooks';
 
-const DescriptionProvider = {
+const TooltipProvider = {
 
   assignmentDefinitionAssignee: (element) => {
     const translate = useService('translate');
@@ -156,7 +156,7 @@ const DescriptionProvider = {
   }
 };
 
-export default DescriptionProvider;
+export default TooltipProvider;
 
 // helper ////////////
 

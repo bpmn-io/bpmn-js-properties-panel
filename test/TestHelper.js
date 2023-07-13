@@ -100,6 +100,10 @@ export function clickInput(input) {
   fireEvent.click(input);
 }
 
+export function mouseEnter(element) {
+  fireEvent.mouseEnter(element);
+}
+
 export function insertCoreStyles() {
   insertCSS(
     'properties-panel.css',

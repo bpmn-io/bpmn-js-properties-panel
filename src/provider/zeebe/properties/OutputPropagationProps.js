@@ -130,9 +130,10 @@ function PropagateAllChildVariables(props) {
     switcherLabel: propagateAllChildVariables ?
       translate('On') :
       translate('Off'),
-    description: propagateAllChildVariables ?
-      translate('All variables from the child process instance will be propagated to the parent process instance') :
-      translate('Only variables defined via output mappings will be propagated from the child to the parent process instance'),
+    tooltip: <div>
+      <p>{translate('If turned on, all variables from the child process instance will be propagated to the parent process instance.')}</p>
+      <p>{translate('Otherwise, only variables defined via output mappings will be propagated.')}</p>
+    </div>,
     getValue,
     setValue
   });

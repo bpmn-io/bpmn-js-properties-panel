@@ -24,7 +24,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
-import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
+import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
@@ -61,7 +61,7 @@ describe('provider/zeebe - ErrorProps', function() {
     modules: testModules,
     moddleExtensions,
     propertiesPanel: {
-      description: DescriptionProvider
+      tooltip: TooltipProvider
     },
     debounceInput: false
   }));
