@@ -231,7 +231,7 @@ function TimerEventDefinitionValue(props) {
     getValue,
     setValue,
     debounce,
-    description: getTimerEventDefinitionValueDescription(timerEventDefinitionType, translate)
+    tooltip: getTimerEventDefinitionValueDescription(timerEventDefinitionType, translate)
   });
 }
 
