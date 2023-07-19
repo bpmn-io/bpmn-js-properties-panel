@@ -27,6 +27,7 @@ import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
  * @param { (djs.model.Base) => Array<PropertiesProvider> } props.getProviders
  * @param {Object} props.layoutConfig
  * @param {Object} props.descriptionConfig
+ * @param {Object} props.tooltipConfig
  */
 export default function BpmnPropertiesPanel(props) {
   const {
@@ -34,7 +35,8 @@ export default function BpmnPropertiesPanel(props) {
     injector,
     getProviders,
     layoutConfig: initialLayoutConfig,
-    descriptionConfig
+    descriptionConfig,
+    tooltipConfig
   } = props;
 
   const canvas = injector.get('canvas');
@@ -215,6 +217,13 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // (7) notify tooltip changes
+  const onTooltipChanged = (tooltip) => {
+    eventBus.fire('propertiesPanel.tooltipChanged', {
+      tooltip
+    });
+  };
+
   return <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
     <PropertiesPanel
       element={ selectedElement }
@@ -225,6 +234,8 @@ export default function BpmnPropertiesPanel(props) {
       layoutChanged={ onLayoutChanged }
       descriptionConfig={ descriptionConfig }
       descriptionLoaded={ onDescriptionLoaded }
+      tooltipConfig={ tooltipConfig }
+      onTooltipChanged={ onTooltipChanged }
       eventBus={ eventBus } />
   </BpmnPropertiesPanelContext.Provider>;
 }
