@@ -132,7 +132,8 @@ function Assignee(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    tooltip: translate('Specifies the user assigned to the task.')
   });
 }
 
@@ -219,7 +220,8 @@ function CandidateGroups(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    tooltip: translate('Specifies the groups of users that the task can be assigned to.')
   });
 }
 
@@ -306,7 +308,8 @@ function CandidateUsers(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    tooltip: translate('Specifies the users that the task can be assigned to.')
   });
 }
 
