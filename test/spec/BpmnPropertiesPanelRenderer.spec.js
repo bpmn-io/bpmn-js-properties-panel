@@ -45,7 +45,7 @@ import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
-import DescriptionProvider from 'src/contextProvider/zeebe/DescriptionProvider';
+import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
@@ -89,6 +89,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         zeebe: ZeebeModdle
       },
       description = {},
+      tooltip = {},
       layout = {}
     } = options;
 
@@ -105,6 +106,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         parent: propertiesContainer,
         feelTooltipContainer: container,
         description,
+        tooltip,
         layout
       },
       ...options
@@ -147,7 +149,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           zeebe: ZeebeModdle
         },
-        description: DescriptionProvider
+        tooltip: TooltipProvider
       }
     );
 
