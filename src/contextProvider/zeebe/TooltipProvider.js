@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
-  getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -10,7 +9,7 @@ import {
 
 const TooltipProvider = {
 
-  assignmentDefinitionAssignee: (element) => {
+  'group-assignmentDefinition': (element) => {
     const translate = useService('translate');
 
     return (
@@ -20,7 +19,7 @@ const TooltipProvider = {
     );
   },
 
-  conditionExpression: (element) => {
+  'group-condition': (element) => {
     const translate = useService('translate');
 
     return (
@@ -30,7 +29,7 @@ const TooltipProvider = {
     );
   },
 
-  decisionId: (element) => {
+  'group-businessRuleImplementation': (element) => {
     const translate = useService('translate');
 
     return (
@@ -41,7 +40,7 @@ const TooltipProvider = {
 
   },
 
-  formType: (element) => {
+  'group-form': (element) => {
     const translate = useService('translate');
 
     return (
@@ -51,7 +50,7 @@ const TooltipProvider = {
     );
   },
 
-  messageSubscriptionCorrelationKey: (element) => {
+  'group-message': (element) => {
     const translate = useService('translate');
 
     if (is(element, 'bpmn:ReceiveTask')) {
@@ -69,19 +68,7 @@ const TooltipProvider = {
     );
   },
 
-  messageName: (element) => {
-    const translate = useService('translate');
-
-    if (is(element, 'bpmn:StartEvent') && !isInEventSubProcess(element)) {
-      return (
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
-          { translate('How to configure a message event') }
-        </a>
-      );
-    }
-  },
-
-  targetProcessId: (element) => {
+  'group-calledElement': (element) => {
     const translate = useService('translate');
 
     return (
@@ -91,7 +78,8 @@ const TooltipProvider = {
     );
   },
 
-  taskDefinitionType: (element) => {
+  'group-taskDefinition': (element) => {
+
     const translate = useService('translate');
 
     if (is(element, 'bpmn:ServiceTask')) {
@@ -135,7 +123,7 @@ const TooltipProvider = {
     }
   },
 
-  'multiInstance-inputCollection': (element) => {
+  'group-multiInstance': (element) => {
     const translate = useService('translate');
 
     return (
@@ -145,7 +133,7 @@ const TooltipProvider = {
     );
   },
 
-  errorCode: (element) => {
+  'group-error': (element) => {
     const translate = useService('translate');
 
     return (
@@ -153,16 +141,27 @@ const TooltipProvider = {
         { translate('How to configure an error event') }
       </a>
     );
+  },
+
+  'group-inputs': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/components/concepts/variables/#input-mappings" target="_blank" rel="noopener" title={ translate('Input mappings documentation') }>
+        { translate('How to configure input variable mappings') }
+      </a>
+    );
+  },
+
+  'group-outputs': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <a href="https://docs.camunda.io/docs/components/concepts/variables/#output-mappings" target="_blank" rel="noopener" title={ translate('Output mappings documentation') }>
+        { translate('How to configure output variable mappings') }
+      </a>
+    );
   }
 };
 
 export default TooltipProvider;
-
-// helper ////////////
-
-function isInEventSubProcess(element) {
-  const bo = getBusinessObject(element),
-        parent = bo.$parent;
-
-  return is(parent, 'bpmn:SubProcess') && parent.triggeredByEvent;
-}
