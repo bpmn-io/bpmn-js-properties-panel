@@ -6,6 +6,15 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 4.0.0
+
+* `FEAT`: migrate long descriptions and descriptions with documentation links to tooltips ([#946](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/946))
+* `FEAT`: allow to set tooltips via context ([#946](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/946))
+
+### Breaking Changes
+
+* `ZeebeDescriptionProvider` is no longer exported with this library, use `ZeebeTooltipProvider` instead.
+
 ## 3.0.0
 
 * `FEAT`: support line breaks in FEEL statements ([#879](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/879)) 
