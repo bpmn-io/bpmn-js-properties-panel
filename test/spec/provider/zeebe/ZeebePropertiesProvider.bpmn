@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.0-nightly.20230815" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Start Event">
       <bpmn:extensionElements>
@@ -111,6 +111,9 @@
     <bpmn:endEvent id="EscalationEvent" name="EscalationEvent">
       <bpmn:escalationEventDefinition id="EscalationEventDefinition_1i8kp4g" />
     </bpmn:endEvent>
+    <bpmn:endEvent id="ErrorEndEvent_1" name="ErrorEndEvent_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1uh9zpu" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -205,6 +208,12 @@
         <dc:Bounds x="562" y="662" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="541" y="705" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jg6chy_di" bpmnElement="ErrorEndEvent_1">
+        <dc:Bounds x="652" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="628" y="705" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ii3c12_di" bpmnElement="InterruptingTimerBoundaryEvent_1">
