@@ -141,17 +141,22 @@ describe('<ZeebePropertiesProvider>', function() {
     it('should NOT show output group', inject(async function(elementRegistry, selection) {
 
       // given
-      const task = elementRegistry.get('Task_1');
+      const elements = [
+        elementRegistry.get('Task_1'),
+        elementRegistry.get('ErrorEndEvent_1')
+      ];
 
-      await act(() => {
-        selection.select(task);
-      });
+      for (const ele of elements) {
+        await act(() => {
+          selection.select(ele);
+        });
 
-      // when
-      const outputGroup = getGroup(container, 'outputs');
+        // when
+        const outputGroup = getGroup(container, 'outputs');
 
-      // then
-      expect(outputGroup).to.not.exist;
+        // then
+        expect(outputGroup).to.not.exist;
+      }
     }));
 
 

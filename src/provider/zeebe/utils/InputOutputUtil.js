@@ -3,7 +3,8 @@ import {
 } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 import {
-  getBusinessObject
+  getBusinessObject,
+  is
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -15,7 +16,10 @@ import {
 } from '../../../utils/ElementUtil';
 import { isZeebeServiceTask } from './ZeebeServiceTaskUtil';
 
-import { getEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
+import {
+  getErrorEventDefinition,
+  getEventDefinition
+} from '../../bpmn/utils/EventDefinitionUtil';
 
 function getElements(bo, type, prop) {
   const elems = getExtensionElementsList(bo, type);
@@ -75,6 +79,11 @@ export function areInputParametersSupported(element) {
 }
 
 export function areOutputParametersSupported(element) {
+
+  if (is(element, 'bpmn:EndEvent') && getErrorEventDefinition(element)) {
+    return false;
+  }
+
   return isAny(element, [
     'zeebe:ZeebeServiceTask',
     'bpmn:UserTask',
