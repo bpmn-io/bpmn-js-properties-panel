@@ -6,6 +6,7 @@ export { ErrorProps } from './ErrorProps';
 export { EscalationProps } from './EscalationProps';
 export { FormProps } from './FormProps';
 export { HeaderProps } from './HeaderProps';
+export { InputPropagationProps } from './InputPropagationProps';
 export { InputProps } from './InputProps';
 export { MessageProps } from './MessageProps';
 export { MultiInstanceProps } from './MultiInstanceProps';

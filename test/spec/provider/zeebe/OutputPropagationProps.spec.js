@@ -190,7 +190,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
       expect(originalValue).to.be.false;
 
       // when
-      const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+      const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
       // when
       clickInput(slider);
@@ -218,7 +218,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
       expect(originalValue).to.be.true;
 
       // when
-      const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+      const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
       clickInput(slider);
 
@@ -242,7 +242,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
           selection.select(callActivity);
         });
 
-        const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+        const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
         clickInput(slider);
 
         // when
@@ -267,7 +267,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
       });
 
       // when
-      const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+      const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
       clickInput(slider);
 
       // then
@@ -292,7 +292,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
       expect(getExtensionElementsList(businessObject, 'zeebe:IoMapping')).to.have.length(1);
 
       // when
-      const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+      const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
       clickInput(slider);
 
       // then
@@ -315,7 +315,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
       });
 
       // when
-      const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+      const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
       clickInput(slider);
 
       // then
@@ -344,7 +344,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
                 selection.select(callActivity);
               });
 
-              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+              const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
               clickInput(slider);
             }));
@@ -399,7 +399,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
                 selection.select(callActivity);
               });
 
-              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+              const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
               clickInput(slider);
             }));
@@ -464,7 +464,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
                 selection.select(shape);
               });
 
-              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+              const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
               clickInput(slider);
             }));
@@ -519,7 +519,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
                 selection.select(shape);
               });
 
-              const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+              const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
               clickInput(slider);
             }));
@@ -588,7 +588,7 @@ describe('provider/zeebe - OutputPropagationProps', function() {
               selection.select(shape);
             });
 
-            const slider = domQuery('.bio-properties-panel-toggle-switch__slider', container);
+            const slider = domQuery('[data-entry-id=propagateAllChildVariables] .bio-properties-panel-toggle-switch__slider', container);
 
             clickInput(slider);
           }));

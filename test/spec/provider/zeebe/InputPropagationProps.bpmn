@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0xepdnf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+  <bpmn:process id="Process_1ca0499" isExecutable="true">
+    <bpmn:callActivity id="CallActivity_1" name="CallActivity_1">
+      <bpmn:extensionElements>
+        <zeebe:calledElement propagateAllParentVariables="false" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_2" name="CallActivity_2">
+      <bpmn:extensionElements>
+        <zeebe:calledElement />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_3" name="CallActivity_3" />
+    <bpmn:callActivity id="CallActivity_4" name="CallActivity_4">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="someProcessId" />
+        <zeebe:ioMapping>
+          <zeebe:output source="= source" target="target" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:task id="Task_1" name="Task_1" />
+    <bpmn:callActivity id="CallActivity_5" name="CallActivity_5">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="= source" target="target" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_6" name="CallActivity_6">
+      <bpmn:extensionElements>
+        <zeebe:calledElement propagateAllParentVariables="false" />
+        <zeebe:ioMapping>
+          <zeebe:output source="= source" target="target" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:group id="Group_0g7mvor" categoryValueRef="CategoryValue_0i5rzi3" />
+  </bpmn:process>
+  <bpmn:category id="Category_028vbmh">
+    <bpmn:categoryValue id="CategoryValue_0i5rzi3" value="Legacy Formats" />
+  </bpmn:category>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1ca0499">
+      <bpmndi:BPMNShape id="Activity_148gene_di" bpmnElement="CallActivity_1">
+        <dc:Bounds x="160" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17u01kh_di" bpmnElement="CallActivity_2">
+        <dc:Bounds x="160" y="360" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04g6ntf_di" bpmnElement="CallActivity_3">
+        <dc:Bounds x="490" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09v4buk_di" bpmnElement="CallActivity_4">
+        <dc:Bounds x="490" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qlrc91_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ucjhow_di" bpmnElement="CallActivity_5">
+        <dc:Bounds x="160" y="490" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ax67yw_di" bpmnElement="CallActivity_6">
+        <dc:Bounds x="160" y="620" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Group_0g7mvor_di" bpmnElement="Group_0g7mvor">
+        <dc:Bounds x="390" y="180" width="300" height="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="500" y="187" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

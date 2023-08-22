@@ -13,6 +13,12 @@ export function getPropagateAllChildVariables(element) {
   return calledElement ? calledElement.get('propagateAllChildVariables') : undefined;
 }
 
+export function getPropagateAllParentVariables(element) {
+  const calledElement = getCalledElement(element);
+
+  return calledElement ? calledElement.get('propagateAllParentVariables') : undefined;
+}
+
 export function getProcessId(element) {
   const calledElement = getCalledElement(element);
 

@@ -9,6 +9,7 @@ import {
   EscalationProps,
   FormProps,
   HeaderProps,
+  InputPropagationProps,
   InputProps,
   MessageProps,
   MultiInstanceProps,
@@ -43,6 +44,7 @@ const ZEEBE_GROUPS = [
   FormGroup,
   ConditionGroup,
   TargetGroup,
+  InputPropagationGroup,
   InputGroup,
   OutputPropagationGroup,
   OutputGroup,
@@ -207,6 +209,19 @@ function OutputPropagationGroup(element) {
     label: 'Output propagation',
     entries: [
       ...OutputPropagationProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function InputPropagationGroup(element) {
+  const group = {
+    id: 'inputPropagation',
+    label: 'Input propagation',
+    entries: [
+      ...InputPropagationProps({ element })
     ],
     component: Group
   };
