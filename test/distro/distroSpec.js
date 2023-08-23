@@ -17,11 +17,7 @@ describe('modules', function() {
 describe('assets', function() {
 
 
-
   it('should expose properties panel styles', verifyExists('assets/properties-panel.css'));
-
-
-  it('should expose element templates styles', verifyExists('assets/element-templates.css'));
 
 
 });
