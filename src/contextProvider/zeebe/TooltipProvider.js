@@ -49,6 +49,19 @@ const TooltipProvider = {
 
   },
 
+  'group-scriptImplementation': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Implement a script task. To add a custom implementation use a job worker. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/script-tasks/#defining-a-script-task" target="_blank" rel="noopener" title={ translate('Script task documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
   'group-form': (element) => {
     const translate = useService('translate');
 
