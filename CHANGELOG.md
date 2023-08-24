@@ -6,6 +6,15 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.0.0
+
+* `CHORE`: remove `element-template.css` ([#956](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/956))
+* `FIX`: remove output group from error end events ([#952](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/952))
+
+### Breaking Changes
+
+* `assets/element-template.css` are no longer published from this package. Please use [`bpmn-js-element-templates`](https://github.com/bpmn-io/bpmn-js-element-templates) instead.
+
 ## 4.0.2
 
 * `DEPS`: update to `@bpmn-io/properties-panel@3.2.1`
