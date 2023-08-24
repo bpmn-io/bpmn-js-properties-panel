@@ -11,7 +11,7 @@ ___Note:__ Yet to be released changes appear here._
 * `CHORE`: remove `properties-panel.css` ([#958](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/958))
 * `CHORE`: remove `element-template.css` ([#956](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/956))
 * `FIX`: remove output group from error end events ([#952](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/952))
-* deps: update to `@bpmn-io/properties-panel@3.3.2` ([#958](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/958))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.3.2` ([#958](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/958))
 
 ### Breaking Changes
 
