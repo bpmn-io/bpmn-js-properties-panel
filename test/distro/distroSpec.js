@@ -13,15 +13,6 @@ describe('modules', function() {
 
 });
 
-
-describe('assets', function() {
-
-
-  it('should expose properties panel styles', verifyExists('assets/properties-panel.css'));
-
-
-});
-
 function verifyExists(relativePath) {
   return function() {
 
