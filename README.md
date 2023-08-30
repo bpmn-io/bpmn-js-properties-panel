@@ -57,7 +57,7 @@ const modeler = new BpmnModeler({
 For proper styling include the necessary stylesheets:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/properties-panel/assets/properties-panel.css">
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/properties-panel/dist/assets/properties-panel.css">
 ```
 
 
