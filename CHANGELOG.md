@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.1.0
+
+* `FEAT`: add _Input propagation_ group ([#954](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/954))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.4.0`
+
 ## 5.0.0
 
 * `CHORE`: remove `properties-panel.css` ([#958](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/958))
