@@ -27,9 +27,9 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Define a boolean condition expression that defines when a flow is taken. ')}
+        { translate('Define a boolean condition expression that defines when this flow is taken. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/exclusive-gateways/#conditions" target="_blank" rel="noopener" title={ translate('Conditions documentation') }>
-          { translate('How to define conditions') }
+          { translate('Learn how to define conditions.') }
         </a>
       </div>
     );
@@ -40,7 +40,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Evaluate a business rule, for example a DMN. To add a custom implementation use a job worker. ')}
+        { translate('Evaluate a business rule, for example a DMN. To add a custom implementation, use a job worker. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
           { translate('Learn more.') }
         </a>
@@ -54,7 +54,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Implement a script task. To add a custom implementation use a job worker. ')}
+        { translate('Implement a script task using an inline FEEL expression. To add a custom implementation, use a job worker. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/script-tasks/#defining-a-script-task" target="_blank" rel="noopener" title={ translate('Script task documentation') }>
           { translate('Learn more.') }
         </a>
@@ -67,7 +67,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Embed Camunda Forms or use a form key to specify an identifier to associate a form to the user task. ')}
+        { translate('Embed a form created with the Camunda Forms editor. To associate a custom form, application, or URL to the user task, specify a form key. ')}
         <a href="https://docs.camunda.io/docs/guides/utilizing-forms/#connect-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener" title={ translate('User task form documentation') }>
           { translate('Learn more.') }
         </a>
@@ -81,9 +81,14 @@ const TooltipProvider = {
     if (is(element, 'bpmn:ReceiveTask')) {
       return (
         <div>
-          { translate('Define the name of the message (e.g. ')}<code>Money collected</code>{translate(') and the ')}<code>correlationKey</code>{translate(' expression (e.g. ')}<code>= orderId</code>{translate('). ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener" title={ translate('Receive task documentation') }>
-            { translate('Learn more.') }
+          { translate('Define the name of the message (e.g. ')}<code>Money collected</code>{translate(') and the ')}<code>correlationKey</code>{translate(' expression (e.g. ')}<code>= orderId</code>{translate(')')}{translate(' to subscribe to. ')}
+          {translate('Learn more how to ')}
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/send-tasks" target="_blank" rel="noopener" title={ translate('Send task documentation') }>
+            { translate('send ') }
+          </a>
+          {translate('and ')}
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks" target="_blank" rel="noopener" title={ translate('Receive task documentation') }>
+            { translate('receive messages. ') }
           </a>
         </div>
       );
@@ -91,7 +96,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Define the name of the message (e.g. ')}<code>Money collected</code>{translate('). ')}
+        { translate('Define the name of the message (e.g. ')}<code>Money collected</code>{translate(') and the ')}<code>correlationKey</code>{translate(' expression (e.g. ')}<code>= orderId</code>{translate(')')}{translate(' to subscribe to. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener" title={ translate('Message event documentation') }>
           { translate('Learn more.') }
         </a>
@@ -104,7 +109,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Define the BPMN process id of the called process (e.g. ')} <code>shipping-process</code>
+        { translate('Define the ID of the process to call (e.g. ')} <code>shipping-process</code>
         {translate(' or ')}<code>= "shipping-" + tenantId</code> {translate('). ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/call-activities/" target="_blank" rel="noopener" title={ translate('Call activity documentation') }>
           { translate('Learn more.') }
@@ -119,8 +124,8 @@ const TooltipProvider = {
 
     if (is(element, 'bpmn:ServiceTask')) {
       return (
-        <div>{translate('Specify which job workers handle the task work (e.g. ')}<code>order-items</code>{translate('). ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/service-tasks/#task-definition" target="_blank" rel="noopener" title={ translate('Service task documentation') }>
+        <div>{translate('Specify which job workers handle the task work to execute a service (e.g. ')}<code>order-items</code>{translate('). ')}
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/service-tasks" target="_blank" rel="noopener" title={ translate('Service task documentation') }>
             { translate('Learn more.') }
           </a>
         </div>
@@ -129,7 +134,7 @@ const TooltipProvider = {
 
     if (is(element, 'bpmn:BusinessRuleTask')) {
       return (
-        <div>{translate('Specify which job workers handle the task work. ')}
+        <div>{translate('Specify which job workers handle the task work to evaluate business rules. ')}
           <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#job-worker-implementation" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
             { translate('Learn more.') }
           </a>
@@ -139,7 +144,7 @@ const TooltipProvider = {
 
     if (is(element, 'bpmn:ScriptTask')) {
       return (
-        <div>{translate('Specify which job workers handle the task work (e.g. ')}<code>script</code>{translate('). ')}
+        <div>{translate('Specify which job workers handle the task work to execute a script. ')}
           <a href="https://docs.camunda.io/docs/components/modeler/bpmn/script-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Script task documentation') }>
             { translate('Learn more.') }
           </a>
@@ -149,7 +154,7 @@ const TooltipProvider = {
 
     if (is(element, 'bpmn:SendTask')) {
       return (
-        <div>{translate('Specify which job workers handle the task work (e.g. ')}<code>kafka</code>{translate(' or ')}<code>mail</code>{translate('). ')}
+        <div>{translate('Specify which job workers handle the task work to send a message (e.g. ')}<code>kafka</code>{translate(' or ')}<code>mail</code>{translate('). ')}
           <a href="https://docs.camunda.io/docs/components/modeler/bpmn/send-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Send task documentation') }>
             { translate('Learn more.') }
           </a>
@@ -173,6 +178,8 @@ const TooltipProvider = {
 
     return (
       <div>
+        {translate('Execute this task for each element of a given collection. ')}
+        <br />
         {translate('Define an input collection expression that defines the collection to iterate over (e.g. ')}<code>= items</code>{translate('). ')}
         {translate('To collect the output define the output collection and the output element expressions. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/multi-instance/#defining-the-collection-to-iterate-over" target="_blank" rel="noopener" title={ translate('Multi instance documentation') }>
@@ -200,7 +207,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Create a new local variable in the scope where the mapping is defined. ')}
+        { translate('Create a new local variable in the scope of this task. ')}
         <a href="https://docs.camunda.io/docs/components/concepts/variables/#input-mappings" target="_blank" rel="noopener" title={ translate('Input mappings documentation') }>
           { translate('Learn more.') }
         </a>
@@ -213,7 +220,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Customize how job/message variables are merged into the process instance. ')}
+        { translate('Customize how result variables are merged into the global scope of the process instance. ')}
         <a href="https://docs.camunda.io/docs/components/concepts/variables/#output-mappings" target="_blank" rel="noopener" title={ translate('Output mappings documentation') }>
           { translate('Learn more.') }
         </a>

@@ -12,7 +12,8 @@ import {
 } from 'test/TestHelper';
 
 import {
-  query as domQuery
+  query as domQuery,
+  queryAll as domQueryAll
 } from 'min-dom';
 
 import CoreModule from 'bpmn-js/lib/core';
@@ -531,11 +532,13 @@ describe('provider/zeebe - MessageProps', function() {
       // when
       await openTooltip();
 
-      const documentationLinkGroup = domQuery('.bio-properties-panel-tooltip-content a', container);
+      const documentationLinkGroups = domQueryAll('.bio-properties-panel-tooltip-content a', container);
 
       // then
-      expect(documentationLinkGroup).to.exist;
-      expect(documentationLinkGroup.title).to.equal('Receive task documentation');
+      expect(documentationLinkGroups).to.exist;
+      expect(documentationLinkGroups).to.have.length(2);
+      expect(documentationLinkGroups[0].title).to.equal('Send task documentation');
+      expect(documentationLinkGroups[1].title).to.equal('Receive task documentation');
     }));
 
   });
