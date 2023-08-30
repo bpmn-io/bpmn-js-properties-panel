@@ -21,7 +21,7 @@ ___Note:__ Yet to be released changes appear here._
 ### Breaking Changes
 
 * `dist/assets/properties-panel.css` is no longer published from this package. Please use [`bpmn-js-element-templates/dist/assets/properties-panel.css`](https://github.com/bpmn-io/bpmn-js-element-templates) instead.
-* `dist/assets/properties-panel.css` is no longer published from this package. Please use [`@bpmn-io/properties-panel/assets/properties-panel.css`](https://github.com/bpmn-io/properties-panel) instead.
+* `dist/assets/properties-panel.css` is no longer published from this package. Please use [`@bpmn-io/properties-panel/dist/assets/properties-panel.css`](https://github.com/bpmn-io/properties-panel) instead.
 
 ## 4.0.2
 
