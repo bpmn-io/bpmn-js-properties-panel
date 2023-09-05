@@ -7,8 +7,8 @@ import { isArray } from 'min-dash';
 /**
  * Get extension elements of business object. Optionally filter by type.
  *
- * @param  {ModdleElement} businessObject
- * @param  {String} [type=undefined]
+ * @param {ModdleElement} businessObject
+ * @param {string} [type=undefined]
  * @returns {Array<ModdleElement>}
  */
 export function getExtensionElementsList(businessObject, type = undefined) {

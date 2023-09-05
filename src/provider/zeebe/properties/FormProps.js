@@ -12,17 +12,9 @@ import {
   isTextAreaEntryEdited
 } from '@bpmn-io/properties-panel';
 
-import {
-  createElement,
-  nextId
-} from '../../../utils/ElementUtil';
+import { createElement } from '../../../utils/ElementUtil';
 
 import {
-  getExtensionElementsList
-} from '../../../utils/ExtensionElementsUtil';
-
-import {
-  find,
   isUndefined,
   without
 } from 'min-dash';
@@ -31,14 +23,20 @@ import {
   useService
 } from '../../../hooks';
 
+import {
+  createFormId,
+  createFormKey,
+  getFormDefinition,
+  getRootElement,
+  getUserTaskForm,
+  isCamundaForm,
+  isCustomKey,
+  resolveFormId
+} from '../utils/FormUtil';
+
 
 export function FormProps(props) {
-  const {
-    element,
-    injector
-  } = props;
-
-  const formHelper = injector.invoke(FormHelper);
+  const { element } = props;
 
   if (!is(element, 'bpmn:UserTask')) {
     return [];
@@ -50,14 +48,14 @@ export function FormProps(props) {
     isEdited: isSelectEntryEdited
   } ];
 
-  if (isCamundaForm(element, formHelper)) {
+  if (isCamundaForm(element)) {
     entries.push({
       id: 'formConfiguration',
       component: FormConfiguration,
       isEdited: isTextAreaEntryEdited
     });
 
-  } else if (isCustomKey(element, formHelper)) {
+  } else if (isCustomKey(element)) {
     entries.push({
       id: 'customFormKey',
       component: CustomFormKey,
@@ -80,8 +78,8 @@ function FormType(props) {
   const formHelper = injector.invoke(FormHelper);
 
   const getValue = () => {
-    const formDefinition = formHelper.getFormDefinition(element);
-    const userTaskForm = formHelper.getUserTaskForm(element);
+    const formDefinition = getFormDefinition(element);
+    const userTaskForm = getUserTaskForm(element);
 
     if (formDefinition) {
 
@@ -135,7 +133,7 @@ function FormConfiguration(props) {
   const formHelper = injector.invoke(FormHelper);
 
   const getValue = () => {
-    const userTaskForm = formHelper.getUserTaskForm(element);
+    const userTaskForm = getUserTaskForm(element);
     return userTaskForm.get('body');
   };
 
@@ -166,7 +164,7 @@ function CustomFormKey(props) {
   const formHelper = injector.invoke(FormHelper);
 
   const getValue = () => {
-    const formDefinition = formHelper.getFormDefinition(element);
+    const formDefinition = getFormDefinition(element);
     return formDefinition.get('formKey');
   };
 
@@ -185,36 +183,7 @@ function CustomFormKey(props) {
 }
 
 
-const USER_TASK_FORM_PREFIX = 'userTaskForm_';
-
 function FormHelper(bpmnFactory, commandStack) {
-
-  function getFormDefinition(element) {
-    const businessObject = getBusinessObject(element);
-
-    const formDefinitions = getExtensionElementsList(businessObject, 'zeebe:FormDefinition');
-
-    return formDefinitions[0];
-  }
-
-  function getUserTaskForm(element, parent) {
-
-    const rootElement = parent || getRootElement(element);
-
-    // (1) get form definition from user task
-    const formDefinition = getFormDefinition(element);
-
-    if (isUndefined(formDefinition)) {
-      return;
-    }
-
-    const formKey = formDefinition.get('formKey');
-
-    // (2) retrieve user task form via form key
-    const userTaskForm = findUserTaskForm(formKey, rootElement);
-
-    return userTaskForm;
-  }
 
   function ensureTaskForm(element, values) {
 
@@ -398,18 +367,6 @@ function FormHelper(bpmnFactory, commandStack) {
 
   }
 
-  function createFormKey(formId) {
-    return 'camunda-forms:bpmn:' + formId;
-  }
-
-  function createFormId() {
-    return nextId(USER_TASK_FORM_PREFIX);
-  }
-
-  function resolveFormId(formKey) {
-    return formKey.split(':')[2];
-  }
-
   function createFormDefinition(properties, extensionElements, bpmnFactory) {
     return createElement(
       'zeebe:FormDefinition',
@@ -428,29 +385,7 @@ function FormHelper(bpmnFactory, commandStack) {
     );
   }
 
-  function findUserTaskForm(formKey, rootElement) {
-    const forms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
-
-    return find(forms, function(userTaskForm) {
-      return createFormKey(userTaskForm.id) === formKey;
-    });
-  }
-
-  function getRootElement(element) {
-    const businessObject = getBusinessObject(element);
-
-    let parent = businessObject;
-
-    while (parent.$parent && !is(parent, 'bpmn:Process')) {
-      parent = parent.$parent;
-    }
-
-    return parent;
-  }
-
   return {
-    getFormDefinition,
-    getUserTaskForm,
     setFormDefinition,
     setUserTaskForm,
     resetForm
@@ -472,18 +407,4 @@ function UpdateModdlePropertiesCmd(element, businessObject, newProperties) {
       properties: newProperties
     }
   };
-}
-
-function isCamundaForm(element, formHelper) {
-  const formDefinition = formHelper.getFormDefinition(element);
-  const userTaskForm = formHelper.getUserTaskForm(element);
-
-  return formDefinition && userTaskForm;
-}
-
-function isCustomKey(element, formHelper) {
-  const formDefinition = formHelper.getFormDefinition(element);
-  const userTaskForm = formHelper.getUserTaskForm(element);
-
-  return formDefinition && !userTaskForm;
 }
