@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.2.0
+
+* `FEAT`: improve tooltip content ([#955](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/955))
+
 ## 5.1.0
 
 * `FEAT`: add _Input propagation_ group ([#954](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/954))
