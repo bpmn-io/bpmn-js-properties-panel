@@ -5,17 +5,17 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 /**
- * Create a new element and set its parent.
+ * Create a new element and (optionally) set its parent.
  *
- * @param {String} elementType of the new element
- * @param {Object} properties of the new element in key-value pairs
- * @param {moddle.object} parent of the new element
- * @param {BpmnFactory} factory which creates the new element
+ * @param {string} type
+ * @param {Object} properties
+ * @param {import('bpmn-js/lib/model/Types').ModdleElement} parent
+ * @param {import('bpmn-js/lib/features/modeling/BpmnFactory').default} bpmnFactory
  *
- * @returns {djs.model.Base} element which is created
+ * @returns {import('bpmn-js/lib/model/Types').ModdleElement}
  */
-export function createElement(elementType, properties, parent, factory) {
-  const element = factory.create(elementType, properties);
+export function createElement(type, properties, parent, bpmnFactory) {
+  const element = bpmnFactory.create(type, properties);
 
   if (parent) {
     element.$parent = parent;
