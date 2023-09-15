@@ -1,63 +1,61 @@
-import {
-  find,
-  isUndefined
-} from 'min-dash';
+import { isDefined } from 'min-dash';
 
 import {
   getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { getExtensionElementsList } from '../../../utils/ExtensionElementsUtil';
-
 import { nextId } from '../../../utils/ElementUtil';
 
-const USER_TASK_FORM_PREFIX = 'userTaskForm_';
+import { getExtensionElementsList } from '../../../utils/ExtensionElementsUtil';
+
+const FORM_KEY_PREFIX = 'camunda-forms:bpmn:',
+      USER_TASK_FORM_ID_PREFIX = 'UserTaskForm_';
+
+export const FORM_TYPES = {
+  CAMUNDA_FORM_EMBEDDED: 'camunda-form-embedded',
+  CAMUNDA_FORM_LINKED: 'camunda-form-linked',
+  CUSTOM_FORM: 'custom-form'
+};
+
+export const DEFAULT_FORM_TYPE = FORM_TYPES.CAMUNDA_FORM_LINKED;
 
 export function getFormDefinition(element) {
   const businessObject = getBusinessObject(element);
 
   const formDefinitions = getExtensionElementsList(businessObject, 'zeebe:FormDefinition');
 
-  return formDefinitions[0];
+  return formDefinitions[ 0 ];
 }
 
-export function getUserTaskForm(element, parent) {
-  const rootElement = parent || getRootElement(element);
+export function getUserTaskForm(element, rootElement) {
+  rootElement = rootElement || getRootElement(element);
 
-  // (1) get form definition from user task
   const formDefinition = getFormDefinition(element);
 
-  if (isUndefined(formDefinition)) {
+  if (!formDefinition) {
     return;
   }
 
   const formKey = formDefinition.get('formKey');
 
-  // (2) retrieve user task form via form key
-  const userTaskForm = findUserTaskForm(formKey, rootElement);
+  const userTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
 
-  return userTaskForm;
-}
-
-export function createFormKey(formId) {
-  return 'camunda-forms:bpmn:' + formId;
-}
-
-export function createFormId() {
-  return nextId(USER_TASK_FORM_PREFIX);
-}
-
-export function resolveFormId(formKey) {
-  return formKey.split(':')[2];
-}
-
-export function findUserTaskForm(formKey, rootElement) {
-  const forms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
-
-  return find(forms, function(userTaskForm) {
-    return createFormKey(userTaskForm.id) === formKey;
+  return userTaskForms.find(userTaskForm => {
+    return userTaskFormIdToFormKey(userTaskForm.get('id')) === formKey;
   });
+}
+
+export function userTaskFormIdToFormKey(userTaskFormId) {
+  return `${ FORM_KEY_PREFIX }${ userTaskFormId }`;
+}
+
+export function formKeyToUserTaskFormId(formKey) {
+  return formKey.replace(FORM_KEY_PREFIX, '');
+}
+
+export function createUserTaskFormId() {
+  return nextId(USER_TASK_FORM_ID_PREFIX);
 }
 
 export function getRootElement(element) {
@@ -72,16 +70,26 @@ export function getRootElement(element) {
   return parent;
 }
 
-export function isCamundaForm(element) {
+export function getFormType(element) {
   const formDefinition = getFormDefinition(element);
-  const userTaskForm = getUserTaskForm(element);
 
-  return formDefinition && userTaskForm;
-}
+  if (!formDefinition) {
+    return;
+  }
 
-export function isCustomKey(element) {
-  const formDefinition = getFormDefinition(element);
-  const userTaskForm = getUserTaskForm(element);
+  const formId = formDefinition.get('formId'),
+        formKey = formDefinition.get('formKey');
 
-  return formDefinition && !userTaskForm;
+  if (isDefined(formId)) {
+    return FORM_TYPES.CAMUNDA_FORM_LINKED;
+  }
+
+  if (isDefined(formKey)) {
+
+    if (getUserTaskForm(element)) {
+      return FORM_TYPES.CAMUNDA_FORM_EMBEDDED;
+    }
+
+    return FORM_TYPES.CUSTOM_FORM;
+  }
 }
