@@ -888,6 +888,48 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  describe('feel popup', function() {
+
+    withPropertiesPanel('>=3.5')('should render feel popup in given container', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      let modeler;
+
+      await act(async () => {
+        ({ modeler } = await createModeler(diagramXml, {
+          propertiesPanel: {
+            parent: propertiesContainer,
+            feelPopupContainer: container
+          }
+        }));
+      });
+
+      await act(() => {
+        const elementRegistry = modeler.get('elementRegistry'),
+              selection = modeler.get('selection');
+
+        selection.select(elementRegistry.get('ServiceTask_1'));
+      });
+
+      const openPopupBtn = findOpenFeelPopup('ServiceTask_1-input-0-source', container);
+
+      // when
+      await act(() => {
+        openPopupBtn.click();
+      });
+
+      const feelPopup = domQuery('.bio-properties-panel-feel-popup', container);
+
+      // then
+      expect(feelPopup).to.exist;
+      expect(feelPopup.parentNode).to.eql(container);
+    });
+
+  });
+
+
   describe('a11y', function() {
 
     it('should have no violations', async function() {
@@ -971,4 +1013,8 @@ function getGroup(container, id) {
 
 function getHeaderName(container) {
   return domQuery('.bio-properties-panel-header-label', container).innerText;
+}
+
+function findOpenFeelPopup(id, container) {
+  return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-open-feel-popup`);
 }
