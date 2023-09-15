@@ -24,14 +24,14 @@ import {
 } from '../../../hooks';
 
 import {
-  createFormId,
-  createFormKey,
+  createUserTaskFormId,
+  formKeyToUserTaskFormId,
+  FORM_TYPES,
   getFormDefinition,
+  getFormType,
   getRootElement,
   getUserTaskForm,
-  isCamundaForm,
-  isCustomKey,
-  resolveFormId
+  userTaskFormIdToFormKey
 } from '../utils/FormUtil';
 
 
@@ -48,14 +48,16 @@ export function FormProps(props) {
     isEdited: isSelectEntryEdited
   } ];
 
-  if (isCamundaForm(element)) {
+  const formType = getFormType(element);
+
+  if (formType === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
     entries.push({
       id: 'formConfiguration',
       component: FormConfiguration,
       isEdited: isTextAreaEntryEdited
     });
 
-  } else if (isCustomKey(element)) {
+  } else if (formType === FORM_TYPES.CUSTOM_FORM) {
     entries.push({
       id: 'customFormKey',
       component: CustomFormKey,
@@ -68,38 +70,24 @@ export function FormProps(props) {
 
 
 function FormType(props) {
+  const { element } = props;
 
-  const {
-    element
-  } = props;
+  const injector = useService('injector'),
+        translate = useService('translate');
 
-  const translate = useService('translate');
-  const injector = useService('injector');
   const formHelper = injector.invoke(FormHelper);
 
   const getValue = () => {
-    const formDefinition = getFormDefinition(element);
-    const userTaskForm = getUserTaskForm(element);
-
-    if (formDefinition) {
-
-      if (userTaskForm) {
-        return 'camundaForm';
-      }
-
-      return 'formKey';
-    }
-
-    return '';
+    return getFormType(element) || '';
   };
 
   const setValue = (value) => {
     formHelper.resetForm(element);
 
-    if (value === 'camundaForm') {
+    if (value === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
       formHelper.setUserTaskForm(element, '');
 
-    } else if (value === 'formKey') {
+    } else if (value === FORM_TYPES.CUSTOM_FORM) {
       formHelper.setFormDefinition(element, '');
     }
   };
@@ -107,8 +95,8 @@ function FormType(props) {
   const getOptions = () => {
     return [
       { value: '', label: translate('<none>') },
-      { value: 'camundaForm', label: translate('Camunda forms') },
-      { value: 'formKey', label: translate('Custom form key') },
+      { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda forms') },
+      { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom form key') },
     ];
   };
 
@@ -123,13 +111,12 @@ function FormType(props) {
 }
 
 function FormConfiguration(props) {
-  const {
-    element
-  } = props;
+  const { element } = props;
 
-  const injector = useService('injector');
-  const debounce = useService('debounceInput');
-  const translate = useService('translate');
+  const debounce = useService('debounceInput'),
+        injector = useService('injector'),
+        translate = useService('translate');
+
   const formHelper = injector.invoke(FormHelper);
 
   const getValue = () => {
@@ -154,13 +141,12 @@ function FormConfiguration(props) {
 
 
 function CustomFormKey(props) {
-  const {
-    element
-  } = props;
+  const { element } = props;
 
-  const injector = useService('injector');
-  const debounce = useService('debounceInput');
-  const translate = useService('translate');
+  const debounce = useService('debounceInput'),
+        injector = useService('injector'),
+        translate = useService('translate');
+
   const formHelper = injector.invoke(FormHelper);
 
   const getValue = () => {
@@ -203,7 +189,7 @@ function FormHelper(bpmnFactory, commandStack) {
       );
 
       commands.push(
-        UpdateModdlePropertiesCmd(element, rootElement, {
+        createUpdateModdlePropertiesCommand(element, rootElement, {
           extensionElements: rootExtensionElements,
         })
       );
@@ -221,13 +207,13 @@ function FormHelper(bpmnFactory, commandStack) {
       );
 
       commands.push(
-        UpdateModdlePropertiesCmd(element, rootExtensionElements,{
+        createUpdateModdlePropertiesCommand(element, rootExtensionElements,{
           values: [ ...rootExtensionElements.get('values'), userTaskForm ]
         })
       );
     }
 
-    commands.push(UpdateModdlePropertiesCmd(element, userTaskForm, values));
+    commands.push(createUpdateModdlePropertiesCommand(element, userTaskForm, values));
 
     return commands;
   }
@@ -249,7 +235,7 @@ function FormHelper(bpmnFactory, commandStack) {
       );
 
       commands.push(
-        UpdateModdlePropertiesCmd(element, businessObject, {
+        createUpdateModdlePropertiesCommand(element, businessObject, {
           extensionElements: extensionElements,
         })
       );
@@ -263,8 +249,8 @@ function FormHelper(bpmnFactory, commandStack) {
       let formKey = customFormKey;
 
       if (isUndefined(formKey)) {
-        const formId = createFormId();
-        formKey = createFormKey(formId);
+        const formId = createUserTaskFormId();
+        formKey = userTaskFormIdToFormKey(formId);
       }
 
       formDefinition = createFormDefinition(
@@ -276,7 +262,7 @@ function FormHelper(bpmnFactory, commandStack) {
       );
 
       commands.push(
-        UpdateModdlePropertiesCmd(element, extensionElements, {
+        createUpdateModdlePropertiesCommand(element, extensionElements, {
           values: [ ...extensionElements.get('values'), formDefinition ]
         })
       );
@@ -285,14 +271,14 @@ function FormHelper(bpmnFactory, commandStack) {
     // (2.2) update existing form definition with custom key
     else if (customFormKey) {
       commands.push(
-        UpdateModdlePropertiesCmd(element, formDefinition, {
+        createUpdateModdlePropertiesCommand(element, formDefinition, {
           formKey: customFormKey
         })
       );
     }
 
     return {
-      formId: resolveFormId(formDefinition.get('formKey')),
+      formId: formKeyToUserTaskFormId(formDefinition.get('formKey')),
       commands
     };
   }
@@ -335,7 +321,7 @@ function FormHelper(bpmnFactory, commandStack) {
     let values = without(extensionElements.get('values'), formDefinition);
 
     commands.push(
-      UpdateModdlePropertiesCmd(element, extensionElements, { values })
+      createUpdateModdlePropertiesCommand(element, extensionElements, { values })
     );
 
     return commands;
@@ -360,7 +346,7 @@ function FormHelper(bpmnFactory, commandStack) {
     const values = without(rootExtensionElements.get('values'), userTaskForm);
 
     commands.push(
-      UpdateModdlePropertiesCmd(element, rootExtensionElements, { values })
+      createUpdateModdlePropertiesCommand(element, rootExtensionElements, { values })
     );
 
     commandStack.execute('properties-panel.multi-command-executor', commands);
@@ -398,13 +384,13 @@ FormHelper.$inject = [ 'bpmnFactory', 'commandStack' ];
 
 // helpers /////////////
 
-function UpdateModdlePropertiesCmd(element, businessObject, newProperties) {
+function createUpdateModdlePropertiesCommand(element, moddleElement, properties) {
   return {
     cmd: 'element.updateModdleProperties',
     context: {
       element,
-      moddleElement: businessObject,
-      properties: newProperties
+      moddleElement,
+      properties
     }
   };
 }
