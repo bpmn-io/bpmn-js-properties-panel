@@ -1,3 +1,5 @@
+import { without } from 'min-dash';
+
 import {
   getBusinessObject,
   is
@@ -14,18 +16,10 @@ import {
 
 import { createElement } from '../../../utils/ElementUtil';
 
-import {
-  isUndefined,
-  without
-} from 'min-dash';
-
-import {
-  useService
-} from '../../../hooks';
+import { useService } from '../../../hooks';
 
 import {
   createUserTaskFormId,
-  formKeyToUserTaskFormId,
   FORM_TYPES,
   getFormDefinition,
   getFormType,
@@ -56,7 +50,12 @@ export function FormProps(props) {
       component: FormConfiguration,
       isEdited: isTextAreaEntryEdited
     });
-
+  } else if (formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
+    entries.push({
+      id: 'formId',
+      component: FormId,
+      isEdited: isTextFieldEntryEdited
+    });
   } else if (formType === FORM_TYPES.CUSTOM_FORM) {
     entries.push({
       id: 'customFormKey',
@@ -80,20 +79,23 @@ function FormType(props) {
   };
 
   const setValue = (value) => {
-    removeUserTaskForm(injector, element);
-
     if (value === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
       setUserTaskForm(injector, element, '');
+    } else if (value === FORM_TYPES.CAMUNDA_FORM_LINKED) {
+      setFormId(injector, element, '');
     } else if (value === FORM_TYPES.CUSTOM_FORM) {
-      setFormDefinition(injector, element, '');
+      setCustomFormKey(injector, element, '');
+    } else {
+      removeFormDefinition(injector, element);
     }
   };
 
   const getOptions = () => {
     return [
       { value: '', label: translate('<none>') },
-      { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda forms') },
-      { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom form key') },
+      { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda form (linked)') },
+      { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda form (embedded)') },
+      { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom form key') }
     ];
   };
 
@@ -116,8 +118,7 @@ function FormConfiguration(props) {
         translate = useService('translate');
 
   const getValue = () => {
-    const userTaskForm = getUserTaskForm(element);
-    return userTaskForm.get('body');
+    return getUserTaskForm(element).get('body');
   };
 
   const setValue = (value) => {
@@ -136,6 +137,32 @@ function FormConfiguration(props) {
 }
 
 
+function FormId(props) {
+  const { element } = props;
+
+  const debounce = useService('debounceInput'),
+        injector = useService('injector'),
+        translate = useService('translate');
+
+  const getValue = () => {
+    return getFormDefinition(element).get('formId');
+  };
+
+  const setValue = (value) => {
+    setFormId(injector, element, value);
+  };
+
+  return TextFieldEntry({
+    element,
+    id: 'formId',
+    label: translate('Form ID'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+
 function CustomFormKey(props) {
   const { element } = props;
 
@@ -144,12 +171,11 @@ function CustomFormKey(props) {
         translate = useService('translate');
 
   const getValue = () => {
-    const formDefinition = getFormDefinition(element);
-    return formDefinition.get('formKey');
+    return getFormDefinition(element).get('formKey');
   };
 
   const setValue = (value) => {
-    setFormDefinition(injector, element, value);
+    setCustomFormKey(injector, element, value);
   };
 
   return TextFieldEntry({
@@ -167,236 +193,220 @@ function CustomFormKey(props) {
 /**
  * @typedef { { cmd: string, context: Object } } Command
  * @typedef {Command[]} Commands
+ *
+ * @typedef {import('diagram-js/lib/model/Types').Element} Element
+ * @typedef {import('bpmn-js/lib/model/Types').ModdleElement} ModdleElement
+ *
+ * @param {import('didi').Injector} Injector
  */
 
 /**
- * @param {import('didi').Injector} injector
- * @param {import('diagram-js/lib/model/Types').Element} element
- * @param {Object} userTaskFormProperties
+ * @param {Injector} injector
+ * @param {Element} element
  *
- * @returns {Commands}
+ * @returns { {
+ *   commands: Commands,
+ *   extensionElements: ModdleElement
+ * } }
  */
-function ensureUserTaskForm(injector, element, userTaskFormProperties) {
-  const bpmnFactory = injector.get('bpmnFactory');
+function getOrCreateExtensionElements(injector, element, moddleElement) {
+  const businessObject = moddleElement || getBusinessObject(element);
 
-  let commands = [];
-
-  const rootElement = getRootElement(element);
-
-  // (1) ensure root element extension elements
-  let rootExtensionElements = rootElement.get('extensionElements');
-
-  if (!rootExtensionElements) {
-    rootExtensionElements = createElement(
-      'bpmn:ExtensionElements',
-      { values: [] },
-      rootElement,
-      bpmnFactory
-    );
-
-    commands.push(
-      createUpdateModdlePropertiesCommand(element, rootElement, {
-        extensionElements: rootExtensionElements,
-      })
-    );
-  }
-
-  // (2) ensure user task form
-  let userTaskForm = getUserTaskForm(element);
-
-  // (2.1) create user task form if doesn't exist
-  if (!userTaskForm) {
-    userTaskForm = createUserTaskForm(
-      injector,
-      userTaskFormProperties,
-      rootExtensionElements
-    );
-
-    commands.push(
-      createUpdateModdlePropertiesCommand(element, rootExtensionElements,{
-        values: [ ...rootExtensionElements.get('values'), userTaskForm ]
-      })
-    );
-  }
-
-  commands.push(createUpdateModdlePropertiesCommand(element, userTaskForm, userTaskFormProperties));
-
-  return commands;
-}
-
-/**
- * @param {import('didi').Injector} injector
- * @param {import('diagram-js/lib/model/Types').Element} element
- * @param {string} [customFormKey]
- *
- * @returns { { formId: string, commands: Commands } }
- */
-function ensureFormDefinition(injector, element, customFormKey) {
-  const bpmnFactory = injector.get('bpmnFactory');
-
-  const businessObject = getBusinessObject(element);
-
-  let commands = [];
-
-  // (1) ensure extension elements
   let extensionElements = businessObject.get('extensionElements');
 
-  if (isUndefined(extensionElements)) {
-    extensionElements = createElement(
-      'bpmn:ExtensionElements',
-      { values: [] },
-      businessObject,
-      bpmnFactory
-    );
-
-    commands.push(
-      createUpdateModdlePropertiesCommand(element, businessObject, {
-        extensionElements: extensionElements,
-      })
-    );
-  }
-
-  // (2) ensure form definition
-  let formDefinition = getFormDefinition(element);
-
-  // (2.1) create if doesn't exist
-  if (!formDefinition) {
-    let formKey = customFormKey;
-
-    if (isUndefined(formKey)) {
-      const formId = createUserTaskFormId();
-      formKey = userTaskFormIdToFormKey(formId);
-    }
-
-    const formDefinitionProperties = {
-      formKey
+  if (extensionElements) {
+    return {
+      commands: [],
+      extensionElements
     };
-
-    formDefinition = createFormDefinition(injector, formDefinitionProperties, extensionElements);
-
-    commands.push(
-      createUpdateModdlePropertiesCommand(element, extensionElements, {
-        values: [ ...extensionElements.get('values'), formDefinition ]
-      })
-    );
   }
 
-  // (2.2) update existing form definition with custom key
-  else if (customFormKey) {
-    commands.push(
-      createUpdateModdlePropertiesCommand(element, formDefinition, {
-        formKey: customFormKey
-      })
-    );
-  }
+  const bpmnFactory = injector.get('bpmnFactory');
+
+  extensionElements = createElement('bpmn:ExtensionElements', {
+    values: []
+  }, businessObject, bpmnFactory);
 
   return {
-    formId: formKeyToUserTaskFormId(formDefinition.get('formKey')),
-    commands
+    commands: [
+      createUpdateModdlePropertiesCommand(element, businessObject, {
+        extensionElements
+      })
+    ],
+    extensionElements
   };
 }
 
 /**
- * @param {import('didi').Injector} injector
- * @param {import('diagram-js/lib/model/Types').Element} element
- * @param {string} [customFormKey]
- */
-function setFormDefinition(injector, element, customFormKey) {
-  const commandStack = injector.get('commandStack');
+ * @param {Injector} injector
+ * @param {Element} element
+ *
+ * @returns { {
+*   commands: Commands,
+*   formDefinition: ModdleElement
+* } }
+*/
+function getOrCreateFormDefintition(injector, element) {
+  let formDefinition = getFormDefinition(element);
+
+  if (formDefinition) {
+    return {
+      commands: [],
+      formDefinition
+    };
+  }
 
   const {
+    extensionElements,
     commands
-  } = ensureFormDefinition(injector, element, customFormKey);
+  } = getOrCreateExtensionElements(injector, element);
 
-  commandStack.execute('properties-panel.multi-command-executor', commands);
+  formDefinition = createFormDefinition(injector, {}, extensionElements);
+
+  return {
+    commands: [
+      ...commands,
+      createUpdateModdlePropertiesCommand(element, extensionElements, {
+        values: [
+          ...extensionElements.get('values'),
+          formDefinition
+        ]
+      })
+    ],
+    formDefinition
+  };
 }
 
 /**
- * @param {import('didi').Injector} injector
- * @param {import('diagram-js/lib/model/Types').Element} element
- * @param {string} body
+ * @param {Injector} injector
+ * @param {Element} element
+ *
+ * @returns { {
+ *   commands: Commands,
+ *   formDefinition: ModdleElement,
+ *   userTaskForm: ModdleElement
+ * } }
  */
-function setUserTaskForm(injector, element, body) {
+function getOrCreateUserTaskForm(injector, element) {
+  let userTaskForm = getUserTaskForm(element);
+
+  if (userTaskForm) {
+    return {
+      commands: [],
+      formDefinition: getFormDefinition(element),
+      userTaskForm
+    };
+  }
+
+  const rootElement = getRootElement(element);
+
+  const {
+    extensionElements,
+    commands: extensionElementsCommands
+  } = getOrCreateExtensionElements(injector, element, rootElement);
+
+  const {
+    formDefinition,
+    commands: formDefinitionCommands
+  } = getOrCreateFormDefintition(injector, element);
+
+  const formId = createUserTaskFormId();
+
+  userTaskForm = createUserTaskForm(injector, {
+    id: formId
+  }, extensionElements);
+
+  return {
+    commands: [
+      ...extensionElementsCommands,
+      ...formDefinitionCommands,
+      createUpdateModdlePropertiesCommand(element, extensionElements, {
+        values: [
+          ...extensionElements.get('values'),
+          userTaskForm
+        ]
+      }),
+      createUpdateModdlePropertiesCommand(element, formDefinition, {
+        formKey: userTaskFormIdToFormKey(formId)
+      })
+    ],
+    formDefinition,
+    userTaskForm
+  };
+}
+
+function setFormId(injector, element, formId) {
+  let {
+    commands,
+    formDefinition
+  } = getOrCreateFormDefintition(injector, element);
+
   const commandStack = injector.get('commandStack');
 
-  let {
-    formId,
-    commands
-  } = ensureFormDefinition(injector, element);
-
-  commands = [
+  commandStack.execute('properties-panel.multi-command-executor', [
     ...commands,
-    ...ensureUserTaskForm(injector, element, {
-      id: formId,
+    createUpdateModdlePropertiesCommand(element, formDefinition, {
+      formId
+    })
+  ]);
+}
+
+function setCustomFormKey(injector, element, formKey) {
+  let {
+    commands,
+    formDefinition
+  } = getOrCreateFormDefintition(injector, element);
+
+  const commandStack = injector.get('commandStack');
+
+  commandStack.execute('properties-panel.multi-command-executor', [
+    ...commands,
+    createUpdateModdlePropertiesCommand(element, formDefinition, {
+      formKey
+    })
+  ]);
+}
+
+function setUserTaskForm(injector, element, body) {
+  let {
+    commands,
+    userTaskForm
+  } = getOrCreateUserTaskForm(injector, element);
+
+  const commandStack = injector.get('commandStack');
+
+  commandStack.execute('properties-panel.multi-command-executor', [
+    ...commands,
+    createUpdateModdlePropertiesCommand(element, userTaskForm, {
       body
     })
-  ];
-
-  commandStack.execute('properties-panel.multi-command-executor', commands);
+  ]);
 }
 
-/**
- * @param {import('diagram-js/lib/model/Types').Element} element
- *
- * @returns {Commands}
- */
-function removeFormDefinition(element) {
-  const businessObject = getBusinessObject(element),
-        extensionElements = businessObject.get('extensionElements');
-
-  let commands = [];
-
+function removeFormDefinition(injector, element) {
   const formDefinition = getFormDefinition(element);
 
-  if (!formDefinition) {
-    return commands;
+  /**
+   * @type {import('bpmn-js/lib/features/modeling/Modeling').default}
+   */
+  const modeling = injector.get('modeling');
+
+  if (formDefinition) {
+    const businessObject = getBusinessObject(element),
+          extensionElements = businessObject.get('extensionElements');
+
+    modeling.updateModdleProperties(element, extensionElements, {
+      values: without(extensionElements.get('values'), formDefinition)
+    });
   }
-
-  let values = without(extensionElements.get('values'), formDefinition);
-
-  commands.push(
-    createUpdateModdlePropertiesCommand(element, extensionElements, { values })
-  );
-
-  return commands;
 }
 
 /**
- * @param {import('didi').Injector} injector
- * @param {import('diagram-js/lib/model/Types').Element} element
- */
-function removeUserTaskForm(injector, element) {
-  const commandStack = injector.get('commandStack');
-
-  const rootElement = getRootElement(element),
-        rootExtensionElements = rootElement.get('extensionElements');
-
-  // (1) remove form definition
-  const commands = removeFormDefinition(element);
-
-  // (2) remove referenced user task form
-  const userTaskForm = getUserTaskForm(element);
-
-  if (!userTaskForm) {
-    commandStack.execute('properties-panel.multi-command-executor', commands);
-    return;
-  }
-
-  const values = without(rootExtensionElements.get('values'), userTaskForm);
-
-  commands.push(
-    createUpdateModdlePropertiesCommand(element, rootExtensionElements, { values })
-  );
-
-  commandStack.execute('properties-panel.multi-command-executor', commands);
-}
-
-/**
- * @param {import('didi').Injector} injector
+ * @param {Injector} injector
  * @param {Object} properties
- * @param {import('bpmn-js/lib/model/Types').ModdleElement} parent
+ * @param {ModdleElement} parent
  *
- * @returns {import('bpmn-js/lib/model/Types').ModdleElement}
+ * @returns {ModdleElement}
  */
 function createFormDefinition(injector, properties, parent) {
   const bpmnFactory = injector.get('bpmnFactory');
@@ -410,11 +420,11 @@ function createFormDefinition(injector, properties, parent) {
 }
 
 /**
- * @param {import('didi').Injector} injector
+ * @param {Injector} injector
  * @param {Object} properties
- * @param {import('bpmn-js/lib/model/Types').ModdleElement} parent
+ * @param {ModdleElement} parent
  *
- * @returns {import('bpmn-js/lib/model/Types').ModdleElement}
+ * @returns {ModdleElement}
  */
 function createUserTaskForm(injector, properties, parent) {
   const bpmnFactory = injector.get('bpmnFactory');
@@ -428,8 +438,8 @@ function createUserTaskForm(injector, properties, parent) {
 }
 
 /**
- * @param {import('diagram-js/lib/model/Types').Element} element
- * @param {import('bpmn-js/lib/model/Types').ModdleElement} moddleElement
+ * @param {Element} element
+ * @param {ModdleElement} moddleElement
  * @param {Object} properties
  *
  * @returns {Command}
