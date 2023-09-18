@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: specify FEEL popup container via `propertiesPanel.feelPopupContainer` ([#970](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/970))
+
 ## 5.2.0
 
 * `FEAT`: improve tooltip content ([#955](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/955))
