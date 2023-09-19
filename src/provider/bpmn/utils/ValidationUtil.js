@@ -46,6 +46,20 @@ export function validateId(idValue, translate) {
   }
 }
 
+export function validateParentId(idValue, translate) {
+
+  if (containsSpace(idValue)) {
+    return translate('ID must not contain spaces.');
+  }
+
+  if (!ID_REGEX.test(idValue)) {
+
+    if (QNAME_REGEX.test(idValue)) {
+      return translate('ID must not contain prefix.');
+    }
+  }
+}
+
 export function containsSpace(value) {
   return SPACE_REGEX.test(value);
 }
