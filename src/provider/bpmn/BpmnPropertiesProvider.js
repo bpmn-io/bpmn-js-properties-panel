@@ -14,7 +14,8 @@ import {
   ProcessProps,
   SignalProps,
   TimerProps,
-  ParentIdProps
+  ParentIdProps,
+  // SpellProps
 } from './properties';
 
 function GeneralGroup(element, injector) {
@@ -36,6 +37,22 @@ function GeneralGroup(element, injector) {
   };
 
 }
+
+// function CustomGroup(element, injector) {
+//   const translate = injector.get('translate');
+//
+//   const entries = [
+//     ...SpellProps({ element }),
+//   ];
+//
+//   return {
+//     id: 'newCustomGroup',
+//     label: translate('Custom Group'),
+//     entries,
+//     component: Group
+//   };
+//
+// }
 
 function CompensationGroup(element, injector) {
   const translate = injector.get('translate');
@@ -209,7 +226,8 @@ function getGroups(element, injector) {
     MultiInstanceGroup(element, injector),
     SignalGroup(element, injector),
     EscalationGroup(element, injector),
-    TimerGroup(element, injector)
+    TimerGroup(element, injector),
+    // CustomGroup(element, injector),
   ];
 
   // contract: if a group returns null, it should not be displayed at all

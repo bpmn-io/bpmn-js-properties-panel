@@ -47,6 +47,8 @@ import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
 import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
+import magicModdleDescriptor from "../../src/descriptors/magic.json";
+
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
 insertCoreStyles();
@@ -86,6 +88,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         ZeebePropertiesProvider
       ],
       moddleExtensions = {
+        magic: magicModdleDescriptor,
         zeebe: ZeebeModdle
       },
       description = {},
@@ -147,6 +150,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CreateAppendAnythingModule
         ],
         moddleExtensions: {
+          magic: magicModdleDescriptor,
           zeebe: ZeebeModdle
         },
         tooltip: TooltipProvider
@@ -175,6 +179,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CreateAppendAnythingModule
         ],
         moddleExtensions: {
+          magic: magicModdleDescriptor,
           camunda: CamundaModdle
         }
       }
@@ -954,6 +959,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
               CamundaPropertiesProvider
             ],
             moddleExtensions: {
+              magic: magicModdleDescriptor,
               camunda: CamundaModdle
             },
             layout: {

@@ -12,3 +12,5 @@ export { ProcessProps } from './ProcessProps';
 export { SignalProps } from './SignalProps';
 export { TimerProps } from './TimerProps';
 export { ParentIdProps } from './ParentIdProps';
+//export { SpellProps } from './SpellProps';
+
