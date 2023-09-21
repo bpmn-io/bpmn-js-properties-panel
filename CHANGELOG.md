@@ -6,7 +6,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `FEAT`: specify FEEL popup container via `propertiesPanel.feelPopupContainer` ([#970](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/970))
+## 5.3.0
+
+* `FEAT`: prioritize externally provided errors ([bpmn-io/properties-panel@`375838b7`](https://github.com/bpmn-io/properties-panel/commit/375838b7c82b559a579792a46479592efcd5f500))
+* `FEAT`: specify FEEL popup container via `propertiesPanel.feelPopupContainer` ([bpmn-io/properties-panel#970](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/970))
+* `FIX`: correct FEEL popup editor closing during auto-suggest ([bpmn-io/properties-panel#279](https://github.com/bpmn-io/properties-panel/issues/279))
+* `FIX`: contain keyboard events within the FEEL popup editor ([bpmn-io/properties-panel@`a8dd384`](https://github.com/bpmn-io/properties-panel/commit/a8dd384ad625adb03272a9bc2e25fc4aab7bb284))
+* `DEPS`: update to `@bpmn-io/variable-resolver@1.2.0`
+* `DEPS`: update to `@bpmn-io/properties-panel@3.6.0`
 
 ## 5.2.0
 
