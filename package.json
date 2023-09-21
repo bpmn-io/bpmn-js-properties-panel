@@ -33,6 +33,9 @@
     "properties",
     "properties-panel"
   ],
+  "engines": {
+    "node": "*"
+  },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "umd:main": "dist/bpmn-js-properties-panel.umd.js",
