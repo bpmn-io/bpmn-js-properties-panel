@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.4.0
+
 * `FEAT`: allow listen to `feelPopup.opened` and `feelPopup.closed` events ([#974](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/974))
 * `FEAT`: provide `feelPopup` module to interact with FEEL popup ([#974](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/974))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.7.0`
