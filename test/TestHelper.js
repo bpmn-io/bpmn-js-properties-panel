@@ -127,13 +127,10 @@ export function insertBpmnStyles() {
     require('bpmn-js/dist/assets/diagram-js.css').default
   );
 
-  // @barmac: this fails before bpmn-js@9
-  if (bpmnJsSatisfies('>=9')) {
-    insertCSS(
-      'bpmn-js.css',
-      require('bpmn-js/dist/assets/bpmn-js.css').default
-    );
-  }
+  insertCSS(
+    'bpmn-js.css',
+    require('bpmn-js/dist/assets/bpmn-js.css').default
+  );
 
   insertCSS(
     'bpmn-font.css',
