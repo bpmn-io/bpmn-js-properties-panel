@@ -913,18 +913,165 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         selection.select(elementRegistry.get('ServiceTask_1'));
       });
 
-      const openPopupBtn = findOpenFeelPopup('ServiceTask_1-input-0-source', container);
+      const openPopupBtn = getOpenFeelPopup('ServiceTask_1-input-0-source', container);
 
       // when
       await act(() => {
         openPopupBtn.click();
       });
 
-      const feelPopup = domQuery('.bio-properties-panel-feel-popup', container);
+      const feelPopup = getFeelPopup(container);
 
       // then
       expect(feelPopup).to.exist;
       expect(feelPopup.parentNode).to.eql(container);
+    });
+
+
+    describe('module support', function() {
+
+      let modeler;
+
+      beforeEach(async function() {
+
+        const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+        await act(async () => {
+          ({ modeler } = await createModeler(diagramXml, {
+            propertiesPanel: {
+              parent: propertiesContainer,
+              feelPopupContainer: container
+            }
+          }));
+        });
+
+        await act(() => {
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection');
+
+          selection.select(elementRegistry.get('ServiceTask_1'));
+        });
+      });
+
+
+      withPropertiesPanel('>=3.7')('should listen on <feelPopup.opened>', async function() {
+
+        // given
+        const spy = sinon.spy();
+
+        const openPopupBtn = getOpenFeelPopup('ServiceTask_1-input-0-source', container);
+
+        const eventBus = modeler.get('eventBus');
+
+        eventBus.on('feelPopup.opened', spy);
+
+        // when
+        await act(() => {
+          openPopupBtn.click();
+        });
+
+        // then
+        expect(spy).to.have.been.calledOnce;
+      });
+
+
+      withPropertiesPanel('>=3.7')('should listen on <feelPopup.closed>', async function() {
+
+        // given
+        const spy = sinon.spy();
+
+        const openPopupBtn = getOpenFeelPopup('ServiceTask_1-input-0-source', container);
+
+        const eventBus = modeler.get('eventBus');
+
+        eventBus.on('feelPopup.closed', spy);
+
+        await act(() => {
+          openPopupBtn.click();
+        });
+
+        // assume
+        expect(getFeelPopup(container)).to.exist;
+
+        await act(() => {
+          const closeBtn = domQuery('.bio-properties-panel-feel-popup__close-btn', container);
+          closeBtn.click();
+        });
+
+        // then
+        expect(spy).to.have.been.calledOnce;
+      });
+
+
+      withPropertiesPanel('>=3.7')('#open', async function() {
+
+        // given
+        const feelPopup = modeler.get('feelPopup');
+
+        // when
+        await act(() => {
+          feelPopup.open(
+            'ServiceTask_1-input-0-source',
+            { type: 'feel' },
+            document.body
+          );
+        });
+
+        // then
+        expect(getFeelPopup(container)).to.exist;
+      });
+
+
+      withPropertiesPanel('>=3.7')('#close', async function() {
+
+        // given
+        const feelPopup = modeler.get('feelPopup');
+
+        await act(() => {
+          feelPopup.open(
+            'ServiceTask_1-input-0-source',
+            { type: 'feel' },
+            document.body
+          );
+        });
+
+        // assume
+        expect(getFeelPopup(container)).to.exist;
+
+        // when
+        await act(() => {
+          feelPopup.close();
+        });
+
+        // then
+        expect(getFeelPopup(container)).to.not.exist;
+      });
+
+
+      withPropertiesPanel('>=3.7')('#isOpen', async function() {
+
+        // given
+        const feelPopup = modeler.get('feelPopup');
+
+        await act(() => {
+          feelPopup.open(
+            'ServiceTask_1-input-0-source',
+            { type: 'feel' },
+            document.body
+          );
+        });
+
+        // assume
+        expect(feelPopup.isOpen()).to.be.true;
+
+        // when
+        await act(() => {
+          feelPopup.close();
+        });
+
+        // then
+        expect(feelPopup.isOpen()).to.be.false;
+      });
     });
 
   });
@@ -1015,6 +1162,10 @@ function getHeaderName(container) {
   return domQuery('.bio-properties-panel-header-label', container).innerText;
 }
 
-function findOpenFeelPopup(id, container) {
+function getFeelPopup(container) {
+  return domQuery('.bio-properties-panel-feel-popup', container);
+}
+
+function getOpenFeelPopup(id, container) {
   return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-open-feel-popup`);
 }
