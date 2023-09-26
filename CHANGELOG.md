@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.5.0
+
+* `FEAT`: improve FEEL popup lifecycle events ([bpmn-io/properties-panel#294](https://github.com/bpmn-io/properties-panel/pull/294))
+* `FEAT`: add drag trap to popup component ([bpmn-io/properties-panel#289](https://github.com/bpmn-io/properties-panel/issues/289))
+* `FEAT`: allow listen to `feelPopup.dragstart`, `feelPopup.dragover` and `feelPopup.dragend` events ([bpmn-io/properties-panel#299](https://github.com/bpmn-io/properties-panel/pull/292))
+
 ## 5.4.0
 
 * `FEAT`: allow listen to `feelPopup.opened` and `feelPopup.closed` events ([#974](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/974))
