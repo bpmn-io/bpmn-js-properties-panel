@@ -114,7 +114,9 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('');
-      expectEditedIndicator(container).to.not.exist;
+
+      // and also
+      return expectEdited(container, false);
     }));
 
 
@@ -131,7 +133,9 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('script');
-      expectEditedIndicator(container).to.exist;
+
+      // and also
+      return expectEdited(container, true);
     }));
 
 
@@ -148,7 +152,9 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('jobWorker');
-      expectEditedIndicator(container).to.exist;
+
+      // and also
+      return expectEdited(container, true);
     }));
 
 
@@ -172,7 +178,6 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
 
       const script = getScript(scriptTask);
       expect(script).to.not.exist;
-
     }));
 
 
@@ -319,10 +324,18 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
 
 // helper /////////////////
 
-function expectEditedIndicator(container) {
+async function expectEdited(container, exists) {
+  await new Promise(resolve => {
+    setTimeout(resolve, 0);
+  });
+
   const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
 
-  return expect(indicator);
+  if (exists) {
+    expect(indicator).to.exist;
+  } else {
+    expect(indicator).not.to.exist;
+  }
 }
 
 function getImplementationSelect(container) {
