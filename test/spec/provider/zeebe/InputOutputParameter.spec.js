@@ -79,6 +79,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       })
     );
 
+
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
@@ -163,6 +164,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       })
     );
 
+
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
@@ -223,6 +225,81 @@ describe('provider/zeebe - InputOutputParameter', function() {
       })
     );
 
+
+    describe('integration', function() {
+
+      // Test for undo/redo integration with newly created input/output parameters
+      // cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/981
+      it('should undo',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_empty');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const inputGroup = getGroup(container, 'inputs');
+          const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+          await act(() => {
+            addEntry.click();
+          });
+
+          const sourceInput = domQuery('[name=ServiceTask_empty-input-0-source] [role="textbox"]', inputGroup);
+          await setEditorValue(sourceInput, 'newValue');
+
+          // assume
+          expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+
+          // when
+          commandStack.undo();
+          await nextTick(); // propagate value to editor and await change handler
+
+          // then
+          expect(getInput(serviceTask, 0).get('source')).to.be.undefined;
+        })
+      );
+
+
+      it('should redo',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_empty');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const inputGroup = getGroup(container, 'inputs');
+          const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+          await act(() => {
+            addEntry.click();
+          });
+
+          const sourceInput = domQuery('[name=ServiceTask_empty-input-0-source] [role="textbox"]', inputGroup);
+
+          await setEditorValue(sourceInput, 'newValue');
+
+          // assume
+          expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+
+          // when
+          commandStack.undo();
+          await nextTick();
+          commandStack.redo();
+          await nextTick();
+
+          // then
+          expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+
+        })
+      );
+    });
+
   });
 
 
@@ -246,6 +323,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
         expect(targetInput).to.not.exist;
       })
     );
+
 
     it('should display', inject(async function(elementRegistry, selection) {
 
@@ -331,6 +409,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       })
     );
 
+
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
@@ -391,6 +470,80 @@ describe('provider/zeebe - InputOutputParameter', function() {
       })
     );
 
+
+    describe('integration', function() {
+
+      // Test for undo/redo integration with newly created input/output parameters
+      // Cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/981
+      it('should undo',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_empty');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const outputGroup = getGroup(container, 'outputs');
+          const addEntry = domQuery('.bio-properties-panel-add-entry', outputGroup);
+
+          await act(() => {
+            addEntry.click();
+          });
+
+          const sourceInput = domQuery('[name=ServiceTask_empty-output-0-source] [role="textbox"]', outputGroup);
+          await setEditorValue(sourceInput, 'newValue');
+
+          // assume
+          expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
+
+          // when
+          commandStack.undo();
+          await nextTick(); // propagate value to editor and await change handler
+
+          // then
+          expect(getOutput(serviceTask, 0).get('source')).to.be.undefined;
+        })
+      );
+
+
+      it('should redo',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_empty');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const outputGroup = getGroup(container, 'outputs');
+          const addEntry = domQuery('.bio-properties-panel-add-entry', outputGroup);
+
+          await act(() => {
+            addEntry.click();
+          });
+
+          const sourceInput = domQuery('[name=ServiceTask_empty-output-0-source] [role="textbox"]', outputGroup);
+          await setEditorValue(sourceInput, 'newValue');
+
+          // assume
+          expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
+
+          // when
+          commandStack.undo();
+          await nextTick();
+          commandStack.redo();
+          await nextTick();
+
+          // then
+          expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
+
+        })
+      );
+    });
+
   });
 
 });
@@ -410,3 +563,6 @@ function getOutput(element, idx) {
   return (getOutputParameters(element) || [])[idx];
 }
 
+function nextTick() {
+  return new Promise(resolve => setTimeout(resolve, 0));
+}
