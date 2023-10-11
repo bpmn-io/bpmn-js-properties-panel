@@ -76,7 +76,7 @@ describe('HOCs - withVariableContext.js', function() {
         expect(mockComponent).to.have.been.calledWith(
           matchesVariables([
             {
-              name: 'OutputVariable_0svilsd',
+              name: 'OutputVariable_1',
               info: 'Written in Task_2'
             }
           ])
@@ -111,7 +111,11 @@ describe('HOCs - withVariableContext.js', function() {
         expect(mockComponent).to.have.been.calledWith(
           matchesVariables([
             {
-              name: 'OutputVariable_0svilsd',
+              name: 'InputVariable_1',
+              info: 'Written in Task_2'
+            },
+            {
+              name: 'OutputVariable_1',
               info: 'Written in Task_2'
             }
           ])
@@ -160,6 +164,10 @@ describe('HOCs - withVariableContext.js', function() {
       await waitFor(() => {
         expect(mockComponent.lastCall).to.have.been.calledWith(
           matchesVariables([
+            {
+              name: 'InputVariable_1',
+              info: 'Written in Task_2'
+            },
             {
               name: 'newVariable',
               info: 'Written in Task_2'
@@ -234,7 +242,7 @@ describe('HOCs - withVariableContext.js', function() {
         expect(mockComponent).to.have.been.calledWith(
           matchesVariables([
             {
-              name: 'OutputVariable_0svilsd',
+              name: 'OutputVariable_1',
               info: 'Written in Task_2'
             },
             {
@@ -248,7 +256,7 @@ describe('HOCs - withVariableContext.js', function() {
     }));
 
 
-    it('should supply variables to extension element', inject(async function(elementRegistry, injector) {
+    it('should supply and filter variables to extension element', inject(async function(elementRegistry, injector) {
 
       // given
       const mockComponent = sinon.spy();
@@ -274,7 +282,7 @@ describe('HOCs - withVariableContext.js', function() {
         expect(mockComponent).to.have.been.calledWith(
           matchesVariables([
             {
-              name: 'OutputVariable_0svilsd',
+              name: 'InputVariable_1',
               info: 'Written in Task_2'
             },
             {
@@ -311,7 +319,7 @@ describe('HOCs - withVariableContext.js', function() {
         container
       });
 
-      const ioMapping = ioMappings.outputParameters[0];
+      const ioMapping = ioMappings.inputParameters[0];
 
       // when
       await act(() => {
