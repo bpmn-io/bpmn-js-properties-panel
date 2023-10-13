@@ -37,7 +37,7 @@
     "node": "*"
   },
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.mjs",
   "umd:main": "dist/bpmn-js-properties-panel.umd.js",
   "author": {
     "name": "Nico Rehwaldt",
