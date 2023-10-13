@@ -7,7 +7,7 @@ import {
 
 import {
   render
-} from '@bpmn-io/properties-panel/preact';
+} from 'preact';
 
 import {
   domify,
