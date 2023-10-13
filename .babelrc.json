@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    [ "@babel/plugin-transform-react-jsx", {
+      "importSource": "preact",
+      "runtime": "automatic"
+    } ],
+    "inline-react-svg",
+    [ "module-resolver", {
+      "alias": {
+        "react": "preact/compat",
+        "react-dom": "preact/compat"
+      }
+    } ]
+  ]
+}
