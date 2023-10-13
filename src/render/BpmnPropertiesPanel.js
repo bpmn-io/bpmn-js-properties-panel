@@ -3,7 +3,7 @@ import {
   useMemo,
   useEffect,
   useCallback
-} from '@bpmn-io/properties-panel/preact/hooks';
+} from 'preact/hooks';
 
 import {
   find,
