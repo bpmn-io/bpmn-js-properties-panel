@@ -2,17 +2,17 @@ name: CI
 on: [ push, pull_request ]
 jobs:
   Build:
-
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.integration }}
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
-        node-version: [ 20 ]
+        integration: [ true ]
         integration-deps:
         - diagram-js@11.9 bpmn-js@11.5
         - "@bpmn-io/properties-panel@3"
-        - "" # as defined in package.json
-
-    runs-on: ${{ matrix.os }}
+        include:
+          - integration-deps: "" # as defined in package.json
+            integration: false
 
     steps:
     - name: Checkout
@@ -20,7 +20,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 20
         cache: 'npm'
     - name: Install dependencies
       run: npm ci
