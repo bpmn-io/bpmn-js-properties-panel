@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: allow `PopupContainer` to be a CSS selector ([bpmn-io/properties-panel#291](https://github.com/bpmn-io/properties-panel/issues/291))
+* `FIX`: add error style to popup editor opened fields ([bpmn-io/properties-panel#298](https://github.com/bpmn-io/properties-panel/pull/298))
+* `FIX`: allow value `0` in FEEL number fields ([bpmn-io/properties-panel#297](https://github.com/bpmn-io/properties-panel/pull/297))
+
+
 ## 5.5.0
 
 * `FEAT`: improve FEEL popup lifecycle events ([bpmn-io/properties-panel#294](https://github.com/bpmn-io/properties-panel/pull/294))
