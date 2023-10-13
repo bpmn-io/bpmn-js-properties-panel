@@ -1,5 +1,5 @@
 import { getVariablesForElement } from '@bpmn-io/extract-process-variables/zeebe';
-import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { useService } from '../../hooks';
 
 const fallbackResolver = {

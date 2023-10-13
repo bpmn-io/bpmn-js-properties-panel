@@ -1,9 +1,7 @@
-import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
-import reactSvg from 'rollup-plugin-react-svg';
 import resolve from '@rollup/plugin-node-resolve';
 
 import {
@@ -56,21 +54,8 @@ export default [
 function pgl(plugins = []) {
   return [
     ...plugins,
-    alias({
-      entries: [
-        { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' },
-        { find: 'preact', replacement: '@bpmn-io/properties-panel/preact' }
-      ]
-    }),
-    reactSvg(),
     babel({
-      babelHelpers: 'bundled',
-      plugins: [
-        [ '@babel/plugin-transform-react-jsx', {
-          'importSource': '@bpmn-io/properties-panel/preact',
-          'runtime': 'automatic'
-        } ]
-      ]
+      babelHelpers: 'bundled'
     }),
     json(),
     resolve({

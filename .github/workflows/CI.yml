@@ -9,7 +9,6 @@ jobs:
         integration: [ true ]
         integration-deps:
         - diagram-js@11.9 bpmn-js@11.5
-        - "@bpmn-io/properties-panel@3"
         include:
           - integration-deps: "" # as defined in package.json
             integration: false
