@@ -58,8 +58,7 @@ function pgl(plugins = []) {
     ...plugins,
     alias({
       entries: [
-        { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' },
-        { find: 'preact', replacement: '@bpmn-io/properties-panel/preact' }
+        { find: 'react', replacement: 'preact/compat' }
       ]
     }),
     reactSvg(),
@@ -67,7 +66,7 @@ function pgl(plugins = []) {
       babelHelpers: 'bundled',
       plugins: [
         [ '@babel/plugin-transform-react-jsx', {
-          'importSource': '@bpmn-io/properties-panel/preact',
+          'importSource': 'preact',
           'runtime': 'automatic'
         } ]
       ]
