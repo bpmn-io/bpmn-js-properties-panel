@@ -1,6 +1,6 @@
 import {
   useEffect
-} from '@bpmn-io/properties-panel/preact/hooks';
+} from 'preact/hooks';
 
 import {
   query as domQuery
