@@ -27,7 +27,10 @@ export function ParentIdProps(props) {
     element
   } = props;
 
-  if (!is(element, 'bpmn:Process')) {
+  const businessObject = getBusinessObject(element);
+
+  if (!is(element, 'bpmn:Process') &&
+      !(is(element, 'bpmn:Participant') && businessObject.get('processRef'))) {
     return [];
   }
 
