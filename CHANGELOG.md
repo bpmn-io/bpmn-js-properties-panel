@@ -6,10 +6,15 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.6.0
+
+* `FEAT`: support Camunda 8 form reference ([#978](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/978), [#949](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/949))
 * `FEAT`: allow `PopupContainer` to be a CSS selector ([bpmn-io/properties-panel#291](https://github.com/bpmn-io/properties-panel/issues/291))
+* `FEAT`: improve suggestion of local variables ([#984](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/984))
 * `FIX`: add error style to popup editor opened fields ([bpmn-io/properties-panel#298](https://github.com/bpmn-io/properties-panel/pull/298))
 * `FIX`: allow value `0` in FEEL number fields ([bpmn-io/properties-panel#297](https://github.com/bpmn-io/properties-panel/pull/297))
-
+* `FIX`: keep undo/redo stack when editing Camunda input/output properties ([#983](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/983))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.11.0`
 
 ## 5.5.0
 
