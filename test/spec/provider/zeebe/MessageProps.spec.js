@@ -30,6 +30,8 @@ import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
+
 import {
   getExtensionElementsList
 } from 'src/utils/ExtensionElementsUtil';
@@ -50,7 +52,8 @@ describe('provider/zeebe - MessageProps', function() {
     ModelingModule,
     BpmnPropertiesPanel,
     BpmnPropertiesProvider,
-    ZeebePropertiesProvider
+    ZeebePropertiesProvider,
+    BehaviorsModule
   ];
 
   const moddleExtensions = {

@@ -109,6 +109,10 @@ function SubscriptionCorrelationKey(props) {
   const setValue = (value) => {
     const commands = [];
 
+    const properties = {
+      correlationKey: value
+    };
+
     const message = getMessage(element);
 
     let extensionElements = message.get('extensionElements');
@@ -132,13 +136,13 @@ function SubscriptionCorrelationKey(props) {
       });
     }
 
-    // (2) ensure subscription
     let subscription = getSubscription(element);
 
+    // (2a) add subscription with correlation key
     if (!subscription) {
       subscription = createElement(
         'zeebe:Subscription',
-        { },
+        properties,
         extensionElements,
         bpmnFactory
       );
@@ -153,19 +157,20 @@ function SubscriptionCorrelationKey(props) {
           }
         }
       });
+    } else {
+
+      // (2b) update existing subscription's correlation key
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          properties,
+          moddleElement: subscription
+        }
+      });
     }
 
-    // (3) update subscription correlation key
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: subscription,
-        properties: { correlationKey: value }
-      }
-    });
-
-    // (4) commit all updates
+    // (3) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
