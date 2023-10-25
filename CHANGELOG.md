@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.5.1
+
+* `FIX`: integrate `camunda-bpmn-js-behaviors@1.2.1` ([bb56a9f](https://github.com/bpmn-io/bpmn-js-properties-panel/commit/bb56a9f5d64bcef7f3c07cdd37eeb510a9fd6337))
+
 ## 5.5.0
 
 * `FEAT`: improve FEEL popup lifecycle events ([bpmn-io/properties-panel#294](https://github.com/bpmn-io/properties-panel/pull/294))
