@@ -1,3 +1,5 @@
+import { isUndefined } from 'min-dash';
+
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { TextFieldEntry, isTextFieldEntryEdited, SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
@@ -77,7 +79,7 @@ function FormKey(props) {
 
   const setValue = (value) => {
     modeling.updateProperties(element, {
-      'camunda:formKey': value
+      'camunda:formKey': isUndefined(value) ? '' : value
     });
   };
 
@@ -106,7 +108,7 @@ function FormRef(props) {
 
   const setValue = (value) => {
     modeling.updateProperties(element, {
-      'camunda:formRef': value
+      'camunda:formRef': isUndefined(value) ? '' : value
     });
   };
 

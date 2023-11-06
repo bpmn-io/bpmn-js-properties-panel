@@ -1,4 +1,7 @@
-import { without } from 'min-dash';
+import {
+  isUndefined,
+  without
+} from 'min-dash';
 
 import {
   getBusinessObject,
@@ -122,7 +125,7 @@ function FormConfiguration(props) {
   };
 
   const setValue = (value) => {
-    setUserTaskForm(injector, element, value);
+    setUserTaskForm(injector, element, isUndefined(value) ? '' : value);
   };
 
   return TextAreaEntry({
@@ -149,7 +152,7 @@ function FormId(props) {
   };
 
   const setValue = (value) => {
-    setFormId(injector, element, value);
+    setFormId(injector, element, isUndefined(value) ? '' : value);
   };
 
   return TextFieldEntry({
@@ -175,7 +178,7 @@ function CustomFormKey(props) {
   };
 
   const setValue = (value) => {
-    setCustomFormKey(injector, element, value);
+    setCustomFormKey(injector, element, isUndefined(value) ? '' : value);
   };
 
   return TextFieldEntry({

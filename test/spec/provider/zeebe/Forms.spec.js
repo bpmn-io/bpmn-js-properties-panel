@@ -296,6 +296,25 @@ describe('provider/zeebe - Forms', function() {
     }));
 
 
+    it('should not delete if empty', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const formConfigurationTextarea = getFormConfigurationTextarea(container);
+
+      // when
+      changeInput(formConfigurationTextarea, '');
+
+      // then
+      expectUserTaskForm(userTask, '');
+    }));
+
+
     it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
 
       // given
@@ -360,6 +379,25 @@ describe('provider/zeebe - Forms', function() {
     }));
 
 
+    it('should not delete if empty', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const formIdInput = getFormIdInput(container);
+
+      // when
+      changeInput(formIdInput, '');
+
+      // then
+      expectFormId(userTask, '');
+    }));
+
+
     it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
 
       // given
@@ -421,6 +459,25 @@ describe('provider/zeebe - Forms', function() {
 
       // then
       expectFormKey(userTask, 'foo');
+    }));
+
+
+    it('should not delete if empty', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const customFormKeyInput = getCustomFormKeyInput(container);
+
+      // when
+      changeInput(customFormKeyInput, '');
+
+      // then
+      expectFormKey(userTask, '');
     }));
 
 
