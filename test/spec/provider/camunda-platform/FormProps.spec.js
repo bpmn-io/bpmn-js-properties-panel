@@ -116,6 +116,27 @@ describe('provider/camunda-platform - FormProps', function() {
     }));
 
 
+    it('should not delete if empty', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('UserTask_FormKey');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const input = domQuery('input[name=formKey]', container);
+
+      changeInput(input, '');
+
+      // then
+      expect(getBusinessObject(task).get('camunda:formKey')).to.equal('');
+
+      expect(input.value).to.equal('');
+    }));
+
+
     it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
 
       // given
@@ -200,6 +221,27 @@ describe('provider/camunda-platform - FormProps', function() {
       expect(getBusinessObject(task).get('camunda:formRef')).to.equal('newValue');
 
       expect(input.value).to.equal('newValue');
+    }));
+
+
+    it('should not delete if empty', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('UserTask_FormRef');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const input = domQuery('input[name=formRef]', container);
+
+      changeInput(input, '');
+
+      // then
+      expect(getBusinessObject(task).get('camunda:formRef')).to.equal('');
+
+      expect(input.value).to.equal('');
     }));
 
 
