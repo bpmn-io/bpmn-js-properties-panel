@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.6.1
+
+* `FIX`: do not unset form type when setting value to empty ([#998](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/998))
+* `CHORE`: adjust Forms group tooltip to include linked forms ([#999](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/999))
+
 ## 5.6.0
 
 * `FEAT`: support Camunda 8 form reference ([#978](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/978), [#949](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/949))
