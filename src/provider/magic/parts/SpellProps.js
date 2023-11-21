@@ -89,5 +89,5 @@ function Spell(props) {
     setValue=${setValue}
     getOptions=${getOptions}
     debounce=${debounce}
-  />`
+  />`;
 }

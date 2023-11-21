@@ -227,7 +227,6 @@ function getGroups(element, injector) {
     SignalGroup(element, injector),
     EscalationGroup(element, injector),
     TimerGroup(element, injector),
-    // CustomGroup(element, injector),
   ];
 
   // contract: if a group returns null, it should not be displayed at all

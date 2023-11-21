@@ -19,7 +19,7 @@ const LOW_PRIORITY = 500;
 export default function GroupManagementProvider(propertiesPanel, translate) {
 
   // API ////////
-  
+
   /**
    * Return the groups provided for the given element.
    *
@@ -27,7 +27,7 @@ export default function GroupManagementProvider(propertiesPanel, translate) {
    *
    * @return {(Object[]) => (Object[])} groups middleware
    */
-  this.getGroups = function(element) {
+  this.getGroups = function (element) {
     /**
      * We return a middleware that modifies
      * the existing groups.
@@ -36,9 +36,9 @@ export default function GroupManagementProvider(propertiesPanel, translate) {
      *
      * @return {Object[]} modified groups
      */
-    return function(groups) {
-        const groupList = groupManagementData();
-        return groups.filter(group =>  !groupList.includes(group.label));
+    return function (groups) {
+      const groupList = groupManagementData();
+      return groups.filter(group => !groupList.includes(group.label));
 
     }
   };
@@ -52,5 +52,5 @@ export default function GroupManagementProvider(propertiesPanel, translate) {
   propertiesPanel.registerProvider(LOW_PRIORITY, this);
 }
 
-GroupManagementProvider.$inject = [ 'propertiesPanel', 'translate' ];
+GroupManagementProvider.$inject = ['propertiesPanel', 'translate'];
 
