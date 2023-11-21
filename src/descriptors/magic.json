@@ -1,0 +1,40 @@
+{
+  "name": "magic",
+  "prefix": "magic",
+  "uri": "http://",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "associations": [],
+  "types": [
+   
+    {
+      "name": "Properties",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "properties",
+          "type": "Property",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "Property",
+      "properties": [
+        {
+          "name": "name",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "isAttr": true
+        }
+      ]
+    }
+  ]
+}
