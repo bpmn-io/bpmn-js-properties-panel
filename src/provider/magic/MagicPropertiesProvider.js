@@ -2,7 +2,7 @@
 // The entry is a text input field with logic attached to create,
 // update and delete the "spell" property.
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
-import spellProps from './parts/SpellProps';
+import newAttribute from './parts/Attributes';
 import {RelativePropertiesProps} from './parts/RelativePropertiesProps'
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -63,7 +63,7 @@ function createMagicGroup(element, injector) {
     const magicGroup = {
         id: 'customGroup',
         label: translate('Custom Group'),
-        entries: spellProps(element)
+        entries: newAttribute(element)
     };
 
     return magicGroup;

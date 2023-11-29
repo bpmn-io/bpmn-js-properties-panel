@@ -16,7 +16,7 @@ import {
 import { without } from 'min-dash';
 
 
-export function RelativePropertiesProps({ element, injector, namespace = 'magic' }) {
+export function RelativePropertiesProps({ element, injector, namespace = 'custom' }) {
   let businessObject = getRelevantBusinessObject(element);
 
   // do not offer for empty pools
@@ -82,7 +82,7 @@ function removeFactory({ commandStack, element, property, namespace }) {
       }
     });
 
-    // remove magic:Properties if there are no properties anymore
+    // remove custom:Properties if there are no properties anymore
     if (!values.length) {
 
       commands.push({
@@ -132,7 +132,7 @@ function addFactory({ bpmnFactory, commandStack, element, namespace }) {
 
     const propertyName = getPropertyName(namespace);
 
-    // (2) ensure magic:Properties
+    // (2) ensure custom:Properties
     let properties = getProperties(businessObject, namespace);
 
     if (!properties) {
@@ -154,7 +154,7 @@ function addFactory({ bpmnFactory, commandStack, element, namespace }) {
       });
     }
 
-    // (3) create magic:Property
+    // (3) create custom:Property
     const property = createElement(`${ namespace }:Property`, {}, properties, bpmnFactory);
 
     // (4) add property to list
@@ -187,20 +187,20 @@ export function getRelevantBusinessObject(element) {
   return businessObject;
 }
 
-function getPropertyName(namespace = 'magic') {
-  if (namespace === 'magic') {
+function getPropertyName(namespace = 'custom') {
+  if (namespace === 'custom') {
     return 'properties';
   }
 
   return 'values';
 }
 
-export function getProperties(element, namespace = 'magic') {
+export function getProperties(element, namespace = 'custom') {
   const businessObject = getRelevantBusinessObject(element);
   return getExtensionElementsList(businessObject, `${namespace}:Properties`)[ 0 ];
 }
 
-export function getPropertiesList(element, namespace = 'magic') {
+export function getPropertiesList(element, namespace = 'custom') {
   const businessObject = getRelevantBusinessObject(element);
   const properties = getProperties(businessObject, namespace);
 

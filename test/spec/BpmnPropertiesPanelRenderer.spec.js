@@ -49,6 +49,10 @@ import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 import GroupManagementProvider from 'src/provider/group-management';
 
+import MagicPropertiesProvider from '../../src/provider/magic';
+
+import magicModdleDescriptor from "../../src/descriptors/magic.json";
+
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
 insertCoreStyles();
@@ -85,7 +89,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         ZeebeBehaviorsModule,
         BpmnPropertiesPanel,
         BpmnPropertiesProvider,
-        ZeebePropertiesProvider
+        ZeebePropertiesProvider,
       ],
       moddleExtensions = {
         zeebe: ZeebeModdle
@@ -146,7 +150,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           ZeebePropertiesProvider,
-          CreateAppendAnythingModule
+          CreateAppendAnythingModule,
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
@@ -175,9 +179,11 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesProvider,
           CamundaPropertiesProvider,
           CreateAppendAnythingModule,
-          GroupManagementProvider
+          GroupManagementProvider,
+          MagicPropertiesProvider
         ],
         moddleExtensions: {
+          magic:magicModdleDescriptor,
           camunda: CamundaModdle
         }        
       }
@@ -201,7 +207,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CamundaBehaviorsModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          CreateAppendAnythingModule
+          CreateAppendAnythingModule,
         ]
       }
     );
@@ -358,7 +364,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       BpmnPropertiesPanel,
       BpmnPropertiesProvider,
       ZeebePropertiesProvider,
-      ExamplePropertiesProvider
+      ExamplePropertiesProvider,
     ];
 
     // when
@@ -436,7 +442,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         } = await createModeler(diagramXML, {
           additionalModules: [
             BpmnPropertiesPanel,
-            BpmnPropertiesProvider
+            BpmnPropertiesProvider,
           ]
         });
 
@@ -616,7 +622,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
     const modules = [
       BpmnPropertiesPanel,
-      BpmnPropertiesProvider
+      BpmnPropertiesProvider,
     ];
 
     const diagramXml = require('test/fixtures/simple.bpmn').default;
@@ -644,7 +650,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
     const modules = [
       BpmnPropertiesPanel,
-      BpmnPropertiesProvider
+      BpmnPropertiesProvider,
     ];
 
     const diagramXml = require('test/fixtures/simple.bpmn').default;
@@ -912,7 +918,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
               CamundaBehaviorsModule,
               BpmnPropertiesPanel,
               BpmnPropertiesProvider,
-              CamundaPropertiesProvider
+              CamundaPropertiesProvider,
             ],
             moddleExtensions: {
               camunda: CamundaModdle
