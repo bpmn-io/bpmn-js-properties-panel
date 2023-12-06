@@ -39,7 +39,10 @@ export default function MagicPropertiesProvider(propertiesPanel, injector) {
          */
         return function (groups) {
             // Add the "magic" group
-            groups.push(createMagicGroup(element, injector));
+            var customGroup = createMagicGroup(element, injector);
+            if(customGroup.entries.length > 0){
+                groups.push(customGroup);
+            }
             groups.push(createRelativeGroup(element, injector));
             return groups;
         }

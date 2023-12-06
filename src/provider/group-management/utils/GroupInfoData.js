@@ -13,7 +13,6 @@ function GetGroupManagement() {
 
 
   useEffect(() => {
-    console.log('GetGroupManagement');
     function fetchGroupData() {
       fetch("/oceans/api/bcm/bcm7001/searchBusinessPropertyList", {
         "headers": {

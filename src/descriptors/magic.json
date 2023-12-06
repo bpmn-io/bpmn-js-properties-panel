@@ -1,13 +1,31 @@
 {
-  "name": "magic",
-  "prefix": "magic",
-  "uri": "http://",
+  "name": "CustomGroup",
+  "prefix": "custom",
+  "uri": "http://customGroup",
   "xml": {
     "tagAlias": "lowerCase"
   },
   "associations": [],
   "types": [
-   
+    {
+      "name": "CustomGroup",
+      "extends": [
+        "bpmn:Process",
+        "bpmn:Participant"
+      ],
+      "properties": [
+        {
+          "name": "custom:spell",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "custom:newAttribute",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
     {
       "name": "Properties",
       "superClass": [
@@ -34,6 +52,19 @@
           "type": "String",
           "isAttr": true
         }
+      ]
+    },
+    {
+      "name": "SequenceFlow",
+      "superClass": [
+        "FlowElement"
+      ],
+      "properties": [
+        {
+          "name": "custom:IsMessage",
+          "isAttr": true,
+          "type": "String"
+        }        
       ]
     }
   ]

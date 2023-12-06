@@ -1,5 +1,9 @@
 import { html } from 'htm/preact';
-import { isAny } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
+import {
+  getBusinessObject,
+  is,
+  isAny
+} from 'bpmn-js/lib/util/ModelUtil';
 
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 import { useService } from '../../../hooks';
@@ -27,13 +31,14 @@ function NewAttribute(props) {
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
+  const process = getProcess(element);
 
   const getValue = () => {
-    return element.businessObject.newAttribute || '';
+    return process.newAttribute || '';
   };
 
   const setValue = value => {
-    return modeling.updateProperties(element, {
+    return modeling.updateModdleProperties(element, process, {
       newAttribute: value
     });
   };
@@ -92,4 +97,11 @@ function NewAttribute(props) {
     getOptions=${getOptions}
     debounce=${debounce}
   />`;
+}
+
+// helper /////////////////////
+function getProcess(element) {
+  return is(element, 'bpmn:Process') ?
+    getBusinessObject(element) :
+    getBusinessObject(element).get('processRef');
 }
