@@ -37,7 +37,7 @@ import {
   TasklistProps,
   TimerProps,
   UserAssignmentProps,
-  VersionTagProps
+  //VersionTagProps
 } from './properties';
 
 import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
@@ -116,7 +116,7 @@ export default class CamundaPlatformPropertiesProvider {
       groups = groups.concat(this._getGroups(element));
 
       // (2) update existing groups with Camunda Platform specific properties
-      updateGeneralGroup(groups, element);
+      //updateGeneralGroup(groups, element);
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
       updateMultiInstanceGroup(groups, element);
@@ -152,22 +152,22 @@ function moveImplementationGroup(groups) {
   return moveGroup(groups, 'CamundaPlatform__Implementation', documentationGroupIdx + 1);
 }
 
-function updateGeneralGroup(groups, element) {
+// function updateGeneralGroup(groups, element) {
 
-  const generalGroup = findGroup(groups, 'general');
+//   const generalGroup = findGroup(groups, 'general');
 
-  if (!generalGroup) {
-    return;
-  }
+//   if (!generalGroup) {
+//     return;
+//   }
 
-  const { entries } = generalGroup;
+//   const { entries } = generalGroup;
 
-  // (1) add version tag before executable (if existing)
-  const executableEntry = findIndex(entries, (entry) => entry.id === 'isExecutable');
-  const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
+//   // (1) add version tag before executable (if existing)
+//   const executableEntry = findIndex(entries, (entry) => entry.id === 'isExecutable');
+//   const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
 
-  entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
-}
+//   entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
+// }
 
 function updateErrorGroup(groups, element) {
   const errorGroup = findGroup(groups, 'error');

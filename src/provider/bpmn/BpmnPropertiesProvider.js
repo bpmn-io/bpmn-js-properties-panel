@@ -14,7 +14,6 @@ import {
   ProcessProps,
   SignalProps,
   TimerProps,
-  ParentIdProps,
   // SpellProps
 } from './properties';
 
@@ -25,7 +24,6 @@ function GeneralGroup(element, injector) {
     ...NameProps({ element }),
     ...IdProps({ element }),
     ...ProcessProps({ element }),
-    ...ParentIdProps({ element }),
     ...ExecutableProps({ element })
   ];
 
