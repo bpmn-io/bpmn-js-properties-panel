@@ -98,7 +98,7 @@ function FormType(props) {
       { value: '', label: translate('<none>') },
       { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda Form (linked)') },
       { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda Form (embedded)') },
-      { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom Form key') }
+      { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom form key') }
     ];
   };
 
