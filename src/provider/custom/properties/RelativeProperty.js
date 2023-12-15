@@ -43,13 +43,13 @@ function NextProcess(props) {
       element,
       moddleElement: property,
       properties: {
-        name: value
+        next: value
       }
     });
   };
 
   const getValue = () => {
-    return property.name;
+    return property.next;
   };
 
   const [ relates, setRelates ] = useState([]);
@@ -123,13 +123,13 @@ function PrevProcess(props) {
       element,
       moddleElement: property,
       properties: {
-        value
+        previous:value
       }
     });
   };
 
   const getValue = () => {
-    return property.value;
+    return property.previous;
   };
 
   const [ relates, setRelates ] = useState([]);

@@ -1,6 +1,7 @@
 import {
     getBusinessObject,
-    is
+    is,
+    isAny
   } from 'bpmn-js/lib/util/ModelUtil';
 
 import RelativeProperty from './RelativeProperty';
@@ -17,6 +18,10 @@ import { without } from 'min-dash';
 
 
 export function RelativePropertiesProps({ element, injector, namespace = 'custom' }) {
+
+  if (!isAny(element, ['bpmn:Task'])) {
+    return;
+  }
   let businessObject = getRelevantBusinessObject(element);
 
   // do not offer for empty pools
@@ -30,11 +35,10 @@ export function RelativePropertiesProps({ element, injector, namespace = 'custom
         commandStack = injector.get('commandStack');
 
   const items = properties.map((property, index) => {
-    const id = element.id + '-relavtiveProperty-' + index;
+  const id = element.id + '-relavtiveProperty-' + index;
 
     return {
       id,
-      // label: property.get('name') || '',
       label: 'Relative ' + (index + 1),
       entries: RelativeProperty({
         idPrefix: id,
@@ -138,7 +142,7 @@ function addFactory({ bpmnFactory, commandStack, element, namespace }) {
     if (!properties) {
       const parent = extensionElements;
 
-      properties = createElement(`${ namespace }:Properties`, {
+      properties = createElement(`${ namespace }:Relationships`, {
         [ propertyName ]: []
       }, parent, bpmnFactory);
 
@@ -155,7 +159,7 @@ function addFactory({ bpmnFactory, commandStack, element, namespace }) {
     }
 
     // (3) create custom:Property
-    const property = createElement(`${ namespace }:Property`, {}, properties, bpmnFactory);
+    const property = createElement(`${ namespace }:Relation`, {}, properties, bpmnFactory);
 
     // (4) add property to list
     commands.push({
@@ -197,7 +201,7 @@ function getPropertyName(namespace = 'custom') {
 
 export function getProperties(element, namespace = 'custom') {
   const businessObject = getRelevantBusinessObject(element);
-  return getExtensionElementsList(businessObject, `${namespace}:Properties`)[ 0 ];
+  return getExtensionElementsList(businessObject, `${namespace}:Relationships`)[ 0 ];
 }
 
 export function getPropertiesList(element, namespace = 'custom') {

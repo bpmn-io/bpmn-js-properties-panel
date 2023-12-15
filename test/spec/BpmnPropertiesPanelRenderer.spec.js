@@ -49,9 +49,9 @@ import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 import GroupManagementProvider from 'src/provider/group-management';
 
-import MagicPropertiesProvider from '../../src/provider/magic';
+import CustomPropertiesProvider from '../../src/provider/custom';
 
-import magicModdleDescriptor from "../../src/descriptors/magic.json";
+import CustomModdleDescriptor from "../../src/descriptors/custom.json";
 
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
@@ -180,10 +180,10 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           CamundaPropertiesProvider,
           CreateAppendAnythingModule,
           GroupManagementProvider,
-          MagicPropertiesProvider
+          CustomPropertiesProvider
         ],
         moddleExtensions: {
-          magic:magicModdleDescriptor,
+          custom:CustomModdleDescriptor,
           camunda: CamundaModdle
         }        
       }

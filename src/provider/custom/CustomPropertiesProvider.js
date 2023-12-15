@@ -2,12 +2,19 @@
 // The entry is a text input field with logic attached to create,
 // update and delete the "spell" property.
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
-import newAttribute from './parts/Attributes';
-import {RelativePropertiesProps} from './parts/RelativePropertiesProps'
-import { is } from 'bpmn-js/lib/util/ModelUtil';
+import {AttributesProps, 
+    RelativePropertiesProps, 
+    IconTypeProps, 
+    PropertyProps
+} from './properties';
 
 const LOW_PRIORITY = 500;
 
+const CUSTOM_GROUPS = [
+    CustomGroup,
+    RelativeGroup,
+    PropertyGroup
+];
 
 /**
  * A provider with a `#getGroups(element)` method
@@ -16,7 +23,7 @@ const LOW_PRIORITY = 500;
  * @param {PropertiesPanel} propertiesPanel
  * @param {Function} translate
  */
-export default function MagicPropertiesProvider(propertiesPanel, injector) {
+export default function CustomPropertiesProvider(propertiesPanel, injector) {
 
     // API ////////
 
@@ -37,16 +44,19 @@ export default function MagicPropertiesProvider(propertiesPanel, injector) {
          *
          * @return {Object[]} modified groups
          */
-        return function (groups) {
-            // Add the "magic" group
-            var customGroup = createMagicGroup(element, injector);
-            if(customGroup.entries.length > 0){
-                groups.push(customGroup);
-            }
-            groups.push(createRelativeGroup(element, injector));
+        //contract: if a group returns null, it should not be displayed at all
+        return (groups) => {
+            groups = groups.concat(this._getGroups(element));
             return groups;
-        }
+          }
     };
+
+    this._getGroups = function (element) {
+        const groups = CUSTOM_GROUPS.map(createGroup => createGroup(element, injector));
+
+        // contract: if a group returns null, it should not be displayed at all
+        return groups.filter(group => group !== null);
+    }
 
 
     // registration ////////
@@ -57,34 +67,53 @@ export default function MagicPropertiesProvider(propertiesPanel, injector) {
     propertiesPanel.registerProvider(LOW_PRIORITY, this);
 }
 
-MagicPropertiesProvider.$inject = ['propertiesPanel', 'injector'];
+CustomPropertiesProvider.$inject = ['propertiesPanel', 'injector'];
 
-// Create the custom magic group
-function createMagicGroup(element, injector) {
+// Create the custom group
+function CustomGroup(element, injector) {
     const translate = injector.get('translate');
-    // create a group called "Magic properties".
-    const magicGroup = {
+    const entries = [
+        ...AttributesProps(element), 
+        ...IconTypeProps(element)
+    ];
+    const customGroup = {
         id: 'customGroup',
         label: translate('Custom Group'),
-        entries: newAttribute(element)
+        component: Group,
+        entries
     };
 
-    return magicGroup;
+    if (customGroup.entries.length > 0) {
+        return customGroup;
+    }
+
+    return null;
 }
 
-// Create the custom magic group
-function createRelativeGroup(element, injector) {
-
-    // create a group called "Magic properties".
-
+function RelativeGroup(element, injector) {
     const translate = injector.get('translate');
     const group = {
-        // id: 'Realative_CamundaPlatform__ExtensionProperties',
-        // label: translate('Relative Group'),
         label: translate('Relative process'),
         id: 'CamundaPlatform__ExtensionProperties',
         component: ListGroup,
         ...RelativePropertiesProps({ element, injector})
+    };
+
+    if (group.items) {
+        return group;
+    }
+
+    return null;
+}
+
+function PropertyGroup(element, injector) {
+
+    const translate = injector.get('translate');
+    const group = {
+        label: translate('Properties'),
+        id: 'CamundaPlatform__TaskProperties',
+        component: ListGroup,
+        ...PropertyProps({ element, injector})
     };
 
     if (group.items) {

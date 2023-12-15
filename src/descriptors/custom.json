@@ -11,7 +11,8 @@
       "name": "CustomGroup",
       "extends": [
         "bpmn:Process",
-        "bpmn:Participant"
+        "bpmn:Participant",
+        "bpmn:Task"
       ],
       "properties": [
         {
@@ -21,6 +22,11 @@
         },
         {
           "name": "custom:newAttribute",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "custom:iconType",
           "isAttr": true,
           "type": "String"
         }
@@ -43,11 +49,6 @@
       "name": "Property",
       "properties": [
         {
-          "name": "name",
-          "type": "String",
-          "isAttr": true
-        },
-        {
           "name": "value",
           "type": "String",
           "isAttr": true
@@ -65,6 +66,34 @@
           "isAttr": true,
           "type": "String"
         }        
+      ]
+    },
+    {
+      "name": "Relationships",
+      "superClass": [
+        "Element"
+      ],
+      "properties": [
+        {
+          "name": "properties",
+          "type": "Relation",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "Relation",
+      "properties": [
+        {
+          "name": "previous",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "next",
+          "type": "String",
+          "isAttr": true
+        }
       ]
     }
   ]

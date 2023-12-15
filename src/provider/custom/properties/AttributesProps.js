@@ -11,8 +11,8 @@ import { useService } from '../../../hooks';
 // import hooks from the vendored preact package
 import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
-export default function(element) {
-  if (!isAny(element, [ 'bpmn:Process', 'bpmn:Participant' ])) {
+export function AttributesProps(element) {
+  if (!isAny(element, ['bpmn:Task', 'bpmn:Process', 'bpmn:Participant' ])) {
     return [];
   }
   return [
@@ -101,7 +101,7 @@ function NewAttribute(props) {
 
 // helper /////////////////////
 function getProcess(element) {
-  return is(element, 'bpmn:Process') ?
+  return isAny(element, ['bpmn:Process', 'bpmn:Task']) ?
     getBusinessObject(element) :
     getBusinessObject(element).get('processRef');
 }
