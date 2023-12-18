@@ -9,7 +9,9 @@ ___Note:__ Yet to be released changes appear here._
 ## 5.7.0
 
 * `FEAT`: capitalize `Camunda Form` ([#1005](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1005))
-*
+* `FEAT`: improve FEEL popup editor icon ([bpmn-io/properties-panel#310](https://github.com/bpmn-io/properties-panel/issues/310))
+* `FIX`: prevent error inside web component ([bpmn-io/properties-panel#313](https://github.com/bpmn-io/properties-panel/issues/313))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.14.0`
 
 ## 5.6.1
 
