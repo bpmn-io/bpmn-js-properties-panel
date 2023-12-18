@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.7.0
+
+* `FEAT`: capitalize `Camunda Form` ([#1005](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1005))
+*
+
 ## 5.6.1
 
 * `FIX`: do not unset form type when setting value to empty ([#998](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/998))
