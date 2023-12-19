@@ -47,8 +47,28 @@ function IconType(props) {
         value: ''
       },
       {
-        label: 'Icon 1',
-        value: 'TASK_ICON'
+        label: 'Commercial',
+        value: 'TASK_ICON_COMMERCIAL'
+      },
+      {
+        label: 'Customer Service',
+        value: 'TASK_ICON_CUSTOMER_SERVICE'
+      },
+      {
+        label: 'Finance',
+        value: 'TASK_ICON_FINANCE'
+      },
+      {
+        label: 'Equipment',
+        value: 'TASK_ICON_EQUIPMENT'
+      },
+      {
+        label: 'Logistics',
+        value: 'TASK_ICON_LOGISTICS'
+      },
+      {
+        label: 'Marine',
+        value: 'TASK_ICON_MARINE'
       }
     ];
   };
