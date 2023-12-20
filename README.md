@@ -76,26 +76,25 @@ propertiesPanel.attachTo('#other-properties');
 ```
 
 
-### Use with Camunda properties
+### Edit Camunda Properties
 
-In order to be able to edit [Camunda](https://camunda.com) related properties, use the [camunda platform properties provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/src/provider/camunda-platform).
-In addition, you need to define the `camunda` namespace via [camunda-bpmn-moddle](https://github.com/camunda/camunda-bpmn-moddle).
+To edit [Camunda](https://camunda.com) properties, you have to use a [moddle extension](https://github.com/bpmn-io/moddle) so bpmn-js is can read and write Camunda properties and use a provider so these properties are shown in the properties panel.
+
+For example, to edit [Camunda 8](https://camunda.com/platform/) properties, use the [Camunda 8 moddle extension](https://github.com/camunda/zeebe-bpmn-moddle) and the [Camunda 8 provider](https://github.com/bpmn-io/bpmn-js-properties-panel/tree/master/src/provider/zeebe). Additionally, you should use [behaviors specific to Camunda 8](https://github.com/camunda/camunda-bpmn-js-behaviors?tab=readme-ov-file#camunda-8) to ensure parts of the model that are specific to Camunda 8 are maintained correctly.
 
 ```javascript
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import {
   BpmnPropertiesPanelModule,
   BpmnPropertiesProviderModule,
-  
-  // use Camunda Platform properties provider
-  CamundaPlatformPropertiesProviderModule
+  ZeebePropertiesProviderModule // Camunda 8 provider
 } from 'bpmn-js-properties-panel';
 
-// use Camunda BPMN Moddle extension
-import CamundaExtensionModule from 'camunda-bpmn-moddle/lib';
+// Camunda 8 moddle extension
+import zeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
 
-// use Camunda BPMN namespace
-import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
+// Camunda 8 behaviors
+import ZeebeBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
 
 const modeler = new BpmnModeler({
   container: '#canvas',
@@ -105,14 +104,13 @@ const modeler = new BpmnModeler({
   additionalModules: [
     BpmnPropertiesPanelModule,
     BpmnPropertiesProviderModule,
-    CamundaPlatformPropertiesProviderModule,
-    CamundaExtensionModule
+    ZeebePropertiesProviderModule,
+    ZeebeBehaviorsModule
   ],
   moddleExtensions: {
-    camunda: camundaModdleDescriptors
+    zeebe: zeebeModdle
   }
 });
-...
 ```
 
 ### API
