@@ -37,7 +37,8 @@ export default function BpmnPropertiesPanel(props) {
     layoutConfig: initialLayoutConfig,
     descriptionConfig,
     tooltipConfig,
-    feelPopupContainer
+    feelPopupContainer,
+    feelEditorExtensions
   } = props;
 
   const canvas = injector.get('canvas');
@@ -238,6 +239,7 @@ export default function BpmnPropertiesPanel(props) {
       tooltipConfig={ tooltipConfig }
       tooltipLoaded={ onTooltipLoaded }
       feelPopupContainer={ feelPopupContainer }
+      feelEditorExtensions={ feelEditorExtensions }
       eventBus={ eventBus } />
   </BpmnPropertiesPanelContext.Provider>;
 }
