@@ -78,7 +78,7 @@
     "bpmn-moddle": "^8.0.1",
     "camunda-bpmn-js-behaviors": "^1.2.2",
     "camunda-bpmn-moddle": "^7.0.1",
-    "chai": "^4.3.10",
+    "chai": "^5.0.0",
     "cross-env": "^7.0.3",
     "diagram-js": "^13.4.0",
     "downloadjs": "^1.4.7",
