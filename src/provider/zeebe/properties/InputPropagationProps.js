@@ -122,12 +122,12 @@ function PropagateAllParentVariables(props) {
 
   return ToggleSwitchEntry({
     id: 'propagateAllParentVariables',
-    label: translate('Propagate all variables'),
+    label: translate('Propagate all parent process variables'),
     switcherLabel: propagateAllParentVariables ?
       translate('On') :
       translate('Off'),
     tooltip: <div>
-      <p>{translate('If turned on, all variables from this process instance will be propagated to the child process instance.')}</p>
+      <p>{translate('If turned on, all variables from the parent process instance will be propagated to the child process instance.')}</p>
       <p>{translate('Otherwise, only variables defined via input mappings will be propagated.')}</p>
     </div>,
     getValue,
