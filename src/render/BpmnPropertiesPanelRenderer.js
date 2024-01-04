@@ -27,6 +27,7 @@ export default class BpmnPropertiesPanelRenderer {
 
   constructor(config, injector, eventBus) {
     const {
+      iconProperty,
       parent,
       layout: layoutConfig,
       description: descriptionConfig,
@@ -35,6 +36,7 @@ export default class BpmnPropertiesPanelRenderer {
     } = config || {};
 
     this._eventBus = eventBus;
+    this._iconProperty = iconProperty;
     this._injector = injector;
     this._layoutConfig = layoutConfig;
     this._descriptionConfig = descriptionConfig;
@@ -171,6 +173,7 @@ export default class BpmnPropertiesPanelRenderer {
       <BpmnPropertiesPanel
         element={ element }
         injector={ this._injector }
+        iconProperty={this._iconProperty}
         getProviders={ this._getProviders.bind(this) }
         layoutConfig={ this._layoutConfig }
         descriptionConfig={ this._descriptionConfig }

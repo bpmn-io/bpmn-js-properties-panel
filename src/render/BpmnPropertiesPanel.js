@@ -31,6 +31,7 @@ import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
  */
 export default function BpmnPropertiesPanel(props) {
   const {
+    iconProperty,
     element,
     injector,
     getProviders,
@@ -228,7 +229,7 @@ export default function BpmnPropertiesPanel(props) {
   return <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
     <PropertiesPanel
       element={ selectedElement }
-      headerProvider={ PanelHeaderProvider }
+      headerProvider={ PanelHeaderProvider(iconProperty) }
       placeholderProvider={ PanelPlaceholderProvider(translate) }
       groups={ groups }
       layoutConfig={ layoutConfig }
