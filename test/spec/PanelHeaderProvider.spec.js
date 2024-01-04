@@ -10,6 +10,8 @@ import {
 
 import BpmnModdle from 'bpmn-moddle';
 
+import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
+
 import {
   insertCoreStyles
 } from 'test/TestHelper';
@@ -37,7 +39,9 @@ const noopElement = {
   }
 };
 
-const moddle = new BpmnModdle();
+const moddle = new BpmnModdle({
+  zeebe: ZeebeModdle
+});
 
 
 describe('<PanelHeaderProvider>', function() {
@@ -184,7 +188,7 @@ describe('<PanelHeaderProvider>', function() {
 
   describe('#getElementIcon', function() {
 
-    it('should get icon - no element templates', function() {
+    it('should get icon - no template', function() {
 
       // given
       const element = createElement('bpmn:Task');
@@ -201,138 +205,41 @@ describe('<PanelHeaderProvider>', function() {
     });
 
 
-    it('should get icon - no template icon', function() {
-
-      // given
-      const element = createElement('bpmn:Task');
-
-      const elementTemplates = {
-        get: () => { return { id: 'foo' }; },
-        getTemplateId: () => 'foo'
-      };
-
-      const context = {
-        getService: () => {
-          return new ElementTemplates(elementTemplates);
-        }
-      };
-
-      // when
-      const result = createHeader({ container, element, context });
-
-      const iconNode = domQuery('.bio-properties-panel-header-icon', result.container);
-      const templateIconNode = domQuery('.bio-properties-panel-header-template-icon', iconNode);
-
-      // then
-      expect(iconNode).to.exist;
-      expect(templateIconNode).to.not.exist;
-    });
-
-
     it('should get template icon - data URI', function() {
 
       // given
-      const element = createElement('bpmn:Task');
-
-      const template = {
-        id: 'foo',
-        icon: {
-          contents: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E"
-        }
-      };
-
-      const elementTemplates = {
-        get: () => { return template; },
-        getTemplateId: () => 'foo'
-      };
-
-      const context = {
-        getService: () => {
-          return new ElementTemplates(elementTemplates);
-        }
-      };
+      const element = createElement('bpmn:Task', {
+        'zeebe:modelerTemplateIcon': "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E"
+      });
 
       // when
-      const result = createHeader({ container, element, context });
+      const result = createHeader({ container, element });
 
       const iconNode = domQuery('.bio-properties-panel-header-icon', result.container);
       const templateIconNode = domQuery('.bio-properties-panel-header-template-icon', iconNode);
 
       // then
       expect(templateIconNode).to.exist;
-      expect(templateIconNode.src).to.eql(template.icon.contents);
+      expect(templateIconNode.src).to.eql(element.businessObject.get('zeebe:modelerTemplateIcon'));
     });
 
 
     it('should get template icon - https URI', function() {
 
       // given
-      const element = createElement('bpmn:Task');
-
-      const template = {
-        id: 'foo',
-        icon: {
-          contents: 'https://camunda.com/wp-content/uploads/2020/05/logo-camunda-black.svg'
-        }
-      };
-
-      const elementTemplates = {
-        get: () => { return template; },
-        getTemplateId: () => 'foo'
-      };
-
-      const context = {
-        getService: () => {
-          return new ElementTemplates(elementTemplates);
-        }
-      };
+      const element = createElement('bpmn:Task', {
+        'zeebe:modelerTemplateIcon': 'https://camunda.com/wp-content/uploads/2020/05/logo-camunda-black.svg'
+      });
 
       // when
-      const result = createHeader({ container, element, context });
+      const result = createHeader({ container, element });
 
       const iconNode = domQuery('.bio-properties-panel-header-icon', result.container);
       const templateIconNode = domQuery('.bio-properties-panel-header-template-icon', iconNode);
 
       // then
       expect(templateIconNode).to.exist;
-      expect(templateIconNode.src).to.eql(template.icon.contents);
-    });
-
-
-    it('should get template icon - versioned', function() {
-
-      // given
-      const element = createElement('bpmn:Task');
-
-      const template = {
-        id: 'foo',
-        version: 1,
-        icon: {
-          contents: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100' width='100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='black' stroke-width='3' fill='red' /%3E%3C/svg%3E"
-        }
-      };
-
-      const elementTemplates = {
-        get: () => { return template; },
-        getTemplateId: () => 'foo',
-        getTemplateVersion: () => 1
-      };
-
-      const context = {
-        getService: () => {
-          return new ElementTemplates(elementTemplates);
-        }
-      };
-
-      // when
-      const result = createHeader({ container, element, context });
-
-      const iconNode = domQuery('.bio-properties-panel-header-icon', result.container);
-      const templateIconNode = domQuery('.bio-properties-panel-header-template-icon', iconNode);
-
-      // then
-      expect(templateIconNode).to.exist;
-      expect(templateIconNode.src).to.eql(template.icon.contents);
+      expect(templateIconNode.src).to.eql(element.businessObject.get('zeebe:modelerTemplateIcon'));
     });
 
   });

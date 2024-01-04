@@ -87,14 +87,15 @@ export const PanelHeaderProvider = {
   getElementIcon: (element) => {
     const concreteType = getConcreteType(element);
 
-    const elementTemplates = getTemplatesService();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const config = useService('config.elementTemplateIconRenderer', false);
 
-    if (elementTemplates) {
-      const template = getTemplate(element, elementTemplates);
+    const { iconProperty = 'zeebe:modelerTemplateIcon' } = config || {};
 
-      if (template && template.icon) {
-        return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ template.icon.contents } />;
-      }
+    const templateIcon = getBusinessObject(element).get(iconProperty);
+
+    if (templateIcon) {
+      return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } />;
     }
 
     return iconsByType[ concreteType ];
