@@ -25,7 +25,7 @@ const DEFAULT_PRIORITY = 1000;
 
 export default class BpmnPropertiesPanelRenderer {
 
-  constructor(configIconProperty, config, injector, eventBus) {
+  constructor(config, injector, eventBus) {
     const {
       parent,
       layout: layoutConfig,
@@ -35,7 +35,6 @@ export default class BpmnPropertiesPanelRenderer {
     } = config || {};
 
     this._eventBus = eventBus;
-    this._iconProperty = configIconProperty && configIconProperty.iconProperty;
     this._injector = injector;
     this._layoutConfig = layoutConfig;
     this._descriptionConfig = descriptionConfig;
@@ -172,7 +171,6 @@ export default class BpmnPropertiesPanelRenderer {
       <BpmnPropertiesPanel
         element={ element }
         injector={ this._injector }
-        iconProperty={this._iconProperty}
         getProviders={ this._getProviders.bind(this) }
         layoutConfig={ this._layoutConfig }
         descriptionConfig={ this._descriptionConfig }
@@ -194,7 +192,7 @@ export default class BpmnPropertiesPanelRenderer {
   }
 }
 
-BpmnPropertiesPanelRenderer.$inject = [ 'config.elementTemplateIconRenderer', 'config.propertiesPanel', 'injector', 'eventBus' ];
+BpmnPropertiesPanelRenderer.$inject = [ 'config.propertiesPanel', 'injector', 'eventBus' ];
 
 
 // helpers ///////////////////////

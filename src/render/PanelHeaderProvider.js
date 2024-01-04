@@ -66,55 +66,54 @@ export function getConcreteType(element) {
   return type;
 }
 
-export const PanelHeaderProvider = (iconProperty) => {
-  return {
-    getDocumentationRef: (element) => {
-      const elementTemplates = getTemplatesService();
+export const PanelHeaderProvider = {
 
-      if (elementTemplates) {
-        return getTemplateDocumentation(element, elementTemplates);
-      }
-    },
+  getDocumentationRef: (element) => {
+    const elementTemplates = getTemplatesService();
 
-    getElementLabel: (element) => {
-      if (is(element, 'bpmn:Process')) {
-        return getBusinessObject(element).name;
-      }
-
-      return getLabel(element);
-    },
-
-    getElementIcon: (element) => {
-      const concreteType = getConcreteType(element);
-
-      const templateIcon = getModelerTemplateIcon(element, iconProperty);
-      
-      if (templateIcon) {
-        return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } />;
-      }
-
-      return iconsByType[ concreteType ];
-    },
-
-    getTypeLabel: (element) => {
-      const elementTemplates = getTemplatesService();
-
-      if (elementTemplates) {
-        const template = getTemplate(element, elementTemplates);
-
-        if (template && template.name) {
-          return template.name;
-        }
-      }
-
-      const concreteType = getConcreteType(element);
-
-      return concreteType
-        .replace(/(\B[A-Z])/g, ' $1')
-        .replace(/(\bNon Interrupting)/g, '($1)');
+    if (elementTemplates) {
+      return getTemplateDocumentation(element, elementTemplates);
     }
+  },
+
+  getElementLabel: (element) => {
+    if (is(element, 'bpmn:Process')) {
+      return getBusinessObject(element).name;
+    }
+
+    return getLabel(element);
+  },
+
+  getElementIcon: (element) => {
+    const concreteType = getConcreteType(element);
+
+    const templateIcon = getModelerTemplateIcon(element)
+
+    if (templateIcon) {
+      return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } />;
+    }
+
+    return iconsByType[ concreteType ];
+  },
+
+  getTypeLabel: (element) => {
+    const elementTemplates = getTemplatesService();
+
+    if (elementTemplates) {
+      const template = getTemplate(element, elementTemplates);
+
+      if (template && template.name) {
+        return template.name;
+      }
+    }
+
+    const concreteType = getConcreteType(element);
+
+    return concreteType
+      .replace(/(\B[A-Z])/g, ' $1')
+      .replace(/(\bNon Interrupting)/g, '($1)');
   }
-}
+};
 
 
 // helpers ///////////////////////
@@ -190,8 +189,9 @@ function getTemplateDocumentation(element, elementTemplates) {
   return template && template.documentationRef;
 }
 
-function getModelerTemplateIcon(element, iconProperty) {
-  iconProperty = iconProperty || 'zeebe:modelerTemplateIcon';
+function getModelerTemplateIcon(element) {
+  const config = useService('config.elementTemplateIconRenderer', false);
+  const { iconProperty = 'zeebe:modelerTemplateIcon'} = config;
 
   return getBusinessObject(element).get(iconProperty);
 }
