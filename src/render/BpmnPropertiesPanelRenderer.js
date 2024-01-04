@@ -25,7 +25,7 @@ const DEFAULT_PRIORITY = 1000;
 
 export default class BpmnPropertiesPanelRenderer {
 
-  constructor(configIconProperty ,config, injector, eventBus) {
+  constructor(configIconProperty, config, injector, eventBus) {
     const {
       parent,
       layout: layoutConfig,
