@@ -192,8 +192,7 @@ function getTemplateDocumentation(element, elementTemplates) {
 function getModelerTemplateIcon(element) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const config = useService('config.elementTemplateIconRenderer', false);
-  
-  const { iconProperty = 'zeebe:modelerTemplateIcon'} = config;
+  const { iconProperty = 'zeebe:modelerTemplateIcon' } = config || {};
 
   return getBusinessObject(element).get(iconProperty);
 }
