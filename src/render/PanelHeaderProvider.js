@@ -87,7 +87,7 @@ export const PanelHeaderProvider = {
   getElementIcon: (element) => {
     const concreteType = getConcreteType(element);
 
-    const templateIcon = getModelerTemplateIcon(element)
+    const templateIcon = getModelerTemplateIcon(element);
 
     if (templateIcon) {
       return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } />;
