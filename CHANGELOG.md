@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: header displays element template icon found in XML ([#1012](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1012))
+
 ## 5.7.0
 
 * `FEAT`: capitalize `Camunda Form` ([#1005](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1005))
