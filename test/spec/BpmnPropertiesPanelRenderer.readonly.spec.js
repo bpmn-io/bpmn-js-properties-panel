@@ -17,7 +17,7 @@ import {
 } from 'min-dom';
 
 import Modeler from 'bpmn-js/lib/Modeler';
-import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
+import NavigatedViewerOriginal from 'bpmn-js/lib/NavigatedViewer';
 
 import BpmnPropertiesPanel from 'src/render';
 
@@ -32,6 +32,23 @@ import {
   insertCSS
 } from '../TestHelper';
 
+class NavigatedViewer extends NavigatedViewerOriginal {
+  _createModdle(options) {
+    const moddle = super._createModdle(options);
+
+    moddle.ids = {
+      isIdValid() {
+        return true;
+      },
+      assigned() {
+        return false;
+      }
+    };
+
+    return moddle;
+  }
+}
+
 insertCoreStyles();
 insertBpmnStyles();
 
@@ -39,6 +56,9 @@ insertCSS('readonly-properties-panel', `
   .bio-properties-panel-input,
   .bio-properties-panel-checkbox {
     pointer-events: none;
+  }
+  .bio-properties-panel-add-entry {
+    display: none!important;
   }
 `);
 
@@ -92,7 +112,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       additionalModules,
       moddleExtensions,
       propertiesPanel: {
-        parent: propertiesContainer,
         feelTooltipContainer: container,
         description,
         tooltip,
@@ -111,6 +130,9 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
     try {
       const result = await modeler.importXML(xml);
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+      propertiesPanel.attachTo(propertiesContainer);
 
       return { error: null, warnings: result.warnings, modeler: modeler };
     } catch (err) {
