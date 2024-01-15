@@ -213,6 +213,42 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it.only('should translate', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    const CustomTranslateModule = {
+      translate: [ 'value', function customTranslate(template, replacements) {
+        return '🙂';
+      } ]
+    };
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          ZeebeBehaviorsModule,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider,
+          ZeebePropertiesProvider,
+          CreateAppendAnythingModule,
+          ZeebeVariableResolverModule,
+          CustomTranslateModule
+        ],
+        moddleExtensions: {
+          zeebe: ZeebeModdle
+        },
+        tooltip: TooltipProvider
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
   it('should attach on diagram.init', async function() {
 
     // given
