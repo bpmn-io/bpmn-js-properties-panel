@@ -18,7 +18,7 @@ import {
 
 import Modeler from 'bpmn-js/lib/Modeler';
 import NavigatedViewerOriginal from 'bpmn-js/lib/NavigatedViewer';
-import { CloudElementTemplatesLinterPlugin } from 'bpmn-js-element-templates';
+import { CloudElementTemplatesLinterPlugin, CloudElementTemplatesPropertiesProviderModule } from 'bpmn-js-element-templates';
 import { Linter } from '@camunda/linting';
 
 import BpmnPropertiesPanel from 'src/render';
@@ -169,7 +169,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       bpmnFactory: [ 'value', {} ],
       modeling: [ 'value', {
         updateProperties() { }
-      } ]
+      } ],
+      moddleCopy: [ 'value', {} ]
     };
 
     // when
@@ -180,7 +181,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           FakeModelingServicesModule,
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
-          ZeebePropertiesProvider
+          ZeebePropertiesProvider,
+          CloudElementTemplatesPropertiesProviderModule
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle
