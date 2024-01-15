@@ -55,12 +55,28 @@ insertCoreStyles();
 insertBpmnStyles();
 
 insertCSS('readonly-properties-panel', `
-  .bio-properties-panel-input,
-  .bio-properties-panel-checkbox {
-    pointer-events: none;
+  .bio-properties-panel input,
+  .bio-properties-panel textarea,
+  .bio-properties-panel select,
+  .bio-properties-panel label {
+    pointer-events: none; 
+    opacity: 0.75;
   }
+
+  .bio-properties-panel button {
+    display: none;
+  }
+
   .bio-properties-panel-add-entry {
     display: none!important;
+  }
+
+  .bio-properties-panel {
+    cursor: not-allowed;
+  }
+
+  .bio-properties-panel-group-header {
+    cursor: default;
   }
 `);
 
@@ -133,22 +149,17 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     try {
       const result = await modeler.importXML(xml);
 
+      addReadonlyAttributeToPropertiesPanelInputs(propertiesContainer);
       const propertiesPanel = modeler.get('propertiesPanel');
       propertiesPanel.attachTo(propertiesContainer);
 
       // Add linting
-      try {
-        const templates = modeler.get('elementTemplates').getAll();
-        const linter = new Linter({
-          modeler: 'web',
-          plugins: [ CloudElementTemplatesLinterPlugin(templates) ]
-        });
-        const errors = await linter.lint(modeler.getDefinitions());
-
-        console.log('lint errors', errors);
-      } catch (e) {
-        console.log('linting failed', e);
-      }
+      const templates = modeler.get('elementTemplates').getAll();
+      const linter = new Linter({
+        modeler: 'web',
+        plugins: [ CloudElementTemplatesLinterPlugin(templates) ]
+      });
+      await linter.lint(modeler.getDefinitions());
 
       return { error: null, warnings: result.warnings, modeler: modeler };
     } catch (err) {
@@ -220,3 +231,23 @@ function getFeelPopup(container) {
 function getOpenFeelPopup(id, container) {
   return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-open-feel-popup`);
 }
+
+const addReadonlyAttributeToPropertiesPanelInputs = (targetNode) => {
+  function addReadonlyAttribute(element) {
+    element.setAttribute('readonly', 'true');
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach((addedNode) => {
+          const matchingElements = addedNode.querySelectorAll('.bio-properties-panel-input');
+          matchingElements.forEach(addReadonlyAttribute);
+        });
+      }
+    });
+  });
+
+  const observerConfig = { childList: true, subtree: true };
+  observer.observe(targetNode, observerConfig);
+};
