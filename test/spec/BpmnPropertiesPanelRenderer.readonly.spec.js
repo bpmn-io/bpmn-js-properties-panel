@@ -18,6 +18,8 @@ import {
 
 import Modeler from 'bpmn-js/lib/Modeler';
 import NavigatedViewerOriginal from 'bpmn-js/lib/NavigatedViewer';
+import { CloudElementTemplatesLinterPlugin } from 'bpmn-js-element-templates';
+import { Linter } from '@camunda/linting';
 
 import BpmnPropertiesPanel from 'src/render';
 
@@ -133,6 +135,20 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       const propertiesPanel = modeler.get('propertiesPanel');
       propertiesPanel.attachTo(propertiesContainer);
+
+      // Add linting
+      try {
+        const templates = modeler.get('elementTemplates').getAll();
+        const linter = new Linter({
+          modeler: 'web',
+          plugins: [ CloudElementTemplatesLinterPlugin(templates) ]
+        });
+        const errors = await linter.lint(modeler.getDefinitions());
+
+        console.log('lint errors', errors);
+      } catch (e) {
+        console.log('linting failed', e);
+      }
 
       return { error: null, warnings: result.warnings, modeler: modeler };
     } catch (err) {
