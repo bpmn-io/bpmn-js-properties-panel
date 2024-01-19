@@ -6,7 +6,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+
+## 5.8.0
+
 * `FEAT`: header displays element template icon found in XML ([#1012](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1012))
+* `FEAT`: automatically add line-breaks for FEEL expressions ([bpmn-io/properties-panel#319](https://github.com/bpmn-io/properties-panel/pull/319))
+* `FIX`: show scroll bars in FEEL popup editor ([bpmn-io/properties-panel#319](https://github.com/bpmn-io/properties-panel/pull/319))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.16.0`
+
 
 ## 5.7.0
 
