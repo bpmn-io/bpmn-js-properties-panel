@@ -421,14 +421,26 @@ function VariableEvents(props) {
     });
   };
 
+  const tooltip = () => {
+    return (<div>
+      <ul>
+        <li><code>create</code></li>
+        <li><code>update</code></li>
+        <li><code>delete</code></li>
+      </ul>
+      <p>{ translate('Specify more than one variable change event as a comma separated list.') }</p>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/custom-extensions/extension-attributes/#variableevents" target="_blank" rel="noopener">{ translate('Documentation: Variable events') }</a>
+    </div>);
+  };
+
   return <TextFieldEntry
     element={ element }
     id="conditionVariableEvents"
     label={ translate('Variable events') }
-    description={ translate('Specify more than one variable change event as a comma separated list.') }
     getValue={ getValue }
     setValue={ setValue }
     debounce={ debounce }
+    tooltip={ tooltip }
   />;
 }
 
