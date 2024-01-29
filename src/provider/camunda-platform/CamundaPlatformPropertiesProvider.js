@@ -2,7 +2,7 @@ import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
 import { findIndex } from 'min-dash';
 
-import { mutate as arrayMove } from 'array-move';
+import { arrayMoveMutable } from 'array-move';
 
 import {
   AsynchronousContinuationsProps,
@@ -736,5 +736,5 @@ function moveGroup(groups, id, position) {
     return;
   }
 
-  return arrayMove(groups, groupIndex, position);
+  return arrayMoveMutable(groups, groupIndex, position);
 }
