@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.8.1
+
+* `DEPS`: update to `@bpmn-io/variable-resolver@1.2.1`
 
 ## 5.8.0
 
@@ -13,7 +16,6 @@ ___Note:__ Yet to be released changes appear here._
 * `FEAT`: automatically add line-breaks for FEEL expressions ([bpmn-io/properties-panel#319](https://github.com/bpmn-io/properties-panel/pull/319))
 * `FIX`: show scroll bars in FEEL popup editor ([bpmn-io/properties-panel#319](https://github.com/bpmn-io/properties-panel/pull/319))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.16.0`
-
 
 ## 5.7.0
 
