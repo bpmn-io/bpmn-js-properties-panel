@@ -6,7 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-## 5.8.1
+## 5.10.0
+
+* `FEAT`: improve variable events tooltip ([#1016](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1016))
+
+## 5.9.0
 
 * `DEPS`: update to `@bpmn-io/variable-resolver@1.2.1`
 
@@ -101,7 +105,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 3.0.0
 
-* `FEAT`: support line breaks in FEEL statements ([#879](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/879)) 
+* `FEAT`: support line breaks in FEEL statements ([#879](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/879))
 * `CHORE`: remove element templates ([#937](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/937))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.0.0`
 
