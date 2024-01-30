@@ -6,6 +6,16 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.11.0
+
+* `FEAT`: simplify FEEL editor external error ([bpmn-io/properties-panel#97](https://github.com/camunda/linting/pull/97))
+* `FEAT`: remove unnecessary resizer ([bpmn-io/properties-panel@`b2f6752`](https://github.com/bpmn-io/properties-panel/commit/b2f6752de3827384452d4b4c0b27bd269b7b5ad4))
+* `FIX`: attach popup editor toggle to the top ([bpmn-io/properties-panel@`e6681f7`](https://github.com/bpmn-io/properties-panel/commit/e6681f74ad6268c8f533a721351bdeea376dac26))
+* `FIX`: close popup editor when properties panel gets detached ([bpmn-io/properties-panel@`7defc52`](https://github.com/bpmn-io/properties-panel/commit/7defc525400c62f253651cda589fe2f5058518a6))
+* `FIX`: close popup editor when source component gets unmounted ([bpmn-io/properties-panel@`1fa3330`](https://github.com/bpmn-io/properties-panel/commit/1fa3330ebdcbc7c0ac405a49eb510817fc3aa71c))
+* `FIX`: correct re-validation of entries when validator changes ([bpmn-io/properties-panel@`e93e986`](https://github.com/bpmn-io/properties-panel/commit/e93e986573d32adc361c64a1bc53cf1e38454715))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.18.0`
+
 ## 5.10.0
 
 * `FEAT`: improve variable events tooltip ([#1016](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1016))
