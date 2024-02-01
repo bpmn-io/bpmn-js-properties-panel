@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.11.1
+
+* `FIX`: correct `id` validation ([#1022](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1022))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.18.1`
+
 ## 5.11.0
 
 * `FEAT`: simplify FEEL editor external error ([bpmn-io/properties-panel#97](https://github.com/camunda/linting/pull/97), [#1018](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1018))
