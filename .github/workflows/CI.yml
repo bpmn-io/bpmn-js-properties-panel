@@ -37,4 +37,4 @@ jobs:
       run: npm run all
     - name: Upload coverage
       if: ${{ matrix.integration-deps == '' }}
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
