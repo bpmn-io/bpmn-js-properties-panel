@@ -2,6 +2,8 @@ import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 import { TextFieldEntry, isTextFieldEntryEdited } from '@bpmn-io/properties-panel';
 
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
+
 import {
   useService
 } from '../../../hooks';
@@ -104,9 +106,9 @@ function ProcessId(props) {
     );
   };
 
-  const validate = (value) => {
+  const validate = useCallback((value) => {
     return isIdValid(process, value, translate);
-  };
+  }, [ process, translate ]);
 
   return TextFieldEntry({
     element,

@@ -113,6 +113,26 @@ describe('provider/bpmn - IdProps', function() {
 
     describe('validation', function() {
 
+      it('should set invalid', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        await act(() => {
+          selection.select(task);
+        });
+
+        // when
+        const idInput = domQuery('input[name=id]', container);
+        changeInput(idInput, '');
+        await act(() => {});
+
+        // then
+        const error = domQuery('.bio-properties-panel-error', container);
+        expect(error).to.exist;
+      }));
+
+
       it('should NOT remove id', inject(async function(elementRegistry, selection) {
 
         // given
