@@ -10,14 +10,31 @@
       </bpmn:extensionElements>
     </bpmn:userTask>
     <bpmn:userTask id="NO_FORM" name="NO_FORM" />
+    <bpmn:userTask id="NO_FORM_ZEEBE_USER_TASK" name="NO_FORM_ZEEBE_USER_TASK">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
     <bpmn:userTask id="CUSTOM_FORM" name="CUSTOM_FORM">
       <bpmn:extensionElements>
         <zeebe:formDefinition formKey="foo" />
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:userTask id="CUSTOM_FORM_ZEEBE_USER_TASK" name="CUSTOM_FORM_ZEEBE_USER_TASK">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition externalReference="foo" />
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
     <bpmn:userTask id="CAMUNDA_FORM_LINKED" name="CAMUNDA_FORM_LINKED">
       <bpmn:extensionElements>
         <zeebe:formDefinition formId="foo" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK" name="CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="foo" />
+        <zeebe:userTask />
       </bpmn:extensionElements>
     </bpmn:userTask>
   </bpmn:process>
@@ -29,13 +46,26 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0w86vs0_di" bpmnElement="NO_FORM">
         <dc:Bounds x="160" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NO_FORM_ZEEBE_USER_TASK_DI" bpmnElement="NO_FORM_ZEEBE_USER_TASK">
+        <dc:Bounds x="160" y="177" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1kgbvcd_di" bpmnElement="CUSTOM_FORM">
         <dc:Bounds x="490" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CUSTOM_FORM_ZEEBE_USER_TASK_di" bpmnElement="CUSTOM_FORM_ZEEBE_USER_TASK">
+        <dc:Bounds x="490" y="177" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1u420cc_di" bpmnElement="CAMUNDA_FORM_LINKED">
         <dc:Bounds x="380" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK_DI" bpmnElement="CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK">
+        <dc:Bounds x="380" y="177" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
