@@ -80,7 +80,9 @@ export function areInputParametersSupported(element) {
 
 export function areOutputParametersSupported(element) {
 
-  if (is(element, 'bpmn:EndEvent') && getErrorEventDefinition(element)) {
+  if (is(element, 'bpmn:EndEvent') && (
+    getErrorEventDefinition(element) || getTerminateEventDefinition(element)
+  )) {
     return false;
   }
 
@@ -93,6 +95,10 @@ export function areOutputParametersSupported(element) {
     'bpmn:Event',
     'bpmn:BusinessRuleTask'
   ]);
+}
+
+function getTerminateEventDefinition(element) {
+  return getEventDefinition(element, 'bpmn:TerminateEventDefinition');
 }
 
 export function createIOMapping(properties, parent, bpmnFactory) {

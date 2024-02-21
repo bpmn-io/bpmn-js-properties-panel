@@ -296,6 +296,25 @@ describe('provider/zeebe - OutputProps', function() {
 
   });
 
+
+  describe('bpmn:EndEvent#output', function() {
+
+    it('should NOT display for terminate event', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('TerminateEvent');
+
+      await act(() => {
+        selection.select(task);
+      });
+
+      // when
+      const outputGroup = getGroup(container, 'outputs');
+
+      // then
+      expect(outputGroup).to.not.exist;
+    }));
+  });
 });
 
 
