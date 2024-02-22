@@ -226,6 +226,19 @@ const TooltipProvider = {
         </a>
       </div>
     );
+  },
+  'taskDefinitionRetries': (element) => {
+
+    const translate = useService('translate');
+
+    return (
+      <div>
+        <p>
+          { translate('The number of times the engine tries executing this activity if a worker signals a failure. The default is three.') } { ' ' }
+          <a href="https://docs.camunda.io/docs/next/components/best-practices/development/dealing-with-problems-and-exceptions/#leveraging-retries" target="_blank" rel="noopener">{ translate('Learn more.') }</a>
+        </p>
+      </div>
+    );
   }
 };
 

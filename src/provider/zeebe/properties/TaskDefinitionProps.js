@@ -217,8 +217,7 @@ function TaskDefinitionRetries(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce,
-    tooltip: translate('Specifies the number of times the job is retried when a worker signals failure. The default is three.')
+    debounce
   });
 }
 
