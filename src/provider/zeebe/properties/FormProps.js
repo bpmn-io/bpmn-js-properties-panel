@@ -12,9 +12,12 @@ import {
   SelectEntry,
   TextFieldEntry,
   TextAreaEntry,
+  isFeelEntryEdited,
   isTextFieldEntryEdited,
   isTextAreaEntryEdited
 } from '@bpmn-io/properties-panel';
+
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 import { createElement } from '../../../utils/ElementUtil';
 
@@ -71,7 +74,7 @@ export function FormProps(props) {
     entries.push({
       id: 'externalReference',
       component: ExternalReference,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     });
   }
 
@@ -233,10 +236,11 @@ function ExternalReference(props) {
     setExternalReference(injector, element, isUndefined(value) ? '' : value);
   };
 
-  return TextFieldEntry({
+  return FeelEntryWithVariableContext({
     element,
     id: 'externalReference',
     label: translate('External form reference'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce
