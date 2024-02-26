@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.12.0
+
+* `FEAT`: add HTTL hint to Camunda 7 ([#1028](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1028))
+
 ## 5.11.2
 
 * `FIX`: correct retires tooltip ([#1029](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1029))
