@@ -49,7 +49,8 @@ import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
-import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
+import ZeebeTooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
+import CamundaPlatformTooltipProvider from 'src/contextProvider/camunda-platform/TooltipProvider';
 
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
@@ -154,7 +155,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           zeebe: ZeebeModdle
         },
-        tooltip: TooltipProvider
+        tooltip: ZeebeTooltipProvider
       }
     );
 
@@ -181,7 +182,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         ],
         moddleExtensions: {
           camunda: CamundaModdle
-        }
+        },
+        tooltip: CamundaPlatformTooltipProvider
       }
     );
 
