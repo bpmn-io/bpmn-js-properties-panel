@@ -86,7 +86,7 @@ function UserTaskImplementation(props) {
   return SelectEntry({
     element,
     id,
-    label: translate('Implementation'),
+    label: translate('Type'),
     getValue,
     setValue,
     getOptions
