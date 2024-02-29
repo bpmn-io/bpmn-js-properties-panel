@@ -12,10 +12,12 @@ import {
   SelectEntry,
   TextFieldEntry,
   TextAreaEntry,
-  isSelectEntryEdited,
+  isFeelEntryEdited,
   isTextFieldEntryEdited,
   isTextAreaEntryEdited
 } from '@bpmn-io/properties-panel';
+
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 import { createElement } from '../../../utils/ElementUtil';
 
@@ -28,8 +30,11 @@ import {
   getFormType,
   getRootElement,
   getUserTaskForm,
+  isZeebeUserTask,
   userTaskFormIdToFormKey
 } from '../utils/FormUtil';
+
+const NONE_VALUE = 'none';
 
 
 export function FormProps(props) {
@@ -42,7 +47,7 @@ export function FormProps(props) {
   const entries = [ {
     id: 'formType',
     component: FormType,
-    isEdited: isSelectEntryEdited
+    isEdited: node => node.value !== NONE_VALUE
   } ];
 
   const formType = getFormType(element);
@@ -62,8 +67,14 @@ export function FormProps(props) {
   } else if (formType === FORM_TYPES.CUSTOM_FORM) {
     entries.push({
       id: 'customFormKey',
-      component: CustomFormKey,
+      component: CustomForm,
       isEdited: isTextFieldEntryEdited
+    });
+  } else if (formType === FORM_TYPES.EXTERNAL_REFERENCE) {
+    entries.push({
+      id: 'externalReference',
+      component: ExternalReference,
+      isEdited: isFeelEntryEdited
     });
   }
 
@@ -78,28 +89,15 @@ function FormType(props) {
         translate = useService('translate');
 
   const getValue = () => {
-    return getFormType(element) || '';
+    return getFormType(element) || NONE_VALUE;
   };
 
   const setValue = (value) => {
-    if (value === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
-      setUserTaskForm(injector, element, '');
-    } else if (value === FORM_TYPES.CAMUNDA_FORM_LINKED) {
-      setFormId(injector, element, '');
-    } else if (value === FORM_TYPES.CUSTOM_FORM) {
-      setCustomFormKey(injector, element, '');
-    } else {
-      removeFormDefinition(injector, element);
-    }
+    setFormType(injector, element, value);
   };
 
   const getOptions = () => {
-    return [
-      { value: '', label: translate('<none>') },
-      { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda Form (linked)') },
-      { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda Form (embedded)') },
-      { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom form key') }
-    ];
+    return getFormTypeOptions(translate, element);
   };
 
   return SelectEntry({
@@ -110,6 +108,37 @@ function FormType(props) {
     setValue,
     getOptions
   });
+}
+
+function setFormType(injector, element, value) {
+  if (value === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
+    setUserTaskForm(injector, element, '');
+  } else if (value === FORM_TYPES.CAMUNDA_FORM_LINKED) {
+    setFormId(injector, element, '');
+  } else if (value === FORM_TYPES.CUSTOM_FORM) {
+    setCustomFormKey(injector, element, '');
+  } else if (value === FORM_TYPES.EXTERNAL_REFERENCE) {
+    setExternalReference(injector, element, '');
+  } else {
+    removeFormDefinition(injector, element);
+  }
+}
+
+function getFormTypeOptions(translate, element) {
+  if (isZeebeUserTask(element)) {
+    return [
+      { value: NONE_VALUE, label: translate('<none>') },
+      { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda Form') },
+      { value: FORM_TYPES.EXTERNAL_REFERENCE, label: translate('External form reference') }
+    ];
+  }
+
+  return [
+    { value: NONE_VALUE, label: translate('<none>') },
+    { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda Form (linked)') },
+    { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda Form (embedded)') },
+    { value: FORM_TYPES.CUSTOM_FORM, label: translate('Custom form key') }
+  ];
 }
 
 
@@ -165,8 +194,7 @@ function FormId(props) {
   });
 }
 
-
-function CustomFormKey(props) {
+function CustomForm(props) {
   const { element } = props;
 
   const debounce = useService('debounceInput'),
@@ -174,7 +202,8 @@ function CustomFormKey(props) {
         translate = useService('translate');
 
   const getValue = () => {
-    return getFormDefinition(element).get('formKey');
+    const formDefinition = getFormDefinition(element);
+    return formDefinition.get('formKey');
   };
 
   const setValue = (value) => {
@@ -184,7 +213,34 @@ function CustomFormKey(props) {
   return TextFieldEntry({
     element,
     id: 'customFormKey',
-    label: translate('Form key'),
+    label: translate('Custom form key'),
+    getValue,
+    setValue,
+    debounce
+  });
+}
+
+function ExternalReference(props) {
+  const { element } = props;
+
+  const debounce = useService('debounceInput'),
+        injector = useService('injector'),
+        translate = useService('translate');
+
+  const getValue = () => {
+    const formDefinition = getFormDefinition(element);
+    return formDefinition.get('externalReference');
+  };
+
+  const setValue = (value) => {
+    setExternalReference(injector, element, isUndefined(value) ? '' : value);
+  };
+
+  return FeelEntryWithVariableContext({
+    element,
+    id: 'externalReference',
+    label: translate('External form reference'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce
@@ -366,6 +422,22 @@ function setCustomFormKey(injector, element, formKey) {
     ...commands,
     createUpdateModdlePropertiesCommand(element, formDefinition, {
       formKey
+    })
+  ]);
+}
+
+function setExternalReference(injector, element, externalReference) {
+  let {
+    commands,
+    formDefinition
+  } = getOrCreateFormDefintition(injector, element);
+
+  const commandStack = injector.get('commandStack');
+
+  commandStack.execute('properties-panel.multi-command-executor', [
+    ...commands,
+    createUpdateModdlePropertiesCommand(element, formDefinition, {
+      externalReference
     })
   ]);
 }

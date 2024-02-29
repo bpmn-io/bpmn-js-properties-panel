@@ -21,7 +21,8 @@ import {
   TargetProps,
   TaskDefinitionProps,
   TaskScheduleProps,
-  TimerProps
+  TimerProps,
+  UserTaskImplementationProps
 } from './properties';
 
 import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
@@ -39,6 +40,7 @@ const ZEEBE_GROUPS = [
   CalledDecisionGroup,
   ScriptImplementationGroup,
   ScriptGroup,
+  UserTaskImplementationGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
   FormGroup,
@@ -248,6 +250,19 @@ function ScriptImplementationGroup(element) {
     label: 'Implementation',
     entries: [
       ...ScriptImplementationProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function UserTaskImplementationGroup(element) {
+  const group = {
+    id: 'userTaskImplementation',
+    label: 'Implementation',
+    entries: [
+      ...UserTaskImplementationProps({ element })
     ],
     component: Group
   };

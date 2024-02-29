@@ -19,3 +19,4 @@ export { TargetProps } from './TargetProps';
 export { TaskDefinitionProps } from './TaskDefinitionProps';
 export { TaskScheduleProps } from './TaskScheduleProps';
 export { TimerProps } from './TimerProps';
+export { UserTaskImplementationProps } from './UserTaskImplementationProps';

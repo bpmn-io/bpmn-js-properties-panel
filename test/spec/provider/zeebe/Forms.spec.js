@@ -125,6 +125,25 @@ describe('provider/zeebe - Forms', function() {
     }));
 
 
+    it('should display - external reference', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const formTypeSelect = getFormTypeSelect(container);
+
+      // then
+      expect(formTypeSelect).to.exist;
+
+      expect(formTypeSelect.value).to.equal(FORM_TYPES.EXTERNAL_REFERENCE);
+    }));
+
+
     it('should display - empty', inject(async function(elementRegistry, selection) {
 
       // given
@@ -140,7 +159,7 @@ describe('provider/zeebe - Forms', function() {
       // then
       expect(formTypeSelect).to.exist;
 
-      expect(formTypeSelect.value).to.equal('');
+      expect(formTypeSelect.value).to.equal('none');
     }));
 
 
@@ -223,6 +242,25 @@ describe('provider/zeebe - Forms', function() {
 
       // then
       expectFormKey(userTask, '');
+    }));
+
+
+    it('should update - external reference', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('NO_FORM_ZEEBE_USER_TASK');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const formTypeSelect = getFormTypeSelect(container);
+
+      // when
+      changeInput(formTypeSelect, FORM_TYPES.EXTERNAL_REFERENCE);
+
+      // then
+      expectExternalReference(userTask, '');
     }));
 
 
@@ -360,6 +398,23 @@ describe('provider/zeebe - Forms', function() {
     }));
 
 
+    it('should display - Zeebe User Task', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const formIdInput = getFormIdInput(container);
+
+      // then
+      expect(formIdInput).to.exist;
+    }));
+
+
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
@@ -443,6 +498,23 @@ describe('provider/zeebe - Forms', function() {
     }));
 
 
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const customFormKeyInput = getCustomFormKeyInput(container);
+
+      // then
+      expect(customFormKeyInput).not.to.exist;
+    }));
+
+
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
@@ -503,9 +575,106 @@ describe('provider/zeebe - Forms', function() {
 
       expectFormKey(userTask, initialFormKey);
     }));
-
   });
 
+
+  describe('external reference', function() {
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const externalReferenceInput = getExternalReferenceInput(container);
+
+      // then
+      expect(externalReferenceInput).to.exist;
+    }));
+
+
+    it('should NOT display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const externalReferenceInput = getExternalReferenceInput(container);
+
+      // then
+      expect(externalReferenceInput).not.to.exist;
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const externalReferenceInput = getExternalReferenceInput(container);
+
+      // when
+      changeInput(externalReferenceInput, 'foo');
+
+      // then
+      expectExternalReference(userTask, 'foo');
+    }));
+
+
+    it('should not delete if empty', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const externalReferenceInput = getExternalReferenceInput(container);
+
+      // when
+      changeInput(externalReferenceInput, '');
+
+      // then
+      expectExternalReference(userTask, '');
+    }));
+
+
+    it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      const externalReferenceInput = getExternalReferenceInput(container);
+      const initialFormKey = externalReferenceInput.value;
+
+      changeInput(externalReferenceInput, 'bar');
+      expectExternalReference(userTask, 'bar');
+
+      // when
+      await act(() => {
+        commandStack.undo();
+      });
+
+      expectExternalReference(userTask, initialFormKey);
+    }));
+  });
 });
 
 
@@ -513,6 +682,10 @@ describe('provider/zeebe - Forms', function() {
 
 function getCustomFormKeyInput(container) {
   return domQuery('input[name=customFormKey]', container);
+}
+
+function getExternalReferenceInput(container) {
+  return domQuery('input[name=externalReference]', container);
 }
 
 function getFormConfigurationTextarea(container) {
@@ -546,4 +719,11 @@ function expectUserTaskForm(element, expected) {
 
   expect(userTaskForm).to.exist;
   expect(userTaskForm.get('body')).to.eql(expected);
+}
+
+function expectExternalReference(element, expected) {
+  const formDefinition = getFormDefinition(element);
+
+  expect(formDefinition).to.exist;
+  expect(formDefinition.get('externalReference')).to.eql(expected);
 }

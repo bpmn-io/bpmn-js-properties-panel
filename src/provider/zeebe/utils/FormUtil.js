@@ -15,7 +15,8 @@ const FORM_KEY_PREFIX = 'camunda-forms:bpmn:',
 export const FORM_TYPES = {
   CAMUNDA_FORM_EMBEDDED: 'camunda-form-embedded',
   CAMUNDA_FORM_LINKED: 'camunda-form-linked',
-  CUSTOM_FORM: 'custom-form'
+  CUSTOM_FORM: 'custom-form',
+  EXTERNAL_REFERENCE: 'external-reference'
 };
 
 export const DEFAULT_FORM_TYPE = FORM_TYPES.CAMUNDA_FORM_LINKED;
@@ -78,10 +79,15 @@ export function getFormType(element) {
   }
 
   const formId = formDefinition.get('formId'),
-        formKey = formDefinition.get('formKey');
+        formKey = formDefinition.get('formKey'),
+        externalReference = formDefinition.get('externalReference');
 
   if (isDefined(formId)) {
     return FORM_TYPES.CAMUNDA_FORM_LINKED;
+  }
+
+  if (isDefined(externalReference)) {
+    return FORM_TYPES.EXTERNAL_REFERENCE;
   }
 
   if (isDefined(formKey)) {
@@ -92,4 +98,10 @@ export function getFormType(element) {
 
     return FORM_TYPES.CUSTOM_FORM;
   }
+}
+
+export function isZeebeUserTask(element) {
+  const bo = getBusinessObject(element);
+
+  return getExtensionElementsList(bo, 'zeebe:UserTask').length > 0;
 }
