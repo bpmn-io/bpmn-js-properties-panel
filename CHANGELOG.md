@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.13.0
+
+* `FEAT`: support `zeebe:userTask` ([#1026](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1026))
+* `DEPS`: update to `zeebe-bpmn-moddle@1.1.0`
+* `DEPS`: update to `camunda-bpmn-js-behaviors@1.3.0`
+
 ## 5.12.0
 
 * `FEAT`: add HTTL hint to Camunda 7 ([#1028](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1028))
