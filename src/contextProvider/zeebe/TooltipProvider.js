@@ -62,6 +62,19 @@ const TooltipProvider = {
     );
   },
 
+  'group-userTaskImplementation': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Implement a user task managed by Zeebe. To add a custom implementation, use a job worker. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#define-a-user-task" target="_blank" rel="noopener" title={ translate('User task documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
   'group-form': (element) => {
     const translate = useService('translate');
 
