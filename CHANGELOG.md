@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.14.0
+
+* `FEAT`: add user task implementation tooltip ([#1033](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1033), [#1032](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1032))
+* `FEAT`: update form selection tooltip ([#1035](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1035))
+
 ## 5.13.0
 
 * `FEAT`: support `zeebe:userTask` ([#1026](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1026))
