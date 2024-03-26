@@ -58,7 +58,8 @@ export function InMappingProps({ element, injector }) {
 
   return {
     items,
-    add: addFactory({ bpmnFactory, commandStack, element })
+    add: addFactory({ bpmnFactory, commandStack, element }),
+    shouldSort: false
   };
 }
 
