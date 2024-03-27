@@ -8,7 +8,8 @@
   "scripts": {
     "all": "run-s lint test distro",
     "distro": "run-s build test:build",
-    "build": "run-p bundle",
+    "clean": "rimraf dist",
+    "build": "run-p clean bundle",
     "bundle": "rollup -c",
     "bundle:watch": "rollup -c -w",
     "lint": "eslint .",
@@ -19,7 +20,7 @@
     "start:cloud": "cross-env SINGLE_START=cloud npm run dev",
     "start:platform": "cross-env SINGLE_START=platform npm run dev",
     "start:bpmn": "cross-env SINGLE_START=bpmn npm run dev",
-    "prepare": "run-s bundle"
+    "prepare": "run-s build"
   },
   "repository": {
     "type": "git",
@@ -99,6 +100,7 @@
     "puppeteer": "^22.0.0",
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
+    "rimraf": "^5.0.5",
     "rollup": "^4.9.6",
     "rollup-plugin-react-svg": "^3.0.3",
     "sinon": "^17.0.1",
