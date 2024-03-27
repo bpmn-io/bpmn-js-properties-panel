@@ -100,7 +100,6 @@
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
     "rollup": "^4.9.6",
-    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-react-svg": "^3.0.3",
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",

@@ -1,7 +1,6 @@
 import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import reactSvg from 'rollup-plugin-react-svg';
 import resolve from '@rollup/plugin-node-resolve';
@@ -43,13 +42,7 @@ export default [
       }
     ],
     external: externalDependencies(),
-    plugins: pgl([
-      copy({
-        targets: [
-          { src: 'assets/*.css', dest: 'dist/assets' }
-        ]
-      })
-    ])
+    plugins: pgl()
   }
 ];
 
