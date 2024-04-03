@@ -66,58 +66,61 @@ export function getConcreteType(element) {
   return type;
 }
 
-export const PanelHeaderProvider = {
+export const PanelHeaderProvider = (translate) => {
+  if (!translate) translate = (text) => text;
 
-  getDocumentationRef: (element) => {
-    const elementTemplates = getTemplatesService();
+  return {
+    getDocumentationRef: (element) => {
+      const elementTemplates = getTemplatesService();
 
-    if (elementTemplates) {
-      return getTemplateDocumentation(element, elementTemplates);
-    }
-  },
-
-  getElementLabel: (element) => {
-    if (is(element, 'bpmn:Process')) {
-      return getBusinessObject(element).name;
-    }
-
-    return getLabel(element);
-  },
-
-  getElementIcon: (element) => {
-    const concreteType = getConcreteType(element);
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const config = useService('config.elementTemplateIconRenderer', false);
-
-    const { iconProperty = 'zeebe:modelerTemplateIcon' } = config || {};
-
-    const templateIcon = getBusinessObject(element).get(iconProperty);
-
-    if (templateIcon) {
-      return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } />;
-    }
-
-    return iconsByType[ concreteType ];
-  },
-
-  getTypeLabel: (element) => {
-    const elementTemplates = getTemplatesService();
-
-    if (elementTemplates) {
-      const template = getTemplate(element, elementTemplates);
-
-      if (template && template.name) {
-        return template.name;
+      if (elementTemplates) {
+        return getTemplateDocumentation(element, elementTemplates);
       }
+    },
+
+    getElementLabel: (element) => {
+      if (is(element, 'bpmn:Process')) {
+        return getBusinessObject(element).name;
+      }
+
+      return getLabel(element);
+    },
+
+    getElementIcon: (element) => {
+      const concreteType = getConcreteType(element);
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const config = useService('config.elementTemplateIconRenderer', false);
+
+      const { iconProperty = 'zeebe:modelerTemplateIcon' } = config || {};
+
+      const templateIcon = getBusinessObject(element).get(iconProperty);
+
+      if (templateIcon) {
+        return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={templateIcon}/>;
+      }
+
+      return iconsByType[concreteType];
+    },
+
+    getTypeLabel: (element) => {
+      const elementTemplates = getTemplatesService();
+
+      if (elementTemplates) {
+        const template = getTemplate(element, elementTemplates);
+
+        if (template && template.name) {
+          return template.name;
+        }
+      }
+
+      const concreteType = getConcreteType(element);
+
+      return translate(concreteType
+          .replace(/(\B[A-Z])/g, ' $1')
+          .replace(/(\bNon Interrupting)/g, '($1)'));
     }
-
-    const concreteType = getConcreteType(element);
-
-    return concreteType
-      .replace(/(\B[A-Z])/g, ' $1')
-      .replace(/(\bNon Interrupting)/g, '($1)');
-  }
+  };
 };
 
 
