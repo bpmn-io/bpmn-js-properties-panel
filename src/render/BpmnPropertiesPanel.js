@@ -228,7 +228,7 @@ export default function BpmnPropertiesPanel(props) {
   return <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
     <PropertiesPanel
       element={ selectedElement }
-      headerProvider={ PanelHeaderProvider }
+      headerProvider={ PanelHeaderProvider(translate) }
       placeholderProvider={ PanelPlaceholderProvider(translate) }
       groups={ groups }
       layoutConfig={ layoutConfig }
