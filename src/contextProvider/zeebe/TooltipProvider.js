@@ -42,7 +42,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Evaluate a business rule, for example a DMN. To add a custom implementation, use a job worker. ')}
+        { translate('Evaluate a business rule, for example a DMN decision. To add a custom implementation, use a job worker. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
           { translate('Learn more.') }
         </a>
@@ -95,6 +95,19 @@ const TooltipProvider = {
       <div>
         { translate('Link or embed a form created with the Camunda Forms editor. To associate a custom form, application, or URL to the user task, specify a form key. ')}
         <a href="https://docs.camunda.io/docs/guides/utilizing-forms/#link-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener" title={ translate('User task form documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-calledDecision': (element) => {
+
+    const translate = useService('translate');
+    return (
+      <div>
+        { translate('Define the decision to evaluate and how to map back the evaluation result. ') }
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-called-decision" target="_blank" rel="noopener" title={ translate('Send task documentation') }>
           { translate('Learn more.') }
         </a>
       </div>
