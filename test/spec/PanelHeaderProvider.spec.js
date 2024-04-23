@@ -128,7 +128,8 @@ describe('<PanelHeaderProvider>', function() {
       });
 
       // when
-      const elementLabel = PanelHeaderProvider.getElementLabel(element);
+      const { getElementLabel } = PanelHeaderProvider(translateMock);
+      const elementLabel = getElementLabel(element);
 
       // then
       expect(elementLabel).to.equal('foo');
@@ -143,7 +144,8 @@ describe('<PanelHeaderProvider>', function() {
       });
 
       // when
-      const elementLabel = PanelHeaderProvider.getElementLabel(element);
+      const { getElementLabel } = PanelHeaderProvider(translateMock);
+      const elementLabel = getElementLabel(element);
 
       // then
       expect(elementLabel).to.equal('foo');
@@ -162,7 +164,8 @@ describe('<PanelHeaderProvider>', function() {
       });
 
       // when
-      const elementLabel = PanelHeaderProvider.getElementLabel(element);
+      const { getElementLabel } = PanelHeaderProvider(translateMock);
+      const elementLabel = getElementLabel(element);
 
       // then
       expect(elementLabel).to.equal('foo');
@@ -177,7 +180,8 @@ describe('<PanelHeaderProvider>', function() {
       });
 
       // when
-      const elementLabel = PanelHeaderProvider.getElementLabel(element);
+      const { getElementLabel } = PanelHeaderProvider(translateMock);
+      const elementLabel = getElementLabel(element);
 
       // then
       expect(elementLabel).to.equal('foo');
@@ -905,7 +909,7 @@ class ElementTemplates {
 function createHeader(options = {}) {
   const {
     element = noopElement,
-    headerProvider = PanelHeaderProvider,
+    headerProvider = PanelHeaderProvider(translateMock),
     context = { getService: noop },
     container
   } = options;
@@ -931,4 +935,9 @@ function createElement(type, attrs) {
   };
 
   return element;
+}
+
+// Mock translate function for testing
+function translateMock(text) {
+  return text;
 }

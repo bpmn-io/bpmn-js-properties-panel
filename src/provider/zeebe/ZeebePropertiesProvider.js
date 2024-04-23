@@ -94,10 +94,11 @@ export default class ZeebePropertiesProvider {
 ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
 
-function CalledDecisionGroup(element) {
+function CalledDecisionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'calledDecision',
-    label: 'Called decision',
+    label: translate('Called decision'),
     entries: [
       ...CalledDecisionProps({ element })
     ],
@@ -107,10 +108,11 @@ function CalledDecisionGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function ScriptGroup(element) {
+function ScriptGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'script',
-    label: 'Script',
+    label: translate('Script'),
     entries: [
       ...ScriptProps({ element })
     ],
@@ -120,10 +122,11 @@ function ScriptGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function TaskDefinitionGroup(element) {
+function TaskDefinitionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'taskDefinition',
-    label: 'Task definition',
+    label: translate('Task definition'),
     entries: [
       ...TaskDefinitionProps({ element })
     ],
@@ -134,9 +137,10 @@ function TaskDefinitionGroup(element) {
 }
 
 function InputGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'inputs',
-    label: 'Inputs',
+    label: translate('Inputs'),
     component: ListGroup,
     ...InputProps({ element, injector })
   };
@@ -145,9 +149,10 @@ function InputGroup(element, injector) {
 }
 
 function OutputGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'outputs',
-    label: 'Outputs',
+    label: translate('Outputs'),
     component: ListGroup,
     ...OutputProps({ element, injector })
   };
@@ -155,10 +160,11 @@ function OutputGroup(element, injector) {
   return group.items ? group : null;
 }
 
-function ConditionGroup(element) {
+function ConditionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'condition',
-    label: 'Condition',
+    label: translate('Condition'),
     entries: [
       ...ConditionProps({ element })
     ],
@@ -169,9 +175,10 @@ function ConditionGroup(element) {
 }
 
 function FormGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'form',
-    label: 'Form',
+    label: translate('Form'),
     entries: [
       ...FormProps({ element, injector })
     ],
@@ -181,10 +188,11 @@ function FormGroup(element, injector) {
   return group.entries.length ? group : null;
 }
 
-function TargetGroup(element) {
+function TargetGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'calledElement',
-    label: 'Called element',
+    label: translate('Called element'),
     entries: [
       ...TargetProps({ element })
     ],
@@ -195,9 +203,10 @@ function TargetGroup(element) {
 }
 
 function HeaderGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'headers',
-    label: 'Headers',
+    label: translate('Headers'),
     component: ListGroup,
     ...HeaderProps({ element, injector })
   };
@@ -205,10 +214,11 @@ function HeaderGroup(element, injector) {
   return group.items ? group : null;
 }
 
-function OutputPropagationGroup(element) {
+function OutputPropagationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'outputPropagation',
-    label: 'Output propagation',
+    label: translate('Output propagation'),
     entries: [
       ...OutputPropagationProps({ element })
     ],
@@ -218,10 +228,11 @@ function OutputPropagationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function InputPropagationGroup(element) {
+function InputPropagationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'inputPropagation',
-    label: 'Input propagation',
+    label: translate('Input propagation'),
     entries: [
       ...InputPropagationProps({ element })
     ],
@@ -231,10 +242,11 @@ function InputPropagationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function BusinessRuleImplementationGroup(element) {
+function BusinessRuleImplementationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'businessRuleImplementation',
-    label: 'Implementation',
+    label: translate('Implementation'),
     entries: [
       ...BusinessRuleImplementationProps({ element })
     ],
@@ -244,10 +256,11 @@ function BusinessRuleImplementationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function ScriptImplementationGroup(element) {
+function ScriptImplementationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'scriptImplementation',
-    label: 'Implementation',
+    label: translate('Implementation'),
     entries: [
       ...ScriptImplementationProps({ element })
     ],
@@ -257,10 +270,11 @@ function ScriptImplementationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function UserTaskImplementationGroup(element) {
+function UserTaskImplementationGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'userTaskImplementation',
-    label: 'Implementation',
+    label: translate('Implementation'),
     entries: [
       ...UserTaskImplementationProps({ element })
     ],
@@ -270,10 +284,11 @@ function UserTaskImplementationGroup(element) {
   return group.entries.length ? group : null;
 }
 
-function AssignmentDefinitionGroup(element) {
+function AssignmentDefinitionGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
     id: 'assignmentDefinition',
-    label: 'Assignment',
+    label: translate('Assignment'),
     entries: [
       ...AssignmentDefinitionProps({ element }),
       ...TaskScheduleProps({ element })
@@ -285,8 +300,9 @@ function AssignmentDefinitionGroup(element) {
 }
 
 function ExtensionPropertiesGroup(element, injector) {
+  const translate = injector.get('translate');
   const group = {
-    label: 'Extension properties',
+    label: translate('Extension properties'),
     id: 'Zeebe__ExtensionProperties',
     component: ListGroup,
     ...ExtensionPropertiesProps({ element, injector, namespace: 'zeebe' })
