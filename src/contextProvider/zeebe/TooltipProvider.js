@@ -42,7 +42,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Evaluate a business rule, for example a DMN. To add a custom implementation, use a job worker. ')}
+        { translate('Evaluate a business rule, for example a DMN decision. To add a custom implementation, use a job worker. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-task" target="_blank" rel="noopener" title={ translate('Business rule task documentation') }>
           { translate('Learn more.') }
         </a>
