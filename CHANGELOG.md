@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.15.0
+
+* `FEAT`: add tooltip for `Called decision` group ([#1039](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1039))
+* `FIX`: add missing translations ([#1044](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1044))
+* `DEPS`: update to `@bpmn-io/variable-resolver@1.2.2`
+* `DEPS`: update to `@bpmn-io/properties-panel@3.18.2`
+
 ## 5.14.0
 
 * `FEAT`: add user task implementation tooltip ([#1033](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1033), [#1032](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1032))
