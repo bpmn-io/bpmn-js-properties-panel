@@ -101,6 +101,19 @@ const TooltipProvider = {
     );
   },
 
+  'group-calledDecision': (element) => {
+
+    const translate = useService('translate');
+    return (
+      <div>
+        { translate('Define the decision to evaluate and how to map back the evaluation result. ') }
+        <a href=" https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-called-decision" target="_blank" rel="noopener" title={ translate('Send task documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
   'group-message': (element) => {
     const translate = useService('translate');
 
