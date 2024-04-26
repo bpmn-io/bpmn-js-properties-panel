@@ -47,7 +47,6 @@ export function HeaderProps({ element, injector }) {
   return {
     items,
     add: addFactory({ bpmnFactory, commandStack, element }),
-    shouldSort: false
   };
 }
 

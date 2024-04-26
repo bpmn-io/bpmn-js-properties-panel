@@ -49,7 +49,6 @@ export function InputProps({ element, injector }) {
   return {
     items,
     add: addFactory({ element, bpmnFactory, commandStack }),
-    shouldSort: false
   };
 }
 

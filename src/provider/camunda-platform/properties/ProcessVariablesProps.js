@@ -88,7 +88,7 @@ function ProcessVariablesEntry(props) {
     };
   });
 
-  return <ListGroup { ...props } items={ items } shouldSort={ false } />;
+  return <ListGroup { ...props } items={ items } />;
 }
 
 export function ProcessVariablesProps(props) {
@@ -103,7 +103,6 @@ export function ProcessVariablesProps(props) {
 
   return {
     component: ProcessVariablesEntry,
-    shouldSort: false
   };
 }
 

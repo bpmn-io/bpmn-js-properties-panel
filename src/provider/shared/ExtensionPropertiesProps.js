@@ -48,7 +48,6 @@ export function ExtensionPropertiesProps({ element, injector, namespace = 'camun
   return {
     items,
     add: addFactory({ bpmnFactory, commandStack, element, namespace }),
-    shouldSort: false
   };
 }
 

@@ -53,7 +53,6 @@ export function InputProps(props) {
   return {
     items,
     add,
-    shouldSort: false
   };
 }
 
