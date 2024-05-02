@@ -31,3 +31,5 @@ export { TasklistProps } from './TasklistProps';
 export { UserAssignmentProps } from './UserAssignmentProps';
 export { VersionTagProps } from './VersionTagProps';
 export { TimerProps } from './TimerProps';
+export { IdProps } from './IdProps';
+export { ProcessProps } from './ProcessProps';

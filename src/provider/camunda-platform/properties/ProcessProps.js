@@ -110,6 +110,10 @@ function ProcessId(props) {
     return isIdValid(process, value, translate);
   }, [ process, translate ]);
 
+  const description = is(element, 'bpmn:Participant') ?
+    translate('This maps to the process definition key.')
+    : null;
+
   return TextFieldEntry({
     element,
     id: 'processId',
@@ -117,7 +121,8 @@ function ProcessId(props) {
     getValue,
     setValue,
     debounce,
-    validate
+    validate,
+    description
   });
 }
 
