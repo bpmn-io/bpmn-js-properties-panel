@@ -20,6 +20,7 @@ import {
   FormDataProps,
   FormProps,
   HistoryCleanupProps,
+  IdProps,
   ImplementationProps,
   InitiatorProps,
   InMappingPropagationProps,
@@ -30,6 +31,7 @@ import {
   OutMappingPropagationProps,
   OutMappingProps,
   OutputProps,
+  ProcessProps,
   ExecutionListenerProps,
   TaskListenerProps,
   ProcessVariablesProps,
@@ -162,7 +164,17 @@ function updateGeneralGroup(groups, element) {
 
   const { entries } = generalGroup;
 
-  // (1) add version tag before executable (if existing)
+  // (1) replace id with camunda id
+  const idIndex = findIndex(entries, (entry) => entry.id === 'id');
+  entries.splice(idIndex, 1, ...IdProps());
+
+  // (2) replace processId with camunda processId (if existing)
+  const processIdIndex = findIndex(entries, (entry) => entry.id === 'processId');
+  if (processIdIndex && processIdIndex >= 0) {
+    entries.splice(processIdIndex, 1, ...ProcessProps({ element }));
+  }
+
+  // (3) add version tag before executable (if existing)
   const executableEntry = findIndex(entries, (entry) => entry.id === 'isExecutable');
   const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
 

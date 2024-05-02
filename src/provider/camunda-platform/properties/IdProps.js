@@ -62,6 +62,10 @@ function Id(props) {
     return isIdValid(businessObject, value, translate);
   }, [ element, translate ]);
 
+  const description = is(element, 'bpmn:Process') ?
+    translate('This maps to the process definition key.')
+    : null;
+
   return TextFieldEntry({
     element,
     id: 'id',
@@ -69,6 +73,7 @@ function Id(props) {
     getValue,
     setValue,
     debounce,
-    validate
+    validate,
+    description
   });
 }
