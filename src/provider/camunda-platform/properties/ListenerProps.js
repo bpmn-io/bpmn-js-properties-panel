@@ -473,7 +473,7 @@ function Fields(props) {
     onAdd={ addField }
     onRemove={ removeField }
     compareFn={ compareName }
-    autoFocusEntry
+    autoFocusEntry={ `[data-entry-id="${id}-field-${fields.length - 1}"] input` }
   />;
 }
 
