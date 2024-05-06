@@ -72,7 +72,7 @@ describe('provider/camunda-platform - FormFieldProperty', function() {
         selection.select(task);
       });
 
-      const idInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-1-id', container);
+      const idInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-0-id', container);
       const properties = getFormFieldProperties(task, 0);
 
       // then
@@ -90,7 +90,7 @@ describe('provider/camunda-platform - FormFieldProperty', function() {
         selection.select(task);
       });
 
-      const idInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-1-id', container);
+      const idInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-0-id', container);
       const properties = getFormFieldProperties(task, 0);
 
       // when
@@ -113,7 +113,7 @@ describe('provider/camunda-platform - FormFieldProperty', function() {
           selection.select(task);
         });
 
-        const idInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-1-id', container);
+        const idInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-0-id', container);
 
         changeInput(idInput, 'newVal');
 
@@ -140,7 +140,7 @@ describe('provider/camunda-platform - FormFieldProperty', function() {
         selection.select(task);
       });
 
-      const valueInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-1-value', container);
+      const valueInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-0-value', container);
       const properties = getFormFieldProperties(task, 0);
 
       // then
@@ -158,7 +158,7 @@ describe('provider/camunda-platform - FormFieldProperty', function() {
         selection.select(task);
       });
 
-      const valueInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-1-value', container);
+      const valueInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-0-value', container);
       const properties = getFormFieldProperties(task, 0);
 
       // when
@@ -181,7 +181,7 @@ describe('provider/camunda-platform - FormFieldProperty', function() {
           selection.select(task);
         });
 
-        const valueInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-1-value', container);
+        const valueInput = domQuery('#bio-properties-panel-UserTask_1-formField-0-formFieldProperties-property-0-value', container);
 
         changeInput(valueInput, 'newVal');
 

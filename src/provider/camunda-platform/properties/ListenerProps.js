@@ -472,7 +472,6 @@ function Fields(props) {
     component={ Field }
     onAdd={ addField }
     onRemove={ removeField }
-    compareFn={ compareName }
     autoFocusEntry={ `[data-entry-id="${id}-field-${fields.length - 1}"] input` }
   />;
 }
@@ -557,12 +556,6 @@ function getDefaultEventTypeProperties(type, bpmnFactory) {
 
 function getPrefixedId(prefix, id) {
   return `${prefix}-${id}`;
-}
-
-function compareName(field, anotherField) {
-  const [ name = '', anotherName = '' ] = [ field.name, anotherField.name ];
-
-  return name === anotherName ? 0 : name > anotherName ? 1 : -1;
 }
 
 function getListenersContainer(element) {

@@ -78,16 +78,9 @@ export function MapProps(props) {
     });
   }
 
-  function compareFn(entry, anotherEntry) {
-    const [ key = '', anotherKey = '' ] = [ entry.key, anotherEntry.key ];
-
-    return key === anotherKey ? 0 : key > anotherKey ? 1 : -1;
-  }
-
   return ListEntry({
     element,
     autoFocusEntry: true,
-    compareFn,
     id: idPrefix + '-map',
     items: entries,
     label: translate('Map entries'),
