@@ -866,7 +866,7 @@ describe('provider/camunda-platform - FormField', function() {
         // then
         const properties = getFormFieldProperties(task, 0);
         const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldProperties] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[1]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[0]);
 
         expect(properties.get('values')[0].id).to.equal(label.innerHTML);
       }));
@@ -883,7 +883,7 @@ describe('provider/camunda-platform - FormField', function() {
 
         // then
         const propertyEntries = domQueryAll('div[data-entry-id=UserTask_1-formField-0-formFieldProperties] li', container);
-        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[0]);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', propertyEntries[1]);
 
         expect(label.innerHTML).to.equal('&lt;empty&gt;');
       }));
@@ -911,9 +911,9 @@ describe('provider/camunda-platform - FormField', function() {
           container)).map(e => e.innerHTML);
 
         expect(propertiesEntries).to.eql([
+          'Property3',
           'Property1',
-          'Property2',
-          'Property3' ]);
+          'Property2' ]);
       }));
 
     });

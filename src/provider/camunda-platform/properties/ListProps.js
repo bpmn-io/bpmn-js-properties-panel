@@ -70,16 +70,9 @@ export function ListProps(props) {
     });
   }
 
-  function compareFn(item, anotherItem) {
-    const [ value = '', anotherValue = '' ] = [ item.value, anotherItem.value ];
-
-    return value === anotherValue ? 0 : value > anotherValue ? 1 : -1;
-  }
-
   return ListEntry({
     element,
     autoFocusEntry: true,
-    compareFn,
     id: idPrefix + '-list',
     items,
     label: translate('List values'),

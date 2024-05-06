@@ -592,21 +592,10 @@ function PropertiesList(props) {
     element={ element }
     autoFocusEntry={ true }
     id={ id }
-    compareFn={ createAlphanumericCompare('id') }
     label={ translate('Properties') }
     items={ propertyEntries }
     component={ Property }
     onAdd={ addProperty }
     onRemove={ removeProperty }
   />;
-}
-
-// helper //////////////////
-
-function createAlphanumericCompare(field) {
-  return function(entry, anotherEntry) {
-    const [ key = '', anotherKey = '' ] = [ entry[field], anotherEntry[field] ];
-
-    return key === anotherKey ? 0 : key > anotherKey ? 1 : -1;
-  };
 }
