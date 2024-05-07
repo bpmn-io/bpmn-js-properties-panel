@@ -53,6 +53,7 @@ export function MapProps(props) {
   const commandStack = useService('commandStack');
   const translate = useService('translate');
 
+  const id = idPrefix + '-map';
   const map = parameter.get('definition');
   const entries = map.get('entries');
 
@@ -80,7 +81,7 @@ export function MapProps(props) {
 
   return ListEntry({
     element,
-    autoFocusEntry: true,
+    autoFocusEntry: `[data-entry-id="${id}-mapEntry-${entries.length - 1}"] input`,
     id: idPrefix + '-map',
     items: entries,
     label: translate('Map entries'),
