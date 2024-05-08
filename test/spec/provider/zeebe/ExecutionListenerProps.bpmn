@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0qh9wc7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.23.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
+  <bpmn:process id="Process" name="Execution Listeners Test" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:executionListeners>
+        <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+        <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+      </zeebe:executionListeners>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="end" retries="3" type="another" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:endEvent id="EndEvent">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="TimerEndEvent">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="end" retries="3" type="another" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_2" />
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="start" retries="3" type="another" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:subProcess id="SubProcess">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+          <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+      <bpmn:startEvent id="SingleListener">
+        <bpmn:extensionElements>
+          <zeebe:executionListeners>
+            <zeebe:executionListener eventType="end" retries="3" type="another" />
+          </zeebe:executionListeners>
+          <zeebe:properties>
+            <zeebe:property name="key" value="value" />
+          </zeebe:properties>
+        </bpmn:extensionElements>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:boundaryEvent id="BoundaryEvent" attachedToRef="SubProcess">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="end" retries="3" type="another" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0jqwplw" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="CompensationBoundaryEvent" attachedToRef="SubProcess">
+      <bpmn:compensateEventDefinition id="Compensate" />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Empty" />
+    <bpmn:endEvent id="OtherExtensions">
+      <bpmn:extensionElements />
+    </bpmn:endEvent>
+    <bpmn:complexGateway id="ComplexGateway" />
+    <bpmn:endEvent id="ErrorEndEvent">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+      <bpmn:errorEventDefinition />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process">
+      <bpmndi:BPMNShape id="StartEvent_di" bpmnElement="StartEvent">
+        <dc:Bounds x="192" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_di" bpmnElement="IntermediateThrowEvent">
+        <dc:Bounds x="192" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_di" bpmnElement="EndEvent">
+        <dc:Bounds x="192" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TimerEndEvent_di" bpmnElement="TimerEndEvent">
+        <dc:Bounds x="292" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_di" bpmnElement="Gateway" isMarkerVisible="true">
+        <dc:Bounds x="185" y="315" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_di" bpmnElement="Task">
+        <dc:Bounds x="160" y="400" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_di" bpmnElement="SubProcess" isExpanded="true">
+        <dc:Bounds x="160" y="510" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SingleListener_di" bpmnElement="SingleListener">
+        <dc:Bounds x="200" y="592" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_di" bpmnElement="BoundaryEvent">
+        <dc:Bounds x="492" y="692" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CompensationBoundaryEvent_di" bpmnElement="CompensationBoundaryEvent">
+        <dc:Bounds x="432" y="692" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Empty_di" bpmnElement="Empty">
+        <dc:Bounds x="632" y="692" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="OtherExtensions_di" bpmnElement="OtherExtensions">
+        <dc:Bounds x="632" y="592" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ComplexGateway_di" bpmnElement="ComplexGateway">
+        <dc:Bounds x="692" y="592" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ErrorEndEvent_di" bpmnElement="ErrorEndEvent">
+        <dc:Bounds x="792" y="592" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
