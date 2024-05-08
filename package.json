@@ -75,7 +75,7 @@
     "bpmn-js": "^17.3.0",
     "bpmn-js-create-append-anything": "^0.5.1",
     "bpmn-moddle": "^9.0.1",
-    "camunda-bpmn-js-behaviors": "^1.3.0",
+    "camunda-bpmn-js-behaviors": "^1.4.0",
     "camunda-bpmn-moddle": "^7.0.1",
     "chai": "^4.4.1",
     "cross-env": "^7.0.3",
@@ -106,7 +106,7 @@
     "sinon": "^17.0.1",
     "sinon-chai": "^3.7.0",
     "webpack": "^5.92.1",
-    "zeebe-bpmn-moddle": "^1.1.0"
+    "zeebe-bpmn-moddle": "^1.2.0"
   },
   "peerDependencies": {
     "@bpmn-io/properties-panel": ">= 3.7",
