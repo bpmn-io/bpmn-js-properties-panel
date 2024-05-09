@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.16.0
+
+* `FEAT`: add hint for the process ID field in the Camunda 7 ([#1038](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1038))
+
 ## 5.15.0
 
 * `FEAT`: add tooltip for `Called decision` group ([#1039](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1039))
