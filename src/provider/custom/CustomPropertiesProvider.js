@@ -8,7 +8,7 @@ import {AttributesProps,
     PropertyProps
 } from './properties';
 
-const LOW_PRIORITY = 500;
+const LOW_PRIORITY = 400;
 
 const CUSTOM_GROUPS = [
     CustomGroup,
@@ -21,7 +21,7 @@ const CUSTOM_GROUPS = [
  * that exposes groups for a diagram element.
  *
  * @param {PropertiesPanel} propertiesPanel
- * @param {Function} translate
+ * @param {Function} injector
  */
 export default function CustomPropertiesProvider(propertiesPanel, injector) {
 

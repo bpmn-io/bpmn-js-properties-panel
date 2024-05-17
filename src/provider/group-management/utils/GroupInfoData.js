@@ -7,7 +7,7 @@ export default function () {
   return GetGroupManagement();
 }
 
-function GetGroupManagement() {
+function GetGroupManagement(element) {
 
   const [groupInfoDataList, setGroupInfoData] = useState([]);
 
@@ -39,7 +39,7 @@ function GetGroupManagement() {
         response => function () {
           let groupList = [];
           if (response.result.businessPropertyCount > 0) {
-            groupList = response.result.business_property_list[0].const_val_cntn.split(',');
+            groupList = response.result.businessPropertyList[0].constValCntn.split(',');
             for (let i = 0; i < groupList.length; i++) {
               groupList[i] = groupList[i].trim();
             }
@@ -53,11 +53,9 @@ function GetGroupManagement() {
     fetchGroupData();
   }, [setGroupInfoData]);
 
-  const getOptions = () => {
-    return groupInfoDataList.map(groupNm => (
-      groupNm
-    ));
-  }
+  // const getOptions = () => {
+  //   groupInfoDataList
+  // }
 
-  return getOptions();
+  return groupInfoDataList;
 }

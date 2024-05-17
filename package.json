@@ -75,7 +75,7 @@
     "axe-core": "^4.4.2",
     "babel-loader": "^9.0.0",
     "babel-plugin-istanbul": "^6.1.1",
-    "bpmn-js": "^14.0.0",
+    "bpmn-js": "^13.2.2",
     "bpmn-js-create-append-anything": "^0.4.0",
     "bpmn-moddle": "^8.0.1",
     "camunda-bpmn-js-behaviors": "^1.0.0",

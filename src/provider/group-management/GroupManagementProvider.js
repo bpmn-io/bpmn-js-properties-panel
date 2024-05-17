@@ -2,24 +2,22 @@
 // The entry is a text input field with logic attached to create,
 // update and delete the "spell" property.
 import groupManagementData from './utils/GroupInfoData';
-
-import { forEach } from "min-dash";
-
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-const LOW_PRIORITY = 500;
+const LOW_PRIORITY = 300;
+
+let GROUP_MANAGER_LIST = [];
 
 /**
  * A provider with a `#getGroups(element)` method
  * that exposes groups for a diagram element.
  *
  * @param {PropertiesPanel} propertiesPanel
- * @param {Function} translate
+ * @param {Function} injector
  */
-export default function GroupManagementProvider(propertiesPanel, translate) {
+export default function GroupManagementProvider(propertiesPanel, injector) {
 
   // API ////////
-
   /**
    * Return the groups provided for the given element.
    *
@@ -37,9 +35,10 @@ export default function GroupManagementProvider(propertiesPanel, translate) {
      * @return {Object[]} modified groups
      */
     return function (groups) {
-      const groupList = groupManagementData();
-      return groups.filter(group => !groupList.includes(group.label));
-
+      if(GROUP_MANAGER_LIST.length <= 0){
+        GROUP_MANAGER_LIST = groupManagementData(element);
+      }
+      return groups.filter(group => !GROUP_MANAGER_LIST.includes(group.label));      
     }
   };
 
@@ -52,5 +51,5 @@ export default function GroupManagementProvider(propertiesPanel, translate) {
   propertiesPanel.registerProvider(LOW_PRIORITY, this);
 }
 
-GroupManagementProvider.$inject = ['propertiesPanel', 'translate'];
+GroupManagementProvider.$inject = ['propertiesPanel', 'injector'];
 
