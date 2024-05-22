@@ -590,7 +590,7 @@ function PropertiesList(props) {
 
   return <ListEntry
     element={ element }
-    autoFocusEntry={ true }
+    autoFocusEntry={ `[data-entry-id="${id}-property-${propertyEntries.length - 1}"] input` }
     id={ id }
     label={ translate('Properties') }
     items={ propertyEntries }
