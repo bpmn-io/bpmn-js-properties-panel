@@ -131,6 +131,7 @@ export function ExecutionListenerProps({ element, injector }) {
           element,
           listener
         }),
+        autoFocusEntry: id + '-javaClass',
         remove: removeListenerFactory({ element, listener, commandStack })
       };
     }),
