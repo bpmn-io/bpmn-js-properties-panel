@@ -190,7 +190,7 @@ export function TaskListenerProps({ element, injector }) {
           element,
           listener
         }),
-
+        autoFocusEntry: id + '-listenerId',
         remove: removeListenerFactory({ element, listener, commandStack })
       };
     }),
