@@ -324,20 +324,6 @@ describe('provider/zeebe - ScriptImplementationProps', function() {
 
 // helper /////////////////
 
-async function expectEdited(container, exists) {
-  await new Promise(resolve => {
-    setTimeout(resolve, 0);
-  });
-
-  const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
-
-  if (exists) {
-    expect(indicator).to.exist;
-  } else {
-    expect(indicator).not.to.exist;
-  }
-}
-
 function getImplementationSelect(container) {
   return domQuery(IMPLEMENTATION_SELECTOR, container);
 }
@@ -358,4 +344,21 @@ function getTaskHeaders(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:TaskHeaders')[ 0 ];
+}
+
+async function expectEdited(container, exists) {
+
+  await wait(50);
+
+  const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
+
+  if (exists) {
+    expect(indicator).to.exist;
+  } else {
+    expect(indicator).not.to.exist;
+  }
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
