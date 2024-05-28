@@ -136,7 +136,7 @@ function getCalledDecision(element) {
 }
 
 function isBusinessRuleImplementationEdited(element) {
-  return getTaskDefinition(element);
+  return getTaskDefinition(element) || getCalledDecision(element);
 }
 
 function resetElement(element, commandStack) {

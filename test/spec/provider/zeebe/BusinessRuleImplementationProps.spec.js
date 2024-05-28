@@ -34,8 +34,11 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './BusinessRuleImplementationProps.bpmn';
 
+const GROUP_SELECTOR = '[data-group-id="group-businessRuleImplementation"]';
+const IMPLEMENTATION_SELECTOR = 'select[name=businessRuleImplementation]';
 
-describe('provider/zeebe - TargetProps', function() {
+
+describe('provider/zeebe - BusinessRuleImplementationProps', function() {
 
   const testModules = [
     BpmnPropertiesPanel,
@@ -110,6 +113,9 @@ describe('provider/zeebe - TargetProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('');
+
+      // and also
+      return expectEdited(container, false);
     }));
 
 
@@ -126,6 +132,9 @@ describe('provider/zeebe - TargetProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('dmn');
+
+      // and also
+      return expectEdited(container, true);
     }));
 
 
@@ -142,6 +151,9 @@ describe('provider/zeebe - TargetProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('jobWorker');
+
+      // and also
+      return expectEdited(container, true);
     }));
 
 
@@ -334,7 +346,7 @@ describe('provider/zeebe - TargetProps', function() {
 // helper /////////////////
 
 function getImplementationSelect(container) {
-  return domQuery('select[name=businessRuleImplementation]', container);
+  return domQuery(IMPLEMENTATION_SELECTOR, container);
 }
 
 function getTaskDefinition(element) {
@@ -353,4 +365,21 @@ function getTaskHeaders(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:TaskHeaders')[ 0 ];
+}
+
+async function expectEdited(container, exists) {
+
+  await wait(50);
+
+  const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
+
+  if (exists) {
+    expect(indicator).to.exist;
+  } else {
+    expect(indicator).not.to.exist;
+  }
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
