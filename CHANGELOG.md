@@ -6,8 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `FEAT`: drop alphabetic sorting of list entries  ([#1047](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1047))
+## 5.17.0
 
+* `FEAT`: drop alphabetic sorting of list entries ([#1047](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1047))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.19.0`
 
 ## 5.16.0
 
