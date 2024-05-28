@@ -33,48 +33,8 @@ export function ProcessProps(props) {
       id: 'processId',
       component: ProcessId,
       isEdited: isTextFieldEntryEdited
-    },
-    {
-      id: 'processName',
-      component: ProcessName,
-      isEdited: isTextFieldEntryEdited
     }
   ];
-}
-
-function ProcessName(props) {
-  const { element } = props;
-
-  const commandStack = useService('commandStack');
-  const translate = useService('translate');
-  const debounce = useService('debounceInput');
-  const process = element.businessObject.get('processRef');
-
-  const getValue = () => {
-    return process.get('name');
-  };
-
-  const setValue = (value) => {
-    commandStack.execute(
-      'element.updateModdleProperties',
-      {
-        element,
-        moddleElement: process,
-        properties: {
-          name: value
-        }
-      }
-    );
-  };
-
-  return TextFieldEntry({
-    element,
-    id: 'processName',
-    label: translate('Process name'),
-    getValue,
-    setValue,
-    debounce
-  });
 }
 
 function ProcessId(props) {
