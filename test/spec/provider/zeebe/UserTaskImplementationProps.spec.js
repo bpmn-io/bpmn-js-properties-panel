@@ -34,6 +34,9 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './UserTaskImplementationProps.bpmn';
 
+const GROUP_SELECTOR = '[data-group-id="group-userTaskImplementation"]';
+const IMPLEMENTATION_SELECTOR = 'select[name=userTaskImplementation]';
+
 
 describe('provider/zeebe - UserTaskImplementationProps', function() {
 
@@ -110,6 +113,9 @@ describe('provider/zeebe - UserTaskImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('zeebeUserTask');
+
+      // and also
+      return expectEdited(container, true);
     }));
 
 
@@ -126,6 +132,9 @@ describe('provider/zeebe - UserTaskImplementationProps', function() {
       // then
       const implementation = getImplementationSelect(container);
       expect(implementation.value).to.equal('jobWorker');
+
+      // and also
+      return expectEdited(container, false);
     }));
 
 
@@ -223,11 +232,29 @@ describe('provider/zeebe - UserTaskImplementationProps', function() {
 // helper /////////////////
 
 function getImplementationSelect(container) {
-  return domQuery('select[name=userTaskImplementation]', container);
+  return domQuery(IMPLEMENTATION_SELECTOR, container);
 }
 
 function getZeebeUserTask(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:UserTask')[0];
+}
+
+
+async function expectEdited(container, exists) {
+
+  await wait(50);
+
+  const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
+
+  if (exists) {
+    expect(indicator).to.exist;
+  } else {
+    expect(indicator).not.to.exist;
+  }
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
