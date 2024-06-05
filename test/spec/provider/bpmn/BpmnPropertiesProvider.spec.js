@@ -41,7 +41,7 @@ describe('<BpmnPropertiesProvider>', function() {
   let container;
 
   if (shouldCollectLabels) {
-    collectLabels('C8');
+    collectLabels('BPMN');
   }
 
   beforeEach(function() {

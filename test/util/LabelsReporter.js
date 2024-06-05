@@ -31,7 +31,8 @@ function LabelsReporter() {
 
 
   this.onRunComplete = function() {
-    const csv = labels.map(label => `${label.id},${label.title}`).join('\n');
+    let csv = 'id,title,provider,type\n';
+    csv += labels.map(label => `${label.id},${label.title},${label.provider},${label.type}`).join('\n');
     fs.writeFileSync(labelsFile, csv);
   };
 }

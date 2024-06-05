@@ -50,7 +50,7 @@ describe('<ZeebePropertiesProvider>', function() {
   let container;
 
   if (shouldCollectLabels) {
-    collectLabels('C8');
+    collectLabels('Camunda 8');
   }
 
 

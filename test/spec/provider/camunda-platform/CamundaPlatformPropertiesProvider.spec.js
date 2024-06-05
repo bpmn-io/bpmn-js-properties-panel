@@ -48,7 +48,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
   };
 
   if (shouldCollectLabels) {
-    collectLabels('C8');
+    collectLabels('Camunda 7');
   }
 
 
