@@ -16,6 +16,8 @@ const singleStart = process.env.SINGLE_START;
 
 const coverage = process.env.COVERAGE;
 
+const collectLabels = process.env.COLLECT_LABELS;
+
 const absoluteBasePath = path.resolve(path.join(__dirname, basePath));
 
 // use puppeteer provided Chrome for testing
@@ -143,6 +145,12 @@ module.exports = function(karma) {
       devtool: 'eval-source-map'
     }
   };
+
+  if (collectLabels) {
+    config.plugins = [].concat(config.plugins || [ 'karma-*' ], require('./test/util/LabelsReporter'));
+    config.reporters = [].concat(config.reporters || [], 'label-reporter');
+    config.envPreprocessor = [].concat(config.envPreprocessor || [], 'COLLECT_LABELS');
+  }
 
   if (singleStart) {
     config.browsers = [].concat(config.browsers, 'Debug');

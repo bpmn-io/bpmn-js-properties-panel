@@ -19,9 +19,13 @@ import ModelingModule from 'bpmn-js/lib/features/modeling';
 
 import BpmnPropertiesPanel from 'src/render';
 
+import { collectLabels } from 'test/util/CollectLabels';
+
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
 import diagramXML from './BpmnPropertiesProvider.bpmn';
+
+const shouldCollectLabels = window.__env__ && window.__env__.COLLECT_LABELS;
 
 
 describe('<BpmnPropertiesProvider>', function() {
@@ -35,6 +39,10 @@ describe('<BpmnPropertiesProvider>', function() {
   ];
 
   let container;
+
+  if (shouldCollectLabels) {
+    collectLabels('C8');
+  }
 
   beforeEach(function() {
     container = TestContainer.get(this);

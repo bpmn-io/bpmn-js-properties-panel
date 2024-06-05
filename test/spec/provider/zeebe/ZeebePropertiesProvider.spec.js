@@ -25,7 +25,11 @@ import BpmnPropertiesProvider from 'src/provider/bpmn';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
+import { collectLabels } from 'test/util/CollectLabels';
+
 import diagramXML from './ZeebePropertiesProvider.bpmn';
+
+const shouldCollectLabels = window.__env__ && window.__env__.COLLECT_LABELS;
 
 
 describe('<ZeebePropertiesProvider>', function() {
@@ -44,6 +48,10 @@ describe('<ZeebePropertiesProvider>', function() {
   };
 
   let container;
+
+  if (shouldCollectLabels) {
+    collectLabels('C8');
+  }
 
 
   describe('groups', function() {

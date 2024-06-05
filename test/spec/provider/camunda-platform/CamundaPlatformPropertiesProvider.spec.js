@@ -23,10 +23,14 @@ import BpmnPropertiesPanel from 'src/render';
 import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
+import { collectLabels } from 'test/util/CollectLabels';
+
 import camundaModdleExtensions from 'camunda-bpmn-moddle/resources/camunda.json';
 
 import processDiagramXML from './CamundaPlatformPropertiesProvider-Process.bpmn';
 import collaborationDiagramXML from './CamundaPlatformPropertiesProvider-Collaboration.bpmn';
+
+const shouldCollectLabels = window.__env__ && window.__env__.COLLECT_LABELS;
 
 
 describe('<CamundaPlatformPropertiesProvider>', function() {
@@ -42,6 +46,10 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
   const moddleExtensions = {
     camunda: camundaModdleExtensions
   };
+
+  if (shouldCollectLabels) {
+    collectLabels('C8');
+  }
 
 
   describe('basics', function() {
