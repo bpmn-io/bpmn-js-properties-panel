@@ -7,6 +7,7 @@ import {
   ConditionProps,
   ErrorProps,
   EscalationProps,
+  ExecutionListenersProps,
   FormProps,
   HeaderProps,
   InputPropagationProps,
@@ -51,6 +52,7 @@ const ZEEBE_GROUPS = [
   OutputPropagationGroup,
   OutputGroup,
   HeaderGroup,
+  ExecutionListenersGroup,
   ExtensionPropertiesGroup
 ];
 
@@ -297,6 +299,22 @@ function AssignmentDefinitionGroup(element, injector) {
   };
 
   return group.entries.length ? group : null;
+}
+
+function ExecutionListenersGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    label: translate('Execution listeners'),
+    id: 'Zeebe__ExecutionListeners',
+    component: ListGroup,
+    ...ExecutionListenersProps({ element, injector })
+  };
+
+  if (group.items) {
+    return group;
+  }
+
+  return null;
 }
 
 function ExtensionPropertiesGroup(element, injector) {
