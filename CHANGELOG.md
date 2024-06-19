@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: move popup editor close button
+* `DEPS`: update to `@bpmn-io/properties-panel@3.21.0`
+
 ## 5.17.1
 
 * `FIX`: correct duplicate `Process Name` ([#1055](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1055))

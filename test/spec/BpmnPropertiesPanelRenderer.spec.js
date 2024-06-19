@@ -1178,7 +1178,7 @@ function triggerPopupOpen(id, container) {
 }
 
 function triggerPopupClose(container) {
-  const closeButton = domQuery('.bio-properties-panel-feel-popup__close-btn', container);
+  const closeButton = domQuery('.bio-properties-panel-popup__close', container);
 
   expect(closeButton, 'popup close button').to.exist;
 
