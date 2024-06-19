@@ -12,7 +12,8 @@ import {
   insertCoreStyles,
   insertBpmnStyles,
   withPropertiesPanel,
-  enableLogging
+  enableLogging,
+  getBpmnJS
 } from 'test/TestHelper';
 
 import {
@@ -697,8 +698,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     // then
     expect(spy).to.have.been.calledOnce;
     expect(spy).to.have.been.calledWith(sinon.match({ layout: newLayout }));
-
   });
+
 
   describe('event emitting', function() {
 
@@ -920,14 +921,10 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         selection.select(elementRegistry.get('ServiceTask_1'));
       });
 
-      const openPopupBtn = getOpenFeelPopup('ServiceTask_1-input-0-source', container);
-
       // when
-      await act(() => {
-        openPopupBtn.click();
-      });
+      await triggerPopupOpen('ServiceTask_1-input-0-source', container);
 
-      const feelPopup = getFeelPopup(container);
+      const feelPopup = getFeelPopupElement(container);
 
       // then
       expect(feelPopup).to.exist;
@@ -966,18 +963,21 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         // given
         const spy = sinon.spy();
 
-        const openPopupBtn = getOpenFeelPopup('ServiceTask_1-input-0-source', container);
-
         const eventBus = modeler.get('eventBus');
+
+        // assume
+        eventBus.fire('propertiesPanel.showEntry', {
+          id: 'ServiceTask_1-input-0-source'
+        });
 
         eventBus.on('feelPopup.opened', spy);
 
         // when
-        await act(() => {
-          openPopupBtn.click();
-        });
+        await triggerPopupOpen('ServiceTask_1-input-0-source', container);
 
         // then
+        expect(getFeelPopupElement(container)).to.exist;
+
         expect(spy).to.have.been.calledOnce;
       });
 
@@ -987,23 +987,19 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         // given
         const spy = sinon.spy();
 
-        const openPopupBtn = getOpenFeelPopup('ServiceTask_1-input-0-source', container);
-
         const eventBus = modeler.get('eventBus');
 
         eventBus.on('feelPopup.closed', spy);
 
-        await act(() => {
-          openPopupBtn.click();
-        });
+        // assume
+        await showEntry('ServiceTask_1-input-0-source');
+
+        await triggerPopupOpen('ServiceTask_1-input-0-source', container);
 
         // assume
-        expect(getFeelPopup(container)).to.exist;
+        expect(getFeelPopupElement(container)).to.exist;
 
-        await act(() => {
-          const closeBtn = domQuery('.bio-properties-panel-feel-popup__close-btn', container);
-          closeBtn.click();
-        });
+        await triggerPopupClose(container);
 
         // then
         expect(spy).to.have.been.calledOnce;
@@ -1025,7 +1021,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         });
 
         // then
-        expect(getFeelPopup(container)).to.exist;
+        expect(getFeelPopupElement(container)).to.exist;
       });
 
 
@@ -1043,7 +1039,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         });
 
         // assume
-        expect(getFeelPopup(container)).to.exist;
+        expect(getFeelPopupElement(container)).to.exist;
 
         // when
         await act(() => {
@@ -1051,7 +1047,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         });
 
         // then
-        expect(getFeelPopup(container)).to.not.exist;
+        expect(getFeelPopupElement(container)).to.not.exist;
       });
 
 
@@ -1169,10 +1165,31 @@ function getHeaderName(container) {
   return domQuery('.bio-properties-panel-header-label', container).innerText;
 }
 
-function getFeelPopup(container) {
+function getFeelPopupElement(container) {
   return domQuery('.bio-properties-panel-feel-popup', container);
 }
 
-function getOpenFeelPopup(id, container) {
-  return container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-open-feel-popup`);
+function triggerPopupOpen(id, container) {
+  const openButton = container.querySelector(`[data-entry-id="${id}"] .bio-properties-panel-open-feel-popup`);
+
+  expect(openButton, `<${id}> popup open el`).to.exist;
+
+  return act(() => openButton.click());
+}
+
+function triggerPopupClose(container) {
+  const closeButton = domQuery('.bio-properties-panel-feel-popup__close-btn', container);
+
+  expect(closeButton, 'popup close button').to.exist;
+
+  return act(() => closeButton.click());
+}
+
+function showEntry(id) {
+
+  return act(() => getBpmnJS().invoke(eventBus => {
+    eventBus.fire('propertiesPanel.showEntry', {
+      id
+    });
+  }));
 }
