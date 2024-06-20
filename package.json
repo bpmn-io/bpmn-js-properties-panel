@@ -96,7 +96,7 @@
     "karma-webpack": "^5.0.1",
     "mocha": "^10.4.0",
     "mocha-test-container-support": "^0.2.0",
-    "npm-run-all2": "^6.0.0",
+    "npm-run-all2": "^6.2.0",
     "puppeteer": "^22.11.2",
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
