@@ -6,7 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `FEAT`: move popup editor close button
+## 5.18.0
+
+* `FEAT`: move popup editor close button ([bpmn-io/properties-panel#368](https://github.com/bpmn-io/properties-panel/pull/368))
+* `FIX`: prevent list group rendering with outdated components ([bpmn-io/properties-panel#369](https://github.com/bpmn-io/properties-panel/pull/369))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.21.0`
 
 ## 5.17.1
