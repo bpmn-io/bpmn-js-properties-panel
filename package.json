@@ -100,7 +100,7 @@
     "puppeteer": "^22.11.2",
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
-    "rimraf": "^5.0.7",
+    "rimraf": "^6.0.0",
     "rollup": "^4.18.0",
     "rollup-plugin-react-svg": "^3.0.3",
     "sinon": "^17.0.1",
