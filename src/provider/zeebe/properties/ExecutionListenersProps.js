@@ -4,9 +4,11 @@ import {
   isAny
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { without } from 'min-dash';
+import { CollapsibleEntry, ListEntry } from '@bpmn-io/properties-panel';
 
-import ExecutionListenerProperty from './ExecutionListener';
+import { groupBy, without } from 'min-dash';
+
+import ExecutionListenerEntries from './ExecutionListener';
 
 import {
   createElement
@@ -50,33 +52,62 @@ export function ExecutionListenersProps({ element, injector }) {
         modeling = injector.get('modeling'),
         translate = injector.get('translate');
 
-  const items = listeners.map((listener, index) => {
-    const id = element.id + '-executionListener-' + index;
-    const type = listener.get('type') || '<no type>';
+  const grouped = groupBy(listeners, 'eventType');
 
-    return {
-      id,
-      label: translate(`${EVENT_TO_LABEL[listener.get('eventType')]}: {type}`, { type }),
-      entries: ExecutionListenerProperty({
-        idPrefix: id,
-        element,
-        listener
-      }),
-      autoFocusEntry: id + '-eventType',
-      remove: removeFactory({ modeling, element, listener })
-    };
-  });
+  const startListeners = grouped.start,
+        endListeners = grouped.end;
 
-  return {
-    items,
-    add: addFactory({ bpmnFactory, commandStack, element })
-  };
+  // const items = listeners.map((listener, index) => {
+  //   const id = element.id + '-executionListener-' + index;
+  //   const type = listener.get('type') || '<no type>';
+
+  //   return {
+  //     id,
+  //     label: translate(`${EVENT_TO_LABEL[listener.get('eventType')]}: {type}`, { type }),
+  //     entries: ExecutionListenerProperty({
+  //       idPrefix: id,
+  //       element,
+  //       listener
+  //     }),
+  //     autoFocusEntry: id + '-eventType',
+  //     remove: removeFactory({ modeling, element, listener })
+  //   };
+  // });
+
+  const onRemove = removeFactory({ modeling, element });
+
+  const entries = [
+    {
+      id: element.id + '-startExecutionListeners-',
+      component: Listeners,
+      label: translate('Start'),
+      items: startListeners,
+      onAdd: addFactory('start', { bpmnFactory, commandStack, element }),
+      onRemove
+    },
+    {
+      id: element.id + '-endExecutionListeners-',
+      component: Listeners,
+      label: translate('End'),
+      items: endListeners,
+      onAdd: addFactory('end', { bpmnFactory, commandStack, element }),
+      onRemove
+    }
+  ];
+
+  return entries;
 }
 
-function removeFactory({ modeling, element, listener }) {
-  return function(event) {
-    event.stopPropagation();
+function Listeners(props) {
+  return <ListEntry
+    { ...props }
+    component={ ExecutionListener }
+  />;
+}
 
+
+function removeFactory({ modeling, element }) {
+  return function(listener) {
     const businessObject = getRelevantBusinessObject(element);
     const container = getExecutionListenersContainer(businessObject);
 
@@ -90,10 +121,8 @@ function removeFactory({ modeling, element, listener }) {
   };
 }
 
-function addFactory({ bpmnFactory, commandStack, element }) {
-  return function(event) {
-    event.stopPropagation();
-
+function addFactory(eventType, { bpmnFactory, commandStack, element }) {
+  return function() {
     let commands = [];
 
     const businessObject = getRelevantBusinessObject(element);
@@ -142,7 +171,7 @@ function addFactory({ bpmnFactory, commandStack, element }) {
     }
 
     // (3) create zeebe:ExecutionListener
-    const executionListener = createElement('zeebe:ExecutionListener', DEFAULT_LISTENER_PROPS, executionListeners, bpmnFactory);
+    const executionListener = createElement('zeebe:ExecutionListener', { eventType }, executionListeners, bpmnFactory);
 
     // (4) add executionListener to list
     commands.push({
@@ -159,6 +188,31 @@ function addFactory({ bpmnFactory, commandStack, element }) {
     // (5) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
+}
+
+function ExecutionListener(props) {
+  const {
+    element,
+    id: idPrefix,
+    index,
+    item: listener,
+    open
+  } = props;
+  const listenerId = `${ idPrefix }-listener-${ index }`;
+
+  return (
+    <CollapsibleEntry
+      id={ listenerId }
+      element={ element }
+      entries={ ExecutionListenerEntries({
+        element,
+        listener,
+        idPrefix: listenerId
+      }) }
+      label={ listener.get('type') || '<no type>' }
+      open={ open }
+    />
+  );
 }
 
 

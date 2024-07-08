@@ -15,12 +15,13 @@ export default function ExecutionListener(props) {
   } = props;
 
   const entries = [
-    {
-      id: idPrefix + '-eventType',
-      component: EventType,
-      idPrefix,
-      listener
-    },
+
+    // {
+    //   id: idPrefix + '-eventType',
+    //   component: EventType,
+    //   idPrefix,
+    //   listener
+    // },
     {
       id: idPrefix + '-listenerType',
       component: ListenerType,

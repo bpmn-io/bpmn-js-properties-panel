@@ -306,11 +306,13 @@ function ExecutionListenersGroup(element, injector) {
   const group = {
     label: translate('Execution listeners'),
     id: 'Zeebe__ExecutionListeners',
-    component: ListGroup,
-    ...ExecutionListenersProps({ element, injector })
+    component: Group,
+    entries: [
+      ...ExecutionListenersProps({ element, injector })
+    ]
   };
 
-  if (group.items) {
+  if (group.entries) {
     return group;
   }
 
