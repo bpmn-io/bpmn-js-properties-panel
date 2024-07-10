@@ -1,5 +1,7 @@
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
+import { findIndex } from 'min-dash';
+
 import {
   AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
@@ -24,7 +26,8 @@ import {
   TaskDefinitionProps,
   TaskScheduleProps,
   TimerProps,
-  UserTaskImplementationProps
+  UserTaskImplementationProps,
+  VersionTagProps
 } from './properties';
 
 import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
@@ -72,6 +75,7 @@ export default class ZeebePropertiesProvider {
       groups = groups.concat(this._getGroups(element));
 
       // (2) update existing groups with zeebe specific properties
+      updateGeneralGroup(groups, element);
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
       updateMessageGroup(groups, element);
@@ -333,6 +337,22 @@ function ExtensionPropertiesGroup(element, injector) {
   }
 
   return null;
+}
+
+function updateGeneralGroup(groups, element) {
+
+  const generalGroup = findGroup(groups, 'general');
+
+  if (!generalGroup) {
+    return;
+  }
+
+  const { entries } = generalGroup;
+
+  const executableEntry = findIndex(entries, (entry) => entry.id === 'isExecutable');
+  const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
+
+  entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
 }
 
 function updateErrorGroup(groups, element) {
