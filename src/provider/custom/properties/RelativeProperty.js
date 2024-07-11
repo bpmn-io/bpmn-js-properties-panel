@@ -4,6 +4,8 @@ import {
 } from '../../../hooks';
 import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
+let nextProcessDataList;
+let prevProcessDataList;
 
 export default function RelativeProperty(props) {
 
@@ -56,28 +58,39 @@ function NextProcess(props) {
 
   useEffect(() => {
     function fetchSpells() {
-      fetch('/oceans/api/bpm/bpm1001/searchCboxForAttrGrId',
-        {
-          'headers': {
-            'accept': 'application/json, text/javascript, */*; q=0.01',
-            'accept-language': 'vi,en-US;q=0.9,en;q=0.8,ko;q=0.7,id;q=0.6,th;q=0.5,ru;q=0.4,ja;q=0.3',
-            'content-type': 'application/json; charset=UTF-8',
-            'x-requested-with': 'XMLHttpRequest'
-          },
-          'referrer': '/oceans/BPM_M1001.do',
-          'referrerPolicy': 'strict-origin-when-cross-origin',
-          'body': '{"header":{"programNr":"BPM_M1001","programAuthNr":"BPM_M1001"},"dataFlowBpmnDto":{"prcsLvl":"Test"}}',
-          'method': 'POST',
-          'mode': 'cors',
-          'credentials': 'include'
+
+      if (nextProcessDataList) {
+        setRelates(nextProcessDataList);
+        return;
+      }
+
+      let dsDataFlowBpmnDto = new naw.dataSet("DataFlowBpmnDto");
+      let dsDataFlowBpmnListDto = new naw.dataSet("DataFlowBpmnListDto");
+      naw.submit({
+        requestDS: dsDataFlowBpmnDto,
+        responseDS: dsDataFlowBpmnListDto,
+        paramName: "dataFlowBpmnDto",
+        before: function (header, dataset) {
+          dataset.reset();
+          header.set({
+            uri: "/bpm/bpm1001/searchCboxForAttrGrId"
+          });
+          dataset.autoBind = false;
+          return true;
+        },
+        callback: function (header, dataset) {
+          if (onsite.isError(header, dataset)) {
+            onsite.messageBox(header, "");
+            return;
+          }
+          nextProcessDataList = dataset.get("dataFlowBpmnListDto");
+          setRelates(nextProcessDataList);
+        },
+        error: function (header, dataset) {
+          onsite.messageBox("", "COM000067");
         }
-      ).then(
-        res => res.json()
-      ).then(
-        resDto => resDto.result.dataFlowBpmnListDto
-      ).then(
-        relateData => setRelates(relateData)
-      ).catch(error => console.error(error));
+      }); 
+
     }
 
     fetchSpells();
@@ -86,7 +99,7 @@ function NextProcess(props) {
   const getOptions = () => {
     return [
       {
-        label: '--None value Relate--',
+        label: '',
         value: undefined
       },
       ...relates.map(spell => ({
@@ -136,28 +149,39 @@ function PrevProcess(props) {
 
   useEffect(() => {
     function fetchSpells() {
-      fetch('/oceans/api/bpm/bpm1001/searchCboxForAttrGrId',
-        {
-          'headers': {
-            'accept': 'application/json, text/javascript, */*; q=0.01',
-            'accept-language': 'vi,en-US;q=0.9,en;q=0.8,ko;q=0.7,id;q=0.6,th;q=0.5,ru;q=0.4,ja;q=0.3',
-            'content-type': 'application/json; charset=UTF-8',
-            'x-requested-with': 'XMLHttpRequest'
-          },
-          'referrer': '/oceans/BPM_M1001.do',
-          'referrerPolicy': 'strict-origin-when-cross-origin',
-          'body': '{"header":{"programNr":"BPM_M1001","programAuthNr":"BPM_M1001"},"dataFlowBpmnDto":{"prcsLvl":"Test"}}',
-          'method': 'POST',
-          'mode': 'cors',
-          'credentials': 'include'
+
+      if (prevProcessDataList) {
+        setRelates(prevProcessDataList);
+        return;
+      }
+
+      let dsDataFlowBpmnDto = new naw.dataSet("DataFlowBpmnDto");
+      let dsDataFlowBpmnListDto = new naw.dataSet("DataFlowBpmnListDto");
+      naw.submit({
+        requestDS: dsDataFlowBpmnDto,
+        responseDS: dsDataFlowBpmnListDto,
+        paramName: "dataFlowBpmnDto",
+        before: function (header, dataset) {
+          dataset.reset();
+          header.set({
+            uri: "/bpm/bpm1001/searchCboxForAttrGrId"
+          });
+          dataset.autoBind = false;
+          return true;
+        },
+        callback: function (header, dataset) {
+          if (onsite.isError(header, dataset)) {
+            onsite.messageBox(header, "");
+            return;
+          }
+          prevProcessDataList = dataset.get("dataFlowBpmnListDto");
+          setRelates(prevProcessDataList);
+        },
+        error: function (header, dataset) {
+          onsite.messageBox("", "COM000067");
         }
-      ).then(
-        res => res.json()
-      ).then(
-        resDto => resDto.result.dataFlowBpmnListDto
-      ).then(
-        relateData => setRelates(relateData)
-      ).catch(error => console.error(error));
+      }); 
+
     }
 
     fetchSpells();
@@ -166,7 +190,7 @@ function PrevProcess(props) {
   const getOptions = () => {
     return [
       {
-        label: '--None value Relate--',
+        label: '',
         value: undefined
       },
       ...relates.map(spell => ({

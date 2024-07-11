@@ -14,7 +14,7 @@ import {
   ProcessProps,
   SignalProps,
   TimerProps,
-  // SpellProps
+  ProgramIdProps
 } from './properties';
 
 function GeneralGroup(element, injector) {
@@ -23,6 +23,7 @@ function GeneralGroup(element, injector) {
   const entries = [
     ...NameProps({ element }),
     ...IdProps({ element }),
+    ...ProgramIdProps ({element}),
     ...ProcessProps({ element }),
     ...ExecutableProps({ element })
   ];

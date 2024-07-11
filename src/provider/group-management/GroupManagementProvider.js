@@ -6,8 +6,6 @@ import groupManagementData from './utils/GroupInfoData';
 
 const LOW_PRIORITY = 300;
 
-let GROUP_MANAGER_LIST = [];
-
 /**
  * A provider with a `#getGroups(element)` method
  * that exposes groups for a diagram element.
@@ -35,10 +33,8 @@ export default function GroupManagementProvider(propertiesPanel, injector) {
      * @return {Object[]} modified groups
      */
     return function (groups) {
-      if(GROUP_MANAGER_LIST.length <= 0){
-        GROUP_MANAGER_LIST = groupManagementData(element);
-      }
-      return groups.filter(group => !GROUP_MANAGER_LIST.includes(group.label));      
+      let groupManagementDataList = groupManagementData(element);
+      return groups.filter(group => !groupManagementDataList.includes(group.label));      
     }
   };
 

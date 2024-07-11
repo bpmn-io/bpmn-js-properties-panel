@@ -11,6 +11,8 @@ import { useService } from '../../../hooks';
 // import hooks from the vendored preact package
 import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
+let attributesDataList;
+
 export function AttributesProps(element) {
   if (!isAny(element, ['bpmn:Task', 'bpmn:Process', 'bpmn:Participant' ])) {
     return [];
@@ -47,28 +49,41 @@ function NewAttribute(props) {
 
   useEffect(() => {
     function fetchAttriNames() {
-      fetch('/oceans/api/bpm/bpm1001/searchCboxForAttrGrNm',
-        {
-          'headers': {
-            'accept': 'application/json, text/javascript, */*; q=0.01',
-            'accept-language': 'vi,en-US;q=0.9,en;q=0.8,ko;q=0.7,id;q=0.6,th;q=0.5,ru;q=0.4,ja;q=0.3',
-            'content-type': 'application/json; charset=UTF-8',
-            'x-requested-with': 'XMLHttpRequest'
-          },
-          'referrer': '/oceans/BPM_M1001.do',
-          'referrerPolicy': 'strict-origin-when-cross-origin',
-          'body': '{"header":{"programNr":"BPM_M1001","programAuthNr":"BPM_M1001"},"dataFlowBpmnDto":{"prcsLvl":"Test"}}',
-          'method': 'POST',
-          'mode': 'cors',
-          'credentials': 'include'
+
+      if(attributesDataList){
+        setAttriNames(attributesDataList);
+        return;
+      }
+
+      let dsDataFlowBpmnDto = new naw.dataSet("DataFlowBpmnDto");
+      let dsDataFlowBpmnListDto = new naw.dataSet("DataFlowBpmnListDto");
+
+      naw.submit({
+        requestDS: dsDataFlowBpmnDto,
+        responseDS: dsDataFlowBpmnListDto,
+        paramName: "dataFlowBpmnDto",
+        before: function (header, dataset) {
+            dataset.reset();
+            header.set({
+                uri: "/bpm/bpm1001/searchCboxForAttrGrNm"
+            });
+            dataset.autoBind = false;
+            return true;
+        },
+        callback: function (header, dataset) {
+            if (onsite.isError(header, dataset)) {
+                onsite.messageBox(header, "");
+                return;
+            }
+            attributesDataList = dataset.get("dataFlowBpmnListDto");
+            setAttriNames(attributesDataList);
+        },
+        error: function (header, dataset) {
+            onsite.messageBox("", "COM000067");
         }
-      ).then(
-        res => res.json()
-      ).then(
-        resDto => resDto.result.dataFlowBpmnListDto
-      ).then(
-        attriNames => setAttriNames(attriNames)
-      ).catch(error => console.error(error));
+    }); 
+
+
     }
 
     fetchAttriNames();
@@ -77,7 +92,7 @@ function NewAttribute(props) {
   const getOptions = () => {
     return [
       {
-        label: '--None value--',
+        label: '',
         value: undefined
       },
       ...attriNames.map(attri => ({

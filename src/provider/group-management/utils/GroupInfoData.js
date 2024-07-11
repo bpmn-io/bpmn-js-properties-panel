@@ -7,6 +7,8 @@ export default function () {
   return GetGroupManagement();
 }
 
+let groupManagementDataList;
+
 function GetGroupManagement(element) {
 
   const [groupInfoDataList, setGroupInfoData] = useState([]);
@@ -14,41 +16,52 @@ function GetGroupManagement(element) {
 
   useEffect(() => {
     function fetchGroupData() {
-      fetch("/oceans/api/bcm/bcm7001/searchBusinessPropertyList", {
-        "headers": {
-          "accept": "*/*",
-          "accept-language": "en-US,en;q=0.9",
-          "content-type": "application/json",
-          "sec-ch-ua": "\"Chromium\";v=\"118\", \"Google Chrome\";v=\"118\", \"Not=A?Brand\";v=\"99\"",
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": "\"Windows\"",
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-origin",
-          "x-requested-with": "XMLHttpRequest"
+
+      if(groupManagementDataList){
+        setGroupInfoData(groupManagementDataList);
+      }
+
+      let dsBusinessPropertyCondDto = new naw.dataSet("BusinessPropertyCondDto");
+      let dsBusinessPropertyListDto = new naw.dataSet("BusinessPropertyListDto");
+
+      naw.submit({
+        requestDS: dsBusinessPropertyCondDto,
+        responseDS: dsBusinessPropertyListDto,
+        paramName: "businessPropertyCondDto",
+        before: function (header, dataset) {
+            dataset.reset();
+            header.set({
+                uri: "/bcm/bcm7001/searchBusinessPropertyList"
+            });
+            dataset.set("constCd", "CAMUNDA_GROUP_PROPERTIES_HIDDEN");
+            dataset.autoBind = false;
+            return true;
         },
-        "referrer": "/oceans/BPM_M1001.do",
-        "referrerPolicy": "strict-origin-when-cross-origin",
-        "body": "{\"header\":{\"programNr\":\"BPM_M1001\",\"programAuthNr\":\"BPM_M1001\",\"uri\":\"/bcm/bcm7001/searchBusinessPropertyList\"},\"businessPropertyCondDto\":{\"constCd\":\"CAMUNDA_GROUP_PROPERTIES_HIDDEN\"}}",
-        "method": "POST",
-        "mode": "cors",
-        "credentials": "include"
-      }).then(
-        res => res.json()
-      ).then(
-        response => function () {
-          let groupList = [];
-          if (response.result.businessPropertyCount > 0) {
-            groupList = response.result.businessPropertyList[0].constValCntn.split(',');
-            for (let i = 0; i < groupList.length; i++) {
-              groupList[i] = groupList[i].trim();
+        callback: function (header, dataset) {
+            if (onsite.isError(header, dataset)) {
+                onsite.messageBox(header, "");
+                return;
             }
-          }
-          return groupList;
+            let groupList = [];
+            let businessPropertyCount = dataset.get("businessPropertyCount");
+            if (businessPropertyCount > 0) {
+              let groupList = dataset.get("businessPropertyList")[0].constValCntn.split(',');
+
+              for (let i = 0; i < groupList.length; i++) {
+                groupList[i] = groupList[i].trim();
+              }
+              groupManagementDataList = groupList;
+            }else{
+              groupManagementDataList.push('');
+            }
+            setGroupInfoData(groupManagementDataList);
+        },
+        error: function (header, dataset) {
+            onsite.messageBox("", "COM000067");
         }
-      ).then(
-        groupNm => setGroupInfoData(groupNm)
-      ).catch(error => console.error(error));
+    }); 
+
+
     }
     fetchGroupData();
   }, [setGroupInfoData]);

@@ -48,16 +48,36 @@ export function validateId(idValue, translate) {
 
 export function validateParentId(idValue, translate) {
 
+  if (!idValue) {
+    return;
+  }
+
   if (containsSpace(idValue)) {
     return translate('ID must not contain spaces.');
   }
 
   if (!ID_REGEX.test(idValue)) {
-
     if (QNAME_REGEX.test(idValue)) {
       return translate('ID must not contain prefix.');
     }
+    return translate('ID must be a valid QName.');
   }
+}
+
+export function validateProgramId(idValue, translate) {
+
+  if (!idValue) {
+    return;
+  }
+
+  if (containsSpace(idValue)) {
+    return translate('Program ID must not contain spaces.');
+  }
+
+  if (!ID_REGEX.test(idValue)) {
+    return translate('Program ID must not contain prefix.');
+  }
+  
 }
 
 export function containsSpace(value) {
