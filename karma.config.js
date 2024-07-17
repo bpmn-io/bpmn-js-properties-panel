@@ -81,7 +81,7 @@ module.exports = function(karma) {
                 ].concat(coverage ? [
                   [ 'istanbul', {
                     include: [
-                      'lib/**'
+                      'src/**'
                     ]
                   } ]
                 ] : [])
