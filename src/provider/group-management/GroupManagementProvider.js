@@ -5,6 +5,8 @@ import groupManagementData from './utils/GroupInfoData';
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 const LOW_PRIORITY = 300;
+let GROUP_MANAGER_LIST = [];
+
 
 /**
  * A provider with a `#getGroups(element)` method
@@ -33,8 +35,10 @@ export default function GroupManagementProvider(propertiesPanel, injector) {
      * @return {Object[]} modified groups
      */
     return function (groups) {
-      let groupManagementDataList = groupManagementData(element);
-      return groups.filter(group => !groupManagementDataList.includes(group.label));      
+      if(GROUP_MANAGER_LIST.length <= 0){
+        GROUP_MANAGER_LIST = groupManagementData(element);
+      }
+      return groups.filter(group => !GROUP_MANAGER_LIST.includes(group.label));  
     }
   };
 
