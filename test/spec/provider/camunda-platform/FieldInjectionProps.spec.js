@@ -78,7 +78,7 @@ describe('provider/camunda-platform - FieldInjectionProps', function() {
 
       // when
       const executionListenerGroup = domQuery('[data-group-id="group-CamundaPlatform__ExecutionListener"]', container);
-      const valueInputField = domQuery('input[name*="value"]', executionListenerGroup);
+      const valueInputField = domQuery('textarea[name*="value"]', executionListenerGroup);
 
       changeInput(valueInputField, 'newValue');
 
