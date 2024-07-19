@@ -1,4 +1,4 @@
-import { TextFieldEntry } from '@bpmn-io/properties-panel';
+import { TextFieldEntry, TextAreaEntry } from '@bpmn-io/properties-panel';
 
 import {
   useService
@@ -87,12 +87,13 @@ function ValueProperty(props) {
     return header.value;
   };
 
-  return TextFieldEntry({
+  return TextAreaEntry({
     element: header,
     id: idPrefix + '-value',
     label: translate('Value'),
     getValue,
     setValue,
-    debounce
+    debounce,
+    autoResize: true
   });
 }
