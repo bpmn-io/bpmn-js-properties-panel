@@ -80,8 +80,8 @@ module.exports = function(karma) {
                   } ]
                 ].concat(coverage ? [
                   [ 'istanbul', {
-                    include: [
-                      'src/**'
+                    exclude: [
+                      'test/**/*'
                     ]
                   } ]
                 ] : [])
