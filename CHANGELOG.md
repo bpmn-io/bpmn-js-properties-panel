@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.19.0
+
+* `FEAT`: support Zeebe execution listeners ([#1048](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1048))
+* `DEPS`: update to `camunda-bpmn-js-behaviors@1.4.0`
+* `DEPS`: update to `zeebe-bpmn-moddle@1.2.0`
+
 ## 5.18.1
 
 * `FEAT`: change Header value and Field Injection value fields to text areas ([bpmn-io/bpmn-js-properties-panel#1065](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1065))
