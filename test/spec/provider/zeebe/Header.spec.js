@@ -155,7 +155,7 @@ describe('provider/bpmn - Header', function() {
 
         // when
         const headerGroup = getGroup(container, 'headers');
-        const valueInput = domQuery('input[name=ServiceTask_empty-header-0-value]', headerGroup);
+        const valueInput = domQuery('textarea[name=ServiceTask_empty-header-0-value]', headerGroup);
 
         // then
         expect(valueInput).to.not.exist;
@@ -173,7 +173,7 @@ describe('provider/bpmn - Header', function() {
 
       // when
       const headerGroup = getGroup(container, 'headers');
-      const valueInput = domQuery('input[name=ServiceTask_1-header-0-value]', headerGroup);
+      const valueInput = domQuery('textarea[name=ServiceTask_1-header-0-value]', headerGroup);
 
       // then
       expect(valueInput.value).to.eql(getHeader(serviceTask, 0).get('value'));
@@ -191,7 +191,7 @@ describe('provider/bpmn - Header', function() {
 
       // when
       const headerGroup = getGroup(container, 'headers');
-      const valueInput = domQuery('input[name=ServiceTask_1-header-0-value]', headerGroup);
+      const valueInput = domQuery('textarea[name=ServiceTask_1-header-0-value]', headerGroup);
       changeInput(valueInput, 'newValue');
 
       // then
@@ -209,7 +209,7 @@ describe('provider/bpmn - Header', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const valueInput = domQuery('input[name=ServiceTask_1-header-0-value]', container);
+        const valueInput = domQuery('textarea[name=ServiceTask_1-header-0-value]', container);
         changeInput(valueInput, 'newValue');
 
         // when
