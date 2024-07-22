@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.18.1
+
+* `FEAT`: change Header value and Field Injection value fields to text areas ([bpmn-io/bpmn-js-properties-panel#1065](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1065))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.22.3`
+
 ## 5.18.0
 
 * `FEAT`: move popup editor close button ([bpmn-io/properties-panel#368](https://github.com/bpmn-io/properties-panel/pull/368))
