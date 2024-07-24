@@ -153,6 +153,98 @@ describe('provider/zeebe - CalledDecisionProps', function() {
     });
 
 
+    describe('#calledDecision.bindingType', function() {
+
+      it('should display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+        // assume
+        const bindingType = getBindingType(businessRuleTask);
+
+        expect(bindingType).to.equal('latest');
+
+        // when
+        await act(() => {
+          selection.select(businessRuleTask);
+        });
+
+        const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+        // then
+        expect(bindingTypeSelect).to.exist;
+
+        expect(bindingTypeSelect.value).to.equal('latest');
+      }));
+
+
+      it('should not display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        await act(() => {
+          selection.select(task);
+        });
+
+        const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+        // then
+        expect(bindingTypeSelect).not.to.exist;
+      }));
+
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_1');
+
+        await act(() => {
+          selection.select(businessRuleTask);
+        });
+
+        const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+        // when
+        changeInput(bindingTypeSelect, 'deployment');
+
+        // then
+        const bindingType = getBindingType(businessRuleTask);
+
+        expect(bindingType).to.equal('deployment');
+      }));
+
+
+      it('should update on external change',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const businessRuleTask = elementRegistry.get('BusinessRuleTask_1'),
+                originalValue = getBindingType(businessRuleTask);
+
+          await act(() => {
+            selection.select(businessRuleTask);
+          });
+
+          const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+          changeInput(bindingTypeSelect, 'deployment');
+
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(getBindingType(businessRuleTask)).to.eql(originalValue);
+        })
+      );
+
+    });
+
+
     describe('#calledDecision.resultVariable', function() {
 
       it('should display', inject(async function(elementRegistry, selection) {
@@ -253,6 +345,12 @@ export function getDecisionId(element) {
   const calledDecision = getCalledDecision(element);
 
   return calledDecision ? calledDecision.get('decisionId') : '';
+}
+
+export function getBindingType(element) {
+  const calledDecision = getCalledDecision(element);
+
+  return calledDecision ? calledDecision.get('bindingType') : '';
 }
 
 export function getResultVariable(element) {

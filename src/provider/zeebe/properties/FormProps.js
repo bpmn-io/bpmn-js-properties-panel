@@ -13,9 +13,12 @@ import {
   TextFieldEntry,
   TextAreaEntry,
   isFeelEntryEdited,
+  isSelectEntryEdited,
   isTextFieldEntryEdited,
   isTextAreaEntryEdited
 } from '@bpmn-io/properties-panel';
+
+import Binding from './shared/Binding';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
@@ -33,6 +36,8 @@ import {
   isZeebeUserTask,
   userTaskFormIdToFormKey
 } from '../utils/FormUtil';
+
+import { withProps } from '../../HOCs';
 
 const NONE_VALUE = 'none';
 
@@ -75,6 +80,14 @@ export function FormProps(props) {
       id: 'externalReference',
       component: ExternalReference,
       isEdited: isFeelEntryEdited
+    });
+  }
+
+  if (formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
+    entries.push({
+      id: 'bindingType',
+      component: withProps(Binding, { type: 'zeebe:FormDefinition' }),
+      isEdited: isSelectEntryEdited
     });
   }
 

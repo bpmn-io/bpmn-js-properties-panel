@@ -476,6 +476,70 @@ describe('provider/zeebe - Forms', function() {
       expectFormId(userTask, initialFormId);
     }));
 
+
+    describe('binding type', function() {
+
+      it('should display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const bindingTypeSelect = getBindingTypeSelect(container);
+
+        // then
+        expect(bindingTypeSelect).to.exist;
+      }));
+
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const bindingTypeSelect = getBindingTypeSelect(container);
+
+        // when
+        changeInput(bindingTypeSelect, 'deployment');
+
+        // then
+        expectBindingType(userTask, 'deployment');
+      }));
+
+
+      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const bindingTypeSelect = getBindingTypeSelect(container);
+        const initialBindingType = bindingTypeSelect.value;
+
+        changeInput(bindingTypeSelect, 'deployment');
+        expectBindingType(userTask, 'deployment');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        expectBindingType(userTask, initialBindingType);
+      }));
+
+    });
+
   });
 
 
@@ -675,6 +739,7 @@ describe('provider/zeebe - Forms', function() {
       expectExternalReference(userTask, initialFormKey);
     }));
   });
+
 });
 
 
@@ -700,11 +765,22 @@ function getFormTypeSelect(container) {
   return domQuery('select[name=formType]', container);
 }
 
+function getBindingTypeSelect(container) {
+  return domQuery('select[name=bindingType]', container);
+}
+
 function expectFormId(element, expected) {
   const formDefinition = getFormDefinition(element);
 
   expect(formDefinition).to.exist;
   expect(formDefinition.get('formId')).to.eql(expected);
+}
+
+function expectBindingType(element, expected) {
+  const formDefinition = getFormDefinition(element);
+
+  expect(formDefinition).to.exist;
+  expect(formDefinition.get('bindingType')).to.eql(expected);
 }
 
 function expectFormKey(element, expected) {
