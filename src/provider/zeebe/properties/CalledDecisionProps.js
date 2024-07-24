@@ -4,9 +4,13 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  TextFieldEntry, isTextFieldEntryEdited,
-  isFeelEntryEdited
+  isFeelEntryEdited,
+  isSelectEntryEdited,
+  isTextFieldEntryEdited,
+  TextFieldEntry
 } from '@bpmn-io/properties-panel';
+
+import Binding from './shared/Binding';
 
 import {
   getExtensionElementsList
@@ -20,6 +24,7 @@ import { useService } from '../../../hooks';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
+import { withProps } from '../../HOCs/withProps.js';
 
 
 export function CalledDecisionProps(props) {
@@ -36,6 +41,11 @@ export function CalledDecisionProps(props) {
       id: 'decisionId',
       component: DecisionID,
       isEdited: isFeelEntryEdited
+    },
+    {
+      id: 'bindingType',
+      component: withProps(Binding, { type: 'zeebe:CalledDecision' }),
+      isEdited: isSelectEntryEdited
     },
     {
       id: 'resultVariable',

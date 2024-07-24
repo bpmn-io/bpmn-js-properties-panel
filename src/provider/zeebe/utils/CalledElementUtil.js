@@ -25,6 +25,12 @@ export function getProcessId(element) {
   return calledElement ? calledElement.get('processId') : '';
 }
 
+export function getBindingType(element) {
+  const calledElement = getCalledElement(element);
+
+  return calledElement ? calledElement.get('bindingType') : '';
+}
+
 export function getCalledElement(element) {
   const calledElements = getCalledElements(element);
   return calledElements[0];

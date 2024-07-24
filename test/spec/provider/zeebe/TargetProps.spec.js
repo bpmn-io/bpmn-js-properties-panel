@@ -23,6 +23,7 @@ import {
 } from 'src/utils/ExtensionElementsUtil.js';
 
 import {
+  getBindingType,
   getCalledElement,
   getProcessId
 } from 'src/provider/zeebe/utils/CalledElementUtil.js';
@@ -219,6 +220,97 @@ describe('provider/zeebe - TargetProps', function() {
 
         // then
         expect(targetProcessIdInput.value).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:CallActivity#calledElement.bindingType', function() {
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const callActivity = elementRegistry.get('CallActivity_1');
+
+      // assume
+      const bindingType = getBindingType(callActivity);
+
+      expect(bindingType).to.equal('latest');
+
+      // when
+      await act(() => {
+        selection.select(callActivity);
+      });
+
+      const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+      // then
+      expect(bindingTypeSelect).to.exist;
+
+      expect(bindingTypeSelect.value).to.equal('latest');
+    }));
+
+
+    it('should not display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(task);
+      });
+
+      const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+      // then
+      expect(bindingTypeSelect).not.to.exist;
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const callActivity = elementRegistry.get('CallActivity_1');
+
+      await act(() => {
+        selection.select(callActivity);
+      });
+
+      const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+
+      // when
+      changeInput(bindingTypeSelect, 'deployment');
+
+      // then
+      const bindingType = getBindingType(callActivity);
+
+      expect(bindingType).to.equal('deployment');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1'),
+              originalValue = getBindingType(callActivity);
+
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        const bindingTypeSelect = domQuery('select[name=bindingType]', container);
+        changeInput(bindingTypeSelect, 'deployment');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(getBindingType(callActivity)).to.eql(originalValue);
       })
     );
 

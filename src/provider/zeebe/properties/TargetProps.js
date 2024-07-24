@@ -4,8 +4,11 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
-  isFeelEntryEdited
+  isFeelEntryEdited,
+  isSelectEntryEdited
 } from '@bpmn-io/properties-panel';
+
+import Binding from './shared/Binding';
 
 import {
   createElement
@@ -19,6 +22,8 @@ import {
 import { useService } from '../../../hooks';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+
+import { withProps } from '../../HOCs/withProps.js';
 
 
 export function TargetProps(props) {
@@ -35,6 +40,11 @@ export function TargetProps(props) {
       id: 'targetProcessId',
       component: TargetProcessId,
       isEdited: isFeelEntryEdited
+    },
+    {
+      id: 'bindingType',
+      component: withProps(Binding, { type: 'zeebe:CalledElement' }),
+      isEdited: isSelectEntryEdited
     }
   ];
 }

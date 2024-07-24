@@ -278,6 +278,23 @@ const TooltipProvider = {
         </p>
       </div>
     );
+  },
+  'bindingType': (element) => {
+
+    const translate = useService('translate');
+
+    return (
+      <div>
+        <p>
+          <h1>{ translate('Latest binding') }</h1>
+          { translate('Uses the most recent deployed resource.') }
+        </p>
+        <p>
+          <h1>{ translate('Deployment binding') }</h1>
+          { translate('Uses the resource found in the same deployment.') }
+        </p>
+      </div>
+    );
   }
 };
 
