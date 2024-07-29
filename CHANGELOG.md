@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.20.0
+
+* `FEAT`: add `Binding` entry to busines rule task, call activity and user task ([#1067](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1067))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.22.4`
+* `DEPS`: update to `camunda-bpmn-js-behaviors@1.5.0`
+* `DEPS`: update to `zeebe-bpmn-moddle@1.4.0`
+
 ## 5.19.0
 
 * `FEAT`: support Zeebe execution listeners ([#1048](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1048))
