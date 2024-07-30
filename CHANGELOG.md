@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.20.1
+
+* `DEPS`: update to `@bpmn-io/properties-panel@3.23.0`
+
 ## 5.20.0
 
 * `FEAT`: add `Binding` entry to busines rule task, call activity and user task ([#1067](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1067))
