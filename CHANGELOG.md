@@ -8,7 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 5.21.0
 
-* `FEAT`: automatically resize text areas ([#1068](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/713))
+* `FEAT`: automatically resize text areas ([#713](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/713))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.23.0`
 
 ## 5.20.0
