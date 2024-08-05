@@ -125,7 +125,7 @@ function TaskDefinitionType(props) {
   return FeelEntryWithVariableContext({
     element,
     id,
-    label: translate('Type'),
+    label: translate('Job Type'),
     feel: 'optional',
     getValue,
     setValue,
