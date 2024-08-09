@@ -85,6 +85,7 @@ import TaskNoneIcon from './bpmn-icon-task-none.svg';
 import TextAnnotationicon from './bpmn-icon-text-annotation.svg';
 import TransactionIcon from './bpmn-icon-transaction.svg';
 import UserTaskIcon from './bpmn-icon-user-task.svg';
+import MultipleElementsIcon from './icon-multiple-elements.svg';
 
 export default {
   'Association': AssociationIcon,
@@ -195,5 +196,6 @@ export default {
   'Task': TaskNoneIcon,
   'TextAnnotation': TextAnnotationicon,
   'Transaction': TransactionIcon,
-  'UserTask': UserTaskIcon
+  'UserTask': UserTaskIcon,
+  'multipleElements': MultipleElementsIcon
 };

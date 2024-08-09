@@ -19,6 +19,7 @@ import {
 } from '../utils/ZeebeServiceTaskUtil';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { isArray } from 'min-dash';
 
 
 export function TaskDefinitionProps(props) {
@@ -26,7 +27,9 @@ export function TaskDefinitionProps(props) {
     element
   } = props;
 
-  if (!isZeebeServiceTask(element)) {
+  const elements = isArray(element) ? element : [ element ];
+
+  if (!elements.every(isZeebeServiceTask)) {
     return [];
   }
 
@@ -50,73 +53,87 @@ function TaskDefinitionType(props) {
     id
   } = props;
 
+  const elements = isArray(element) ? element : [ element ];
+
   const commandStack = useService('commandStack');
   const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
+  const firstElement = elements[ 0 ];
+
+  const sameValue = elements.every((element) => {
+    return (getTaskDefinition(element) || {}).type === (getTaskDefinition(firstElement) || {}).type;
+  });
+
   const getValue = () => {
-    return (getTaskDefinition(element) || {}).type;
+    if (!sameValue) {
+      return '';
+    }
+
+    return (getTaskDefinition(firstElement) || {}).type;
   };
 
   const setValue = (value) => {
     const commands = [];
 
-    const businessObject = getBusinessObject(element);
+    for (const _element of elements) {
+      const businessObject = getBusinessObject(_element);
 
-    let extensionElements = businessObject.get('extensionElements');
+      let extensionElements = businessObject.get('extensionElements');
 
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
+      // (1) ensure extension elements
+      if (!extensionElements) {
+        extensionElements = createElement(
+          'bpmn:ExtensionElements',
+          { values: [] },
+          businessObject,
+          bpmnFactory
+        );
 
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) ensure task definition
-    let taskDefinition = getTaskDefinition(element);
-
-    if (!taskDefinition) {
-      taskDefinition = createElement(
-        'zeebe:TaskDefinition',
-        { },
-        extensionElements,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: extensionElements,
-          properties: {
-            values: [ ...extensionElements.get('values'), taskDefinition ]
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element: _element,
+            moddleElement: businessObject,
+            properties: { extensionElements }
           }
+        });
+      }
+
+      // (2) ensure task definition
+      let taskDefinition = getTaskDefinition(_element);
+
+      if (!taskDefinition) {
+        taskDefinition = createElement(
+          'zeebe:TaskDefinition',
+          { },
+          extensionElements,
+          bpmnFactory
+        );
+
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element: _element,
+            moddleElement: extensionElements,
+            properties: {
+              values: [ ...extensionElements.get('values'), taskDefinition ]
+            }
+          }
+        });
+      }
+
+      // (3) update task definition type
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element: _element,
+          moddleElement: taskDefinition,
+          properties: { type: value }
         }
       });
     }
-
-    // (3) update task definition type
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: taskDefinition,
-        properties: { type: value }
-      }
-    });
 
     // (4) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
@@ -129,7 +146,8 @@ function TaskDefinitionType(props) {
     feel: 'optional',
     getValue,
     setValue,
-    debounce
+    debounce,
+    placeholder: sameValue ? null : translate('Multiple values')
   });
 }
 
@@ -139,73 +157,87 @@ function TaskDefinitionRetries(props) {
     id
   } = props;
 
+  const elements = isArray(element) ? element : [ element ];
+
   const commandStack = useService('commandStack');
   const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
   const getValue = () => {
-    return (getTaskDefinition(element) || {}).retries;
+    const firstElement = elements[ 0 ];
+
+    const sameValue = elements.every((element) => {
+      return (getTaskDefinition(element) || {}).retries === (getTaskDefinition(firstElement) || {}).retries;
+    });
+
+    if (!sameValue) {
+      return '';
+    }
+
+    return (getTaskDefinition(firstElement) || {}).retries;
   };
 
   const setValue = (value) => {
     let commands = [];
 
-    const businessObject = getBusinessObject(element);
+    for (const _element of elements) {
+      const businessObject = getBusinessObject(element);
 
-    let extensionElements = businessObject.get('extensionElements');
+      let extensionElements = businessObject.get('extensionElements');
 
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
+      // (1) ensure extension elements
+      if (!extensionElements) {
+        extensionElements = createElement(
+          'bpmn:ExtensionElements',
+          { values: [] },
+          businessObject,
+          bpmnFactory
+        );
 
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) ensure task definition
-    let taskDefinition = getTaskDefinition(element);
-
-    if (!taskDefinition) {
-      taskDefinition = createElement(
-        'zeebe:TaskDefinition',
-        { },
-        extensionElements,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: extensionElements,
-          properties: {
-            values: [ ...extensionElements.get('values'), taskDefinition ]
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element: _element,
+            moddleElement: businessObject,
+            properties: { extensionElements }
           }
+        });
+      }
+
+      // (2) ensure task definition
+      let taskDefinition = getTaskDefinition(element);
+
+      if (!taskDefinition) {
+        taskDefinition = createElement(
+          'zeebe:TaskDefinition',
+          { },
+          extensionElements,
+          bpmnFactory
+        );
+
+        commands.push({
+          cmd: 'element.updateModdleProperties',
+          context: {
+            element: _element,
+            moddleElement: extensionElements,
+            properties: {
+              values: [ ...extensionElements.get('values'), taskDefinition ]
+            }
+          }
+        });
+      }
+
+      // (3) update task definition retries
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element: _element,
+          moddleElement: taskDefinition,
+          properties: { retries: value }
         }
       });
     }
-
-    // (3) update task definition retries
-    commands.push({
-      cmd: 'element.updateModdleProperties',
-      context: {
-        element,
-        moddleElement: taskDefinition,
-        properties: { retries: value }
-      }
-    });
 
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };

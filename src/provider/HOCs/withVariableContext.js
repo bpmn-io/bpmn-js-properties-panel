@@ -1,6 +1,7 @@
 import { getVariablesForElement } from '@bpmn-io/extract-process-variables/zeebe';
 import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 import { useService } from '../../hooks';
+import { isArray } from 'min-dash';
 
 const fallbackResolver = {
   getVariablesForElement: bo => getVariablesForElement(bo)
@@ -9,6 +10,10 @@ const fallbackResolver = {
 export function withVariableContext(Component) {
   return props => {
     const { bpmnElement, element } = props;
+
+    if (isArray(element) && element.length > 1) {
+      return <Component { ...props } variables={ [] }></Component>;
+    }
 
     const bo = (bpmnElement || element).businessObject;
 

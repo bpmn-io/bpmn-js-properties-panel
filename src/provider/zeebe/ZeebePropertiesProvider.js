@@ -81,6 +81,10 @@ export default class ZeebePropertiesProvider {
       // (3) remove message group when not applicable
       groups = removeMessageGroup(groups, element);
 
+      if (element.length > 1) {
+        return groups.filter(group => group.multiElement);
+      }
+
       return groups;
     };
   }
@@ -132,7 +136,8 @@ function TaskDefinitionGroup(element, injector) {
     entries: [
       ...TaskDefinitionProps({ element })
     ],
-    component: Group
+    component: Group,
+    multiElement: true
   };
 
   return group.entries.length ? group : null;
@@ -302,6 +307,7 @@ function AssignmentDefinitionGroup(element, injector) {
 }
 
 function ExecutionListenersGroup(element, injector) {
+  if (element.length > 1) return null;
   const translate = injector.get('translate');
   const group = {
     label: translate('Execution listeners'),
@@ -318,6 +324,8 @@ function ExecutionListenersGroup(element, injector) {
 }
 
 function ExtensionPropertiesGroup(element, injector) {
+  if (element.length > 1) return null;
+
   const translate = injector.get('translate');
   const group = {
     label: translate('Extension properties'),

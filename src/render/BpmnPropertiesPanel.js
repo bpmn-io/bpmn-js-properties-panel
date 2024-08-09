@@ -180,10 +180,10 @@ export default function BpmnPropertiesPanel(props) {
   const groups = useMemo(() => {
     return reduce(providers, function(groups, provider) {
 
-      // do not collect groups for multi element state
-      if (isArray(selectedElement)) {
-        return [];
-      }
+      // // do not collect groups for multi element state
+      // if (isArray(selectedElement)) {
+      //   return [];
+      // }
 
       const updater = provider.getGroups(selectedElement);
 

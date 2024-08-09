@@ -160,6 +160,8 @@ function EscalationGroup(element, injector) {
 }
 
 function TimerGroup(element, injector) {
+  if (element.length > 1) return null;
+
   const translate = injector.get('translate');
   const group = {
     label: translate('Timer'),

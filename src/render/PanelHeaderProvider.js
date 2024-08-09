@@ -67,6 +67,8 @@ export function getConcreteType(element) {
 }
 
 export const PanelHeaderProvider = (translate) => {
+  debugger;
+
   if (!translate) translate = (text) => text;
   return {
     getDocumentationRef: (element) => {
@@ -77,12 +79,20 @@ export const PanelHeaderProvider = (translate) => {
       }
     },
 
+    getMultiElementDocumentationRef: (elements) => {
+      return null;
+    },
+
     getElementLabel: (element) => {
       if (is(element, 'bpmn:Process')) {
         return getBusinessObject(element).name;
       }
 
       return getLabel(element);
+    },
+
+    getMultiElementLabel: (elements) => {
+      return null;
     },
 
     getElementIcon: (element) => {
@@ -102,6 +112,16 @@ export const PanelHeaderProvider = (translate) => {
       return iconsByType[ concreteType ];
     },
 
+    getMultiElementIcon: (elements) => {
+      const sameType = elements.every(e => e.type === elements[0].type);
+
+      if (sameType) {
+        return iconsByType[ getConcreteType(elements[0]) ];
+      }
+
+      return iconsByType[ 'multipleElements' ];
+    },
+
     getTypeLabel: (element) => {
       const elementTemplates = getTemplatesService();
 
@@ -118,6 +138,10 @@ export const PanelHeaderProvider = (translate) => {
       return translate(concreteType
         .replace(/(\B[A-Z])/g, ' $1')
         .replace(/(\bNon Interrupting)/g, '($1)'));
+    },
+
+    getMultiElementTypeLabel: (elements) => {
+      return translate(elements.length + ' selected');
     }
   };
 };
