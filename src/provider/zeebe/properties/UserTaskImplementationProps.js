@@ -21,7 +21,8 @@ import {
 import { useService } from '../../../hooks';
 
 export const ZEEBE_USER_TASK_IMPLEMENTATION_OPTION = 'zeebeUserTask',
-      JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker';
+      JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
+      MULTIPLE_VALUES = '';
 
 
 export function UserTaskImplementationProps(props) {
@@ -29,7 +30,9 @@ export function UserTaskImplementationProps(props) {
     element
   } = props;
 
-  if (!is(element, 'bpmn:UserTask')) {
+  const elements = Array.isArray(element) ? element : [ element ];
+
+  if (!elements.every(element => is(element, 'bpmn:UserTask'))) {
     return [];
   }
 
@@ -37,7 +40,7 @@ export function UserTaskImplementationProps(props) {
     {
       id: 'userTaskImplementation',
       component: UserTaskImplementation,
-      isEdited: () => isUserTaskImplementationEdited(element)
+      isEdited: () => elements.some(isUserTaskImplementationEdited)
     }
   ];
 }
@@ -48,12 +51,22 @@ function UserTaskImplementation(props) {
     id
   } = props;
 
+  const elements = Array.isArray(element) ? element : [ element ];
+
   const commandStack = useService('commandStack');
   const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
 
+  const sameValues = elements.every(element => {
+    return getZeebeUserTask(element) === getZeebeUserTask(elements[0]);
+  });
+
   const getValue = () => {
-    if (getZeebeUserTask(element)) {
+    if (!sameValues) {
+      return MULTIPLE_VALUES;
+    }
+
+    if (getZeebeUserTask(elements[0])) {
       return ZEEBE_USER_TASK_IMPLEMENTATION_OPTION;
     }
 
@@ -66,6 +79,10 @@ function UserTaskImplementation(props) {
    * will be ensured by a camunda-bpmn-js behavior (and not by the propPanel).
    */
   const setValue = (value) => {
+    if (value === MULTIPLE_VALUES) {
+      return;
+    }
+
     if (value === ZEEBE_USER_TASK_IMPLEMENTATION_OPTION) {
       createZeebeUserTask(element, bpmnFactory, commandStack);
     } else if (value === JOB_WORKER_IMPLEMENTATION_OPTION) {
@@ -80,6 +97,10 @@ function UserTaskImplementation(props) {
       { value: JOB_WORKER_IMPLEMENTATION_OPTION, label: translate('Job worker') }
     ];
 
+    if (!sameValues) {
+      options.unshift({ value: MULTIPLE_VALUES, label: translate('Multiple values'), disabled: true, hidden: true });
+    }
+
     return options;
   };
 
@@ -89,7 +110,8 @@ function UserTaskImplementation(props) {
     label: translate('Type'),
     getValue,
     setValue,
-    getOptions
+    getOptions,
+    placeholder: sameValues ? null : translate('Multiple values')
   });
 }
 

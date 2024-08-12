@@ -82,7 +82,7 @@ export default class ZeebePropertiesProvider {
       groups = removeMessageGroup(groups, element);
 
       if (element.length > 1) {
-        return groups.filter(group => group.multiElement);
+        groups = groups.filter(group => group.multiElement);
       }
 
       return groups;
@@ -285,7 +285,8 @@ function UserTaskImplementationGroup(element, injector) {
     entries: [
       ...UserTaskImplementationProps({ element })
     ],
-    component: Group
+    component: Group,
+    multiElement: true
   };
 
   return group.entries.length ? group : null;
