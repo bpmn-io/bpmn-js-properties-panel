@@ -295,6 +295,17 @@ const TooltipProvider = {
         </p>
       </div>
     );
+  },
+  'priorityDefinitionPriority': (element) => {
+
+    const translate = useService('translate');
+
+    return (
+      <div>
+        <p>{ translate('An integer value that can range from 0 to 100, where a higher value indicates a higher priority.') }</p>
+        <p>{ translate('If unset, the default value is 50.') }</p>
+      </div>
+    );
   }
 };
 

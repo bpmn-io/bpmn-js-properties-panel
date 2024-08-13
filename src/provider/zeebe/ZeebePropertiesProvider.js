@@ -16,6 +16,7 @@ import {
   MultiInstanceProps,
   OutputPropagationProps,
   OutputProps,
+  PriorityDefinitionProps,
   ScriptImplementationProps,
   ScriptProps,
   SignalProps,
@@ -293,7 +294,8 @@ function AssignmentDefinitionGroup(element, injector) {
     label: translate('Assignment'),
     entries: [
       ...AssignmentDefinitionProps({ element }),
-      ...TaskScheduleProps({ element })
+      ...TaskScheduleProps({ element }),
+      ...PriorityDefinitionProps({ element })
     ],
     component: Group
   };
