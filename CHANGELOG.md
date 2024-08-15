@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add _Priority_ entry to user task _Assignment_ group ([#1072](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1072))
+
 ## 5.21.0
 
 * `FEAT`: automatically resize text areas ([#713](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/713))
