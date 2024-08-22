@@ -9,7 +9,7 @@ ___Note:__ Yet to be released changes appear here._
 ## 5.22.0
 
 * `FEAT`: support maintaining `zeebe:priorityDefinition:priority` for user task ([#1072](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1072))
-* `FIX`: rename task definition type label ([#3534](https://github.com/camunda/camunda-modeler/issues/3534))
+* `FIX`: rename task definition type label ([#1070](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1070))
 * `DEPS`: update to `zeebe-bpmn-moddle@1.5.1`
 
 ## 5.21.0
