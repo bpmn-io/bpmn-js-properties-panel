@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
-  is
+  is,
+  isAny
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
@@ -293,13 +294,17 @@ const TooltipProvider = {
           <h1>{ translate('Deployment binding') }</h1>
           { translate('Uses the resource found in the same deployment.') }
         </p>
+        <p>
+          <h1>{ translate('Version tag binding') }</h1>
+          { translate('Uses the most recent deployed resource with the given version tag.') }
+        </p>
       </div>
     );
   },
   'versionTag': (element) => {
     const translate = useService('translate');
 
-    if (is(element, 'bpmn:Process')) {
+    if (isAny(element, [ 'bpmn:Process', 'bpmn:Participant' ])) {
       return (
         <div>
           <p>
