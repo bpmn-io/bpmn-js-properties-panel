@@ -7,7 +7,11 @@
         <zeebe:calledDecision decisionId="myDecisionId" resultVariable="myResultVariable" />
       </bpmn:extensionElements>
     </bpmn:businessRuleTask>
-    <bpmn:businessRuleTask id="BusinessRuleTask_2" name="BusinessRuleTask_2" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_2" name="BusinessRuleTask_2">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision decisionId="myDecisionId" resultVariable="myResultVariable" bindingType="versionTag" versionTag="v1.0.0" />
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0mgn9vm">

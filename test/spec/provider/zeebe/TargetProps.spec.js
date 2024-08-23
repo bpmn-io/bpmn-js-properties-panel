@@ -28,6 +28,8 @@ import {
   getProcessId
 } from 'src/provider/zeebe/utils/CalledElementUtil.js';
 
+import { getVersionTag } from 'src/provider/zeebe/properties/shared/VersionTag';
+
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -311,6 +313,97 @@ describe('provider/zeebe - TargetProps', function() {
 
         // then
         expect(getBindingType(callActivity)).to.eql(originalValue);
+      })
+    );
+
+  });
+
+
+  describe('bpmn:CallActivity#calledElement.versionTag', function() {
+
+    it('should display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const callActivity = elementRegistry.get('CallActivity_4');
+
+      // assume
+      const versionTag = getVersionTag(callActivity);
+
+      expect(versionTag).to.equal('v1.0.0');
+
+      // when
+      await act(() => {
+        selection.select(callActivity);
+      });
+
+      const versionTagInput = domQuery('input[name=versionTag]', container);
+
+      // then
+      expect(versionTagInput).to.exist;
+
+      expect(versionTagInput.value).to.equal('v1.0.0');
+    }));
+
+
+    it('should not display', inject(async function(elementRegistry, selection) {
+
+      // given
+      const task = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(task);
+      });
+
+      const versionTagInput = domQuery('input[name=versionTag]', container);
+
+      // then
+      expect(versionTagInput).not.to.exist;
+    }));
+
+
+    it('should update', inject(async function(elementRegistry, selection) {
+
+      // given
+      const callActivity = elementRegistry.get('CallActivity_4');
+
+      await act(() => {
+        selection.select(callActivity);
+      });
+
+      const versionTagInput = domQuery('input[name=versionTag]', container);
+
+      // when
+      changeInput(versionTagInput, 'v2.0.0');
+
+      // then
+      const versionTag = getVersionTag(callActivity);
+
+      expect(versionTag).to.equal('v2.0.0');
+    }));
+
+
+    it('should update on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_4'),
+              originalValue = getVersionTag(callActivity);
+
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        const versionTagInput = domQuery('input[name=versionTag]', container);
+        changeInput(versionTagInput, 'v2.0.0');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        // then
+        expect(getVersionTag(callActivity)).to.eql(originalValue);
       })
     );
 

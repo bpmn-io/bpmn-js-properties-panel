@@ -18,7 +18,8 @@ import {
   isTextAreaEntryEdited
 } from '@bpmn-io/properties-panel';
 
-import Binding from './shared/Binding';
+import Binding, { getBindingType } from './shared/Binding';
+import VersionTag from './shared/VersionTag';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
@@ -89,6 +90,14 @@ export function FormProps(props) {
       component: withProps(Binding, { type: 'zeebe:FormDefinition' }),
       isEdited: isSelectEntryEdited
     });
+
+    if (getBindingType(element, 'zeebe:FormDefinition') === 'versionTag') {
+      entries.push({
+        id: 'versionTag',
+        component: withProps(VersionTag, { type: 'zeebe:FormDefinition' }),
+        isEdited: isTextFieldEntryEdited
+      });
+    }
   }
 
   return entries;
