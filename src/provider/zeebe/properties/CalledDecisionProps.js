@@ -10,7 +10,8 @@ import {
   TextFieldEntry
 } from '@bpmn-io/properties-panel';
 
-import Binding from './shared/Binding';
+import Binding, { getBindingType } from './shared/Binding';
+import VersionTag from './shared/VersionTag.js';
 
 import {
   getExtensionElementsList
@@ -36,7 +37,7 @@ export function CalledDecisionProps(props) {
     return [];
   }
 
-  return [
+  const entries = [
     {
       id: 'decisionId',
       component: DecisionID,
@@ -46,13 +47,24 @@ export function CalledDecisionProps(props) {
       id: 'bindingType',
       component: withProps(Binding, { type: 'zeebe:CalledDecision' }),
       isEdited: isSelectEntryEdited
-    },
-    {
-      id: 'resultVariable',
-      component: ResultVariable,
-      isEdited: isTextFieldEntryEdited
     }
   ];
+
+  if (getBindingType(element, 'zeebe:CalledDecision') === 'versionTag') {
+    entries.push({
+      id: 'versionTag',
+      component: withProps(VersionTag, { type: 'zeebe:CalledDecision' }),
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  entries.push({
+    id: 'resultVariable',
+    component: ResultVariable,
+    isEdited: isTextFieldEntryEdited
+  });
+
+  return entries;
 }
 
 function DecisionID(props) {

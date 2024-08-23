@@ -1,6 +1,6 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
-import { SelectEntry } from '@bpmn-io/properties-panel';
+import { TextFieldEntry } from '@bpmn-io/properties-panel';
 
 import { createElement } from '../../../../utils/ElementUtil';
 
@@ -8,7 +8,7 @@ import { useService } from '../../../../hooks';
 
 import { getExtensionElementsList } from '../../../../utils/ExtensionElementsUtil';
 
-export default function Binding(props) {
+export default function VersionTag(props) {
   const {
     element,
     type
@@ -16,9 +16,10 @@ export default function Binding(props) {
 
   const bpmnFactory = useService('bpmnFactory'),
         commandStack = useService('commandStack'),
+        debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  const getValue = () => getBindingType(element, type);
+  const getValue = () => getVersionTag(element, type);
 
   const setValue = value => {
     const commands = [];
@@ -70,14 +71,14 @@ export default function Binding(props) {
 
     }
 
-    // (3) Update bindingType attribute
+    // (3) Update versionTag attribute
     commands.push({
       cmd: 'element.updateModdleProperties',
       context: {
         element,
         moddleElement: extensionElement,
         properties: {
-          bindingType: value
+          versionTag: value
         }
       }
     });
@@ -86,30 +87,24 @@ export default function Binding(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  const getOptions = () => ([
-    { value: 'latest', label: translate('latest') },
-    { value: 'deployment', label: translate('deployment') },
-    { value: 'versionTag', label: translate('version tag') }
-  ]);
-
-  return <SelectEntry
-    element={ element }
-    id="bindingType"
-    label={ translate('Binding') }
-    getValue={ getValue }
-    setValue={ setValue }
-    getOptions={ getOptions }
-  />;
+  return TextFieldEntry({
+    element,
+    id: 'versionTag',
+    label: translate('Version tag'),
+    getValue,
+    setValue,
+    debounce
+  });
 }
 
-export function getBindingType(element, type) {
+export function getVersionTag(element, type) {
   const businessObject = getBusinessObject(element);
 
   const extensionElement = getExtensionElementsList(businessObject, type)[ 0 ];
 
   if (!extensionElement) {
-    return 'latest';
+    return '';
   }
 
-  return extensionElement.get('bindingType');
+  return extensionElement.get('versionTag') || '';
 }

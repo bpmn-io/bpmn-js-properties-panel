@@ -5,10 +5,12 @@ import {
 
 import {
   isFeelEntryEdited,
-  isSelectEntryEdited
+  isSelectEntryEdited,
+  isTextFieldEntryEdited
 } from '@bpmn-io/properties-panel';
 
-import Binding from './shared/Binding';
+import Binding, { getBindingType } from './shared/Binding';
+import VersionTag from './shared/VersionTag.js';
 
 import {
   createElement
@@ -35,7 +37,7 @@ export function TargetProps(props) {
     return [];
   }
 
-  return [
+  const entries = [
     {
       id: 'targetProcessId',
       component: TargetProcessId,
@@ -47,6 +49,16 @@ export function TargetProps(props) {
       isEdited: isSelectEntryEdited
     }
   ];
+
+  if (getBindingType(element, 'zeebe:CalledElement') === 'versionTag') {
+    entries.push({
+      id: 'versionTag',
+      component: withProps(VersionTag, { type: 'zeebe:CalledElement' }),
+      isEdited: isTextFieldEntryEdited
+    });
+  }
+
+  return entries;
 }
 
 function TargetProcessId(props) {

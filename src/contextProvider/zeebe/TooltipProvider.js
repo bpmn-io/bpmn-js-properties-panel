@@ -297,16 +297,41 @@ const TooltipProvider = {
     );
   },
   'versionTag': (element) => {
-
     const translate = useService('translate');
 
-    return (
-      <div>
-        <p>
-          { translate('Specifying a version tag will allow you to reference this process in another process.') }
-        </p>
-      </div>
-    );
+    if (is(element, 'bpmn:Process')) {
+      return (
+        <div>
+          <p>
+            { translate('Version tag by which this process can be referenced.') }
+          </p>
+        </div>
+      );
+    } else if (is(element, 'bpmn:CallActivity')) {
+      return (
+        <div>
+          <p>
+            { translate('Version tag by which the called process will be referenced.') }
+          </p>
+        </div>
+      );
+    } else if (is(element, 'bpmn:BusinessRuleTask')) {
+      return (
+        <div>
+          <p>
+            { translate('Version tag by which the called decision will be referenced.') }
+          </p>
+        </div>
+      );
+    } else if (is(element, 'bpmn:UserTask')) {
+      return (
+        <div>
+          <p>
+            { translate('Version tag by which the linked form will be referenced.') }
+          </p>
+        </div>
+      );
+    }
   },
   'priorityDefinitionPriority': (element) => {
 

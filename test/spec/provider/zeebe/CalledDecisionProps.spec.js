@@ -245,6 +245,98 @@ describe('provider/zeebe - CalledDecisionProps', function() {
     });
 
 
+    describe('#calledDecision.versionTag', function() {
+
+      it('should display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
+
+        // assume
+        const versionTag = getVersionTag(businessRuleTask);
+
+        expect(versionTag).to.equal('v1.0.0');
+
+        // when
+        await act(() => {
+          selection.select(businessRuleTask);
+        });
+
+        const versionTagInput = domQuery('input[name=versionTag]', container);
+
+        // then
+        expect(versionTagInput).to.exist;
+
+        expect(versionTagInput.value).to.equal('v1.0.0');
+      }));
+
+
+      it('should not display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const task = elementRegistry.get('Task_1');
+
+        // when
+        await act(() => {
+          selection.select(task);
+        });
+
+        const versionTagInput = domQuery('input[name=versionTag]', container);
+
+        // then
+        expect(versionTagInput).not.to.exist;
+      }));
+
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const businessRuleTask = elementRegistry.get('BusinessRuleTask_2');
+
+        await act(() => {
+          selection.select(businessRuleTask);
+        });
+
+        const versionTagInput = domQuery('input[name=versionTag]', container);
+
+        // when
+        changeInput(versionTagInput, 'v2.0.0');
+
+        // then
+        const versionTag = getVersionTag(businessRuleTask);
+
+        expect(versionTag).to.equal('v2.0.0');
+      }));
+
+
+      it('should update on external change',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const businessRuleTask = elementRegistry.get('BusinessRuleTask_2'),
+                originalValue = getVersionTag(businessRuleTask);
+
+          await act(() => {
+            selection.select(businessRuleTask);
+          });
+
+          const versionTagInput = domQuery('input[name=versionTag]', container);
+
+          changeInput(versionTagInput, 'v2.0.0');
+
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(getVersionTag(businessRuleTask)).to.eql(originalValue);
+        })
+      );
+
+    });
+
+
     describe('#calledDecision.resultVariable', function() {
 
       it('should display', inject(async function(elementRegistry, selection) {
@@ -351,6 +443,12 @@ export function getBindingType(element) {
   const calledDecision = getCalledDecision(element);
 
   return calledDecision ? calledDecision.get('bindingType') : '';
+}
+
+export function getVersionTag(element) {
+  const calledDecision = getCalledDecision(element);
+
+  return calledDecision ? calledDecision.get('versionTag') : '';
 }
 
 export function getResultVariable(element) {

@@ -540,6 +540,70 @@ describe('provider/zeebe - Forms', function() {
 
     });
 
+
+    describe('version tag', function() {
+
+      it('should display', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const versionTagInput = getVersionTagInput(container);
+
+        // then
+        expect(versionTagInput).to.exist;
+      }));
+
+
+      it('should update', inject(async function(elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const versionTagInput = getVersionTagInput(container);
+
+        // when
+        changeInput(versionTagInput, 'v2.0.0');
+
+        // then
+        expectVersionTag(userTask, 'v2.0.0');
+      }));
+
+
+      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const versionTagInput = getVersionTagInput(container);
+        const initialVersionTag = versionTagInput.value;
+
+        changeInput(versionTagInput, 'v2.0.0');
+        expectVersionTag(userTask, 'v2.0.0');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        expectVersionTag(userTask, initialVersionTag);
+      }));
+
+    });
+
   });
 
 
@@ -769,6 +833,10 @@ function getBindingTypeSelect(container) {
   return domQuery('select[name=bindingType]', container);
 }
 
+function getVersionTagInput(container) {
+  return domQuery('input[name=versionTag]', container);
+}
+
 function expectFormId(element, expected) {
   const formDefinition = getFormDefinition(element);
 
@@ -781,6 +849,13 @@ function expectBindingType(element, expected) {
 
   expect(formDefinition).to.exist;
   expect(formDefinition.get('bindingType')).to.eql(expected);
+}
+
+function expectVersionTag(element, expected) {
+  const formDefinition = getFormDefinition(element);
+
+  expect(formDefinition).to.exist;
+  expect(formDefinition.get('versionTag')).to.eql(expected);
 }
 
 function expectFormKey(element, expected) {
