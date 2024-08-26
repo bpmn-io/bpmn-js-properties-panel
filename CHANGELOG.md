@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.23.0
+
+* `FEAT`: support maintaning `Version Tag` for Camunda 8 diagrams ([#1062](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1062))
+* `DEPS`: update to `camunda-bpmn-js-behaviors@1.6.0`
+* `DEPS`: update to `zeebe-bpmn-moddle@1.6.0`
+
 ## 5.22.0
 
 * `FEAT`: support maintaining `zeebe:priorityDefinition:priority` for user task ([#1072](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1072))
