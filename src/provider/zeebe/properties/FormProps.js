@@ -40,6 +40,9 @@ import {
 
 import { withProps } from '../../HOCs';
 
+const FormDefinitionBinding = withProps(Binding, { type: 'zeebe:FormDefinition' }),
+      FormDefinitionVersionTag = withProps(VersionTag, { type: 'zeebe:FormDefinition' });
+
 const NONE_VALUE = 'none';
 
 
@@ -87,14 +90,14 @@ export function FormProps(props) {
   if (formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
     entries.push({
       id: 'bindingType',
-      component: withProps(Binding, { type: 'zeebe:FormDefinition' }),
+      component: FormDefinitionBinding,
       isEdited: isSelectEntryEdited
     });
 
     if (getBindingType(element, 'zeebe:FormDefinition') === 'versionTag') {
       entries.push({
         id: 'versionTag',
-        component: withProps(VersionTag, { type: 'zeebe:FormDefinition' }),
+        component: FormDefinitionVersionTag,
         isEdited: isTextFieldEntryEdited
       });
     }
