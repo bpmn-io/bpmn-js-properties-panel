@@ -25,7 +25,7 @@ export function PriorityDefinitionProps(props) {
     element
   } = props;
 
-  if (!is(element, 'bpmn:UserTask')) {
+  if (!isZeebeUserTask(element)) {
     return [];
   }
 
@@ -59,32 +59,13 @@ function Priority(props) {
 
     let extensionElements = businessObject.get('extensionElements');
 
-    // (1) ensure extension elements
-    if (!extensionElements) {
-      extensionElements = createElement(
-        'bpmn:ExtensionElements',
-        { values: [] },
-        businessObject,
-        bpmnFactory
-      );
-
-      commands.push({
-        cmd: 'element.updateModdleProperties',
-        context: {
-          element,
-          moddleElement: businessObject,
-          properties: { extensionElements }
-        }
-      });
-    }
-
-    // (2) ensure PriorityDefinition
+    // (1) ensure PriorityDefinition
     let priorityDefinition = getPriorityDefinition(element);
     const isNullValue = value === null || value === '' || value === undefined;
 
     if (priorityDefinition && isNullValue) {
 
-      // (3a) remove priority definition if it exists and priority is set to null
+      // (2a) remove priority definition if it exists and priority is set to null
       commands.push({
         cmd: 'element.updateModdleProperties',
         context: {
@@ -98,7 +79,7 @@ function Priority(props) {
 
     } else if (priorityDefinition && !isNullValue) {
 
-      // (3b) update priority definition if it already exists
+      // (2b) update priority definition if it already exists
       commands.push({
         cmd: 'element.updateModdleProperties',
         context: {
@@ -110,7 +91,7 @@ function Priority(props) {
 
     } else if (!priorityDefinition && !isNullValue) {
 
-      // (3c) create priority definition if it does not exist
+      // (2c) create priority definition if it does not exist
       priorityDefinition = createElement(
         'zeebe:PriorityDefinition',
         { priority: value },
@@ -130,7 +111,7 @@ function Priority(props) {
       });
     }
 
-    // (4) commit all updates
+    // (3) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
@@ -152,4 +133,10 @@ export function getPriorityDefinition(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:PriorityDefinition')[0];
+}
+
+function isZeebeUserTask(element) {
+  const businessObject = getBusinessObject(element);
+
+  return is(element, 'bpmn:UserTask') && !!getExtensionElementsList(businessObject, 'zeebe:UserTask')[0];
 }

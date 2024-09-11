@@ -34,6 +34,7 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './PriorityDefinitionProps.bpmn';
 import { setEditorValue } from '../../../TestHelper';
+import { getExtensionElementsList } from '../../../../src/utils/ExtensionElementsUtil';
 
 
 describe('provider/zeebe - PriorityDefinitionProps', function() {
@@ -73,6 +74,23 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
 
       await act(() => {
         selection.select(serviceTask);
+      });
+
+      // when
+      const priorityInput = domQuery('input[name=priorityDefinitionPriority]', container);
+
+      // then
+      expect(priorityInput).to.not.exist;
+    }));
+
+
+    it('should NOT display for user task without zeebe:UserTask', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_0');
+
+      await act(() => {
+        selection.select(userTask);
       });
 
       // when
@@ -153,14 +171,14 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
     );
 
 
-    it('should create non-existing extension elements and priority definition',
+    it('should create priority definition',
       inject(async function(elementRegistry, selection) {
 
         // given
         const userTask = elementRegistry.get('UserTask_2');
 
         // assume
-        expect(getBusinessObject(userTask).get('extensionElements')).to.not.exist;
+        expect(getExtensionElementsList(getBusinessObject(userTask), 'zeebe:priorityDefinition')).to.be.empty;
 
         await act(() => {
           selection.select(userTask);
@@ -171,7 +189,8 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
         changeInput(priorityInput, 'newValue');
 
         // then
-        expect(getBusinessObject(userTask).get('extensionElements')).to.exist;
+        const priorityDefinitionElement = getExtensionElementsList(getBusinessObject(userTask), 'zeebe:PriorityDefinition')[0];
+        expect(priorityDefinitionElement).to.exist;
       })
     );
 
@@ -197,7 +216,7 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
         // then
         const extensionElements = getBusinessObject(userTask).get('extensionElements');
         expect(getPriorityDefinition(userTask).get('priority')).to.eql('newValue');
-        expect(extensionElements.values).to.have.length(2);
+        expect(extensionElements.values).to.have.length(3);
       })
     );
 
