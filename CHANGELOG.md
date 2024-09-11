@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.23.1
+
+* `FIX`: prevent focus loss of _Binding_ and _Version tag_ entries ([#1076](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1076))
+
 ## 5.23.0
 
 * `FEAT`: support maintaning `Version Tag` for Camunda 8 diagrams ([#1062](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1062))
