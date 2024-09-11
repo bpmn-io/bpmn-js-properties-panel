@@ -2,20 +2,28 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0sp2msp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.8.0-rc.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
   <bpmn:process id="Process_08jq0zy" isExecutable="true">
     <bpmn:serviceTask id="ServiceTask_1" name="ServiceTask_1" />
+    <bpmn:userTask id="UserTask_0" name="UserTask_0" />
     <bpmn:userTask id="UserTask_1" name="UserTask_1">
       <bpmn:extensionElements>
-        <zeebe:PriorityDefinition priority="=myPriorityValue" />
+        <zeebe:userTask />
+        <zeebe:priorityDefinition priority="=myPriorityValue" />
       </bpmn:extensionElements>
     </bpmn:userTask>
-    <bpmn:userTask id="UserTask_2" name="UserTask_2" />
+    <bpmn:userTask id="UserTask_2" name="UserTask_2">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
     <bpmn:userTask id="UserTask_3" name="UserTask_3">
       <bpmn:extensionElements>
+        <zeebe:userTask />
         <zeebe:assignmentDefinition assignee="foo" />
       </bpmn:extensionElements>
     </bpmn:userTask>
     <bpmn:userTask id="UserTask_4" name="UserTask_4">
       <bpmn:extensionElements>
-        <zeebe:PriorityDefinition priority="=myPriorityValue" />
+        <zeebe:userTask />
+        <zeebe:priorityDefinition priority="=myPriorityValue" />
       </bpmn:extensionElements>
     </bpmn:userTask>
   </bpmn:process>
