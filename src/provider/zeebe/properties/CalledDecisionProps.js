@@ -27,6 +27,9 @@ import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithCont
 
 import { withProps } from '../../HOCs/withProps.js';
 
+const CalledDecisionBinding = withProps(Binding, { type: 'zeebe:CalledDecision' }),
+      CalledDecisionVersionTag = withProps(VersionTag, { type: 'zeebe:CalledDecision' });
+
 
 export function CalledDecisionProps(props) {
   const {
@@ -45,7 +48,7 @@ export function CalledDecisionProps(props) {
     },
     {
       id: 'bindingType',
-      component: withProps(Binding, { type: 'zeebe:CalledDecision' }),
+      component: CalledDecisionBinding,
       isEdited: isSelectEntryEdited
     }
   ];
@@ -53,7 +56,7 @@ export function CalledDecisionProps(props) {
   if (getBindingType(element, 'zeebe:CalledDecision') === 'versionTag') {
     entries.push({
       id: 'versionTag',
-      component: withProps(VersionTag, { type: 'zeebe:CalledDecision' }),
+      component: CalledDecisionVersionTag,
       isEdited: isTextFieldEntryEdited
     });
   }
