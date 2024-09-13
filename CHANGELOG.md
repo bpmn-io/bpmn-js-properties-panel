@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.23.2
+
+* `FIX`: only show `zeebe:priorityDefinition` for Zeebe user tasks ([#1077](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1077))
+
 ## 5.23.1
 
 * `FIX`: prevent focus loss of _Binding_ and _Version tag_ entries ([#1076](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1076))
