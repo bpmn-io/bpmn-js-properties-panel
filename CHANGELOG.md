@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: lint first item access ([feel-lint#25](https://github.com/bpmn-io/feel-lint/issues/25)
+* `FEAT`: suggest Camunda 8.6 FEEL built-ins
+
 ## 5.23.2
 
 * `FIX`: only show `zeebe:priorityDefinition` for Zeebe user tasks ([#1077](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1077))
