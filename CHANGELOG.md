@@ -6,8 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.24.0
+
 * `FEAT`: lint first item access ([feel-lint#25](https://github.com/bpmn-io/feel-lint/issues/25)
 * `FEAT`: suggest Camunda 8.6 FEEL built-ins
+* `DEPS`: update to `@bpmn-io/properties-panel@3.24.0`
 
 ## 5.23.2
 
