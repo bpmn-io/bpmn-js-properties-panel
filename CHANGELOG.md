@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.25.0
+
+_No functional changes._
+
+* `DEPS`: bump to `@bpmn-io/extract-process-variables@1.0.0`
+
 ## 5.24.0
 
 * `FEAT`: lint first item access ([bpmn-io/feel-lint#25](https://github.com/bpmn-io/feel-lint/issues/25))
