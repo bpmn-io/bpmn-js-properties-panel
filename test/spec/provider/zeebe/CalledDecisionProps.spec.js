@@ -433,25 +433,25 @@ describe('provider/zeebe - CalledDecisionProps', function() {
 
 // helper //////////////
 
-export function getDecisionId(element) {
+function getDecisionId(element) {
   const calledDecision = getCalledDecision(element);
 
   return calledDecision ? calledDecision.get('decisionId') : '';
 }
 
-export function getBindingType(element) {
+function getBindingType(element) {
   const calledDecision = getCalledDecision(element);
 
   return calledDecision ? calledDecision.get('bindingType') : '';
 }
 
-export function getVersionTag(element) {
+function getVersionTag(element) {
   const calledDecision = getCalledDecision(element);
 
   return calledDecision ? calledDecision.get('versionTag') : '';
 }
 
-export function getResultVariable(element) {
+function getResultVariable(element) {
   const calledDecision = getCalledDecision(element);
 
   return calledDecision ? calledDecision.get('resultVariable') : '';

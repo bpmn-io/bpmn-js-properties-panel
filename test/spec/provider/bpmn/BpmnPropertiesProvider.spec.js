@@ -266,7 +266,7 @@ describe('<BpmnPropertiesProvider>', function() {
   }));
 
 
-  it('should NOT show signal group', inject(async function(elementRegistry, selection) {
+  it('should NOT show compensation group', inject(async function(elementRegistry, selection) {
 
     // given
     const startEvent = elementRegistry.get('StartEvent_1');

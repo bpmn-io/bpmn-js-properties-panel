@@ -805,7 +805,7 @@ describe('<CamundaPlatformPropertiesProvider>', function() {
       }));
 
 
-      it('should NOT show output group', inject(async function(elementRegistry, selection) {
+      it('should NOT show output group for end event', inject(async function(elementRegistry, selection) {
 
         // given
         const endEvent = elementRegistry.get('EndEvent_1');

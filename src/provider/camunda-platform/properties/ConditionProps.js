@@ -429,7 +429,7 @@ function VariableEvents(props) {
         <li><code>update</code></li>
         <li><code>delete</code></li>
       </ul>
-      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/custom-extensions/extension-attributes/#variableevents" target="_blank" rel="noopener">{ translate('Documentation: Variable events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/custom-extensions/extension-attributes/#variableevents" target="_blank" rel="noopener noreferrer">{ translate('Documentation: Variable events') }</a>
     </div>
   );
 
