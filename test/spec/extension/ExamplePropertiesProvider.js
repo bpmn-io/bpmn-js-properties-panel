@@ -219,7 +219,7 @@ function OrderingEntry(props) {
       <div class="bio-properties-panel-entry">
         <button onClick={ setRandomOrdering }>set random ordering</button>
         <div>
-          { ordering.map(o => <span>{ o }</span>)}
+          { ordering.map((o, index) => <span key={ index }>{ o }</span>)}
         </div>
       </div>
     </div>

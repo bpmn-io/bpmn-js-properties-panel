@@ -271,7 +271,7 @@ describe('provider/zeebe - ScriptProps', function() {
 
 // helper //////////////
 
-export function getExpression(element) {
+function getExpression(element) {
   const script = getScript(element);
 
   return script ? script.get('expression') : '';
@@ -281,7 +281,7 @@ function getExpressionInput(container) {
   return domQuery('[name=scriptExpression] [contenteditable]', container);
 }
 
-export function getResultVariable(element) {
+function getResultVariable(element) {
   const script = getScript(element);
 
   return script ? script.get('resultVariable') : '';

@@ -205,7 +205,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
         <li><code>2019-10-01T12:00:00Z</code> - { translate('UTC time') }</li>
         <li><code>2019-10-02T08:09:40+02:00</code> - { translate('UTC plus 2 hours zone offset') }</li>
       </ul>
-      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-date" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-date" target="_blank" rel="noopener noreferrer">{ translate('Documentation: Timer events') }</a>
     </div>);
 
   case 'timeCycle':
@@ -216,7 +216,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
         <li><code>R/P1D</code> - { translate('every day, infinitely') }</li>
         <li><code>0 0 9-17 * * MON-FRI</code> - { translate('every hour on the hour from 9-5 p.m. UTC Monday-Friday') }</li>
       </ul>
-      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-cycle" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-cycle" target="_blank" rel="noopener noreferrer">{ translate('Documentation: Timer events') }</a>
     </div>);
 
   case 'timeDuration':
@@ -227,7 +227,7 @@ function getTimerEventDefinitionValueDescription(timerDefinitionType, translate)
         <li><code>PT1H30M</code> - { translate('1 hour and 30 minutes') }</li>
         <li><code>P14D</code> - { translate('14 days') }</li>
       </ul>
-      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-duration" target="_blank" rel="noopener">{ translate('Documentation: Timer events') }</a>
+      <a href="https://docs.camunda.org/manual/latest/reference/bpmn20/events/timer-events/#time-duration" target="_blank" rel="noopener noreferrer">{ translate('Documentation: Timer events') }</a>
     </div>);
   }
 }
