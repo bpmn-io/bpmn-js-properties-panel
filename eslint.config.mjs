@@ -12,8 +12,7 @@ const files = {
     'test/**/*.js'
   ],
   ignored: [
-    'dist',
-    'preact'
+    'dist'
   ]
 };
 
