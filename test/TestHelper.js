@@ -34,6 +34,7 @@ const DEFAULT_AXE_RULES = [
 
 let PROPERTIES_PANEL_CONTAINER;
 
+// eslint-disable-next-line no-undef
 global.chai.use(function(chai, utils) {
 
   utils.addMethod(chai.Assertion.prototype, 'jsonEqual', function(comparison) {

@@ -2,16 +2,50 @@ import bpmnIoPlugin from 'eslint-plugin-bpmn-io';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import importPlugin from 'eslint-plugin-import';
 
-const buildScripts = [ '*.js', '*.mjs' ];
+const files = {
+  build: [
+    '*.js',
+    '*.mjs',
+    'test/distro/distroSpec.js'
+  ],
+  test: [
+    'test/**/*.js'
+  ],
+  ignored: [
+    'dist',
+    'preact'
+  ]
+};
+
 
 export default [
   {
-    ignores: [
-      'dist'
-    ]
+    ignores: files.ignored
   },
-  ...bpmnIoPlugin.configs.browser,
-  ...bpmnIoPlugin.configs.jsx,
+
+  // build
+  ...bpmnIoPlugin.configs.node.map(config => {
+    return {
+      ...config,
+      files: files.build
+    };
+  }),
+
+  // lib + test
+  ...bpmnIoPlugin.configs.browser.map(config => {
+    return {
+      ...config,
+      ignores: files.build
+    };
+  }),
+  ...bpmnIoPlugin.configs.jsx.map(config => {
+    return {
+      ...config,
+      ignores: files.build
+    };
+  }),
+
+  // misc
   {
     plugins: {
       'react-hooks': reactHooksPlugin,
@@ -23,39 +57,30 @@ export default [
       'import/no-amd': 'error',
       'import/no-webpack-loader-syntax': 'error',
       'react-hooks/exhaustive-deps': 'off'
-    }
-  },
-  ...bpmnIoPlugin.configs.node.map(config => {
-    return {
-      ...config,
-      files: [
-        ...buildScripts,
-        '**/test/**/*.js'
-      ]
-    };
-  }),
-  ...bpmnIoPlugin.configs.mocha.map(config => {
-    return {
-      ...config,
-      files: [
-        '**/test/**/*.js'
-      ]
-    };
-  }),
-  {
-    languageOptions: {
-      globals: {
-        sinon: true
-      },
     },
-    files: [
-      '**/test/**/*.js'
-    ]
+    ignores: files.build
   },
   {
     rules: {
       'react/display-name': 'off',
       'react/no-unescaped-entities': 'off'
     }
+  },
+
+  // test
+  ...bpmnIoPlugin.configs.mocha.map(config => {
+    return {
+      ...config,
+      files: files.test
+    };
+  }),
+  {
+    languageOptions: {
+      globals: {
+        sinon: true,
+        require: true
+      },
+    },
+    files: files.test
   }
 ];
