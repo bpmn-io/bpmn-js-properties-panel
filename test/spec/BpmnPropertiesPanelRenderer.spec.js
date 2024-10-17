@@ -22,6 +22,7 @@ import {
 
 import {
   query as domQuery,
+  queryAll as domQueryAll,
   domify
 } from 'min-dom';
 
@@ -111,6 +112,27 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       propertiesPanel: {
         parent: propertiesContainer,
         feelTooltipContainer: container,
+        getFeelPopupLinks: (type) => {
+          if (type === 'feel') {
+            return [
+              {
+                label: 'Learn FEEL expressions',
+                url: 'https://docs.camunda.io/docs/components/modeler/feel/what-is-feel/'
+              },
+              {
+                label: 'Try FEEL Copilot',
+                url: 'https://feel-copilot.camunda.com/'
+              }
+            ];
+          } else if (type === 'feelers') {
+            return [
+              {
+                label: 'Learn templating',
+                url: 'https://docs.camunda.io/docs/components/modeler/forms/configuration/forms-config-templating-syntax/'
+              }
+            ];
+          }
+        },
         description,
         tooltip,
         layout
@@ -929,6 +951,59 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // then
       expect(feelPopup).to.exist;
       expect(feelPopup.parentNode).to.eql(container);
+    });
+
+
+    it('should render links', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+
+      let modeler;
+
+      await act(async () => {
+        ({ modeler } = await createModeler(diagramXml, {
+          propertiesPanel: {
+            parent: propertiesContainer,
+            feelPopupContainer: container,
+            getFeelPopupLinks: (type) => {
+              if (type === 'feel') {
+                return [
+                  { href: 'https://foo.com/', title: 'Foo' },
+                  { href: 'https://bar.com/', title: 'Bar' }
+                ];
+              }
+
+              return [];
+            }
+          }
+        }));
+      });
+
+      await act(() => {
+        const elementRegistry = modeler.get('elementRegistry'),
+              selection = modeler.get('selection');
+
+        selection.select(elementRegistry.get('ServiceTask_1'));
+      });
+
+      // when
+      await triggerPopupOpen('ServiceTask_1-input-0-source', container);
+
+      const feelPopup = getFeelPopupElement(container);
+
+      // then
+      expect(feelPopup).to.exist;
+
+      const links = domQueryAll('.bio-properties-panel-feel-popup__title-link', container);
+
+      expect(links.length).to.equal(2);
+
+      expect(links[0].href).to.equal('https://foo.com/');
+      expect(links[0].textContent).to.equal('Foo');
+
+      expect(links[1].href).to.equal('https://bar.com/');
+      expect(links[1].textContent).to.equal('Bar');
     });
 
 
