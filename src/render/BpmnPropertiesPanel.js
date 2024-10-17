@@ -28,6 +28,8 @@ import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
  * @param {Object} props.layoutConfig
  * @param {Object} props.descriptionConfig
  * @param {Object} props.tooltipConfig
+ * @param {HTMLElement} props.feelPopupContainer
+ * @param {Function} props.getFeelPopupLinks
  */
 export default function BpmnPropertiesPanel(props) {
   const {
@@ -37,7 +39,8 @@ export default function BpmnPropertiesPanel(props) {
     layoutConfig: initialLayoutConfig,
     descriptionConfig,
     tooltipConfig,
-    feelPopupContainer
+    feelPopupContainer,
+    getFeelPopupLinks
   } = props;
 
   const canvas = injector.get('canvas');
@@ -238,6 +241,7 @@ export default function BpmnPropertiesPanel(props) {
       tooltipConfig={ tooltipConfig }
       tooltipLoaded={ onTooltipLoaded }
       feelPopupContainer={ feelPopupContainer }
+      getFeelPopupLinks={ getFeelPopupLinks }
       eventBus={ eventBus } />
   </BpmnPropertiesPanelContext.Provider>;
 }

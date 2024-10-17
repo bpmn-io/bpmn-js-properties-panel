@@ -31,7 +31,8 @@ export default class BpmnPropertiesPanelRenderer {
       layout: layoutConfig,
       description: descriptionConfig,
       tooltip: tooltipConfig,
-      feelPopupContainer
+      feelPopupContainer,
+      getFeelPopupLinks
     } = config || {};
 
     this._eventBus = eventBus;
@@ -40,6 +41,7 @@ export default class BpmnPropertiesPanelRenderer {
     this._descriptionConfig = descriptionConfig;
     this._tooltipConfig = tooltipConfig;
     this._feelPopupContainer = feelPopupContainer;
+    this._getFeelPopupLinks = getFeelPopupLinks;
 
     this._container = domify(
       '<div style="height: 100%" class="bio-properties-panel-container"></div>'
@@ -176,6 +178,7 @@ export default class BpmnPropertiesPanelRenderer {
         descriptionConfig={ this._descriptionConfig }
         tooltipConfig={ this._tooltipConfig }
         feelPopupContainer={ this._feelPopupContainer }
+        getFeelPopupLinks={ this._getFeelPopupLinks }
       />,
       this._container
     );
