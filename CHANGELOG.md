@@ -6,7 +6,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-# 5.26.0
+## 5.26.0
 
 * `FEAT`: make FEEL popup links configurable ([#1083](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1083))
 
