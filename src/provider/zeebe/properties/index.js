@@ -19,6 +19,7 @@ export { ScriptProps } from './ScriptProps';
 export { SignalProps } from './SignalProps';
 export { TargetProps } from './TargetProps';
 export { TaskDefinitionProps } from './TaskDefinitionProps';
+export { TaskListenersProps } from './TaskListenersProps';
 export { TaskScheduleProps } from './TaskScheduleProps';
 export { TimerProps } from './TimerProps';
 export { UserTaskImplementationProps } from './UserTaskImplementationProps';

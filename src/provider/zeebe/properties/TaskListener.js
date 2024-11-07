@@ -1,60 +1,46 @@
 import { SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
-  is,
-  isAny
-} from 'bpmn-js/lib/util/ModelUtil';
-
-import {
   useService
 } from '../../../hooks';
 
-import {
-  getErrorEventDefinition
-} from '../../../utils/EventDefinitionUtil';
-
 import { ListenerType, Retries } from './shared/Listener';
 
+export const EVENT_TYPE = [ 'complete', 'assignment' ];
 
 export const EVENT_TO_LABEL = {
-  'start': 'Start',
-  'end': 'End'
+  complete: 'Complete',
+  assignment: 'Assignment'
 };
 
-export function ExecutionListenerEntries(props) {
+export function TaskListenerEntries(props) {
 
   const {
-    element,
     idPrefix,
     listener
   } = props;
 
-  const eventTypes = getEventTypes(element);
-
-  const entries = eventTypes.length > 1 ? [
+  return [
     {
       id: idPrefix + '-eventType',
       component: EventType,
       idPrefix,
       listener,
-      eventTypes
+      eventTypes: EVENT_TYPE
+    },
+    {
+      id: idPrefix + '-listenerType',
+      component: ListenerType,
+      idPrefix,
+      listener
+    },
+    {
+      id: idPrefix + '-retries',
+      component: Retries,
+      idPrefix,
+      listener
     }
-  ] : [];
-
-  entries.push({
-    id: idPrefix + '-listenerType',
-    component: ListenerType,
-    idPrefix,
-    listener
-  },
-  {
-    id: idPrefix + '-retries',
-    component: Retries,
-    idPrefix,
-    listener
-  });
-
-  return entries;
+  ];
 }
 
 function EventType(props) {
@@ -95,18 +81,4 @@ function EventType(props) {
   });
 }
 
-export function getEventTypes(element) {
-  if (isAny(element, [ 'bpmn:BoundaryEvent', 'bpmn:StartEvent' ])) {
-    return [ 'end' ];
-  }
 
-  if (is(element, 'bpmn:EndEvent') && getErrorEventDefinition(element)) {
-    return [ 'start' ];
-  }
-
-  if (is(element, 'bpmn:Gateway')) {
-    return [ 'start' ];
-  }
-
-  return [ 'start', 'end' ];
-}

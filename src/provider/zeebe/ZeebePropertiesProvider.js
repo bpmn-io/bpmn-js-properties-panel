@@ -24,6 +24,7 @@ import {
   SignalProps,
   TargetProps,
   TaskDefinitionProps,
+  TaskListenersProps,
   TaskScheduleProps,
   TimerProps,
   UserTaskImplementationProps,
@@ -56,6 +57,7 @@ const ZEEBE_GROUPS = [
   OutputPropagationGroup,
   OutputGroup,
   HeaderGroup,
+  TaskListenersGroup,
   ExecutionListenersGroup,
   ExtensionPropertiesGroup
 ];
@@ -314,6 +316,22 @@ function ExecutionListenersGroup(element, injector) {
     id: 'Zeebe__ExecutionListeners',
     component: ListGroup,
     ...ExecutionListenersProps({ element, injector })
+  };
+
+  if (group.items) {
+    return group;
+  }
+
+  return null;
+}
+
+function TaskListenersGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    label: translate('Task listeners'),
+    id: 'Zeebe__TaskListeners',
+    component: ListGroup,
+    ...TaskListenersProps({ element, injector })
   };
 
   if (group.items) {
