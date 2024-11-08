@@ -401,32 +401,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
-  it('should ignore implicit root - legacy', async function() {
-
-    // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
-
-    // when
-    const { modeler } = await createModeler(diagramXml, {
-      shouldImport: false,
-      propertiesPanel: {}
-    });
-
-    const implicitRootElement = {
-      id: '__implicitroot',
-      children: []
-    };
-
-    // when
-    const propertiesPanel = modeler.get('propertiesPanel');
-    propertiesPanel.attachTo(propertiesContainer);
-    propertiesPanel._render(implicitRootElement);
-
-    // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
-  });
-
-
   describe('providers', function() {
 
     const diagramXML = require('test/fixtures/simple.bpmn').default;
