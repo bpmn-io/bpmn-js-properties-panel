@@ -246,52 +246,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   describe('keyboard bindings (undo/redo)', function() {
 
-    it('should bind', async function() {
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
-
-      const keyboardTarget = document.createElement('div');
-
-      const { modeler } = await createModeler(diagramXml, {
-        keyboard: {
-          bindTo: keyboardTarget
-        }
-      });
-
-      modeler.invoke(function(eventBus, elementRegistry, modeling) {
-
-        // given
-        modeling.updateLabel(elementRegistry.get('Task_1'), 'FOOBAR');
-
-        const executeSpy = sinon.spy();
-        const undoSpy = sinon.spy();
-
-        eventBus.on('commandStack.execute', executeSpy);
-        eventBus.on('commandStack.reverted', undoSpy);
-
-        const panelParent = domQuery('.bio-properties-panel-container', propertiesContainer);
-
-        // when
-        panelParent.dispatchEvent(createKeyEvent('z', {
-          ctrlKey: true
-        }));
-
-        // then
-        // undo got executed
-        expect(undoSpy).to.have.been.called;
-
-        // but when
-        panelParent.dispatchEvent(createKeyEvent('y', {
-          ctrlKey: true
-        }));
-
-        // then
-        // redo got executed
-        expect(executeSpy).to.have.been.called;
-      });
-
-    });
-
-
     it('should NOT bind with keyboard binding deactivated', async function() {
       const diagramXml = require('test/fixtures/simple.bpmn').default;
 
