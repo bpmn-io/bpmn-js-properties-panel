@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: restore focus on the canvas when properties panel loses focus
+
 ## 5.27.0
 
 * `FEAT`: support Zeebe task listeners ([#1088](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1088))

@@ -536,6 +536,34 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       expect(error.textContent).to.equal('foo');
     });
 
+
+    it('should try to restore focus on the canvas on focusout', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      let modeler;
+      await act(async () => {
+        const result = await createModeler(diagramXml);
+        modeler = result.modeler;
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+      const spy = sinon.spy(propertiesPanel, '_restoreCanvasFocus');
+      const group = domQuery('.bio-properties-panel-group-header', propertiesContainer);
+      const input = domQuery('#bio-properties-panel-name', propertiesContainer);
+
+      // when
+      act(() => group.click());
+      act(() => input.focus());
+
+      // and then
+      input.blur();
+
+      // then
+      expect(spy).to.have.been.called;
+    });
+
   });
 
 

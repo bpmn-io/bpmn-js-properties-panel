@@ -51,13 +51,18 @@ export default class BpmnPropertiesPanelRenderer {
 
     commandStack && setupKeyboard(this._container, eventBus, commandStack);
 
+    const handleFocusOut = () => this._restoreCanvasFocus();
+
     eventBus.on('diagram.init', () => {
       if (parent) {
         this.attachTo(parent);
       }
+
+      domEvent.bind(this._container, 'focusout', handleFocusOut);
     });
 
     eventBus.on('diagram.destroy', () => {
+      domEvent.unbind(this._container, 'focusout', handleFocusOut);
       this.detach();
     });
 
@@ -156,6 +161,11 @@ export default class BpmnPropertiesPanelRenderer {
     this._eventBus.fire(event);
 
     return event.providers;
+  }
+
+  _restoreCanvasFocus() {
+    const canvas = this._injector.get('canvas');
+    canvas && canvas.restoreFocus && canvas.restoreFocus();
   }
 
   _render(element) {
