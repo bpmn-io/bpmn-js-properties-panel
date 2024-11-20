@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.28.0
+
+* `FEAT`: make properties panel container focusable ([#1095](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1095))
+
 ## 5.27.0
 
 * `FEAT`: support Zeebe task listeners ([#1088](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1088))
