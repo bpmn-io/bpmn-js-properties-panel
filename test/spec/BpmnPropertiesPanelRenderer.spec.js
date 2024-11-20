@@ -816,6 +816,85 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       expect(spy).to.have.been.calledOnce;
     });
 
+
+    describe('should emit <propertiesPanel.focus.changed>', function() {
+
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      let modeler;
+      let eventBus;
+
+      let generalGroupEl;
+      let nameInputEl;
+      let versionTagInputEl;
+
+      beforeEach(async function() {
+        const result = await createModeler(diagramXml);
+
+        modeler = result.modeler;
+
+        eventBus = modeler.get('eventBus');
+
+        generalGroupEl = getGroupHeader(propertiesContainer, 'general');
+        nameInputEl = getInput(propertiesContainer, 'name');
+        versionTagInputEl = getInput(propertiesContainer, 'versionTag');
+      });
+
+
+      it('on focusin', async function() {
+
+        // given
+        let focused;
+
+        const focusSpy = sinon.spy(function(event) {
+          focused = event.focused;
+        });
+
+        eventBus.on('propertiesPanel.focus.changed', focusSpy);
+
+        // when
+        // we initially focus
+        await act(() => generalGroupEl.click());
+        await act(() => nameInputEl.focus());
+
+        // then
+        expect(focusSpy).to.have.been.calledOnce;
+        expect(focused).to.be.true;
+
+        // but when
+        // we focus another element within the panel
+        await act(() => versionTagInputEl.focus());
+
+        // then
+        // we do not emit the focus change again
+        expect(focusSpy).to.have.been.calledOnce;
+      });
+
+
+      it('on focusout', async function() {
+
+        // given
+        let focused;
+
+        const focusSpy = sinon.spy(function(event) {
+          focused = event.focused;
+        });
+
+        act(() => generalGroupEl.click());
+        act(() => nameInputEl.focus());
+
+        // when
+        eventBus.on('propertiesPanel.focus.changed', focusSpy);
+
+        nameInputEl.blur();
+
+        // then
+        expect(focusSpy).to.have.been.calledOnce;
+        expect(focused).to.be.false;
+      });
+
+    });
+
   });
 
 
@@ -1209,7 +1288,15 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 // helpers /////////////////////
 
 function getGroup(container, id) {
-  return domQuery(`[data-group-id="group-${id}"`, container);
+  return domQuery(`[data-group-id="group-${id}"]`, container);
+}
+
+function getGroupHeader(container, id) {
+  return domQuery(`[data-group-id="group-${id}"] > .bio-properties-panel-group-header`, container);
+}
+
+function getInput(container, id) {
+  return domQuery(`[data-entry-id="${id}"] .bio-properties-panel-input`, container);
 }
 
 function getHeaderName(container) {

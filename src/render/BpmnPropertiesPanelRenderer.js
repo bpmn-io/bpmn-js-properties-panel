@@ -47,6 +47,9 @@ export default class BpmnPropertiesPanelRenderer {
       '<div style="height: 100%" class="bio-properties-panel-container"></div>'
     );
 
+    domEvent.bind(this._container, 'focusin', (event) => this._checkFocus(event));
+    domEvent.bind(this._container, 'focusout', (event) => this._checkFocus(event));
+
     var commandStack = injector.get('commandStack', false);
 
     commandStack && setupKeyboard(this._container, eventBus, commandStack);
@@ -68,6 +71,26 @@ export default class BpmnPropertiesPanelRenderer {
     });
   }
 
+  /**
+   * @param {FocusEvent} event
+   */
+  _checkFocus(event) {
+
+    const container = this._container;
+
+    const {
+      relatedTarget
+    } = event;
+
+    // ignore focus changes within the properties panel
+    if (relatedTarget && container.contains(relatedTarget)) {
+      return;
+    }
+
+    const focused = event.type === 'focusin';
+
+    this._eventBus.fire('propertiesPanel.focus.changed', { focused });
+  }
 
   /**
    * Attach the properties panel to a parent node.
