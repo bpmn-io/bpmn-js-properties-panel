@@ -44,7 +44,7 @@ export default class BpmnPropertiesPanelRenderer {
     this._getFeelPopupLinks = getFeelPopupLinks;
 
     this._container = domify(
-      '<div style="height: 100%" class="bio-properties-panel-container"></div>'
+      '<div style="height: 100%" tabindex="-1" class="bio-properties-panel-container"></div>'
     );
 
     var commandStack = injector.get('commandStack', false);
