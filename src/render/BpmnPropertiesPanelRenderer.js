@@ -64,6 +64,18 @@ export default class BpmnPropertiesPanelRenderer {
       this.detach();
     });
 
+    const canvas = this._injector.get('canvas', false);
+
+    // attempt to restore canvas focus when properties panel
+    // supports diagram-js@15+
+    if (canvas && canvas.restoreFocus) {
+      eventBus.on('propertiesPanel.focus.changed', ({ focused }) => {
+        if (!focused) {
+          canvas.restoreFocus();
+        }
+      });
+    }
+
     eventBus.on('root.added', (event) => {
       const { element } = event;
 
