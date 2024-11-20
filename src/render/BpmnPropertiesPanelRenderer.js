@@ -165,7 +165,11 @@ export default class BpmnPropertiesPanelRenderer {
 
   _restoreCanvasFocus() {
     const canvas = this._injector.get('canvas');
-    canvas && canvas.restoreFocus && canvas.restoreFocus();
+
+    // Only available with diagram-js >= 15.0.0
+    if (canvas.restoreFocus) {
+      canvas.restoreFocus();
+    }
   }
 
   _render(element) {
