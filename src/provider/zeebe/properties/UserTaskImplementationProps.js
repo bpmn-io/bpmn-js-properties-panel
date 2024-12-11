@@ -76,7 +76,7 @@ function UserTaskImplementation(props) {
   const getOptions = () => {
 
     const options = [
-      { value: ZEEBE_USER_TASK_IMPLEMENTATION_OPTION, label: translate('Zeebe user task') },
+      { value: ZEEBE_USER_TASK_IMPLEMENTATION_OPTION, label: translate('Camunda user task') },
       { value: JOB_WORKER_IMPLEMENTATION_OPTION, label: translate('Job worker') }
     ];
 

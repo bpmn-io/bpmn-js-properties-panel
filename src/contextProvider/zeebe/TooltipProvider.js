@@ -70,7 +70,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Implement a user task managed by Zeebe. To add a custom implementation, use a job worker. ')}
+        { translate('Implement a user task managed by Camunda. To add a custom implementation, use a job worker. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#define-a-user-task" target="_blank" rel="noopener noreferrer" title={ translate('User task documentation') }>
           { translate('Learn more.') }
         </a>
