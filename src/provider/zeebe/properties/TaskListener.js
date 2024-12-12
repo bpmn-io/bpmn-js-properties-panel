@@ -6,11 +6,11 @@ import {
 
 import { ListenerType, Retries } from './shared/Listener';
 
-export const EVENT_TYPE = [ 'complete', 'assignment' ];
+export const EVENT_TYPE = [ 'completing', 'assigning' ];
 
 export const EVENT_TO_LABEL = {
-  complete: 'Complete',
-  assignment: 'Assignment'
+  completing: 'Completing',
+  assigning: 'Assigning'
 };
 
 export function TaskListenerEntries(props) {
