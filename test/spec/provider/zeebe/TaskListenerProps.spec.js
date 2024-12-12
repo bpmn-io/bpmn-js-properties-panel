@@ -137,7 +137,25 @@ describe('provider/zeebe - TaskListenerProps', function() {
     const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', group);
 
     // then
-    expect(label).to.have.property('textContent', 'Assignment: assign_listener');
+    expect(label).to.have.property('textContent', 'Assigning: assign_listener');
+  }));
+
+
+  it('should display label with exact value for unknown event type', inject(async function(elementRegistry, selection) {
+
+    // given
+    const element = elementRegistry.get('UserTaskLegacyEventTypes');
+
+    await act(() => {
+      selection.select(element);
+    });
+
+    // when
+    const group = getTaskListenersGroup(container);
+    const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', group);
+
+    // then
+    expect(label).to.have.property('textContent', 'assignment: assign_listener_legacy');
   }));
 
 
@@ -270,7 +288,7 @@ describe('provider/zeebe - TaskListenerProps', function() {
         const listeners = getListeners(element);
         const newListener = listeners[listeners.length - 1];
 
-        expect(newListener).to.have.property('eventType', 'complete');
+        expect(newListener).to.have.property('eventType', 'completing');
       })
     );
 
@@ -289,13 +307,13 @@ describe('provider/zeebe - TaskListenerProps', function() {
       const input = domQuery('select', eventType);
 
       // when
-      changeInput(input, 'complete');
+      changeInput(input, 'completing');
 
       // then
       const listeners = getListeners(element);
       const listener = listeners[0];
 
-      expect(listener).to.have.property('eventType', 'complete');
+      expect(listener).to.have.property('eventType', 'completing');
     }));
 
 
@@ -309,7 +327,7 @@ describe('provider/zeebe - TaskListenerProps', function() {
       const group = getTaskListenersGroup(container);
       const eventType = getEventType(group);
       const input = domQuery('select', eventType);
-      changeInput(input, 'complete');
+      changeInput(input, 'completing');
 
       // when
       await act(() => {
@@ -317,7 +335,7 @@ describe('provider/zeebe - TaskListenerProps', function() {
       });
 
       // then
-      expect(input).to.have.property('value', 'assignment');
+      expect(input).to.have.property('value', 'assigning');
     }));
   });
 

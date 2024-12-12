@@ -46,10 +46,15 @@ export function TaskListenersProps({ element, injector }) {
   const items = listeners.map((listener, index) => {
     const id = element.id + '-taskListener-' + index;
     const type = listener.get('type') || '<no type>';
+    const eventType = listener.get('eventType');
+    const label = translate('{eventType}: {type}', {
+      eventType: EVENT_TO_LABEL[eventType] || eventType,
+      type
+    });
 
     return {
       id,
-      label: translate(`${EVENT_TO_LABEL[listener.get('eventType')]}: {type}`, { type }),
+      label,
       entries: TaskListenerEntries({
         idPrefix: id,
         listener

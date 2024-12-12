@@ -4,7 +4,7 @@
     <bpmn:userTask id="UserTask">
       <bpmn:extensionElements>
         <zeebe:taskListeners>
-          <zeebe:taskListener eventType="assignment" retries="2" type="assign_listener" />
+          <zeebe:taskListener eventType="assigning" retries="2" type="assign_listener" />
         </zeebe:taskListeners>
         <zeebe:userTask />
       </bpmn:extensionElements>
@@ -28,11 +28,6 @@
       </bpmn:userTask>
       <bpmn:boundaryEvent id="CompensationBoundaryEvent" attachedToRef="SubProcess">
         <bpmn:compensateEventDefinition id="Compensate" />
-        <bpmn:extensionElements>
-          <zeebe:taskListeners>
-            <zeebe:taskListener eventType="assignment" retries="4" type="assign_listener" />
-          </zeebe:taskListeners>
-        </bpmn:extensionElements>
       </bpmn:boundaryEvent>
       <bpmn:exclusiveGateway id="Gateway">
         <bpmn:extensionElements>
@@ -47,11 +42,23 @@
         </bpmn:extensionElements>
       </bpmn:userTask>
     </bpmn:subProcess>
+    <bpmn:userTask id="UserTaskLegacyEventTypes">
+      <bpmn:extensionElements>
+        <zeebe:taskListeners>
+          <zeebe:taskListener eventType="assignment" retries="2" type="assign_listener_legacy" />
+          <zeebe:taskListener eventType="complete" retries="2" type="complete_listener_legacy" />
+        </zeebe:taskListeners>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ZeebePropertiesTest">
       <bpmndi:BPMNShape id="UserTask_di" bpmnElement="UserTask">
         <dc:Bounds x="160" y="400" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTaskLegacyEventTypes_di" bpmnElement="UserTaskLegacyEventTypes">
+        <dc:Bounds x="160" y="200" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SubProcess_di" bpmnElement="SubProcess" isExpanded="true">
         <dc:Bounds x="160" y="510" width="350" height="200" />
