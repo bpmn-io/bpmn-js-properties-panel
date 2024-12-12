@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.29.0
+
+* `FEAT`: rename "Zeebe user task" to "Camunda user task" ([#1097](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1097))
+
 ## 5.28.0
 
 * `FEAT`: make properties panel container focusable ([#1095](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1095))
