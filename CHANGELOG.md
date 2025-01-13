@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.30.1
+
 * `FIX`: ensure logical order of task listener event types ([#1102](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1102))
 
 ## 5.30.0
