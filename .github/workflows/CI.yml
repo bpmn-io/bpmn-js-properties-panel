@@ -27,6 +27,8 @@ jobs:
     - name: Install dependencies for integration test
       if: ${{ matrix.integration-deps != '' }}
       run: npm install ${{ matrix.integration-deps }}
+    - name: Project setup
+      uses: bpmn-io/actions/setup@latest
     - name: Build
       if: ${{ matrix.integration-deps != '' }}
       run: npm run all
