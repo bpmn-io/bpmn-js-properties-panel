@@ -9,11 +9,13 @@ import { ListenerType, Retries } from './shared/Listener';
 // ensure types are in logical order
 export const EVENT_TYPE = [
   'assigning',
+  'updating',
   'completing'
 ];
 
 export const EVENT_TO_LABEL = {
   assigning: 'Assigning',
+  updating: 'Updating',
   completing: 'Completing'
 };
 
