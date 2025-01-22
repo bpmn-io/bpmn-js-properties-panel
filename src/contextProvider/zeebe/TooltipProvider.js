@@ -354,7 +354,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        {translate('Define a collection of elements which will be activated when the ad-hoc subprocess is evaluated. ')}
+        {translate('Define a collection of elements which will be activated when the ad-hoc subprocess is reached. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/ad-hoc/#activate-an-element" target="_blank" rel="noopener noreferrer" title={ translate('Ad-hoc subprocess documentation') }>
           { translate('Learn more.') }
         </a>
