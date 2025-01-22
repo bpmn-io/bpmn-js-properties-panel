@@ -154,7 +154,41 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           zeebe: ZeebeModdle
         },
-        tooltip: ZeebeTooltipProvider
+        tooltip: ZeebeTooltipProvider,
+        propertiesPanel: {
+          parent: propertiesContainer,
+          getCompletions: (value, id, element) => {
+            console.log('getCompletions', value, id);
+
+            if (id !== 'targetProcessId') {
+              return [];
+            }
+
+            if (value === '') {
+              return [
+                { value: 'foo', text: 'Foo Process' },
+                { value: 'bar', text: 'Bar Process' },
+                { value: 'foobar' }
+              ];
+            } else if ('foo'.includes(value)) {
+              return [
+                { value: 'foo', text: 'Foo Process' },
+                { value: 'foobar' }
+              ];
+            } else if ('bar'.includes(value)) {
+              return [
+                { value: 'bar', text: 'Bar Process' },
+                { value: 'foobar' }
+              ];
+            } else if ('foobar'.includes(value)) {
+              return [
+                { value: 'foobar' }
+              ];
+            }
+
+            return [];
+          }
+        }
       }
     );
 

@@ -40,7 +40,8 @@ export default function BpmnPropertiesPanel(props) {
     descriptionConfig,
     tooltipConfig,
     feelPopupContainer,
-    getFeelPopupLinks
+    getFeelPopupLinks,
+    getCompletions
   } = props;
 
   const canvas = injector.get('canvas');
@@ -242,6 +243,7 @@ export default function BpmnPropertiesPanel(props) {
       tooltipLoaded={ onTooltipLoaded }
       feelPopupContainer={ feelPopupContainer }
       getFeelPopupLinks={ getFeelPopupLinks }
+      getCompletions={ getCompletions }
       eventBus={ eventBus } />
   </BpmnPropertiesPanelContext.Provider>;
 }
