@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1rk4hoy" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.30.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+  <bpmn:process id="Process_1sk4u1k" isExecutable="true">
+    <bpmn:adHocSubProcess id="Subprocess_1">
+      <bpmn:task id="Activity_167ttdt" />
+      <bpmn:task id="Activity_0cxw94m" />
+    </bpmn:adHocSubProcess>
+    <bpmn:adHocSubProcess id="Subprocess_2">
+      <bpmn:extensionElements>
+        <zeebe:adHoc activeElementsCollection="=activeElements" />
+      </bpmn:extensionElements>
+      <bpmn:task id="Activity_1qb8yya" />
+      <bpmn:task id="Activity_1i2ek76" />
+    </bpmn:adHocSubProcess>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1sk4u1k">
+      <bpmndi:BPMNShape id="Activity_1hitopu_di" bpmnElement="Subprocess_1" isExpanded="true">
+        <dc:Bounds x="160" y="70" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_167ttdt_di" bpmnElement="Activity_167ttdt">
+        <dc:Bounds x="210" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cxw94m_di" bpmnElement="Activity_0cxw94m">
+        <dc:Bounds x="360" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_06ihycz" bpmnElement="Subprocess_2" isExpanded="true">
+        <dc:Bounds x="540" y="70" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0c1eh57" bpmnElement="Activity_1qb8yya">
+        <dc:Bounds x="590" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1g9skdj" bpmnElement="Activity_1i2ek76">
+        <dc:Bounds x="740" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

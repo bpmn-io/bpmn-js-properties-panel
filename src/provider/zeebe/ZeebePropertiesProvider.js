@@ -3,6 +3,7 @@ import { Group, ListGroup } from '@bpmn-io/properties-panel';
 import { findIndex } from 'min-dash';
 
 import {
+  ActiveElementsProps,
   AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
@@ -49,6 +50,7 @@ const ZEEBE_GROUPS = [
   UserTaskImplementationGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
+  ActiveElementsGroup,
   FormGroup,
   ConditionGroup,
   TargetGroup,
@@ -302,6 +304,20 @@ function AssignmentDefinitionGroup(element, injector) {
       ...AssignmentDefinitionProps({ element }),
       ...TaskScheduleProps({ element }),
       ...PriorityDefinitionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function ActiveElementsGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'activeElements',
+    label: translate('Active elements'),
+    entries: [
+      ...ActiveElementsProps({ element })
     ],
     component: Group
   };

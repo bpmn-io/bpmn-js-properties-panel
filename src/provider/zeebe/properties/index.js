@@ -1,3 +1,4 @@
+export { ActiveElementsProps } from './ActiveElementsProps';
 export { AssignmentDefinitionProps } from './AssignmentDefinitionProps';
 export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { CalledDecisionProps } from './CalledDecisionProps';
