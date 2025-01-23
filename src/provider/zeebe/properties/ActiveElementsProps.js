@@ -5,16 +5,16 @@ import {
 
 import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-import { useService } from 'src/hooks';
+import { useService } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from 'src/entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
 import {
   getExtensionElementsList,
   addExtensionElements
-} from 'src/utils/ExtensionElementsUtil';
+} from '../../../utils/ExtensionElementsUtil';
 
-import { createElement } from 'src/utils/ElementUtil';
+import { createElement } from '../../../utils/ElementUtil';
 
 export function ActiveElementsProps(props) {
   const {
