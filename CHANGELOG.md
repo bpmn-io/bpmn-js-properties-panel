@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.31.1
+
+* `CHORE`: fix import paths ([#1106](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1106))
+
 ## 5.31.0
 
 * `FEAT`: support ad-hoc subprocess ([#1105](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1105))
