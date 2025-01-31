@@ -93,7 +93,8 @@ export default function InputOutputParameter(props) {
       id: `${idPrefix}-list`,
       component: ListProps,
       idPrefix,
-      parameter
+      parameter,
+      headerNestingLevel: 1
     });
 
   // (4) Map
@@ -102,7 +103,8 @@ export default function InputOutputParameter(props) {
       id: `${idPrefix}-map`,
       component: MapProps,
       idPrefix,
-      parameter
+      parameter,
+      headerNestingLevel: 1
     });
   }
 
