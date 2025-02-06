@@ -85,6 +85,7 @@ export function MapProps(props) {
     id: idPrefix + '-map',
     items: entries,
     label: translate('Map entries'),
+    headerNestingLevel: 1,
     onAdd: addEntry,
     onRemove: removeEntry,
     component: MapProp,
