@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.32.0
+
+* `FEAT`: add `updating` event type for task listeners ([#1104](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1104))
+
 ## 5.31.1
 
 * `CHORE`: fix import paths ([#1106](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1106))
