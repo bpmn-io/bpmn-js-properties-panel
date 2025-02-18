@@ -260,6 +260,22 @@ describe('provider/bpmn - IdProps', function() {
 
     });
 
+    describe('integration',function() {
+
+      it('should not throw error on same process external update', inject(async function(bpmnjs) {
+
+        // given
+        await bpmnjs.importXML(diagramXML + ' ');
+
+        // when
+        await bpmnjs.importXML(diagramXML);
+
+        // then
+        const error = domQuery('.bio-properties-panel-error', container);
+        expect(error).to.not.exist;
+      }));
+    });
+
   });
 
 });
