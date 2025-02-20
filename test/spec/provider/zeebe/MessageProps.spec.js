@@ -80,9 +80,9 @@ describe('provider/zeebe - MessageProps', function() {
     clock.restore();
   });
 
-  function openTooltip() {
+  function openTooltip(customWrapper = null) {
     return act(() => {
-      const wrapper = domQuery('.bio-properties-panel-tooltip-wrapper', container);
+      const wrapper = customWrapper || domQuery('.bio-properties-panel-tooltip-wrapper', container);
       mouseEnter(wrapper);
       clock.tick(200);
     });
@@ -542,6 +542,28 @@ describe('provider/zeebe - MessageProps', function() {
       expect(documentationLinkGroups).to.have.length(2);
       expect(documentationLinkGroups[0].title).to.equal('Send task documentation');
       expect(documentationLinkGroups[1].title).to.equal('Receive task documentation');
+    }));
+
+
+    it('should display correct documentation for subscription correlation key', inject(async function(elementRegistry, selection) {
+
+      // given
+      const messageEvent = elementRegistry.get('IntermediateEvent_1');
+
+      await act(() => {
+        selection.select(messageEvent);
+      });
+
+      const susbscriptionKeyWrapper = domQuery('label[for="bio-properties-panel-messageSubscriptionCorrelationKey"] div', container);
+
+      // when
+      await openTooltip(susbscriptionKeyWrapper);
+
+      const documentationLinkGroup = domQuery('.bio-properties-panel-tooltip-content a', container);
+
+      // then
+      expect(documentationLinkGroup).to.exist;
+      expect(documentationLinkGroup.title).to.equal('Subscription correlation key documentation');
     }));
 
   });
