@@ -6,9 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-## 5.33.0
+## 5.32.1
 
 * `FIX`: add `subscription correlated key` missing tooltip ([#1109](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1109))
+* `FIX`: add focus to checkboxes and buttons ([bpmn-io/properties-panel#390](https://github.com/bpmn-io/properties-panel/pull/390))
+* `FIX`: remove input border from popups ([bpmn-io/properties-panel#398](https://github.com/bpmn-io/properties-panel/pull/398))
+* `FIX`: make tooltip persist when trying to copy from it ([bpmn-io/properties-panel#399](https://github.com/bpmn-io/properties-panel/pull/399))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.26.2`
 
 ## 5.32.0
 
