@@ -78,7 +78,7 @@ describe('provider/bpmn - EscalationProps', function() {
         elementRegistry.get('EscalationIntermediateEvent_1')
       ];
 
-      escalationElements.forEach(async (element) => {
+      for (const element of escalationElements) {
 
         // when
         await act(() => {
@@ -87,9 +87,14 @@ describe('provider/bpmn - EscalationProps', function() {
 
         // then
         const select = domQuery('select[name=escalationRef]', container);
-        expect(select.value).to.eql(getEscalation(element).get('id'));
-      });
+        const escalation = getEscalation(element);
 
+        expect(select).to.exist;
+
+        if (escalation) {
+          expect(select.value).to.eql(escalation.get('id'));
+        }
+      }
     }));
 
 
