@@ -67,7 +67,7 @@ describe('provider/bpmn - SignalProps', function() {
           elementRegistry.get('IntermediateThrowEvent_1')
         ];
 
-        plainElements.forEach(async (ele) => {
+        for (const ele of plainElements) {
 
           // when
           await act(() => {
@@ -77,7 +77,7 @@ describe('provider/bpmn - SignalProps', function() {
           // then
           const signalRefSelect = domQuery('select[name=signalRef]', container);
           expect(signalRefSelect).to.be.null;
-        });
+        }
 
       })
     );
@@ -94,7 +94,7 @@ describe('provider/bpmn - SignalProps', function() {
         elementRegistry.get('SignalCatchEvent_1')
       ];
 
-      signalElements.forEach(async (ele) => {
+      for (const ele of signalElements) {
 
         // when
         await act(() => {
@@ -104,7 +104,7 @@ describe('provider/bpmn - SignalProps', function() {
         // then
         const signalRefSelect = domQuery('select[name=signalRef]', container);
         expect(signalRefSelect.value).to.eql(getSignal(ele).get('id'));
-      });
+      }
     }));
 
 
@@ -290,7 +290,7 @@ describe('provider/bpmn - SignalProps', function() {
           elementRegistry.get('IntermediateThrowEvent_1')
         ];
 
-        plainElements.forEach(async (ele) => {
+        for (const ele of plainElements) {
 
           // when
           await act(() => {
@@ -301,7 +301,7 @@ describe('provider/bpmn - SignalProps', function() {
           const signalNameInput = domQuery('input[name=signalName]', container);
 
           expect(signalNameInput).to.be.null;
-        });
+        }
       })
     );
 
@@ -317,7 +317,7 @@ describe('provider/bpmn - SignalProps', function() {
         elementRegistry.get('SignalCatchEvent_1')
       ];
 
-      signalElements.forEach(async (ele) => {
+      for (const ele of signalElements) {
         await act(() => {
           selection.select(ele);
         });
@@ -327,7 +327,7 @@ describe('provider/bpmn - SignalProps', function() {
 
         // then
         expect(signalNameInput.value).to.eql(getSignal(ele).get('name'));
-      });
+      }
     }));
 
 
