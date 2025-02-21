@@ -61,7 +61,11 @@ describe('provider/zeebe - ConditionProps', function() {
     it('should display', inject(async function(elementRegistry, selection) {
 
       // given
-      const elements = [ 'Flow2', 'Flow3', 'Flow4' ];
+      const elements = [
+        'Flow2',
+        'Flow3',
+        'Flow4'
+      ];
 
       for (const ele of elements) {
         const sequenceFlow = elementRegistry.get(ele);
@@ -71,7 +75,7 @@ describe('provider/zeebe - ConditionProps', function() {
           selection.select(sequenceFlow);
         });
 
-        const conditionExpressionInput = domQuery('input[name=conditionExpression]', container);
+        const conditionExpressionInput = domQuery('[id=bio-properties-panel-conditionExpression]', container);
 
         // then
         expect(conditionExpressionInput).to.exist;
