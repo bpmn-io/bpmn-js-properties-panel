@@ -1,7 +1,8 @@
 import TestContainer from 'mocha-test-container-support';
 
 import {
-  act
+  act,
+  waitFor
 } from '@testing-library/preact';
 
 import {
@@ -242,19 +243,14 @@ function getZeebeUserTask(element) {
 }
 
 
-async function expectEdited(container, exists) {
+function expectEdited(container, exists) {
+  return waitFor(() => {
+    const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
 
-  await wait(50);
-
-  const indicator = domQuery(`${GROUP_SELECTOR} .bio-properties-panel-dot`, container);
-
-  if (exists) {
-    expect(indicator).to.exist;
-  } else {
-    expect(indicator).not.to.exist;
-  }
-}
-
-function wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+    if (exists) {
+      expect(indicator).to.exist;
+    } else {
+      expect(indicator).not.to.exist;
+    }
+  });
 }
