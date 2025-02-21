@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.33.0
+
+* `FIX`: add `subscription correlated key` missing tooltip ([#1109](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1109))
+
 ## 5.32.0
 
 * `FEAT`: add `updating` event type for task listeners ([#1104](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1104))
