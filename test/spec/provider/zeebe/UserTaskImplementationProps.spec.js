@@ -101,6 +101,8 @@ describe('provider/zeebe - UserTaskImplementationProps', function() {
     }));
 
 
+    // TODO(@barmac): this test is fails as false-positive when run locally on MacOS as part of the full test suite,
+    // cf. https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1111#pullrequestreview-2635770727
     it('should display zeebe user task', inject(async function(elementRegistry, selection) {
 
       // given
