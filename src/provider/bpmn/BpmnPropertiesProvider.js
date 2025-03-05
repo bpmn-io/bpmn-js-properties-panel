@@ -1,6 +1,7 @@
 import { Group } from '@bpmn-io/properties-panel';
 
 import {
+  AdHocCompletionProps,
   CompensationProps,
   DocumentationProps,
   ErrorProps,
@@ -195,6 +196,24 @@ function MultiInstanceGroup(element, injector) {
   return null;
 }
 
+function AdHocCompletionGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    label: translate('Completion'),
+    id: 'adHocCompletion',
+    component: Group,
+    entries: [
+      ...AdHocCompletionProps({ element })
+    ]
+  };
+
+  if (group.entries.length) {
+    return group;
+  }
+
+  return null;
+}
+
 function getGroups(element, injector) {
 
   const groups = [
@@ -205,6 +224,7 @@ function getGroups(element, injector) {
     LinkGroup(element, injector),
     MessageGroup(element, injector),
     MultiInstanceGroup(element, injector),
+    AdHocCompletionGroup(element, injector),
     SignalGroup(element, injector),
     EscalationGroup(element, injector),
     TimerGroup(element, injector)

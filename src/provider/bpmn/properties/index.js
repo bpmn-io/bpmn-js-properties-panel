@@ -1,3 +1,4 @@
+export { AdHocCompletionProps } from './AdHocCompletionProps';
 export { CompensationProps } from './CompensationProps';
 export { DocumentationProps } from './DocumentationProps';
 export { ErrorProps } from './ErrorProps';
