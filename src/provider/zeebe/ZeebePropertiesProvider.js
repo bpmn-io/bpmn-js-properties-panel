@@ -4,6 +4,7 @@ import { findIndex } from 'min-dash';
 
 import {
   ActiveElementsProps,
+  AdHocCompletionProps,
   AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
@@ -86,6 +87,7 @@ export default class ZeebePropertiesProvider {
       updateSignalGroup(groups, element);
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
+      updateAdHocCompletionGroup(groups, element);
 
       // (3) remove message group when not applicable
       groups = removeMessageGroup(groups, element);
@@ -465,6 +467,20 @@ function updateMultiInstanceGroup(groups, element) {
   multiInstanceGroup.entries = [
     ...MultiInstanceProps({ element })
   ];
+}
+
+// overwrite bpmn generic adHoc completion condition with zeebe-specific one
+function updateAdHocCompletionGroup(groups, element) {
+  const adHocCompletionGroup = findGroup(groups, 'adHocCompletion');
+  if (!adHocCompletionGroup) {
+    return;
+  }
+
+  // TODO find a better way than reverse() to preserve order
+  adHocCompletionGroup.entries = replaceEntries(
+    adHocCompletionGroup.entries,
+    AdHocCompletionProps({ element })
+  ).reverse();
 }
 
 // remove message group from Message End Event & Message Throw Event
