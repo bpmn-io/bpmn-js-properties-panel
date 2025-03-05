@@ -10,8 +10,8 @@ import {
 } from '../../../hooks';
 
 import {
-  createElement
-} from '../../../utils/ElementUtil';
+  createOrUpdateFormalExpression
+} from '../../../utils/FormalExpressionUtil';
 
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
@@ -58,9 +58,13 @@ function LoopCardinality(props) {
   };
 
   const setValue = (value) => {
-    return commandStack.execute(
-      'element.updateModdleProperties',
-      updateFormalExpression(element, 'loopCardinality', value, bpmnFactory)
+    return createOrUpdateFormalExpression(
+      element,
+      getLoopCharacteristics(element),
+      'loopCardinality',
+      value,
+      bpmnFactory,
+      commandStack
     );
   };
 
@@ -87,9 +91,13 @@ function CompletionCondition(props) {
   };
 
   const setValue = (value) => {
-    return commandStack.execute(
-      'element.updateModdleProperties',
-      updateFormalExpression(element, 'completionCondition', value, bpmnFactory)
+    return createOrUpdateFormalExpression(
+      element,
+      getLoopCharacteristics(element),
+      'completionCondition',
+      value,
+      bpmnFactory,
+      commandStack
     );
   };
 
@@ -151,68 +159,6 @@ function getProperty(element, propertyName) {
 function getLoopCharacteristics(element) {
   const bo = getBusinessObject(element);
   return bo.loopCharacteristics;
-}
-
-/**
- * createFormalExpression - creates a 'bpmn:FormalExpression' element.
- *
- * @param {ModdleElement} parent
- * @param {string} body
- * @param {BpmnFactory} bpmnFactory
- *
- * @result {ModdleElement<bpmn:FormalExpression>} a formal expression
- */
-function createFormalExpression(parent, body, bpmnFactory) {
-  return createElement('bpmn:FormalExpression', { body: body }, parent, bpmnFactory);
-}
-
-/**
- * updateFormalExpression - updates a specific formal expression of the loop characteristics.
- *
- * @param {djs.model.Base} element
- * @param {string} propertyName
- * @param {string} newValue
- * @param {BpmnFactory} bpmnFactory
- */
-function updateFormalExpression(element, propertyName, newValue, bpmnFactory) {
-  const loopCharacteristics = getLoopCharacteristics(element);
-
-  const expressionProps = {};
-
-  if (!newValue) {
-
-    // remove formal expression
-    expressionProps[ propertyName ] = undefined;
-
-    return {
-      element,
-      moddleElement: loopCharacteristics,
-      properties: expressionProps
-    };
-  }
-
-  const existingExpression = loopCharacteristics.get(propertyName);
-
-  if (!existingExpression) {
-
-    // add formal expression
-    expressionProps[ propertyName ] = createFormalExpression(loopCharacteristics, newValue, bpmnFactory);
-
-    return {
-      element,
-      moddleElement: loopCharacteristics,
-      properties: expressionProps
-    };
-  }
-
-  // edit existing formal expression
-  return {
-    element,
-    moddleElement: existingExpression,
-    properties: {
-      body: newValue
-    }
-  };
 }
 
 // loopCardinality
