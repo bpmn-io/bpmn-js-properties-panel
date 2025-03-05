@@ -13,6 +13,7 @@ import ModelingModule from 'bpmn-js/lib/features/modeling';
 import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
+import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
@@ -42,6 +43,9 @@ describe('provider/zeebe - AdHocCompletion', function() {
   beforeEach(bootstrapPropertiesPanel(diagramXML, {
     modules: testModules,
     moddleExtensions,
+    propertiesPanel: {
+      tooltip: TooltipProvider
+    },
     debounceInput: false
   }));
 
