@@ -3,7 +3,7 @@ import { act } from '@testing-library/preact';
 
 import { bootstrapPropertiesPanel, clickInput, inject } from 'test/TestHelper';
 
-import { query as domQuery } from 'min-dom';
+import { query as domQuery, queryAll } from 'min-dom';
 
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -68,6 +68,27 @@ describe('provider/zeebe - AdHocCompletion', function() {
       expect(group).to.exist;
       expect(getCompletionConditionInput(container)).to.exist;
       expect(getCancelRemainingInstancesCheckbox(container)).to.exist;
+    }));
+
+    it('inputs should be in the expected order despite overriding BPMN attribute', inject(async function(
+        elementRegistry,
+        selection
+    ) {
+
+      // given
+      const subprocess = elementRegistry.get('Subprocess_1');
+
+      // when
+      await act(() => {
+        selection.select(subprocess);
+      });
+
+      // then
+      const group = getGroup(container, 'adHocCompletion');
+      expect(getInputNames(group)).to.eql([
+        'completionCondition',
+        'cancelRemainingInstances'
+      ]);
     }));
 
     it('should NOT display completion group on a normal subprocess', inject(async function(
@@ -291,6 +312,13 @@ function getEditorValue(input) {
 
 function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
+}
+
+function getInputNames(container) {
+  const inputs = queryAll('[name]', container);
+  const inputNames = Array.from(inputs).map(input => input.getAttribute('name'));
+
+  return inputNames;
 }
 
 function getCompletionConditionInput(container) {

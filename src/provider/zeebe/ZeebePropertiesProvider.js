@@ -476,11 +476,10 @@ function updateAdHocCompletionGroup(groups, element) {
     return;
   }
 
-  // TODO find a better way than reverse() to preserve order
-  adHocCompletionGroup.entries = replaceEntries(
+  adHocCompletionGroup.entries = replaceEntriesPreservingOrder(
     adHocCompletionGroup.entries,
     AdHocCompletionProps({ element })
-  ).reverse();
+  );
 }
 
 // remove message group from Message End Event & Message Throw Event
@@ -503,7 +502,7 @@ function findGroup(groups, id) {
 
 /**
  * Replace entries with the same ID.
- *s
+ *
  * @param {Entry[]} oldEntries
  * @param {Entry[]} newEntries
  *
@@ -519,4 +518,45 @@ function replaceEntries(oldEntries, newEntries) {
     ...filteredEntries,
     ...newEntries
   ];
+}
+
+/**
+ * Replace entries with the same ID, preserving original order and adding new entries at the end.
+ *
+ * @param {Entry[]} oldEntries
+ * @param {Entry[]} newEntries
+ *
+ * @returns {Entry[]} combined entries
+ */
+function replaceEntriesPreservingOrder(oldEntries, newEntries) {
+  const indexedNewEntries = indexEntriesById(newEntries);
+  const indexedOldEntries = indexEntriesById(oldEntries);
+
+  const result = [];
+
+  // iterate original entries and replace with new ones if ID matches
+  oldEntries.forEach((oldEntry) => {
+    const newEntryIndex = indexedNewEntries[oldEntry.id];
+    if (newEntryIndex !== undefined) {
+      result.push(newEntries[newEntryIndex]);
+    } else {
+      result.push(oldEntry);
+    }
+  });
+
+  // append remaining new entries
+  newEntries.forEach((newEntry) => {
+    if (indexedOldEntries[newEntry.id] === undefined) {
+      result.push(newEntry);
+    }
+  });
+
+  return result;
+}
+
+function indexEntriesById(entries) {
+  return entries.reduce((index, entry, idx) => {
+    index[entry.id] = idx;
+    return index;
+  }, {});
 }
