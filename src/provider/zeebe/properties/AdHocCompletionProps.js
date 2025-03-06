@@ -47,6 +47,7 @@ function CompletionCondition(props) {
   const setValue = (value) => {
     return createOrUpdateFormalExpression(
       element,
+      getBusinessObject(element),
       'completionCondition',
       value,
       bpmnFactory,

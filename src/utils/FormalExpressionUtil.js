@@ -1,4 +1,3 @@
-import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 import { createElement } from './ElementUtil';
 
 /**
@@ -7,6 +6,7 @@ import { createElement } from './ElementUtil';
  * If the value is falsy, the formal expression is removed.
  *
  * @param {djs.model.Base} element
+ * @param {ModdleElement} moddleElement
  * @param {string} propertyName
  * @param {string} newValue
  * @param {BpmnFactory} bpmnFactory
@@ -14,6 +14,7 @@ import { createElement } from './ElementUtil';
  */
 export function createOrUpdateFormalExpression(
     element,
+    moddleElement,
     propertyName,
     newValue,
     bpmnFactory,
@@ -21,27 +22,34 @@ export function createOrUpdateFormalExpression(
 ) {
   return commandStack.execute(
     'element.updateModdleProperties',
-    createOrUpdateFormalExpressionCommand(element, propertyName, newValue, bpmnFactory)
+    createOrUpdateFormalExpressionCommand(
+      element,
+      moddleElement,
+      propertyName,
+      newValue,
+      bpmnFactory
+    )
   );
 }
 
 /**
- * createOrUpdateFormalExpression - creates a commant to upsert a specific formal expression
+ * createOrUpdateFormalExpressionCommand - creates a command to upsert a specific formal expression
  *
  * If the value is falsy, the formal expression is removed.
  *
  * @param {djs.model.Base} element
+ * @param {ModdleElement} moddleElement
  * @param {string} propertyName
  * @param {string} newValue
  * @param {BpmnFactory} bpmnFactory
  */
 export function createOrUpdateFormalExpressionCommand(
     element,
+    moddleElement,
     propertyName,
     newValue,
     bpmnFactory
 ) {
-  const businessObject = getBusinessObject(element);
   const expressionProps = {};
 
   if (!newValue) {
@@ -51,35 +59,35 @@ export function createOrUpdateFormalExpressionCommand(
 
     return {
       element,
-      moddleElement: businessObject,
+      moddleElement,
       properties: expressionProps,
     };
   }
 
-  const existingExpression = businessObject.get(propertyName);
-  if (!existingExpression) {
+  const existingExpression = moddleElement.get(propertyName);
+  if (existingExpression) {
 
-    // add formal expression
-    expressionProps[propertyName] = createElement(
-      'bpmn:FormalExpression',
-      { body: newValue },
-      businessObject,
-      bpmnFactory
-    );
-
+    // edit existing formal expression
     return {
       element,
-      moddleElement: businessObject,
-      properties: expressionProps,
+      moddleElement: existingExpression,
+      properties: {
+        body: newValue,
+      },
     };
   }
 
-  // edit existing formal expression
+  // add formal expression
+  expressionProps[propertyName] = createElement(
+    'bpmn:FormalExpression',
+    { body: newValue },
+    moddleElement,
+    bpmnFactory
+  );
+
   return {
     element,
-    moddleElement: existingExpression,
-    properties: {
-      body: newValue,
-    },
+    moddleElement,
+    properties: expressionProps,
   };
 }
