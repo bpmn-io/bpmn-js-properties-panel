@@ -4,6 +4,7 @@ import { findIndex } from 'min-dash';
 
 import {
   ActiveElementsProps,
+  AdHocCompletionProps,
   AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
@@ -86,6 +87,7 @@ export default class ZeebePropertiesProvider {
       updateSignalGroup(groups, element);
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
+      updateAdHocCompletionGroup(groups, element);
 
       // (3) remove message group when not applicable
       groups = removeMessageGroup(groups, element);
@@ -467,6 +469,25 @@ function updateMultiInstanceGroup(groups, element) {
   ];
 }
 
+// overwrite bpmn generic adHoc completion condition with zeebe-specific one
+function updateAdHocCompletionGroup(groups, element) {
+  const adHocCompletionGroup = findGroup(groups, 'adHocCompletion');
+  if (!adHocCompletionGroup) {
+    return;
+  }
+
+  adHocCompletionGroup.entries = replaceEntriesPreservingOrder(
+    adHocCompletionGroup.entries,
+    AdHocCompletionProps({ element })
+  );
+
+  // reorder groups to move active elements before adHoc completion
+  const activeElementsGroup = findGroup(groups, 'activeElements');
+  if (activeElementsGroup) {
+    reorderGroupsIfNecessary(groups, activeElementsGroup, adHocCompletionGroup);
+  }
+}
+
 // remove message group from Message End Event & Message Throw Event
 function removeMessageGroup(groups, element) {
   const messageGroup = findGroup(groups, 'message');
@@ -486,8 +507,27 @@ function findGroup(groups, id) {
 }
 
 /**
+ * Put groups into the defined order if necessary.
+ *
+ * @param {Group[]} groups
+ * @param {Group} firstGroup
+ * @param {Group} secondGroup
+ */
+function reorderGroupsIfNecessary(groups, firstGroup, secondGroup) {
+  const firstGroupIndex = groups.indexOf(firstGroup);
+  const secondGroupIndex = groups.indexOf(secondGroup);
+
+  if (firstGroupIndex === -1 || secondGroupIndex === -1 || firstGroupIndex <= secondGroupIndex) {
+    return;
+  }
+
+  groups[firstGroupIndex] = secondGroup;
+  groups[secondGroupIndex] = firstGroup;
+}
+
+/**
  * Replace entries with the same ID.
- *s
+ *
  * @param {Entry[]} oldEntries
  * @param {Entry[]} newEntries
  *
@@ -503,4 +543,45 @@ function replaceEntries(oldEntries, newEntries) {
     ...filteredEntries,
     ...newEntries
   ];
+}
+
+/**
+ * Replace entries with the same ID, preserving original order and adding new entries at the end.
+ *
+ * @param {Entry[]} oldEntries
+ * @param {Entry[]} newEntries
+ *
+ * @returns {Entry[]} combined entries
+ */
+function replaceEntriesPreservingOrder(oldEntries, newEntries) {
+  const indexedNewEntries = indexEntriesById(newEntries);
+  const indexedOldEntries = indexEntriesById(oldEntries);
+
+  const result = [];
+
+  // iterate original entries and replace with new ones if ID matches
+  oldEntries.forEach((oldEntry) => {
+    const newEntryIndex = indexedNewEntries[oldEntry.id];
+    if (newEntryIndex !== undefined) {
+      result.push(newEntries[newEntryIndex]);
+    } else {
+      result.push(oldEntry);
+    }
+  });
+
+  // append remaining new entries
+  newEntries.forEach((newEntry) => {
+    if (indexedOldEntries[newEntry.id] === undefined) {
+      result.push(newEntry);
+    }
+  });
+
+  return result;
+}
+
+function indexEntriesById(entries) {
+  return entries.reduce((index, entry, idx) => {
+    index[entry.id] = idx;
+    return index;
+  }, {});
 }

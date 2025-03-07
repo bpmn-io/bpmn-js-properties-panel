@@ -14,11 +14,13 @@ import {
 import {
   createElement
 } from '../../../utils/ElementUtil';
+import {
+  createOrUpdateFormalExpression
+} from '../../../utils/FormalExpressionUtil';
 
 import { useService } from '../../../hooks';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
-
 
 export function MultiInstanceProps(props) {
   const {
@@ -188,18 +190,14 @@ function CompletionCondition(props) {
   };
 
   const setValue = (value) => {
-    if (value && value !== '') {
-      const loopCharacteristics = getLoopCharacteristics(element);
-      const completionCondition = createElement(
-        'bpmn:FormalExpression',
-        { body: value },
-        loopCharacteristics,
-        bpmnFactory
-      );
-      setCompletionCondition(element, commandStack, completionCondition);
-    } else {
-      setCompletionCondition(element, commandStack, undefined);
-    }
+    return createOrUpdateFormalExpression(
+      element,
+      getLoopCharacteristics(element),
+      'completionCondition',
+      value,
+      bpmnFactory,
+      commandStack
+    );
   };
 
   return FeelEntryWithVariableContext({
@@ -232,16 +230,6 @@ function supportsMultiInstances(element) {
 
 function getCompletionCondition(element) {
   return getLoopCharacteristics(element).get('completionCondition');
-}
-
-function setCompletionCondition(element, commandStack, completionCondition = undefined) {
-  commandStack.execute('element.updateModdleProperties', {
-    element,
-    moddleElement: getLoopCharacteristics(element),
-    properties: {
-      completionCondition
-    }
-  });
 }
 
 function getProperty(element, propertyName) {
