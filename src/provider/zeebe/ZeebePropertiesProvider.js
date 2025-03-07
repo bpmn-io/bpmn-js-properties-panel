@@ -480,6 +480,12 @@ function updateAdHocCompletionGroup(groups, element) {
     adHocCompletionGroup.entries,
     AdHocCompletionProps({ element })
   );
+
+  // reorder groups to move active elements before adHoc completion
+  const activeElementsGroup = findGroup(groups, 'activeElements');
+  if (activeElementsGroup) {
+    reorderGroupsIfNecessary(groups, activeElementsGroup, adHocCompletionGroup);
+  }
 }
 
 // remove message group from Message End Event & Message Throw Event
@@ -498,6 +504,25 @@ function removeMessageGroup(groups, element) {
 
 function findGroup(groups, id) {
   return groups.find(g => g.id === id);
+}
+
+/**
+ * Put groups into the defined order if necessary.
+ *
+ * @param {Group[]} groups
+ * @param {Group} firstGroup
+ * @param {Group} secondGroup
+ */
+function reorderGroupsIfNecessary(groups, firstGroup, secondGroup) {
+  const firstGroupIndex = groups.indexOf(firstGroup);
+  const secondGroupIndex = groups.indexOf(secondGroup);
+
+  if (firstGroupIndex === -1 || secondGroupIndex === -1 || firstGroupIndex <= secondGroupIndex) {
+    return;
+  }
+
+  groups[firstGroupIndex] = secondGroup;
+  groups[secondGroupIndex] = firstGroup;
 }
 
 /**

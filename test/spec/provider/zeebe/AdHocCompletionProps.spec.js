@@ -70,6 +70,28 @@ describe('provider/zeebe - AdHocCompletion', function() {
       expect(getCancelRemainingInstancesCheckbox(container)).to.exist;
     }));
 
+    it('completion group should be added after active elements group', inject(async function(
+        elementRegistry,
+        selection
+    ) {
+
+      // given
+      const subprocess = elementRegistry.get('Subprocess_1');
+
+      // when
+      await act(() => {
+        selection.select(subprocess);
+      });
+
+      // then
+      const expectedGroupOrder = [
+        'group-activeElements',
+        'group-adHocCompletion'
+      ];
+
+      expect(getGroupIds(container).filter(id => expectedGroupOrder.includes(id))).to.eql(expectedGroupOrder);
+    }));
+
     it('inputs should be in the expected order despite overriding BPMN attribute', inject(async function(
         elementRegistry,
         selection
@@ -319,6 +341,13 @@ function getInputNames(container) {
   const inputNames = Array.from(inputs).map(input => input.getAttribute('name'));
 
   return inputNames;
+}
+
+function getGroupIds(container) {
+  const groups = queryAll('[data-group-id]', container);
+  const groupIds = Array.from(groups).map(group => group.getAttribute('data-group-id'));
+
+  return groupIds;
 }
 
 function getCompletionConditionInput(container) {
