@@ -2,7 +2,6 @@ import { is, getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
   CheckboxEntry,
-  isCheckboxEntryEdited,
   isTextFieldEntryEdited,
   TextFieldEntry,
 } from '@bpmn-io/properties-panel';
@@ -33,7 +32,7 @@ export function AdHocCompletionProps(props) {
     {
       id: 'cancelRemainingInstances',
       component: CancelRemainingInstances,
-      isEdited: isCheckboxEntryEdited,
+      isEdited: (node) => node && !node.checked // the default value is true
     },
   ];
 }
