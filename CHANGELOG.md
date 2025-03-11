@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.34.0
+
+* `FEAT`: add completion group for ad-hoc subprocess ([#1114](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1114))
+
 ## 5.33.0
 
 * `FEAT`: trim trailing whitespaces from all input fields except expressions ([bpmn-io/properties-panel#309](https://github.com/bpmn-io/properties-panel/issues/309))
