@@ -247,7 +247,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Create a new local variable in the scope of this task. ')}
+        { translate('Add input mappings to control what is passed to the activity as local variables. ')}
         <a href="https://docs.camunda.io/docs/components/concepts/variables/#input-mappings" target="_blank" rel="noopener noreferrer" title={ translate('Input mappings documentation') }>
           { translate('Learn more.') }
         </a>
@@ -260,7 +260,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Customize how result variables are merged into the global scope of the process instance. ')}
+        { translate('Add output mappings to control which variables are merged back into the process scope. ')}
         <a href="https://docs.camunda.io/docs/components/concepts/variables/#output-mappings" target="_blank" rel="noopener noreferrer" title={ translate('Output mappings documentation') }>
           { translate('Learn more.') }
         </a>
