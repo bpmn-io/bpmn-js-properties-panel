@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.34.1
+
+* `FIX`: clarify wording for input/output groups ([#1115](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1115))
+
 ## 5.34.0
 
 * `FEAT`: add completion group for ad-hoc subprocess ([#1114](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1114))
