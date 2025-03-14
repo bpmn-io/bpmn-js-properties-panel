@@ -247,7 +247,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Add input mappings to control what is provided to the activity as local variables. ')}
+        { translate('Add input mappings to control what is passed to the activity as local variables. ')}
         <a href="https://docs.camunda.io/docs/components/concepts/variables/#input-mappings" target="_blank" rel="noopener noreferrer" title={ translate('Input mappings documentation') }>
           { translate('Learn more.') }
         </a>
@@ -260,7 +260,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Add output mappings to control what is merged back into the process scope. ')}
+        { translate('Add output mappings to control which variables are merged back into the process scope. ')}
         <a href="https://docs.camunda.io/docs/components/concepts/variables/#output-mappings" target="_blank" rel="noopener noreferrer" title={ translate('Output mappings documentation') }>
           { translate('Learn more.') }
         </a>
