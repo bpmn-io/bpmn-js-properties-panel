@@ -46,7 +46,8 @@ export function MapProps(props) {
   const {
     idPrefix,
     element,
-    parameter
+    parameter,
+    headerNestingLevel
   } = props;
 
   const bpmnFactory = useService('bpmnFactory');
@@ -88,6 +89,7 @@ export function MapProps(props) {
     onAdd: addEntry,
     onRemove: removeEntry,
     component: MapProp,
+    headerNestingLevel
   });
 }
 
