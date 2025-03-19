@@ -355,7 +355,7 @@ const TooltipProvider = {
     return (
       <div>
         {translate('Define the completion behavior of an ad-hoc subprocess. If no completion condition is set, it will be completed after all active elements have been completed. ')}
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/ad-hoc" target="_blank" rel="noopener noreferrer" title={ translate('Ad-hoc subprocess documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/ad-hoc#completion" target="_blank" rel="noopener noreferrer" title={ translate('Ad-hoc subprocess documentation') }>
           { translate('Learn more.') }
         </a>
       </div>
