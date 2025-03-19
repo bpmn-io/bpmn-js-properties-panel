@@ -201,6 +201,32 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
     }));
 
 
+    it.only('should not propogate input to other element', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask_1 = elementRegistry.get('ServiceTask_2');
+      const serviceTask_2 = elementRegistry.get('ServiceTask_3');
+
+      const serviceTask_2_InitialType = getTaskDefinition(serviceTask_2).get('type');
+
+      await act(() => {
+        selection.select(serviceTask_1);
+      });
+
+      // when
+      const typeInput_1 = domQuery('input[name=taskDefinitionType]', container);
+      changeInput(typeInput_1, 'newValue');
+
+      await act(() => {
+        selection.select(serviceTask_2);
+      });
+
+      // then
+      expect(getTaskDefinition(serviceTask_2).get('type')).to.eql(serviceTask_2_InitialType);
+      expect(getTaskDefinition(serviceTask_2).get('type')).to.not.eql('newValue');
+    }));
+
+
     it('should update on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 
