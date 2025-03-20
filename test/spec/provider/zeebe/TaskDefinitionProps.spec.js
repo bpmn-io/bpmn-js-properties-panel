@@ -7,6 +7,7 @@ import {
 import {
   bootstrapPropertiesPanel,
   changeInput,
+  clickInput,
   inject,
   mouseEnter
 } from 'test/TestHelper';
@@ -63,7 +64,7 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
     propertiesPanel: {
       tooltip: TooltipProvider
     },
-    debounceInput: false
+    debounceInput: 2000
   }));
 
   afterEach(function() {
@@ -216,10 +217,16 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
       // when
       const typeInput_1 = domQuery('input[name=taskDefinitionType]', container);
       changeInput(typeInput_1, 'newValue');
+      clock.tick(2000); // Fast-forward 2 seconds
 
+      // setTimeout(() => {
+      //   typeInput_1.blur();
+      // }, 1000);
       await act(() => {
         selection.select(serviceTask_2);
       });
+      const typeInput_2 = domQuery('input[name=taskDefinitionType]', container);
+      clickInput(typeInput_2);
 
       // then
       expect(getTaskDefinition(serviceTask_2).get('type')).to.eql(serviceTask_2_InitialType);
