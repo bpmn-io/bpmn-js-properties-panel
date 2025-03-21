@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.35.0
+
+* `FEAT`: update ad-hoc subprocess completion docs link ([#1116](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1116))
+
 ## 5.34.2
 
 * `DEPS`: update to `@bpmn-io/properties-panel@3.26.4`
