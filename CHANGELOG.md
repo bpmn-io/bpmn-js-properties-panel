@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.34.2
+
+* `DEPS`: update to `@bpmn-io/properties-panel@3.26.4`
+* `FIX`: reverts trim trailing whitespaces from all input fields except expressions ([bpmn-io/properties-panel#309](https://github.com/bpmn-io/properties-panel/issues/309)) added in `5.33.0`
+
 ## 5.34.1
 
 * `FIX`: clarify wording for input/output groups ([#1115](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1115))
