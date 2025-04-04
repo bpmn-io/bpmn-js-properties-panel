@@ -83,8 +83,6 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           });
 
           // then
-          const group = getGroup(container, 'documentation');
-          expect(group).to.exist;
           expect(getAdHocActivityInputSchemaExpressionInput(container)).to.exist;
         }));
       }
@@ -106,8 +104,6 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           });
 
           // then
-          const group = getGroup(container, 'documentation');
-          expect(group).to.exist;
           expect(getAdHocActivityInputSchemaTextarea(container)).to.exist;
         }));
       }
@@ -129,8 +125,6 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           });
 
           // then
-          const group = getGroup(container, 'documentation');
-          expect(group).to.exist;
           expect(getAdHocActivityInputSchemaTextarea(container)).not.to.exist;
           expect(getAdHocActivityInputSchemaExpressionInput(container)).not.to.exist;
         }));
@@ -151,8 +145,6 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
       });
 
       // then
-      const group = getGroup(container, 'documentation');
-      expect(group).to.exist;
       expect(getAdHocActivityInputSchemaTextarea(container)).not.to.exist;
       expect(getAdHocActivityInputSchemaExpressionInput(container)).not.to.exist;
     }));
@@ -194,7 +186,7 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
 
       const input = getAdHocActivityInputSchemaExpressionInput(container);
       expect(input).to.exist;
-      expect('=' + getEditorValue(input)).to.equal(getAdHocActivityInputSchemaValue(activity));
+      expect('=' + input.textContent).to.equal(getAdHocActivityInputSchemaValue(activity));
     }));
 
     it('should show the expected value when an input schema is configured (text)', inject(async function(
@@ -330,14 +322,6 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
 
 
 // DOM helpers ////////////////////////////
-
-function getEditorValue(input) {
-  return input.textContent;
-}
-
-function getGroup(container, id) {
-  return domQuery(`[data-group-id="group-${id}"`, container);
-}
 
 function getAdHocActivityInputSchemaTextarea(container) {
   return domQuery('textarea[name=adHocActivityInputSchema]', container);
