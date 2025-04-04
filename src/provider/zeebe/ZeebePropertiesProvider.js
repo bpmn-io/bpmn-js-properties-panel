@@ -5,6 +5,7 @@ import { findIndex } from 'min-dash';
 import {
   ActiveElementsProps,
   AdHocCompletionProps,
+  AdHocActivityInputSchemaProps,
   AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
@@ -81,6 +82,7 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateGeneralGroup(groups, element);
+      updateDocumentationGroup(groups, element);
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
       updateMessageGroup(groups, element);
@@ -389,6 +391,18 @@ function updateGeneralGroup(groups, element) {
   const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
 
   entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
+}
+
+function updateDocumentationGroup(groups, element) {
+  const documentationGroup = findGroup(groups, 'documentation');
+  if (!documentationGroup) {
+    return;
+  }
+
+  documentationGroup.entries = replaceEntries(
+    documentationGroup.entries,
+    AdHocActivityInputSchemaProps({ element })
+  );
 }
 
 function updateErrorGroup(groups, element) {
