@@ -18,7 +18,7 @@ import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
 
 import diagramXML from './AdHocActivityInputSchemaProps.bpmn';
-import { setEditorValue } from '../../../TestHelper';
+import { changeInput } from '../../../TestHelper';
 import { getExtensionElementsList } from '../../../../src/utils/ExtensionElementsUtil';
 
 describe('provider/zeebe - AdHocActivityInputSchema', function() {
@@ -51,22 +51,24 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
     debounceInput: false
   }));
 
-
   describe('bpmn:FlowNode#camunda:adHocActivityInputSchema', function() {
-    const rootActivities = {
-      'Task_With_Input_Schema': 'Task with input schema',
+    const rootActivitiesFeel = {
+      'Task_With_FEEL_Input_Schema': 'Task with input schema'
+    };
+
+    const rootActivitiesText = {
       'Task_Without_Input_Schema': 'Task without input schema',
-      'First_Task': 'Task with follow-up task',
+      'Task_With_Text_Input_Schema': 'Task with follow-up task',
       'An_Event': 'Intermediate event'
     };
 
     const nonRootActivities = {
-      'Second_Task': 'Follow-up task to First_Task',
+      'Follow_Up_Task': 'Follow-up task to Task_With_Text_Input_Schema',
       'Event_Follow_Up_Task': 'Follow-up task to An_Event',
     };
 
-    describe('should display the input schema field on root activities within an ad-hoc subprocess', function() {
-      for (const [ activityId, testCaseDescription ] of Object.entries(rootActivities)) {
+    describe('should display the input schema field on root activities within an ad-hoc subprocess (FEEL expression)', function() {
+      for (const [ activityId, testCaseDescription ] of Object.entries(rootActivitiesFeel)) {
         it(testCaseDescription, inject(async function(
             elementRegistry,
             selection
@@ -83,7 +85,30 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           // then
           const group = getGroup(container, 'documentation');
           expect(group).to.exist;
-          expect(getAdHocActivityInputSchemaInput(container)).to.exist;
+          expect(getAdHocActivityInputSchemaExpressionInput(container)).to.exist;
+        }));
+      }
+    });
+
+    describe('should display the input schema field on root activities within an ad-hoc subprocess (text)', function() {
+      for (const [ activityId, testCaseDescription ] of Object.entries(rootActivitiesText)) {
+        it(testCaseDescription, inject(async function(
+            elementRegistry,
+            selection
+        ) {
+
+          // given
+          const activity = elementRegistry.get(activityId);
+
+          // when
+          await act(() => {
+            selection.select(activity);
+          });
+
+          // then
+          const group = getGroup(container, 'documentation');
+          expect(group).to.exist;
+          expect(getAdHocActivityInputSchemaTextarea(container)).to.exist;
         }));
       }
     });
@@ -106,7 +131,8 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           // then
           const group = getGroup(container, 'documentation');
           expect(group).to.exist;
-          expect(getAdHocActivityInputSchemaInput(container)).not.to.exist;
+          expect(getAdHocActivityInputSchemaTextarea(container)).not.to.exist;
+          expect(getAdHocActivityInputSchemaExpressionInput(container)).not.to.exist;
         }));
       }
     });
@@ -127,17 +153,36 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
       // then
       const group = getGroup(container, 'documentation');
       expect(group).to.exist;
-      expect(getAdHocActivityInputSchemaInput(container)).not.to.exist;
+      expect(getAdHocActivityInputSchemaTextarea(container)).not.to.exist;
+      expect(getAdHocActivityInputSchemaExpressionInput(container)).not.to.exist;
     }));
 
-
-    it('should show the expected value when an input schema is configured', inject(async function(
+    it('should display FEEL icon', inject(async function(
         elementRegistry,
         selection
     ) {
 
       // given
-      const activity = elementRegistry.get('Task_With_Input_Schema');
+      const activity = elementRegistry.get('Task_With_Text_Input_Schema');
+
+      await act(() => {
+        selection.select(activity);
+      });
+
+      // when
+      const adHocActivityInputSchemaIcon = domQuery('[data-entry-id="adHocActivityInputSchema"] .bio-properties-panel-feel-icon', container);
+
+      // then
+      expect(adHocActivityInputSchemaIcon).to.exist;
+    }));
+
+    it('should show the expected value when an input schema is configured (FEEL expression)', inject(async function(
+        elementRegistry,
+        selection
+    ) {
+
+      // given
+      const activity = elementRegistry.get('Task_With_FEEL_Input_Schema');
 
       // when
       await act(() => {
@@ -147,9 +192,30 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
       // then
       expect(getAdHocActivityInputSchemaProperty(activity)).to.exist;
 
-      const input = getAdHocActivityInputSchemaInput(container);
+      const input = getAdHocActivityInputSchemaExpressionInput(container);
       expect(input).to.exist;
       expect('=' + getEditorValue(input)).to.equal(getAdHocActivityInputSchemaValue(activity));
+    }));
+
+    it('should show the expected value when an input schema is configured (text)', inject(async function(
+        elementRegistry,
+        selection
+    ) {
+
+      // given
+      const activity = elementRegistry.get('Task_With_Text_Input_Schema');
+
+      // when
+      await act(() => {
+        selection.select(activity);
+      });
+
+      // then
+      expect(getAdHocActivityInputSchemaProperty(activity)).to.exist;
+
+      const textarea = getAdHocActivityInputSchemaTextarea(container);
+      expect(textarea).to.exist;
+      expect(textarea.value).to.equal(getAdHocActivityInputSchemaValue(activity));
     }));
 
     it('should be empty when no input schema is configured', inject(async function(
@@ -168,9 +234,9 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
       // then
       expect(getAdHocActivityInputSchemaProperty(activity)).not.to.exist;
 
-      const input = getAdHocActivityInputSchemaInput(container);
+      const input = getAdHocActivityInputSchemaTextarea(container);
       expect(input).to.exist;
-      expect(getEditorValue(input)).to.be.empty;
+      expect(input.value).to.be.empty;
     }));
 
     it('should update - reusing existing property', inject(async function(
@@ -179,18 +245,18 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
     ) {
 
       // given
-      const activity = elementRegistry.get('Task_With_Input_Schema');
+      const activity = elementRegistry.get('Task_With_Text_Input_Schema');
 
       await act(() => {
         selection.select(activity);
       });
 
       // when
-      const input = getAdHocActivityInputSchemaInput(container);
-      await setEditorValue(input, '{"type": "array"}');
+      const textarea = getAdHocActivityInputSchemaTextarea(container);
+      await changeInput(textarea, '{"type": "array"}');
 
       // then
-      expect(getAdHocActivityInputSchemaValue(activity)).to.equal('={"type": "array"}');
+      expect(getAdHocActivityInputSchemaValue(activity)).to.equal('{"type": "array"}');
     }));
 
 
@@ -207,11 +273,11 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
       });
 
       // when
-      const input = getAdHocActivityInputSchemaInput(container);
-      await setEditorValue(input, '{"type": "array"}');
+      const textarea = getAdHocActivityInputSchemaTextarea(container);
+      await changeInput(textarea, '{"type": "array"}');
 
       // then
-      expect(getAdHocActivityInputSchemaValue(activity)).to.equal('={"type": "array"}');
+      expect(getAdHocActivityInputSchemaValue(activity)).to.equal('{"type": "array"}');
     }));
 
     it('should update - remove property', inject(async function(
@@ -220,15 +286,15 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
     ) {
 
       // given
-      const activity = elementRegistry.get('Task_With_Input_Schema');
+      const activity = elementRegistry.get('Task_With_Text_Input_Schema');
 
       await act(() => {
         selection.select(activity);
       });
 
       // when
-      const input = getAdHocActivityInputSchemaInput(container);
-      await setEditorValue(input, '');
+      const textarea = getAdHocActivityInputSchemaTextarea(container);
+      await changeInput(textarea, '');
 
       // then
       expect(getAdHocActivityInputSchemaProperty(activity)).not.to.exist;
@@ -241,15 +307,15 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
     ) {
 
       // given
-      const activity = elementRegistry.get('Task_With_Input_Schema');
+      const activity = elementRegistry.get('Task_With_Text_Input_Schema');
       const originalValue = getAdHocActivityInputSchemaValue(activity);
 
       await act(() => {
         selection.select(activity);
       });
-      const input = getAdHocActivityInputSchemaInput(container);
-      await setEditorValue(input, '{"type": "array"}');
-      expect(getAdHocActivityInputSchemaValue(activity)).to.equal('={"type": "array"}');
+      const textarea = getAdHocActivityInputSchemaTextarea(container);
+      await changeInput(textarea, '{"type": "array"}');
+      expect(getAdHocActivityInputSchemaValue(activity)).to.equal('{"type": "array"}');
 
       // when
       await act(() => {
@@ -273,7 +339,11 @@ function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
 }
 
-function getAdHocActivityInputSchemaInput(container) {
+function getAdHocActivityInputSchemaTextarea(container) {
+  return domQuery('textarea[name=adHocActivityInputSchema]', container);
+}
+
+function getAdHocActivityInputSchemaExpressionInput(container) {
   return domQuery('[name=adHocActivityInputSchema] [role="textbox"]', container);
 }
 

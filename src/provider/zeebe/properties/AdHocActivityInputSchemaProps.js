@@ -163,7 +163,7 @@ const AdHocActivityInputSchemaProperty = (props) => {
     element,
     id: 'adHocActivityInputSchema',
     label: translate('Input JSON Schema'),
-    feel: 'required',
+    feel: 'optional',
     getValue,
     setValue,
     debounce
