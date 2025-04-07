@@ -18,7 +18,7 @@ import {
 
 import { useService } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 
 
@@ -123,7 +123,7 @@ function Expression(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id,
     label: translate('FEEL expression'),

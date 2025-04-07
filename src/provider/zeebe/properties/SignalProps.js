@@ -1,6 +1,6 @@
 import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 import {
   useService
@@ -74,7 +74,7 @@ function SignalName(props) {
     );
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'signalName',
     label: translate('Name'),

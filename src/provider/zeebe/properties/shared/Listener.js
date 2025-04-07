@@ -1,4 +1,4 @@
-import { FeelEntryWithVariableContext } from '../../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../../entries/FeelEntryWithContext';
 
 import { useService } from '../../../../hooks';
 
@@ -23,14 +23,14 @@ export function ListenerType(props) {
     return listener.get('type');
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: idPrefix + '-listenerType',
     label: translate('Listener type'),
     getValue,
     setValue,
     debounce,
-    feel: 'optional'
+    feel: 'optional',
   });
 }
 
@@ -55,13 +55,13 @@ export function Retries(props) {
     return listener.get('retries');
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: idPrefix + '-retries',
     label: translate('Retries'),
     getValue,
     setValue,
     debounce,
-    feel: 'optional'
+    feel: 'optional',
   });
 }

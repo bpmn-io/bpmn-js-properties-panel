@@ -8,7 +8,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 
 export default function InputOutputParameter(props) {
@@ -93,7 +93,7 @@ function SourceProperty(props) {
     return parameter.source;
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     bpmnElement: element,
     element: parameter,
     id: idPrefix + '-source',

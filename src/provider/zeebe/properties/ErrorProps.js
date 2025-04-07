@@ -13,7 +13,7 @@ import {
   getError
 } from '../../bpmn/utils/EventDefinitionUtil';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function ErrorProps(props) {
@@ -65,7 +65,7 @@ function ErrorCode(props) {
     );
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'errorCode',
     label: translate('Code'),

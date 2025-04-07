@@ -20,7 +20,7 @@ import {
 
 import { useService } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 export function MultiInstanceProps(props) {
   const {
@@ -78,7 +78,7 @@ function InputCollection(props) {
     return setProperty(element, 'inputCollection', value, commandStack, bpmnFactory);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
@@ -163,7 +163,7 @@ function OutputElement(props) {
     return setProperty(element, 'outputElement', value, commandStack, bpmnFactory);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'multiInstance-outputElement',
     label: translate('Output element'),
@@ -200,7 +200,7 @@ function CompletionCondition(props) {
     );
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'multiInstance-completionCondition',
     label: translate('Completion condition'),

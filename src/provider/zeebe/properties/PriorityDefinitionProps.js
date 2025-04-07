@@ -17,7 +17,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function PriorityDefinitionProps(props) {
@@ -115,7 +115,7 @@ function Priority(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'priorityDefinitionPriority',
     label: translate('Priority'),
