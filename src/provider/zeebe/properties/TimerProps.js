@@ -228,6 +228,7 @@ function TimerEventDefinitionValue(props) {
     id: 'timerEventDefinitionValue',
     label: label || translate('Value'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce,

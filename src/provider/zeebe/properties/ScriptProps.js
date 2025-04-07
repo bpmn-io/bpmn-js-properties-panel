@@ -128,6 +128,7 @@ function Expression(props) {
     id,
     label: translate('FEEL expression'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
