@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: set FEEL parser dialect to Camunda by default ([#1128](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1128))
+
 * `FEAT`: allow to provide custom FEEL popup
 * `FEAT`: make list headers sticky ([bpmn-io/properties-panel#397](https://github.com/bpmn-io/properties-panel/pull/397))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.30.0`
