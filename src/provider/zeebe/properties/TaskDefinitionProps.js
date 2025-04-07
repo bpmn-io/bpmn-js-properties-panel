@@ -18,7 +18,7 @@ import {
   isZeebeServiceTask
 } from '../utils/ZeebeServiceTaskUtil';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 
 export function TaskDefinitionProps(props) {
@@ -122,7 +122,7 @@ function TaskDefinitionType(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id,
     label: translate('Job type'),
@@ -210,7 +210,7 @@ function TaskDefinitionRetries(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id,
     label: translate('Retries'),

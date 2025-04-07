@@ -23,7 +23,7 @@ import {
   getExtensionElementsList
 } from '../../../utils/ExtensionElementsUtil';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 
 export function MessageProps(props) {
@@ -83,7 +83,7 @@ function MessageName(props) {
     );
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: 'messageName',
     label: translate('Name'),
@@ -174,7 +174,7 @@ function SubscriptionCorrelationKey(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: 'messageSubscriptionCorrelationKey',
     label: translate('Subscription correlation key'),

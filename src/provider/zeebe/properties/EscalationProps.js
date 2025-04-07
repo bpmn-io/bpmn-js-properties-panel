@@ -14,7 +14,7 @@ import {
   getEscalation
 } from '../../bpmn/utils/EventDefinitionUtil';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 
 /**
@@ -77,7 +77,7 @@ function EscalationCode(props) {
     );
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: 'escalationCode',
     label: translate('Code'),

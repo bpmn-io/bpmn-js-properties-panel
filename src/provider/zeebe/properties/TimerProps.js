@@ -15,7 +15,7 @@ import {
   SelectEntry, isSelectEntryEdited,
 } from '@bpmn-io/properties-panel';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 import { isTimerExpressionTypeSupported } from '../utils/TimerUtil';
 
@@ -223,7 +223,7 @@ function TimerEventDefinitionValue(props) {
     });
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: 'timerEventDefinitionValue',
     label: label || translate('Value'),
