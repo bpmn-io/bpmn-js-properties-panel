@@ -355,7 +355,7 @@ function getEditorValue(input) {
 }
 
 function getGroup(container, id) {
-  return domQuery(`[data-group-id="group-${id}"`, container);
+  return domQuery(`[data-group-id="group-${id}"]`, container);
 }
 
 function getInputNames(container) {

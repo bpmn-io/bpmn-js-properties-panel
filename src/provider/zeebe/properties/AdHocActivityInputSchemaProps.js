@@ -162,7 +162,8 @@ const AdHocActivityInputSchemaProperty = (props) => {
   return FeelTextAreaEntry({
     element,
     id: 'adHocActivityInputSchema',
-    label: translate('Input JSON Schema'),
+    label: translate('Input Schema'),
+    description: translate('JSON schema describing the input data of this activity.'),
     feel: 'optional',
     getValue,
     setValue,

@@ -45,6 +45,7 @@ import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTask
 const LOW_PRIORITY = 500;
 
 const ZEEBE_GROUPS = [
+  AdHocActivityGroup,
   BusinessRuleImplementationGroup,
   CalledDecisionGroup,
   ScriptImplementationGroup,
@@ -63,7 +64,7 @@ const ZEEBE_GROUPS = [
   HeaderGroup,
   TaskListenersGroup,
   ExecutionListenersGroup,
-  ExtensionPropertiesGroup
+  ExtensionPropertiesGroup,
 ];
 
 export default class ZeebePropertiesProvider {
@@ -82,7 +83,6 @@ export default class ZeebePropertiesProvider {
 
       // (2) update existing groups with zeebe specific properties
       updateGeneralGroup(groups, element);
-      updateDocumentationGroup(groups, element);
       updateErrorGroup(groups, element);
       updateEscalationGroup(groups, element);
       updateMessageGroup(groups, element);
@@ -377,6 +377,20 @@ function ExtensionPropertiesGroup(element, injector) {
   return null;
 }
 
+function AdHocActivityGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'adHocActivity',
+    label: translate('Ad-hoc activity'),
+    entries: [
+      ...AdHocActivityInputSchemaProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
 function updateGeneralGroup(groups, element) {
 
   const generalGroup = findGroup(groups, 'general');
@@ -391,18 +405,6 @@ function updateGeneralGroup(groups, element) {
   const insertIndex = executableEntry >= 0 ? executableEntry : entries.length;
 
   entries.splice(insertIndex, 0, ...VersionTagProps({ element }));
-}
-
-function updateDocumentationGroup(groups, element) {
-  const documentationGroup = findGroup(groups, 'documentation');
-  if (!documentationGroup) {
-    return;
-  }
-
-  documentationGroup.entries = replaceEntries(
-    documentationGroup.entries,
-    AdHocActivityInputSchemaProps({ element })
-  );
 }
 
 function updateErrorGroup(groups, element) {

@@ -83,6 +83,7 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           });
 
           // then
+          expect(getGroup(container, 'adHocActivity')).to.exist;
           expect(getAdHocActivityInputSchemaExpressionInput(container)).to.exist;
         }));
       }
@@ -104,6 +105,7 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           });
 
           // then
+          expect(getGroup(container, 'adHocActivity')).to.exist;
           expect(getAdHocActivityInputSchemaTextarea(container)).to.exist;
         }));
       }
@@ -125,6 +127,7 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
           });
 
           // then
+          expect(getGroup(container, 'adHocActivity')).not.to.exist;
           expect(getAdHocActivityInputSchemaTextarea(container)).not.to.exist;
           expect(getAdHocActivityInputSchemaExpressionInput(container)).not.to.exist;
         }));
@@ -145,6 +148,7 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
       });
 
       // then
+      expect(getGroup(container, 'adHocActivity')).not.to.exist;
       expect(getAdHocActivityInputSchemaTextarea(container)).not.to.exist;
       expect(getAdHocActivityInputSchemaExpressionInput(container)).not.to.exist;
     }));
@@ -322,6 +326,10 @@ describe('provider/zeebe - AdHocActivityInputSchema', function() {
 
 
 // DOM helpers ////////////////////////////
+
+function getGroup(container, id) {
+  return domQuery(`[data-group-id="group-${id}"]`, container);
+}
 
 function getAdHocActivityInputSchemaTextarea(container) {
   return domQuery('textarea[name=adHocActivityInputSchema]', container);
