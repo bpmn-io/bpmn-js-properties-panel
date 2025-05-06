@@ -13,7 +13,8 @@ import {
   insertBpmnStyles,
   withPropertiesPanel,
   enableLogging,
-  getBpmnJS
+  getBpmnJS,
+  changeInput
 } from 'test/TestHelper';
 
 import {
@@ -53,6 +54,10 @@ import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
 import ZeebeTooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 import CamundaPlatformTooltipProvider from 'src/contextProvider/camunda-platform/TooltipProvider';
+
+import { getExtensionElementsList } from 'src/utils/ExtensionElementsUtil';
+
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
@@ -501,6 +506,222 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       expect(getHeaderName(propertiesContainer)).to.eql('start');
     });
 
+    describe('input', function() {
+      let clock;
+
+      beforeEach(function() {
+        clock = sinon.useFakeTimers();
+      });
+
+      afterEach(function() {
+        clock.restore();
+      });
+
+      describe('feel (optional)', function() {
+
+        it('should trim value be visible in XML', async function() {
+
+          // given
+          const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+          let modeler;
+
+          await act(async () => {
+            ({ modeler } = await createModeler(diagramXml, {
+              propertiesPanel: {
+                parent: propertiesContainer
+              }
+            }));
+          });
+
+          let serviceTask1;
+          await act(() => {
+            const elementRegistry = modeler.get('elementRegistry'),
+                  selection = modeler.get('selection');
+            serviceTask1 = elementRegistry.get('ServiceTask_1');
+
+            // when
+            selection.select(serviceTask1);
+          });
+
+          const input = domQuery('input[name=taskDefinitionType]', container);
+
+          document.body.appendChild(input);
+
+          input.focus();
+          changeInput(input, 'foo    ');
+
+          await act(() => {
+            input.blur();
+          });
+          clock.tick(2000);
+
+          // then
+          expect(getTaskDefinition(serviceTask1).get('type')).to.eql('foo');
+
+        });
+
+
+        it('should not propogate input to other element', async function() {
+
+          // given
+
+          const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+          let modeler;
+
+          await act(async () => {
+            ({ modeler } = await createModeler(diagramXml, {
+              propertiesPanel: {
+                parent: propertiesContainer
+              }
+            }));
+          });
+
+
+          let serviceTask1, serviceTask2, selection;
+          await act(() => {
+            const elementRegistry = modeler.get('elementRegistry');
+            selection = modeler.get('selection');
+            serviceTask1 = elementRegistry.get('ServiceTask_1');
+            serviceTask2 = elementRegistry.get('ServiceTask_2');
+
+            // when
+            selection.select(serviceTask1);
+          });
+
+          const originalValueServiceTask2 = getTaskDefinition(serviceTask2).get('type');
+
+          await act(() => {
+            selection.select(serviceTask1);
+          });
+
+          // when
+          const input1 = domQuery('input[name=taskDefinitionType]', container);
+          document.body.appendChild(input1);
+          changeInput(input1, 'newValue');
+          input1.focus();
+
+          await act(() => {
+            input1.blur();
+            selection.select(serviceTask2);
+          });
+          const input2 = domQuery('input[name=taskDefinitionType]', container);
+          document.body.appendChild(input2);
+          input2.focus();
+          clock.tick(2000);
+
+          // then
+          expect(input2.value).to.eql(originalValueServiceTask2);
+          expect(getTaskDefinition(serviceTask2).get('type')).to.eql(originalValueServiceTask2);
+        });
+
+      });
+
+      describe('text area', function() {
+
+        it('should trim value be visible in XML', async function() {
+
+          // given
+          const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+          let modeler;
+
+          await act(async () => {
+            ({ modeler } = await createModeler(diagramXml, {
+              propertiesPanel: {
+                parent: propertiesContainer
+              }
+            }));
+          });
+
+          let task;
+          await act(() => {
+            const elementRegistry = modeler.get('elementRegistry'),
+                  selection = modeler.get('selection');
+            task = elementRegistry.get('Task_1');
+
+            // when
+            selection.select(task);
+          });
+
+          const input = domQuery('textarea[name=name]', container);
+
+          document.body.appendChild(input);
+
+          input.focus();
+          changeInput(input, 'foo    ');
+
+          await act(() => {
+            input.blur();
+          });
+          clock.tick(2000);
+
+          // then
+          expect(getBusinessObject(task).get('name')).to.eql('foo');
+
+        });
+
+
+        it('should not propogate input to other element', async function() {
+
+          // given
+
+          const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+          let modeler;
+
+          await act(async () => {
+            ({ modeler } = await createModeler(diagramXml, {
+              propertiesPanel: {
+                parent: propertiesContainer
+              }
+            }));
+          });
+
+
+          let serviceTask1, serviceTask2, selection;
+          await act(() => {
+            const elementRegistry = modeler.get('elementRegistry');
+            selection = modeler.get('selection');
+            serviceTask1 = elementRegistry.get('ServiceTask_1');
+            serviceTask2 = elementRegistry.get('ServiceTask_2');
+
+            // when
+            selection.select(serviceTask1);
+          });
+
+          const originalValueServiceTask2 = getTaskDefinition(serviceTask2).get('type');
+
+          await act(() => {
+            selection.select(serviceTask1);
+          });
+
+          // when
+          const input1 = domQuery('input[name=taskDefinitionType]', container);
+          document.body.appendChild(input1);
+          changeInput(input1, 'newValue');
+          input1.focus();
+
+          await act(() => {
+            input1.blur();
+            selection.select(serviceTask2);
+          });
+          const input2 = domQuery('input[name=taskDefinitionType]', container);
+          document.body.appendChild(input2);
+          input2.focus();
+          clock.tick(2000);
+
+          // then
+          expect(input2.value).to.eql(originalValueServiceTask2);
+          expect(getTaskDefinition(serviceTask2).get('type')).to.eql(originalValueServiceTask2);
+        });
+
+      });
+
+
+    });
+
 
     withPropertiesPanel('>=0.16')('should show error', async function() {
 
@@ -812,6 +1033,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           id: 'ServiceTask_1-input-0-target'
         });
       });
+
 
       // then
       expect(document.activeElement).to.exist;
@@ -1223,4 +1445,12 @@ function showEntry(id) {
       id
     });
   }));
+}
+
+// helper //////////////////
+
+function getTaskDefinition(element) {
+  const businessObject = getBusinessObject(element);
+
+  return getExtensionElementsList(businessObject, 'zeebe:TaskDefinition')[0];
 }
