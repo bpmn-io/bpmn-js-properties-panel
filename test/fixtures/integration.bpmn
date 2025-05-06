@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1k9gocq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.34.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.7.0">
+  <bpmn:process id="Process_0bjswkx" isExecutable="true">
+    <bpmn:task id="Task_1" name="Task 1" />
+    <bpmn:task id="Task_2" name="Task 2" />
+    <bpmn:serviceTask id="ServiceTask_1" name="Service Task 1">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foo" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_2" name="Service Task 2">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="bar" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="LinkEvent_1" name="Link Event 1">
+      <bpmn:linkEventDefinition name="name" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="LinkEvent_2" name="Link Event 2">
+      <bpmn:linkEventDefinition name="name" />
+    </bpmn:intermediateThrowEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0bjswkx">
+      <bpmndi:BPMNShape id="Activity_1xnx3pj_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="240" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_13ftmyc" bpmnElement="Task_2">
+        <dc:Bounds x="360" y="240" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tf1eey_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_012sk28_di" bpmnElement="ServiceTask_2">
+        <dc:Bounds x="360" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LinkEvent_1_di" bpmnElement="LinkEvent_1">
+        <dc:Bounds x="160" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="LinkEvent_2_di" bpmnElement="LinkEvent_2">
+        <dc:Bounds x="360" y="400" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
