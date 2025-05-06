@@ -2,7 +2,8 @@ import TestContainer from 'mocha-test-container-support';
 
 import {
   act,
-  cleanup
+  cleanup,
+  waitFor
 } from '@testing-library/preact/pure';
 
 import {
@@ -13,7 +14,8 @@ import {
   insertBpmnStyles,
   withPropertiesPanel,
   enableLogging,
-  getBpmnJS
+  getBpmnJS,
+  changeInput
 } from 'test/TestHelper';
 
 import {
@@ -53,6 +55,10 @@ import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
 import ZeebeTooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 import CamundaPlatformTooltipProvider from 'src/contextProvider/camunda-platform/TooltipProvider';
+
+import { getExtensionElementsList } from 'src/utils/ExtensionElementsUtil';
+
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
@@ -501,6 +507,209 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       expect(getHeaderName(propertiesContainer)).to.eql('start');
     });
 
+    describe('input', function() {
+
+      let modeler;
+      const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+      beforeEach(function() {
+        return act(async () => {
+          ({ modeler } = await createModeler(diagramXml, {
+            propertiesPanel: {
+              parent: propertiesContainer,
+              layout: {
+                groups: {
+                  'general': { open: true },
+                  'taskDefinition': { open: true },
+                  'link': { open: true }
+                }
+              }
+            }
+          }));
+        });
+      });
+
+
+      describe('feel (optional)', function() {
+
+        const OPTIONAL_FEEL_SELECTOR = '[name=taskDefinitionType]';
+
+        it('should trim value', async function() {
+
+          // given
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection'),
+                serviceTask = elementRegistry.get('ServiceTask_1');
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          // when
+          const input = domQuery(OPTIONAL_FEEL_SELECTOR, container);
+          input.focus();
+          changeInput(input, '    bar    ');
+          input.blur();
+
+          // then
+          await waitFor(() => {
+            expect(getTaskDefinition(serviceTask).get('type')).to.eql('bar');
+          });
+        });
+
+
+        it('should not propagate input to other element', async function() {
+
+          // given
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection'),
+                serviceTask = elementRegistry.get('ServiceTask_1'),
+                anotherServiceTask = elementRegistry.get('ServiceTask_2');
+          const originalValueOfAnotherServiceTask = getTaskDefinition(anotherServiceTask).get('type');
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          // when
+          const input = domQuery(OPTIONAL_FEEL_SELECTOR, container);
+          input.focus();
+          changeInput(input, 'newValue');
+          input.blur();
+
+          await act(() => {
+            selection.select(anotherServiceTask);
+          });
+
+          // and when
+          const input2 = domQuery(OPTIONAL_FEEL_SELECTOR, container);
+          input2.focus();
+
+          // then
+          expect(input2.value).to.eql(originalValueOfAnotherServiceTask);
+          expect(getTaskDefinition(anotherServiceTask).get('type')).to.eql(originalValueOfAnotherServiceTask);
+        });
+      });
+
+
+      describe('text area', function() {
+
+        const TEXT_AREA_SELECTOR = '[name=name]';
+
+        it('should trim value', async function() {
+
+          // given
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection'),
+                serviceTask = elementRegistry.get('ServiceTask_1');
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          // when
+          const input = domQuery(TEXT_AREA_SELECTOR, container);
+          input.focus();
+          changeInput(input, '    bar    ');
+          input.blur();
+
+          // then
+          await waitFor(() => {
+            expect(getName(serviceTask)).to.eql('bar');
+          });
+        });
+
+
+        it('should not propagate input to other element', async function() {
+
+          // given
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection'),
+                serviceTask = elementRegistry.get('ServiceTask_1'),
+                anotherServiceTask = elementRegistry.get('ServiceTask_2');
+          const originalValueOfAnotherServiceTask = getName(anotherServiceTask);
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          // when
+          const input = domQuery(TEXT_AREA_SELECTOR, container);
+          input.focus();
+          changeInput(input, 'newValue');
+          input.blur();
+
+          await act(() => {
+            selection.select(anotherServiceTask);
+          });
+
+          // and when
+          const input2 = domQuery(TEXT_AREA_SELECTOR, container);
+          input2.focus();
+
+          // then
+          expect(input2.value).to.eql(originalValueOfAnotherServiceTask);
+          expect(getName(anotherServiceTask)).to.eql(originalValueOfAnotherServiceTask);
+        });
+      });
+
+
+      describe('text field', function() {
+
+        const TEXT_FIELD_SELECTOR = '[name=linkName]';
+
+        it('should trim value', async function() {
+
+          // given
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection'),
+                linkEvent = elementRegistry.get('LinkEvent_1');
+          await act(() => {
+            selection.select(linkEvent);
+          });
+
+          // when
+          const input = domQuery(TEXT_FIELD_SELECTOR, container);
+          input.focus();
+          changeInput(input, '    bar    ');
+          input.blur();
+
+          // then
+          await waitFor(() => {
+            expect(getLinkName(linkEvent)).to.eql('bar');
+          });
+        });
+
+
+        it('should not propagate input to other element', async function() {
+
+          // given
+          const elementRegistry = modeler.get('elementRegistry'),
+                selection = modeler.get('selection'),
+                linkEvent = elementRegistry.get('LinkEvent_1'),
+                anotherLinkName = elementRegistry.get('LinkEvent_2');
+          const originalValueOfAnotherLinkEvent = getLinkName(anotherLinkName);
+          await act(() => {
+            selection.select(linkEvent);
+          });
+
+          // when
+          const input = domQuery(TEXT_FIELD_SELECTOR, container);
+          input.focus();
+          changeInput(input, 'newValue');
+          input.blur();
+
+          await act(() => {
+            selection.select(anotherLinkName);
+          });
+
+          // and when
+          const input2 = domQuery(TEXT_FIELD_SELECTOR, container);
+          input2.focus();
+
+          // then
+          expect(input2.value).to.eql(originalValueOfAnotherLinkEvent);
+          expect(getLinkName(anotherLinkName)).to.eql(originalValueOfAnotherLinkEvent);
+        });
+      });
+    });
+
 
     withPropertiesPanel('>=0.16')('should show error', async function() {
 
@@ -812,6 +1021,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           id: 'ServiceTask_1-input-0-target'
         });
       });
+
 
       // then
       expect(document.activeElement).to.exist;
@@ -1223,4 +1433,24 @@ function showEntry(id) {
       id
     });
   }));
+}
+
+// helper //////////////////
+
+function getTaskDefinition(element) {
+  const businessObject = getBusinessObject(element);
+
+  return getExtensionElementsList(businessObject, 'zeebe:TaskDefinition')[0];
+}
+
+function getName(element) {
+  const businessObject = getBusinessObject(element);
+
+  return businessObject.get('name');
+}
+
+function getLinkName(element) {
+  const businessObject = getBusinessObject(element);
+
+  return businessObject.get('eventDefinitions')[0].get('name');
 }
