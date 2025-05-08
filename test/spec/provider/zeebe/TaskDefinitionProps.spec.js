@@ -351,6 +351,34 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
       expect(documentationLinkGroup.title).to.equal('Send task documentation');
     }));
 
+
+    it('should undo works', inject(async function(elementRegistry, selection, commandStack) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const typeInput = domQuery('input[name=taskDefinitionType]', container);
+
+      changeInput(typeInput, 'foo');
+      clock.tick(1000);
+
+      changeInput(typeInput, 'bar');
+      clock.tick(1000);
+
+
+      await act(() => {
+        commandStack.undo();
+      });
+
+      expect(typeInput.value).to.eql('foo');
+      expect(getTaskDefinition(serviceTask).get('type')).to.eql('foo');
+    }));
+
   });
 
 
@@ -476,6 +504,31 @@ describe('provider/zeebe - TaskDefinitionProps', function() {
         expect(getTaskDefinition(serviceTask).get('retries')).to.eql('newValue');
       })
     );
+
+    it('should undo works', inject(async function(elementRegistry, selection, commandStack) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const retriesInput = domQuery('input[name=taskDefinitionRetries]', container);
+      changeInput(retriesInput, 'foo');
+      clock.tick(1000);
+
+      changeInput(retriesInput, 'bar');
+      clock.tick(1000);
+
+      await act(() => {
+        commandStack.undo();
+      });
+
+      expect(retriesInput.value).to.eql('foo');
+      expect(getTaskDefinition(serviceTask).get('retries')).to.eql('foo');
+    }));
 
   });
 
