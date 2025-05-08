@@ -99,6 +99,7 @@ function SourceProperty(props) {
     id: idPrefix + '-source',
     label: translate('Variable assignment value'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

@@ -266,6 +266,7 @@ function ExternalReference(props) {
     id: 'externalReference',
     label: translate('External form reference'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

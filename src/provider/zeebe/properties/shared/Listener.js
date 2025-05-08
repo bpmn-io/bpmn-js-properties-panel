@@ -30,7 +30,8 @@ export function ListenerType(props) {
     getValue,
     setValue,
     debounce,
-    feel: 'optional'
+    feel: 'optional',
+    feelParserDialect: 'camunda'
   });
 }
 
@@ -62,6 +63,7 @@ export function Retries(props) {
     getValue,
     setValue,
     debounce,
-    feel: 'optional'
+    feel: 'optional',
+    feelParserDialect: 'camunda'
   });
 }

@@ -82,6 +82,7 @@ function EscalationCode(props) {
     id: 'escalationCode',
     label: translate('Code'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

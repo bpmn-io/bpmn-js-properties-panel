@@ -153,6 +153,7 @@ function DecisionID(props) {
     id,
     label: translate('Decision ID'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

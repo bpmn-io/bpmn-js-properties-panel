@@ -149,6 +149,7 @@ function TargetProcessId(props) {
     id,
     label: translate('Process ID'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
