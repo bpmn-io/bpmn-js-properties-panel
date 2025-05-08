@@ -38,7 +38,8 @@ export function ListProps(props) {
   const {
     idPrefix,
     element,
-    parameter
+    parameter,
+    headerNestingLevel
   } = props;
 
   const bpmnFactory = useService('bpmnFactory');
@@ -78,7 +79,8 @@ export function ListProps(props) {
     label: translate('List values'),
     onAdd: addItem,
     onRemove: removeItem,
-    component: ListProp
+    component: ListProp,
+    headerNestingLevel
   });
 }
 
