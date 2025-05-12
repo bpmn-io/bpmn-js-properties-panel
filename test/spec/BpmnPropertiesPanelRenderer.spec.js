@@ -720,6 +720,64 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       });
 
 
+      describe('text field', function() {
+
+        it('should not propogate input to other element', async function() {
+
+          // given
+
+          const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+          let modeler;
+
+          await act(async () => {
+            ({ modeler } = await createModeler(diagramXml, {
+              propertiesPanel: {
+                parent: propertiesContainer
+              }
+            }));
+          });
+
+
+          let serviceTask1, serviceTask2, selection;
+          await act(() => {
+            const elementRegistry = modeler.get('elementRegistry');
+            selection = modeler.get('selection');
+            serviceTask1 = elementRegistry.get('ServiceTask_1');
+            serviceTask2 = elementRegistry.get('ServiceTask_2');
+
+            // when
+            selection.select(serviceTask1);
+          });
+
+          const originalValueServiceTask2 = getTaskDefinition(serviceTask2).get('type');
+
+          await act(() => {
+            selection.select(serviceTask1);
+          });
+
+          // when
+          const input1 = domQuery('input[name=taskDefinitionType]', container);
+          document.body.appendChild(input1);
+          changeInput(input1, 'newValue');
+          input1.focus();
+
+          await act(() => {
+            input1.blur();
+            selection.select(serviceTask2);
+          });
+          const input2 = domQuery('input[name=taskDefinitionType]', container);
+          document.body.appendChild(input2);
+          input2.focus();
+          clock.tick(2000);
+
+          // then
+          expect(input2.value).to.eql(originalValueServiceTask2);
+          expect(getTaskDefinition(serviceTask2).get('type')).to.eql(originalValueServiceTask2);
+        });
+
+      });
+
       it('should undo works', async function() {
 
         const diagramXml = require('test/fixtures/integration.bpmn').default;
