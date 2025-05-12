@@ -96,7 +96,7 @@ export const PanelHeaderProvider = (translate) => {
       const templateIcon = getBusinessObject(element).get(iconProperty);
 
       if (templateIcon) {
-        return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } />;
+        return () => <img class="bio-properties-panel-header-template-icon" width="32" height="32" src={ templateIcon } alt="" />;
       }
 
       return iconsByType[ concreteType ];
