@@ -720,6 +720,34 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       });
 
 
+      it('should undo works', async function() {
+
+        const diagramXml = require('test/fixtures/integration.bpmn').default;
+
+        const { modeler } = await createModeler(diagramXml, {});
+
+        modeler.invoke(async function(eventBus, elementRegistry, modeling, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_1');
+          modeling.updateLabel(serviceTask, 'foo');
+          modeling.updateLabel(serviceTask, 'bar');
+
+          const undoSpy = sinon.spy();
+
+          eventBus.on('commandStack.undo', undoSpy);
+
+          await act(() => {
+            commandStack.undo();
+          });
+
+          // then
+          expect(undoSpy).to.have.been.calledOnce;
+          expect(getBusinessObject(serviceTask).get('name')).to.eql('foo');
+
+        });
+
+      });
     });
 
 
