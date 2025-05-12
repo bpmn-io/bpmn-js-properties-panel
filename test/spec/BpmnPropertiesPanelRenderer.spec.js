@@ -1061,14 +1061,14 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   describe('a11y', function() {
 
-    it('should have no violations', async function() {
+    it('camunda 7 bpmn should have no violations', async function() {
 
       // given
 
       // (0) this test needs some time
       this.timeout(5000);
 
-      const diagramXml = require('test/fixtures/a11y.bpmn').default;
+      const diagramXml = require('test/fixtures/a11y-c7.bpmn').default;
 
       // (1) ensure fully opened properties panel
       let modeler;
@@ -1124,6 +1124,58 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         inputMapHeader.click();
         entryHeader.click();
       });
+
+      // when
+      await expectNoViolations(propertiesContainer);
+    });
+
+
+    it('camunda 8 bpmn with element template should have no violations', async function() {
+
+      // given
+
+      // (0) this test needs some time
+      this.timeout(5000);
+
+      const diagramXml = require('test/fixtures/a11y-c8.bpmn').default;
+
+      // (1) ensure fully opened properties panel
+      let modeler;
+      await act(async () => {
+        const result = await createModeler(
+          diagramXml,
+          {
+            additionalModules: [
+              CamundaBehaviorsModule,
+              BpmnPropertiesPanel,
+              BpmnPropertiesProvider,
+              CamundaPropertiesProvider
+            ],
+            moddleExtensions: {
+              camunda: CamundaModdle
+            },
+            layout: {
+              groups: {
+                'general': { open: true },
+                'documentation': { open: true },
+                'ElementTemplates__CustomProperties-script': { open: true },
+                'ElementTemplates__CustomProperties-worker': { open: true },
+                'ElementTemplates__CustomProperties-prerun': { open: true },
+                'ElementTemplates__CustomProperties-postrun': { open: true },
+                'ElementTemplates__CustomProperties-input': { open: true },
+                'Zeebe__ExecutionListeners': { open: true },
+              }
+            }
+          }
+        );
+        modeler = result.modeler;
+      });
+
+      const selection = modeler.get('selection');
+      const elementRegistry = modeler.get('elementRegistry');
+
+      await act(() => selection.select(elementRegistry.get('RpaConnector_1')));
+
 
       // when
       await expectNoViolations(propertiesContainer);
