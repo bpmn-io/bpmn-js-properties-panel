@@ -1158,17 +1158,12 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
               groups: {
                 'general': { open: true },
                 'documentation': { open: true },
-                'multiInstance': { open: true },
-                'CamundaPlatform__Implementation': { open: true },
-                'CamundaPlatform__AsynchronousContinuations': { open: true },
-                'CamundaPlatform__JobExecution': { open: true },
-                'CamundaPlatform__Input': { open: true },
-                'CamundaPlatform__Output': { open: true },
-                'CamundaPlatform__ConnectorInput': { open: true },
-                'CamundaPlatform__ConnectorOutput': { open: true },
-                'CamundaPlatform__ExecutionListener': { open: true },
-                'CamundaPlatform__ExtensionProperties': { open: true },
-                'CamundaPlatform__FieldInjection': { open: true }
+                'ElementTemplates__CustomProperties-script': { open: true },
+                'ElementTemplates__CustomProperties-worker': { open: true },
+                'ElementTemplates__CustomProperties-prerun': { open: true },
+                'ElementTemplates__CustomProperties-postrun': { open: true },
+                'ElementTemplates__CustomProperties-input': { open: true },
+                'Zeebe__ExecutionListeners': { open: true },
               }
             }
           }
