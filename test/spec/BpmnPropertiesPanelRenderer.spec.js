@@ -1061,14 +1061,14 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   describe('a11y', function() {
 
-    it('should have no violations', async function() {
+    it('camunda 7 bpmn should have no violations', async function() {
 
       // given
 
       // (0) this test needs some time
       this.timeout(5000);
 
-      const diagramXml = require('test/fixtures/a11y.bpmn').default;
+      const diagramXml = require('test/fixtures/a11y-c7.bpmn').default;
 
       // (1) ensure fully opened properties panel
       let modeler;
@@ -1124,6 +1124,63 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         inputMapHeader.click();
         entryHeader.click();
       });
+
+      // when
+      await expectNoViolations(propertiesContainer);
+    });
+
+
+    it('camunda 8 bpmn with element template should have no violations', async function() {
+
+      // given
+
+      // (0) this test needs some time
+      this.timeout(5000);
+
+      const diagramXml = require('test/fixtures/a11y-c8.bpmn').default;
+
+      // (1) ensure fully opened properties panel
+      let modeler;
+      await act(async () => {
+        const result = await createModeler(
+          diagramXml,
+          {
+            additionalModules: [
+              CamundaBehaviorsModule,
+              BpmnPropertiesPanel,
+              BpmnPropertiesProvider,
+              CamundaPropertiesProvider
+            ],
+            moddleExtensions: {
+              camunda: CamundaModdle
+            },
+            layout: {
+              groups: {
+                'general': { open: true },
+                'documentation': { open: true },
+                'multiInstance': { open: true },
+                'CamundaPlatform__Implementation': { open: true },
+                'CamundaPlatform__AsynchronousContinuations': { open: true },
+                'CamundaPlatform__JobExecution': { open: true },
+                'CamundaPlatform__Input': { open: true },
+                'CamundaPlatform__Output': { open: true },
+                'CamundaPlatform__ConnectorInput': { open: true },
+                'CamundaPlatform__ConnectorOutput': { open: true },
+                'CamundaPlatform__ExecutionListener': { open: true },
+                'CamundaPlatform__ExtensionProperties': { open: true },
+                'CamundaPlatform__FieldInjection': { open: true }
+              }
+            }
+          }
+        );
+        modeler = result.modeler;
+      });
+
+      const selection = modeler.get('selection');
+      const elementRegistry = modeler.get('elementRegistry');
+
+      await act(() => selection.select(elementRegistry.get('RpaConnector_1')));
+
 
       // when
       await expectNoViolations(propertiesContainer);
