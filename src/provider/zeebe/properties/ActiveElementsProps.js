@@ -59,6 +59,7 @@ function ActiveElementsCollection(props) {
     id: 'activeElements-activeElementsCollection',
     label: translate('Active elements collection'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

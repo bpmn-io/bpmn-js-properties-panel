@@ -70,6 +70,7 @@ function ErrorCode(props) {
     id: 'errorCode',
     label: translate('Code'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

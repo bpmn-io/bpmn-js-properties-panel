@@ -107,6 +107,7 @@ function ConditionExpression(props) {
     id: 'conditionExpression',
     label: translate('Condition expression'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

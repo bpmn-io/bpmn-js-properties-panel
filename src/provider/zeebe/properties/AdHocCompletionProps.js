@@ -60,6 +60,7 @@ function CompletionCondition(props) {
     id: 'completionCondition',
     label: translate('Completion condition'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce,

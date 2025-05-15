@@ -120,6 +120,7 @@ function Priority(props) {
     id: 'priorityDefinitionPriority',
     label: translate('Priority'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

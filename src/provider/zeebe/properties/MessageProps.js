@@ -88,6 +88,7 @@ function MessageName(props) {
     id: 'messageName',
     label: translate('Name'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

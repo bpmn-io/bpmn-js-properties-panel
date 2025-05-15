@@ -79,6 +79,7 @@ function SignalName(props) {
     id: 'signalName',
     label: translate('Name'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

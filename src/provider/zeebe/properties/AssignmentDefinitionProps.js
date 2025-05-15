@@ -130,6 +130,7 @@ function Assignee(props) {
     id: 'assignmentDefinitionAssignee',
     label: translate('Assignee'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
@@ -304,6 +305,7 @@ function CandidateUsers(props) {
     id: 'assignmentDefinitionCandidateUsers',
     label: translate('Candidate users'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

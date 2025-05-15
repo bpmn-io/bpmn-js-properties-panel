@@ -127,6 +127,7 @@ function TaskDefinitionType(props) {
     id,
     label: translate('Job type'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
@@ -215,6 +216,7 @@ function TaskDefinitionRetries(props) {
     id,
     label: translate('Retries'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

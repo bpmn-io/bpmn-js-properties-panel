@@ -83,6 +83,7 @@ function InputCollection(props) {
     id: 'multiInstance-inputCollection',
     label: translate('Input collection'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
@@ -168,6 +169,7 @@ function OutputElement(props) {
     id: 'multiInstance-outputElement',
     label: translate('Output element'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
@@ -205,6 +207,7 @@ function CompletionCondition(props) {
     id: 'multiInstance-completionCondition',
     label: translate('Completion condition'),
     feel: 'required',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce

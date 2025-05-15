@@ -130,6 +130,7 @@ function DueDate(props) {
     id: 'taskScheduleDueDate',
     label: translate('Due date'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
@@ -223,6 +224,7 @@ function FollowUpDate(props) {
     id: 'taskScheduleFollowUpDate',
     label: translate('Follow up date'),
     feel: 'optional',
+    feelParserDialect: 'camunda',
     getValue,
     setValue,
     debounce
