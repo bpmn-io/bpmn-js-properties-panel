@@ -70,7 +70,8 @@ export default function FormField(props) {
       id: idPrefix + '-formFieldValues',
       component: ValueList,
       formField,
-      idPrefix
+      idPrefix,
+      headerNestingLevel: 1,
     });
   }
 
@@ -78,13 +79,15 @@ export default function FormField(props) {
     id: idPrefix + '-formFieldConstraints',
     component: ConstraintList,
     formField,
-    idPrefix
+    idPrefix,
+    headerNestingLevel: 1
   },
   {
     id: idPrefix + '-formFieldProperties',
     component: PropertiesList,
     formField,
-    idPrefix
+    idPrefix,
+    headerNestingLevel: 1
   });
 
   return entries;
@@ -321,7 +324,8 @@ function ValueList(props) {
   const {
     element,
     formField,
-    idPrefix
+    idPrefix,
+    headerNestingLevel
   } = props;
 
   const id = `${ idPrefix }-formFieldValues`;
@@ -368,6 +372,7 @@ function ValueList(props) {
     component={ Value }
     onAdd={ addValue }
     onRemove={ removeValue }
+    headerNestingLevel={ headerNestingLevel }
   />;
 }
 
@@ -403,7 +408,8 @@ function ConstraintList(props) {
   const {
     element,
     formField,
-    idPrefix
+    idPrefix,
+    headerNestingLevel
   } = props;
 
   const id = `${ idPrefix }-formFieldConstraints`;
@@ -482,7 +488,9 @@ function ConstraintList(props) {
       items={ constraints }
       component={ Constraint }
       onAdd={ addConstraint }
-      onRemove={ removeConstraint } />
+      onRemove={ removeConstraint }
+      headerNestingLevel={ headerNestingLevel }
+    />
   );
 }
 
@@ -518,7 +526,8 @@ function PropertiesList(props) {
   const {
     element,
     formField,
-    idPrefix
+    idPrefix,
+    headerNestingLevel
   } = props;
 
   const id = `${ idPrefix }-formFieldProperties`;
@@ -597,5 +606,6 @@ function PropertiesList(props) {
     component={ Property }
     onAdd={ addProperty }
     onRemove={ removeProperty }
+    headerNestingLevel={ headerNestingLevel }
   />;
 }
