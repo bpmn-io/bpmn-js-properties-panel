@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.36.0
+
+* `FEAT`: trim whitespace in entries
+* `FIX`: add empty alt attribute for icons
+* `DEPS`: update to `@bpmn-io/properties-panel@3.27.1`
+
 ## 5.35.0
 
 * `FEAT`: update ad-hoc subprocess completion docs link ([#1116](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1116))
