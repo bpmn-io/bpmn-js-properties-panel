@@ -17,7 +17,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 
 export function AssignmentDefinitionProps(props) {
@@ -125,7 +125,7 @@ function Assignee(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'assignmentDefinitionAssignee',
     label: translate('Assignee'),
@@ -212,7 +212,7 @@ function CandidateGroups(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'assignmentDefinitionCandidateGroups',
     label: translate('Candidate groups'),
@@ -299,7 +299,7 @@ function CandidateUsers(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'assignmentDefinitionCandidateUsers',
     label: translate('Candidate users'),

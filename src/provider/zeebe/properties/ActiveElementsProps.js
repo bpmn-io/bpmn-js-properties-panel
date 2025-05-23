@@ -7,7 +7,7 @@ import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 import { useService } from '../../../hooks';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { FeelEntryWithVariableContextWithFeelLanguageContext } from '../../../entries/FeelEntryWithContext';
 
 import {
   getExtensionElementsList,
@@ -54,7 +54,7 @@ function ActiveElementsCollection(props) {
     return setProperty(element, value, commandStack, bpmnFactory);
   };
 
-  return FeelEntryWithVariableContext({
+  return FeelEntryWithVariableContextWithFeelLanguageContext({
     element,
     id: 'activeElements-activeElementsCollection',
     label: translate('Active elements collection'),
