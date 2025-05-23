@@ -161,7 +161,8 @@ function ExecutionListener(props) {
   {
     id: `${idPrefix}-fields`,
     component: Fields,
-    listener
+    listener,
+    headerNestingLevel: 1
   } ];
 }
 
@@ -227,7 +228,8 @@ function TaskListener(props) {
   {
     id: `${idPrefix}-fields`,
     component: Fields,
-    listener
+    listener,
+    headerNestingLevel: 1
   } ];
 }
 
@@ -434,7 +436,8 @@ function Fields(props) {
   const {
     id,
     element,
-    listener
+    listener,
+    headerNestingLevel
   } = props;
 
   const bpmnFactory = useService('bpmnFactory');
@@ -474,6 +477,7 @@ function Fields(props) {
     onAdd={ addField }
     onRemove={ removeField }
     autoFocusEntry={ `[data-entry-id="${id}-field-${fields.length - 1}"] input` }
+    headerNestingLevel={ headerNestingLevel }
   />;
 }
 
