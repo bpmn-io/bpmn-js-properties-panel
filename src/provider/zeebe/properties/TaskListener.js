@@ -8,15 +8,19 @@ import { ListenerType, Retries } from './shared/Listener';
 
 // ensure types are in logical order
 export const EVENT_TYPE = [
+  'creating',
   'assigning',
   'updating',
-  'completing'
+  'completing',
+  'canceling',
 ];
 
 export const EVENT_TO_LABEL = {
+  creating: 'Creating',
   assigning: 'Assigning',
   updating: 'Updating',
-  completing: 'Completing'
+  completing: 'Completing',
+  canceling: 'Canceling',
 };
 
 export function TaskListenerEntries(props) {

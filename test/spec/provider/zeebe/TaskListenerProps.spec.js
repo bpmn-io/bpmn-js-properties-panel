@@ -265,7 +265,7 @@ describe('provider/zeebe - TaskListenerProps', function() {
 
   describe('event type', function() {
 
-    it('should use "assigning" as event type for a new listener', inject(
+    it('should use "creating" as event type for a new listener', inject(
       async function(elementRegistry, selection) {
 
         // given
@@ -288,7 +288,7 @@ describe('provider/zeebe - TaskListenerProps', function() {
         const listeners = getListeners(element);
         const newListener = listeners[listeners.length - 1];
 
-        expect(newListener).to.have.property('eventType', 'assigning');
+        expect(newListener).to.have.property('eventType', 'creating');
       })
     );
 
