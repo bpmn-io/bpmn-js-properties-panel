@@ -330,7 +330,7 @@ function Resource(props) {
   };
 
   return <TextFieldEntry
-    element
+    element={ element }
     id="conditionScriptResource"
     label={ translate('Resource') }
     getValue={ getValue }
