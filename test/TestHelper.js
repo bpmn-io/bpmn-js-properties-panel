@@ -248,3 +248,45 @@ document.addEventListener('keydown', function(event) {
     download(result.xml, 'test.bpmn', 'application/xml');
   });
 });
+
+// be able to load diagrams using CTRL/CMD+F
+// This will open a file dialog and import the selected BPMN file
+// into the current bpmn-js modeler instance.
+document.addEventListener('keydown', function(event) {
+  const bpmnJS = getBpmnJS();
+
+  if (!bpmnJS) {
+    return;
+  }
+
+  if (!(event.ctrlKey || event.metaKey) || event.code !== 'KeyF') {
+    return;
+  }
+
+  event.preventDefault();
+
+  // Create a hidden file input
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.bpmn,.xml,application/xml,text/xml';
+  input.style.display = 'none';
+
+  input.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const xml = evt.target.result;
+      bpmnJS.importXML(xml);
+    };
+    reader.readAsText(file);
+  });
+
+  document.body.appendChild(input);
+  input.click();
+
+  // Clean up after file dialog
+  input.addEventListener('blur', function() {
+    document.body.removeChild(input);
+  });
+});
