@@ -56,6 +56,8 @@ function Id(props) {
     return getBusinessObject(element).id;
   }, [ element ]);
 
+  console.log('IdProps rendering for', element.businessObject.$type, 'with name', element.businessObject.name);
+
   const validate = useCallback((value) => {
     const businessObject = getBusinessObject(element);
 

@@ -19,6 +19,13 @@ export function isIdValid(element, idValue, translate) {
   const assigned = element.$model.ids.assigned(idValue);
   const idAlreadyExists = assigned && assigned !== element;
 
+  console.log('checking ID', idValue, 'using IDs from element with name', element.name);
+
+  if (idAlreadyExists)
+    console.log(`ID ${idValue} does exist`);
+  else
+    console.log(`ID ${idValue} does not exist`);
+
   if (!idValue) {
     return translate('ID must not be empty.');
   }

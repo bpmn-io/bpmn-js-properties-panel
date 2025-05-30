@@ -43,6 +43,8 @@ export default function BpmnPropertiesPanel(props) {
     getFeelPopupLinks
   } = props;
 
+  console.log('BpmnPropertiesPanel rendering for', element?.businessObject?.$type, 'with name', element?.businessObject?.name);
+
   const canvas = injector.get('canvas');
   const elementRegistry = injector.get('elementRegistry');
   const eventBus = injector.get('eventBus');
@@ -81,6 +83,15 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // THIS IS A TEMPORARY FIX
+  // useEffect(() => {
+  //   eventBus.on('import.done', () => {
+  //     const rootElement = canvas.getRootElement();
+
+  //     _update(rootElement);
+  //   });
+  // }, []);
+
   // (2) react on element changes
 
   // (2a) selection changed
@@ -99,6 +110,8 @@ export default function BpmnPropertiesPanel(props) {
       if (isImplicitRoot(rootElement)) {
         return;
       }
+
+      console.log('_update after selection changed', (newElement || rootElement)?.businessObject?.name);
 
       _update(newElement || rootElement);
     };
@@ -134,6 +147,8 @@ export default function BpmnPropertiesPanel(props) {
     const onRootAdded = (e) => {
       const element = e.element;
 
+      console.log('_update after root added');
+
       _update(element);
     };
 
@@ -147,6 +162,8 @@ export default function BpmnPropertiesPanel(props) {
   // (2d) provided entries changed
   useEffect(() => {
     const onProvidersChanged = () => {
+      console.log('_update after providers changed');
+
       _update(selectedElement);
     };
 
@@ -160,6 +177,8 @@ export default function BpmnPropertiesPanel(props) {
   // (2e) element templates changed
   useEffect(() => {
     const onTemplatesChanged = () => {
+      console.log('_update after element templates changed, selectedElement', selectedElement.businessObject.name);
+
       _update(selectedElement);
     };
 

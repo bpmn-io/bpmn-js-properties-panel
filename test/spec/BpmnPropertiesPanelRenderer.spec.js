@@ -125,7 +125,21 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     }
 
     try {
+      console.log('import XML with bpmn:Process with name foo');
+
       const result = await modeler.importXML(xml);
+
+      setTimeout(async () => {
+        console.log('import XML with bpmn:Process with name bar');
+
+        await modeler.importXML(xml.replace('name="foo"', 'name="bar"'));
+
+        // setTimeout(() => {
+          console.log('fire elementTemplates.changed');
+
+          modeler.get('eventBus').fire('elementTemplates.changed');
+        // }, 1000);
+      }, 5000);
 
       return { error: null, warnings: result.warnings, modeler: modeler };
     } catch (err) {
