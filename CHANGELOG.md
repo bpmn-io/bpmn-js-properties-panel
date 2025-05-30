@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.37.0
+
+* `FEAT`: support `creating` and `canceling` task listeners
+* `FIX`: correctly update condition entry
 * `DEPS`: update to `@bpmn-io/properties-panel@3.27.3`
 
 ## 5.36.1
