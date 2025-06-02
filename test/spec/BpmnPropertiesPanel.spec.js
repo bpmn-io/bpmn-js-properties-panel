@@ -59,7 +59,7 @@ describe('<BpmnPropertiesPanel>', function() {
   it('should render', function() {
 
     // given
-    const result = createBpmnPropertiesPanel({ container });
+    const result = renderBpmnPropertiesPanel({ container });
 
     // then
     expect(domQuery('.bio-properties-panel', result.container)).to.exist;
@@ -107,7 +107,7 @@ describe('<BpmnPropertiesPanel>', function() {
     };
 
     // when
-    const result = createBpmnPropertiesPanel({ container, getProviders });
+    const result = renderBpmnPropertiesPanel({ container, getProviders });
 
     // then
     expect(domQueryAll('.bio-properties-panel-group', result.container)).to.have.length(4);
@@ -122,7 +122,7 @@ describe('<BpmnPropertiesPanel>', function() {
     const eventBus = new eventBusMock();
 
     // when
-    const result = createBpmnPropertiesPanel({ container, eventBus, element });
+    const result = renderBpmnPropertiesPanel({ container, eventBus, element });
 
     // then
     expect(domQuery('.bio-properties-panel-placeholder', result.container)).to.exist;
@@ -141,7 +141,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
     const eventBus = new eventBusMock();
 
-    const result = createBpmnPropertiesPanel({ container, eventBus });
+    const result = renderBpmnPropertiesPanel({ container, eventBus });
 
     // when
     await act(() => {
@@ -152,6 +152,29 @@ describe('<BpmnPropertiesPanel>', function() {
     expect(domQuery('.bio-properties-panel-placeholder', result.container)).to.exist;
     expect(domQuery('.bio-properties-panel-placeholder-text', result.container)).to.exist;
     expect(domQuery('.bio-properties-panel-placeholder-icon', result.container)).to.exist;
+  });
+
+
+  it('should update if element prop different from state', function() {
+
+    // given
+    const updateSpy = sinon.spy();
+
+    const eventBus = new eventBusMock();
+
+    const element = noopElement;
+
+    const { rerender } = renderBpmnPropertiesPanel({ container, eventBus, element });
+
+    // when
+    const newElement = { ...noopElement, id: 'bar' };
+
+    eventBus.on('propertiesPanel.updated', updateSpy);
+
+    renderBpmnPropertiesPanel({ container, eventBus, element: newElement, rerender });
+
+    // then
+    expect(updateSpy).to.have.been.calledWith({ element: newElement });
   });
 
 
@@ -166,7 +189,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('selection.changed', { newSelection: [ noopElement ] });
@@ -192,7 +215,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('selection.changed', { newSelection: elements });
@@ -213,7 +236,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('elements.changed', { elements: [ noopElement ] });
@@ -234,7 +257,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('root.added', { element: noopElement });
@@ -255,7 +278,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('propertiesPanel.providersChanged');
@@ -274,7 +297,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('elementTemplates.changed');
@@ -296,7 +319,7 @@ describe('<BpmnPropertiesPanel>', function() {
         eventBus.on('propertiesPanel.layoutChanged', updateSpy);
 
         // when
-        createBpmnPropertiesPanel({ container, eventBus });
+        renderBpmnPropertiesPanel({ container, eventBus });
 
         // then
         expect(updateSpy).to.have.been.calledOnce;
@@ -317,7 +340,7 @@ describe('<BpmnPropertiesPanel>', function() {
         const eventBus = new eventBusMock();
         eventBus.on('propertiesPanel.layoutChanged', updateSpy);
 
-        createBpmnPropertiesPanel({ container, eventBus, layoutConfig: originalLayout });
+        renderBpmnPropertiesPanel({ container, eventBus, layoutConfig: originalLayout });
 
         // assume
         expect(updateSpy).to.have.been.calledWith(sinon.match({ layout: originalLayout }));
@@ -347,7 +370,7 @@ describe('<BpmnPropertiesPanel>', function() {
       eventBus.on('propertiesPanel.descriptionLoaded', loadedSpy);
 
       // when
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // then
       expect(loadedSpy).to.have.been.called;
@@ -364,7 +387,7 @@ describe('<BpmnPropertiesPanel>', function() {
       eventBus.on('propertiesPanel.tooltipLoaded', loadedSpy);
 
       // when
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // then
       expect(loadedSpy).to.have.been.called;
@@ -380,7 +403,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({ container, eventBus });
+      renderBpmnPropertiesPanel({ container, eventBus });
 
       // when
       eventBus.fire('propertiesPanel.providersChanged');
@@ -412,7 +435,7 @@ describe('<BpmnPropertiesPanel>', function() {
       const eventBus = new eventBusMock();
       eventBus.on('propertiesPanel.updated', updateSpy);
 
-      createBpmnPropertiesPanel({
+      renderBpmnPropertiesPanel({
         container,
         element,
         elementRegistry,
@@ -436,7 +459,7 @@ describe('<BpmnPropertiesPanel>', function() {
 
 // helpers /////////////////////////
 
-function createBpmnPropertiesPanel(options = {}) {
+function renderBpmnPropertiesPanel(options = {}) {
 
   const {
     element = noopElement,
@@ -446,6 +469,7 @@ function createBpmnPropertiesPanel(options = {}) {
     descriptionLoaded,
     tooltipConfig,
     tooltipLoaded,
+    rerender,
     container
   } = options;
 
@@ -462,6 +486,21 @@ function createBpmnPropertiesPanel(options = {}) {
     ...options,
     elementRegistry
   });
+
+  if (rerender) {
+    rerender(
+      <BpmnPropertiesPanel
+        element={ element }
+        injector={ injector }
+        getProviders={ getProviders }
+        layoutConfig={ layoutConfig }
+        descriptionConfig={ descriptionConfig }
+        descriptionLoaded={ descriptionLoaded }
+        tooltipConfig={ tooltipConfig }
+        tooltipLoaded={ tooltipLoaded }
+      />
+    );
+  }
 
   return render(
     <BpmnPropertiesPanel

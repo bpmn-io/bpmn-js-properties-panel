@@ -87,6 +87,13 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // TODO: this implements getDerivedStateFromProps and should be replaced with
+  // a better solution
+  // https://legacy.reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html#when-to-use-derived-state
+  if (element !== state.selectedElement) {
+    _update(element);
+  }
+
   // (2) react on element changes
 
   // (2a) selection changed
