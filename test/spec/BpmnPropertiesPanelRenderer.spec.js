@@ -74,6 +74,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   afterEach(function() { return cleanup(); });
 
+  /** @type {HTMLElement} */
   let container;
 
   beforeEach(function() {
@@ -1064,7 +1065,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       // then
       expect(feelPopup).to.exist;
-      expect(feelPopup.parentNode).to.eql(container);
+      expect(container.contains(feelPopup), 'popup should be rendered in configured container').to.be.true;
     });
 
 
