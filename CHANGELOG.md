@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: allow to provide custom FEEL popup
+* `DEPS`: update to `@bpmn-io/properties-panel@3.28.0`
+
 ## 5.37.0
 
 * `FEAT`: support `creating` and `canceling` task listeners
