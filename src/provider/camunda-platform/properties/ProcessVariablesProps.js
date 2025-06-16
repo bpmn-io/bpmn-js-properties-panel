@@ -36,16 +36,20 @@ function ProcessVariablesEntry(props) {
 
   const [ variables, setVariables ] = useState([]);
 
-  useEffect(async () => {
-    const businessObject = getBusinessObject(element);
-    const rootElement = getRootElement(businessObject);
-    const scope = getScope(element);
+  useEffect(() => {
+    const updateVariables = async () => {
+      const businessObject = getBusinessObject(element);
+      const rootElement = getRootElement(businessObject);
+      const scope = getScope(element);
 
-    const rawVariables = await getVariablesForScope(scope, rootElement);
+      const rawVariables = await getVariablesForScope(scope, rootElement);
 
-    const withName = populateElementNames(sortByName(rawVariables));
+      const withName = populateElementNames(sortByName(rawVariables));
 
-    setVariables(withName);
+      setVariables(withName);
+    };
+
+    updateVariables();
   }, [ element ]);
 
 

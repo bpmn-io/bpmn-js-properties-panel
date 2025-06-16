@@ -14,6 +14,7 @@ import {
 } from '../../../utils/EventDefinitionUtil';
 
 import { ListenerType, Retries } from './shared/Listener';
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
 
 
 export const EVENT_TO_LABEL = {
@@ -75,15 +76,15 @@ function EventType(props) {
     }));
   };
 
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     modeling.updateModdleProperties(element, listener, {
       eventType: value
     });
-  };
+  }, [ modeling, element, listener ]);
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     return listener.get('eventType');
-  };
+  }, [ listener ]);
 
   return SelectEntry({
     element,

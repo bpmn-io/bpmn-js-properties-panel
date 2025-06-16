@@ -10,6 +10,8 @@ import {
   TextFieldEntry
 } from '@bpmn-io/properties-panel';
 
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
+
 import Binding, { getBindingType } from './shared/Binding';
 import VersionTag from './shared/VersionTag.js';
 
@@ -81,11 +83,11 @@ function DecisionID(props) {
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     return (getCalledDecision(element) || {}).decisionId;
-  };
+  }, [ element ]);
 
-  const setValue = (value) => {
+  const setValue = useCallback(value => {
     const commands = [];
 
     const businessObject = getBusinessObject(element);
@@ -146,7 +148,7 @@ function DecisionID(props) {
 
     // (4) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
+  }, [ element, bpmnFactory, commandStack ]);
 
   return FeelEntryWithVariableContext({
     element,

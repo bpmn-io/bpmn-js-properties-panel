@@ -1,6 +1,7 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { SelectEntry } from '@bpmn-io/properties-panel';
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
 
 import { createElement } from '../../../../utils/ElementUtil';
 
@@ -18,9 +19,9 @@ export default function Binding(props) {
         commandStack = useService('commandStack'),
         translate = useService('translate');
 
-  const getValue = () => getBindingType(element, type);
+  const getValue = useCallback(() => getBindingType(element, type), [ element, type ]);
 
-  const setValue = value => {
+  const setValue = useCallback(value => {
     const commands = [];
 
     const businessObject = getBusinessObject(element);
@@ -84,7 +85,7 @@ export default function Binding(props) {
 
     // (4) Execute the commands
     commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
+  }, [ element, type, bpmnFactory, commandStack ]);
 
   const getOptions = () => ([
     { value: 'latest', label: translate('latest') },

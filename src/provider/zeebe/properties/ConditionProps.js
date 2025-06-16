@@ -16,6 +16,7 @@ import {
 } from '../../../hooks';
 
 import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
 
@@ -52,9 +53,9 @@ function ConditionExpression(props) {
         translate = useService('translate'),
         debounce = useService('debounceInput');
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     return getConditionExpression(element);
-  };
+  }, [ element ]);
 
   const setValue = (value) => {
     const commands = [];

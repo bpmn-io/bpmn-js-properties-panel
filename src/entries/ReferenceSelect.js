@@ -34,7 +34,7 @@ export default function ReferenceSelectEntry(props) {
         focusableInput.select();
       }
     }
-  }, [ options ]);
+  }, [ autoFocusEntry, prevOptions, options ]);
 
   return (
     <SelectEntry { ...props } />

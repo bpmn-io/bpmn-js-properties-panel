@@ -43,7 +43,7 @@ export function withVariableContext(Component) {
       return () => {
         eventBus.off('commandStack.changed', callback);
       };
-    }, [ bo ]);
+    }, [ bo, element, eventBus, variableResolver ]);
 
     return <Component { ...props } variables={ variables }></Component>;
   };

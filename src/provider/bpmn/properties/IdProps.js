@@ -42,7 +42,7 @@ function Id(props) {
   const debounce = useService('debounceInput');
   const translate = useService('translate');
 
-  const setValue = (value, error) => {
+  const setValue = useCallback((value, error) => {
     if (error) {
       return;
     }
@@ -50,11 +50,11 @@ function Id(props) {
     modeling.updateProperties(element, {
       id: value
     });
-  };
+  }, [ element, modeling ]);
 
   const getValue = useCallback((element) => {
     return getBusinessObject(element).id;
-  }, [ element ]);
+  }, []);
 
   const validate = useCallback((value) => {
     const businessObject = getBusinessObject(element);

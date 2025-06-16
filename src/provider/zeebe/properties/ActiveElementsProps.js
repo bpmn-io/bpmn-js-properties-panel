@@ -5,6 +5,8 @@ import {
 
 import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
+
 import { useService } from '../../../hooks';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
@@ -46,13 +48,13 @@ function ActiveElementsCollection(props) {
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     return getProperty(element);
-  };
+  }, [ element ]);
 
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     return setProperty(element, value, commandStack, bpmnFactory);
-  };
+  }, [ element, commandStack, bpmnFactory ]);
 
   return FeelEntryWithVariableContext({
     element,

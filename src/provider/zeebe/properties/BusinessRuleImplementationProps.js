@@ -23,6 +23,7 @@ import {
 import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
@@ -57,7 +58,7 @@ function BusinessRuleImplementation(props) {
   const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     if (getCalledDecision(element)) {
       return DMN_IMPLEMENTATION_OPTION;
     }
@@ -67,14 +68,14 @@ function BusinessRuleImplementation(props) {
     }
 
     return DEFAULT_IMPLEMENTATION_OPTION;
-  };
+  }, [ element ]);
 
   /**
    * Set value by either creating a zeebe:calledDecision or a zeebe:taskDefintion
    * extension element. Note that they must not exist both at the same time, however
    * this will be ensured by a bpmn-js behavior (and not by the propPanel).
    */
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     let extensionElement, extensionElementType;
 
     if (value === DMN_IMPLEMENTATION_OPTION) {
@@ -97,7 +98,7 @@ function BusinessRuleImplementation(props) {
 
       updateExtensionElements(element, extensionElement, bpmnFactory, commandStack);
     }
-  };
+  }, [ element, commandStack, bpmnFactory ]);
 
   const getOptions = () => {
 

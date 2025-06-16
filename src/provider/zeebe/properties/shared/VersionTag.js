@@ -1,6 +1,7 @@
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 import { TextFieldEntry } from '@bpmn-io/properties-panel';
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
 
 import { createElement } from '../../../../utils/ElementUtil';
 
@@ -19,9 +20,9 @@ export default function VersionTag(props) {
         debounce = useService('debounceInput'),
         translate = useService('translate');
 
-  const getValue = () => getVersionTag(element, type);
+  const getValue = useCallback(() => getVersionTag(element, type), [ element, type ]);
 
-  const setValue = value => {
+  const setValue = useCallback(value => {
     const commands = [];
 
     const businessObject = getBusinessObject(element);
@@ -85,7 +86,7 @@ export default function VersionTag(props) {
 
     // (4) Execute the commands
     commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
+  }, [ element, type, bpmnFactory, commandStack ]);
 
   return TextFieldEntry({
     element,

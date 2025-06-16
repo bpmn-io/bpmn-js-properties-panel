@@ -18,6 +18,7 @@ import {
 } from '../../../hooks';
 
 import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { useCallback } from '@bpmn-io/properties-panel/preact/hooks';
 
 
 export function AssignmentDefinitionProps(props) {
@@ -58,11 +59,11 @@ function Assignee(props) {
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     return (getAssignmentDefinition(element) || {}).assignee;
-  };
+  }, [ element ]);
 
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     const commands = [];
 
     const businessObject = getBusinessObject(element);
@@ -123,7 +124,7 @@ function Assignee(props) {
 
     // (4) commit all updates
     commandStack.execute('properties-panel.multi-command-executor', commands);
-  };
+  }, [ element, commandStack, bpmnFactory ]);
 
   return FeelEntryWithVariableContext({
     element,

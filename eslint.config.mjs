@@ -55,7 +55,7 @@ export default [
       'import/first': 'error',
       'import/no-amd': 'error',
       'import/no-webpack-loader-syntax': 'error',
-      'react-hooks/exhaustive-deps': 'off'
+      'react-hooks/exhaustive-deps': 'error'
     },
     ignores: files.build
   },
