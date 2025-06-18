@@ -11,7 +11,7 @@ import {
   reduce
 } from 'min-dash';
 
-import { PropertiesPanel } from '@bpmn-io/properties-panel';
+import { FeelLanguageContext, PropertiesPanel } from '@bpmn-io/properties-panel';
 
 import {
   BpmnPropertiesPanelContext
@@ -19,6 +19,10 @@ import {
 
 import { PanelHeaderProvider } from './PanelHeaderProvider';
 import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
+
+const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
+  parserDialect: 'camunda'
+};
 
 /**
  * @param {Object} props
@@ -228,22 +232,26 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
-  return <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
-    <PropertiesPanel
-      element={ selectedElement }
-      headerProvider={ PanelHeaderProvider(translate) }
-      placeholderProvider={ PanelPlaceholderProvider(translate) }
-      groups={ groups }
-      layoutConfig={ layoutConfig }
-      layoutChanged={ onLayoutChanged }
-      descriptionConfig={ descriptionConfig }
-      descriptionLoaded={ onDescriptionLoaded }
-      tooltipConfig={ tooltipConfig }
-      tooltipLoaded={ onTooltipLoaded }
-      feelPopupContainer={ feelPopupContainer }
-      getFeelPopupLinks={ getFeelPopupLinks }
-      eventBus={ eventBus } />
-  </BpmnPropertiesPanelContext.Provider>;
+  return (
+    <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
+      <FeelLanguageContext.Provider value={ DEFAULT_FEEL_LANGUAGE_CONTEXT }>
+        <PropertiesPanel
+          element={ selectedElement }
+          headerProvider={ PanelHeaderProvider(translate) }
+          placeholderProvider={ PanelPlaceholderProvider(translate) }
+          groups={ groups }
+          layoutConfig={ layoutConfig }
+          layoutChanged={ onLayoutChanged }
+          descriptionConfig={ descriptionConfig }
+          descriptionLoaded={ onDescriptionLoaded }
+          tooltipConfig={ tooltipConfig }
+          tooltipLoaded={ onTooltipLoaded }
+          feelPopupContainer={ feelPopupContainer }
+          getFeelPopupLinks={ getFeelPopupLinks }
+          eventBus={ eventBus } />
+      </FeelLanguageContext.Provider>
+    </BpmnPropertiesPanelContext.Provider>
+  );
 }
 
 
