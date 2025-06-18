@@ -5,7 +5,7 @@ import {
 } from '@bpmn-io/properties-panel';
 
 import { useService } from '../../../hooks';
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 import { createOrUpdateFormalExpression } from '../../../utils/FormalExpressionUtil';
 
 /**
@@ -55,7 +55,7 @@ function CompletionCondition(props) {
     );
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: 'completionCondition',
     label: translate('Completion condition'),

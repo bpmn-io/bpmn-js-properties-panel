@@ -21,7 +21,7 @@ import {
 import Binding, { getBindingType } from './shared/Binding';
 import VersionTag from './shared/VersionTag';
 
-import { FeelEntryWithVariableContext } from '../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 import { createElement } from '../../../utils/ElementUtil';
 
@@ -261,7 +261,7 @@ function ExternalReference(props) {
     setExternalReference(injector, element, isUndefined(value) ? '' : value);
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: 'externalReference',
     label: translate('External form reference'),

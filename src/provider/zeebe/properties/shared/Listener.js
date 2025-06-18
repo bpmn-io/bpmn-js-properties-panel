@@ -1,4 +1,4 @@
-import { FeelEntryWithVariableContext } from '../../../../entries/FeelEntryWithContext';
+import { BpmnFeelEntry } from '../../../../entries/BpmnFeelEntry';
 
 import { useService } from '../../../../hooks';
 
@@ -23,7 +23,7 @@ export function ListenerType(props) {
     return listener.get('type');
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: idPrefix + '-listenerType',
     label: translate('Listener type'),
@@ -55,7 +55,7 @@ export function Retries(props) {
     return listener.get('retries');
   };
 
-  return FeelEntryWithVariableContext({
+  return BpmnFeelEntry({
     element,
     id: idPrefix + '-retries',
     label: translate('Retries'),
