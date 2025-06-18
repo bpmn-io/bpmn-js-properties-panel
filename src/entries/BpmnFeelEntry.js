@@ -1,5 +1,5 @@
 import { FeelEntry } from '@bpmn-io/properties-panel';
-import { withTooltipContainer, withVariableContext, withFeelLanguageContext } from '../provider/HOCs';
+import { withTooltipContainer, withVariableContext } from '../provider/HOCs';
 
-export const BpmnFeelEntry = withFeelLanguageContext(withVariableContext(withTooltipContainer(FeelEntry)));
+export const BpmnFeelEntry = withVariableContext(withTooltipContainer(FeelEntry));
 
