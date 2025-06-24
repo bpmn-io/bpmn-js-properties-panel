@@ -93,6 +93,11 @@
           "name": "next",
           "type": "String",
           "isAttr": true
+        },
+        {
+          "name": "child",
+          "type": "String",
+          "isAttr": true
         }
       ]
     }

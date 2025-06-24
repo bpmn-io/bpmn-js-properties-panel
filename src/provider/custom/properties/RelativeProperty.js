@@ -6,6 +6,8 @@ import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
 let nextProcessDataList;
 let prevProcessDataList;
+let childProcessDataList;
+let userNaw = window.naw; // global variable from the bpmn-naw package  
 
 export default function RelativeProperty(props) {
 
@@ -17,6 +19,12 @@ export default function RelativeProperty(props) {
   const entries = [ {
     id: idPrefix + '-NextProcess',
     component: NextProcess,
+    idPrefix,
+    property
+  },
+  {
+    id: idPrefix + '-ChildProcess',
+    component: ChildProcess,
     idPrefix,
     property
   },{
@@ -59,14 +67,18 @@ function NextProcess(props) {
   useEffect(() => {
     function fetchSpells() {
 
+      if(userNaw == undefined){
+        nextProcessDataList = {};
+      }
+
       if (nextProcessDataList) {
         setRelates(nextProcessDataList);
         return;
       }
 
-      let dsDataFlowBpmnDto = new naw.dataSet("DataFlowBpmnDto");
-      let dsDataFlowBpmnListDto = new naw.dataSet("DataFlowBpmnListDto");
-      naw.submit({
+      let dsDataFlowBpmnDto = new userNaw.dataSet("DataFlowBpmnDto");
+      let dsDataFlowBpmnListDto = new userNaw.dataSet("DataFlowBpmnListDto");
+      userNaw.submit({
         requestDS: dsDataFlowBpmnDto,
         responseDS: dsDataFlowBpmnListDto,
         paramName: "dataFlowBpmnDto",
@@ -120,6 +132,101 @@ function NextProcess(props) {
   });
 }
 
+function ChildProcess(props) {
+  const {
+    idPrefix,
+    element,
+    property
+  } = props;
+
+  const commandStack = useService('commandStack');
+  const translate = useService('translate');
+  const debounce = useService('debounceInput');
+
+  const setValue = (value) => {
+    commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: property,
+      properties: {
+        child: value
+      }
+    });
+  };
+
+  const getValue = () => {
+    return property.child;
+  };
+
+  const [ relates, setRelates ] = useState([]);
+
+  useEffect(() => {
+    function fetchSpells() {
+
+      if(userNaw == undefined) {
+        childProcessDataList = {};
+      }
+
+      if (childProcessDataList) {
+        setRelates(childProcessDataList);
+        return;
+      }
+
+      let dsDataFlowBpmnDto = new userNaw.dataSet("DataFlowBpmnDto");
+      let dsDataFlowBpmnListDto = new userNaw.dataSet("DataFlowBpmnListDto");
+      userNaw.submit({
+        requestDS: dsDataFlowBpmnDto,
+        responseDS: dsDataFlowBpmnListDto,
+        paramName: "dataFlowBpmnDto",
+        before: function (header, dataset) {
+          dataset.reset();
+          header.set({
+            uri: "/bpm/bpm1001/searchCboxForAttrGrId"
+          });
+          dataset.autoBind = false;
+          return true;
+        },
+        callback: function (header, dataset) {
+          if (onsite.isError(header, dataset)) {
+            onsite.messageBox(header, "");
+            return;
+          }
+          childProcessDataList = dataset.get("dataFlowBpmnListDto");
+          setRelates(childProcessDataList);
+        },
+        error: function (header, dataset) {
+          onsite.messageBox("", "COM000067");
+        }
+      }); 
+
+    }
+
+    fetchSpells();
+  }, [ setRelates ]);
+
+  const getOptions = () => {
+    return [
+      {
+        label: '',
+        value: undefined
+      },
+      ...relates.map(spell => ({
+        label: spell.value01,
+        value: spell.value02
+      }))
+    ];
+  };
+
+  return SelectEntry({
+    element: property,
+    id: idPrefix + '-ChildProcess',
+    label: translate('Child Process ID'),
+    getValue,
+    setValue,
+    getOptions,
+    debounce
+  });
+}
+
 function PrevProcess(props) {
   const {
     idPrefix,
@@ -150,14 +257,18 @@ function PrevProcess(props) {
   useEffect(() => {
     function fetchSpells() {
 
+      if (userNaw == undefined) {
+        prevProcessDataList = {};
+      }
+
       if (prevProcessDataList) {
         setRelates(prevProcessDataList);
         return;
       }
 
-      let dsDataFlowBpmnDto = new naw.dataSet("DataFlowBpmnDto");
-      let dsDataFlowBpmnListDto = new naw.dataSet("DataFlowBpmnListDto");
-      naw.submit({
+      let dsDataFlowBpmnDto = new userNaw.dataSet("DataFlowBpmnDto");
+      let dsDataFlowBpmnListDto = new userNaw.dataSet("DataFlowBpmnListDto");
+      userNaw.submit({
         requestDS: dsDataFlowBpmnDto,
         responseDS: dsDataFlowBpmnListDto,
         paramName: "dataFlowBpmnDto",
