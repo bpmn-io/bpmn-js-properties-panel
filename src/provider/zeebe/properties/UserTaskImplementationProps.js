@@ -115,7 +115,7 @@ function removeZeebeUserTask(element, commandStack) {
 }
 
 function isUserTaskImplementationEdited(element) {
-  return getZeebeUserTask(element);
+  return !getZeebeUserTask(element);
 }
 
 function getZeebeUserTask(element) {
