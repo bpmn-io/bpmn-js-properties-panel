@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.38.1
+
+* `FIX`: report Camunda user task as default implementation ([#1135](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1135))
+
 ## 5.38.0
 
 * `FEAT`: set FEEL parser dialect to Camunda by default ([#1128](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1128))
