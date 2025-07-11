@@ -118,7 +118,7 @@ describe('provider/zeebe - UserTaskImplementationProps', function() {
       expect(implementation.value).to.equal('zeebeUserTask');
 
       // and also
-      return expectEdited(container, true);
+      return expectEdited(container, false);
     }));
 
 
