@@ -232,12 +232,31 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // (8) get header provider
+  const getHeaderProvider = () => {
+
+    // Check for custom header provider service from injector
+    const headerProviderService = injector.get('propertiesPanelHeaderProvider', false);
+
+    if (headerProviderService && typeof headerProviderService.getHeaderProvider === 'function') {
+      return headerProviderService.getHeaderProvider();
+    }
+
+    // Check for direct header provider configuration
+    if (headerProviderService && typeof headerProviderService === 'object') {
+      return headerProviderService;
+    }
+
+    // Fall back to default header provider
+    return PanelHeaderProvider(translate);
+  };
+
   return (
     <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
       <FeelLanguageContext.Provider value={ DEFAULT_FEEL_LANGUAGE_CONTEXT }>
         <PropertiesPanel
           element={ selectedElement }
-          headerProvider={ PanelHeaderProvider(translate) }
+          headerProvider={ getHeaderProvider() }
           placeholderProvider={ PanelPlaceholderProvider(translate) }
           groups={ groups }
           layoutConfig={ layoutConfig }
