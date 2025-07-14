@@ -7,3 +7,6 @@ export { TooltipProvider as CamundaPlatformTooltipProvider } from './contextProv
 
 // hooks
 export { useService } from './hooks';
+
+// header provider
+export { PanelHeaderProvider } from './render/PanelHeaderProvider';
