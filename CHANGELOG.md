@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.39.0
+
+* `FEAT`: update `camunda` built-ins
+* `FIX`: show tooltip on number fields
+* `DEPS`: update to `@bpmn-io/properties-panel@3.31.0`
+
 ## 5.38.1
 
 * `FIX`: report Camunda user task as default implementation ([#1135](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1135))
