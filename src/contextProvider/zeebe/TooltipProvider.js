@@ -85,7 +85,7 @@ const TooltipProvider = {
       return (
         <div>
           { translate('Link a form created with the Camunda Forms editor. To associate a custom form, application, or URL to the user task, specify an external reference. ')}
-          <a href="https://docs.camunda.io/docs/guides/utilizing-forms/#link-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener noreferrer" title={ translate('User task form documentation') }>
+          <a href="https://docs.camunda.io/docs/components/modeler/forms/utilizing-forms/#connect-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener noreferrer" title={ translate('User task form documentation') }>
             { translate('Learn more.') }
           </a>
         </div>
@@ -95,7 +95,7 @@ const TooltipProvider = {
     return (
       <div>
         { translate('Link or embed a form created with the Camunda Forms editor. To associate a custom form, application, or URL to the user task, specify a form key. ')}
-        <a href="https://docs.camunda.io/docs/guides/utilizing-forms/#link-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener noreferrer" title={ translate('User task form documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/forms/utilizing-forms/#connect-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener noreferrer" title={ translate('User task form documentation') }>
           { translate('Learn more.') }
         </a>
       </div>
