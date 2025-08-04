@@ -13,6 +13,7 @@ export { InputPropagationProps } from './InputPropagationProps';
 export { InputProps } from './InputProps';
 export { MessageProps } from './MessageProps';
 export { MultiInstanceProps } from './MultiInstanceProps';
+export { OutputCollectionProps } from './OutputCollectionProps';
 export { OutputPropagationProps } from './OutputPropagationProps';
 export { OutputProps } from './OutputProps';
 export { PriorityDefinitionProps } from './PriorityDefinitionProps';
