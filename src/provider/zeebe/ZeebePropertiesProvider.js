@@ -5,6 +5,7 @@ import { findIndex } from 'min-dash';
 import {
   ActiveElementsProps,
   AdHocCompletionProps,
+  AdHocSubProcessImplementationProps,
   AssignmentDefinitionProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
@@ -36,7 +37,11 @@ import {
 
 import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
 
-import { isMessageEndEvent, isMessageThrowEvent } from './utils/ZeebeServiceTaskUtil';
+import {
+  isMessageEndEvent,
+  isMessageThrowEvent,
+  isZeebeServiceTask
+} from './utils/ZeebeServiceTaskUtil';
 
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
@@ -49,10 +54,11 @@ const ZEEBE_GROUPS = [
   CalledDecisionGroup,
   ScriptImplementationGroup,
   ScriptGroup,
+  OutputCollectionGroup,
+  AdHocSubProcessImplementationGroup,
   UserTaskImplementationGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
-  OutputCollectionGroup,
   ActiveElementsGroup,
   FormGroup,
   ConditionGroup,
@@ -90,10 +96,10 @@ export default class ZeebePropertiesProvider {
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
       updateAdHocCompletionGroup(groups, element);
-      updateOutputCollectionGroup(groups);
 
-      // (3) remove message group when not applicable
+      // (3) remove groups when not applicable
       groups = removeMessageGroup(groups, element);
+      groups = removeCompletionGroup(groups, element);
 
       return groups;
     };
@@ -109,6 +115,20 @@ export default class ZeebePropertiesProvider {
 
 ZeebePropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
 
+
+function AdHocSubProcessImplementationGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'adHocSubProcessImplementation',
+    label: translate('Implementation'),
+    entries: [
+      ...AdHocSubProcessImplementationProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
 
 function CalledDecisionGroup(element, injector) {
   const translate = injector.get('translate');
@@ -498,24 +518,10 @@ function updateAdHocCompletionGroup(groups, element) {
     AdHocCompletionProps({ element })
   );
 
-  // reorder groups to move active elements before adHoc completion
+  // reorder groups to move adHoc completion after active elements
   const activeElementsGroup = findGroup(groups, 'activeElements');
   if (activeElementsGroup) {
-    reorderGroupsIfNecessary(groups, activeElementsGroup, adHocCompletionGroup);
-  }
-}
-
-// move output collection group above active elements
-function updateOutputCollectionGroup(groups) {
-  const outputCollectionGroup = findGroup(groups, 'outputCollection');
-  if (!outputCollectionGroup) {
-    return;
-  }
-
-  // reorder groups to move output collection before active elements
-  const activeElementsGroup = findGroup(groups, 'activeElements');
-  if (activeElementsGroup) {
-    reorderGroupsIfNecessary(groups, outputCollectionGroup, activeElementsGroup);
+    moveGroupAfter(groups, adHocCompletionGroup, activeElementsGroup);
   }
 }
 
@@ -530,30 +536,20 @@ function removeMessageGroup(groups, element) {
   return groups;
 }
 
+// remove completion group if AdHoc SubProcess is implemented as job worker
+function removeCompletionGroup(groups, element) {
+  if (isZeebeServiceTask(element)) {
+    return groups.filter(group => group.id !== 'adHocCompletion');
+  }
+
+  return groups;
+}
+
 
 // helper /////////////////////
 
 function findGroup(groups, id) {
   return groups.find(g => g.id === id);
-}
-
-/**
- * Put groups into the defined order if necessary.
- *
- * @param {Group[]} groups
- * @param {Group} firstGroup
- * @param {Group} secondGroup
- */
-function reorderGroupsIfNecessary(groups, firstGroup, secondGroup) {
-  const firstGroupIndex = groups.indexOf(firstGroup);
-  const secondGroupIndex = groups.indexOf(secondGroup);
-
-  if (firstGroupIndex === -1 || secondGroupIndex === -1 || firstGroupIndex <= secondGroupIndex) {
-    return;
-  }
-
-  groups[firstGroupIndex] = secondGroup;
-  groups[secondGroupIndex] = firstGroup;
 }
 
 /**
@@ -615,4 +611,15 @@ function indexEntriesById(entries) {
     index[entry.id] = idx;
     return index;
   }, {});
+}
+
+/**
+ * Move a group after a reference group. Assumes that both groups are present.
+ */
+function moveGroupAfter(groups, groupToMove, referenceGroup) {
+  const groupIndex = groups.indexOf(groupToMove);
+  groups.splice(groupIndex, 1);
+
+  const referenceIndex = groups.indexOf(referenceGroup);
+  groups.splice(referenceIndex + 1, 0, groupToMove);
 }

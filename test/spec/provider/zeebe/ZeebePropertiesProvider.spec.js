@@ -204,7 +204,8 @@ describe('<ZeebePropertiesProvider>', function() {
       const elements = [
         elementRegistry.get('MessageThrow_1'),
         elementRegistry.get('MessageEnd_1'),
-        elementRegistry.get('ScriptTask_1')
+        elementRegistry.get('ScriptTask_1'),
+        elementRegistry.get('AdHocJobWorker')
       ];
 
       for (const ele of elements) {
@@ -244,7 +245,8 @@ describe('<ZeebePropertiesProvider>', function() {
       const elements = [
         elementRegistry.get('MessageThrow_1'),
         elementRegistry.get('MessageEnd_1'),
-        elementRegistry.get('ServiceTask_1')
+        elementRegistry.get('ServiceTask_1'),
+        elementRegistry.get('AdHocJobWorker')
       ];
 
       for (const ele of elements) {
@@ -635,6 +637,148 @@ describe('<ZeebePropertiesProvider>', function() {
 
       // then
       expect(getGroup(container, 'escalation')).to.not.exist;
+    }));
+
+
+    it('should show ad hoc implementation group', inject(async function(elementRegistry, selection) {
+
+      const elements = [
+        elementRegistry.get('AdHocBPMN'),
+        elementRegistry.get('AdHocJobWorker')
+      ];
+
+      for (const ele of elements) {
+
+        // when
+        await act(() => {
+          selection.select(ele);
+        });
+
+        // then
+        expect(getGroup(container, 'adHocImplementation')).to.not.exist;
+      }
+    }));
+
+
+    it('should NOT show ad hoc implementation group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // then
+      expect(getGroup(container, 'adHocImplementation')).not.to.exist;
+    }));
+
+
+    it('should show ad hoc outputCollection group', inject(async function(elementRegistry, selection) {
+
+      const elements = [
+        elementRegistry.get('AdHocBPMN'),
+        elementRegistry.get('AdHocJobWorker')
+      ];
+
+      for (const ele of elements) {
+
+        // when
+        await act(() => {
+          selection.select(ele);
+        });
+
+        // then
+        expect(getGroup(container, 'outputCollection')).to.exist;
+      }
+    }));
+
+
+    it('should NOT show ad hoc outputCollection group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('Task_1');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // then
+      expect(getGroup(container, 'outputCollection')).not.to.exist;
+    }));
+
+
+    it('should show completion group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('AdHocBPMN');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // then
+      expect(getGroup(container, 'adHocCompletion')).to.exist;
+    }));
+
+
+    it('should NOT show completion group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [
+        elementRegistry.get('Task_1'),
+        elementRegistry.get('AdHocJobWorker')
+      ];
+
+      for (const ele of elements) {
+
+        // when
+        await act(() => {
+          selection.select(ele);
+        });
+
+        // then
+        expect(getGroup(container, 'adHocCompletion')).to.not.exist;
+      }
+    }));
+
+
+    it('should show active elements group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('AdHocBPMN');
+
+      // when
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // then
+      expect(getGroup(container, 'activeElements')).to.exist;
+    }));
+
+
+    it('should NOT show active elements group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const elements = [
+        elementRegistry.get('Task_1'),
+        elementRegistry.get('AdHocJobWorker')
+      ];
+
+      for (const ele of elements) {
+
+        // when
+        await act(() => {
+          selection.select(ele);
+        });
+
+        // then
+        expect(getGroup(container, 'activeElements')).to.not.exist;
+      }
     }));
 
   });

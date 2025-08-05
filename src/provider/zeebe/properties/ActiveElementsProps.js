@@ -5,6 +5,8 @@ import {
 
 import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
+import { isZeebeServiceTask } from '../utils/ZeebeServiceTaskUtil';
+
 import { useService } from '../../../hooks';
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
@@ -21,7 +23,7 @@ export function ActiveElementsProps(props) {
     element
   } = props;
 
-  if (!is(element, 'bpmn:AdHocSubProcess')) {
+  if (!is(element, 'bpmn:AdHocSubProcess') || isZeebeServiceTask(element)) {
     return [];
   }
 

@@ -1,5 +1,6 @@
 export { ActiveElementsProps } from './ActiveElementsProps';
 export { AdHocCompletionProps } from './AdHocCompletionProps';
+export { AdHocSubProcessImplementationProps } from './AdHocSubProcessImplementationProps';
 export { AssignmentDefinitionProps } from './AssignmentDefinitionProps';
 export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { CalledDecisionProps } from './CalledDecisionProps';
