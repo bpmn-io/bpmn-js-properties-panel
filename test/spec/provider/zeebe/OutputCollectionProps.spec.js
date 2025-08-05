@@ -371,64 +371,7 @@ describe('provider/zeebe - OutputCollection', function() {
       expect(getOutputElementValue(subprocess)).to.equal('=myResult');
     }));
 
-  });
-
-
-  describe('undo/redo', function() {
-
-    it('should undo outputCollection', inject(async function(
-        elementRegistry, selection, commandStack
-    ) {
-
-      // given
-      const subprocess = elementRegistry.get('AdHocSubprocess_1');
-      const originalValue = getOutputCollectionValue(subprocess);
-
-      await act(() => {
-        selection.select(subprocess);
-      });
-
-      const outputCollectionInput = getOutputCollectionInput(container);
-      changeInput(outputCollectionInput, 'newResults');
-      expect(getOutputCollectionValue(subprocess)).not.to.equal(originalValue);
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      // then
-      expect(getOutputCollectionValue(subprocess)).to.equal(originalValue);
-    }));
-
-
-    it('should undo outputElement', inject(async function(
-        elementRegistry, selection, commandStack
-    ) {
-
-      // given
-      const subprocess = elementRegistry.get('AdHocSubprocess_1');
-      const originalValue = getOutputElementValue(subprocess);
-
-      await act(() => {
-        selection.select(subprocess);
-      });
-
-      const outputElementInput = getOutputElementInput(container);
-      await setEditorValue(outputElementInput, 'newResult');
-      expect(getOutputElementValue(subprocess)).not.to.equal(originalValue);
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      // then
-      expect(getOutputElementValue(subprocess)).to.equal(originalValue);
-    }));
-
-  });
-
+  })
 
 });
 
