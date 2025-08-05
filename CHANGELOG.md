@@ -8,8 +8,9 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 5.40.0
 
+* `FEAT`: support job worker implementation of `bpmn:AdHocSubProcess` ([#1144](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1144))
 * `FEAT`: add output collection props for `bpmn:AdHocSubProcess` ([#1143](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1143))
-* `DEPS`: update to `zeebe-bpmn-moddle@1.10.0`
+* `DEPS`: update to `zeebe-bpmn-moddle@1.11.0`
 
 ## 5.39.0
 
