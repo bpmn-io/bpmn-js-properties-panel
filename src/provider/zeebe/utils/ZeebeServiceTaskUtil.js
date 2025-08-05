@@ -15,6 +15,11 @@ import {
   getExtensionElementsList
 } from '../../../utils/ExtensionElementsUtil';
 
+const OPTIONAL_JOB_WORKER_ELEMENTS = [
+  'bpmn:AdHocSubProcess',
+  'bpmn:BusinessRuleTask',
+  'bpmn:ScriptTask'
+];
 
 export function isZeebeServiceTask(element) {
   if (!is(element, 'zeebe:ZeebeServiceTask')) return false;
@@ -23,9 +28,8 @@ export function isZeebeServiceTask(element) {
     return !!getMessageEventDefinition(element);
   }
 
-  // BusinessRuleTask and ScriptTask are ServiceTasks only if they have a TaskDefinition
-  // (ie. if the implementation is set to ==JobWorker)
-  if (isAny(element, [ 'bpmn:BusinessRuleTask', 'bpmn:ScriptTask' ]) && !getTaskDefinition(element)) {
+  // Elements which may optionally be implemented as job workers
+  if (isAny(element, OPTIONAL_JOB_WORKER_ELEMENTS) && !getTaskDefinition(element)) {
     return false;
   }
 
