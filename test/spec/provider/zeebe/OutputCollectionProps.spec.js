@@ -371,7 +371,7 @@ describe('provider/zeebe - OutputCollection', function() {
       expect(getOutputElementValue(subprocess)).to.equal('=myResult');
     }));
 
-  })
+  });
 
 });
 
