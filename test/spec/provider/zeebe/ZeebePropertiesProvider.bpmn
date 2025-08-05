@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.15.0-nightly.20230815" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_169thxk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.36.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Start Event">
       <bpmn:extensionElements>
@@ -114,6 +114,12 @@
     <bpmn:endEvent id="ErrorEndEvent_1" name="ErrorEndEvent_1">
       <bpmn:errorEventDefinition id="ErrorEventDefinition_1uh9zpu" />
     </bpmn:endEvent>
+    <bpmn:adHocSubProcess id="AdHocBPMN" name="Ad-hoc BPMN" />
+    <bpmn:adHocSubProcess id="AdHocJobWorker" name="Ad-hoc job worker">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foobar" />
+      </bpmn:extensionElements>
+    </bpmn:adHocSubProcess>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -216,6 +222,14 @@
           <dc:Bounds x="628" y="705" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1x9dab0_di" bpmnElement="AdHocBPMN" isExpanded="false">
+        <dc:Bounds x="785" y="130" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ss90z4" bpmnElement="AdHocJobWorker" isExpanded="false">
+        <dc:Bounds x="910" y="130" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ii3c12_di" bpmnElement="InterruptingTimerBoundaryEvent_1">
         <dc:Bounds x="342" y="562" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -237,5 +251,11 @@
         <di:waypoint x="462" y="160" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1q5fhke">
+    <bpmndi:BPMNPlane id="BPMNPlane_0qimnnt" bpmnElement="AdHocBPMN" />
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_015oed1">
+    <bpmndi:BPMNPlane id="BPMNPlane_02btmae" bpmnElement="AdHocJobWorker" />
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

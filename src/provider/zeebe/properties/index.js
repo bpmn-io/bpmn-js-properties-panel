@@ -1,5 +1,6 @@
 export { ActiveElementsProps } from './ActiveElementsProps';
 export { AdHocCompletionProps } from './AdHocCompletionProps';
+export { AdHocSubProcessImplementationProps } from './AdHocSubProcessImplementationProps';
 export { AssignmentDefinitionProps } from './AssignmentDefinitionProps';
 export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { CalledDecisionProps } from './CalledDecisionProps';
@@ -13,6 +14,7 @@ export { InputPropagationProps } from './InputPropagationProps';
 export { InputProps } from './InputProps';
 export { MessageProps } from './MessageProps';
 export { MultiInstanceProps } from './MultiInstanceProps';
+export { OutputCollectionProps } from './OutputCollectionProps';
 export { OutputPropagationProps } from './OutputPropagationProps';
 export { OutputProps } from './OutputProps';
 export { PriorityDefinitionProps } from './PriorityDefinitionProps';
