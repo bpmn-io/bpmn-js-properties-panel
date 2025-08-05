@@ -18,6 +18,7 @@ import {
   InputProps,
   MessageProps,
   MultiInstanceProps,
+  OutputCollectionProps,
   OutputPropagationProps,
   OutputProps,
   PriorityDefinitionProps,
@@ -51,6 +52,7 @@ const ZEEBE_GROUPS = [
   UserTaskImplementationGroup,
   TaskDefinitionGroup,
   AssignmentDefinitionGroup,
+  OutputCollectionGroup,
   ActiveElementsGroup,
   FormGroup,
   ConditionGroup,
@@ -88,6 +90,7 @@ export default class ZeebePropertiesProvider {
       updateTimerGroup(groups, element, this._injector);
       updateMultiInstanceGroup(groups, element);
       updateAdHocCompletionGroup(groups, element);
+      updateOutputCollectionGroup(groups);
 
       // (3) remove message group when not applicable
       groups = removeMessageGroup(groups, element);
@@ -313,6 +316,20 @@ function AssignmentDefinitionGroup(element, injector) {
   return group.entries.length ? group : null;
 }
 
+function OutputCollectionGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'outputCollection',
+    label: translate('Output collection'),
+    entries: [
+      ...OutputCollectionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
 function ActiveElementsGroup(element, injector) {
   const translate = injector.get('translate');
   const group = {
@@ -485,6 +502,20 @@ function updateAdHocCompletionGroup(groups, element) {
   const activeElementsGroup = findGroup(groups, 'activeElements');
   if (activeElementsGroup) {
     reorderGroupsIfNecessary(groups, activeElementsGroup, adHocCompletionGroup);
+  }
+}
+
+// move output collection group above active elements
+function updateOutputCollectionGroup(groups) {
+  const outputCollectionGroup = findGroup(groups, 'outputCollection');
+  if (!outputCollectionGroup) {
+    return;
+  }
+
+  // reorder groups to move output collection before active elements
+  const activeElementsGroup = findGroup(groups, 'activeElements');
+  if (activeElementsGroup) {
+    reorderGroupsIfNecessary(groups, outputCollectionGroup, activeElementsGroup);
   }
 }
 
