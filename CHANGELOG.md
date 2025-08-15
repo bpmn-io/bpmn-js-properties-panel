@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.41.1
+
+_Re-release of `v5.41.0` with fixed changelog._
+
 ## 5.41.0
 
 * `FEAT`: support job worker implementation of `bpmn:AdHocSubProcess` ([#1144](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1144))
