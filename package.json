@@ -53,7 +53,7 @@
     "@bpmn-io/extract-process-variables": "^1.0.0",
     "array-move": "^4.0.0",
     "ids": "^1.0.5",
-    "min-dash": "^4.2.1",
+    "min-dash": "^4.2.3",
     "min-dom": "^4.2.1"
   },
   "devDependencies": {
