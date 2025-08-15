@@ -10,6 +10,10 @@ ___Note:__ Yet to be released changes appear here._
 
 _Re-release of `v5.41.0` with fixed changelog._
 
+## 5.41.1
+
+* `DEPS`: update to `@bpmn-io/extract-process-variables@1.0.1`
+
 ## 5.41.0
 
 * `FEAT`: support job worker implementation of `bpmn:AdHocSubProcess` ([#1144](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1144))
