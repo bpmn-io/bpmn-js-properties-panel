@@ -6,7 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-## 5.41.1
+## 5.41.3
+
+* `FIX`: check for default value of `false` or `undefined` of `cancelRemainingInstances` ([#1148](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1148))
+
+## 5.41.2
 
 _Re-release of `v5.41.0` with fixed changelog._
 
