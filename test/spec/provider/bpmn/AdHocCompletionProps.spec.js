@@ -204,11 +204,11 @@ describe('provider/bpmn - AdHocCompletion', function() {
 
     describe('#cancelRemainingInstances', function() {
 
-      it('should be checked when not explicitely configured on the process', inject(async function(elementRegistry, selection) {
+      it('should not be checked when not explicitely configured on the process', inject(async function(elementRegistry, selection) {
 
         // given
         const subprocess = elementRegistry.get('Subprocess_2');
-        expect(getCancelRemainingInstancesValue(subprocess)).to.be.true;
+        expect(getCancelRemainingInstancesValue(subprocess)).not.to.exist;
 
         // when
         await act(() => {
@@ -218,7 +218,7 @@ describe('provider/bpmn - AdHocCompletion', function() {
         // then
         const cancelRemainingInstancesCheckbox = getCancelRemainingInstancesCheckbox(container);
         expect(cancelRemainingInstancesCheckbox).to.exist;
-        expect(cancelRemainingInstancesCheckbox.checked).be.true;
+        expect(cancelRemainingInstancesCheckbox.checked).to.be.false;
       }));
 
 
