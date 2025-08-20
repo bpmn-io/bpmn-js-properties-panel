@@ -109,7 +109,7 @@
   },
   "peerDependencies": {
     "@bpmn-io/properties-panel": ">= 3.7",
-    "bpmn-js": ">= 11.5",
+    "bpmn-js": ">= 18.6.3",
     "camunda-bpmn-js-behaviors": ">= 0.4",
     "diagram-js": ">= 11.9"
   }
