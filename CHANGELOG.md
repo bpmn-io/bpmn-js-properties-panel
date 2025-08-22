@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.42.0
+
+* `FEAT`: support multiline feel strings in `camunda` dialect ([@bpmn-io/lezer-feel#2](https://github.com/bpmn-io/lezer-feel/pull/2))
+* `FIX`: recognize unclosed feel string literal as syntax error ([nikku/lezer-feel#52](https://github.com/nikku/lezer-feel/pull/52))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.33.0`
+
 ## 5.41.3
 
 * `FIX`: check for default value of `false` or `undefined` of `cancelRemainingInstances` ([#1148](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1148))
