@@ -249,6 +249,10 @@ document.addEventListener('keydown', function(event) {
   });
 });
 
+
+// be able to load diagrams using CTRL/CMD+O
+// This will open a file dialog and import the selected BPMN file
+// into the current bpmn-js modeler instance.
 document.addEventListener('keydown', function(event) {
   const bpmnJS = getBpmnJS();
 
