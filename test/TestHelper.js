@@ -269,7 +269,7 @@ document.addEventListener('keydown', function(event) {
   // Create a hidden file input
   const input = document.createElement('input');
   input.type = 'file';
-  input.accept = '.bpmn';
+  input.accept = '.bpmn,.xml,application/xml,text/xml';
   input.style.display = 'none';
 
   input.addEventListener('change', function(e) {
