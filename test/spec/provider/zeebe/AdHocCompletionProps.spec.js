@@ -264,13 +264,13 @@ describe('provider/zeebe - AdHocCompletion', function() {
 
     describe('#cancelRemainingInstances', function() {
 
-      it('should not be checked when not explicitely configured on the process', inject(async function(
+      it('should be checked when not explicitely configured on the process', inject(async function(
           elementRegistry, selection
       ) {
 
         // given
         const subprocess = elementRegistry.get('Subprocess_2');
-        expect(getCancelRemainingInstancesValue(subprocess)).not.to.exist;
+        expect(getCancelRemainingInstancesValue(subprocess)).to.be.true;
 
         // when
         await act(() => {
@@ -280,7 +280,7 @@ describe('provider/zeebe - AdHocCompletion', function() {
         // then
         const cancelRemainingInstancesCheckbox = getCancelRemainingInstancesCheckbox(container);
         expect(cancelRemainingInstancesCheckbox).to.exist;
-        expect(cancelRemainingInstancesCheckbox.checked).to.be.false;
+        expect(cancelRemainingInstancesCheckbox.checked).be.true;
       }));
 
 
