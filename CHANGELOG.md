@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.42.1
+
+* `FIX`: use default value for `cancelRemainingInstances` for edit marker
+* `FIX`: undo breaking change in peer dependencies ([#1149](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1149))
+
 ## 5.42.0
 
 * `FEAT`: support multiline feel strings in `camunda` dialect ([@bpmn-io/lezer-feel#2](https://github.com/bpmn-io/lezer-feel/pull/2))
