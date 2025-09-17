@@ -10,6 +10,7 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FIX`: use default value for `cancelRemainingInstances` for edit marker
 * `FIX`: undo breaking change in peer dependencies ([#1149](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1149))
+* `DEPS`: update to `bpmn-js@18.6.4`
 
 ## 5.42.0
 
