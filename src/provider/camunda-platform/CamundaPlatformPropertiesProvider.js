@@ -106,9 +106,9 @@ const CAMUNDA_PLATFORM_GROUPS = [
 export default class CamundaPlatformPropertiesProvider {
 
   constructor(propertiesPanel, injector) {
-    propertiesPanel.registerProvider(LOW_PRIORITY, this);
-
     this._injector = injector;
+
+    propertiesPanel.registerProvider(LOW_PRIORITY, this);
   }
 
   getGroups(element) {
