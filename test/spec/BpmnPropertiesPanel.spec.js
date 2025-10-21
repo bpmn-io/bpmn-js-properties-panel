@@ -1,7 +1,4 @@
-import {
-  act,
-  render
-} from '@testing-library/preact/pure';
+import { render } from '@testing-library/preact/pure';
 
 import TestContainer from 'mocha-test-container-support';
 
@@ -13,8 +10,7 @@ import {
 import {
   Injector as injectorMock,
   ElementRegistry as elementRegistryMock,
-  EventBus as eventBusMock,
-  getProviders as getProvidersMock
+  EventBus as eventBusMock
 } from './mocks';
 
 import {
@@ -69,7 +65,7 @@ describe('<BpmnPropertiesPanel>', function() {
   it('should render provided groups', function() {
 
     // given
-    const groups1 = [
+    const groups = [
       {
         id: 'group-1',
         label: 'Group 1',
@@ -87,30 +83,11 @@ describe('<BpmnPropertiesPanel>', function() {
       }
     ];
 
-    const groups2 = [
-      {
-        id: 'group-4',
-        label: 'Group 4',
-        entries: []
-      }
-    ];
-
-    const getProviders = () => {
-      return [
-        {
-          getGroups: () => (groups) => groups.concat(groups1)
-        },
-        {
-          getGroups: () => (groups) => groups.concat(groups2)
-        }
-      ];
-    };
-
     // when
-    const result = createBpmnPropertiesPanel({ container, getProviders });
+    const result = createBpmnPropertiesPanel({ container, groups });
 
     // then
-    expect(domQueryAll('.bio-properties-panel-group', result.container)).to.have.length(4);
+    expect(domQueryAll('.bio-properties-panel-group', result.container)).to.have.length(3);
   });
 
 
@@ -141,12 +118,8 @@ describe('<BpmnPropertiesPanel>', function() {
 
     const eventBus = new eventBusMock();
 
-    const result = createBpmnPropertiesPanel({ container, eventBus });
-
     // when
-    await act(() => {
-      eventBus.fire('selection.changed', { newSelection:  newElements });
-    });
+    const result = createBpmnPropertiesPanel({ container, eventBus, element: newElements });
 
     // then
     expect(domQuery('.bio-properties-panel-placeholder', result.container)).to.exist;
@@ -155,189 +128,26 @@ describe('<BpmnPropertiesPanel>', function() {
   });
 
 
-  describe('event emitting', function() {
+  describe('events', function() {
 
-    it('should update on selection changed', function() {
-
-      // given
-      const updateSpy = sinon.spy();
-
-      const eventBus = new eventBusMock();
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({ container, eventBus });
-
-      // when
-      eventBus.fire('selection.changed', { newSelection: [ noopElement ] });
-
-      // then
-      expect(updateSpy).to.have.been.calledWith({
-        element: noopElement
-      });
-    });
-
-
-    it('should update on selection changed - multiple', async function() {
+    it('should emit <propertiesPanel.layoutChanged> on layout changed', function() {
 
       // given
       const updateSpy = sinon.spy();
 
       const eventBus = new eventBusMock();
 
-      const elements = [
-        noopElement,
-        noopElement
-      ];
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({ container, eventBus });
+      eventBus.on('propertiesPanel.layoutChanged', updateSpy);
 
       // when
-      eventBus.fire('selection.changed', { newSelection: elements });
-
-      // then
-      expect(updateSpy).to.have.been.calledWith({
-        element: elements
-      });
-    });
-
-
-    it('should update on element changed', function() {
-
-      // given
-      const updateSpy = sinon.spy();
-
-      const eventBus = new eventBusMock();
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
       createBpmnPropertiesPanel({ container, eventBus });
-
-      // when
-      eventBus.fire('elements.changed', { elements: [ noopElement ] });
-
-      // then
-      expect(updateSpy).to.have.been.calledWith({
-        element: noopElement
-      });
-    });
-
-
-    it('should update on root element changed', function() {
-
-      // given
-      const updateSpy = sinon.spy();
-
-      const eventBus = new eventBusMock();
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({ container, eventBus });
-
-      // when
-      eventBus.fire('root.added', { element: noopElement });
-
-      // then
-      expect(updateSpy).to.have.been.calledWith({
-        element: noopElement
-      });
-    });
-
-
-    it('should update on providers changed', function() {
-
-      // given
-      const updateSpy = sinon.spy();
-
-      const eventBus = new eventBusMock();
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({ container, eventBus });
-
-      // when
-      eventBus.fire('propertiesPanel.providersChanged');
 
       // then
       expect(updateSpy).to.have.been.calledOnce;
     });
 
 
-    it('should update on element templates changed', function() {
-
-      // given
-      const updateSpy = sinon.spy();
-
-      const eventBus = new eventBusMock();
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({ container, eventBus });
-
-      // when
-      eventBus.fire('elementTemplates.changed');
-
-      // then
-      expect(updateSpy).to.have.been.calledOnce;
-    });
-
-
-    describe('layout', function() {
-
-      it('should notify on layout changed', function() {
-
-        // given
-        const updateSpy = sinon.spy();
-
-        const eventBus = new eventBusMock();
-
-        eventBus.on('propertiesPanel.layoutChanged', updateSpy);
-
-        // when
-        createBpmnPropertiesPanel({ container, eventBus });
-
-        // then
-        expect(updateSpy).to.have.been.calledOnce;
-      });
-
-
-      withPropertiesPanel('>=1.5.0')('should react to external changes', async function() {
-
-        // given
-        const originalLayout = {
-          open: false
-        };
-        const newLayout = {
-          open: true
-        };
-
-        const updateSpy = sinon.spy();
-        const eventBus = new eventBusMock();
-        eventBus.on('propertiesPanel.layoutChanged', updateSpy);
-
-        createBpmnPropertiesPanel({ container, eventBus, layoutConfig: originalLayout });
-
-        // assume
-        expect(updateSpy).to.have.been.calledWith(sinon.match({ layout: originalLayout }));
-
-        updateSpy.resetHistory();
-
-        // when
-        await act(() => {
-          eventBus.fire('propertiesPanel.setLayout', { layout: newLayout });
-        });
-
-        // then
-        expect(updateSpy).to.have.been.calledOnce;
-        expect(updateSpy.lastCall).to.have.been.calledWith(sinon.match({ layout: newLayout }));
-      });
-
-    });
-
-
-    it('should notify on description loaded', function() {
+    it('should emit <propertiesPanel.descriptionLoaded> on description loaded', function() {
 
       // given
       const loadedSpy = sinon.spy();
@@ -354,7 +164,7 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
-    it('should notify on tooltip loaded', function() {
+    it('should emit <propertiesPanel.tooltipLoaded> on tooltip loaded', function() {
 
       // given
       const loadedSpy = sinon.spy();
@@ -370,65 +180,6 @@ describe('<BpmnPropertiesPanel>', function() {
       expect(loadedSpy).to.have.been.called;
     });
 
-
-    it('should notify on properties panel changed', function() {
-
-      // given
-      const updateSpy = sinon.spy();
-
-      const eventBus = new eventBusMock();
-
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({ container, eventBus });
-
-      // when
-      eventBus.fire('propertiesPanel.providersChanged');
-
-      // then
-      expect(updateSpy).to.have.been.calledOnce;
-    });
-
-
-    it('should not update deleted element', async function() {
-
-      // given
-      const element = {
-        ...noopElement,
-        id: 'B',
-        type: 'foo:Deleted'
-      };
-
-      let elements = [
-        element,
-        noopElement,
-        noopElement
-      ];
-
-      const elementRegistry = new elementRegistryMock();
-      elementRegistry.setElements(elements);
-
-      const updateSpy = sinon.spy();
-      const eventBus = new eventBusMock();
-      eventBus.on('propertiesPanel.updated', updateSpy);
-
-      createBpmnPropertiesPanel({
-        container,
-        element,
-        elementRegistry,
-        eventBus
-      });
-
-      // when --> remove the currently selected element
-      elements.splice(0, 1);
-      elementRegistry.setElements(elements);
-
-      eventBus.fire('elements.changed', { elements: [ element ] });
-
-      // then
-      expect(updateSpy).to.not.have.been.called;
-    });
-
   });
 
 });
@@ -440,7 +191,7 @@ function createBpmnPropertiesPanel(options = {}) {
 
   const {
     element = noopElement,
-    getProviders = getProvidersMock,
+    groups = [],
     layoutConfig,
     descriptionConfig,
     descriptionLoaded,
@@ -466,8 +217,8 @@ function createBpmnPropertiesPanel(options = {}) {
   return render(
     <BpmnPropertiesPanel
       element={ element }
+      groups={ groups }
       injector={ injector }
-      getProviders={ getProviders }
       layoutConfig={ layoutConfig }
       descriptionConfig={ descriptionConfig }
       descriptionLoaded={ descriptionLoaded }

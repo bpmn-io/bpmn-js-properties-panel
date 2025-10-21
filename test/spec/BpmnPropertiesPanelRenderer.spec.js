@@ -299,16 +299,203 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
-  it('should render on root.added', async function() {
+  describe('rendering', function() {
 
-    // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    it('should render', async function() {
 
-    // when
-    await createModeler(diagramXml);
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
 
-    // then
-    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+      // when
+      await createModeler(diagramXml);
+
+      // then
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+    });
+
+
+    it('should rerender on selection changed (single element)', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      const element = modeler.get('elementRegistry').get('Task_1');
+
+      await act(() => {
+        modeler.get('selection').select(element);
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+      expect(domQuery('.bio-properties-panel-header-type', propertiesContainer).textContent).to.equal('Task');
+    });
+
+
+    it('should rerender on selection changed (multi element)', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      const elements = [
+        modeler.get('elementRegistry').get('Task_1'),
+        modeler.get('elementRegistry').get('EndEvent_1')
+      ];
+
+      await act(() => {
+        modeler.get('selection').select(elements);
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+      expect(domQuery('.bio-properties-panel-placeholder-text', propertiesContainer).textContent).to.equal('Multiple elements are selected. Select a single element to edit its properties.');
+    });
+
+
+    it('should rerender on selection changed (no element)', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      await act(() => {
+        modeler.get('selection').select(null);
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+      expect(domQuery('.bio-properties-panel-header-type', propertiesContainer).textContent).to.equal('Process');
+    });
+
+
+    it('should rerender on providers changed', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      await act(() => {
+        modeler.get('propertiesPanel').registerProvider({
+          getGroups: () => {
+            return (groups) => {
+              return [
+                ...groups,
+                {
+                  id: 'foo-group',
+                  label: 'Foo Group',
+                  entries: []
+                }
+              ];
+            };
+          }
+        });
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+      expect(domQuery('.bio-properties-panel-group-header-title[data-title="Foo Group"]', propertiesContainer)).to.exist;
+    });
+
+
+    it('should rerender on element templates changed', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      await act(() => {
+        modeler.get('eventBus').fire('elementTemplates.changed');
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+    });
+
+
+    it('should rerender on elements changed', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      await act(() => {
+        const element = modeler.get('elementRegistry').get('Process_1');
+
+        modeler.get('modeling').updateProperties(element, { name: 'Foo Process' });
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+      expect(domQuery('#bio-properties-panel-name', propertiesContainer).value).to.equal('Foo Process');
+    });
+
+
+    withPropertiesPanel('>=1.5.0')('should rerender on layout changed', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const spy = sinon.spy();
+
+      modeler.on('propertiesPanel.updated', spy);
+
+      // when
+      await act(() => {
+        modeler.get('eventBus').fire('propertiesPanel.setLayout', {
+          layout: {
+            groups: {
+              general: {
+                open: true
+              }
+            }
+          }
+        });
+      });
+
+      // then
+      expect(spy).to.have.been.called;
+      expect(domQuery('.bio-properties-panel-group[data-group-id="group-general"] .bio-properties-panel-group-header.open', propertiesContainer)).to.exist;
+    });
+
   });
 
 
@@ -355,7 +542,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     // when
     const propertiesPanel = modeler.get('propertiesPanel');
     propertiesPanel.attachTo(propertiesContainer);
-    propertiesPanel._render(rootElement);
+    propertiesPanel._render();
 
     // then
     expect(domQuery('.bio-properties-panel', propertiesContainer)).to.not.exist;
@@ -507,6 +694,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // then
       expect(getHeaderName(propertiesContainer)).to.eql('start');
     });
+
 
     describe('input', function() {
 
