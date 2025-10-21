@@ -237,8 +237,9 @@ function getGroups(element, injector) {
 export default class BpmnPropertiesProvider {
 
   constructor(propertiesPanel, injector) {
-    propertiesPanel.registerProvider(this);
     this._injector = injector;
+
+    propertiesPanel.registerProvider(this);
   }
 
   getGroups(element) {

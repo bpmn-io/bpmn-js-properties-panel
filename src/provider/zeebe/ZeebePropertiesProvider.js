@@ -76,9 +76,9 @@ const ZEEBE_GROUPS = [
 export default class ZeebePropertiesProvider {
 
   constructor(propertiesPanel, injector) {
-    propertiesPanel.registerProvider(LOW_PRIORITY, this);
-
     this._injector = injector;
+
+    propertiesPanel.registerProvider(LOW_PRIORITY, this);
   }
 
   getGroups(element) {
