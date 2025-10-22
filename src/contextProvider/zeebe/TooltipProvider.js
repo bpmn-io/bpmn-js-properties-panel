@@ -275,7 +275,7 @@ const TooltipProvider = {
       <div>
         <p>
           { translate('The number of times the engine tries executing this activity if a worker signals a failure. The default is three.') } { ' ' }
-          <a href="https://docs.camunda.io/docs/next/components/best-practices/development/dealing-with-problems-and-exceptions/#leveraging-retries" target="_blank" rel="noopener noreferrer">{ translate('Learn more.') }</a>
+          <a href="https://docs.camunda.io/docs/components/best-practices/development/dealing-with-problems-and-exceptions/#leveraging-retries" target="_blank" rel="noopener noreferrer">{ translate('Learn more.') }</a>
         </p>
       </div>
     );
