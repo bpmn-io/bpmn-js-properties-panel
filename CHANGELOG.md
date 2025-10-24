@@ -6,6 +6,14 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.42.2
+
+* `FIX`: use maximize icon in open popup button ([@bpmn-io/properties-panel#438](https://github.com/bpmn-io/properties-panel/pull/444))
+* `CHORE`: link to stable version of docs ([#1160](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1160))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.33.1`
+* `DEPS`: update to `bpmn-js@18.8.0`
+* `DEPS`: update to `diagram-js@15.4.0`
+
 ## 5.42.1
 
 * `FIX`: use default value for `cancelRemainingInstances` for edit marker
