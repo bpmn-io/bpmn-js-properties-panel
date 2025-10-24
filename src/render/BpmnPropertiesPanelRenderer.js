@@ -94,7 +94,14 @@ export default class BpmnPropertiesPanelRenderer {
       if (selectedElements.length > 1) {
         this._selectedElement = selectedElements;
       } else if (selectedElements.length === 1) {
-        this._selectedElement = selectedElements[0];
+        let newSelectedElement = selectedElements[0];
+
+        // handle labels
+        if (newSelectedElement.type === 'label') {
+          newSelectedElement = newSelectedElement.labelTarget;
+        }
+
+        this._selectedElement = newSelectedElement;
       } else {
         this._selectedElement = rootElement;
       }
