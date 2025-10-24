@@ -8,6 +8,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 5.42.2
 
+* `FIX`: keep selected element in sync with canvas state ([#1131](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1131))
 * `FIX`: use maximize icon in open popup button ([@bpmn-io/properties-panel#438](https://github.com/bpmn-io/properties-panel/pull/444))
 * `CHORE`: link to stable version of docs ([#1160](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1160))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.33.1`
@@ -1036,3 +1037,4 @@ Checkout this [pull request](https://github.com/bpmn-io/bpmn-js-properties-panel
 ## ...
 
 Check `git log` for earlier history.
+
