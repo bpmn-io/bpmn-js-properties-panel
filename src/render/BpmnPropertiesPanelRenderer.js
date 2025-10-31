@@ -66,12 +66,79 @@ export default class BpmnPropertiesPanelRenderer {
     this._selectedElement = null;
     this._groups = [];
 
-    eventBus.on('selection.changed', () => this._update());
-    eventBus.on('elements.changed', () => this._update());
-    eventBus.on('elementTemplates.changed', () => this._update());
-    eventBus.on('propertiesPanel.providersChanged', () => this._update());
+    const update = () => {
+      updateSelectedElement();
+      updateGroups();
 
-    eventBus.on('propertiesPanel.setLayout', event => this._updateLayout(event));
+      this._render();
+
+      eventBus.fire('propertiesPanel.updated', {
+        element: this._selectedElement
+      });
+    };
+
+    const updateSelectedElement = () => {
+      const canvas = injector.get('canvas'),
+            selection = injector.get('selection');
+
+      const rootElement = canvas.getRootElement();
+
+      if (isImplicitRoot(rootElement)) {
+        this._selectedElement = rootElement;
+
+        return;
+      }
+
+      const selectedElements = selection.get();
+
+      if (selectedElements.length > 1) {
+        this._selectedElement = selectedElements;
+      } else if (selectedElements.length === 1) {
+        let newSelectedElement = selectedElements[0];
+
+        // handle labels
+        if (newSelectedElement.type === 'label') {
+          newSelectedElement = newSelectedElement.labelTarget;
+        }
+
+        this._selectedElement = newSelectedElement;
+      } else {
+        this._selectedElement = rootElement;
+      }
+    };
+
+    const updateGroups = () => {
+      if (!this._selectedElement || isImplicitRoot(this._selectedElement) || isArray(this._selectedElement)) {
+        this._groups = [];
+
+        return;
+      }
+
+      const providers = this._getProviders(this._selectedElement);
+
+      this._groups = reduce(providers, (groups, provider) => {
+        const updater = provider.getGroups(this._selectedElement);
+
+        return updater(groups);
+      }, []);
+    };
+
+    const updateLayout = ({ layout }) => {
+      this._layoutConfig = layout;
+
+      this._render();
+
+      eventBus.fire('propertiesPanel.updated', {
+        element: this._selectedElement
+      });
+    };
+
+    eventBus.on('selection.changed', update);
+    eventBus.on('elements.changed', update);
+    eventBus.on('elementTemplates.changed', update);
+    eventBus.on('propertiesPanel.providersChanged', update);
+
+    eventBus.on('propertiesPanel.setLayout', updateLayout);
   }
 
   /**
@@ -191,73 +258,6 @@ export default class BpmnPropertiesPanelRenderer {
 
       this._eventBus.fire('propertiesPanel.destroyed');
     }
-  }
-
-  _update() {
-    this._updateSelectedElement();
-    this._updateGroups();
-
-    this._render();
-
-    this._eventBus.fire('propertiesPanel.updated', {
-      element: this._selectedElement
-    });
-  }
-
-  _updateSelectedElement() {
-    const canvas = this._injector.get('canvas'),
-          selection = this._injector.get('selection');
-
-    const rootElement = canvas.getRootElement();
-
-    if (isImplicitRoot(rootElement)) {
-      this._selectedElement = rootElement;
-
-      return;
-    }
-
-    const selectedElements = selection.get();
-
-    if (selectedElements.length > 1) {
-      this._selectedElement = selectedElements;
-    } else if (selectedElements.length === 1) {
-      let newSelectedElement = selectedElements[0];
-
-      // handle labels
-      if (newSelectedElement.type === 'label') {
-        newSelectedElement = newSelectedElement.labelTarget;
-      }
-
-      this._selectedElement = newSelectedElement;
-    } else {
-      this._selectedElement = rootElement;
-    }
-  }
-
-  _updateGroups() {
-    if (!this._selectedElement || isImplicitRoot(this._selectedElement) || isArray(this._selectedElement)) {
-      this._groups = [];
-
-      return;
-    }
-
-    const providers = this._getProviders(this._selectedElement);
-
-    this._groups = reduce(providers, (groups, provider) => {
-      const updater = provider.getGroups(this._selectedElement);
-
-      return updater(groups);
-    }, []);
-  }
-
-  _updateLayout({ layout }) {
-    this._layoutConfig = layout;
-
-    this._render();
-
-    this._eventBus.fire('propertiesPanel.updated', {
-      element: this._selectedElement
-    });
   }
 }
 
