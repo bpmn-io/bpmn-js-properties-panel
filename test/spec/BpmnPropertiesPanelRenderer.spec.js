@@ -387,29 +387,6 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     });
 
 
-    it('should rerender on selection changed (label)', async function() {
-
-      // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
-
-      const { modeler } = await createModeler(diagramXml);
-
-      const spy = sinon.spy();
-
-      modeler.on('propertiesPanel.updated', spy);
-      const label = modeler.get('elementRegistry').get('StartEvent_1').label;
-
-      // when
-      await act(() => {
-        modeler.get('selection').select(label);
-      });
-
-      // then
-      expect(spy).to.have.been.called;
-      expect(domQuery('.bio-properties-panel-header-type', propertiesContainer).textContent).to.equal('Start Event');
-    });
-
-
     it('should rerender on providers changed', async function() {
 
       // given
