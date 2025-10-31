@@ -15,8 +15,6 @@ import {
   event as domEvent
 } from 'min-dom';
 
-import { isArray, reduce } from 'min-dash';
-
 const DEFAULT_PRIORITY = 1000;
 
 /**
@@ -49,7 +47,7 @@ export default class BpmnPropertiesPanelRenderer {
       '<div style="height: 100%" tabindex="-1" class="bio-properties-panel-container"></div>'
     );
 
-    const commandStack = injector.get('commandStack', false);
+    var commandStack = injector.get('commandStack', false);
 
     commandStack && setupKeyboard(this._container, eventBus, commandStack);
 
@@ -63,76 +61,13 @@ export default class BpmnPropertiesPanelRenderer {
       this.detach();
     });
 
-    this._selectedElement = null;
-    this._groups = [];
+    eventBus.on('root.added', (event) => {
+      const { element } = event;
 
-    const update = () => {
-      updateSelectedElement();
-      updateGroups();
-
-      this._render();
-
-      eventBus.fire('propertiesPanel.updated', {
-        element: this._selectedElement
-      });
-    };
-
-    const updateSelectedElement = () => {
-      const canvas = injector.get('canvas'),
-            selection = injector.get('selection');
-
-      const rootElement = canvas.getRootElement();
-
-      if (isImplicitRoot(rootElement)) {
-        this._selectedElement = rootElement;
-
-        return;
-      }
-
-      const selectedElements = selection.get();
-
-      if (selectedElements.length > 1) {
-        this._selectedElement = selectedElements;
-      } else if (selectedElements.length === 1) {
-        this._selectedElement = selectedElements[0];
-      } else {
-        this._selectedElement = rootElement;
-      }
-    };
-
-    const updateGroups = () => {
-      if (!this._selectedElement || isImplicitRoot(this._selectedElement) || isArray(this._selectedElement)) {
-        this._groups = [];
-
-        return;
-      }
-
-      const providers = this._getProviders(this._selectedElement);
-
-      this._groups = reduce(providers, (groups, provider) => {
-        const updater = provider.getGroups(this._selectedElement);
-
-        return updater(groups);
-      }, []);
-    };
-
-    const updateLayout = ({ layout }) => {
-      this._layoutConfig = layout;
-
-      this._render();
-
-      eventBus.fire('propertiesPanel.updated', {
-        element: this._selectedElement
-      });
-    };
-
-    eventBus.on('selection.changed', update);
-    eventBus.on('elements.changed', update);
-    eventBus.on('elementTemplates.changed', update);
-    eventBus.on('propertiesPanel.providersChanged', update);
-
-    eventBus.on('propertiesPanel.setLayout', updateLayout);
+      this._render(element);
+    });
   }
+
 
   /**
    * Attach the properties panel to a parent node.
@@ -223,16 +158,22 @@ export default class BpmnPropertiesPanelRenderer {
     return event.providers;
   }
 
-  _render() {
-    if (!this._selectedElement || isImplicitRoot(this._selectedElement)) {
+  _render(element) {
+    const canvas = this._injector.get('canvas');
+
+    if (!element) {
+      element = canvas.getRootElement();
+    }
+
+    if (isImplicitRoot(element)) {
       return;
     }
 
     render(
       <BpmnPropertiesPanel
-        element={ this._selectedElement }
-        groups={ this._groups }
+        element={ element }
         injector={ this._injector }
+        getProviders={ this._getProviders.bind(this) }
         layoutConfig={ this._layoutConfig }
         descriptionConfig={ this._descriptionConfig }
         tooltipConfig={ this._tooltipConfig }
