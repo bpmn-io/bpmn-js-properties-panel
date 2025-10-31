@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.42.3
+
+* `FIX`: reverts keeping selected element in sync with canvas state ([#1159](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1159))
+
 ## 5.42.2
 
 * `FIX`: keep selected element in sync with canvas state ([#1131](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1131))
