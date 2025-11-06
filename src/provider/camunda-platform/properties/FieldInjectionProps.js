@@ -14,6 +14,8 @@ import {
 
 import FieldInjection from './FieldInjection';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 export function FieldInjectionProps({ element, injector }) {
 

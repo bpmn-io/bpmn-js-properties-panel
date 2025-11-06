@@ -40,6 +40,8 @@ import { getTimerEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
 
 import { without } from 'min-dash';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 const LISTENER_ALLOWED_TYPES = [
   'bpmn:Activity',

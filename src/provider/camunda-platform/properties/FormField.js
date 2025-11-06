@@ -18,6 +18,8 @@ import {
 
 import { without } from 'min-dash';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 const CUSTOM_TYPE_VALUE = '',
       DEFINED_TYPE_VALUES = [ 'boolean', 'date', 'enum', 'long', 'string', undefined ];

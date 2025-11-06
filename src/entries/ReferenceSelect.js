@@ -11,6 +11,8 @@ import {
   usePrevious
 } from '@bpmn-io/properties-panel';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 export default function ReferenceSelectEntry(props) {
   const {

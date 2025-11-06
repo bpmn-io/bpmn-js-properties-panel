@@ -44,6 +44,8 @@ import {
 
 import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 const LOW_PRIORITY = 500;
 
 const CAMUNDA_PLATFORM_GROUPS = [

@@ -20,6 +20,8 @@ import {
   getCompensateEventDefinition
 } from '../../../utils/EventDefinitionUtil';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 export function ExecutionListenersProps({ element, injector }) {
   let businessObject = getRelevantBusinessObject(element);

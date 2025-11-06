@@ -15,6 +15,8 @@ import {
   event as domEvent
 } from 'min-dom';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 const DEFAULT_PRIORITY = 1000;
 
 /**

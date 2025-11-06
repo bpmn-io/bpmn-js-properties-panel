@@ -16,6 +16,8 @@ import Error from './Error';
 
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 export function ErrorsProps({ element, injector }) {
 
