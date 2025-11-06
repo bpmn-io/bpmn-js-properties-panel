@@ -21,6 +21,8 @@ import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 export const SCRIPT_IMPLEMENTATION_OPTION = 'script',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
       DEFAULT_IMPLEMENTATION_OPTION = '';

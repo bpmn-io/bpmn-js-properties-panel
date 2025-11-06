@@ -30,6 +30,8 @@ import { CalledBpmnProps } from './CalledBpmnProps';
 import { CalledCmmnProps } from './CalledCmmnProps';
 import { DelegateVariableMappingProps } from './DelegateVariableMappingProps';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 /**
  * Defines bpmn:CallActivity properties.
  * Cf. https://docs.camunda.org/manual/7.15/reference/bpmn20/subprocesses/call-activity/

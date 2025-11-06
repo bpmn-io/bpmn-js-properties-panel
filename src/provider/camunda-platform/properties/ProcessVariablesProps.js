@@ -27,6 +27,8 @@ import {
 import { ListGroup } from '@bpmn-io/properties-panel';
 import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 function ProcessVariablesEntry(props) {
   const {

@@ -10,6 +10,8 @@ import {
 
 import { isZeebeUserTask } from '../../provider/zeebe/utils/FormUtil';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 const TooltipProvider = {
 
   'group-assignmentDefinition': (element) => {

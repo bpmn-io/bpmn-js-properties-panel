@@ -24,6 +24,8 @@ import {
   getServiceTaskLikeBusinessObject
 } from '../utils/ImplementationTypeUtils';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 const DELEGATE_PROPS = {
   'camunda:class': undefined,
   'camunda:expression': undefined,

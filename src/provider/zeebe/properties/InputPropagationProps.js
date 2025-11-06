@@ -21,6 +21,8 @@ import {
 
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 
 export function InputPropagationProps(props) {
   const {

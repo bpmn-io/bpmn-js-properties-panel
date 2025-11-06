@@ -26,6 +26,8 @@ import {
   isTextAreaEntryEdited
 } from '@bpmn-io/properties-panel';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 /**
  * Defines condition properties for conditional sequence flow.
  * Cf. https://docs.camunda.org/manual/latest/reference/bpmn20/gateways/sequence-flow/

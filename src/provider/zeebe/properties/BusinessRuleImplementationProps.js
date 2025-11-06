@@ -24,6 +24,8 @@ import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
 
+{ /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
+
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker',
       DEFAULT_IMPLEMENTATION_OPTION = '';
