@@ -1,7 +1,7 @@
 {
   "name": "CustomGroup",
   "prefix": "custom",
-  "uri": "http://customGroup",
+  "uri": "http://custom",
   "xml": {
     "tagAlias": "lowerCase"
   },
