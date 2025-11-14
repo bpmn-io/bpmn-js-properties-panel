@@ -55,7 +55,7 @@ function ProgramId(props) {
       element,
       moddleElement: businessObject,
       properties: {
-        'custom:programId': value
+        'custom:programId': (value || '').toUpperCase()
       }
     });
   };

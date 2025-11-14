@@ -6,6 +6,8 @@ const QNAME_REGEX = /^([a-z][\w-.]*:)?[a-z_][\w-.]*$/i;
 // for ID validation as per BPMN Schema (QName - Namespace)
 const ID_REGEX = /^[a-z_][\w-.]*$/i;
 
+// for Program ID validation as per BPMN Schema AAA_M1234 or AAA_P12345 (e.g., BKD_M1001, DND_P1002, DND_M1001_NEW), separated by commas.
+const PROGRAM_ID_REGEX = /^[A-Z]{3}_[MP]\d{4,5}(?:_[A-Z0-9]+)?(?:,\s*[A-Z]{3}_[MP]\d{4}(?:_[A-Z0-9]+)?)*$/i;
 /**
  * checks whether the id value is valid
  *
@@ -74,8 +76,8 @@ export function validateProgramId(idValue, translate) {
     return translate('Program ID must not contain spaces.');
   }
 
-  if (!ID_REGEX.test(idValue)) {
-    return translate('Program ID must not contain prefix.');
+  if (!PROGRAM_ID_REGEX.test(idValue)) {
+    return translate('Please enter ID(s) in format: AAA_M1234 or AAA_P12345 (e.g., BKD_M1001), separated by commas.');
   }
   
 }
