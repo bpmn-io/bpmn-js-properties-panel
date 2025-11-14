@@ -55,6 +55,7 @@
     "min-dash": "^4.1.1",
     "min-dom": "^4.1.0",
     "preact-markup": "^2.1.1",
+    "react-svg-core": "^3.0.3",
     "semver-compare": "^1.0.0",
     "uuid": "^9.0.0"
   },
@@ -101,12 +102,12 @@
     "mocha": "^10.0.0",
     "mocha-test-container-support": "^0.2.0",
     "npm-run-all": "^4.1.5",
-    "puppeteer": "^21.0.0",
+    "puppeteer": "^24.30.0",
     "raw-loader": "^4.0.2",
     "react-svg-loader": "^3.0.3",
     "rollup": "^3.0.1",
     "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-react-svg": "^3.0.3",
+    "rollup-plugin-react-svg": "^3.0.0",
     "sinon": "^16.0.0",
     "sinon-chai": "^3.7.0",
     "webpack": "^5.74.0",
@@ -117,5 +118,8 @@
     "bpmn-js": ">= 11.5",
     "camunda-bpmn-js-behaviors": ">= 0.4",
     "diagram-js": ">= 11.9"
+  },
+  "overrides": {
+    "nth-check": "^2.0.1"
   }
 }
