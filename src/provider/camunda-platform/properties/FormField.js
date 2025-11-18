@@ -424,8 +424,9 @@ function ConstraintList(props) {
     const commands = [];
 
     // (1) ensure validation
-    if (!validation) {
-      validation = createElement(
+    let ensuredValidation = validation;
+    if (!ensuredValidation) {
+      ensuredValidation = createElement(
         'camunda:Validation',
         { },
         businessObject,
@@ -437,7 +438,7 @@ function ConstraintList(props) {
         context: {
           element,
           moddleElement: formField,
-          properties: { validation }
+          properties: { validation: ensuredValidation }
         }
       });
     }
@@ -446,7 +447,7 @@ function ConstraintList(props) {
     const constraint = createElement(
       'camunda:Constraint',
       { name: undefined, config: undefined },
-      validation,
+      ensuredValidation,
       bpmnFactory
     );
 
@@ -454,9 +455,9 @@ function ConstraintList(props) {
       cmd: 'element.updateModdleProperties',
       context: {
         element,
-        moddleElement: validation,
+        moddleElement: ensuredValidation,
         properties: {
-          constraints: [ ...validation.get('constraints'), constraint ]
+          constraints: [ ...ensuredValidation.get('constraints'), constraint ]
         }
       }
     });
@@ -539,8 +540,9 @@ function PropertiesList(props) {
     const commands = [];
 
     // (1) ensure properties
-    if (!properties) {
-      properties = createElement(
+    let ensuredProperties = properties;
+    if (!ensuredProperties) {
+      ensuredProperties = createElement(
         'camunda:Properties',
         { },
         businessObject,
@@ -552,7 +554,7 @@ function PropertiesList(props) {
         context: {
           element,
           moddleElement: formField,
-          properties: { properties }
+          properties: { properties: ensuredProperties }
         }
       });
     }
@@ -561,7 +563,7 @@ function PropertiesList(props) {
     const property = createElement(
       'camunda:Property',
       { id: undefined, value: undefined },
-      properties,
+      ensuredProperties,
       bpmnFactory
     );
 
@@ -569,9 +571,9 @@ function PropertiesList(props) {
       cmd: 'element.updateModdleProperties',
       context: {
         element,
-        moddleElement: properties,
+        moddleElement: ensuredProperties,
         properties: {
-          values: [ ...properties.get('values'), property ]
+          values: [ ...ensuredProperties.get('values'), property ]
         }
       }
     });
