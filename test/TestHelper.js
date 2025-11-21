@@ -60,6 +60,8 @@ export {
   createEvent
 } from 'bpmn-js/test/util/MockEvents';
 
+export const TOOLTIP_OPEN_DELAY = 250;
+
 export function bootstrapPropertiesPanel(diagram, options, locals) {
   return async function() {
     const container = TestContainer.get(this);

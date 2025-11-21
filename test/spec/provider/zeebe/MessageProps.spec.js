@@ -8,7 +8,8 @@ import {
   bootstrapPropertiesPanel,
   changeInput,
   inject,
-  mouseEnter
+  mouseEnter,
+  TOOLTIP_OPEN_DELAY
 } from 'test/TestHelper';
 
 import {
@@ -84,7 +85,7 @@ describe('provider/zeebe - MessageProps', function() {
     return act(() => {
       const wrapper = customWrapper || domQuery('.bio-properties-panel-tooltip-wrapper', container);
       mouseEnter(wrapper);
-      clock.tick(200);
+      clock.tick(TOOLTIP_OPEN_DELAY);
     });
   }
 
