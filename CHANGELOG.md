@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.43.0
+
+* `FEAT`: remove title attribute when unnecessary ([bpmn-io/properties-panel#455](https://github.com/bpmn-io/properties-panel/pull/455))
+* `FIX`: improve tooltip behavior ([bpmn-io/properties-panel#451](https://github.com/bpmn-io/properties-panel/pull/451))
+* `FIX`: correctly handle trimming and debouncing ([bpmn-io/properties-panel#450](https://github.com/bpmn-io/properties-panel/pull/450), [bpmn-io/properties-panel#309](https://github.com/bpmn-io/properties-panel/issues/309))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.34.0`
+
 ## 5.42.3
 
 * `FIX`: reverts keeping selected element in sync with canvas state ([#1159](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1159))
