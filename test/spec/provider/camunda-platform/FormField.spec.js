@@ -719,17 +719,11 @@ describe('provider/camunda-platform - FormField', function() {
         });
 
         // when
-        const heading = domQuery(
-          'div[data-entry-id=UserTask_4-formField-0-formFieldConstraints] [title="Constraints"]',
-          container
-        );
-        clickInput(heading);
-
-        // then
         const constraintEntries = Array.from(domQueryAll(
           'div[data-entry-id=UserTask_4-formField-0-formFieldConstraints] .bio-properties-panel-collapsible-entry-header-title',
           container)).map(e => e.innerHTML);
 
+        // then
         expect(constraintEntries).to.eql([
           'Constraint3',
           'Constraint1',
@@ -899,17 +893,11 @@ describe('provider/camunda-platform - FormField', function() {
         });
 
         // when
-        const heading = domQuery(
-          'div[data-entry-id=UserTask_4-formField-0-formFieldProperties] [title="Properties"]',
-          container
-        );
-        clickInput(heading);
-
-        // then
         const propertiesEntries = Array.from(domQueryAll(
           'div[data-entry-id=UserTask_4-formField-0-formFieldProperties] .bio-properties-panel-collapsible-entry-header-title',
           container)).map(e => e.innerHTML);
 
+        // then
         expect(propertiesEntries).to.eql([
           'Property3',
           'Property1',
