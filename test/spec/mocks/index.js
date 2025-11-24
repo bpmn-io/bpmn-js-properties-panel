@@ -60,7 +60,7 @@ export class Injector {
     }
 
     if (type === 'canvas') {
-      return new Canvas();
+      return this._options.canvas || new Canvas();
     }
   }
 }

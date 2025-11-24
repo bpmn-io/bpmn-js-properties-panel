@@ -225,7 +225,7 @@ describe('<BpmnPropertiesPanel>', function() {
     });
 
 
-    it('should update on root element changed', function() {
+    it('should update on import done', function() {
 
       // given
       const updateSpy = sinon.spy();
@@ -237,7 +237,7 @@ describe('<BpmnPropertiesPanel>', function() {
       createBpmnPropertiesPanel({ container, eventBus });
 
       // when
-      eventBus.fire('root.added', { element: noopElement });
+      eventBus.fire('import.done');
 
       // then
       expect(updateSpy).to.have.been.calledWith({
@@ -450,8 +450,15 @@ function createBpmnPropertiesPanel(options = {}) {
   } = options;
 
   let {
+    canvas,
     elementRegistry
   } = options;
+
+  if (!canvas) {
+    canvas = {
+      getRootElement: () => noopElement
+    };
+  }
 
   if (!elementRegistry) {
     elementRegistry = new elementRegistryMock();
@@ -460,6 +467,7 @@ function createBpmnPropertiesPanel(options = {}) {
 
   const injector = new injectorMock({
     ...options,
+    canvas,
     elementRegistry
   });
 

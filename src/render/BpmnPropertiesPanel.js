@@ -135,20 +135,20 @@ export default function BpmnPropertiesPanel(props) {
     };
   }, [ selectedElement ]);
 
-  // (2c) root element changed
+  // (2c) import done
   useEffect(() => {
-    const onRootAdded = (e) => {
-      const element = e.element;
+    const onImportDone = () => {
+      const rootElement = canvas.getRootElement();
 
-      _update(element);
+      _update(rootElement);
     };
 
-    eventBus.on('root.added', onRootAdded);
+    eventBus.on('import.done', onImportDone);
 
     return () => {
-      eventBus.off('root.added', onRootAdded);
+      eventBus.off('import.done', onImportDone);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (2d) provided entries changed
   useEffect(() => {
