@@ -21,6 +21,8 @@ import {
   getEventDefinition
 } from '../../bpmn/utils/EventDefinitionUtil';
 
+import { isPropagateAllChildVariables } from '../properties/OutputPropagationProps';
+
 function getElements(bo, type, prop) {
   const elems = getExtensionElementsList(bo, type);
   return !prop ? elems : (elems[0] || {})[prop] || [];
@@ -86,12 +88,15 @@ export function areOutputParametersSupported(element) {
     return false;
   }
 
+  if (is(element, 'bpmn:CallActivity')) {
+    return !isPropagateAllChildVariables(element);
+  }
+
   return isAny(element, [
     'zeebe:ZeebeServiceTask',
     'bpmn:UserTask',
     'bpmn:SubProcess',
     'bpmn:ReceiveTask',
-    'bpmn:CallActivity',
     'bpmn:Event',
     'bpmn:BusinessRuleTask'
   ]);
