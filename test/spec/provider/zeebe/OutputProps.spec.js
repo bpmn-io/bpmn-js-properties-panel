@@ -315,6 +315,57 @@ describe('provider/zeebe - OutputProps', function() {
       expect(outputGroup).to.not.exist;
     }));
   });
+
+
+  describe('bpmn:CallActivity#output', function() {
+
+    it('should display if `propagateAllChildVariables` is false',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1');
+
+        // when
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        // then
+        const outputGroup = getGroup(container, 'outputs');
+        expect(outputGroup).to.exist;
+      })
+    );
+
+
+    it('should not display if `propagateAllChildVariables` is true',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const callActivity = elementRegistry.get('CallActivity_1');
+
+        // when
+        await act(() => {
+          selection.select(callActivity);
+        });
+
+        const outputPropagationGroup = getGroup(container, 'outputPropagation');
+        const outputPropagationGroupHeader = domQuery('.bio-properties-panel-group-header', outputPropagationGroup);
+
+        await act(() => {
+          outputPropagationGroupHeader.click();
+        });
+
+        const propagateAllChildVariablesToggle = domQuery('#bio-properties-panel-propagateAllChildVariables', container);
+        await act(() => {
+          propagateAllChildVariablesToggle.click();
+        });
+
+        // then
+        const outputGroup = getGroup(container, 'outputs');
+        expect(outputGroup).to.not.exist;
+      })
+    );
+  });
 });
 
 
