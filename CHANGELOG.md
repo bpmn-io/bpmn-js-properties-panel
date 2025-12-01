@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.43.1
+
+* `FIX`: update on `import.done` instead of `root.added` to prevent stale element ([#1169](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1169))
+
 ## 5.43.0
 
 * `FEAT`: remove title attribute when unnecessary ([bpmn-io/properties-panel#455](https://github.com/bpmn-io/properties-panel/pull/455))
