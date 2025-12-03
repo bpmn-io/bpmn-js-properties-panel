@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.44.0
+
+* `FEAT`: hide `<bpmn:CallActivity>` Output group if `zeebe:propagateAllChildVariables` is true ([#1173](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1173))
+
 ## 5.43.1
 
 * `FIX`: update on `import.done` instead of `root.added` to prevent stale element ([#1169](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1169))
