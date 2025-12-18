@@ -7,7 +7,7 @@ import {
   isAny
 } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
-import { getEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
+import { getConditionalEventDefinition } from '../../bpmn/utils/EventDefinitionUtil';
 
 import {
   createElement
@@ -458,14 +458,6 @@ const CONDITIONAL_SOURCES = [
 
 function isConditionalSource(element) {
   return isAny(element, CONDITIONAL_SOURCES);
-}
-
-function getConditionalEventDefinition(element) {
-  if (!is(element, 'bpmn:Event')) {
-    return false;
-  }
-
-  return getEventDefinition(element, 'bpmn:ConditionalEventDefinition');
 }
 
 function getConditionType(element) {
