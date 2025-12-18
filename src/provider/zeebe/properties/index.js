@@ -5,6 +5,7 @@ export { AssignmentDefinitionProps } from './AssignmentDefinitionProps';
 export { BusinessRuleImplementationProps } from './BusinessRuleImplementationProps';
 export { CalledDecisionProps } from './CalledDecisionProps';
 export { ConditionProps } from './ConditionProps';
+export { EventConditionProps } from './EventConditionProps';
 export { ErrorProps } from './ErrorProps';
 export { EscalationProps } from './EscalationProps';
 export { ExecutionListenersProps } from './ExecutionListenersProps';
