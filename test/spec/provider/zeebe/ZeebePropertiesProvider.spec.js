@@ -781,6 +781,36 @@ describe('<ZeebePropertiesProvider>', function() {
       }
     }));
 
+
+    it('should show Conditional Event Condition group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('ConditionalStartEvent_1');
+
+      // when
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      // then
+      expect(getGroup(container, 'event-condition')).to.exist;
+    }));
+
+
+    it('should not show Conditional Event Condition group', inject(async function(elementRegistry, selection) {
+
+      // given
+      const conditionalEvent = elementRegistry.get('StartEvent_1');
+
+      // when
+      await act(() => {
+        selection.select(conditionalEvent);
+      });
+
+      // then
+      expect(getGroup(container, 'event-condition')).to.not.exist;
+    }));
+
   });
 
 
