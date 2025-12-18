@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.45.0
+
+* `FIX`: prevent racing blur for FEEL-optional ([bpmn-io/properties-panel#461](https://github.com/bpmn-io/properties-panel/pull/461))
+* `FIX`: keep focus in FEEL-optional field after pasting FEEL expression ([bpmn-io/properties-panel#461](https://github.com/bpmn-io/properties-panel/pull/461))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.35.0`
+
 ## 5.44.0
 
 * `FEAT`: hide `<bpmn:CallActivity>` Output group if `zeebe:propagateAllChildVariables` is true ([#1173](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1173))
