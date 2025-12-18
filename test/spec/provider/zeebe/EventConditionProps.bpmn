@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1e8230u" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.42.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="Process_1dd1gi1" isExecutable="true">
+    <bpmn:subProcess id="Activity_01gjpl1" triggeredByEvent="true">
+      <bpmn:startEvent id="Event_2">
+        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0v7epxg">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=foo &gt; bar</bpmn:conditionExpression>
+          <bpmn:extensionElements>
+            <zeebe:conditionalFilter variableNames="foo,bar" variableEvents="create,update" />
+          </bpmn:extensionElements>
+        </bpmn:conditionalEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:startEvent id="Event_1">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1kkcqht">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">foo &lt; bar</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1dd1gi1">
+      <bpmndi:BPMNShape id="Event_1o9vuwz_di" bpmnElement="Event_1">
+        <dc:Bounds x="152" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1q8hsrq_di" bpmnElement="Activity_01gjpl1" isExpanded="true">
+        <dc:Bounds x="260" y="80" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18fx64v_di" bpmnElement="Event_2">
+        <dc:Bounds x="312" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -387,7 +387,13 @@ const TooltipProvider = {
           </a>        </p>
       </div>
     );
-  }
+  },
+  'group-event-condition': (element) => {
+
+    // const translate = useService('translate');
+
+    // TODO(@jarekdanielak): Link to Conditional Events docs when available
+  },
 };
 
 export default TooltipProvider;
