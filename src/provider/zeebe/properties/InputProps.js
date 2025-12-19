@@ -39,7 +39,8 @@ export function InputProps({ element, injector }) {
       entries: InputOutputParameter({
         idPrefix: id,
         element,
-        parameter
+        parameter,
+        feel: 'optional'
       }),
       autoFocusEntry: id + '-target',
       remove: removeFactory({ commandStack, element, parameter })
