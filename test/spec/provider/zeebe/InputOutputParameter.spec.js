@@ -183,6 +183,28 @@ describe('provider/zeebe - InputOutputParameter', function() {
     }));
 
 
+    it('should allow toggle (static vs. dynamic)', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const inputGroup = getGroup(container, 'inputs');
+
+      const feelToggle = domQuery(
+        '[data-entry-id="ServiceTask_1-input-0"] button.bio-properties-panel-feel-icon.optional',
+        inputGroup
+      );
+
+      // then
+      expect(feelToggle).to.exist;
+    }));
+
+
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
@@ -247,11 +269,11 @@ describe('provider/zeebe - InputOutputParameter', function() {
             addEntry.click();
           });
 
-          const sourceInput = domQuery('[name=ServiceTask_empty-input-0-source] [role="textbox"]', inputGroup);
-          await setEditorValue(sourceInput, 'newValue');
+          const sourceInput = domQuery('input[name=ServiceTask_empty-input-0-source]', inputGroup);
+          changeInput(sourceInput, 'newValue');
 
           // assume
-          expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+          expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
 
           // when
           commandStack.undo();
@@ -280,12 +302,11 @@ describe('provider/zeebe - InputOutputParameter', function() {
             addEntry.click();
           });
 
-          const sourceInput = domQuery('[name=ServiceTask_empty-input-0-source] [role="textbox"]', inputGroup);
-
-          await setEditorValue(sourceInput, 'newValue');
+          const sourceInput = domQuery('input[name=ServiceTask_empty-input-0-source]', inputGroup);
+          changeInput(sourceInput, 'newValue');
 
           // assume
-          expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+          expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
 
           // when
           commandStack.undo();
@@ -294,7 +315,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await nextTick();
 
           // then
-          expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+          expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
 
         })
       );

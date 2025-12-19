@@ -15,7 +15,8 @@ export default function InputOutputParameter(props) {
 
   const {
     idPrefix,
-    parameter
+    parameter,
+    feel = 'required'
   } = props;
 
   const entries = [ {
@@ -27,7 +28,8 @@ export default function InputOutputParameter(props) {
     id: idPrefix + '-source',
     component: SourceProperty,
     idPrefix,
-    parameter
+    parameter,
+    feel
   } ];
 
   return entries;
@@ -72,7 +74,8 @@ function SourceProperty(props) {
   const {
     idPrefix,
     element,
-    parameter
+    parameter,
+    feel
   } = props;
 
   const commandStack = useService('commandStack');
@@ -98,7 +101,7 @@ function SourceProperty(props) {
     element: parameter,
     id: idPrefix + '-source',
     label: translate('Variable assignment value'),
-    feel: 'required',
+    feel,
     getValue,
     setValue,
     debounce
