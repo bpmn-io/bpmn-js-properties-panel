@@ -176,7 +176,7 @@ function InputGroup(element, injector) {
   const translate = injector.get('translate');
   const group = {
     id: 'inputs',
-    label: translate('Inputs'),
+    label: translate('Input mapping'),
     component: ListGroup,
     ...InputProps({ element, injector })
   };
@@ -188,7 +188,7 @@ function OutputGroup(element, injector) {
   const translate = injector.get('translate');
   const group = {
     id: 'outputs',
-    label: translate('Outputs'),
+    label: translate('Output mapping'),
     component: ListGroup,
     ...OutputProps({ element, injector })
   };
