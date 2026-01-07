@@ -41,6 +41,18 @@ export function EventConditionProps(props) {
     return [];
   }
 
+  // `variableNames` and `variableEvents` are not applicable
+  // for root-level events
+  if (!is(element.parent, 'bpmn:SubProcess')) {
+    return [
+      {
+        id: 'conditionExpression',
+        component: ConditionExpression,
+        isEdited: isFeelEntryEdited
+      }
+    ];
+  }
+
   return [
     {
       id: 'conditionExpression',
