@@ -1,4 +1,8 @@
-import { TextFieldEntry } from '@bpmn-io/properties-panel';
+import {
+  TextFieldEntry,
+  CheckboxEntry,
+  CheckboxGroup
+} from '@bpmn-io/properties-panel';
 
 import {
   getBusinessObject,
@@ -130,48 +134,78 @@ function VariableNames(props) {
     setValue={ setValue }
     debounce={ debounce }
     validate={ validate }
+    tooltip={ translate('List of process variable names that trigger the condition evaluation.') }
   />;
 }
 
 /**
  * Field for `variableEvents` property of `zeebe:ConditionalFilter`.
+ *
+ * Groups "Create" and "Update" checkboxes.
  */
 function VariableEvents(props) {
   const {
     element
   } = props;
 
+  const VARIABLE_EVENTS = {
+    CREATE: 'create',
+    UPDATE: 'update'
+  };
+
   const commandStack = useService('commandStack');
   const translate = useService('translate');
-  const debounce = useService('debounceInput');
   const bpmnFactory = useService('bpmnFactory');
 
-  const getValue = () => {
+  const getValue = (event) => {
     const conditionalFilter = getConditionalFilter(element);
-    return conditionalFilter?.variableEvents;
+    const events = conditionalFilter?.variableEvents || '';
+    return events.includes(event);
   };
 
-  const setValue = (value) => {
-    setConditionalFilter(element, { variableEvents: value }, bpmnFactory, commandStack);
-  };
+  const setValue = (event, value) => {
+    const conditionalFilter = getConditionalFilter(element);
+    const currentEvents = conditionalFilter?.variableEvents || '';
 
-  const validate = (value) => {
-    if (value && !isCommaSeparatedList(value)) {
-      return translate('Must be a comma separated list');
+    const eventsList = currentEvents.split(',').map(e => e.trim()).filter(e => e.length > 0);
+    const eventsSet = new Set(eventsList);
+
+    if (value) {
+      eventsSet.add(event);
+    } else {
+      eventsSet.delete(event);
     }
+
+    const newValue = eventsSet.size > 0 ? Array.from(eventsSet).join(',') : undefined;
+    setConditionalFilter(element, { variableEvents: newValue }, bpmnFactory, commandStack);
   };
 
-  return <TextFieldEntry
-    element={ element }
-    id="variableEvents"
-    label={ translate('Variable events') }
-    getValue={ getValue }
-    setValue={ setValue }
-    debounce={ debounce }
-    validate={ validate }
-  />;
-}
+  const checkboxes = [
+    CheckboxEntry({
+      element,
+      id: 'variableEventsCreate',
+      label: translate('Create'),
+      getValue: () => getValue(VARIABLE_EVENTS.CREATE),
+      setValue: (value) => setValue(VARIABLE_EVENTS.CREATE, value)
+    }),
+    CheckboxEntry({
+      element,
+      id: 'variableEventsUpdate',
+      label: translate('Update'),
+      getValue: () => getValue(VARIABLE_EVENTS.UPDATE),
+      setValue: (value) => setValue(VARIABLE_EVENTS.UPDATE, value)
+    })
+  ];
 
+  return CheckboxGroup({
+    element,
+    id: 'variableEvents',
+    children: checkboxes,
+    label: translate('Variable events'),
+    description: translate('If none selected, all variable events will trigger the condition evaluation.'),
+    tooltip: translate('Variable events that trigger the condition evaluation.')
+  });
+}
 
 // helper //////////////////////////
 
