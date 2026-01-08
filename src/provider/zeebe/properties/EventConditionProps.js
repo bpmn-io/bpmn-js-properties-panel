@@ -1,6 +1,5 @@
 import {
   TextFieldEntry,
-  CheckboxEntry,
   CheckboxGroup
 } from '@bpmn-io/properties-panel';
 
@@ -137,7 +136,6 @@ function VariableNames(props) {
     }
   };
 
-  // TODO(@jarekdanielak): Use multi-select component when available.
   return <TextFieldEntry
     element={ element }
     id="variableNames"
@@ -152,8 +150,6 @@ function VariableNames(props) {
 
 /**
  * Field for `variableEvents` property of `zeebe:ConditionalFilter`.
- *
- * Groups "Create" and "Update" checkboxes.
  */
 function VariableEvents(props) {
   const {
@@ -169,50 +165,26 @@ function VariableEvents(props) {
   const translate = useService('translate');
   const bpmnFactory = useService('bpmnFactory');
 
-  const getValue = (event) => {
+  const getValue = () => {
     const conditionalFilter = getConditionalFilter(element);
-    const events = conditionalFilter?.variableEvents || '';
-    return events.includes(event);
+    const events = conditionalFilter?.variableEvents;
+    return stringListToArray(events);
   };
 
-  const setValue = (event, value) => {
-    const conditionalFilter = getConditionalFilter(element);
-    const currentEvents = conditionalFilter?.variableEvents || '';
-
-    const eventsList = currentEvents.split(',').map(e => e.trim()).filter(e => e.length > 0);
-    const eventsSet = new Set(eventsList);
-
-    if (value) {
-      eventsSet.add(event);
-    } else {
-      eventsSet.delete(event);
-    }
-
-    const newValue = eventsSet.size > 0 ? Array.from(eventsSet).join(',') : undefined;
-    setConditionalFilter(element, { variableEvents: newValue }, bpmnFactory, commandStack);
+  const setValue = (values) => {
+    const variableEvents = arrayToStringList(values);
+    setConditionalFilter(element, { variableEvents }, bpmnFactory, commandStack);
   };
-
-  const checkboxes = [
-    CheckboxEntry({
-      element,
-      id: 'variableEventsCreate',
-      label: translate('Create'),
-      getValue: () => getValue(VARIABLE_EVENTS.CREATE),
-      setValue: (value) => setValue(VARIABLE_EVENTS.CREATE, value)
-    }),
-    CheckboxEntry({
-      element,
-      id: 'variableEventsUpdate',
-      label: translate('Update'),
-      getValue: () => getValue(VARIABLE_EVENTS.UPDATE),
-      setValue: (value) => setValue(VARIABLE_EVENTS.UPDATE, value)
-    })
-  ];
 
   return CheckboxGroup({
     element,
     id: 'variableEvents',
-    children: checkboxes,
+    options: [
+      { label: translate('Create'), value: VARIABLE_EVENTS.CREATE },
+      { label: translate('Update'), value: VARIABLE_EVENTS.UPDATE }
+    ],
+    getValue,
+    setValue,
     label: translate('Variable events'),
     description: translate('If none selected, all variable events will trigger the condition evaluation.'),
     tooltip: translate('Variable events that trigger the condition evaluation.')
@@ -347,4 +319,12 @@ function isCommaSeparatedList(string) {
   const items = string.split(',');
 
   return items.length > 0 && items.every(item => item.trim().length > 0);
+}
+
+function stringListToArray(string) {
+  return string?.split(',').map(e => e.trim()).filter(e => e.length > 0) ?? [];
+}
+
+function arrayToStringList(array) {
+  return array.length > 0 ? array.join(',') : undefined;
 }
