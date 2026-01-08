@@ -1,17 +1,23 @@
 name: CI
 on: [ push, pull_request ]
 jobs:
-  Build:
+  build_browsers:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.integration }}
     strategy:
+      fail-fast: false
       matrix:
+        browser: [ ChromeHeadless ]
         integration: [ true ]
         integration-deps:
         - diagram-js@11.9 bpmn-js@11.5
         - "@bpmn-io/properties-panel@3"
         include:
-          - integration-deps: "" # as defined in package.json
+          - browser: Firefox
+            integration-deps: "" # as defined in package.json
+            integration: false
+          - browser: ChromeHeadless
+            integration-deps: "" # as defined in package.json
             integration: false
 
     steps:
@@ -29,18 +35,52 @@ jobs:
       run: npm install ${{ matrix.integration-deps }}
     - name: Project setup
       uses: bpmn-io/actions/setup@latest
-    - name: Build
-      if: ${{ matrix.integration-deps != '' }}
-      run: npm run all
-    - name: Build with coverage
-      if: ${{ matrix.integration-deps == '' }}
+    - name: Build (with coverage)
+      if: ${{ matrix.integration-deps == '' && matrix.browser == 'ChromeHeadless' }}
       env:
         COVERAGE: 1
+        TEST_BROWSERS: ${{ matrix.browser }}
+      run: npm run all
+    - name: Build
+      if: ${{ matrix.integration-deps == '' && matrix.browser == 'Firefox' }}
+      env:
+        TEST_BROWSERS: ${{ matrix.browser }}
+      run: xvfb-run npm run all
+    - name: Build
+      if: ${{ matrix.integration-deps != '' }}
+      env:
+        TEST_BROWSERS: ${{ matrix.browser }}
       run: npm run all
     - name: Upload coverage
-      if: ${{ matrix.integration-deps == '' }}
+      if: ${{ matrix.integration-deps == '' && matrix.browser == 'ChromeHeadless' }}
       uses: codecov/codecov-action@v5
       with:
         fail_ci_if_error: true
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  build_os:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ macos-latest, windows-latest ]
+        browser: [ ChromeHeadless ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+    - name: Use Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: 'npm'
+    - name: Install dependencies
+      run: npm ci
+    - name: Project setup
+      uses: bpmn-io/actions/setup@latest
+    - name: Build
+      env:
+        TEST_BROWSERS: ${{ matrix.browser }}
+      run: npm run all
