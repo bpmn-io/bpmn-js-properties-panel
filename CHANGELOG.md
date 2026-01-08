@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.46.0
+
+* `FEAT`: allow to provide static value as input source ([#1178](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1178))
+* `FEAT`: rename _Inputs_ and _Outputs_ to _Input mapping_ and _Output mapping_ ([#1177](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1177))
+
 ## 5.45.0
 
 * `FIX`: prevent racing blur for FEEL-optional ([bpmn-io/properties-panel#461](https://github.com/bpmn-io/properties-panel/pull/461))
