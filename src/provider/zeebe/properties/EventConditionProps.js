@@ -93,12 +93,6 @@ function ConditionExpression(props) {
     setConditionExpression(element, value, bpmnFactory, commandStack);
   };
 
-  const validate = (value) => {
-    if (!value || value.trim() === '') {
-      return translate('Must provide a condition expression');
-    }
-  };
-
   return BpmnFeelEntry({
     element,
     id: 'conditionExpression',
@@ -106,8 +100,7 @@ function ConditionExpression(props) {
     feel: 'required',
     getValue,
     setValue,
-    debounce,
-    validate
+    debounce
   });
 }
 
@@ -133,12 +126,6 @@ function VariableNames(props) {
     setConditionalFilter(element, { variableNames: value }, bpmnFactory, commandStack);
   };
 
-  const validate = (value) => {
-    if (value && !isCommaSeparatedList(value)) {
-      return translate('Must be a comma separated list');
-    }
-  };
-
   return <TextFieldEntry
     element={ element }
     id="variableNames"
@@ -146,7 +133,6 @@ function VariableNames(props) {
     getValue={ getValue }
     setValue={ setValue }
     debounce={ debounce }
-    validate={ validate }
     tooltip={ translate('List of process variable names that trigger the condition evaluation.') }
   />;
 }
@@ -305,22 +291,6 @@ function setConditionalFilter(element, properties, bpmnFactory, commandStack) {
 
   // (3) execute the commands
   commandStack.execute('properties-panel.multi-command-executor', commands);
-}
-
-/**
- * Check if a string is a comma separated list,
- * i.e. `"foo, bar, baz"` or `"foo"`.
- * @param {string} string
- * @returns {boolean}
- */
-function isCommaSeparatedList(string) {
-  if (typeof string !== 'string') {
-    return false;
-  }
-
-  const items = string.split(',');
-
-  return items.length > 0 && items.every(item => item.trim().length > 0);
 }
 
 function stringListToArray(string) {
