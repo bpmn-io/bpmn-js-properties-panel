@@ -189,8 +189,7 @@ function VariableEvents(props) {
     getValue,
     setValue,
     label: translate('Variable events'),
-    description: translate('If none selected, all variable events will trigger the condition evaluation.'),
-    tooltip: translate('Variable events that trigger the condition evaluation.')
+    tooltip: translate('Variable events that trigger the condition evaluation.\n\nIf none selected, all variable events will trigger the condition evaluation.')
   });
 }
 
