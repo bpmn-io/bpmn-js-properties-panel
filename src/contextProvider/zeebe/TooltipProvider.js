@@ -125,7 +125,7 @@ const TooltipProvider = {
         <div>
           { translate('Configure the message referenced by the task. ')}
           {translate('Learn more about the ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Receive task documentation') }>
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Receive task message documentation') }>
             { translate('messages.') }
           </a>
         </div>
