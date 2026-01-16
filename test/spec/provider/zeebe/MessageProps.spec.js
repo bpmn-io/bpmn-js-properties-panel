@@ -540,9 +540,8 @@ describe('provider/zeebe - MessageProps', function() {
 
       // then
       expect(documentationLinkGroups).to.exist;
-      expect(documentationLinkGroups).to.have.length(2);
-      expect(documentationLinkGroups[0].title).to.equal('Send task documentation');
-      expect(documentationLinkGroups[1].title).to.equal('Receive task documentation');
+      expect(documentationLinkGroups).to.have.length(1);
+      expect(documentationLinkGroups[0].title).to.equal('Receive task message documentation');
     }));
 
 
