@@ -250,3 +250,7 @@ document.addEventListener('keydown', function(event) {
     download(result.xml, 'test.bpmn', 'application/xml');
   });
 });
+
+export function isMac() {
+  return /mac/i.test(navigator.userAgent);
+}
