@@ -124,13 +124,9 @@ const TooltipProvider = {
       return (
         <div>
           { translate('Configure the message referenced by the task. ')}
-          {translate('Learn more how to ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/send-tasks" target="_blank" rel="noopener noreferrer" title={ translate('Send task documentation') }>
-            { translate('send') }
-          </a>
-          {translate(' and ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks" target="_blank" rel="noopener noreferrer" title={ translate('Receive task documentation') }>
-            { translate('receive messages.') }
+          {translate('Learn more about the ')}
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Receive task documentation') }>
+            { translate('messages.') }
           </a>
         </div>
       );
@@ -138,7 +134,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Configure the message referenced by the event ')}
+        { translate('Configure the message referenced by the event. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Message event documentation') }>
           { translate('Learn more.') }
         </a>
