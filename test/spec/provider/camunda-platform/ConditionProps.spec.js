@@ -19,7 +19,9 @@ import {
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
-import { getEventDefinition } from 'src/provider/bpmn/utils/EventDefinitionUtil';
+import {
+  getConditionalEventDefinition
+} from '../../../../src/utils/EventDefinitionUtil';
 
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
