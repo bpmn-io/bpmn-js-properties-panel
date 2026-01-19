@@ -8,6 +8,10 @@ import {
 } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
 import {
+  getCondition
+} from '../../../utils/ConditionUtil';
+
+import {
   createElement
 } from '../../../utils/ElementUtil';
 
@@ -53,7 +57,8 @@ function ConditionExpression(props) {
         debounce = useService('debounceInput');
 
   const getValue = () => {
-    return getConditionExpression(element);
+    const condition = getCondition(element);
+    return condition?.get('body');
   };
 
   const setValue = (value) => {
@@ -126,19 +131,4 @@ function isConditionalSource(element) {
   return isAny(element, CONDITIONAL_SOURCES);
 }
 
-/**
- * getConditionExpression - get the body value of a condition expression for a given element
- *
- * @param  {ModdleElement} element
- *
- * @return {string|undefined}
- */
-function getConditionExpression(element) {
-  const businessObject = getBusinessObject(element);
 
-  const conditionExpression = businessObject.conditionExpression;
-
-  if (conditionExpression) {
-    return conditionExpression.get('body');
-  }
-}

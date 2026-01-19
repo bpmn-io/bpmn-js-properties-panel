@@ -17,6 +17,10 @@ import {
   getBusinessObject
 } from 'bpmn-js/lib/util/ModelUtil';
 
+import {
+  getConditionBody
+} from '../../../../src/utils/ConditionUtil';
+
 import BpmnPropertiesPanel from 'src/render';
 import CoreModule from 'bpmn-js/lib/core';
 import ModelingModule from 'bpmn-js/lib/features/modeling';
@@ -114,7 +118,7 @@ describe('provider/zeebe - ConditionProps', function() {
       // when
       await setEditorValue(input, 'myExpression');
 
-      const conditionExpressionVal = getConditionExpression(sequenceFlow);
+      const conditionExpressionVal = getConditionBody(sequenceFlow);
 
       // then
       expect(conditionExpressionVal).to.exist;
@@ -127,7 +131,7 @@ describe('provider/zeebe - ConditionProps', function() {
 
         // given
         const sequenceFlow = elementRegistry.get('Flow3'),
-              originalValue = getConditionExpression(sequenceFlow);
+              originalValue = getConditionBody(sequenceFlow);
 
         await act(() => {
           selection.select(sequenceFlow);
@@ -168,7 +172,7 @@ describe('provider/zeebe - ConditionProps', function() {
         // when
         await setEditorValue(conditionExpressionInput, 'myExpression');
 
-        const conditionExpressionVal = getConditionExpression(sequenceFlow);
+        const conditionExpressionVal = getConditionBody(sequenceFlow);
 
         // then
         expect(conditionExpressionVal).to.exist;
@@ -206,23 +210,3 @@ describe('provider/zeebe - ConditionProps', function() {
   });
 
 });
-
-
-// helper //////////////////
-
-/**
- * getConditionExpression - get the body value of a condition expression for a given element
- *
- * @param  {ModdleElement} element
- *
- * @return {string|undefined}
- */
-function getConditionExpression(element) {
-  const businessObject = getBusinessObject(element);
-
-  const conditionExpression = businessObject.conditionExpression;
-
-  if (conditionExpression) {
-    return conditionExpression.get('body');
-  }
-}
