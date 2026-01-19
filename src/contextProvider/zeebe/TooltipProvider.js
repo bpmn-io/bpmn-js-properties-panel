@@ -119,14 +119,14 @@ const TooltipProvider = {
 
   'group-message': (element) => {
     const translate = useService('translate');
+    const messageGeneralDescription = translate('Configure the message that the element will wait for. ');
 
     if (is(element, 'bpmn:ReceiveTask')) {
       return (
         <div>
-          { translate('Configure the message referenced by the task. ')}
-          {translate('Learn more about the ')}
+          { messageGeneralDescription }
           <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Receive task message documentation') }>
-            { translate('messages.') }
+            { translate('Learn more.') }
           </a>
         </div>
       );
@@ -134,7 +134,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Configure the message referenced by the event. ')}
+        { messageGeneralDescription }
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Message event documentation') }>
           { translate('Learn more.') }
         </a>
