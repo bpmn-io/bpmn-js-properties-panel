@@ -4,7 +4,6 @@ import {
 } from '@bpmn-io/properties-panel';
 
 import {
-  getBusinessObject,
   is
 } from 'bpmn-js/lib/util/ModelUtil';
 
@@ -23,6 +22,11 @@ import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 import { getConditionalEventDefinition } from '../../../utils/EventDefinitionUtil';
 
 import { getExtensionElementsList } from '../../../utils/ExtensionElementsUtil';
+
+import {
+  getConditionBody,
+  setConditionalEventConditionBody
+} from '../../../utils/ConditionUtil';
 
 /**
  * Properties of a Conditional Start Event:
@@ -81,16 +85,15 @@ function Condition(props) {
   } = props;
 
   const commandStack = useService('commandStack');
-  const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
   const getValue = () => {
-    return getConditionExpression(element);
+    return getConditionBody(element);
   };
 
   const setValue = (value) => {
-    setConditionExpression(element, value, bpmnFactory, commandStack);
+    setConditionalEventConditionBody(element, value, commandStack);
   };
 
   return BpmnFeelEntry({
@@ -180,39 +183,6 @@ function VariableEvents(props) {
 }
 
 // helper //////////////////////////
-
-/**
- * Get the body value of a `bpmn:Condition` for a given element
- *
- * @param  {ModdleElement} element
- *
- * @return {string|undefined}
- */
-function getConditionExpression(element) {
-  const businessObject = getBusinessObject(element);
-
-  if (is(businessObject, 'bpmn:SequenceFlow')) {
-    return businessObject.get('conditionExpression')?.get('body');
-  }
-
-  const conditionalEventDefinition = getConditionalEventDefinition(businessObject);
-  return conditionalEventDefinition?.get('condition')?.get('body');
-}
-
-function setConditionExpression(element, value, bpmnFactory, commandStack) {
-
-  const conditionalEventDefinition = getConditionalEventDefinition(element);
-
-  const condition = conditionalEventDefinition?.get('condition');
-
-  commandStack.execute('element.updateModdleProperties', {
-    element: conditionalEventDefinition,
-    moddleElement: condition,
-    properties: {
-      body: value
-    }
-  });
-}
 
 /**
  * Get `zeebe:ConditionalFilter` extension element.
