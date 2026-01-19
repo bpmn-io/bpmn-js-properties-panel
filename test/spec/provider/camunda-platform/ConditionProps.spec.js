@@ -16,8 +16,11 @@ import {
 
 import {
   getBusinessObject,
-  is
 } from 'bpmn-js/lib/util/ModelUtil';
+
+import {
+  getCondition
+} from '../../../../src/utils/ConditionUtil';
 
 import {
   getConditionalEventDefinition
@@ -149,13 +152,13 @@ describe('provider/camunda-platform - ConditionProps', function() {
         const conditionTypeInput = domQuery('select[name=conditionType]', container);
 
         // assume
-        expect(getConditionExpression(conditionalEvent)).not.to.exist;
+        expect(getCondition(conditionalEvent)).not.to.exist;
 
         // when
         changeInput(conditionTypeInput, 'expression');
 
         // then
-        expect(getConditionExpression(conditionalEvent)).to.exist;
+        expect(getCondition(conditionalEvent)).to.exist;
       })
     );
 
@@ -224,13 +227,13 @@ describe('provider/camunda-platform - ConditionProps', function() {
         const conditionExpressionInput = domQuery('select[name=conditionType]', container);
 
         // assume
-        expect(getConditionExpression(conditionalEvent)).to.exist;
+        expect(getCondition(conditionalEvent)).to.exist;
 
         // when
         changeInput(conditionExpressionInput, '');
 
         // then
-        expect(getConditionExpression(conditionalEvent)).not.to.exist;
+        expect(getCondition(conditionalEvent)).not.to.exist;
       })
     );
   });
@@ -671,7 +674,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(
-          getConditionExpression(element).get('language')
+          getCondition(element).get('language')
         ).to.eql('newValue');
       }
     }));
@@ -694,7 +697,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
         changeInput(input, '');
 
         // then
-        expect(getConditionExpression(element).get('language')).to.exist;
+        expect(getCondition(element).get('language')).to.exist;
       }
     }));
 
@@ -708,7 +711,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
         for (const id of elements) {
           const element = elementRegistry.get(id);
 
-          const originalValue = getConditionExpression(element).get('language');
+          const originalValue = getCondition(element).get('language');
 
           await act(() => {
             selection.select(element);
@@ -786,14 +789,14 @@ describe('provider/camunda-platform - ConditionProps', function() {
         });
 
         // assume
-        expect(getConditionExpression(element).get('camunda:resource')).to.be.undefined;
+        expect(getCondition(element).get('camunda:resource')).to.be.undefined;
 
         // when
         const select = domQuery('select[name=conditionScriptType]', container);
         changeInput(select, 'resource');
 
         // then
-        expect(getConditionExpression(element).get('camunda:resource')).to.exist;
+        expect(getCondition(element).get('camunda:resource')).to.exist;
       }
     }));
 
@@ -811,14 +814,14 @@ describe('provider/camunda-platform - ConditionProps', function() {
         });
 
         // assume
-        expect(getConditionExpression(element).get('body')).to.be.undefined;
+        expect(getCondition(element).get('body')).to.be.undefined;
 
         // when
         const select = domQuery('select[name=conditionScriptType]', container);
         changeInput(select, 'script');
 
         // then
-        expect(getConditionExpression(element).get('body')).to.exist;
+        expect(getCondition(element).get('body')).to.exist;
       }
     }));
 
@@ -1039,7 +1042,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
         // then
         expect(
-          getConditionExpression(element).get('camunda:resource')
+          getCondition(element).get('camunda:resource')
         ).to.eql('newValue');
       }
     }));
@@ -1062,7 +1065,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
         changeInput(input, '');
 
         // then
-        expect(getConditionExpression(element).get('camunda:resource')).to.exist;
+        expect(getCondition(element).get('camunda:resource')).to.exist;
       }
     }));
 
@@ -1076,7 +1079,7 @@ describe('provider/camunda-platform - ConditionProps', function() {
         for (const id of elements) {
           const element = elementRegistry.get(id);
 
-          const originalValue = getConditionExpression(element).get('camunda:resource');
+          const originalValue = getCondition(element).get('camunda:resource');
 
           await act(() => {
             selection.select(element);
@@ -1100,37 +1103,12 @@ describe('provider/camunda-platform - ConditionProps', function() {
 
 // helper //////////////////
 
-function getConditionExpression(element) {
-  const businessObject = getBusinessObject(element);
-
-  if (is(businessObject, 'bpmn:SequenceFlow')) {
-    return businessObject.get('conditionExpression');
-  } else if (getConditionalEventDefinition(businessObject)) {
-    return getConditionalEventDefinition(businessObject).get('condition');
-  }
-}
-
-/**
- * getConditionExpressionBody - get the body value of a condition expression for a given element
- *
- * @param  {ModdleElement} element
- *
- * @return {string|undefined}
- */
 function getConditionExpressionBody(element) {
-  const conditionExpression = getConditionExpression(element);
+  const conditionExpression = getCondition(element);
 
   if (conditionExpression) {
     return conditionExpression.get('body');
   }
-}
-
-function getConditionalEventDefinition(element) {
-  if (!is(element, 'bpmn:Event')) {
-    return false;
-  }
-
-  return getEventDefinition(element, 'bpmn:ConditionalEventDefinition');
 }
 
 function getConditionVariableName(element) {

@@ -4,6 +4,10 @@ import {
 } from 'bpmn-js/lib/util/ModelUtil';
 
 import {
+  getCondition
+} from '../../../utils/ConditionUtil';
+
+import {
   isAny
 } from 'bpmn-js/lib/features/modeling/util/ModelingUtil';
 
@@ -133,7 +137,7 @@ function ConditionExpression(props) {
         debounce = useService('debounceInput');
 
   const getValue = () => {
-    return getConditionExpression(element).get('body');
+    return getCondition(element)?.get('body');
   };
 
   const setValue = (value) => {
@@ -208,13 +212,13 @@ function Language(props) {
   const debounce = useService('debounceInput');
 
   const getValue = () => {
-    return getConditionExpression(element).get('language');
+    return getCondition(element)?.get('language');
   };
 
   const setValue = (value) => {
     commandStack.execute('element.updateModdleProperties', {
       element: element,
-      moddleElement: getConditionExpression(element),
+      moddleElement: getCondition(element),
       properties: {
         language: value || ''
       }
@@ -253,7 +257,7 @@ function ScriptType(props) {
 
     commandStack.execute('element.updateModdleProperties', {
       element: element,
-      moddleElement: getConditionExpression(element),
+      moddleElement: getCondition(element),
       properties: updatedProperties
     });
   };
@@ -286,13 +290,13 @@ function Script(props) {
   const debounce = useService('debounceInput');
 
   const getValue = () => {
-    return getConditionExpression(element).get('body');
+    return getCondition(element)?.get('body');
   };
 
   const setValue = (value) => {
     commandStack.execute('element.updateModdleProperties', {
       element: element,
-      moddleElement: getConditionExpression(element),
+      moddleElement: getCondition(element),
       properties: {
         'body': value || ''
       }
@@ -318,13 +322,13 @@ function Resource(props) {
   const debounce = useService('debounceInput');
 
   const getValue = () => {
-    return getConditionExpression(element).get('camunda:resource');
+    return getCondition(element)?.get('camunda:resource');
   };
 
   const setValue = (value) => {
     commandStack.execute('element.updateModdleProperties', {
       element: element,
-      moddleElement: getConditionExpression(element),
+      moddleElement: getCondition(element),
       properties: {
         'camunda:resource': value || ''
       }
@@ -461,36 +465,21 @@ function isConditionalSource(element) {
 }
 
 function getConditionType(element) {
-  const conditionExpression = getConditionExpression(element);
+  const condition = getCondition(element);
 
-  if (!conditionExpression) {
+  if (!condition) {
     return '';
   } else {
-    return conditionExpression.get('language') === undefined ? 'expression' : 'script';
+    return condition.get('language') === undefined ? 'expression' : 'script';
   }
 }
 
-/**
- * getConditionExpression - get the body value of a condition expression for a given element
- *
- * @param  {ModdleElement} element
- *
- * @return {string|undefined}
- */
-function getConditionExpression(element) {
-  const businessObject = getBusinessObject(element);
 
-  if (is(businessObject, 'bpmn:SequenceFlow')) {
-    return businessObject.get('conditionExpression');
-  } else if (getConditionalEventDefinition(businessObject)) {
-    return getConditionalEventDefinition(businessObject).get('condition');
-  }
-}
 
 function getScriptType(element) {
-  const conditionExpression = getConditionExpression(element);
+  const condition = getCondition(element);
 
-  const resource = conditionExpression.get('camunda:resource');
+  const resource = condition?.get('camunda:resource');
   if (typeof resource !== 'undefined') {
     return 'resource';
   } else {
