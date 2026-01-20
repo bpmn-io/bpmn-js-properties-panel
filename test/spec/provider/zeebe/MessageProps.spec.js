@@ -464,7 +464,7 @@ describe('provider/zeebe - MessageProps', function() {
 
       // then
       expect(documentationLinkGroup).to.exist;
-      expect(documentationLinkGroup.title).to.equal('Message event documentation');
+      expect(documentationLinkGroup.title).to.equal('Message start event documentation');
     }));
 
 
@@ -490,7 +490,7 @@ describe('provider/zeebe - MessageProps', function() {
       expect(documentationLinkMessageCorrelation).to.not.exist;
 
       expect(documentationLinkGroup).to.exist;
-      expect(documentationLinkGroup.title).to.equal('Message event documentation');
+      expect(documentationLinkGroup.title).to.equal('Message catch event documentation');
     }));
 
 
@@ -519,7 +519,7 @@ describe('provider/zeebe - MessageProps', function() {
         expect(documentationLinkMessageCorrelation).to.not.exist;
 
         expect(documentationLinkGroup).to.exist;
-        expect(documentationLinkGroup.title).to.equal('Message event documentation');
+        expect(documentationLinkGroup.title).to.equal('Message start event documentation');
       }
     }));
 
