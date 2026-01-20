@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: change the tooltip content for the message property to be specific depens on event/task type ([#1181](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1181))
+
 ## 5.46.0
 
 * `FEAT`: allow to provide static value as input source ([#1178](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1178))

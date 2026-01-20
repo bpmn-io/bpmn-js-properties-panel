@@ -123,27 +123,46 @@ const TooltipProvider = {
     if (is(element, 'bpmn:ReceiveTask')) {
       return (
         <div>
-          { translate('Define the name of the message (e.g. ')}<code>Money collected</code>{translate(') and the ')}<code>correlationKey</code>{translate(' expression (e.g. ')}<code>= orderId</code>{translate(')')}{translate(' to subscribe to. ')}
-          {translate('Learn more how to ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/send-tasks" target="_blank" rel="noopener noreferrer" title={ translate('Send task documentation') }>
-            { translate('send ') }
-          </a>
-          {translate('and ')}
-          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks" target="_blank" rel="noopener noreferrer" title={ translate('Receive task documentation') }>
-            { translate('receive messages. ') }
+          { translate('Configure the message that the task waits for. ') }
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/receive-tasks/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Receive task message documentation') }>
+            { translate('Learn more.') }
           </a>
         </div>
       );
     }
 
-    return (
-      <div>
-        { translate('Define the name of the message (e.g. ')}<code>Money collected</code>{translate(') and the ')}<code>correlationKey</code>{translate(' expression (e.g. ')}<code>= orderId</code>{translate(')')}{translate(' to subscribe to. ')}
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Message event documentation') }>
-          { translate('Learn more.') }
-        </a>
-      </div>
-    );
+    if (is(element, 'bpmn:StartEvent')) {
+      return (
+        <div>
+          { translate('Configure the message that will start this process instance. ') }
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#message-start-events" target="_blank" rel="noopener noreferrer" title={ translate('Message start event documentation') }>
+            { translate('Learn more.') }
+          </a>
+        </div>
+      );
+    }
+
+    if (is(element, 'bpmn:IntermediateCatchEvent')) {
+      return (
+        <div>
+          { translate('Configure the message that this event waits for. ') }
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#intermediate-message-catch-events" target="_blank" rel="noopener noreferrer" title={ translate('Message catch event documentation') }>
+            { translate('Learn more.') }
+          </a>
+        </div>
+      );
+    }
+
+    if (is(element, 'bpmn:BoundaryEvent')) {
+      return (
+        <div>
+          { translate('Configure the message that will trigger this boundary event. ') }
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#message-boundary-events" target="_blank" rel="noopener noreferrer" title={ translate('Message boundary event documentation') }>
+            { translate('Learn more.') }
+          </a>
+        </div>
+      );
+    }
   },
 
   'group-calledElement': (element) => {
