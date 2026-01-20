@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add support of FEEL expressions for 'Form ID' field ([#5231](https://github.com/camunda/camunda-modeler/issues/5231))
+
 ## 5.46.0
 
 * `FEAT`: allow to provide static value as input source ([#1178](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1178))
