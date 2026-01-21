@@ -211,10 +211,11 @@ function FormId(props) {
     setFormId(injector, element, isUndefined(value) ? '' : value);
   };
 
-  return TextFieldEntry({
+  return BpmnFeelEntry({
     element,
     id: 'formId',
     label: translate('Form ID'),
+    feel: 'optional',
     getValue,
     setValue,
     debounce

@@ -7,7 +7,8 @@ import {
 import {
   bootstrapPropertiesPanel,
   changeInput,
-  inject
+  setEditorValue,
+  inject,
 } from 'test/TestHelper';
 
 import {
@@ -474,6 +475,30 @@ describe('provider/zeebe - Forms', function() {
       });
 
       expectFormId(userTask, initialFormId);
+    }));
+
+
+    it('should update Form ID field with FEEL expression', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // when
+      let formIdInput = getFormIdInput(container);
+
+      // clear existing value
+      changeInput(formIdInput, '=');
+
+      // update value in FEEL editor
+      const formIdEditor = domQuery('[name=formId] [role=textbox]', container);
+      await setEditorValue(formIdEditor, 'newFormId');
+
+      // then
+      expect(getFormDefinition(userTask).get('formId')).to.equal('=newFormId');
     }));
 
 
