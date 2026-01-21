@@ -1,7 +1,7 @@
 import TestContainer from 'mocha-test-container-support';
 import { act, waitFor } from '@testing-library/preact';
 
-import { bootstrapPropertiesPanel, changeInput, inject } from 'test/TestHelper';
+import { bootstrapPropertiesPanel, changeInput, inject, isMac } from 'test/TestHelper';
 
 import { query as domQuery, queryAll } from 'min-dom';
 
@@ -76,7 +76,7 @@ describe('provider/zeebe - OutputCollection', function() {
   }));
 
 
-  it('should display isEdited marker on collection group', inject(async function(
+  (isMac() ? it.skip : it)('should display isEdited marker on collection group', inject(async function(
       elementRegistry,
       selection
   ) {

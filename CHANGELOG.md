@@ -8,6 +8,11 @@ ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: add support of FEEL expressions for 'Form ID' field ([#5231](https://github.com/camunda/camunda-modeler/issues/5231))
 
+## 5.47.0
+
+* `FIX`: change the tooltip content for the message property to be specific depens on event/task type ([#1181](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1181))
+* `DEPS`: update dependency `min-dash@5.0.0` 
+
 ## 5.46.0
 
 * `FEAT`: allow to provide static value as input source ([#1178](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1178))
