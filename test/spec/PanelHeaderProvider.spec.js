@@ -8,7 +8,7 @@ import {
   query as domQuery
 } from 'min-dom';
 
-import BpmnModdle from 'bpmn-moddle';
+import { BpmnModdle } from 'bpmn-moddle';
 
 import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
 
