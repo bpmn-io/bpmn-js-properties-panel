@@ -3,7 +3,7 @@ import {
   getImplementationType
 } from '../../../src/provider/camunda-platform/utils/ImplementationTypeUtils';
 
-import BpmnModdle from 'bpmn-moddle';
+import { BpmnModdle } from 'bpmn-moddle';
 
 import CamundaBpmnModdle from 'camunda-bpmn-moddle/resources/camunda';
 
