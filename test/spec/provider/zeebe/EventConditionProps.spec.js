@@ -190,7 +190,7 @@ describe('provider/zeebe - EventConditionProps', function() {
   });
 
 
-  describe('zeebe:EventConditionProps#variableEvents', function() {
+  describe('zeebe:ConditionalFilter#variableEvents', function() {
 
     it('should display', inject(async function(elementRegistry, selection) {
 
