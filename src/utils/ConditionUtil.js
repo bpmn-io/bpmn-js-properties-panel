@@ -7,6 +7,10 @@ import {
   getConditionalEventDefinition
 } from './EventDefinitionUtil';
 
+import {
+  createElement
+} from './ElementUtil';
+
 /**
  * Get the moddle object of a `bpmn:Condition` for the given element.
  *
@@ -43,11 +47,12 @@ export function getConditionBody(element) {
  * Set the value of the `bpmn:Condition` body
  * in the `bpmn:ConditionalEventDefinition` for the given element.
  *
- * @param  {ModdleElement} element
- * @param  {string} value
- * @param  {CommandStack} commandStack
+ * @param {ModdleElement} element
+ * @param {string} value
+ * @param {CommandStack} commandStack
+ * @param {BpmnFactory} bpmnFactory
  */
-export function setConditionalEventConditionBody(element, value, commandStack) {
+export function setConditionalEventConditionBody(element, value, commandStack, bpmnFactory) {
 
   const conditionalEventDefinition = getConditionalEventDefinition(element);
 
@@ -57,8 +62,23 @@ export function setConditionalEventConditionBody(element, value, commandStack) {
 
   const condition = conditionalEventDefinition.get('condition');
 
+  if (!condition) {
+    return commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: conditionalEventDefinition,
+      properties: {
+        condition: createElement(
+          'bpmn:FormalExpression',
+          { body: value },
+          conditionalEventDefinition,
+          bpmnFactory
+        )
+      }
+    });
+  }
+
   commandStack.execute('element.updateModdleProperties', {
-    element: conditionalEventDefinition,
+    element,
     moddleElement: condition,
     properties: {
       body: value

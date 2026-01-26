@@ -85,6 +85,7 @@ function Condition(props) {
   } = props;
 
   const commandStack = useService('commandStack');
+  const bpmnFactory = useService('bpmnFactory');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
 
@@ -93,7 +94,7 @@ function Condition(props) {
   };
 
   const setValue = (value) => {
-    setConditionalEventConditionBody(element, value, commandStack);
+    setConditionalEventConditionBody(element, value, commandStack, bpmnFactory);
   };
 
   return BpmnFeelEntry({

@@ -76,6 +76,28 @@ describe('provider/zeebe - EventConditionProps', function() {
     }));
 
 
+    it('should create', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Event_3');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      const input = domQuery('[data-entry-id="condition"] [role="textbox"]', container);
+
+      // when
+      await setEditorValue(input, 'myExpression');
+
+      const conditionValue = getConditionBody(element);
+
+      // then
+      expect(conditionValue).to.exist;
+      expect(conditionValue).to.equal('=myExpression');
+    }));
+
+
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
@@ -190,7 +212,7 @@ describe('provider/zeebe - EventConditionProps', function() {
   });
 
 
-  describe('zeebe:EventConditionProps#variableEvents', function() {
+  describe('zeebe:ConditionalFilter#variableEvents', function() {
 
     it('should display', inject(async function(elementRegistry, selection) {
 
