@@ -57,6 +57,15 @@ export function setConditionalEventConditionBody(element, value, commandStack) {
 
   const condition = conditionalEventDefinition.get('condition');
 
+  if (!condition) {
+    return commandStack.execute('element.updateModdleProperties', {
+      element,
+      moddleElement: conditionalEventDefinition,
+      properties: {
+        condition: createElement(...)
+      }
+    });
+
   commandStack.execute('element.updateModdleProperties', {
     element,
     moddleElement: condition,
