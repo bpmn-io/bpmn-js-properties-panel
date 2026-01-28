@@ -35,6 +35,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPropertiesProvider from 'src/provider/camunda-platform';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
+import ConnectorMetadataModule from 'src/provider/connector-metadata';
 
 import {
   CreateAppendAnythingModule
@@ -59,6 +60,38 @@ import CamundaPlatformTooltipProvider from 'src/contextProvider/camunda-platform
 import { getExtensionElementsList } from 'src/utils/ExtensionElementsUtil';
 
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+
+// Element Templates Service for demo
+class ElementTemplates {
+  constructor(templates = []) {
+    this._templates = {};
+    templates.forEach(template => {
+      this._templates[template.id] = template;
+    });
+  }
+
+  get(element) {
+    const businessObject = element.businessObject;
+    const templateId = businessObject.get('zeebe:modelerTemplate');
+    
+    if (templateId && this._templates[templateId]) {
+      return this._templates[templateId];
+    }
+    
+    return null;
+  }
+
+  getTemplateId(element) {
+    const template = this.get(element);
+    return template ? template.id : null;
+  }
+
+  getAll() {
+    return Object.values(this._templates);
+  }
+}
+
+ElementTemplates.$inject = [];
 
 const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
@@ -144,7 +177,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'cloud' ? it.only : it)('should import simple process (cloud)', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/slack-connector.bpmn').default;
+    const slackTemplate = require('test/fixtures/slack-connector-template.json');
 
     // when
     const result = await createModeler(
@@ -155,8 +189,15 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesPanel,
           BpmnPropertiesProvider,
           ZeebePropertiesProvider,
+          ConnectorMetadataModule,
           CreateAppendAnythingModule,
-          ZeebeVariableResolverModule
+          ZeebeVariableResolverModule,
+          {
+            __init__: [ 'elementTemplates' ],
+            elementTemplates: [ 'type', function() {
+              return new ElementTemplates([ slackTemplate ]);
+            } ]
+          }
         ],
         moddleExtensions: {
           zeebe: ZeebeModdle

@@ -12,7 +12,8 @@ const files = {
     'test/**/*.js'
   ],
   ignored: [
-    'dist'
+    'dist',
+    'demo'
   ]
 };
 

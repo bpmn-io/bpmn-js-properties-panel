@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BPMN Properties Panel - Connector Metadata Demo</title>
+
+  <!-- BPMN.js Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/bpmn-js@18.9.1/dist/assets/diagram-js.css">
+  <link rel="stylesheet" href="https://unpkg.com/bpmn-js@18.9.1/dist/assets/bpmn-js.css">
+  <link rel="stylesheet" href="https://unpkg.com/bpmn-js@18.9.1/dist/assets/bpmn-font/css/bpmn-embedded.css">
+
+  <!-- Properties Panel Styles -->
+  <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/properties-panel@3.35.0/dist/assets/properties-panel.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .header {
+      background-color: #0d4d90;
+      color: white;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .info {
+      padding: 15px;
+      background-color: #e3f2fd;
+      border-bottom: 1px solid #90caf9;
+      font-size: 14px;
+    }
+
+    .info h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+    }
+
+    .info ul {
+      margin: 5px 0;
+      padding-left: 20px;
+    }
+
+    .info li {
+      margin: 5px 0;
+    }
+
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #canvas {
+      flex: 1;
+      background-color: #f5f5f5;
+    }
+
+    #properties {
+      width: 350px;
+      border-left: 1px solid #ccc;
+      overflow: auto;
+      background: white;
+    }
+
+    /* Connector Metadata Styles */
+    .bio-properties-panel-connect-button-entry {
+      padding: 10px 0;
+    }
+
+    .bio-properties-panel-connect-button-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+
+    .bio-properties-panel-connect-button {
+      background-color: #0d4d90;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .bio-properties-panel-connect-button:hover:not(:disabled) {
+      background-color: #0b3d73;
+    }
+
+    .bio-properties-panel-connect-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .bio-properties-panel-connect-message {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 3px;
+    }
+
+    .bio-properties-panel-connect-message.loading {
+      color: #666;
+    }
+
+    .bio-properties-panel-connect-message.success {
+      color: #2e7d32;
+      background-color: #e8f5e9;
+    }
+
+    .bio-properties-panel-connect-description {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      BPMN Properties Panel - Connector Metadata Prototype
+    </div>
+
+    <div class="info">
+      <h3>📋 Demo Instructions:</h3>
+      <ul>
+        <li>Click on the <strong>Service Task</strong> "Send Slack Message" in the diagram</li>
+        <li>The properties panel will show a <strong>"Connect"</strong> button in the "Connector Actions" group</li>
+        <li>Click the <strong>Connect</strong> button to fetch Slack channel metadata</li>
+        <li>Watch as mock Slack channels are loaded (simulates 800ms REST API call)</li>
+        <li>Check the browser console to see the fetched metadata</li>
+        <li>The metadata is now cached and can be used by fields in a real implementation</li>
+      </ul>
+    </div>
+
+    <div class="main-content">
+      <div id="canvas"></div>
+      <div id="properties"></div>
+    </div>
+  </div>
+
+  <!-- BPMN.js Library -->
+  <script src="https://unpkg.com/bpmn-js@18.9.1/dist/bpmn-modeler.development.js"></script>
+
+  <!-- Zeebe Moddle -->
+  <script src="https://unpkg.com/zeebe-bpmn-moddle@1.11.0/dist/index.js"></script>
+
+  <!-- Camunda Behaviors -->
+  <script src="https://unpkg.com/camunda-bpmn-js-behaviors@1.12.0/dist/index.js"></script>
+
+  <!-- Properties Panel Libraries (using local build) -->
+  <script src="../dist/bpmn-js-properties-panel.umd.js"></script>
+
+  <script>
+    // BPMN Diagram XML
+    const diagramXML = `<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_1" name="Send Slack Message" zeebe:modelerTemplate="slack-connector">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="slack:sendMessage" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_1">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="ServiceTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ServiceTask_1" targetRef="EndEvent_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1_di" bpmnElement="ServiceTask_1">
+        <dc:Bounds x="250" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="412" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="250" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="350" y="120" />
+        <di:waypoint x="412" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>`;
+
+    // Mock Element Templates Service
+    class ElementTemplates {
+      constructor() {
+        this._templates = {
+          'slack-connector': {
+            id: 'slack-connector',
+            name: 'Slack Connector',
+            description: 'Send messages to Slack channels',
+            appliesTo: ['bpmn:ServiceTask'],
+            properties: []
+          }
+        };
+      }
+
+      get(element) {
+        const businessObject = element.businessObject;
+        const templateId = businessObject.get('zeebe:modelerTemplate');
+
+        if (templateId && this._templates[templateId]) {
+          return this._templates[templateId];
+        }
+
+        return null;
+      }
+
+      getTemplateId(element) {
+        const template = this.get(element);
+        return template ? template.id : null;
+      }
+
+      getAll() {
+        return Object.values(this._templates);
+      }
+    }
+
+    ElementTemplates.$inject = [];
+
+    // Create the modeler
+    const modeler = new BpmnJS.Modeler({
+      container: '#canvas',
+      propertiesPanel: {
+        parent: '#properties'
+      },
+      additionalModules: [
+        window.BpmnPropertiesPanel.BpmnPropertiesPanelModule,
+        window.BpmnPropertiesPanel.BpmnPropertiesProviderModule,
+        window.BpmnPropertiesPanel.ZeebePropertiesProviderModule,
+        window.BpmnPropertiesPanel.ConnectorMetadataModule,
+        window.CamundaBpmnJsBehaviors.ZeebeBehaviorsModule,
+        {
+          __init__: ['elementTemplates'],
+          elementTemplates: ['type', ElementTemplates]
+        }
+      ],
+      moddleExtensions: {
+        zeebe: window.ZeebeModdle
+      }
+    });
+
+    // Import the diagram
+    modeler.importXML(diagramXML)
+      .then(() => {
+        const canvas = modeler.get('canvas');
+        canvas.zoom('fit-viewport');
+
+        // Select the service task
+        const elementRegistry = modeler.get('elementRegistry');
+        const selection = modeler.get('selection');
+        const serviceTask = elementRegistry.get('ServiceTask_1');
+
+        if (serviceTask) {
+          selection.select(serviceTask);
+        }
+
+        console.log('✅ Demo loaded successfully!');
+        console.log('📝 Click the Service Task and look for the "Connect" button in the properties panel.');
+      })
+      .catch(err => {
+        console.error('❌ Error loading diagram:', err);
+      });
+
+    // Listen to connector metadata events
+    const eventBus = modeler.get('eventBus');
+
+    eventBus.on('connectorMetadata.loading', (event) => {
+      console.log('⏳ Loading metadata for:', event.template.name);
+    });
+
+    eventBus.on('connectorMetadata.fetched', (event) => {
+      console.log('✅ Metadata fetched:', event.metadata);
+      console.log('📊 Available Slack channels:', event.metadata.channels);
+    });
+
+    eventBus.on('connectorMetadata.error', (event) => {
+      console.error('❌ Error fetching metadata:', event.error);
+    });
+  </script>
+</body>
+</html>
