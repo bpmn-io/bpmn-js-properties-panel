@@ -3,16 +3,15 @@ import { SelectWithContextEntry } from './SelectWithContextEntry';
 import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
 
 /**
- * Provider that enhances element template fields with context-aware dropdowns.
- * This provider intercepts template properties of type "DropdownWithContext"
- * and renders them using metadata from ConnectorMetadataService.
+ * Provider that adds context-aware dropdown fields for element templates.
+ * This provider adds additional fields for template properties of type "DropdownWithContext".
  */
 export default class TemplateFieldEnhancer {
 
   constructor(propertiesPanel, injector) {
     
-    // Register at very high priority to run before other providers
-    propertiesPanel.registerProvider(100, this);
+    // Register at lower priority to run after template providers
+    propertiesPanel.registerProvider(600, this);
     this._injector = injector;
   }
 
@@ -40,27 +39,51 @@ export default class TemplateFieldEnhancer {
         return groups;
       }
 
-      // For each DropdownWithContext field, we need to inject it into the appropriate group
-      // Since we're running early, we'll add our own group with these fields
-      const enhancedEntries = contextDropdowns.map(property => {
-        return this._createContextDropdownEntry(element, property);
-      });
+      // Create entries for each DropdownWithContext field
+      const enhancedGroups = this._createEnhancedGroups(element, template, contextDropdowns);
 
-      // Find or create the group for these entries
-      // For the Slack connector, the data.channel field is in the "channel" group
-      const groupsToAdd = this._organizeEntriesByGroup(enhancedEntries, template);
-
-      // Add these groups to the groups array
-      // We want to add them after the connector actions but before other content
+      // Add enhanced groups after connector actions but before other groups
       const connectorActionsIndex = groups.findIndex(g => g.id === 'connector-actions');
       const insertIndex = connectorActionsIndex >= 0 ? connectorActionsIndex + 1 : 0;
 
-      groupsToAdd.forEach((group, i) => {
+      enhancedGroups.forEach((group, i) => {
         groups.splice(insertIndex + i, 0, group);
       });
 
       return groups;
     };
+  }
+
+  _createEnhancedGroups(element, template, contextDropdowns) {
+    const translate = this._injector.get('translate');
+    const groupsMap = {};
+
+    contextDropdowns.forEach(property => {
+      const entry = this._createContextDropdownEntry(element, property);
+      
+      if (!entry) {
+        return;
+      }
+
+      const groupId = property.group || 'context-fields';
+      
+      if (!groupsMap[groupId]) {
+        // Find the group definition in the template
+        const groupDef = template.groups ? 
+          template.groups.find(g => g.id === groupId) : null;
+
+        groupsMap[groupId] = {
+          id: `context-enhanced-${groupId}`,
+          label: groupDef ? translate(groupDef.label) : translate('Context Fields'),
+          entries: [],
+          component: Group
+        };
+      }
+
+      groupsMap[groupId].entries.push(entry);
+    });
+
+    return Object.values(groupsMap);
   }
 
   _createContextDropdownEntry(element, property) {
@@ -72,8 +95,7 @@ export default class TemplateFieldEnhancer {
       id,
       label,
       description,
-      binding,
-      group: propertyGroup
+      binding
     } = property;
 
     // For now, we'll focus on zeebe:input bindings
@@ -92,17 +114,14 @@ export default class TemplateFieldEnhancer {
         return '';
       }
 
-      const ioMappings = extensionElements.get('values').filter(
-        value => value.$type === 'zeebe:IoMapping'
-      );
+      const values = extensionElements.get('values') || [];
+      const ioMapping = values.find(value => value.$type === 'zeebe:IoMapping');
 
-      if (!ioMappings.length) {
+      if (!ioMapping) {
         return '';
       }
 
-      const ioMapping = ioMappings[0];
       const inputParameters = ioMapping.get('inputParameters') || [];
-      
       const parameter = inputParameters.find(
         param => param.get('target') === targetName
       );
@@ -131,12 +150,13 @@ export default class TemplateFieldEnhancer {
       }
 
       // Find or create IoMapping
-      const values = extensionElements.get('values');
+      const values = extensionElements.get('values') || [];
       let ioMapping = values.find(value => value.$type === 'zeebe:IoMapping');
 
       if (!ioMapping) {
         ioMapping = bpmnFactory.create('zeebe:IoMapping', {
-          inputParameters: []
+          inputParameters: [],
+          outputParameters: []
         });
 
         commandStack.execute('element.updateModdleProperties', {
@@ -155,6 +175,7 @@ export default class TemplateFieldEnhancer {
       );
 
       if (!parameter) {
+        // Create new parameter
         parameter = bpmnFactory.create('zeebe:Input', {
           target: targetName,
           source: value
@@ -168,6 +189,7 @@ export default class TemplateFieldEnhancer {
           }
         });
       } else {
+        // Update existing parameter
         commandStack.execute('element.updateModdleProperties', {
           element,
           moddleElement: parameter,
@@ -186,42 +208,10 @@ export default class TemplateFieldEnhancer {
       getValue,
       setValue,
       element,
-      group: propertyGroup,
-      metadataKey: 'channels', // For Slack, we use channels
+      metadataKey: 'channels',
       optionValueKey: 'name',
       optionLabelKey: 'name'
     };
-  }
-
-  _organizeEntriesByGroup(entries, template) {
-    const translate = this._injector.get('translate');
-    const groupsMap = {};
-
-    entries.forEach(entry => {
-      if (!entry) {
-        return;
-      }
-
-      const groupId = entry.group || 'context-dropdowns';
-      
-      if (!groupsMap[groupId]) {
-        
-        // Find the group definition in the template
-        const groupDef = template.groups ? 
-          template.groups.find(g => g.id === groupId) : null;
-
-        groupsMap[groupId] = {
-          id: `context-enhanced-${groupId}`,
-          label: groupDef ? translate(groupDef.label) : translate('Context Fields'),
-          entries: [],
-          component: Group
-        };
-      }
-
-      groupsMap[groupId].entries.push(entry);
-    });
-
-    return Object.values(groupsMap);
   }
 }
 

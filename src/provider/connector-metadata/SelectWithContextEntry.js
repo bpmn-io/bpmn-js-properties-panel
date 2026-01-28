@@ -1,5 +1,6 @@
 import { SelectEntry, TextFieldEntry } from '@bpmn-io/properties-panel';
 import { useService } from '../../hooks';
+import { useState, useEffect } from '@bpmn-io/properties-panel/preact/hooks';
 
 /**
  * A select entry that uses options from the connector metadata service.
@@ -31,9 +32,28 @@ export function SelectWithContextEntry(props) {
 
   const connectorMetadata = useService('connectorMetadata');
   const elementTemplates = useService('elementTemplates', false);
+  const debounce = useService('debounceInput');
+  const eventBus = useService('eventBus');
+
+  // Force re-render when metadata is fetched
+  const [ metadataVersion, setMetadataVersion ] = useState(0);
 
   // Get the template for this element
   const template = elementTemplates ? elementTemplates.get(element) : null;
+
+  // Listen for metadata changes
+  useEffect(() => {
+    const handleMetadataFetched = (event) => {
+      // Force re-render by updating state
+      setMetadataVersion(v => v + 1);
+    };
+
+    eventBus.on('connectorMetadata.fetched', handleMetadataFetched);
+
+    return () => {
+      eventBus.off('connectorMetadata.fetched', handleMetadataFetched);
+    };
+  }, [ eventBus ]);
 
   // Get metadata if available
   const metadata = template ? connectorMetadata.getMetadata(template.id) : null;
@@ -55,24 +75,25 @@ export function SelectWithContextEntry(props) {
       ];
     };
 
-    return SelectEntry({
-      element,
-      id,
-      label,
-      description,
-      getValue,
-      setValue,
-      getOptions
-    });
+    return <SelectEntry
+      element={ element }
+      id={ id }
+      label={ label }
+      description={ description }
+      getValue={ getValue }
+      setValue={ setValue }
+      getOptions={ getOptions }
+    />;
   }
 
   // Fall back to text field if no metadata available
-  return TextFieldEntry({
-    element,
-    id,
-    label,
-    description,
-    getValue,
-    setValue
-  });
+  return <TextFieldEntry
+    element={ element }
+    id={ id }
+    label={ label }
+    description={ description }
+    getValue={ getValue }
+    setValue={ setValue }
+    debounce={ debounce }
+  />;
 }
