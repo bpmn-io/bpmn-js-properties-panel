@@ -21,6 +21,12 @@ export default class ConnectorMetadataService {
   async fetchMetadata(element, template) {
     const templateId = template.id;
 
+    // Prevent concurrent requests
+    if (this._loading[templateId]) {
+      console.warn(`Already loading metadata for template: ${templateId}`);
+      return this._metadata[templateId];
+    }
+
     // Simulate API call delay
     this._loading[templateId] = true;
     this._eventBus.fire('connectorMetadata.loading', { element, template });

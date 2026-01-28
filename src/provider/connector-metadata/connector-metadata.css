@@ -49,12 +49,13 @@
   background-color: #e8f5e9;
 }
 
+.bio-properties-panel-connect-message.error {
+  color: #c62828;
+  background-color: #ffebee;
+}
+
 .bio-properties-panel-connect-description {
   font-size: 12px;
   color: #666;
   font-style: italic;
-}
-
-.bio-properties-panel-header-template-icon {
-  display: inline-block;
 }

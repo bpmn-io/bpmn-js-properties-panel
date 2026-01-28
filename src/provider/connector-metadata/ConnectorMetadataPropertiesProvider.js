@@ -1,6 +1,6 @@
 import { Group } from '@bpmn-io/properties-panel';
 import { useService } from '../../hooks';
-import { useState } from '@bpmn-io/properties-panel/preact/hooks';
+import { useState, useEffect } from '@bpmn-io/properties-panel/preact/hooks';
 
 /**
  * Creates a Connect button entry for fetching connector metadata
@@ -17,31 +17,57 @@ function ConnectButtonEntry(props) {
 
   const [ loading, setLoading ] = useState(false);
   const [ message, setMessage ] = useState('');
+  const [ messageType, setMessageType ] = useState('');
 
+  // Get template (need to do this before early returns to satisfy hooks rules)
+  const template = elementTemplates ? elementTemplates.get(element) : null;
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    let timeoutId;
+
+    if (message && messageType === 'success') {
+      timeoutId = setTimeout(() => {
+        setMessage('');
+        setMessageType('');
+      }, 3000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [ message, messageType ]);
+
+  // Early returns after all hooks
   if (!elementTemplates) {
     return null;
   }
-
-  const template = elementTemplates.get(element);
 
   if (!template) {
     return null;
   }
 
   const handleConnect = async () => {
+
+    // Prevent concurrent requests
+    if (connectorMetadata.isLoading(template.id)) {
+      return;
+    }
+
     setLoading(true);
     setMessage(translate('Fetching metadata...'));
+    setMessageType('loading');
 
     try {
       await connectorMetadata.fetchMetadata(element, template);
       setMessage(translate('Metadata fetched successfully!'));
-
-      // Clear success message after 3 seconds
-      setTimeout(() => {
-        setMessage('');
-      }, 3000);
+      setMessageType('success');
     } catch (error) {
-      setMessage(translate('Error fetching metadata'));
+      const errorMsg = error.message || 'Unknown error';
+      setMessage(translate('Error: {errorMsg}', { errorMsg }));
+      setMessageType('error');
       console.error('Error fetching connector metadata:', error);
     } finally {
       setLoading(false);
@@ -60,7 +86,7 @@ function ConnectButtonEntry(props) {
           { loading ? translate('Connecting...') : translate('Connect') }
         </button>
         { message && (
-          <div class={ `bio-properties-panel-connect-message ${loading ? 'loading' : 'success'}` }>
+          <div class={ `bio-properties-panel-connect-message ${messageType}` }>
             { message }
           </div>
         )}
