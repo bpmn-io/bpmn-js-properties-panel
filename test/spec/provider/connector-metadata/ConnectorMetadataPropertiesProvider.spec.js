@@ -134,6 +134,69 @@ describe('provider/connector-metadata - ConnectorMetadataPropertiesProvider', fu
     }
   ));
 
+
+  it('should return fallback data when API call fails', inject(
+    async function(elementRegistry, selection, connectorMetadata, elementTemplates) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const template = elementTemplates.get(serviceTask);
+
+      // Override _mockFetchFromApi to simulate an error
+      const originalFetch = connectorMetadata._mockFetchFromApi;
+      connectorMetadata._mockFetchFromApi = async function() {
+        throw new Error('API endpoint not available');
+      };
+
+      // when
+      const metadata = await connectorMetadata.fetchMetadata(serviceTask, template);
+
+      // then - should return fallback data instead of throwing
+      expect(metadata).to.exist;
+      expect(metadata.channels).to.exist;
+      expect(metadata.channels).to.have.length(5);
+      expect(metadata.channels[0].name).to.equal('#general');
+
+      // cleanup
+      connectorMetadata._mockFetchFromApi = originalFetch;
+    }
+  ));
+
+
+  it('should not crash the application when API fails', inject(
+    async function(elementRegistry, selection, connectorMetadata, elementTemplates) {
+
+      // given
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+      const template = elementTemplates.get(serviceTask);
+
+      // Override _mockFetchFromApi to simulate a network error
+      const originalFetch = connectorMetadata._mockFetchFromApi;
+      connectorMetadata._mockFetchFromApi = async function() {
+        throw new Error('14 UNAVAILABLE: Failed to parse DNS address dns:localhost:8080/v2');
+      };
+
+      // when - this should not throw
+      let errorThrown = false;
+      try {
+        await connectorMetadata.fetchMetadata(serviceTask, template);
+      } catch (error) {
+        errorThrown = true;
+      }
+
+      // then
+      expect(errorThrown).to.be.false;
+
+      // and metadata should still be available
+      const cachedMetadata = connectorMetadata.getMetadata('slack-connector');
+      expect(cachedMetadata).to.exist;
+      expect(cachedMetadata.channels).to.exist;
+
+      // cleanup
+      connectorMetadata._mockFetchFromApi = originalFetch;
+    }
+  ));
+
 });
 
 
