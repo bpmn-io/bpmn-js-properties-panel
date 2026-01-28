@@ -204,7 +204,7 @@
       "equals" : "chat.postMessage",
       "type" : "simple"
     },
-    "type" : "String"
+    "type" : "DropdownWithContext"
   }, {
     "id" : "data.thread",
     "label" : "Thread",
