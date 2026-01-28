@@ -41,6 +41,20 @@ Adds a **"Connect" button** to the properties panel that:
 3. ✅ Shows loading, success, and error states
 4. ✅ Caches metadata for use in dropdown fields
 5. ✅ Fires EventBus events for integration
+6. ✅ **Gracefully handles API failures with fallback data** (never crashes!)
+
+---
+
+## 🛡️ Error Handling
+
+The service is designed to **never crash** the application. If the API endpoint is unavailable:
+
+- ✅ Returns sample Slack channels (#general, #engineering, etc.)
+- ✅ Logs warnings to console for debugging
+- ✅ Fires error events for monitoring
+- ✅ Continues normal operation with fallback data
+
+**See:** [ERROR_HANDLING.md](src/provider/connector-metadata/ERROR_HANDLING.md) for details
 
 ---
 
