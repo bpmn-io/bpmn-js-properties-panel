@@ -1,6 +1,19 @@
 # 🎯 HOW TO RUN THE DEMO
 
-**3 commands, 2 minutes, that's it!**
+**The easiest way: Just run `npm start`!**
+
+For a fully working demo with element templates configured:
+```bash
+npm install
+npm start
+```
+Then open **http://localhost:9876/debug.html**
+
+📖 **See [test/fixtures/TESTING_CONNECTOR_METADATA.md](test/fixtures/TESTING_CONNECTOR_METADATA.md) for detailed instructions.**
+
+---
+
+**Alternative: Standalone demo (3 commands, 2 minutes)**
 
 ---
 
