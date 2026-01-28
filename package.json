@@ -20,6 +20,7 @@
     "start:cloud": "cross-env SINGLE_START=cloud npm run dev",
     "start:platform": "cross-env SINGLE_START=platform npm run dev",
     "start:bpmn": "cross-env SINGLE_START=bpmn npm run dev",
+    "demo": "node demo/server.js",
     "prepare": "run-s build"
   },
   "repository": {

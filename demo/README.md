@@ -2,6 +2,18 @@
 
 This demo showcases the new **Connector Metadata** feature for the BPMN Properties Panel.
 
+## 🚀 Quick Start
+
+```bash
+npm install
+npm run build
+npm run demo
+```
+
+Then open **http://localhost:8080/demo/standalone.html** in your browser.
+
+📖 **For detailed instructions, see [QUICKSTART.md](QUICKSTART.md)**
+
 ## What it does
 
 The Connector Metadata feature adds a **"Connect" button** to the properties panel that:
@@ -10,35 +22,22 @@ The Connector Metadata feature adds a **"Connect" button** to the properties pan
 3. Caches the metadata for use in dropdown/typeahead fields
 4. Shows loading and success states
 
-## How to run the demo
+## Demo Instructions
 
-### Option 1: Using the Development Server
+Once the demo loads:
 
-```bash
-npm install
-npm run build
-npm start
-```
+1. **Click on the Service Task** labeled "Send Slack Message"
+2. **Look at the Properties Panel** on the right
+3. **Find "Connector Actions"** group at the top
+4. **Click the "Connect" button**
+5. **Watch the loading state** and success message
+6. **Check browser console** to see fetched Slack channels
 
-Then:
-1. Open your browser to the Karma debug URL (shown in console, typically `http://localhost:9876/debug.html`)
-2. The test page will load with the properties panel
-3. Click on a Service Task element
-4. Look for the "Connector Actions" group with the "Connect" button
-5. Click "Connect" to fetch metadata
-6. Check the browser console to see the fetched Slack channels
+## Documentation
 
-### Option 2: Using the Standalone Demo
-
-```bash
-npm install
-npm run build
-python3 -m http.server 8080
-```
-
-Then open `http://localhost:8080/demo/standalone.html` in your browser.
-
-**Note:** The standalone demo requires external CDN resources (bpmn-js, zeebe-moddle, etc.) which may be blocked in some environments.
+- **[QUICKSTART.md](QUICKSTART.md)** - Quick start guide (start here!)
+- **[WORKFLOW.md](WORKFLOW.md)** - Visual workflow and architecture
+- **[../IMPLEMENTATION.md](../IMPLEMENTATION.md)** - Complete technical details
 
 ## Architecture
 
