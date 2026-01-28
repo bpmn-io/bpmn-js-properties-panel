@@ -1,3 +1,5 @@
 node_modules
 coverage
 dist
+demo/demo.bundle.js
+demo/demo.bundle.js.map

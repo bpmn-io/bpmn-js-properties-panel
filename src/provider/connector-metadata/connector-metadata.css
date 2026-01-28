@@ -1,0 +1,60 @@
+/**
+ * Styles for the Connector Metadata Provider
+ */
+
+.bio-properties-panel-connect-button-entry {
+  padding: 10px 0;
+}
+
+.bio-properties-panel-connect-button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.bio-properties-panel-connect-button {
+  background-color: #0d4d90;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.bio-properties-panel-connect-button:hover:not(:disabled) {
+  background-color: #0b3d73;
+}
+
+.bio-properties-panel-connect-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.bio-properties-panel-connect-message {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.bio-properties-panel-connect-message.loading {
+  color: #666;
+}
+
+.bio-properties-panel-connect-message.success {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+}
+
+.bio-properties-panel-connect-description {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.bio-properties-panel-header-template-icon {
+  display: inline-block;
+}
