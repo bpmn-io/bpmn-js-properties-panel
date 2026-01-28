@@ -48,12 +48,30 @@ export default class ConnectorMetadataService {
       return metadata;
     } catch (error) {
       this._loading[templateId] = false;
+      
+      // Log the error but don't crash - provide fallback data
+      console.warn(`Failed to fetch metadata for template ${templateId}:`, error.message || error);
+      
+      // Get sample data as fallback
+      const fallbackMetadata = this._getSampleMetadata(templateId);
+      this._metadata[templateId] = fallbackMetadata;
+      
+      // Fire error event for monitoring, but also fire fetched event with fallback data
       this._eventBus.fire('connectorMetadata.error', {
         element,
         template,
         error
       });
-      throw error;
+      
+      this._eventBus.fire('connectorMetadata.fetched', {
+        element,
+        template,
+        metadata: fallbackMetadata,
+        fallback: true
+      });
+
+      // Return fallback data instead of throwing
+      return fallbackMetadata;
     }
   }
 
@@ -87,6 +105,43 @@ export default class ConnectorMetadataService {
   }
 
   /**
+   * Get sample metadata for a template type.
+   * Used as fallback when API calls fail.
+   *
+   * @param {string} templateId - The template ID
+   * @returns {Object} Sample metadata
+   */
+  _getSampleMetadata(templateId) {
+    // Return sample data based on template type
+    if (templateId && templateId.toLowerCase().includes('slack')) {
+      return {
+        channels: [
+          { id: 'C123ABC', name: '#general' },
+          { id: 'C456DEF', name: '#engineering' },
+          { id: 'C789GHI', name: '#product' },
+          { id: 'C012JKL', name: '#marketing' },
+          { id: 'C345MNO', name: '#sales' }
+        ],
+        users: [
+          { id: 'U123', name: '@john.doe' },
+          { id: 'U456', name: '@jane.smith' },
+          { id: 'U789', name: '@bot' }
+        ]
+      };
+    } else {
+
+      // Generic metadata for other connectors
+      return {
+        options: [
+          { id: 'option1', name: 'Option 1' },
+          { id: 'option2', name: 'Option 2' },
+          { id: 'option3', name: 'Option 3' }
+        ]
+      };
+    }
+  }
+
+  /**
    * Mock API fetch - simulates calling a REST endpoint.
    * This would be replaced with actual HTTP calls in production.
    *
@@ -99,34 +154,7 @@ export default class ConnectorMetadataService {
 
       // Simulate network delay
       setTimeout(() => {
-
-        // Return mock data based on template type
-        if (templateId.includes('slack')) {
-          resolve({
-            channels: [
-              { id: 'C123ABC', name: '#general' },
-              { id: 'C456DEF', name: '#engineering' },
-              { id: 'C789GHI', name: '#product' },
-              { id: 'C012JKL', name: '#marketing' },
-              { id: 'C345MNO', name: '#sales' }
-            ],
-            users: [
-              { id: 'U123', name: '@john.doe' },
-              { id: 'U456', name: '@jane.smith' },
-              { id: 'U789', name: '@bot' }
-            ]
-          });
-        } else {
-
-          // Generic metadata for other connectors
-          resolve({
-            options: [
-              { id: 'option1', name: 'Option 1' },
-              { id: 'option2', name: 'Option 2' },
-              { id: 'option3', name: 'Option 3' }
-            ]
-          });
-        }
+        resolve(this._getSampleMetadata(templateId));
       }, 800); // Simulate 800ms API response time
     });
   }
