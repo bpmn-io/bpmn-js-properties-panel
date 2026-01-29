@@ -10,6 +10,7 @@ import {
   BusinessRuleImplementationProps,
   CalledDecisionProps,
   ConditionProps,
+  EventConditionProps,
   ErrorProps,
   EscalationProps,
   ExecutionListenersProps,
@@ -62,6 +63,7 @@ const ZEEBE_GROUPS = [
   ActiveElementsGroup,
   FormGroup,
   ConditionGroup,
+  EventConditionGroup,
   TargetGroup,
   InputPropagationGroup,
   InputGroup,
@@ -410,6 +412,20 @@ function ExtensionPropertiesGroup(element, injector) {
   }
 
   return null;
+}
+
+function EventConditionGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'event-condition',
+    label: translate('Condition'),
+    entries: [
+      ...EventConditionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
 }
 
 function updateGeneralGroup(groups, element) {
