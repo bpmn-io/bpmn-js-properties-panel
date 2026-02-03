@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.49.0
+
+* `FEAT`: support Conditional Start Event modeling for Camunda 8 ([#1176](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1176))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.36.0`
+
 ## 5.48.0
 
 * `FEAT`: add support of FEEL expressions for 'Form ID' field ([#1183](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1183))
