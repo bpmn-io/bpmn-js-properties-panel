@@ -214,7 +214,7 @@ describe('provider/zeebe - EventConditionProps', function() {
 
   describe('zeebe:ConditionalFilter#variableEvents', function() {
 
-    it('should display', inject(async function(elementRegistry, selection) {
+    it('should display inside subprocess', inject(async function(elementRegistry, selection) {
 
       // given
       const element = elementRegistry.get('Event_2');
@@ -233,7 +233,26 @@ describe('provider/zeebe - EventConditionProps', function() {
     }));
 
 
-    it('should not display on root level', inject(async function(elementRegistry, selection) {
+    it('should display for intermediate catch event', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Event_3');
+
+      // when
+      await act(() => {
+        selection.select(element);
+      });
+
+      const createCheckbox = domQuery('input[name=variableEvents-create]', container);
+      const updateCheckbox = domQuery('input[name=variableEvents-update]', container);
+
+      // then
+      expect(createCheckbox).to.exist;
+      expect(updateCheckbox).to.exist;
+    }));
+
+
+    it('should not display on process start event', inject(async function(elementRegistry, selection) {
 
       // given
       const element = elementRegistry.get('Event_1');
