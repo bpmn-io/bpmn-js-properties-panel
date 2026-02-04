@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.50.0
+
+* `DEPS`: update to `@bpmn-io/extract-process-variables@2.0.0`
+* `DEPS`: update to `@bpmn-io/properties-panel@3.37.0`
+
 ## 5.49.0
 
 * `FEAT`: support Conditional Start Event modeling for Camunda 8 ([#1176](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1176))
