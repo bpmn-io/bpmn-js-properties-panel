@@ -16,14 +16,13 @@
         <bpmn:condition xsi:type="bpmn:tFormalExpression">=foo &lt; bar</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
-    <bpmn:startEvent id="Event_3">
-      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_16we37r">
-      </bpmn:conditionalEventDefinition>
-    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="Event_3">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_02j8kp2" />
+    </bpmn:intermediateCatchEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1dd1gi1">
-      <bpmndi:BPMNShape id="BPMNShape_04nb8mn" bpmnElement="Event_3">
+      <bpmndi:BPMNShape id="Event_1dwo39y_di" bpmnElement="Event_3">
         <dc:Bounds x="152" y="232" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1q8hsrq_di" bpmnElement="Activity_01gjpl1" isExpanded="true">

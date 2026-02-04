@@ -44,22 +44,7 @@ export function EventConditionProps(props) {
     return [];
   }
 
-  // `variableEvents` are not applicable for root-level events
-  if (!is(element.parent, 'bpmn:SubProcess')) {
-    return [
-      {
-        id: 'condition',
-        component: Condition,
-        isEdited: isFeelEntryEdited
-      },
-      {
-        id: 'variableNames',
-        component: VariableNames,
-      },
-    ];
-  }
-
-  return [
+  const entries = [
     {
       id: 'condition',
       component: Condition,
@@ -69,11 +54,16 @@ export function EventConditionProps(props) {
       id: 'variableNames',
       component: VariableNames,
     },
-    {
+  ];
+
+  if (is(element.parent, 'bpmn:SubProcess') || is(element, 'bpmn:IntermediateCatchEvent')) {
+    entries.push({
       id: 'variableEvents',
       component: VariableEvents,
-    }
-  ];
+    });
+  }
+
+  return entries;
 }
 
 /**
