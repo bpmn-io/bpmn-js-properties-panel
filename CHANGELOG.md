@@ -10,10 +10,6 @@ ___Note:__ Yet to be released changes appear here._
 
 * `DEPS`: require `@bpmn-io/properties-panel@3.36.0` or newer
 
-### Breaking Changes
-
-* The library requires an update of the `@bpmn-io/properties-panel` dependency so that `CheckboxGroup` component can be used. Update it to migrate.
-
 ## 5.50.1
 
 * `FIX`: show `variableEvents` for conditional intermediate catch events ([#1189](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1189))
@@ -1098,4 +1094,5 @@ Checkout this [pull request](https://github.com/bpmn-io/bpmn-js-properties-panel
 ## ...
 
 Check `git log` for earlier history.
+
 
