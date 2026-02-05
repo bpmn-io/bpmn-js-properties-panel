@@ -21,7 +21,7 @@ ___Note:__ Yet to be released changes appear here._
 
 ## 5.49.0
 
-* `FEAT`: support Conditional Start Event modeling for Camunda 8 ([#1176](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1176))
+* `FEAT`: support conditional event modeling for Camunda 8 ([#1176](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1176))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.36.0`
 
 ## 5.48.0
@@ -1094,5 +1094,6 @@ Checkout this [pull request](https://github.com/bpmn-io/bpmn-js-properties-panel
 ## ...
 
 Check `git log` for earlier history.
+
 
 
