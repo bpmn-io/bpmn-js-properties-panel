@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.50.1
+
+* `FIX`: show `variableEvents` for conditional intermediate catch events ([#1189](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1189))
+
 ## 5.50.0
 
 * `DEPS`: update to `@bpmn-io/extract-process-variables@2.0.0`
