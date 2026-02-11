@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+`FIX`: change description of user task priority field and add docs link ([#1193](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1193))
+
 ## 6.0.0
 
 * `DEPS`: require `@bpmn-io/properties-panel@3.36.0` or newer
