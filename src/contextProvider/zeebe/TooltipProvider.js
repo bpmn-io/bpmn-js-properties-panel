@@ -365,8 +365,10 @@ const TooltipProvider = {
 
     return (
       <div>
-        <p>{ translate('An integer value that can range from 0 to 100, where a higher value indicates a higher priority.') }</p>
-        <p>{ translate('If unset, the default value is 50.') }</p>
+        <p>
+          { translate('Specifies the priority of a user task. Must be an integer between 0 and 100. If no value is provided, the default value is 50. ') }
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#define-user-task-priority" target="_blank" rel="noopener noreferrer" title={ translate('User task priority documentation') }>{ translate('Learn more.') }</a>
+        </p>
       </div>
     );
   },
