@@ -19,11 +19,17 @@
     <bpmn:intermediateCatchEvent id="Event_3">
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_02j8kp2" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:task id="Activity_0klrkw1" />
+    <bpmn:boundaryEvent id="Event_4" attachedToRef="Activity_0klrkw1">
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_053k3yj">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression" />
+      </bpmn:conditionalEventDefinition>
+    </bpmn:boundaryEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1dd1gi1">
-      <bpmndi:BPMNShape id="Event_1dwo39y_di" bpmnElement="Event_3">
-        <dc:Bounds x="152" y="232" width="36" height="36" />
+      <bpmndi:BPMNShape id="Activity_0klrkw1_di" bpmnElement="Activity_0klrkw1">
+        <dc:Bounds x="120" y="40" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1q8hsrq_di" bpmnElement="Activity_01gjpl1" isExpanded="true">
         <dc:Bounds x="260" y="80" width="350" height="200" />
@@ -33,6 +39,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1o9vuwz_di" bpmnElement="Event_1">
         <dc:Bounds x="152" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dwo39y_di" bpmnElement="Event_3">
+        <dc:Bounds x="152" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jtlm25_di" bpmnElement="Event_4">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

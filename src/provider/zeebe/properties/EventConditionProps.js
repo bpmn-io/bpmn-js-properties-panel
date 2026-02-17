@@ -56,7 +56,11 @@ export function EventConditionProps(props) {
     },
   ];
 
-  if (is(element.parent, 'bpmn:SubProcess') || is(element, 'bpmn:IntermediateCatchEvent')) {
+  if (
+    is(element.parent, 'bpmn:SubProcess') ||
+    is(element, 'bpmn:IntermediateCatchEvent') ||
+    is(element, 'bpmn:BoundaryEvent'))
+  {
     entries.push({
       id: 'variableEvents',
       component: VariableEvents,

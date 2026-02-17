@@ -252,6 +252,25 @@ describe('provider/zeebe - EventConditionProps', function() {
     }));
 
 
+    it('should display for boundary event', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Event_4');
+
+      // when
+      await act(() => {
+        selection.select(element);
+      });
+
+      const createCheckbox = domQuery('input[name=variableEvents-create]', container);
+      const updateCheckbox = domQuery('input[name=variableEvents-update]', container);
+
+      // then
+      expect(createCheckbox).to.exist;
+      expect(updateCheckbox).to.exist;
+    }));
+
+
     it('should not display on process start event', inject(async function(elementRegistry, selection) {
 
       // given
