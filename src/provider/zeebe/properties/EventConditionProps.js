@@ -131,7 +131,6 @@ function VariableNames(props) {
     getValue={ getValue }
     setValue={ setValue }
     debounce={ debounce }
-    tooltip={ translate('List of process variable names that trigger the condition evaluation.') }
   />;
 }
 
@@ -173,7 +172,6 @@ function VariableEvents(props) {
     getValue,
     setValue,
     label: translate('Variable events'),
-    tooltip: translate('Variable events that trigger the condition evaluation.\n\nIf none selected, all variable events will trigger the condition evaluation.')
   });
 }
 

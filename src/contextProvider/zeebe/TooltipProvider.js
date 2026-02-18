@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+
 import {
   is,
   isAny
@@ -406,6 +406,53 @@ const TooltipProvider = {
           <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Subscription correlation key documentation') }>
             { translate('Learn more.') }
           </a>        </p>
+      </div>
+    );
+  },
+  'group-event-condition': () => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Specify the condition that triggers this event. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/conditional-events/conditional-events/#conditions" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+  'condition': () => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        {translate('A FEEL expression that determines whether the event should trigger.')}
+      </div>
+    );
+  },
+  'variableNames': () => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('List of variable names (comma-separated) that trigger the condition evaluation. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          { translate('Learn more.') }
+        </a>
+        {translate('\n\nIf left empty, any variable change in the scope or parent scopes will trigger the condition evaluation.')}
+      </div>
+    );
+  },
+  'variableEvents': () => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Variable events that trigger the condition evaluation. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          { translate('Learn more.') }
+        </a>
+        {translate('\n\nIf none selected, all variable events will trigger the condition evaluation. ')}
       </div>
     );
   }
