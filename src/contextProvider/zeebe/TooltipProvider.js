@@ -403,7 +403,7 @@ const TooltipProvider = {
       <div>
         <p>
           { translate('Identifier computed from the process context that is used to correlate an incoming message (e.g. ')}<code>= orderId</code>{translate('). ')}
-          <a href="https://docs.camunda.io/docs/8.7/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Subscription correlation key documentation') }>
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/message-events/#messages" target="_blank" rel="noopener noreferrer" title={ translate('Subscription correlation key documentation') }>
             { translate('Learn more.') }
           </a>        </p>
       </div>
