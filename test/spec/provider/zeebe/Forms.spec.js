@@ -66,445 +66,28 @@ describe('provider/zeebe - Forms', function() {
     debounceInput: false
   }));
 
+  describe('user tasks', function () {
+    describe('form type', function () {
+      it('should display - embedded form', inject(async function (elementRegistry, selection) {
 
-  describe('form type', function() {
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
 
-    it('should display - embedded form', inject(async function(elementRegistry, selection) {
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
 
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
+        const formTypeSelect = getFormTypeSelect(container);
 
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
+        // then
+        expect(formTypeSelect).to.exist;
 
-      const formTypeSelect = getFormTypeSelect(container);
+        expect(formTypeSelect.value).to.equal(FORM_TYPES.CAMUNDA_FORM_EMBEDDED);
+      }));
 
-      // then
-      expect(formTypeSelect).to.exist;
 
-      expect(formTypeSelect.value).to.equal(FORM_TYPES.CAMUNDA_FORM_EMBEDDED);
-    }));
-
-
-    it('should display - linked form', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // then
-      expect(formTypeSelect).to.exist;
-
-      expect(formTypeSelect.value).to.equal(FORM_TYPES.CAMUNDA_FORM_LINKED);
-    }));
-
-
-    it('should display - custom form', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // then
-      expect(formTypeSelect).to.exist;
-
-      expect(formTypeSelect.value).to.equal(FORM_TYPES.CUSTOM_FORM);
-    }));
-
-
-    it('should display - external reference', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // then
-      expect(formTypeSelect).to.exist;
-
-      expect(formTypeSelect.value).to.equal(FORM_TYPES.EXTERNAL_REFERENCE);
-    }));
-
-
-    it('should display - empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // then
-      expect(formTypeSelect).to.exist;
-
-      expect(formTypeSelect.value).to.equal('none');
-    }));
-
-
-    it('should update - empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // when
-      changeInput(formTypeSelect, '');
-
-      // then
-
-      const formDefinition = getFormDefinition(userTask);
-      expect(formDefinition).to.not.exist;
-
-      const rootElement = getRootElement(userTask);
-      const userTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
-      expect(userTaskForms).to.have.lengthOf(0);
-    }));
-
-
-    it('should update - embedded form', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // when
-      changeInput(formTypeSelect, FORM_TYPES.CAMUNDA_FORM_EMBEDDED);
-
-      // then
-      expectUserTaskForm(userTask, '');
-    }));
-
-
-    it('should update - linked form', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // when
-      changeInput(formTypeSelect, FORM_TYPES.CAMUNDA_FORM_LINKED);
-
-      // then
-      expectFormId(userTask, '');
-    }));
-
-
-    it('should update - custom form', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // when
-      changeInput(formTypeSelect, FORM_TYPES.CUSTOM_FORM);
-
-      // then
-      expectFormKey(userTask, '');
-    }));
-
-
-    it('should update - external reference', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM_ZEEBE_USER_TASK');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-
-      // when
-      changeInput(formTypeSelect, FORM_TYPES.EXTERNAL_REFERENCE);
-
-      // then
-      expectExternalReference(userTask, '');
-    }));
-
-
-    it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('NO_FORM');
-      const rootElement = getRootElement(userTask);
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formTypeSelect = getFormTypeSelect(container);
-      const initialTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm').length;
-
-      changeInput(formTypeSelect, FORM_TYPES.CAMUNDA_FORM_EMBEDDED);
-      expectUserTaskForm(userTask, '');
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      // expect user task form not to exist
-      const formDefinition = getFormDefinition(userTask);
-      expect(formDefinition).to.not.exist;
-
-      const forms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
-      expect(forms).to.have.lengthOf(initialTaskForms);
-    }));
-
-  });
-
-
-  describe('embedded form', function() {
-
-    it('should display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formConfigurationTextarea = getFormConfigurationTextarea(container);
-
-      // then
-      expect(formConfigurationTextarea).to.exist;
-    }));
-
-
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formConfigurationTextarea = getFormConfigurationTextarea(container);
-
-      // when
-      changeInput(formConfigurationTextarea, '{ "a": 1 }');
-
-      // then
-      expectUserTaskForm(userTask, '{ "a": 1 }');
-    }));
-
-
-    it('should not delete if empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formConfigurationTextarea = getFormConfigurationTextarea(container);
-
-      // when
-      changeInput(formConfigurationTextarea, '');
-
-      // then
-      expectUserTaskForm(userTask, '');
-    }));
-
-
-    it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formConfigurationTextarea = getFormConfigurationTextarea(container);
-      const initialConfig = formConfigurationTextarea.value;
-
-      changeInput(formConfigurationTextarea, '{ "a": 1 }');
-      expectUserTaskForm(userTask, '{ "a": 1 }');
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      expectUserTaskForm(userTask, initialConfig);
-    }));
-
-  });
-
-
-  describe('linked form', function() {
-
-    it('should display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formIdInput = getFormIdInput(container);
-
-      // then
-      expect(formIdInput).to.exist;
-    }));
-
-
-    it('should display - Zeebe User Task', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formIdInput = getFormIdInput(container);
-
-      // then
-      expect(formIdInput).to.exist;
-    }));
-
-
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formIdInput = getFormIdInput(container);
-
-      // when
-      changeInput(formIdInput, 'bar');
-
-      // then
-      expectFormId(userTask, 'bar');
-    }));
-
-
-    it('should not delete if empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formIdInput = getFormIdInput(container);
-
-      // when
-      changeInput(formIdInput, '');
-
-      // then
-      expectFormId(userTask, '');
-    }));
-
-
-    it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const formIdInput = getFormIdInput(container);
-      const initialFormId = formIdInput.value;
-
-      changeInput(formIdInput, 'bar');
-      expectFormId(userTask, 'bar');
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      expectFormId(userTask, initialFormId);
-    }));
-
-
-    it('should update Form ID field with FEEL expression', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      // when
-      let formIdInput = getFormIdInput(container);
-
-      // clear existing value
-      changeInput(formIdInput, '=');
-
-      // update value in FEEL editor
-      const formIdEditor = domQuery('[name=formId] [role=textbox]', container);
-      await setEditorValue(formIdEditor, 'newFormId');
-
-      // then
-      expect(getFormDefinition(userTask).get('formId')).to.equal('=newFormId');
-    }));
-
-
-    describe('binding type', function() {
-
-      it('should display', inject(async function(elementRegistry, selection) {
+      it('should display - linked form', inject(async function (elementRegistry, selection) {
 
         // given
         const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
@@ -514,323 +97,739 @@ describe('provider/zeebe - Forms', function() {
           selection.select(userTask);
         });
 
-        const bindingTypeSelect = getBindingTypeSelect(container);
+        const formTypeSelect = getFormTypeSelect(container);
 
         // then
-        expect(bindingTypeSelect).to.exist;
+        expect(formTypeSelect).to.exist;
+
+        expect(formTypeSelect.value).to.equal(FORM_TYPES.CAMUNDA_FORM_LINKED);
       }));
 
 
-      it('should update', inject(async function(elementRegistry, selection) {
+      it('should display - custom form', inject(async function (elementRegistry, selection) {
 
         // given
-        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
-
-        await act(() => {
-          selection.select(userTask);
-        });
-
-        const bindingTypeSelect = getBindingTypeSelect(container);
+        const userTask = elementRegistry.get('CUSTOM_FORM');
 
         // when
-        changeInput(bindingTypeSelect, 'deployment');
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
 
         // then
-        expectBindingType(userTask, 'deployment');
+        expect(formTypeSelect).to.exist;
+
+        expect(formTypeSelect.value).to.equal(FORM_TYPES.CUSTOM_FORM);
       }));
 
 
-      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+      it('should display - external reference', inject(async function (elementRegistry, selection) {
 
         // given
-        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+        const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // then
+        expect(formTypeSelect).to.exist;
+
+        expect(formTypeSelect.value).to.equal(FORM_TYPES.EXTERNAL_REFERENCE);
+      }));
+
+
+      it('should display - empty', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // then
+        expect(formTypeSelect).to.exist;
+
+        expect(formTypeSelect.value).to.equal('none');
+      }));
+
+
+      it('should update - empty', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
 
         await act(() => {
           selection.select(userTask);
         });
 
-        const bindingTypeSelect = getBindingTypeSelect(container);
-        const initialBindingType = bindingTypeSelect.value;
+        const formTypeSelect = getFormTypeSelect(container);
 
-        changeInput(bindingTypeSelect, 'deployment');
-        expectBindingType(userTask, 'deployment');
+        // when
+        changeInput(formTypeSelect, '');
+
+        // then
+
+        const formDefinition = getFormDefinition(userTask);
+        expect(formDefinition).to.not.exist;
+
+        const rootElement = getRootElement(userTask);
+        const userTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
+        expect(userTaskForms).to.have.lengthOf(0);
+    }));
+
+
+      it('should update - embedded form', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // when
+        changeInput(formTypeSelect, FORM_TYPES.CAMUNDA_FORM_EMBEDDED);
+
+        // then
+        expectUserTaskForm(userTask, '');
+      }));
+
+
+      it('should update - linked form', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // when
+        changeInput(formTypeSelect, FORM_TYPES.CAMUNDA_FORM_LINKED);
+
+        // then
+        expectFormId(userTask, '');
+      }));
+
+
+      it('should update - custom form', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // when
+        changeInput(formTypeSelect, FORM_TYPES.CUSTOM_FORM);
+
+        // then
+        expectFormKey(userTask, '');
+      }));
+
+
+      it('should update - external reference', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM_ZEEBE_USER_TASK');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // when
+        changeInput(formTypeSelect, FORM_TYPES.EXTERNAL_REFERENCE);
+
+        // then
+        expectExternalReference(userTask, '');
+      }));
+
+
+      it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('NO_FORM');
+        const rootElement = getRootElement(userTask);
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+        const initialTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm').length;
+
+        changeInput(formTypeSelect, FORM_TYPES.CAMUNDA_FORM_EMBEDDED);
+        expectUserTaskForm(userTask, '');
 
         // when
         await act(() => {
           commandStack.undo();
         });
 
-        expectBindingType(userTask, initialBindingType);
+        // expect user task form not to exist
+        const formDefinition = getFormDefinition(userTask);
+        expect(formDefinition).to.not.exist;
+
+        const forms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
+        expect(forms).to.have.lengthOf(initialTaskForms);
       }));
 
     });
 
 
-    describe('version tag', function() {
+    describe('embedded form', function () {
 
-      it('should display', inject(async function(elementRegistry, selection) {
+      it('should display', inject(async function (elementRegistry, selection) {
 
         // given
-        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+        const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
 
         // when
         await act(() => {
           selection.select(userTask);
         });
 
-        const versionTagInput = getVersionTagInput(container);
+        const formConfigurationTextarea = getFormConfigurationTextarea(container);
 
         // then
-        expect(versionTagInput).to.exist;
+        expect(formConfigurationTextarea).to.exist;
       }));
 
 
-      it('should update', inject(async function(elementRegistry, selection) {
+      it('should update', inject(async function (elementRegistry, selection) {
 
         // given
-        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+        const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
 
         await act(() => {
           selection.select(userTask);
         });
 
-        const versionTagInput = getVersionTagInput(container);
+        const formConfigurationTextarea = getFormConfigurationTextarea(container);
 
         // when
-        changeInput(versionTagInput, 'v2.0.0');
+        changeInput(formConfigurationTextarea, '{ "a": 1 }');
 
         // then
-        expectVersionTag(userTask, 'v2.0.0');
+        expectUserTaskForm(userTask, '{ "a": 1 }');
       }));
 
 
-      it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
+      it('should not delete if empty', inject(async function (elementRegistry, selection) {
 
         // given
-        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+        const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
 
         await act(() => {
           selection.select(userTask);
         });
 
-        const versionTagInput = getVersionTagInput(container);
-        const initialVersionTag = versionTagInput.value;
+        const formConfigurationTextarea = getFormConfigurationTextarea(container);
 
-        changeInput(versionTagInput, 'v2.0.0');
-        expectVersionTag(userTask, 'v2.0.0');
+        // when
+        changeInput(formConfigurationTextarea, '');
+
+        // then
+        expectUserTaskForm(userTask, '');
+      }));
+
+
+      it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_EMBEDDED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formConfigurationTextarea = getFormConfigurationTextarea(container);
+        const initialConfig = formConfigurationTextarea.value;
+
+        changeInput(formConfigurationTextarea, '{ "a": 1 }');
+        expectUserTaskForm(userTask, '{ "a": 1 }');
 
         // when
         await act(() => {
           commandStack.undo();
         });
 
-        expectVersionTag(userTask, initialVersionTag);
+        expectUserTaskForm(userTask, initialConfig);
       }));
 
     });
 
+
+    describe('linked form', function () {
+
+      it('should display', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formIdInput = getFormIdInput(container);
+
+        // then
+        expect(formIdInput).to.exist;
+      }));
+
+
+      it('should display - Zeebe User Task', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_ZEEBE_USER_TASK');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formIdInput = getFormIdInput(container);
+
+        // then
+        expect(formIdInput).to.exist;
+      }));
+
+
+      it('should update', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formIdInput = getFormIdInput(container);
+
+        // when
+        changeInput(formIdInput, 'bar');
+
+        // then
+        expectFormId(userTask, 'bar');
+      }));
+
+
+      it('should not delete if empty', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formIdInput = getFormIdInput(container);
+
+        // when
+        changeInput(formIdInput, '');
+
+        // then
+        expectFormId(userTask, '');
+      }));
+
+
+      it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const formIdInput = getFormIdInput(container);
+        const initialFormId = formIdInput.value;
+
+        changeInput(formIdInput, 'bar');
+        expectFormId(userTask, 'bar');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        expectFormId(userTask, initialFormId);
+      }));
+
+
+      it('should update Form ID field with FEEL expression', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        // when
+        let formIdInput = getFormIdInput(container);
+
+        // clear existing value
+        changeInput(formIdInput, '=');
+
+        // update value in FEEL editor
+        const formIdEditor = domQuery('[name=formId] [role=textbox]', container);
+        await setEditorValue(formIdEditor, 'newFormId');
+
+        // then
+        expect(getFormDefinition(userTask).get('formId')).to.equal('=newFormId');
+      }));
+
+
+      describe('binding type', function () {
+
+        it('should display', inject(async function (elementRegistry, selection) {
+
+          // given
+          const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+          // when
+          await act(() => {
+            selection.select(userTask);
+          });
+
+          const bindingTypeSelect = getBindingTypeSelect(container);
+
+          // then
+          expect(bindingTypeSelect).to.exist;
+        }));
+
+
+        it('should update', inject(async function (elementRegistry, selection) {
+
+          // given
+          const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+          await act(() => {
+            selection.select(userTask);
+          });
+
+          const bindingTypeSelect = getBindingTypeSelect(container);
+
+          // when
+          changeInput(bindingTypeSelect, 'deployment');
+
+          // then
+          expectBindingType(userTask, 'deployment');
+        }));
+
+
+        it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+          // given
+          const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED');
+
+          await act(() => {
+            selection.select(userTask);
+          });
+
+          const bindingTypeSelect = getBindingTypeSelect(container);
+          const initialBindingType = bindingTypeSelect.value;
+
+          changeInput(bindingTypeSelect, 'deployment');
+          expectBindingType(userTask, 'deployment');
+
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          expectBindingType(userTask, initialBindingType);
+        }));
+
+      });
+
+
+      describe('version tag', function () {
+
+        it('should display', inject(async function (elementRegistry, selection) {
+
+          // given
+          const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+
+          // when
+          await act(() => {
+            selection.select(userTask);
+          });
+
+          const versionTagInput = getVersionTagInput(container);
+
+          // then
+          expect(versionTagInput).to.exist;
+        }));
+
+
+        it('should update', inject(async function (elementRegistry, selection) {
+
+          // given
+          const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+
+          await act(() => {
+            selection.select(userTask);
+          });
+
+          const versionTagInput = getVersionTagInput(container);
+
+          // when
+          changeInput(versionTagInput, 'v2.0.0');
+
+          // then
+          expectVersionTag(userTask, 'v2.0.0');
+        }));
+
+
+        it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+          // given
+          const userTask = elementRegistry.get('CAMUNDA_FORM_LINKED_VERSION_TAG');
+
+          await act(() => {
+            selection.select(userTask);
+          });
+
+          const versionTagInput = getVersionTagInput(container);
+          const initialVersionTag = versionTagInput.value;
+
+          changeInput(versionTagInput, 'v2.0.0');
+          expectVersionTag(userTask, 'v2.0.0');
+
+          // when
+          await act(() => {
+            commandStack.undo();
+          });
+
+          expectVersionTag(userTask, initialVersionTag);
+        }));
+
+      });
+
+    });
+
+
+    describe('custom form', function () {
+
+      it('should display', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const customFormKeyInput = getCustomFormKeyInput(container);
+
+        // then
+        expect(customFormKeyInput).to.exist;
+      }));
+
+
+      it('should NOT display', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const customFormKeyInput = getCustomFormKeyInput(container);
+
+        // then
+        expect(customFormKeyInput).not.to.exist;
+      }));
+
+
+      it('should update', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const customFormKeyInput = getCustomFormKeyInput(container);
+
+        // when
+        changeInput(customFormKeyInput, 'foo');
+
+        // then
+        expectFormKey(userTask, 'foo');
+      }));
+
+
+      it('should not delete if empty', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const customFormKeyInput = getCustomFormKeyInput(container);
+
+        // when
+        changeInput(customFormKeyInput, '');
+
+        // then
+        expectFormKey(userTask, '');
+      }));
+
+
+      it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const customFormKeyInput = getCustomFormKeyInput(container);
+        const initialFormKey = customFormKeyInput.value;
+
+        changeInput(customFormKeyInput, 'bar');
+        expectFormKey(userTask, 'bar');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        expectFormKey(userTask, initialFormKey);
+      }));
+    });
+
+
+    describe('external reference', function () {
+
+      it('should display', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const externalReferenceInput = getExternalReferenceInput(container);
+
+        // then
+        expect(externalReferenceInput).to.exist;
+      }));
+
+
+      it('should NOT display', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM');
+
+        // when
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const externalReferenceInput = getExternalReferenceInput(container);
+
+        // then
+        expect(externalReferenceInput).not.to.exist;
+      }));
+
+
+      it('should update', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const externalReferenceInput = getExternalReferenceInput(container);
+
+        // when
+        changeInput(externalReferenceInput, 'foo');
+
+        // then
+        expectExternalReference(userTask, 'foo');
+      }));
+
+
+      it('should not delete if empty', inject(async function (elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const externalReferenceInput = getExternalReferenceInput(container);
+
+        // when
+        changeInput(externalReferenceInput, '');
+
+        // then
+        expectExternalReference(userTask, '');
+      }));
+
+
+      it('should update on external change', inject(async function (commandStack, elementRegistry, selection) {
+
+        // given
+        const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
+
+        await act(() => {
+          selection.select(userTask);
+        });
+
+        const externalReferenceInput = getExternalReferenceInput(container);
+        const initialFormKey = externalReferenceInput.value;
+
+        changeInput(externalReferenceInput, 'bar');
+        expectExternalReference(userTask, 'bar');
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        expectExternalReference(userTask, initialFormKey);
+      }));
+    });
+
   });
-
-
-  describe('custom form', function() {
-
-    it('should display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const customFormKeyInput = getCustomFormKeyInput(container);
-
-      // then
-      expect(customFormKeyInput).to.exist;
-    }));
-
-
-    it('should NOT display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const customFormKeyInput = getCustomFormKeyInput(container);
-
-      // then
-      expect(customFormKeyInput).not.to.exist;
-    }));
-
-
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const customFormKeyInput = getCustomFormKeyInput(container);
-
-      // when
-      changeInput(customFormKeyInput, 'foo');
-
-      // then
-      expectFormKey(userTask, 'foo');
-    }));
-
-
-    it('should not delete if empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const customFormKeyInput = getCustomFormKeyInput(container);
-
-      // when
-      changeInput(customFormKeyInput, '');
-
-      // then
-      expectFormKey(userTask, '');
-    }));
-
-
-    it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const customFormKeyInput = getCustomFormKeyInput(container);
-      const initialFormKey = customFormKeyInput.value;
-
-      changeInput(customFormKeyInput, 'bar');
-      expectFormKey(userTask, 'bar');
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      expectFormKey(userTask, initialFormKey);
-    }));
-  });
-
-
-  describe('external reference', function() {
-
-    it('should display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const externalReferenceInput = getExternalReferenceInput(container);
-
-      // then
-      expect(externalReferenceInput).to.exist;
-    }));
-
-
-    it('should NOT display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM');
-
-      // when
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const externalReferenceInput = getExternalReferenceInput(container);
-
-      // then
-      expect(externalReferenceInput).not.to.exist;
-    }));
-
-
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const externalReferenceInput = getExternalReferenceInput(container);
-
-      // when
-      changeInput(externalReferenceInput, 'foo');
-
-      // then
-      expectExternalReference(userTask, 'foo');
-    }));
-
-
-    it('should not delete if empty', inject(async function(elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const externalReferenceInput = getExternalReferenceInput(container);
-
-      // when
-      changeInput(externalReferenceInput, '');
-
-      // then
-      expectExternalReference(userTask, '');
-    }));
-
-
-    it('should update on external change', inject(async function(commandStack, elementRegistry, selection) {
-
-      // given
-      const userTask = elementRegistry.get('CUSTOM_FORM_ZEEBE_USER_TASK');
-
-      await act(() => {
-        selection.select(userTask);
-      });
-
-      const externalReferenceInput = getExternalReferenceInput(container);
-      const initialFormKey = externalReferenceInput.value;
-
-      changeInput(externalReferenceInput, 'bar');
-      expectExternalReference(userTask, 'bar');
-
-      // when
-      await act(() => {
-        commandStack.undo();
-      });
-
-      expectExternalReference(userTask, initialFormKey);
-    }));
-  });
-
 });
-
 
 // helpers //////////
 
