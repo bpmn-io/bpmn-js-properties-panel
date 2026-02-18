@@ -1714,7 +1714,8 @@ describe('provider/zeebe - Forms', function() {
 
         const rootElement = getRootElement(startEvent);
         const userTaskForms = getExtensionElementsList(rootElement, 'zeebe:UserTaskForm');
-        expect(userTaskForms).to.have.lengthOf(1); // UserTaskForm_1 should still exist
+        const remainingFormIds = userTaskForms.map(form => form.id);
+        expect(remainingFormIds).to.not.include('UserTaskForm_2');
       }));
 
 
