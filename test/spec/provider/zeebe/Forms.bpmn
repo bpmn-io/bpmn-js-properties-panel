@@ -96,7 +96,7 @@
       <bpmndi:BPMNShape id="Activity_0q4ulf7_di" bpmnElement="CAMUNDA_FORM_LINKED_VERSION_TAG">
         <dc:Bounds x="490" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape id="START_EVENT_FORM_EMBEDDED_DI" bpmnElement="START_EVENT_FORM_EMBEDDED">
+      <bpmndi:BPMNShape id="START_EVENT_FORM_EMBEDDED_DI" bpmnElement="START_EVENT_FORM_EMBEDDED">
         <dc:Bounds x="182" y="192" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="159" y="235" width="83" height="40" />
@@ -128,6 +128,7 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="154" y="705" width="89" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
