@@ -16,10 +16,14 @@ _Backport `v6.0.1` changes._
 
 ## 6.0.1
 
+_Pre-release._
+
 * `FIX`: change description of user task priority field and add docs link ([#1193](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1193))
 * `FIX`: show Variable Events for boundary events ([#1195](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1195))
 
 ## 6.0.0
+
+_Pre-release._
 
 * `DEPS`: require `@bpmn-io/properties-panel@3.36.0` or newer
 
