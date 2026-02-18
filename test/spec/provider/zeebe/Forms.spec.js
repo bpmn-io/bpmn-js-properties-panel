@@ -1676,6 +1676,23 @@ describe('provider/zeebe - Forms', function() {
       }));
 
 
+      it('should not display - subprocess start event', inject(async function (elementRegistry, selection) {
+
+        // given
+        const startEvent = elementRegistry.get('START_EVENT_SUB_PROCESS');
+
+        // when
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        const formTypeSelect = getFormTypeSelect(container);
+
+        // then
+        expect(formTypeSelect).to.not.exist;
+      }));
+
+
       it('should update - empty', inject(async function (elementRegistry, selection) {
 
         // given

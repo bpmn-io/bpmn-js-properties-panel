@@ -59,6 +59,9 @@
         <zeebe:formDefinition formId="foo" bindingType="versionTag" versionTag="v1.0.0" />
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:subProcess id="SUB_PROCESS">
+      <bpmn:startEvent id="START_EVENT_SUB_PROCESS" name="START_EVENT_SUB_PROCESS" />
+    </bpmn:subProcess>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -117,6 +120,14 @@
           <dc:Bounds x="159" y="405" width="83" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SUB_PROCESS" bpmnElement="SUB_PROCESS" isExpanded="true">
+        <dc:Bounds x="140" y="580" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_SUB_PROCESS" bpmnElement="START_EVENT_SUB_PROCESS">
+        <dc:Bounds x="180" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="154" y="705" width="89" height="27" />
+        </bpmndi:BPMNLabel>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
