@@ -6,10 +6,18 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.51.0
+
+_Backport `v6.0.1` changes._
+
+* `DEPS`: require `@bpmn-io/properties-panel@3.39.0` or newer
+* `FIX`: change description of user task priority field and add docs link ([#1193](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1193))
+* `FIX`: show Variable Events for boundary events ([#1195](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1195))
+
 ## 6.0.1
 
-`FIX`: change description of user task priority field and add docs link ([#1193](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1193))
-`FIX`: show Variable Events for boundary events ([#1195](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1195))
+* `FIX`: change description of user task priority field and add docs link ([#1193](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1193))
+* `FIX`: show Variable Events for boundary events ([#1195](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1195))
 
 ## 6.0.0
 
