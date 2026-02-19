@@ -116,7 +116,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       await setFieldValue(targetInput, 'newValue');
 
       // then
-      expect(getInput(serviceTask, 0).get('target')).to.eql('newValue');
+      expect(getInput(serviceTask, 0)).to.have.property('target', 'newValue');
     }));
 
 
@@ -224,7 +224,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       await setFieldValue(sourceInput, 'newValue');
 
       // then
-      expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
+      expect(getInput(serviceTask, 0)).to.have.property('source', '=newValue');
     }));
 
 
@@ -278,14 +278,14 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await setFieldValue(field, 'newValue');
 
           // assume
-          expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
+          expect(getInput(serviceTask, 0)).to.have.property('source', 'newValue');
 
           // when
           commandStack.undo();
           await nextTick(); // propagate value to editor and await change handler
 
           // then
-          expect(getInput(serviceTask, 0).get('source')).to.be.undefined;
+          expect(getInput(serviceTask, 0)).not.to.have.property('source');
         })
       );
 
@@ -311,7 +311,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await setFieldValue(sourceInput, 'newValue');
 
           // assume
-          expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
+          expect(getInput(serviceTask, 0)).to.have.property('source', 'newValue');
 
           // when
           commandStack.undo();
@@ -320,7 +320,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await nextTick();
 
           // then
-          expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
+          expect(getInput(serviceTask, 0)).to.have.property('source', 'newValue');
 
         })
       );
@@ -383,7 +383,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       await setFieldValue(targetInput, 'newValue');
 
       // then
-      expect(getOutput(serviceTask, 0).get('target')).to.eql('newValue');
+      expect(getOutput(serviceTask, 0)).to.have.property('target', 'newValue');
     }));
 
 
@@ -468,7 +468,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       await setFieldValue(sourceInput, 'newValue');
 
       // then
-      expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
+      expect(getOutput(serviceTask, 0)).to.have.property('source', '=newValue');
     }));
 
 
@@ -522,14 +522,14 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await setFieldValue(sourceInput, 'newValue');
 
           // assume
-          expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
+          expect(getOutput(serviceTask, 0)).to.have.property('source', '=newValue');
 
           // when
           commandStack.undo();
           await nextTick(); // propagate value to editor and await change handler
 
           // then
-          expect(getOutput(serviceTask, 0).get('source')).to.be.undefined;
+          expect(getOutput(serviceTask, 0)).not.to.have.property('source');
         })
       );
 
@@ -555,7 +555,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await setFieldValue(sourceInput, 'newValue');
 
           // assume
-          expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
+          expect(getOutput(serviceTask, 0)).to.have.property('source', '=newValue');
 
           // when
           commandStack.undo();
@@ -564,10 +564,10 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await nextTick();
 
           // then
-          expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
-
+          expect(getOutput(serviceTask, 0)).to.have.property('source', '=newValue');
         })
       );
+
     });
 
   });
