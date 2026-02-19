@@ -255,6 +255,36 @@ describe('provider/zeebe - InputOutputParameter', function() {
 
     describe('integration', function() {
 
+      it('should set',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_empty');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const inputGroup = findGroup(container, 'inputs');
+          const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
+
+          await act(() => {
+            addEntry.click();
+          });
+
+          // assume
+          expect(getInput(serviceTask, 0)).not.to.have.property('source');
+
+          // when
+          const field = findField('ServiceTask_empty-input-0-source', inputGroup);
+          await setFieldValue(field, 'newValue');
+
+          // then
+          expect(getInput(serviceTask, 0)).to.have.property('source', '=newValue');
+        })
+      );
+
+
       // Test for undo/redo integration with newly created input/output parameters
       // cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/981
       it('should undo',
@@ -278,7 +308,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await setFieldValue(field, 'newValue');
 
           // assume
-          expect(getInput(serviceTask, 0)).to.have.property('source', 'newValue');
+          expect(getInput(serviceTask, 0)).to.have.property('source', '=newValue');
 
           // when
           commandStack.undo();
@@ -311,7 +341,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await setFieldValue(sourceInput, 'newValue');
 
           // assume
-          expect(getInput(serviceTask, 0)).to.have.property('source', 'newValue');
+          expect(getInput(serviceTask, 0)).to.have.property('source', '=newValue');
 
           // when
           commandStack.undo();
@@ -320,8 +350,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
           await nextTick();
 
           // then
-          expect(getInput(serviceTask, 0)).to.have.property('source', 'newValue');
-
+          expect(getInput(serviceTask, 0)).to.have.property('source', '=newValue');
         })
       );
     });
@@ -498,6 +527,36 @@ describe('provider/zeebe - InputOutputParameter', function() {
 
 
     describe('integration', function() {
+
+      it('should set',
+        inject(async function(elementRegistry, selection, commandStack) {
+
+          // given
+          const serviceTask = elementRegistry.get('ServiceTask_empty');
+
+          await act(() => {
+            selection.select(serviceTask);
+          });
+
+          const outputGroup = findGroup(container, 'outputs');
+          const addEntry = domQuery('.bio-properties-panel-add-entry', outputGroup);
+
+          await act(() => {
+            addEntry.click();
+          });
+
+          // assume
+          expect(getOutput(serviceTask, 0)).not.to.have.property('source');
+
+          // when
+          const sourceInput = findField('ServiceTask_empty-output-0-source', outputGroup);
+          await setFieldValue(sourceInput, 'newValue');
+
+          // then
+          expect(getOutput(serviceTask, 0)).to.have.property('source', '=newValue');
+        })
+      );
+
 
       // Test for undo/redo integration with newly created input/output parameters
       // Cf. https://github.com/bpmn-io/bpmn-js-properties-panel/issues/981

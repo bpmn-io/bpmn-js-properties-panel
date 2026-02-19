@@ -121,7 +121,13 @@ describe('provider/zeebe - InputProps', function() {
       });
 
       // then
-      expect(getInputParameters(serviceTask)).to.have.length(5);
+      const inputs = getInputParameters(serviceTask);
+      expect(inputs).to.have.length(5);
+
+      const newInput = inputs.find(input => /InputVariable_/.test(input.target));
+
+      expect(newInput, 'Input with target=InputVariable_*').to.exist;
+      expect(newInput).not.to.have.property('source');
     }));
 
 
