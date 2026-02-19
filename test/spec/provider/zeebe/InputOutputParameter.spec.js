@@ -3,8 +3,11 @@ import { act } from '@testing-library/preact';
 
 import {
   bootstrapPropertiesPanel,
-  changeInput,
-  setEditorValue,
+  findField,
+  queryField,
+  fieldValue,
+  setFieldValue,
+  findGroup,
   inject
 } from 'test/TestHelper';
 
@@ -71,8 +74,8 @@ describe('provider/zeebe - InputOutputParameter', function() {
         });
 
         // when
-        const inputGroup = getGroup(container, 'inputs');
-        const targetInput = domQuery('input[name=ServiceTask_empty-input-0-target]', inputGroup);
+        const inputGroup = findGroup(container, 'inputs');
+        const targetInput = queryField('ServiceTask_empty-input-0-target', inputGroup);
 
         // then
         expect(targetInput).to.not.exist;
@@ -90,11 +93,11 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const inputGroup = getGroup(container, 'inputs');
-      const targetInput = domQuery('input[name=ServiceTask_1-input-0-target]', inputGroup);
+      const inputGroup = findGroup(container, 'inputs');
+      const targetInput = findField('ServiceTask_1-input-0-target', inputGroup);
 
       // then
-      expect(targetInput.value).to.eql(getInput(serviceTask, 0).get('target'));
+      expect(fieldValue(targetInput)).to.eql(getInput(serviceTask, 0).get('target'));
     }));
 
 
@@ -108,9 +111,9 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const inputGroup = getGroup(container, 'inputs');
-      const targetInput = domQuery('input[name=ServiceTask_1-input-0-target]', inputGroup);
-      changeInput(targetInput, 'newValue');
+      const inputGroup = findGroup(container, 'inputs');
+      const targetInput = findField('ServiceTask_1-input-0-target', inputGroup);
+      await setFieldValue(targetInput, 'newValue');
 
       // then
       expect(getInput(serviceTask, 0).get('target')).to.eql('newValue');
@@ -127,8 +130,9 @@ describe('provider/zeebe - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const targetInput = domQuery('input[name=ServiceTask_1-input-0-target]', container);
-        changeInput(targetInput, 'newValue');
+        const inputGroup = findGroup(container, 'inputs');
+        const targetInput = findField('ServiceTask_1-input-0-target', inputGroup);
+        await setFieldValue(targetInput, 'newValue');
 
         // when
         await act(() => {
@@ -136,7 +140,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
         });
 
         // then
-        expect(targetInput.value).to.eql(originalValue);
+        expect(fieldValue(targetInput)).to.eql(originalValue);
       })
     );
 
@@ -156,8 +160,8 @@ describe('provider/zeebe - InputOutputParameter', function() {
         });
 
         // when
-        const inputGroup = getGroup(container, 'inputs');
-        const sourceInput = domQuery('[name=ServiceTask_empty-input-0-source] [role="textbox"]', inputGroup);
+        const inputGroup = findGroup(container, 'inputs');
+        const sourceInput = queryField('ServiceTask_empty-input-0-source', inputGroup);
 
         // then
         expect(sourceInput).to.not.exist;
@@ -175,11 +179,11 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const inputGroup = getGroup(container, 'inputs');
-      const sourceInput = domQuery('[name=ServiceTask_1-input-0-source] [role="textbox"]', inputGroup);
+      const inputGroup = findGroup(container, 'inputs');
+      const sourceInput = findField('ServiceTask_1-input-0-source', inputGroup);
 
       // then
-      expect('=' + sourceInput.textContent).to.eql(getInput(serviceTask, 0).get('source'));
+      expect('=' + fieldValue(sourceInput)).to.eql(getInput(serviceTask, 0).get('source'));
     }));
 
 
@@ -193,7 +197,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const inputGroup = getGroup(container, 'inputs');
+      const inputGroup = findGroup(container, 'inputs');
 
       const feelToggle = domQuery(
         '[data-entry-id="ServiceTask_1-input-0"] button.bio-properties-panel-feel-icon.optional',
@@ -215,9 +219,9 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const inputGroup = getGroup(container, 'inputs');
-      const sourceInput = domQuery('[name=ServiceTask_1-input-0-source] [role="textbox"]', inputGroup);
-      await setEditorValue(sourceInput, 'newValue');
+      const inputGroup = findGroup(container, 'inputs');
+      const sourceInput = findField('ServiceTask_1-input-0-source', inputGroup);
+      await setFieldValue(sourceInput, 'newValue');
 
       // then
       expect(getInput(serviceTask, 0).get('source')).to.eql('=newValue');
@@ -234,8 +238,9 @@ describe('provider/zeebe - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const sourceInput = domQuery('[name=ServiceTask_1-input-0-source] [role="textbox"]', container);
-        await setEditorValue(sourceInput, 'newValue');
+        const inputGroup = findGroup(container, 'inputs');
+        const sourceInput = findField('ServiceTask_1-input-0-source', inputGroup);
+        await setFieldValue(sourceInput, 'newValue');
 
         // when
         await act(() => {
@@ -262,15 +267,15 @@ describe('provider/zeebe - InputOutputParameter', function() {
             selection.select(serviceTask);
           });
 
-          const inputGroup = getGroup(container, 'inputs');
+          const inputGroup = findGroup(container, 'inputs');
           const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
 
           await act(() => {
             addEntry.click();
           });
 
-          const sourceInput = domQuery('input[name=ServiceTask_empty-input-0-source]', inputGroup);
-          changeInput(sourceInput, 'newValue');
+          const field = findField('ServiceTask_empty-input-0-source', inputGroup);
+          await setFieldValue(field, 'newValue');
 
           // assume
           expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
@@ -295,15 +300,15 @@ describe('provider/zeebe - InputOutputParameter', function() {
             selection.select(serviceTask);
           });
 
-          const inputGroup = getGroup(container, 'inputs');
+          const inputGroup = findGroup(container, 'inputs');
           const addEntry = domQuery('.bio-properties-panel-add-entry', inputGroup);
 
           await act(() => {
             addEntry.click();
           });
 
-          const sourceInput = domQuery('input[name=ServiceTask_empty-input-0-source]', inputGroup);
-          changeInput(sourceInput, 'newValue');
+          const sourceInput = findField('ServiceTask_empty-input-0-source', inputGroup);
+          await setFieldValue(sourceInput, 'newValue');
 
           // assume
           expect(getInput(serviceTask, 0).get('source')).to.eql('newValue');
@@ -337,8 +342,8 @@ describe('provider/zeebe - InputOutputParameter', function() {
         });
 
         // when
-        const outputGroup = getGroup(container, 'outputs');
-        const targetInput = domQuery('input[name=ServiceTask_empty-output-0-target]', outputGroup);
+        const outputGroup = findGroup(container, 'outputs');
+        const targetInput = queryField('ServiceTask_empty-output-0-target', outputGroup);
 
         // then
         expect(targetInput).to.not.exist;
@@ -356,11 +361,11 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const outputGroup = getGroup(container, 'outputs');
-      const targetInput = domQuery('input[name=ServiceTask_1-output-0-target]', outputGroup);
+      const outputGroup = findGroup(container, 'outputs');
+      const targetInput = findField('ServiceTask_1-output-0-target', outputGroup);
 
       // then
-      expect(targetInput.value).to.eql(getOutput(serviceTask, 0).get('target'));
+      expect(fieldValue(targetInput)).to.eql(getOutput(serviceTask, 0).get('target'));
     }));
 
 
@@ -374,9 +379,8 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const outputGroup = getGroup(container, 'outputs');
-      const targetInput = domQuery('input[name=ServiceTask_1-output-0-target]', outputGroup);
-      changeInput(targetInput, 'newValue');
+      const targetInput = findField('ServiceTask_1-output-0-target', container);
+      await setFieldValue(targetInput, 'newValue');
 
       // then
       expect(getOutput(serviceTask, 0).get('target')).to.eql('newValue');
@@ -393,8 +397,8 @@ describe('provider/zeebe - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const targetInput = domQuery('input[name=ServiceTask_1-output-0-target]', container);
-        changeInput(targetInput, 'newValue');
+        const targetInput = findField('ServiceTask_1-output-0-target', container);
+        await setFieldValue(targetInput, 'newValue');
 
         // when
         await act(() => {
@@ -402,7 +406,7 @@ describe('provider/zeebe - InputOutputParameter', function() {
         });
 
         // then
-        expect(targetInput.value).to.eql(originalValue);
+        expect(fieldValue(targetInput)).to.eql(originalValue);
       })
     );
 
@@ -422,8 +426,8 @@ describe('provider/zeebe - InputOutputParameter', function() {
         });
 
         // when
-        const outputGroup = getGroup(container, 'outputs');
-        const sourceInput = domQuery('[name=ServiceTask_empty-output-0-source] [role="textbox"]', outputGroup);
+        const outputGroup = findGroup(container, 'outputs');
+        const sourceInput = queryField('ServiceTask_empty-output-0-source', outputGroup);
 
         // then
         expect(sourceInput).to.not.exist;
@@ -441,11 +445,11 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const outputGroup = getGroup(container, 'outputs');
-      const sourceInput = domQuery('[name=ServiceTask_1-output-0-source] [role="textbox"]', outputGroup);
+      const outputGroup = findGroup(container, 'outputs');
+      const sourceInput = findField('ServiceTask_1-output-0-source', outputGroup);
 
       // then
-      expect('=' + sourceInput.textContent).to.eql(getOutput(serviceTask, 0).get('source'));
+      expect('=' + fieldValue(sourceInput)).to.eql(getOutput(serviceTask, 0).get('source'));
     }));
 
 
@@ -459,9 +463,9 @@ describe('provider/zeebe - InputOutputParameter', function() {
       });
 
       // when
-      const outputGroup = getGroup(container, 'outputs');
-      const sourceInput = domQuery('[name=ServiceTask_1-output-0-source] [role="textbox"]', outputGroup);
-      await setEditorValue(sourceInput, 'newValue');
+      const outputGroup = findGroup(container, 'outputs');
+      const sourceInput = findField('ServiceTask_1-output-0-source', outputGroup);
+      await setFieldValue(sourceInput, 'newValue');
 
       // then
       expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
@@ -478,8 +482,9 @@ describe('provider/zeebe - InputOutputParameter', function() {
         await act(() => {
           selection.select(serviceTask);
         });
-        const sourceInput = domQuery('[name=ServiceTask_1-output-0-source] [role="textbox"]', container);
-        await setEditorValue(sourceInput, 'newValue');
+        const outputGroup = findGroup(container, 'outputs');
+        const sourceInput = findField('ServiceTask_1-output-0-source', outputGroup);
+        await setFieldValue(sourceInput, 'newValue');
 
         // when
         await act(() => {
@@ -506,15 +511,15 @@ describe('provider/zeebe - InputOutputParameter', function() {
             selection.select(serviceTask);
           });
 
-          const outputGroup = getGroup(container, 'outputs');
+          const outputGroup = findGroup(container, 'outputs');
           const addEntry = domQuery('.bio-properties-panel-add-entry', outputGroup);
 
           await act(() => {
             addEntry.click();
           });
 
-          const sourceInput = domQuery('[name=ServiceTask_empty-output-0-source] [role="textbox"]', outputGroup);
-          await setEditorValue(sourceInput, 'newValue');
+          const sourceInput = findField('ServiceTask_empty-output-0-source', outputGroup);
+          await setFieldValue(sourceInput, 'newValue');
 
           // assume
           expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
@@ -539,15 +544,15 @@ describe('provider/zeebe - InputOutputParameter', function() {
             selection.select(serviceTask);
           });
 
-          const outputGroup = getGroup(container, 'outputs');
+          const outputGroup = findGroup(container, 'outputs');
           const addEntry = domQuery('.bio-properties-panel-add-entry', outputGroup);
 
           await act(() => {
             addEntry.click();
           });
 
-          const sourceInput = domQuery('[name=ServiceTask_empty-output-0-source] [role="textbox"]', outputGroup);
-          await setEditorValue(sourceInput, 'newValue');
+          const sourceInput = findField('ServiceTask_empty-output-0-source', outputGroup);
+          await setFieldValue(sourceInput, 'newValue');
 
           // assume
           expect(getOutput(serviceTask, 0).get('source')).to.eql('=newValue');
@@ -571,10 +576,6 @@ describe('provider/zeebe - InputOutputParameter', function() {
 
 
 // helper //////////////////
-
-function getGroup(container, id) {
-  return domQuery(`[data-group-id="group-${id}"`, container);
-}
 
 function getInput(element, idx) {
   return (getInputParameters(element) || [])[idx];
