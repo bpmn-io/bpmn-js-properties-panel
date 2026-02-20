@@ -34,6 +34,7 @@ import {
   getFormType,
   getRootElement,
   getUserTaskForm,
+  isFormSupported,
   isZeebeUserTask,
   userTaskFormIdToFormKey
 } from '../utils/FormUtil';
@@ -50,8 +51,7 @@ const NONE_VALUE = 'none';
 
 export function FormProps(props) {
   const { element } = props;
-
-  if (!is(element, 'bpmn:UserTask')) {
+  if (!isFormSupported(element)) {
     return [];
   }
 
