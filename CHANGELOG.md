@@ -6,6 +6,11 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.52.1
+
+* `FIX`: prevent cutting the tooltip if it couldn't fit to the bottom of the screen ([bpmn-io/properties-panel#469](https://github.com/bpmn-io/properties-panel/pull/469))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.40.1`
+
 ## 5.52.0
 
 * `DEPS`: require `@bpmn-io/properties-panel@3.40.0` or newer
