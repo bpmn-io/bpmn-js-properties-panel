@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.52.0
+
+* `DEPS`: require `@bpmn-io/properties-panel@3.40.0` or newer
+* `FIX`: create input parameter as expression
+* `FIX`: link conditional events documentation in tooltip
+* `FIX`: link to latest message event documentation in tooltip
+
 ## 5.51.0
 
 _Backport `v6.0.1` changes._
