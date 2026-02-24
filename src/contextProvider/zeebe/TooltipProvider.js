@@ -433,19 +433,6 @@ const TooltipProvider = {
       </div>
     );
   },
-  'variableNames': () => {
-    const translate = useService('translate');
-
-    return (
-      <div>
-        { translate('List of variable names (comma-separated) that trigger the condition evaluation. ')}
-        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
-          { translate('Learn more.') }
-        </a>
-        {translate('\n\nIf left empty, any variable change in the scope or parent scopes will trigger the condition evaluation.')}
-      </div>
-    );
-  },
   'variableEvents': () => {
     const translate = useService('translate');
 

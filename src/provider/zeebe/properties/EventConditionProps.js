@@ -1,5 +1,4 @@
 import {
-  TextFieldEntry,
   CheckboxGroup
 } from '@bpmn-io/properties-panel';
 
@@ -32,7 +31,6 @@ import {
  * Properties of a Conditional Start Event:
  *
  * - `bpmn:Condition`
- * - `zeebe:ConditionalFilter#variableNames`
  * - `zeebe:ConditionalFilter#variableEvents`
  */
 export function EventConditionProps(props) {
@@ -49,11 +47,7 @@ export function EventConditionProps(props) {
       id: 'condition',
       component: Condition,
       isEdited: isFeelEntryEdited
-    },
-    {
-      id: 'variableNames',
-      component: VariableNames,
-    },
+    }
   ];
 
   if (
@@ -100,38 +94,6 @@ function Condition(props) {
     setValue,
     debounce
   });
-}
-
-/**
- * Field for `variableNames` property of `zeebe:ConditionalFilter`.
- */
-function VariableNames(props) {
-  const {
-    element
-  } = props;
-
-  const commandStack = useService('commandStack');
-  const translate = useService('translate');
-  const debounce = useService('debounceInput');
-  const bpmnFactory = useService('bpmnFactory');
-
-  const getValue = () => {
-    const conditionalFilter = getConditionalFilter(element);
-    return conditionalFilter?.variableNames;
-  };
-
-  const setValue = (value) => {
-    setConditionalFilter(element, { variableNames: value }, bpmnFactory, commandStack);
-  };
-
-  return <TextFieldEntry
-    element={ element }
-    id="variableNames"
-    label={ translate('Variable names') }
-    getValue={ getValue }
-    setValue={ setValue }
-    debounce={ debounce }
-  />;
 }
 
 /**

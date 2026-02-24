@@ -6,7 +6,6 @@
         <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0v7epxg">
         <bpmn:condition xsi:type="bpmn:tFormalExpression">=foo &gt; bar</bpmn:condition>
           <bpmn:extensionElements>
-            <zeebe:conditionalFilter variableNames="foo,bar" />
           </bpmn:extensionElements>
         </bpmn:conditionalEventDefinition>
       </bpmn:startEvent>
