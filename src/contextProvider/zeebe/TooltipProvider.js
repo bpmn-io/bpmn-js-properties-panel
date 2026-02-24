@@ -415,8 +415,8 @@ const TooltipProvider = {
     return (
       <div>
         { translate('Specify the condition that triggers this event. ')}
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/conditional-events/conditional-events/#conditions" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
-          { translate('Learn more.') }
+        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          { translate('About conditional events.') }
         </a>
       </div>
     );
@@ -426,7 +426,10 @@ const TooltipProvider = {
 
     return (
       <div>
-        {translate('A FEEL expression that determines whether the event should trigger.')}
+        {translate('A FEEL expression that determines whether the event should trigger. ')}
+        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#condition-expressions-feel" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          {translate('Learn more.')}
+        </a>
       </div>
     );
   },
@@ -436,7 +439,7 @@ const TooltipProvider = {
     return (
       <div>
         { translate('List of variable names (comma-separated) that trigger the condition evaluation. ')}
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
           { translate('Learn more.') }
         </a>
         {translate('\n\nIf left empty, any variable change in the scope or parent scopes will trigger the condition evaluation.')}
@@ -449,7 +452,7 @@ const TooltipProvider = {
     return (
       <div>
         { translate('Variable events that trigger the condition evaluation. ')}
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
           { translate('Learn more.') }
         </a>
         {translate('\n\nIf none selected, all variable events will trigger the condition evaluation. ')}
