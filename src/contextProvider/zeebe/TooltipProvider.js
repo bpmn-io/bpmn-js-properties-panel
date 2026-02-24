@@ -415,7 +415,7 @@ const TooltipProvider = {
     return (
       <div>
         { translate('Specify the condition that triggers this event. ')}
-        <a href="https://docs.camunda.io/docs/next/components/modeler/bpmn/conditional-events" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
           { translate('About conditional events.') }
         </a>
       </div>
