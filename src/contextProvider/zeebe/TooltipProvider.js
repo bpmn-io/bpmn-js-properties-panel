@@ -415,8 +415,8 @@ const TooltipProvider = {
     return (
       <div>
         { translate('Specify the condition that triggers this event. ')}
-        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#conditions" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
-          { translate('Learn more.') }
+        <a href="https://docs.camunda.io/docs/next/components/modeler/bpmn/conditional-events" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          { translate('About conditional events.') }
         </a>
       </div>
     );
@@ -427,6 +427,9 @@ const TooltipProvider = {
     return (
       <div>
         {translate('A FEEL expression that determines whether the event should trigger.')}
+        <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#condition-expressions-feel" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
+          {translate('Learn more.')}
+        </a>
       </div>
     );
   },
