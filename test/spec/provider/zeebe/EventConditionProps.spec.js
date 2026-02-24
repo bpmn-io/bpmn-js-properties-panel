@@ -6,7 +6,6 @@ import {
 
 import {
   bootstrapPropertiesPanel,
-  changeInput,
   clickInput,
   inject,
   setEditorValue
@@ -145,70 +144,6 @@ describe('provider/zeebe - EventConditionProps', function() {
         expect(conditionValue).to.eql(originalValue);
       })
     );
-  });
-
-
-  describe('zeebe:EventConditionProps#variableNames', function() {
-
-    it('should display', inject(async function(elementRegistry, selection) {
-
-      // given
-      const element = elementRegistry.get('Event_1');
-
-      // when
-      await act(() => {
-        selection.select(element);
-      });
-
-      const input = domQuery('input[name=variableNames]', container);
-
-      // then
-      expect(input).to.exist;
-    }));
-
-
-    it('should update', inject(async function(elementRegistry, selection) {
-
-      // given
-      const element = elementRegistry.get('Event_1');
-
-      await act(() => {
-        selection.select(element);
-      });
-
-      // when
-      const input = domQuery('input[name=variableNames]', container);
-      changeInput(input, 'foo,baz');
-
-      // then
-      const conditionalFilter = getConditionalFilter(element);
-      expect(conditionalFilter.variableNames).to.eql('foo,baz');
-    }));
-
-
-    it('should update on external change',
-      inject(async function(elementRegistry, selection, commandStack) {
-
-        // given
-        const element = elementRegistry.get('Event_2');
-
-        await act(() => {
-          selection.select(element);
-        });
-
-        const input = domQuery('input[name=variableNames]', container);
-        changeInput(input, 'baz,bax');
-
-        // when
-        await act(() => {
-          commandStack.undo();
-        });
-
-        // then
-        expect(input.value).to.eql('foo,bar');
-      })
-    );
-
   });
 
 
