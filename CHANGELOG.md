@@ -9,6 +9,7 @@ ___Note:__ Yet to be released changes appear here._
 ## 5.52.1
 
 * `FIX`: prevent cutting the tooltip if it couldn't fit to the bottom of the screen ([bpmn-io/properties-panel#469](https://github.com/bpmn-io/properties-panel/pull/469))
+* `FIX`: remove Variable Names field ([#1203](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1203))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.40.1`
 
 ## 5.52.0
