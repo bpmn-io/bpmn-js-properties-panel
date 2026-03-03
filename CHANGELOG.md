@@ -6,6 +6,12 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.53.0
+
+* `DEPS`: update to `ids@3.0.1`
+* `DEPS`: update to `@bpmn-io/extract-process-variables@2.2.1`
+* `DEPS`: update to `min-dom@5.3.0`
+
 ## 5.52.1
 
 * `FIX`: prevent cutting the tooltip if it couldn't fit to the bottom of the screen ([bpmn-io/properties-panel#469](https://github.com/bpmn-io/properties-panel/pull/469))
