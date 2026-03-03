@@ -54,7 +54,7 @@
     "array-move": "^4.0.0",
     "ids": "^3.0.1",
     "min-dash": "^5.0.0",
-    "min-dom": "^5.1.1"
+    "min-dom": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
