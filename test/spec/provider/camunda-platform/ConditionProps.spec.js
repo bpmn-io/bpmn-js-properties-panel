@@ -29,6 +29,8 @@ import CamundaPlatformPropertiesProvider from 'src/provider/camunda-platform';
 
 import camundaModdleExtension from 'camunda-bpmn-moddle/resources/camunda';
 
+import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-platform';
+
 import diagramXML from './ConditionProps.bpmn';
 
 
@@ -1090,6 +1092,215 @@ describe('provider/camunda-platform - ConditionProps', function() {
           // then
           expect(input.value).to.eql(originalValue);
         }
+      })
+    );
+  });
+
+
+  describe('variableEvents - defensive preservation on move', function() {
+
+    const behaviorModules = [
+      BpmnPropertiesPanel,
+      CoreModule,
+      ModelingModule,
+      SelectionModule,
+      CamundaPlatformPropertiesProvider,
+      BehaviorsModule
+    ];
+
+    beforeEach(bootstrapPropertiesPanel(diagramXML, {
+      modules: behaviorModules,
+      moddleExtensions,
+      debounceInput: false
+    }));
+
+
+    it('should preserve variableEvents when moving named start event within event sub-process',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const startEvent = elementRegistry.get('ConditionalStartEventWithVarEvents');
+        const eventSubProcess = elementRegistry.get('EventSubProcess_WithVarEvents');
+
+        // select element so defensive caching listeners are registered
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        const eventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(eventDefinition.get('camunda:variableEvents')).to.equal('create, update');
+
+        // when
+        await act(() => {
+          modeling.moveElements([ startEvent ], { x: 20, y: 0 }, eventSubProcess);
+        });
+
+        // then
+        const updatedEventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(updatedEventDefinition.get('camunda:variableEvents')).to.equal('create, update');
+      })
+    );
+
+
+    it('should reflect preserved variableEvents in UI after move',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const startEvent = elementRegistry.get('ConditionalStartEventWithVarEvents');
+        const eventSubProcess = elementRegistry.get('EventSubProcess_WithVarEvents');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        await act(() => {
+          modeling.moveElements([ startEvent ], { x: 20, y: 0 }, eventSubProcess);
+        });
+
+        // re-select to refresh panel
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // then
+        const input = domQuery('input[name=conditionVariableEvents]', container);
+
+        expect(input).to.exist;
+        expect(input.value).to.equal('create, update');
+      })
+    );
+
+
+    it('should preserve variableEvents when moving non-interrupting conditional start event within event sub-process',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const startEvent = elementRegistry.get('NonInterruptingConditionalStartWithVarEvents');
+        const eventSubProcess = elementRegistry.get('EventSubProcess_NonInterrupting');
+
+        // select element so defensive caching listeners are registered
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        const eventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(eventDefinition.get('camunda:variableEvents')).to.equal('create, update');
+
+        // when
+        await act(() => {
+          modeling.moveElements([ startEvent ], { x: 20, y: 0 }, eventSubProcess);
+        });
+
+        // then
+        const updatedEventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(updatedEventDefinition.get('camunda:variableEvents')).to.equal('create, update');
+      })
+    );
+
+
+    it('should reflect preserved variableEvents in UI after moving non-interrupting conditional start event',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const startEvent = elementRegistry.get('NonInterruptingConditionalStartWithVarEvents');
+        const eventSubProcess = elementRegistry.get('EventSubProcess_NonInterrupting');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // when
+        await act(() => {
+          modeling.moveElements([ startEvent ], { x: 20, y: 0 }, eventSubProcess);
+        });
+
+        // re-select to refresh panel
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        // then
+        const input = domQuery('input[name=conditionVariableEvents]', container);
+
+        expect(input).to.exist;
+        expect(input.value).to.equal('create, update');
+      })
+    );
+
+
+    it('should remove variableEvents when moving non-interrupting conditional start event out of event sub-process',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const startEvent = elementRegistry.get('NonInterruptingConditionalStartWithVarEvents');
+        const process = elementRegistry.get('Process_00tgo4q');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        const eventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(eventDefinition.get('camunda:variableEvents')).to.equal('create, update');
+
+        // when
+        await act(() => {
+          modeling.moveElements([ startEvent ], { x: 0, y: -800 }, process);
+        });
+
+        // then
+        const updatedEventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(updatedEventDefinition.get('camunda:variableEvents')).not.to.exist;
+      })
+    );
+
+
+    it('should remove variableEvents when moving out of event sub-process',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const startEvent = elementRegistry.get('ConditionalStartEventWithVarEvents');
+        const process = elementRegistry.get('Process_00tgo4q');
+
+        await act(() => {
+          selection.select(startEvent);
+        });
+
+        const eventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(eventDefinition.get('camunda:variableEvents')).to.equal('create, update');
+
+        // when
+        await act(() => {
+          modeling.moveElements([ startEvent ], { x: 0, y: 200 }, process);
+        });
+
+        // then
+        const updatedEventDefinition = getEventDefinition(
+          getBusinessObject(startEvent), 'bpmn:ConditionalEventDefinition'
+        );
+
+        expect(updatedEventDefinition.get('camunda:variableEvents')).not.to.exist;
       })
     );
   });

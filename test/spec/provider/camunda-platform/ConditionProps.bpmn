@@ -113,6 +113,20 @@
         </bpmn:conditionalEventDefinition>
       </bpmn:startEvent>
     </bpmn:subProcess>
+    <bpmn:subProcess id="EventSubProcess_WithVarEvents" triggeredByEvent="true">
+      <bpmn:startEvent id="ConditionalStartEventWithVarEvents" name="Named conditional start">
+        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_varEvents" camunda:variableEvents="create, update">
+          <bpmn:condition xsi:type="bpmn:tFormalExpression" />
+        </bpmn:conditionalEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
+    <bpmn:subProcess id="EventSubProcess_NonInterrupting" triggeredByEvent="true">
+      <bpmn:startEvent id="NonInterruptingConditionalStartWithVarEvents" name="Non-interrupting conditional start" isInterrupting="false">
+        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_nonInterrupting" camunda:variableEvents="create, update">
+          <bpmn:condition xsi:type="bpmn:tFormalExpression" />
+        </bpmn:conditionalEventDefinition>
+      </bpmn:startEvent>
+    </bpmn:subProcess>
     <bpmn:group id="Group_0x9cbhh" categoryValueRef="CategoryValue_1ay8yzc" />
     <bpmn:group id="Group_1rwu632" categoryValueRef="CategoryValue_1is1zkz" />
     <bpmn:group id="Group_0vzi29r" categoryValueRef="CategoryValue_17rddng" />
@@ -217,6 +231,24 @@
         <dc:Bounds x="1365" y="692" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1340" y="735" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EventSubProcess_WithVarEvents_di" bpmnElement="EventSubProcess_WithVarEvents" isExpanded="true">
+        <dc:Bounds x="1325" y="850" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ConditionalStartEventWithVarEvents_di" bpmnElement="ConditionalStartEventWithVarEvents">
+        <dc:Bounds x="1365" y="932" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1340" y="975" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EventSubProcess_NonInterrupting_di" bpmnElement="EventSubProcess_NonInterrupting" isExpanded="true">
+        <dc:Bounds x="1325" y="1090" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NonInterruptingConditionalStartWithVarEvents_di" bpmnElement="NonInterruptingConditionalStartWithVarEvents">
+        <dc:Bounds x="1365" y="1172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1340" y="1215" width="87" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Group_0x9cbhh_di" bpmnElement="Group_0x9cbhh">

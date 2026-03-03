@@ -17,6 +17,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { useEffect } from '@bpmn-io/properties-panel/preact/hooks';
+
 import {
   TextFieldEntry,
   isTextFieldEntryEdited,
@@ -406,8 +408,65 @@ function VariableEvents(props) {
   } = props;
 
   const commandStack = useService('commandStack');
+  const eventBus = useService('eventBus');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
+
+  // Defensive cache: preserve variableEvents during move operations within
+  // the same event sub-process. Guards against upstream behaviors that may
+  // incorrectly remove variableEvents when label shapes trigger false
+  // reparenting detection during compound moves.
+  useEffect(() => {
+    let cachedValue = null;
+
+    function onPreExecute({ context }) {
+      const { shape } = context;
+
+      if (!shape || shape.id !== element.id) {
+        return;
+      }
+
+      if (!isInEventSubProcess(element)) {
+        return;
+      }
+
+      const eventDef = getConditionalEventDefinition(element);
+      if (eventDef) {
+        cachedValue = eventDef.get('variableEvents') || null;
+      }
+    }
+
+    function onPostExecuted({ context }) {
+      if (cachedValue === null) {
+        return;
+      }
+
+      const savedValue = cachedValue;
+      cachedValue = null;
+
+      const { shape } = context;
+      if (!shape || shape.id !== element.id) {
+        return;
+      }
+
+      if (!isInEventSubProcess(element)) {
+        return;
+      }
+
+      const eventDef = getConditionalEventDefinition(element);
+      if (eventDef && !eventDef.get('variableEvents')) {
+        eventDef.set('variableEvents', savedValue);
+      }
+    }
+
+    eventBus.on('commandStack.shape.move.preExecute', onPreExecute);
+    eventBus.on('commandStack.shape.move.postExecuted', 500, onPostExecuted);
+
+    return () => {
+      eventBus.off('commandStack.shape.move.preExecute', onPreExecute);
+      eventBus.off('commandStack.shape.move.postExecuted', onPostExecuted);
+    };
+  }, [ element, commandStack, eventBus ]);
 
   const getValue = () => {
     return getConditionalEventDefinition(element).get('variableEvents');
