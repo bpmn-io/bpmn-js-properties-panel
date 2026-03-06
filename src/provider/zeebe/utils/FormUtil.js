@@ -105,3 +105,8 @@ export function isZeebeUserTask(element) {
 
   return getExtensionElementsList(bo, 'zeebe:UserTask').length > 0;
 }
+
+export function isFormSupported(element) {
+  return (is(element, 'bpmn:StartEvent') && !is(element.parent, 'bpmn:SubProcess'))
+    || is(element, 'bpmn:UserTask');
+}
