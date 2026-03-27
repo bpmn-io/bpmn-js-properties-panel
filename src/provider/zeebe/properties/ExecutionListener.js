@@ -18,7 +18,8 @@ import { ListenerType, Retries } from './shared/Listener';
 
 export const EVENT_TO_LABEL = {
   'start': 'Start',
-  'end': 'End'
+  'end': 'End',
+  'cancel': 'Cancel'
 };
 
 export function ExecutionListenerEntries(props) {
@@ -106,6 +107,10 @@ export function getEventTypes(element) {
 
   if (is(element, 'bpmn:Gateway')) {
     return [ 'start' ];
+  }
+
+  if (isAny(element, [ 'bpmn:Process', 'bpmn:Participant' ])) {
+    return [ 'start', 'end', 'cancel' ];
   }
 
   return [ 'start', 'end' ];

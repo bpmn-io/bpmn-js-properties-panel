@@ -31,6 +31,7 @@ import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
 import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import diagramXML from './ExecutionListenerProps.bpmn';
+import processDiagramXML from './ExecutionListenerProps-process.bpmn';
 import { getExtensionElementsList } from 'src/utils/ExtensionElementsUtil';
 
 
@@ -61,7 +62,7 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
 
 
   for (const elementType of [
-    'Process',
+    'ProcessPool',
     'StartEvent',
     'IntermediateThrowEvent',
     'EndEvent',
@@ -69,7 +70,8 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     'Gateway',
     'Task',
     'SubProcess',
-    'BoundaryEvent'
+    'BoundaryEvent',
+    'Participant'
   ]) {
 
     it(`should display for ${elementType}`, inject(async function(elementRegistry, selection) {
@@ -267,12 +269,13 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
   describe('event type', function() {
 
     for (const elementType of [
-      'Process',
+      'ProcessPool',
       'IntermediateThrowEvent',
       'EndEvent',
       'TimerEndEvent',
       'Task',
-      'SubProcess'
+      'SubProcess',
+      'Participant'
     ]) {
 
       it(`should display for ${elementType}`, inject(async function(elementRegistry, selection) {
@@ -392,6 +395,130 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
       // then
       expect(input).to.have.property('value', 'end');
     }));
+
+
+    for (const elementType of [
+      'ProcessPool',
+      'Participant'
+    ]) {
+
+      it(`should display cancel option for ${elementType}`, inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get(elementType);
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQueryAll('option', eventType);
+        const optionValues = Array.from(options).map(o => o.value);
+
+        // then
+        expect(optionValues).to.include('cancel');
+      }));
+    }
+
+
+    it('should NOT display cancel option for SubProcess', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('SubProcess');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      // when
+      const group = getExecutionListenersGroup(container);
+      const eventType = getEventType(group);
+      const options = domQueryAll('option', eventType);
+      const optionValues = Array.from(options).map(o => o.value);
+
+      // then
+      expect(optionValues).to.not.include('cancel');
+    }));
+
+
+    it('should update value to cancel', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('ProcessPool');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      const group = getExecutionListenersGroup(container);
+      const eventType = getEventType(group);
+      const input = domQuery('select', eventType);
+
+      // when
+      changeInput(input, 'cancel');
+
+      // then
+      const listeners = getListeners(element);
+      const listener = listeners[0];
+
+      expect(listener).to.have.property('eventType', 'cancel');
+    }));
+
+
+    describe('Process (non-collaboration)', function() {
+
+      beforeEach(bootstrapPropertiesPanel(processDiagramXML, {
+        modules: testModules,
+        moddleExtensions,
+        debounceInput: false
+      }));
+
+
+      it('should display cancel option for Process', inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Process_1');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQueryAll('option', eventType);
+        const optionValues = Array.from(options).map(o => o.value);
+
+        // then
+        expect(optionValues).to.include('cancel');
+      }));
+
+
+      it('should update value to cancel for Process', inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Process_1');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const input = domQuery('select', eventType);
+
+        // when
+        changeInput(input, 'cancel');
+
+        // then
+        const listeners = getListeners(element);
+        const listener = listeners[0];
+
+        expect(listener).to.have.property('eventType', 'cancel');
+      }));
+    });
   });
 
 

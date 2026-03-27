@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0qh9wc7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.23.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="ProcessPool" name="Execution Listeners Test" processRef="Process" />
+    <bpmn:participant id="Participant" name="Pool" processRef="ParticipantProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="ParticipantProcess" isExecutable="false">
+    <bpmn:extensionElements>
+      <zeebe:executionListeners>
+        <zeebe:executionListener eventType="start" retries="3" type="sysout" />
+        <zeebe:executionListener eventType="end" retries="3" type="sysout" />
+      </zeebe:executionListeners>
+    </bpmn:extensionElements>
+  </bpmn:process>
   <bpmn:process id="Process" name="Execution Listeners Test" isExecutable="true">
     <bpmn:extensionElements>
       <zeebe:executionListeners>
@@ -100,7 +112,10 @@
     </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="ProcessPool_di" bpmnElement="ProcessPool" isHorizontal="true">
+        <dc:Bounds x="130" y="52" width="750" height="700" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_di" bpmnElement="StartEvent">
         <dc:Bounds x="192" y="82" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -142,6 +157,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ErrorEndEvent_di" bpmnElement="ErrorEndEvent">
         <dc:Bounds x="792" y="592" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_di" bpmnElement="Participant" isHorizontal="true">
+        <dc:Bounds x="130" y="780" width="750" height="250" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
