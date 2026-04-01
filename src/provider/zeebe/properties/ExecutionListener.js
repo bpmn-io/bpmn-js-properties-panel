@@ -15,6 +15,8 @@ import {
 
 import { ListenerType, Retries } from './shared/Listener';
 
+import ExecutionListenerHeaders from './ExecutionListenerHeaderProps';
+
 
 export const EVENT_TO_LABEL = {
   'start': 'Start',
@@ -51,6 +53,11 @@ export function ExecutionListenerEntries(props) {
     id: idPrefix + '-retries',
     component: Retries,
     idPrefix,
+    listener
+  },
+  {
+    id: idPrefix + '-headers',
+    component: ExecutionListenerHeaders,
     listener
   });
 
