@@ -70,7 +70,7 @@
     "@testing-library/preact": "^3.2.4",
     "axe-core": "^4.11.1",
     "babel-loader": "^10.0.0",
-    "babel-plugin-istanbul": "^7.0.1",
+    "babel-plugin-istanbul": "^8.0.0",
     "bpmn-js": "^18.12.1",
     "bpmn-js-create-append-anything": "^1.2.0",
     "bpmn-moddle": "^10.0.0",
