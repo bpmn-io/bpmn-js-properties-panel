@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.54.0
+
 * `FIX`: make FeelEditor read-only based on the `disabled` prop ([bpmn-io/properties-panel#484](https://github.com/bpmn-io/properties-panel/pull/484))
 * `FIX`: ensure Feel/Text editors value is properly committed on blur, paste, and unmount ([bpmn-io/properties-panel#481](https://github.com/bpmn-io/properties-panel/pull/481))
 * `FIX`: re-enable toggling feel optional fields with backspace ([@bpmn-io/feel-editor#83](https://github.com/bpmn-io/feel-editor/pull/83))
