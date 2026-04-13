@@ -80,7 +80,7 @@
     "cross-env": "^10.1.0",
     "diagram-js": "^15.11.0",
     "downloadjs": "^1.4.7",
-    "eslint": "^9.39.2",
+    "eslint": "^9.39.4",
     "eslint-plugin-bpmn-io": "^2.2.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^6.1.1",
