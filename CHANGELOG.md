@@ -12,6 +12,7 @@ ___Note:__ Yet to be released changes appear here._
 * `FIX`: continue suggestions for autocompletion in feel fields even after spaces ([@bpmn-io/feel-editor#84](https://github.com/bpmn-io/feel-editor/pull/84))
 * `FIX`: add `type` to feel popup button ([bpmn-io/properties-panel#472](https://github.com/bpmn-io/properties-panel/pull/472))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.40.6`
+* `DEPS`: update to `ids@3.0.2`
 
 ## 5.53.0
 
