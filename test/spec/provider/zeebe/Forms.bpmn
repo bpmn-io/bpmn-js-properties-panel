@@ -3,7 +3,24 @@
   <bpmn:process id="Process_1" isExecutable="true">
     <bpmn:extensionElements>
       <zeebe:userTaskForm id="UserTaskForm_1">{}</zeebe:userTaskForm>
+      <zeebe:userTaskForm id="UserTaskForm_2">{}</zeebe:userTaskForm>
     </bpmn:extensionElements>
+    <bpmn:startEvent id="START_EVENT_NO_FORM" name="START_EVENT_NO_FORM" />
+    <bpmn:startEvent id="START_EVENT_FORM_EMBEDDED" name="START_EVENT_FORM_EMBEDDED">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_2" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:startEvent id="START_EVENT_FORM_LINKED" name="START_EVENT_FORM_LINKED">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="foo" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:startEvent id="START_EVENT_CUSTOM_FORM" name="START_EVENT_CUSTOM_FORM">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="foo" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
     <bpmn:userTask id="CAMUNDA_FORM_EMBEDDED" name="CAMUNDA_FORM_EMBEDDED">
       <bpmn:extensionElements>
         <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_1" />
@@ -42,6 +59,9 @@
         <zeebe:formDefinition formId="foo" bindingType="versionTag" versionTag="v1.0.0" />
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:subProcess id="SUB_PROCESS">
+      <bpmn:startEvent id="START_EVENT_SUB_PROCESS" name="START_EVENT_SUB_PROCESS" />
+    </bpmn:subProcess>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
@@ -75,6 +95,39 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0q4ulf7_di" bpmnElement="CAMUNDA_FORM_LINKED_VERSION_TAG">
         <dc:Bounds x="490" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_FORM_EMBEDDED_DI" bpmnElement="START_EVENT_FORM_EMBEDDED">
+        <dc:Bounds x="182" y="192" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="235" width="83" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_NO_FORM_DI" bpmnElement="START_EVENT_NO_FORM">
+        <dc:Bounds x="182" y="112" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="161" y="155" width="79" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_FORM_LINKED_DI" bpmnElement="START_EVENT_FORM_LINKED">
+        <dc:Bounds x="182" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="325" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_CUSTOM_FORM_DI" bpmnElement="START_EVENT_CUSTOM_FORM">
+        <dc:Bounds x="182" y="362" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="405" width="83" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SUB_PROCESS" bpmnElement="SUB_PROCESS" isExpanded="true">
+        <dc:Bounds x="140" y="580" width="350" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_SUB_PROCESS" bpmnElement="START_EVENT_SUB_PROCESS">
+        <dc:Bounds x="180" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="154" y="705" width="89" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
