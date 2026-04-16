@@ -491,10 +491,10 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
 
   describe('headers', function() {
 
-    it('should display', inject(async function(elementRegistry, selection) {
+    it('should display for listener with headers', inject(async function(elementRegistry, selection) {
 
       // given
-      const element = elementRegistry.get('TaskWithHeaders');
+      const element = elementRegistry.get('Task_MultipleHeaders');
 
       await act(() => {
         selection.select(element);
@@ -515,11 +515,11 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     }));
 
 
-    it('should display empty list for listener without headers',
+    it('should display for listener with no headers',
       inject(async function(elementRegistry, selection) {
 
         // given
-        const element = elementRegistry.get('TaskNoHeaders');
+        const element = elementRegistry.get('Task_NoHeaders');
 
         await act(() => {
           selection.select(element);
@@ -535,10 +535,10 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     );
 
 
-    it('should add new header', inject(async function(elementRegistry, selection) {
+    it('should add new header to listener with headers', inject(async function(elementRegistry, selection) {
 
       // given
-      const element = elementRegistry.get('TaskWithHeaders');
+      const element = elementRegistry.get('Task_MultipleHeaders');
 
       await act(() => {
         selection.select(element);
@@ -564,11 +564,11 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     }));
 
 
-    it('should add new header to listener without headers',
+    it('should add new header to listener with no headers',
       inject(async function(elementRegistry, selection) {
 
         // given
-        const element = elementRegistry.get('TaskNoHeaders');
+        const element = elementRegistry.get('Task_NoHeaders');
 
         await act(() => {
           selection.select(element);
@@ -604,7 +604,7 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     it('should delete header', inject(async function(elementRegistry, selection) {
 
       // given
-      const element = elementRegistry.get('TaskWithHeaders');
+      const element = elementRegistry.get('Task_MultipleHeaders');
 
       await act(() => {
         selection.select(element);
@@ -634,11 +634,11 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     }));
 
 
-    it('should remove taskHeaders on last delete',
+    it('should delete headers parent if last header is removed',
       inject(async function(elementRegistry, selection) {
 
         // given
-        const element = elementRegistry.get('TaskSingleHeader');
+        const element = elementRegistry.get('Task_SingleHeader');
 
         await act(() => {
           selection.select(element);
@@ -664,10 +664,10 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     );
 
 
-    it('should update key', inject(async function(elementRegistry, selection) {
+    it('should update header key', inject(async function(elementRegistry, selection) {
 
       // given
-      const element = elementRegistry.get('TaskWithHeaders');
+      const element = elementRegistry.get('Task_MultipleHeaders');
 
       await act(() => {
         selection.select(element);
@@ -686,10 +686,10 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     }));
 
 
-    it('should update value', inject(async function(elementRegistry, selection) {
+    it('should update header value', inject(async function(elementRegistry, selection) {
 
       // given
-      const element = elementRegistry.get('TaskWithHeaders');
+      const element = elementRegistry.get('Task_MultipleHeaders');
 
       await act(() => {
         selection.select(element);
@@ -708,11 +708,11 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     }));
 
 
-    it('should update on external change',
+    it('should update headers on external change',
       inject(async function(elementRegistry, selection, commandStack) {
 
         // given
-        const element = elementRegistry.get('TaskWithHeaders');
+        const element = elementRegistry.get('Task_MultipleHeaders');
         const originalHeaders = getListenerHeaders(element, 0);
 
         await act(() => {
@@ -739,7 +739,9 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
         expect(getListenerHeaders(element, 0)).to.have.length(originalHeaders.length);
       })
     );
+
   });
+
 });
 
 

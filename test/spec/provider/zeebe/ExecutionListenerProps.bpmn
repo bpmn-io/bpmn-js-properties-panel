@@ -98,7 +98,7 @@
       </bpmn:extensionElements>
       <bpmn:errorEventDefinition />
     </bpmn:endEvent>
-    <bpmn:task id="TaskWithHeaders">
+    <bpmn:task id="Task_MultipleHeaders">
       <bpmn:extensionElements>
         <zeebe:executionListeners>
           <zeebe:executionListener eventType="start" retries="3" type="sysout">
@@ -110,14 +110,14 @@
         </zeebe:executionListeners>
       </bpmn:extensionElements>
     </bpmn:task>
-    <bpmn:task id="TaskNoHeaders">
+    <bpmn:task id="Task_NoHeaders">
       <bpmn:extensionElements>
         <zeebe:executionListeners>
           <zeebe:executionListener eventType="start" retries="3" type="sysout" />
         </zeebe:executionListeners>
       </bpmn:extensionElements>
     </bpmn:task>
-    <bpmn:task id="TaskSingleHeader">
+    <bpmn:task id="Task_SingleHeader">
       <bpmn:extensionElements>
         <zeebe:executionListeners>
           <zeebe:executionListener eventType="start" retries="3" type="sysout">
@@ -173,13 +173,13 @@
       <bpmndi:BPMNShape id="ErrorEndEvent_di" bpmnElement="ErrorEndEvent">
         <dc:Bounds x="792" y="592" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TaskWithHeaders_di" bpmnElement="TaskWithHeaders">
+      <bpmndi:BPMNShape id="Task_MultipleHeaders_di" bpmnElement="Task_MultipleHeaders">
         <dc:Bounds x="160" y="750" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TaskNoHeaders_di" bpmnElement="TaskNoHeaders">
+      <bpmndi:BPMNShape id="Task_NoHeaders_di" bpmnElement="Task_NoHeaders">
         <dc:Bounds x="300" y="750" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TaskSingleHeader_di" bpmnElement="TaskSingleHeader">
+      <bpmndi:BPMNShape id="Task_SingleHeader_di" bpmnElement="Task_SingleHeader">
         <dc:Bounds x="440" y="750" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
