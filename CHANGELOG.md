@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add execution listener headers configuration ([#1211](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1211))
+
 ## 5.54.0
 
 * `FIX`: make FeelEditor read-only based on the `disabled` prop ([bpmn-io/properties-panel#484](https://github.com/bpmn-io/properties-panel/pull/484))

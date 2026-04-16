@@ -487,6 +487,261 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
       expect(input).to.have.property('value', '3');
     }));
   });
+
+
+  describe('headers', function() {
+
+    it('should display for listener with headers', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_MultipleHeaders');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      // when
+      const group = getExecutionListenersGroup(container);
+      const headersEntry = getHeadersEntry(group);
+      const headerItems = getHeaderListItems(group);
+
+      // then
+      expect(headerItems).to.have.length(2);
+
+      const titles = getHeaderTitles(headersEntry);
+
+      expect(titles[0].textContent).to.equal('key1');
+      expect(titles[1].textContent).to.equal('key2');
+    }));
+
+
+    it('should display for listener with no headers',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_NoHeaders');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const headerItems = getHeaderListItems(group);
+
+        // then
+        expect(headerItems).to.have.length(0);
+      })
+    );
+
+
+    it('should add new header to listener with headers', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_MultipleHeaders');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      // assume
+      expect(getListenerHeaders(element, 0)).to.have.length(2);
+
+      const group = getExecutionListenersGroup(container);
+      const headersEntry = getHeadersEntry(group);
+      const addEntry = domQuery('.bio-properties-panel-add-entry', headersEntry);
+
+      // when
+      await act(() => {
+        addEntry.click();
+      });
+
+      // then
+      const headers = getListenerHeaders(element, 0);
+
+      expect(headers).to.have.length(3);
+      expect(headers[2].$type).to.equal('zeebe:Header');
+    }));
+
+
+    it('should add new header to listener with no headers',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_NoHeaders');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // assume
+        expect(getListeners(element)[0].get('headers')).not.to.exist;
+
+        const group = getExecutionListenersGroup(container);
+        const headersEntry = getHeadersEntry(group);
+        const addEntry = domQuery('.bio-properties-panel-add-entry', headersEntry);
+
+        // when
+        await act(() => {
+          addEntry.click();
+        });
+
+        // then
+        const listener = getListeners(element)[0];
+        const taskHeaders = listener.get('headers');
+
+        expect(taskHeaders).to.exist;
+        expect(taskHeaders.$type).to.equal('zeebe:TaskHeaders');
+
+        const headers = getListenerHeaders(element, 0);
+
+        expect(headers).to.have.length(1);
+        expect(headers[0].$type).to.equal('zeebe:Header');
+      })
+    );
+
+
+    it('should delete header', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_MultipleHeaders');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      // assume
+      const originalHeaders = getListenerHeaders(element, 0);
+
+      expect(originalHeaders).to.have.length(2);
+      expect(originalHeaders[0].get('key')).to.equal('key1');
+      expect(originalHeaders[1].get('key')).to.equal('key2');
+
+      const group = getExecutionListenersGroup(container);
+      const headerItems = getHeaderListItems(group);
+      const removeEntry = domQuery('.bio-properties-panel-remove-entry', headerItems[0]);
+
+      // when
+      await act(() => {
+        removeEntry.click();
+      });
+
+      // then
+      const headers = getListenerHeaders(element, 0);
+
+      expect(headers).to.have.length(1);
+      expect(headers[0].get('key')).to.equal('key2');
+    }));
+
+
+    it('should delete headers parent if last header is removed',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_SingleHeader');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // assume
+        const listener = getListeners(element)[0];
+
+        expect(listener.get('headers')).to.exist;
+
+        const group = getExecutionListenersGroup(container);
+        const headerItems = getHeaderListItems(group);
+        const removeEntry = domQuery('.bio-properties-panel-remove-entry', headerItems[0]);
+
+        // when
+        await act(() => {
+          removeEntry.click();
+        });
+
+        // then
+        expect(listener.get('headers')).not.to.exist;
+      })
+    );
+
+
+    it('should update header key', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_MultipleHeaders');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      const group = getExecutionListenersGroup(container);
+      const input = domQuery('[name*="header-0-key"]', group);
+
+      // when
+      changeInput(input, 'newKey');
+
+      // then
+      const headers = getListenerHeaders(element, 0);
+
+      expect(headers[0].get('key')).to.equal('newKey');
+    }));
+
+
+    it('should update header value', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Task_MultipleHeaders');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      const group = getExecutionListenersGroup(container);
+      const input = domQuery('[name*="header-0-value"]', group);
+
+      // when
+      changeInput(input, 'newValue');
+
+      // then
+      const headers = getListenerHeaders(element, 0);
+
+      expect(headers[0].get('value')).to.equal('newValue');
+    }));
+
+
+    it('should update headers on external change',
+      inject(async function(elementRegistry, selection, commandStack) {
+
+        // given
+        const element = elementRegistry.get('Task_MultipleHeaders');
+        const originalHeaders = getListenerHeaders(element, 0);
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const headersEntry = getHeadersEntry(group);
+        const addEntry = domQuery('.bio-properties-panel-add-entry', headersEntry);
+
+        await act(() => {
+          addEntry.click();
+        });
+
+        // when
+        await act(() => {
+          commandStack.undo();
+        });
+
+        const headerItems = getHeaderListItems(group);
+
+        // then
+        expect(headerItems).to.have.length(originalHeaders.length);
+        expect(getListenerHeaders(element, 0)).to.have.length(originalHeaders.length);
+      })
+    );
+
+  });
+
 });
 
 
@@ -516,4 +771,29 @@ function getListeners(element) {
   const executionListeners = getExtensionElementsList(bo.get('processRef') || bo, 'zeebe:ExecutionListeners')[0];
 
   return (executionListeners && executionListeners.get('listeners')) || [];
+}
+
+function getHeaderListItems(container) {
+  return domQueryAll('.bio-properties-panel-list-entry-item', container);
+}
+
+function getHeadersEntry(container) {
+  return domQuery('[data-entry-id*="headers"]', container);
+}
+
+function getHeaderTitles(container) {
+  return domQueryAll('.bio-properties-panel-collapsible-entry-header-title', container);
+}
+
+function getListenerHeaders(element, listenerIndex) {
+  const listeners = getListeners(element);
+  const listener = listeners[listenerIndex];
+
+  if (!listener) {
+    return [];
+  }
+
+  const taskHeaders = listener.get('headers');
+
+  return taskHeaders ? taskHeaders.get('values') : [];
 }
