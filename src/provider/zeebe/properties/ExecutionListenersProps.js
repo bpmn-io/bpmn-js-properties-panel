@@ -6,7 +6,7 @@ import {
 
 import { without } from 'min-dash';
 
-import { ExecutionListenerEntries, getEventTypes, EVENT_TO_LABEL } from './ExecutionListener';
+import { ExecutionListenerEntries, getEventTypes, getEventLabel } from './ExecutionListener';
 
 import {
   createElement
@@ -49,7 +49,7 @@ export function ExecutionListenersProps({ element, injector }) {
 
     return {
       id,
-      label: translate(`${EVENT_TO_LABEL[listener.get('eventType')]}: {type}`, { type }),
+      label: translate(`${getEventLabel(element, listener.get('eventType'))}: {type}`, { type }),
       entries: ExecutionListenerEntries({
         idPrefix: id,
         element,
