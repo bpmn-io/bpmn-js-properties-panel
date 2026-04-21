@@ -739,7 +739,234 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
         expect(getListenerHeaders(element, 0)).to.have.length(originalHeaders.length);
       })
     );
+  });
 
+
+  describe('multi-instance', function() {
+
+    it('should have "beforeAll" / "start" / "end" as event types on MI element',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQueryAll('option', eventType);
+
+        // then
+        expect(options).to.have.length(3);
+        expect(options[0]).to.have.property('value', 'beforeAll');
+        expect(options[1]).to.have.property('value', 'start');
+        expect(options[2]).to.have.property('value', 'end');
+      })
+    );
+
+
+    it('should render MI-specific labels in event type dropdown',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQueryAll('option', eventType);
+
+        // then
+        expect(options[0]).to.have.property('textContent', 'Before all');
+        expect(options[1]).to.have.property('textContent', 'Before each');
+        expect(options[2]).to.have.property('textContent', 'After each');
+      })
+    );
+
+    it('should write eventType="beforeAll" when user selects Before all',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask_NoListeners');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+        await act(() => {
+          addEntry.click();
+        });
+
+        const eventType = getEventType(group);
+        const input = domQuery('select', eventType);
+
+        // when
+        changeInput(input, 'beforeAll');
+
+        // then
+        const listeners = getListeners(element);
+        expect(listeners[0]).to.have.property('eventType', 'beforeAll');
+      })
+    );
+
+    it('should write plain start/end event types to XML on MI task ("Before each"/"After each" labels are UI-only)',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const input = domQuery('select', getEventType(group));
+
+        // when
+        changeInput(input, 'start');
+
+        // then
+        expect(getListeners(element)[0]).to.have.property('eventType', 'start');
+
+        // when
+        changeInput(input, 'end');
+
+        // then
+        expect(getListeners(element)[0]).to.have.property('eventType', 'end');
+      })
+    );
+
+  });
+
+
+  describe('switching element to non-multi-instance', function() {
+
+    it('should keep "Before all" label in the listener header',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_StaleBeforeAll');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const label = domQuery('.bio-properties-panel-collapsible-entry-header-title', group);
+
+        // then
+        expect(label).to.have.property('textContent', 'Before all: mi-body-init');
+      })
+    );
+
+
+    it('should keep "Before all" as a disabled option in the event type dropdown',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_StaleBeforeAll');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = [ ...domQueryAll('option', eventType) ];
+        const input = domQuery('select', eventType);
+
+        // then
+        expect(input).to.have.property('value', 'beforeAll');
+
+        const beforeAllOption = options.find(o => o.value === 'beforeAll');
+        expect(beforeAllOption).to.exist;
+        expect(beforeAllOption).to.have.property('disabled', true);
+
+        const enabledOptions = options.filter(o => !o.disabled).map(o => o.value);
+        expect(enabledOptions).to.eql([ 'start', 'end' ]);
+      })
+    );
+
+
+    it('should remove "Before all" option once user picks another event type',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_StaleBeforeAll');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const input = domQuery('select', getEventType(group));
+
+        // when
+        changeInput(input, 'start');
+
+        // then
+        const options = domQueryAll('option', getEventType(getExecutionListenersGroup(container)));
+        const values = [ ...options ].map(o => o.value);
+        expect(values).to.eql([ 'start', 'end' ]);
+        expect(getListeners(element)[0]).to.have.property('eventType', 'start');
+      })
+    );
+
+
+    it('should show validation error while "Before all" is still selected',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_StaleBeforeAll');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const eventType = getEventType(getExecutionListenersGroup(container));
+        const error = domQuery('.bio-properties-panel-error', eventType);
+
+        // then
+        expect(error).to.exist;
+        expect(error).to.have.property('textContent', 'Please select a valid event type.');
+      })
+    );
+
+
+    it('should clear validation error after user picks a valid event type',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task_StaleBeforeAll');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const input = domQuery('select', getEventType(getExecutionListenersGroup(container)));
+
+        // when
+        changeInput(input, 'start');
+
+        // then
+        const eventType = getEventType(getExecutionListenersGroup(container));
+        const error = domQuery('.bio-properties-panel-error', eventType);
+        expect(error).not.to.exist;
+      })
+    );
   });
 
 });

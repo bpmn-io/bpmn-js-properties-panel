@@ -128,6 +128,26 @@
         </zeebe:executionListeners>
       </bpmn:extensionElements>
     </bpmn:task>
+    <bpmn:serviceTask id="MultiInstanceTask">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="beforeAll" retries="3" type="mi-body-init" />
+          <zeebe:executionListener eventType="start" retries="3" type="mi-entry-start" />
+          <zeebe:executionListener eventType="end" retries="3" type="mi-entry-end" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="MultiInstanceTask_NoListeners">
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:serviceTask>
+    <bpmn:task id="Task_StaleBeforeAll">
+      <bpmn:extensionElements>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="beforeAll" retries="3" type="mi-body-init" />
+        </zeebe:executionListeners>
+      </bpmn:extensionElements>
+    </bpmn:task>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process">
@@ -181,6 +201,18 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Task_SingleHeader_di" bpmnElement="Task_SingleHeader">
         <dc:Bounds x="440" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="MultiInstanceTask_di" bpmnElement="MultiInstanceTask">
+        <dc:Bounds x="580" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="MultiInstanceTask_NoListeners_di" bpmnElement="MultiInstanceTask_NoListeners">
+        <dc:Bounds x="720" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_StaleBeforeAll_di" bpmnElement="Task_StaleBeforeAll">
+        <dc:Bounds x="860" y="750" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="MultiInstanceSubProcess_di" bpmnElement="MultiInstanceSubProcess" isExpanded="true">
+        <dc:Bounds x="860" y="750" width="200" height="120" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
