@@ -1,6 +1,7 @@
 import { SelectEntry } from '@bpmn-io/properties-panel';
 
 import {
+  getBusinessObject,
   is,
   isAny
 } from 'bpmn-js/lib/util/ModelUtil';
@@ -22,6 +23,18 @@ export const EVENT_TO_LABEL = {
   'start': 'Start',
   'end': 'End'
 };
+
+// Specific event label for Multi instance elements: `beforeAll` runs once before MI init; `start` / `end` run per iteration.
+export const MI_EVENT_TO_LABEL = {
+  'beforeAll': 'Before all',
+  'start': 'Before each',
+  'end': 'After each'
+};
+
+export function getEventLabel(element, eventType) {
+  const labels = isMultiInstance(element) ? MI_EVENT_TO_LABEL : EVENT_TO_LABEL;
+  return labels[eventType];
+}
 
 export function ExecutionListenerEntries(props) {
 
@@ -78,7 +91,7 @@ function EventType(props) {
   const getOptions = () => {
     return eventTypes.map(eventType => ({
       value: eventType,
-      label: translate(EVENT_TO_LABEL[eventType])
+      label: translate(getEventLabel(element, eventType))
     }));
   };
 
@@ -115,5 +128,14 @@ export function getEventTypes(element) {
     return [ 'start' ];
   }
 
+  if (isMultiInstance(element)) {
+    return [ 'beforeAll', 'start', 'end' ];
+  }
+
   return [ 'start', 'end' ];
+}
+
+function isMultiInstance(element) {
+  const loopCharacteristics = getBusinessObject(element).get('loopCharacteristics');
+  return !!loopCharacteristics && is(loopCharacteristics, 'bpmn:MultiInstanceLoopCharacteristics');
 }

@@ -740,8 +740,141 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
         expect(getListenerHeaders(element, 0)).to.have.length(originalHeaders.length);
       })
     );
+  });
+
+
+  describe('multi-instance', function() {
+
+    it('should have "beforeAll" / "start" / "end" as event types on MI element',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQueryAll('option', eventType);
+
+        // then
+        expect(options).to.have.length(3);
+        expect(options[0]).to.have.property('value', 'beforeAll');
+        expect(options[1]).to.have.property('value', 'start');
+        expect(options[2]).to.have.property('value', 'end');
+      })
+    );
+
+
+    it('should render MI-specific labels in event type dropdown',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQueryAll('option', eventType);
+
+        // then
+        expect(options[0]).to.have.property('textContent', 'Before all');
+        expect(options[1]).to.have.property('textContent', 'Before each');
+        expect(options[2]).to.have.property('textContent', 'After each');
+      })
+    );
+
+    it('should write eventType="beforeAll" when user selects Before all',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask_NoListeners');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const addEntry = domQuery('.bio-properties-panel-add-entry', group);
+
+        await act(() => {
+          addEntry.click();
+        });
+
+        const eventType = getEventType(group);
+        const input = domQuery('select', eventType);
+
+        // when
+        changeInput(input, 'beforeAll');
+
+        // then
+        const listeners = getListeners(element);
+        expect(listeners[0]).to.have.property('eventType', 'beforeAll');
+      })
+    );
+
+    it('should write plain start/end event types to XML on MI task ("Before each"/"After each" labels are UI-only)',
+      inject(async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        const group = getExecutionListenersGroup(container);
+        const input = domQuery('select', getEventType(group));
+
+        // when
+        changeInput(input, 'start');
+
+        // then
+        expect(getListeners(element)[0]).to.have.property('eventType', 'start');
+
+        // when
+        changeInput(input, 'end');
+
+        // then
+        expect(getListeners(element)[0]).to.have.property('eventType', 'end');
+      })
+    );
+
+
+    it('should drop `beforeAll` listener when multi-instance is removed',
+      inject(async function(elementRegistry, selection, modeling) {
+
+        // given
+        const element = elementRegistry.get('MultiInstanceTask');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // assume
+        expect(getListeners(element)).to.have.lengthOf(3);
+
+        // when
+        await act(() => {
+          modeling.updateProperties(element, { loopCharacteristics: undefined });
+        });
+
+        // then
+        const listeners = getListeners(element);
+        expect(listeners).to.have.lengthOf(2);
+        expect(listeners.map(l => l.get('eventType'))).to.eql([ 'start', 'end' ]);
+      })
+    );
 
   });
+
 
 });
 
