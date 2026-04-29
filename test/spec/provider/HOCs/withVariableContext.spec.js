@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import TestContainer from 'mocha-test-container-support';
 import { act, render, waitFor } from '@testing-library/preact';
 
@@ -378,7 +380,7 @@ describe('HOCs - withVariableContext.js', function() {
     eventBus.fire('commandStack.changed');
 
     // then
-    commandStackChangedSpy.should.have.been.called;
+    expect(commandStackChangedSpy).to.have.been.called;
   }));
 
 });
