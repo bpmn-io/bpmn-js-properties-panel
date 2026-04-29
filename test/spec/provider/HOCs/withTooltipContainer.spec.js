@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import { expect } from 'chai';
 import TestContainer from 'mocha-test-container-support';
 import { render } from '@testing-library/preact';
 
