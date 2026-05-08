@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: support `cancel` event type for execution listeners on the process element
+
 ## 5.54.0
 
 * `FEAT`: add execution listener headers configuration ([#1211](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1211))
