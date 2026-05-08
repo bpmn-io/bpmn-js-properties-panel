@@ -1,7 +1,6 @@
 const path = require('path');
 const {
   DefinePlugin,
-  NormalModuleReplacementPlugin
 } = require('webpack');
 
 const basePath = '.';
@@ -101,40 +100,21 @@ module.exports = function(karma) {
           // @barmac: process.env has to be defined to make @testing-library/preact work
           'process.env': {}
         }),
-        new NormalModuleReplacementPlugin(
-          /^preact(\/[^/]+)?$/,
-          function(resource) {
-
-            const replMap = {
-              'preact/hooks': path.resolve('node_modules/@bpmn-io/properties-panel/preact/hooks/dist/hooks.module.js'),
-              'preact/jsx-runtime': path.resolve('node_modules/@bpmn-io/properties-panel/preact/jsx-runtime/dist/jsxRuntime.module.js'),
-              'preact': path.resolve('node_modules/@bpmn-io/properties-panel/preact/dist/preact.module.js')
-            };
-
-            const replacement = replMap[resource.request];
-
-            if (!replacement) {
-              return;
-            }
-
-            resource.request = replacement;
-          }
-        ),
-        new NormalModuleReplacementPlugin(
-          /^preact\/hooks/,
-          path.resolve('node_modules/@bpmn-io/properties-panel/preact/hooks/dist/hooks.module.js')
-        )
       ],
       resolve: {
+        symlinks: false,
         mainFields: [
           'browser',
           'module',
           'main'
         ],
         alias: {
-          'preact': '@bpmn-io/properties-panel/preact',
-          'react': '@bpmn-io/properties-panel/preact/compat',
-          'react-dom': '@bpmn-io/properties-panel/preact/compat'
+          'preact$': path.resolve('node_modules/preact'),
+          'preact/hooks$': path.resolve('node_modules/preact/hooks'),
+          'preact/compat$': path.resolve('node_modules/preact/compat'),
+          'preact/jsx-runtime$': path.resolve('node_modules/preact/jsx-runtime'),
+          'react$': path.resolve('node_modules/preact/compat'),
+          'react-dom$': path.resolve('node_modules/preact/compat')
         },
         modules: [
           'node_modules',

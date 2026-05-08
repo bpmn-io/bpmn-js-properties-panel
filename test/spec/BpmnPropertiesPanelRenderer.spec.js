@@ -14,6 +14,7 @@ import {
   setBpmnJS,
   insertCoreStyles,
   insertBpmnStyles,
+  insertShadcnStyles,
   withPropertiesPanel,
   enableLogging,
   getBpmnJS,
@@ -66,6 +67,7 @@ const singleStart = window.__env__ && window.__env__.SINGLE_START;
 
 insertCoreStyles();
 insertBpmnStyles();
+insertShadcnStyles();
 
 
 describe('<BpmnPropertiesPanelRenderer>', function() {

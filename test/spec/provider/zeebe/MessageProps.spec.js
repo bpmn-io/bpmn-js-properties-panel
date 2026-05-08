@@ -556,7 +556,7 @@ describe('provider/zeebe - MessageProps', function() {
         selection.select(messageEvent);
       });
 
-      const susbscriptionKeyWrapper = domQuery('label[for="bio-properties-panel-messageSubscriptionCorrelationKey"] div', container);
+      const susbscriptionKeyWrapper = domQuery('label[for="bio-properties-panel-messageSubscriptionCorrelationKey"] .bio-properties-panel-tooltip-wrapper', container);
 
       // when
       await openTooltip(susbscriptionKeyWrapper);

@@ -161,6 +161,18 @@ export function insertCoreStyles() {
   );
 }
 
+export function insertShadcnStyles() {
+
+  // Pre-compiled Tailwind utilities + design tokens, re-published by
+  // `@bpmn-io/properties-panel` from `@camunda/design-system`. Loaded via
+  // the panel's own dist so this repo doesn't need a direct dep on the
+  // design system.
+  insertCSS(
+    'shadcn.css',
+    require('@bpmn-io/properties-panel/dist/assets/shadcn-styles.css').default
+  );
+}
+
 export function insertBpmnStyles() {
   insertCSS(
     'diagram.css',

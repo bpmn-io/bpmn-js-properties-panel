@@ -47,9 +47,12 @@ export default [
 ];
 
 function pgl(plugins = []) {
+  const nodeResolveForAlias = resolve({ mainFields: [ 'browser', 'module', 'main' ] });
+
   return [
     ...plugins,
     alias({
+      customResolver: nodeResolveForAlias,
       entries: [
         { find: 'react', replacement: '@bpmn-io/properties-panel/preact/compat' },
         { find: 'preact', replacement: '@bpmn-io/properties-panel/preact' }
