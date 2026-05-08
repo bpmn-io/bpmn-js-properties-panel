@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.56.0
+
+* `FEAT`: support `cancel` event type for execution listeners on the process element
+
 ## 5.55.0
 
 * `FEAT`: add multi-instance specific event types for execution listeners ([#1215](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1215))

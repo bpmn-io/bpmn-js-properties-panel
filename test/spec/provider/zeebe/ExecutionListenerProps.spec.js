@@ -321,6 +321,46 @@ describe('provider/zeebe - ExecutionListenerProps', function() {
     }
 
 
+    it('should offer cancel for Process', inject(async function(elementRegistry, selection) {
+
+      // given
+      const element = elementRegistry.get('Process');
+
+      await act(() => {
+        selection.select(element);
+      });
+
+      // when
+      const group = getExecutionListenersGroup(container);
+      const eventType = getEventType(group);
+      const options = domQuery('select', eventType).querySelectorAll('option');
+
+      // then
+      expect(Array.from(options).map(o => o.value)).to.eql([ 'start', 'end', 'cancel' ]);
+    }));
+
+
+    it('should NOT offer cancel for non-process elements', inject(
+      async function(elementRegistry, selection) {
+
+        // given
+        const element = elementRegistry.get('Task');
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        const group = getExecutionListenersGroup(container);
+        const eventType = getEventType(group);
+        const options = domQuery('select', eventType).querySelectorAll('option');
+
+        // then
+        expect(Array.from(options).map(o => o.value)).to.eql([ 'start', 'end' ]);
+      }
+    ));
+
+
     it('should use a supported event type for a new listener', inject(
       async function(elementRegistry, selection) {
 

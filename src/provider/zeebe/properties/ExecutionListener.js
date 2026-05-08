@@ -21,7 +21,8 @@ import ExecutionListenerHeaders from './ExecutionListenerHeaderProps';
 
 export const EVENT_TO_LABEL = {
   'start': 'Start',
-  'end': 'End'
+  'end': 'End',
+  'cancel': 'Cancel'
 };
 
 // Specific event label for Multi instance elements: `beforeAll` runs once before MI init; `start` / `end` run per iteration.
@@ -130,6 +131,10 @@ export function getEventTypes(element) {
 
   if (isMultiInstance(element)) {
     return [ 'beforeAll', 'start', 'end' ];
+  }
+
+  if (isAny(element, [ 'bpmn:Process', 'bpmn:Participant' ])) {
+    return [ 'start', 'end', 'cancel' ];
   }
 
   return [ 'start', 'end' ];
