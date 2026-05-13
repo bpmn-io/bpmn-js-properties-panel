@@ -160,6 +160,10 @@ export default class BpmnPropertiesPanelRenderer {
     return event.providers;
   }
 
+  _getHeaderProvider() {
+    return this._injector.get('propertiesPanelHeaderProvider', false) || null;
+  }
+
   _render(element) {
     const canvas = this._injector.get('canvas');
 
@@ -181,6 +185,7 @@ export default class BpmnPropertiesPanelRenderer {
         tooltipConfig={ this._tooltipConfig }
         feelPopupContainer={ this._feelPopupContainer }
         getFeelPopupLinks={ this._getFeelPopupLinks }
+        headerProvider={ this._getHeaderProvider() }
       />,
       this._container
     );

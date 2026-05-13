@@ -13,6 +13,30 @@ describe('modules', function() {
 
 });
 
+describe('named exports', function() {
+
+  let esmBundle;
+
+  before(function() {
+    esmBundle = fs.readFileSync(path.join(DIST_DIR, 'index.esm.js'), 'utf-8');
+  });
+
+  it('should export BpmnPropertiesPanelModule', function() {
+    expect(esmBundle).to.include('BpmnPropertiesPanelModule');
+  });
+
+
+  it('should export BpmnPropertiesPanelCoreModule', function() {
+    expect(esmBundle).to.include('BpmnPropertiesPanelCoreModule');
+  });
+
+
+  it('should export BpmnPropertiesPanelHeaderModule', function() {
+    expect(esmBundle).to.include('BpmnPropertiesPanelHeaderModule');
+  });
+
+});
+
 function verifyExists(relativePath) {
   return function() {
 
