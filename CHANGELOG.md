@@ -7,6 +7,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 ___Note:__ Yet to be released changes appear here._
 
 * `FEAT`: add multi-instance specific event types for execution listeners ([#1215](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1215))
+* `DEPS`: update to `camunda-bpmn-js-behaviors@1.15.0`
 
 ## 5.54.0
 
