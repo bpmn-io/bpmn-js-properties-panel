@@ -19,8 +19,14 @@ export default class BpmnPropertiesPanelHeaderRenderer {
     this._element = null;
 
     this._container = domify(
+      '<div class="bio-properties-panel-container"></div>'
+    );
+
+    this._innerContainer = domify(
       '<div class="bio-properties-panel"></div>'
     );
+
+    this._container.appendChild(this._innerContainer);
 
     eventBus.on('diagram.init', () => {
       if (parent) {
@@ -80,7 +86,7 @@ export default class BpmnPropertiesPanelHeaderRenderer {
 
     eventBus.on('diagram.destroy', () => {
       this.detach();
-      render(null, this._container);
+      render(null, this._innerContainer);
     });
   }
 
@@ -127,7 +133,7 @@ export default class BpmnPropertiesPanelHeaderRenderer {
 
     render(
       h(BpmnPropertiesPanelHeader, { injector: this._injector, element }),
-      this._container
+      this._innerContainer
     );
   }
 }
