@@ -83,6 +83,17 @@ const TooltipProvider = {
   'group-form': (element) => {
     const translate = useService('translate');
 
+    if (is(element, 'bpmn:StartEvent')) {
+      return (
+        <div>
+          { translate('Link a form created with the Camunda Forms editor. Submitting this form will start a new process instance. ')}
+          <a href="https://docs.camunda.io/docs/components/modeler/forms/utilizing-forms/#connect-your-form-to-a-bpmn-diagram" target="_blank" rel="noopener noreferrer" title={ translate('Start event form documentation') }>
+            { translate('Learn more.') }
+          </a>
+        </div>
+      );
+    }
+
     if (isZeebeUserTask(element)) {
       return (
         <div>

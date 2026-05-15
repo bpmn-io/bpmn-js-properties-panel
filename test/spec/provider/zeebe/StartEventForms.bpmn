@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.26.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="1.0.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:userTaskForm id="UserTaskForm_1">{}</zeebe:userTaskForm>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="START_EVENT_NO_FORM" name="No form" />
+    <bpmn:startEvent id="START_EVENT_LINKED" name="Linked form">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formId="myFormId" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:startEvent id="START_EVENT_EMBEDDED" name="Embedded form">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_1" />
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:startEvent id="START_EVENT_MESSAGE" name="Message start">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1" />
+    </bpmn:startEvent>
+    <bpmn:startEvent id="START_EVENT_TIMER" name="Timer start">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1" />
+    </bpmn:startEvent>
+    <bpmn:subProcess id="SubProcess_1">
+      <bpmn:startEvent id="START_EVENT_IN_SUBPROCESS" name="Sub start" />
+    </bpmn:subProcess>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="START_EVENT_NO_FORM_di" bpmnElement="START_EVENT_NO_FORM">
+        <dc:Bounds x="160" y="80" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_LINKED_di" bpmnElement="START_EVENT_LINKED">
+        <dc:Bounds x="220" y="80" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_EMBEDDED_di" bpmnElement="START_EVENT_EMBEDDED">
+        <dc:Bounds x="280" y="80" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_MESSAGE_di" bpmnElement="START_EVENT_MESSAGE">
+        <dc:Bounds x="340" y="80" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_TIMER_di" bpmnElement="START_EVENT_TIMER">
+        <dc:Bounds x="400" y="80" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1_di" bpmnElement="SubProcess_1" isExpanded="true">
+        <dc:Bounds x="160" y="200" width="200" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="START_EVENT_IN_SUBPROCESS_di" bpmnElement="START_EVENT_IN_SUBPROCESS">
+        <dc:Bounds x="200" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
