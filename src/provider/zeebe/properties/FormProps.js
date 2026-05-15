@@ -34,6 +34,7 @@ import {
   getFormType,
   getRootElement,
   getUserTaskForm,
+  isFormSupported,
   isZeebeUserTask,
   userTaskFormIdToFormKey
 } from '../utils/FormUtil';
@@ -51,17 +52,18 @@ const NONE_VALUE = 'none';
 export function FormProps(props) {
   const { element } = props;
 
-  if (!is(element, 'bpmn:UserTask')) {
+  if (!isFormSupported(element)) {
     return [];
   }
+
+  const isStartEvent = is(element, 'bpmn:StartEvent');
+  const formType = getFormType(element);
 
   const entries = [ {
     id: 'formType',
     component: FormType,
     isEdited: node => node.value !== NONE_VALUE
   } ];
-
-  const formType = getFormType(element);
 
   if (formType === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
     entries.push({
@@ -89,7 +91,8 @@ export function FormProps(props) {
     });
   }
 
-  if (formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
+  // Binding and version tag are not supported for start events
+  if (!isStartEvent && formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
     entries.push({
       id: 'bindingType',
       component: FormDefinitionBinding,
@@ -157,6 +160,14 @@ function getFormTypeOptions(translate, element) {
       { value: NONE_VALUE, label: translate('<none>') },
       { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda Form') },
       { value: FORM_TYPES.EXTERNAL_REFERENCE, label: translate('External form reference') }
+    ];
+  }
+
+  if (is(element, 'bpmn:StartEvent')) {
+    return [
+      { value: NONE_VALUE, label: translate('<none>') },
+      { value: FORM_TYPES.CAMUNDA_FORM_LINKED, label: translate('Camunda Form (linked)') },
+      { value: FORM_TYPES.CAMUNDA_FORM_EMBEDDED, label: translate('Camunda Form (embedded)') }
     ];
   }
 
