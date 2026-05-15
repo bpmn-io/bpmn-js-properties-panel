@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add support for start event forms ([#1219](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1219))
+
 ## 5.56.0
 
 * `FEAT`: support `cancel` event type for execution listeners on the process element

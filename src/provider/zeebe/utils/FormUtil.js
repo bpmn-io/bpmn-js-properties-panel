@@ -21,6 +21,31 @@ export const FORM_TYPES = {
 
 export const DEFAULT_FORM_TYPE = FORM_TYPES.CAMUNDA_FORM_LINKED;
 
+export function isFormSupported(element) {
+  if (is(element, 'bpmn:UserTask')) {
+    return true;
+  }
+
+  if (is(element, 'bpmn:StartEvent')) {
+    const bo = getBusinessObject(element);
+
+    // Only "none" start events (no event definitions)
+    if (bo.eventDefinitions && bo.eventDefinitions.length > 0) {
+      return false;
+    }
+
+    // Only top-level (parent is Process, not SubProcess)
+    const parent = bo.$parent;
+    if (!is(parent, 'bpmn:Process')) {
+      return false;
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
 export function getFormDefinition(element) {
   const businessObject = getBusinessObject(element);
 
