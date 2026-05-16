@@ -33,6 +33,8 @@ import {
 import Modeler from 'bpmn-js/lib/Modeler';
 
 import BpmnPropertiesPanel from 'src/render';
+import BpmnPropertiesPanelCoreModule from 'src/render/core';
+import BpmnPropertiesPanelHeaderModule from 'src/render/header';
 
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import CamundaPropertiesProvider from 'src/provider/camunda-platform';
@@ -215,6 +217,61 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesProvider,
           CreateAppendAnythingModule
         ]
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
+  (singleStart === 'core' ? it.only : it)('should import simple process (core - body only, no header)', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          ZeebeBehaviorsModule,
+          BpmnPropertiesPanelCoreModule,
+          BpmnPropertiesProvider,
+          ZeebePropertiesProvider,
+          CreateAppendAnythingModule,
+          ZeebeVariableResolverModule
+        ],
+        moddleExtensions: {
+          zeebe: ZeebeModdle
+        }
+      }
+    );
+
+    // then
+    expect(result.error).not.to.exist;
+  });
+
+
+  (singleStart === 'header' ? it.only : it)('should import simple process (standalone header)', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    // when
+    const result = await createModeler(
+      diagramXml,
+      {
+        additionalModules: [
+          ZeebeBehaviorsModule,
+          BpmnPropertiesPanelHeaderModule
+        ],
+        moddleExtensions: {
+          zeebe: ZeebeModdle
+        },
+        propertiesPanelHeader: {
+          parent: propertiesContainer
+        }
       }
     );
 

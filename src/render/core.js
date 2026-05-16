@@ -3,10 +3,6 @@ import BpmnPropertiesPanelRenderer from './BpmnPropertiesPanelRenderer';
 import Commands from '../cmd';
 import { DebounceInputModule, FeelPopupModule } from '@bpmn-io/properties-panel';
 
-import { PanelHeaderProvider } from './PanelHeaderProvider';
-
-PanelHeaderProvider.$inject = [ 'translate' ];
-
 export default {
   __depends__: [
     Commands,
@@ -17,5 +13,5 @@ export default {
     'propertiesPanel'
   ],
   propertiesPanel: [ 'type', BpmnPropertiesPanelRenderer ],
-  propertiesPanelHeaderProvider: [ 'factory', PanelHeaderProvider ]
+  propertiesPanelHeaderProvider: [ 'value', null ]
 };
