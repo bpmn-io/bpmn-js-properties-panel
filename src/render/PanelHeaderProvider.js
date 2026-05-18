@@ -90,7 +90,7 @@ export const PanelHeaderProvider = (translate) => {
     getElementIcon: (element) => {
       const concreteType = getConcreteType(element);
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
+
       const config = useService('config.elementTemplateIconRenderer', false);
 
       const { iconProperty = 'zeebe:modelerTemplateIcon' } = config || {};
@@ -184,7 +184,7 @@ function isPlane(element) {
 
 function getTemplatesService() {
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+
   return useService('elementTemplates', false);
 }
 
