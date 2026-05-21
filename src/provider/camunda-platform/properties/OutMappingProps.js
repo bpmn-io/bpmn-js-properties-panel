@@ -37,7 +37,7 @@ export function OutMappingProps({ element, injector }) {
 
     return {
       id,
-      label: mapping.get('target') || '',
+      label: mapping.get('target') ? <code>{ mapping.get('target') }</code> : '',
       entries: InOutMapping({
         idPrefix: id,
         element,
