@@ -35,7 +35,7 @@ export function OutputProps({ element, injector }) {
 
     return {
       id,
-      label: parameter.get('target') || '',
+      label: parameter.get('target') ? <code>{ parameter.get('target') }</code> : '',
       entries: InputOutputParameter({
         idPrefix: id,
         element,
