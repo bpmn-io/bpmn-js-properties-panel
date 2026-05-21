@@ -142,7 +142,7 @@ describe('provider/zeebe - OutputProps', function() {
       // then
       const outputItemLabel = getOutputItemLabel(container, 0);
 
-      expect(outputItemLabel.innerHTML).to.equal('outputTargetValue1');
+      expect(outputItemLabel.textContent).to.equal('outputTargetValue1');
     }));
 
 
@@ -159,7 +159,7 @@ describe('provider/zeebe - OutputProps', function() {
       const outputParameters = getOutputParameters(serviceTask);
 
       for (let idx = 0; idx < outputParameters.length; idx++) {
-        const outputItemLabel = getOutputItemLabel(container, idx).innerHTML;
+        const outputItemLabel = getOutputItemLabel(container, idx).textContent;
 
         expect(outputParameters[idx].target).to.equal(outputItemLabel);
       }
