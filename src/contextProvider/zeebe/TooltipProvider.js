@@ -19,7 +19,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Define who the task is assigned to. One or all of the following attributes can be specified simultaneously. ')}
+        { translate('Define the assignment, schedule, and priority of the user task. Assignee, candidate groups, and candidate users can be combined. Use due date and follow-up date to express deadlines and urgency. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#assignments" target="_blank" rel="noopener noreferrer" title={ translate('User task documentation') }>
           { translate('Learn more.') }
         </a>
@@ -32,7 +32,7 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Define a boolean condition expression that defines when this flow is taken. ')}
+        { translate('Define a boolean condition expression that determines when this sequence flow is taken. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/exclusive-gateways/#conditions" target="_blank" rel="noopener noreferrer" title={ translate('Conditions documentation') }>
           { translate('Learn how to define conditions.') }
         </a>
@@ -110,7 +110,7 @@ const TooltipProvider = {
     return (
       <div>
         { translate('Define the decision to evaluate and how to map back the evaluation result. ') }
-        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-called-decision" target="_blank" rel="noopener noreferrer" title={ translate('Send task documentation') }>
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/business-rule-tasks/#defining-a-called-decision" target="_blank" rel="noopener noreferrer" title={ translate('Called decision documentation') }>
           { translate('Learn more.') }
         </a>
       </div>
@@ -253,9 +253,20 @@ const TooltipProvider = {
   'group-error': (element) => {
     const translate = useService('translate');
 
+    if (is(element, 'bpmn:EndEvent')) {
+      return (
+        <div>
+          {translate('Define the error to throw. Specify an error code (e.g. ')}<code>order-not-found</code>{translate(') to identify the error. ')}
+          <a href="https://docs.camunda.io/docs/components/modeler/bpmn/error-events/#defining-the-error" target="_blank" rel="noopener noreferrer" title={ translate('Error event documentation') }>
+            { translate('Learn more.') }
+          </a>
+        </div>
+      );
+    }
+
     return (
       <div>
-        {translate('Define an error code (e.g. ')}<code>order-not-found</code>{translate('). ')}
+        {translate('Define the error to catch. Specify an error code (e.g. ')}<code>order-not-found</code>{translate(') to match a specific error, or leave empty to catch any error. ')}
         <a href="https://docs.camunda.io/docs/components/modeler/bpmn/error-events/#defining-the-error" target="_blank" rel="noopener noreferrer" title={ translate('Error event documentation') }>
           { translate('Learn more.') }
         </a>
@@ -438,11 +449,112 @@ const TooltipProvider = {
 
     return (
       <div>
-        { translate('Variable events that trigger the condition evaluation. ')}
+        { translate('Variable events that trigger the condition evaluation. If none selected, all variable events will trigger the condition evaluation. ') }
         <a href="https://docs.camunda.io/docs/8.9/components/modeler/bpmn/conditional-events/conditional-events/#variable-filters" target="_blank" rel="noopener noreferrer" title={ translate('Conditional event documentation') }>
           { translate('Learn more.') }
         </a>
-        {translate('\n\nIf none selected, all variable events will trigger the condition evaluation. ')}
+      </div>
+    );
+  },
+
+  'group-headers': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Define static metadata passed to job workers alongside each job. Headers are not evaluated by the engine — use them for fixed worker configuration (e.g. ')}
+        <code>resultVariable</code>{translate(', ')}<code>paymentMethod</code>{translate('). ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/service-tasks/#task-headers" target="_blank" rel="noopener noreferrer" title={ translate('Task headers documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-Zeebe__TaskListeners': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('React to user task lifecycle events by executing a job worker. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/user-tasks/#task-listeners" target="_blank" rel="noopener noreferrer" title={ translate('Task listeners documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-Zeebe__ExecutionListeners': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Add custom logic that reacts to various events in the workflow execution life-cycle. ')}
+        <a href="https://docs.camunda.io/docs/components/concepts/execution-listeners/" target="_blank" rel="noopener noreferrer" title={ translate('Execution listeners documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-Zeebe__ExtensionProperties': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Add custom key-value metadata to this element. Extension properties have no effect on process execution — they can be used to attach configuration visible for other consumers of the BPMN diagram. ')}
+      </div>
+    );
+  },
+
+  'group-script': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Define the FEEL expression to evaluate and the variable to store the result in. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/script-tasks/#defining-a-script-task" target="_blank" rel="noopener noreferrer" title={ translate('Script task documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-outputPropagation': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Control which variables from the called process are merged back into the parent scope. By default, all child variables are propagated; use output mappings to selectively return specific variables. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/call-activities/#variable-mappings" target="_blank" rel="noopener noreferrer" title={ translate('Call activity documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-adHocSubProcessImplementation': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Implement the ad-hoc subprocess as a job worker instead of activating inner elements. The job type determines which worker handles the subprocess execution. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/ad-hoc/" target="_blank" rel="noopener noreferrer" title={ translate('Ad-hoc subprocess documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
+  'group-outputCollection': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Define how to collect the outputs of the ad-hoc subprocess. The output collection variable stores the list of results; the output element expression defines what each element contributes. ')}
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/ad-hoc/" target="_blank" rel="noopener noreferrer" title={ translate('Ad-hoc subprocess documentation') }>
+          { translate('Learn more.') }
+        </a>
       </div>
     );
   }
