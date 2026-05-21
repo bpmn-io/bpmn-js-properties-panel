@@ -205,7 +205,7 @@ describe('provider/zeebe - InputProps', function() {
     // then
     const inputItemLabel = getInputItemLabel(container, 0);
 
-    expect(inputItemLabel.innerHTML).to.equal('inputTargetValue1');
+    expect(inputItemLabel.textContent).to.equal('inputTargetValue1');
   }));
 
 
@@ -222,7 +222,7 @@ describe('provider/zeebe - InputProps', function() {
     const inputParameters = getInputParameters(serviceTask);
 
     for (let idx = 0; idx < inputParameters.length; idx++) {
-      const inputItemLabel = getInputItemLabel(container, idx).innerHTML;
+      const inputItemLabel = getInputItemLabel(container, idx).textContent;
 
       expect(inputParameters[idx].target).to.equal(inputItemLabel);
     }
