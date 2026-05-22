@@ -14,15 +14,15 @@ This document aims to lay out the way the properties panel works from the UX poi
 #### Supported by
 
 * **Rule:** Sections have meaningful, semantic names
-* **Rule:** Sections have tooltips that provide in app guidance when you need it
+* **Rule:** Sections have tooltips that provide in-app guidance when you need it
 
-### Users can learn what sections configure something, without opening them ("edits")
+### Users can learn which sections configure something, without opening them ("edits")
 
 **Why:** Implementing a process [means different things][know-the-context] - _building_, _understanding_ or _changing_ a solution. Not every detail matters at any point, but understanding "where something is configured" is key to focus attention during all these activities.
 
 #### Supported by
 
-* **Rule:** Edited indicator shows per section when section has *task implementation* deviating from the default values.
+* **Rule:** The edited indicator shows per section when a section has *task implementation* deviating from the default values.
 
 ### Users control which sections are open - preserved across different elements
 
