@@ -6,6 +6,13 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.58.0
+
+* `FEAT`: improve Camunda 8 tooltips/guidance ([#1224](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1224))
+* `FEAT`: de-emphasize tooltiped element underlines ([bpmn-io/properties-panel#499](https://github.com/bpmn-io/properties-panel/pull/499))
+* `FIX`: allow to navigate to tooltip contents inside of groups ([bpmn-io/properties-panel#493](https://github.com/bpmn-io/properties-panel/issues/493))
+* `DEPS`: update to `@bpmn-io/properties-panel@3.44.0`
+
 ## 5.57.0
 
 * `FEAT`: add support for start event forms ([#1219](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1219))
