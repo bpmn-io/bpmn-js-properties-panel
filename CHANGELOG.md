@@ -9,6 +9,7 @@ ___Note:__ Yet to be released changes appear here._
 ## 5.57.0
 
 * `FEAT`: add support for start event forms ([#1219](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1219))
+* `FEAT`: display input / output variable names as monospace ([#1222](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1222))
 * `DEPS`: update to `camunda-bpmn-js-behaviors@1.16.1`
 * `DEPS`: update to `zeebe-bpmn-moddle@1.14.0`
 
