@@ -74,7 +74,7 @@
     "bpmn-js": "^18.14.0",
     "bpmn-js-create-append-anything": "^1.2.0",
     "bpmn-moddle": "^10.0.0",
-    "camunda-bpmn-js-behaviors": "^1.16.0",
+    "camunda-bpmn-js-behaviors": "^1.16.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "chai": "^6.0.0",
     "cross-env": "^10.1.0",
