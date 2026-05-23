@@ -336,6 +336,39 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     expect(getGroup(propertiesContainer, 'foo-group')).to.exist;
   });
 
+  it('should allow providing custom header provider', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    const headerProvider = (defaultHeaderProvider) => ({
+      ...defaultHeaderProvider,
+      getElementLabel: () => 'Custom header',
+      getTypeLabel: () => 'Custom type'
+    });
+
+    const { modeler } = await createModeler(diagramXml, {
+      propertiesPanel: {
+        parent: propertiesContainer,
+        headerProvider
+      },
+      additionalModules: [
+        BpmnPropertiesPanel,
+        BpmnPropertiesProvider
+      ]
+    });
+
+    const elementRegistry = modeler.get('elementRegistry');
+    const selection = modeler.get('selection');
+
+    // when
+    await act(() => selection.select(elementRegistry.get('Task_1')));
+
+    // then
+    expect(domQuery('.bio-properties-panel-header-label', propertiesContainer).innerText).to.equal('Custom header');
+    expect(domQuery('.bio-properties-panel-header-type', propertiesContainer).innerText).to.equal('CUSTOM TYPE');
+  });
+
 
   it('should ignore implicit root', async function() {
 

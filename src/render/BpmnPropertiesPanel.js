@@ -34,6 +34,7 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  * @param {Object} props.layoutConfig
  * @param {Object} props.descriptionConfig
  * @param {Object} props.tooltipConfig
+ * @param {Object|Function} props.headerProvider
  * @param {HTMLElement} props.feelPopupContainer
  * @param {Function} props.getFeelPopupLinks
  */
@@ -45,6 +46,7 @@ export default function BpmnPropertiesPanel(props) {
     layoutConfig: initialLayoutConfig,
     descriptionConfig,
     tooltipConfig,
+    headerProvider: configuredHeaderProvider,
     feelPopupContainer,
     getFeelPopupLinks
   } = props;
@@ -53,6 +55,20 @@ export default function BpmnPropertiesPanel(props) {
   const elementRegistry = injector.get('elementRegistry');
   const eventBus = injector.get('eventBus');
   const translate = injector.get('translate');
+
+  const headerProvider = useMemo(() => {
+    const defaultHeaderProvider = PanelHeaderProvider(translate);
+
+    if (!configuredHeaderProvider) {
+      return defaultHeaderProvider;
+    }
+
+    if (typeof configuredHeaderProvider === 'function') {
+      return configuredHeaderProvider(defaultHeaderProvider) || defaultHeaderProvider;
+    }
+
+    return configuredHeaderProvider;
+  }, [ configuredHeaderProvider, translate ]);
 
   const [ state, setState ] = useState({
     selectedElement: element
@@ -239,7 +255,7 @@ export default function BpmnPropertiesPanel(props) {
       <FeelLanguageContext.Provider value={ DEFAULT_FEEL_LANGUAGE_CONTEXT }>
         <PropertiesPanel
           element={ selectedElement }
-          headerProvider={ PanelHeaderProvider(translate) }
+          headerProvider={ headerProvider }
           placeholderProvider={ PanelPlaceholderProvider(translate) }
           groups={ groups }
           layoutConfig={ layoutConfig }
