@@ -34,6 +34,7 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  * @param {Object} props.layoutConfig
  * @param {Object} props.descriptionConfig
  * @param {Object} props.tooltipConfig
+ * @param {Object} props.headerProvider
  * @param {HTMLElement} props.feelPopupContainer
  * @param {Function} props.getFeelPopupLinks
  */
@@ -45,6 +46,7 @@ export default function BpmnPropertiesPanel(props) {
     layoutConfig: initialLayoutConfig,
     descriptionConfig,
     tooltipConfig,
+    headerProvider: customHeaderProvider,
     feelPopupContainer,
     getFeelPopupLinks
   } = props;
@@ -239,7 +241,7 @@ export default function BpmnPropertiesPanel(props) {
       <FeelLanguageContext.Provider value={ DEFAULT_FEEL_LANGUAGE_CONTEXT }>
         <PropertiesPanel
           element={ selectedElement }
-          headerProvider={ PanelHeaderProvider(translate) }
+          headerProvider={ customHeaderProvider || PanelHeaderProvider(translate) }
           placeholderProvider={ PanelPlaceholderProvider(translate) }
           groups={ groups }
           layoutConfig={ layoutConfig }
