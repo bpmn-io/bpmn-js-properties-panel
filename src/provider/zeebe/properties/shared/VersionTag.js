@@ -8,9 +8,12 @@ import { useService } from '../../../../hooks';
 
 import { getExtensionElementsList } from '../../../../utils/ExtensionElementsUtil';
 
+import { BpmnFeelEntry } from '../../../../entries/BpmnFeelEntry';
+
 export default function VersionTag(props) {
   const {
     element,
+    feel,
     type
   } = props;
 
@@ -86,6 +89,18 @@ export default function VersionTag(props) {
     // (4) Execute the commands
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
+
+  if (feel) {
+    return BpmnFeelEntry({
+      element,
+      id: 'versionTag',
+      label: translate('Version tag'),
+      feel,
+      getValue,
+      setValue,
+      debounce
+    });
+  }
 
   return TextFieldEntry({
     element,
