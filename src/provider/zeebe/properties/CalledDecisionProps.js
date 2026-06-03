@@ -28,7 +28,7 @@ import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 import { withProps } from '../../HOCs/withProps.js';
 
 const CalledDecisionBinding = withProps(Binding, { type: 'zeebe:CalledDecision' }),
-      CalledDecisionVersionTag = withProps(VersionTag, { type: 'zeebe:CalledDecision' });
+      CalledDecisionVersionTag = withProps(VersionTag, { type: 'zeebe:CalledDecision', feel: 'optional' });
 
 
 export function CalledDecisionProps(props) {
@@ -57,7 +57,7 @@ export function CalledDecisionProps(props) {
     entries.push({
       id: 'versionTag',
       component: CalledDecisionVersionTag,
-      isEdited: isTextFieldEntryEdited
+      isEdited: isFeelEntryEdited
     });
   }
 
