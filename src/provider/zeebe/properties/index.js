@@ -13,6 +13,7 @@ export { FormProps } from './FormProps';
 export { HeaderProps } from './HeaderProps';
 export { InputPropagationProps } from './InputPropagationProps';
 export { InputProps } from './InputProps';
+export { JobPriorityDefinitionProps } from './JobPriorityDefinitionProps';
 export { MessageProps } from './MessageProps';
 export { MultiInstanceProps } from './MultiInstanceProps';
 export { OutputCollectionProps } from './OutputCollectionProps';

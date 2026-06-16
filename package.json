@@ -104,7 +104,7 @@
     "sinon": "^22.0.0",
     "sinon-chai": "^4.0.0",
     "webpack": "^5.106.2",
-    "zeebe-bpmn-moddle": "^1.14.0"
+    "zeebe-bpmn-moddle": "^1.15.0"
   },
   "peerDependencies": {
     "@bpmn-io/properties-panel": ">= 3.40.6",

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.48.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:serviceTask id="WithPriorityDefinition" name="Service Task With Priority Definition">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foo" />
+        <zeebe:jobPriorityDefinition priority="=50" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="NoPriorityDefinition" name="No Priority Definition">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foo" />
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="UserTaskJobWorker" name="UserTaskJobWorker">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="foo" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="bar" value="baz" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_1" name="UserTask_1" />
+    <bpmn:businessRuleTask id="DmnDecisionTask" name="DMN decision">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision />
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="WithPriorityDefinition_di" bpmnElement="WithPriorityDefinition">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="NoPriorityDefinition_di" bpmnElement="NoPriorityDefinition">
+        <dc:Bounds x="280" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTaskJobWorker_di" bpmnElement="UserTaskJobWorker">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1_di" bpmnElement="UserTask_1">
+        <dc:Bounds x="880" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DmnDecisionTask_di" bpmnElement="DmnDecisionTask">
+        <dc:Bounds x="160" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -16,6 +16,7 @@ import {
   ExecutionListenersProps,
   FormProps,
   HeaderProps,
+  JobPriorityDefinitionProps,
   InputPropagationProps,
   InputProps,
   MessageProps,
@@ -59,6 +60,7 @@ const ZEEBE_GROUPS = [
   AdHocSubProcessImplementationGroup,
   UserTaskImplementationGroup,
   TaskDefinitionGroup,
+  JobPriorityDefinitionGroup,
   AssignmentDefinitionGroup,
   ActiveElementsGroup,
   FormGroup,
@@ -167,6 +169,20 @@ function TaskDefinitionGroup(element, injector) {
     label: translate('Task definition'),
     entries: [
       ...TaskDefinitionProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function JobPriorityDefinitionGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'jobPriorityDefinition',
+    label: translate('Job priority'),
+    entries: [
+      ...JobPriorityDefinitionProps({ element })
     ],
     component: Group
   };
