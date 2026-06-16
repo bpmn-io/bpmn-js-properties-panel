@@ -568,6 +568,31 @@ const TooltipProvider = {
         </a>
       </div>
     );
+  },
+
+  // TODO(@barmac): Change docs link to stable with 8.10 release
+  'group-jobPriorityDefinition': (element) => {
+    const translate = useService('translate');
+
+    if (isAny(element, [ 'bpmn:Process', 'bpmn:Participant' ])) {
+      return (
+        <div>
+          <p>
+            { translate('Specifies the default priority for all jobs created by a process. Must be an integer. If no value is provided, the default value is 0. ') }
+            <a href="https://docs.camunda.io/docs/next/components/concepts/job-workers/#job-prioritization" target="_blank" rel="noopener noreferrer" title={ translate('Job priority documentation') }>{ translate('Learn more.') }</a>
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <p>
+          { translate('Specifies the priority of a job. Must be an integer. If no value is provided, the default value is 0. ') }
+          <a href="https://docs.camunda.io/docs/next/components/concepts/job-workers/#job-prioritization" target="_blank" rel="noopener noreferrer" title={ translate('Job priority documentation') }>{ translate('Learn more.') }</a>
+        </p>
+      </div>
+    );
   }
 };
 
