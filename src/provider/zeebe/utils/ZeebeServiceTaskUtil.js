@@ -44,9 +44,7 @@ export function isMessageThrowEvent(element) {
   return is(element, 'bpmn:IntermediateThrowEvent') && !!getMessageEventDefinition(element);
 }
 
-// helper ////////////////
-
-function getTaskDefinition(element) {
+export function getTaskDefinition(element) {
   const businessObject = getBusinessObject(element);
 
   return getExtensionElementsList(businessObject, 'zeebe:TaskDefinition')[0];
