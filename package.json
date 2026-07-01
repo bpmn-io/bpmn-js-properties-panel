@@ -3,6 +3,7 @@
   "version": "5.60.0",
   "description": "A simple properties panel for bpmn-js",
   "files": [
+    "assets",
     "dist"
   ],
   "scripts": {
