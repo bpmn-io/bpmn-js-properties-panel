@@ -810,6 +810,179 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  describe('separate header container', function() {
+
+    let headerContainer;
+
+    beforeEach(function() {
+      headerContainer = document.createElement('div');
+      headerContainer.classList.add('properties-header-container');
+
+      container.appendChild(headerContainer);
+    });
+
+
+    (singleStart === 'header' ? it.only : it)('should import simple process (separate header)', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      propertiesContainer.remove();
+      headerContainer.remove();
+
+      const sidebar = domify(`
+        <div class="properties-container" style="display: flex; flex-direction: column;">
+          <div class="sandbox-header" style="flex: none;"></div>
+          <div class="sandbox-separator">separator</div>
+          <div class="sandbox-body" style="flex: 1; overflow: hidden;"></div>
+        </div>
+      `);
+
+      container.appendChild(sidebar);
+
+      const headerEl = domQuery('.sandbox-header', sidebar);
+      const bodyEl = domQuery('.sandbox-body', sidebar);
+
+      // when
+      const { modeler } = await createModeler(
+        diagramXml,
+        {
+          propertiesPanel: {},
+          additionalModules: [
+            ZeebeBehaviorsModule,
+            BpmnPropertiesPanel,
+            BpmnPropertiesProvider,
+            ZeebePropertiesProvider,
+            CreateAppendAnythingModule,
+            ZeebeVariableResolverModule
+          ],
+          moddleExtensions: {
+            zeebe: ZeebeModdle
+          },
+          tooltip: ZeebeTooltipProvider
+        }
+      );
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      await act(() => propertiesPanel.attachTo(bodyEl, headerEl));
+
+      // then
+      expect(domQuery('.bio-properties-panel-header', headerEl)).to.exist;
+    });
+
+
+    it('should render header into the separate container', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {}
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      // when
+      await act(() => propertiesPanel.attachTo(propertiesContainer, headerContainer));
+
+      // then
+      expect(domQuery('.bio-properties-panel-header', headerContainer)).to.exist;
+      expect(domQuery('.bio-properties-panel-header', propertiesContainer)).to.not.exist;
+      expect(domQuery('.bio-properties-panel-scroll-container', propertiesContainer)).to.exist;
+    });
+
+
+    it('should render header inline without a header container', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {}
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      // when
+      await act(() => propertiesPanel.attachTo(propertiesContainer));
+
+      // then
+      expect(domQuery('.bio-properties-panel-header', propertiesContainer)).to.exist;
+      expect(domQuery('.bio-properties-panel-header', headerContainer)).to.not.exist;
+    });
+
+
+    it('should throw if header container cannot be resolved', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {}
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      // when
+      expect(() => propertiesPanel.attachTo(propertiesContainer, '.does-not-exist'))
+        .to.throw('header container not found');
+    });
+
+
+    it('should update separate header on selection change', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      let modeler;
+      await act(async () => {
+        ({ modeler } = await createModeler(diagramXml, {
+          propertiesPanel: {}
+        }));
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel'),
+            selection = modeler.get('selection'),
+            elementRegistry = modeler.get('elementRegistry');
+
+      await act(() => propertiesPanel.attachTo(propertiesContainer, headerContainer));
+
+      // when
+      await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+      // then
+      expect(getHeaderName(headerContainer)).to.eql('start');
+    });
+
+
+    it('should detach header container', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {}
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      await act(() => propertiesPanel.attachTo(propertiesContainer, headerContainer));
+
+      // assume
+      expect(domQuery('.bio-properties-panel-header', headerContainer)).to.exist;
+
+      // when
+      propertiesPanel.detach();
+
+      // then
+      expect(domQuery('.bio-properties-panel-header', headerContainer)).to.not.exist;
+      expect(domQuery('.bio-properties-panel-scroll-container', propertiesContainer)).to.not.exist;
+    });
+
+  });
+
+
   it('#setLayout', async function() {
 
     // given
