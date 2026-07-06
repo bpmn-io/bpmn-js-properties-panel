@@ -11,7 +11,9 @@ import {
   reduce
 } from 'min-dash';
 
-import { FeelLanguageContext, PropertiesPanel } from '@bpmn-io/properties-panel';
+import { createPortal } from '@bpmn-io/properties-panel/preact/compat';
+
+import { FeelLanguageContext, Header, PropertiesPanel } from '@bpmn-io/properties-panel';
 
 import {
   BpmnPropertiesPanelContext
@@ -36,6 +38,7 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  * @param {Object} props.tooltipConfig
  * @param {HTMLElement} props.feelPopupContainer
  * @param {Function} props.getFeelPopupLinks
+ * @param {HTMLElement} [props.headerParent]
  */
 export default function BpmnPropertiesPanel(props) {
   const {
@@ -46,7 +49,8 @@ export default function BpmnPropertiesPanel(props) {
     descriptionConfig,
     tooltipConfig,
     feelPopupContainer,
-    getFeelPopupLinks
+    getFeelPopupLinks,
+    headerParent
   } = props;
 
   const canvas = injector.get('canvas');
@@ -234,12 +238,18 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
+  // (8) render header separately if a header container is provided
+  const separateHeader = !!headerParent;
+  const renderSeparateHeader = separateHeader && selectedElement && !isArray(selectedElement);
+
+  const headerProvider = PanelHeaderProvider(translate);
+
   return (
     <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
       <FeelLanguageContext.Provider value={ DEFAULT_FEEL_LANGUAGE_CONTEXT }>
         <PropertiesPanel
           element={ selectedElement }
-          headerProvider={ PanelHeaderProvider(translate) }
+          headerProvider={ separateHeader ? null : headerProvider }
           placeholderProvider={ PanelPlaceholderProvider(translate) }
           groups={ groups }
           layoutConfig={ layoutConfig }
@@ -251,6 +261,16 @@ export default function BpmnPropertiesPanel(props) {
           feelPopupContainer={ feelPopupContainer }
           getFeelPopupLinks={ getFeelPopupLinks }
           eventBus={ eventBus } />
+        {
+          renderSeparateHeader
+            ? createPortal(
+              <Header
+                element={ selectedElement }
+                headerProvider={ headerProvider } />,
+              headerParent
+            )
+            : null
+        }
       </FeelLanguageContext.Provider>
     </BpmnPropertiesPanelContext.Provider>
   );

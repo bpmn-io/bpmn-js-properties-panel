@@ -49,6 +49,12 @@ export default class BpmnPropertiesPanelRenderer {
       '<div style="height: 100%" tabindex="-1" class="bio-properties-panel-container"></div>'
     );
 
+    this._headerContainer = domify(
+      '<div style="flex: none; height: auto" class="bio-properties-panel bio-properties-panel-header-container"></div>'
+    );
+
+    this._separateHeader = false;
+
     var commandStack = injector.get('commandStack', false);
 
     commandStack && setupKeyboard(this._container, eventBus, commandStack);
@@ -74,29 +80,49 @@ export default class BpmnPropertiesPanelRenderer {
   /**
    * Attach the properties panel to a parent node.
    *
-   * @param {HTMLElement} container
+   * Pass a second container to render the header separately from the body.
+   *
+   * @param {HTMLElement} container body container
+   * @param {HTMLElement} [headerContainer] optional separate header container
    */
-  attachTo(container) {
+  attachTo(container, headerContainer) {
     if (!container) {
       throw new Error('container required');
     }
 
-    // unwrap jQuery if provided
-    if (container.get && container.constructor.prototype.jquery) {
-      container = container.get(0);
+    container = resolveContainer(container);
+
+    if (headerContainer) {
+      headerContainer = resolveContainer(headerContainer);
+
+      if (!headerContainer) {
+        throw new Error('header container not found');
+      }
     }
 
-    if (typeof container === 'string') {
-      container = domQuery(container);
-    }
+    const separateHeader = !!headerContainer;
+
+    const headerPlacementChanged = separateHeader !== this._separateHeader;
 
     // (1) detach from old parent
     this.detach();
 
-    // (2) append to parent container
+    // (2) append body to its container
     container.appendChild(this._container);
 
-    // (3) notify interested parties
+    // (3) append header to its container or render it inline
+    this._separateHeader = separateHeader;
+
+    if (headerContainer) {
+      headerContainer.appendChild(this._headerContainer);
+    }
+
+    // (4) re-render if the header placement changed
+    if (headerPlacementChanged) {
+      this._rerender();
+    }
+
+    // (5) notify interested parties
     this._eventBus.fire('propertiesPanel.attach');
   }
 
@@ -110,6 +136,12 @@ export default class BpmnPropertiesPanelRenderer {
       parentNode.removeChild(this._container);
 
       this._eventBus.fire('propertiesPanel.detach');
+    }
+
+    const headerParentNode = this._headerContainer.parentNode;
+
+    if (headerParentNode) {
+      headerParentNode.removeChild(this._headerContainer);
     }
   }
 
@@ -181,11 +213,22 @@ export default class BpmnPropertiesPanelRenderer {
         tooltipConfig={ this._tooltipConfig }
         feelPopupContainer={ this._feelPopupContainer }
         getFeelPopupLinks={ this._getFeelPopupLinks }
+        headerParent={ this._separateHeader ? this._headerContainer : null }
       />,
       this._container
     );
 
     this._eventBus.fire('propertiesPanel.rendered');
+  }
+
+  _rerender() {
+    const canvas = this._injector.get('canvas');
+
+    const rootElement = canvas.getRootElement();
+
+    if (rootElement && !isImplicitRoot(rootElement)) {
+      this._render(rootElement);
+    }
   }
 
   _destroy() {
@@ -204,6 +247,28 @@ BpmnPropertiesPanelRenderer.$inject = [ 'config.propertiesPanel', 'injector', 'e
 
 function isImplicitRoot(element) {
   return element && element.isImplicit;
+}
+
+/**
+ * Resolve a container that may be given as a jQuery object, a selector or a
+ * plain HTML element into a plain HTML element.
+ *
+ * @param {HTMLElement|string|Object} container
+ *
+ * @return {HTMLElement}
+ */
+function resolveContainer(container) {
+
+  // unwrap jQuery if provided
+  if (container.get && container.constructor.prototype.jquery) {
+    return container.get(0);
+  }
+
+  if (typeof container === 'string') {
+    return domQuery(container);
+  }
+
+  return container;
 }
 
 /**
