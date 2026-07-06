@@ -33,6 +33,7 @@ export default class BpmnPropertiesPanelRenderer {
       layout: layoutConfig,
       description: descriptionConfig,
       tooltip: tooltipConfig,
+      headerProvider,
       feelPopupContainer,
       getFeelPopupLinks
     } = config || {};
@@ -42,6 +43,7 @@ export default class BpmnPropertiesPanelRenderer {
     this._layoutConfig = layoutConfig;
     this._descriptionConfig = descriptionConfig;
     this._tooltipConfig = tooltipConfig;
+    this._headerProvider = headerProvider || injector.get('propertiesPanelHeaderProvider', false);
     this._feelPopupContainer = feelPopupContainer;
     this._getFeelPopupLinks = getFeelPopupLinks;
 
@@ -179,6 +181,7 @@ export default class BpmnPropertiesPanelRenderer {
         layoutConfig={ this._layoutConfig }
         descriptionConfig={ this._descriptionConfig }
         tooltipConfig={ this._tooltipConfig }
+        headerProvider={ this._headerProvider }
         feelPopupContainer={ this._feelPopupContainer }
         getFeelPopupLinks={ this._getFeelPopupLinks }
       />,

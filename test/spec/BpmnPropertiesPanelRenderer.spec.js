@@ -337,6 +337,45 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should allow providing custom panel header provider', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    const customHeaderProvider = {
+      getElementLabel(element) {
+        return `custom:${ element.id }`;
+      },
+      getElementIcon() {
+        return null;
+      },
+      getTypeLabel() {
+        return 'Custom Type';
+      }
+    };
+
+    const CustomHeaderProviderModule = {
+      propertiesPanelHeaderProvider: [ 'value', customHeaderProvider ]
+    };
+
+    const modules = [
+      ZeebeBehaviorsModule,
+      BpmnPropertiesPanel,
+      BpmnPropertiesProvider,
+      ZeebePropertiesProvider,
+      CustomHeaderProviderModule
+    ];
+
+    // when
+    await createModeler(diagramXml, {
+      additionalModules: modules
+    });
+
+    // then
+    expect(getHeaderName(propertiesContainer)).to.eql('custom:Process_1');
+  });
+
+
   it('should ignore implicit root', async function() {
 
     // given
