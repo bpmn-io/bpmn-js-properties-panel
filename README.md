@@ -113,7 +113,7 @@ const modeler = new BpmnModeler({
 
 ### API
 
-#### `BpmnPropertiesPanelRenderer#attachTo(container: HTMLElement) => void`
+#### `BpmnPropertiesPanelRenderer#attachTo(container: HTMLElement, headerContainer?: HTMLElement) => void`
 
 Attach the properties panel to a parent node.
 
@@ -121,6 +121,9 @@ Attach the properties panel to a parent node.
 const propertiesPanel = modeler.get('propertiesPanel');
 
 propertiesPanel.attachTo('#other-properties');
+
+// or attach the panel body and header to different containers
+propertiesPanel.attachTo('#properties', '#panel-header');
 ```
 
 #### `BpmnPropertiesPanelRenderer#detach() => void`
