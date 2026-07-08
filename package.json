@@ -108,7 +108,7 @@
     "zeebe-bpmn-moddle": "^1.15.0"
   },
   "peerDependencies": {
-    "@bpmn-io/properties-panel": ">= 3.40.6",
+    "@bpmn-io/properties-panel": ">= 3.42.0",
     "bpmn-js": ">= 11.5",
     "camunda-bpmn-js-behaviors": ">= 0.4",
     "diagram-js": ">= 11.9"
