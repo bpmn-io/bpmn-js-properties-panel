@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.61.0
+
+* `FEAT`: allow rendering the header into a separate container ([#1239](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1239))
+
 ## 5.60.0
 
 * `FEAT`: support job priority ([#1235](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1235))
