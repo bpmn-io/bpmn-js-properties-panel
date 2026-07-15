@@ -31,6 +31,32 @@ export function getBindingType(element) {
   return calledElement ? calledElement.get('bindingType') : '';
 }
 
+/**
+ * Get the configured Business ID of the child process instance.
+ *
+ * @param {Object} element
+ *
+ * @returns {string|undefined} the Business ID override, or `undefined` when
+ * the Business ID is inherited from the parent
+ */
+export function getBusinessId(element) {
+  const calledElement = getCalledElement(element);
+
+  return calledElement ? calledElement.get('businessId') : undefined;
+}
+
+/**
+ * Check whether the Call Activity overrides the child's Business ID instead of
+ * inheriting it from the parent process instance.
+ *
+ * @param {Object} element
+ *
+ * @returns {boolean}
+ */
+export function hasBusinessId(element) {
+  return getBusinessId(element) !== undefined;
+}
+
 export function getCalledElement(element) {
   const calledElements = getCalledElements(element);
   return calledElements[0];

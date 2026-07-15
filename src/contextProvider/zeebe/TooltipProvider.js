@@ -323,6 +323,19 @@ const TooltipProvider = {
       </div>
     );
   },
+  'group-businessId': (element) => {
+    const translate = useService('translate');
+
+    return (
+      <div>
+        { translate('Control the business ID set on a child process. If left empty, no business ID will be set. ') }
+        <a href="https://docs.camunda.io/docs/components/modeler/bpmn/call-activities/#business-id-propagation" target="_blank" rel="noopener noreferrer" title={ translate('Business ID propagation documentation') }>
+          { translate('Learn more.') }
+        </a>
+      </div>
+    );
+  },
+
   'bindingType': (element) => {
 
     const translate = useService('translate');

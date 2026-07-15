@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.62.0
+
+* `FEAT`: add business ID group for Call Activities ([#1240](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1240))
+
 ## 5.61.0
 
 * `FEAT`: allow rendering the header into a separate container ([#1239](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1239))
@@ -114,7 +118,7 @@ _Pre-release._
 ## 5.47.0
 
 * `FIX`: change the tooltip content for the message property to be specific depens on event/task type ([#1181](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1181))
-* `DEPS`: update dependency `min-dash@5.0.0` 
+* `DEPS`: update dependency `min-dash@5.0.0`
 
 ## 5.46.0
 
