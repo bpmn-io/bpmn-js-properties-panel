@@ -7,6 +7,7 @@ import {
   AdHocCompletionProps,
   AdHocSubProcessImplementationProps,
   AssignmentDefinitionProps,
+  BusinessIdProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
   ConditionProps,
@@ -67,6 +68,7 @@ const ZEEBE_GROUPS = [
   ConditionGroup,
   EventConditionGroup,
   TargetGroup,
+  BusinessIdGroup,
   InputPropagationGroup,
   InputGroup,
   OutputPropagationGroup,
@@ -249,6 +251,20 @@ function TargetGroup(element, injector) {
     label: translate('Called element'),
     entries: [
       ...TargetProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function BusinessIdGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'businessId',
+    label: translate('Business ID'),
+    entries: [
+      ...BusinessIdProps({ element })
     ],
     component: Group
   };

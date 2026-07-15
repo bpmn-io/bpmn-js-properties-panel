@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0businessId" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.26.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.10.0">
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:callActivity id="CallActivity_inherit" name="CallActivity_inherit">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="someProcessId" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_override" name="CallActivity_override">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="someProcessId" businessId="=order.customerId" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_empty" name="CallActivity_empty">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="someProcessId" businessId="" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_literal" name="CallActivity_literal">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="someProcessId" businessId="order-42" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_noCalledElement" name="CallActivity_noCalledElement" />
+    <bpmn:task id="Task_1" name="Task_1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="CallActivity_inherit_di" bpmnElement="CallActivity_inherit">
+        <dc:Bounds x="160" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_override_di" bpmnElement="CallActivity_override">
+        <dc:Bounds x="160" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_empty_di" bpmnElement="CallActivity_empty">
+        <dc:Bounds x="160" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_literal_di" bpmnElement="CallActivity_literal">
+        <dc:Bounds x="160" y="440" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_noCalledElement_di" bpmnElement="CallActivity_noCalledElement">
+        <dc:Bounds x="160" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1_di" bpmnElement="Task_1">
+        <dc:Bounds x="160" y="680" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
