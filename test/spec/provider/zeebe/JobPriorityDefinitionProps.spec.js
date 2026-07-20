@@ -109,6 +109,26 @@ describe('provider/zeebe - JobPriorityDefinitionProps', function() {
     }));
 
 
+    it('should display number input for service task without FEEL expression', inject(async function(elementRegistry, selection) {
+
+      // given
+      const serviceTask = elementRegistry.get('NoPriorityDefinition');
+
+      await act(() => {
+        selection.select(serviceTask);
+      });
+
+      // when
+      const entry = domQuery('[data-entry-id="jobPriorityDefinitionPriority"]', container);
+
+      // then
+      expect(entry).to.exist;
+
+      const input = domQuery('input[type="number"]', entry);
+      expect(input).to.exist;
+    }));
+
+
     it('should display for process', inject(async function(canvas, selection) {
 
       // given
@@ -183,7 +203,7 @@ describe('provider/zeebe - JobPriorityDefinitionProps', function() {
 
         // when
         const priorityInput = domQuery('input[name=jobPriorityDefinitionPriority]', container);
-        changeInput(priorityInput, 'newValue');
+        changeInput(priorityInput, '50');
 
         // then
         const jobPriorityDefinitionElement = getExtensionElementsList(getBusinessObject(serviceTask), 'zeebe:JobPriorityDefinition')[0];
@@ -207,11 +227,11 @@ describe('provider/zeebe - JobPriorityDefinitionProps', function() {
 
         // when
         const priorityInput = domQuery('input[name=jobPriorityDefinitionPriority]', container);
-        changeInput(priorityInput, 'newValue');
+        changeInput(priorityInput, '50');
 
         // then
         expect(getBusinessObject(process).get('extensionElements')).to.exist;
-        expect(getJobPriorityDefinition(process).get('priority')).to.eql('newValue');
+        expect(getJobPriorityDefinition(process).get('priority')).to.eql('50');
       })
     );
 
@@ -233,11 +253,11 @@ describe('provider/zeebe - JobPriorityDefinitionProps', function() {
 
         // when
         const priorityInput = domQuery('input[name=jobPriorityDefinitionPriority]', container);
-        changeInput(priorityInput, 'newValue');
+        changeInput(priorityInput, '50');
 
         // then
         const extensionElements = getBusinessObject(serviceTask).get('extensionElements');
-        expect(getJobPriorityDefinition(serviceTask).get('priority')).to.eql('newValue');
+        expect(getJobPriorityDefinition(serviceTask).get('priority')).to.eql('50');
         expect(extensionElements.values).to.have.length(initialExtensionElementsLength + 1);
       })
     );
