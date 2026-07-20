@@ -15,6 +15,8 @@ import {
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function ErrorProps(props) {
   const {
@@ -28,7 +30,7 @@ export function ErrorProps(props) {
   if (error && is(element, 'bpmn:ThrowEvent')) {
     entries.push(
       {
-        id: 'errorCode',
+        id: getSingletonEntryId('bpmn:Error', 'errorCode'),
         component: ErrorCode,
         isEdited: isFeelEntryEdited
       }
@@ -67,7 +69,7 @@ function ErrorCode(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'errorCode',
+    id: getSingletonEntryId('bpmn:Error', 'errorCode'),
     label: translate('Code'),
     feel: 'optional',
     getValue,

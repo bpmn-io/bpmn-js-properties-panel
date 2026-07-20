@@ -354,6 +354,333 @@ describe('provider/zeebe - EntryIdUtil', function() {
     });
 
 
+    describe('zeebe:AssignmentDefinition', function() {
+
+      it('should resolve assignee, candidateGroups and candidateUsers', function() {
+
+        // given
+        const assignmentDefinition = createElement('zeebe:AssignmentDefinition', {
+          assignee: 'foo',
+          candidateGroups: 'bar',
+          candidateUsers: 'baz'
+        });
+
+        const userTask = createElement('bpmn:UserTask', {
+          id: 'UserTask_1',
+          extensionElements: withExtensionElements([ assignmentDefinition ])
+        });
+
+        // when
+        const assigneeEntryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'assignee'
+        ]);
+
+        const candidateGroupsEntryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'candidateGroups'
+        ]);
+
+        const candidateUsersEntryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'candidateUsers'
+        ]);
+
+        // then
+        expect(assigneeEntryId).to.eql('assignmentDefinitionAssignee');
+        expect(candidateGroupsEntryId).to.eql('assignmentDefinitionCandidateGroups');
+        expect(candidateUsersEntryId).to.eql('assignmentDefinitionCandidateUsers');
+      });
+
+    });
+
+
+    describe('zeebe:TaskSchedule', function() {
+
+      it('should resolve dueDate and followUpDate', function() {
+
+        // given
+        const taskSchedule = createElement('zeebe:TaskSchedule', {
+          dueDate: '=foo',
+          followUpDate: '=bar'
+        });
+
+        const userTask = createElement('bpmn:UserTask', {
+          id: 'UserTask_1',
+          extensionElements: withExtensionElements([ taskSchedule ])
+        });
+
+        // when
+        const dueDateEntryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'dueDate'
+        ]);
+
+        const followUpDateEntryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'followUpDate'
+        ]);
+
+        // then
+        expect(dueDateEntryId).to.eql('taskScheduleDueDate');
+        expect(followUpDateEntryId).to.eql('taskScheduleFollowUpDate');
+      });
+
+    });
+
+
+    describe('zeebe:JobPriorityDefinition', function() {
+
+      it('should resolve priority', function() {
+
+        // given
+        const jobPriorityDefinition = createElement('zeebe:JobPriorityDefinition', { priority: '50' });
+
+        const serviceTask = createElement('bpmn:ServiceTask', {
+          id: 'ServiceTask_1',
+          extensionElements: withExtensionElements([ jobPriorityDefinition ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'priority'
+        ]);
+
+        // then
+        expect(entryId).to.eql('jobPriorityDefinitionPriority');
+      });
+
+    });
+
+
+    describe('zeebe:PriorityDefinition', function() {
+
+      it('should resolve priority', function() {
+
+        // given
+        const priorityDefinition = createElement('zeebe:PriorityDefinition', { priority: '50' });
+
+        const userTask = createElement('bpmn:UserTask', {
+          id: 'UserTask_1',
+          extensionElements: withExtensionElements([ priorityDefinition ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'priority'
+        ]);
+
+        // then
+        expect(entryId).to.eql('priorityDefinitionPriority');
+      });
+
+    });
+
+
+    describe('zeebe:VersionTag', function() {
+
+      it('should resolve value', function() {
+
+        // given
+        const versionTag = createElement('zeebe:VersionTag', { value: 'v1' });
+
+        const process = createElement('bpmn:Process', {
+          id: 'Process_1',
+          extensionElements: withExtensionElements([ versionTag ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(process, [
+          'extensionElements', 'values', 0, 'value'
+        ]);
+
+        // then
+        expect(entryId).to.eql('versionTag');
+      });
+
+    });
+
+
+    describe('zeebe:AdHoc', function() {
+
+      it('should resolve outputCollection and outputElement', function() {
+
+        // given
+        const adHoc = createElement('zeebe:AdHoc', {
+          outputCollection: '=foo',
+          outputElement: '=bar'
+        });
+
+        const adHocSubProcess = createElement('bpmn:AdHocSubProcess', {
+          id: 'AdHocSubProcess_1',
+          extensionElements: withExtensionElements([ adHoc ])
+        });
+
+        // when
+        const outputCollectionEntryId = getZeebeEntryId(adHocSubProcess, [
+          'extensionElements', 'values', 0, 'outputCollection'
+        ]);
+
+        const outputElementEntryId = getZeebeEntryId(adHocSubProcess, [
+          'extensionElements', 'values', 0, 'outputElement'
+        ]);
+
+        // then
+        expect(outputCollectionEntryId).to.eql('adHocOutputCollection');
+        expect(outputElementEntryId).to.eql('adHocOutputElement');
+      });
+
+
+      it('should resolve activeElementsCollection', function() {
+
+        // given
+        const adHoc = createElement('zeebe:AdHoc', { activeElementsCollection: '=foo' });
+
+        const adHocSubProcess = createElement('bpmn:AdHocSubProcess', {
+          id: 'AdHocSubProcess_1',
+          extensionElements: withExtensionElements([ adHoc ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(adHocSubProcess, [
+          'extensionElements', 'values', 0, 'activeElementsCollection'
+        ]);
+
+        // then
+        expect(entryId).to.eql('activeElementsCollection');
+      });
+
+    });
+
+
+    describe('bpmn:Error', function() {
+
+      it('should resolve errorCode', function() {
+
+        // given
+        const error = createElement('bpmn:Error', { errorCode: 'foo' });
+
+        const errorEventDefinition = createElement('bpmn:ErrorEventDefinition', { errorRef: error });
+
+        const endEvent = createElement('bpmn:EndEvent', {
+          id: 'EndEvent_1',
+          eventDefinitions: [ errorEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(endEvent, [
+          'eventDefinitions', 0, 'errorRef', 'errorCode'
+        ]);
+
+        // then
+        expect(entryId).to.eql('errorCode');
+      });
+
+    });
+
+
+    describe('bpmn:Escalation', function() {
+
+      it('should resolve escalationCode', function() {
+
+        // given
+        const escalation = createElement('bpmn:Escalation', { escalationCode: 'foo' });
+
+        const escalationEventDefinition = createElement('bpmn:EscalationEventDefinition', {
+          escalationRef: escalation
+        });
+
+        const endEvent = createElement('bpmn:EndEvent', {
+          id: 'EndEvent_1',
+          eventDefinitions: [ escalationEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(endEvent, [
+          'eventDefinitions', 0, 'escalationRef', 'escalationCode'
+        ]);
+
+        // then
+        expect(entryId).to.eql('escalationCode');
+      });
+
+    });
+
+
+    describe('bpmn:Message', function() {
+
+      it('should resolve name', function() {
+
+        // given
+        const message = createElement('bpmn:Message', { name: 'foo' });
+
+        const messageEventDefinition = createElement('bpmn:MessageEventDefinition', { messageRef: message });
+
+        const startEvent = createElement('bpmn:StartEvent', {
+          id: 'StartEvent_1',
+          eventDefinitions: [ messageEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(startEvent, [
+          'eventDefinitions', 0, 'messageRef', 'name'
+        ]);
+
+        // then
+        expect(entryId).to.eql('messageName');
+      });
+
+
+      it('should resolve subscription correlation key', function() {
+
+        // given
+        const subscription = createElement('zeebe:Subscription', { correlationKey: '=foo' });
+
+        const message = createElement('bpmn:Message', {
+          name: 'foo',
+          extensionElements: withExtensionElements([ subscription ])
+        });
+
+        const messageEventDefinition = createElement('bpmn:MessageEventDefinition', { messageRef: message });
+
+        const startEvent = createElement('bpmn:StartEvent', {
+          id: 'StartEvent_1',
+          eventDefinitions: [ messageEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(startEvent, [
+          'eventDefinitions', 0, 'messageRef', 'extensionElements', 'values', 0, 'correlationKey'
+        ]);
+
+        // then
+        expect(entryId).to.eql('messageSubscriptionCorrelationKey');
+      });
+
+    });
+
+
+    describe('bpmn:Signal', function() {
+
+      it('should resolve name', function() {
+
+        // given
+        const signal = createElement('bpmn:Signal', { name: 'foo' });
+
+        const signalEventDefinition = createElement('bpmn:SignalEventDefinition', { signalRef: signal });
+
+        const throwEvent = createElement('bpmn:IntermediateThrowEvent', {
+          id: 'IntermediateThrowEvent_1',
+          eventDefinitions: [ signalEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(throwEvent, [
+          'eventDefinitions', 0, 'signalRef', 'name'
+        ]);
+
+        // then
+        expect(entryId).to.eql('signalName');
+      });
+
+    });
+
+
     describe('unsupported paths', function() {
 
       it('should return null for an unrecognized node type', function() {

@@ -19,6 +19,8 @@ import {
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function TaskScheduleProps(props) {
   const {
@@ -31,12 +33,12 @@ export function TaskScheduleProps(props) {
 
   return [
     {
-      id: 'taskScheduleDueDate',
+      id: getSingletonEntryId('zeebe:TaskSchedule', 'dueDate'),
       component: DueDate,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'taskScheduleFollowUpDate',
+      id: getSingletonEntryId('zeebe:TaskSchedule', 'followUpDate'),
       component: FollowUpDate,
       isEdited: isFeelEntryEdited
     }
@@ -127,7 +129,7 @@ function DueDate(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'taskScheduleDueDate',
+    id: getSingletonEntryId('zeebe:TaskSchedule', 'dueDate'),
     label: translate('Due date'),
     feel: 'optional',
     getValue,
@@ -220,7 +222,7 @@ function FollowUpDate(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'taskScheduleFollowUpDate',
+    id: getSingletonEntryId('zeebe:TaskSchedule', 'followUpDate'),
     label: translate('Follow up date'),
     feel: 'optional',
     getValue,

@@ -8,6 +8,8 @@ import { useService } from '../../../../hooks';
 
 import { getExtensionElementsList } from '../../../../utils/ExtensionElementsUtil';
 
+import { getSingletonEntryId } from '../../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 export default function Binding(props) {
@@ -96,7 +98,7 @@ export default function Binding(props) {
 
   return <SelectEntry
     element={ element }
-    id="bindingType"
+    id={ getSingletonEntryId(type, 'bindingType') }
     label={ translate('Binding') }
     getValue={ getValue }
     setValue={ setValue }

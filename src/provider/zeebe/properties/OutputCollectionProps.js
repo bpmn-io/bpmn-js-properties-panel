@@ -20,6 +20,8 @@ import {
 
 import { createElement } from '../../../utils/ElementUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 export function OutputCollectionProps(props) {
   const {
     element
@@ -31,12 +33,12 @@ export function OutputCollectionProps(props) {
 
   const entries = [
     {
-      id: 'adHocOutputCollection',
+      id: getSingletonEntryId('zeebe:AdHoc', 'outputCollection'),
       component: OutputCollection,
       isEdited: isTextFieldEntryEdited
     },
     {
-      id: 'adHocOutputElement',
+      id: getSingletonEntryId('zeebe:AdHoc', 'outputElement'),
       component: OutputElement,
       isEdited: isFeelEntryEdited
     }

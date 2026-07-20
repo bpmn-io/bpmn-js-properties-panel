@@ -41,6 +41,8 @@ import {
 
 import { withProps } from '../../HOCs';
 
+import { getSingletonEntryId, SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 const FormDefinitionBinding = withProps(Binding, { type: 'zeebe:FormDefinition' }),
@@ -60,32 +62,32 @@ export function FormProps(props) {
   const formType = getFormType(element);
 
   const entries = [ {
-    id: 'formType',
+    id: SELECTOR_ENTRY_IDS.formType,
     component: FormType,
     isEdited: node => node.value !== NONE_VALUE
   } ];
 
   if (formType === FORM_TYPES.CAMUNDA_FORM_EMBEDDED) {
     entries.push({
-      id: 'formConfiguration',
+      id: getSingletonEntryId('zeebe:UserTaskForm', 'body'),
       component: FormConfiguration,
       isEdited: isTextAreaEntryEdited
     });
   } else if (formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
     entries.push({
-      id: 'formId',
+      id: getSingletonEntryId('zeebe:FormDefinition', 'formId'),
       component: FormId,
       isEdited: isTextFieldEntryEdited
     });
   } else if (formType === FORM_TYPES.CUSTOM_FORM) {
     entries.push({
-      id: 'customFormKey',
+      id: getSingletonEntryId('zeebe:FormDefinition', 'formKey'),
       component: CustomForm,
       isEdited: isTextFieldEntryEdited
     });
   } else if (formType === FORM_TYPES.EXTERNAL_REFERENCE) {
     entries.push({
-      id: 'externalReference',
+      id: getSingletonEntryId('zeebe:FormDefinition', 'externalReference'),
       component: ExternalReference,
       isEdited: isFeelEntryEdited
     });
@@ -94,14 +96,14 @@ export function FormProps(props) {
   // Binding and version tag are not supported for start events
   if (!isStartEvent && formType === FORM_TYPES.CAMUNDA_FORM_LINKED) {
     entries.push({
-      id: 'bindingType',
+      id: getSingletonEntryId('zeebe:FormDefinition', 'bindingType'),
       component: FormDefinitionBinding,
       isEdited: isSelectEntryEdited
     });
 
     if (getBindingType(element, 'zeebe:FormDefinition') === 'versionTag') {
       entries.push({
-        id: 'versionTag',
+        id: getSingletonEntryId('zeebe:FormDefinition', 'versionTag'),
         component: FormDefinitionVersionTag,
         isEdited: isTextFieldEntryEdited
       });
@@ -132,7 +134,7 @@ function FormType(props) {
 
   return SelectEntry({
     element,
-    id: 'formType',
+    id: SELECTOR_ENTRY_IDS.formType,
     label: translate('Type'),
     getValue,
     setValue,
@@ -197,7 +199,7 @@ function FormConfiguration(props) {
 
   return TextAreaEntry({
     element,
-    id: 'formConfiguration',
+    id: getSingletonEntryId('zeebe:UserTaskForm', 'body'),
     label: translate('Form JSON configuration'),
     rows: 4,
     getValue,
@@ -224,7 +226,7 @@ function FormId(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'formId',
+    id: getSingletonEntryId('zeebe:FormDefinition', 'formId'),
     label: translate('Form ID'),
     feel: 'optional',
     getValue,
@@ -251,7 +253,7 @@ function CustomForm(props) {
 
   return TextFieldEntry({
     element,
-    id: 'customFormKey',
+    id: getSingletonEntryId('zeebe:FormDefinition', 'formKey'),
     label: translate('Custom form key'),
     getValue,
     setValue,
@@ -277,7 +279,7 @@ function ExternalReference(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'externalReference',
+    id: getSingletonEntryId('zeebe:FormDefinition', 'externalReference'),
     label: translate('External form reference'),
     feel: 'optional',
     getValue,

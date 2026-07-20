@@ -20,6 +20,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+
 export const ZEEBE_USER_TASK_IMPLEMENTATION_OPTION = 'zeebeUserTask',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker';
 
@@ -35,7 +37,7 @@ export function UserTaskImplementationProps(props) {
 
   return [
     {
-      id: 'userTaskImplementation',
+      id: SELECTOR_ENTRY_IDS.userTaskImplementation,
       component: UserTaskImplementation,
       isEdited: () => isUserTaskImplementationEdited(element)
     }
