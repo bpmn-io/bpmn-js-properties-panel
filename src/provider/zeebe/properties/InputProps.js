@@ -16,6 +16,8 @@ import {
   nextId
 } from '../../../utils/ElementUtil';
 
+import { getListEntryId } from '../utils/EntryIdUtil';
+
 import { without } from 'min-dash';
 
 
@@ -31,7 +33,7 @@ export function InputProps({ element, injector }) {
         commandStack = injector.get('commandStack');
 
   const items = inputParameters.map((parameter, index) => {
-    const id = element.id + '-input-' + index;
+    const id = getListEntryId(element, parameter, index);
 
     return {
       id,
