@@ -408,6 +408,111 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  describe('#getEntryId', function() {
+
+    const diagramXML = require('test/fixtures/simple.bpmn').default;
+
+    function inject(fn) {
+
+      return async function() {
+        const {
+          modeler
+        } = await createModeler(diagramXML, {
+          additionalModules: [
+            BpmnPropertiesPanel,
+            BpmnPropertiesProvider
+          ]
+        });
+
+        await modeler.invoke(fn);
+      };
+    }
+
+    const noopGetGroups = () => (groups) => groups;
+
+
+    it('should return null when no provider answers', inject(function(propertiesPanel, elementRegistry) {
+
+      // given
+      const element = elementRegistry.get('StartEvent_1');
+
+      // when
+      const entryId = propertiesPanel.getEntryId(element, [ 'foo' ]);
+
+      // then
+      expect(entryId).to.be.null;
+    }));
+
+
+    it('should skip providers without #getEntryId', inject(function(propertiesPanel, elementRegistry) {
+
+      // given
+      const element = elementRegistry.get('StartEvent_1');
+
+      propertiesPanel.registerProvider(2000, {
+        getGroups: noopGetGroups
+      });
+
+      // when
+      const entryId = propertiesPanel.getEntryId(element, [ 'foo' ]);
+
+      // then
+      expect(entryId).to.be.null;
+    }));
+
+
+    it('should ask providers in reverse render order', inject(function(propertiesPanel, elementRegistry) {
+
+      // given
+      const element = elementRegistry.get('StartEvent_1');
+
+      // registered at DEFAULT_PRIORITY, renders first
+      propertiesPanel.registerProvider(1000, {
+        getGroups: noopGetGroups,
+        getEntryId: () => 'early-provider-entry'
+      });
+
+      // registered at LOW_PRIORITY, renders last (i.e. overrides)
+      propertiesPanel.registerProvider(500, {
+        getGroups: noopGetGroups,
+        getEntryId: () => 'late-provider-entry'
+      });
+
+      // when
+      const entryId = propertiesPanel.getEntryId(element, [ 'foo' ]);
+
+      // then
+      expect(entryId).to.eql('late-provider-entry');
+    }));
+
+
+    it('should fall back to an earlier provider when a later one returns a falsy value', inject(
+      function(propertiesPanel, elementRegistry) {
+
+        // given
+        const element = elementRegistry.get('StartEvent_1');
+
+        propertiesPanel.registerProvider(1000, {
+          getGroups: noopGetGroups,
+          getEntryId: () => 'early-provider-entry'
+        });
+
+        propertiesPanel.registerProvider(500, {
+          getGroups: noopGetGroups,
+          getEntryId: () => null
+        });
+
+        // when
+        const entryId = propertiesPanel.getEntryId(element, [ 'foo' ]);
+
+        // then
+        expect(entryId).to.eql('early-provider-entry');
+      }
+    ));
+
+  });
+
+
   describe('integration', function() {
 
     it('should ensure creating + importing -> attaching works', async function() {
@@ -746,6 +851,38 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       expect(error).to.exist;
       expect(error.textContent).to.equal('foo');
+    });
+
+
+    it('should resolve a moddle path to an entry rendered in the DOM', async function() {
+
+      // given
+      const diagramXml = require('test/spec/provider/zeebe/InputProps.bpmn').default;
+
+      let modeler;
+
+      await act(async () => {
+        const result = await createModeler(diagramXml);
+
+        modeler = result.modeler;
+      });
+
+      const elementRegistry = modeler.get('elementRegistry'),
+            selection = modeler.get('selection'),
+            propertiesPanel = modeler.get('propertiesPanel');
+
+      const serviceTask = elementRegistry.get('ServiceTask_1');
+
+      await act(() => selection.select(serviceTask));
+
+      // when
+      const entryId = propertiesPanel.getEntryId(serviceTask, [
+        'extensionElements', 'values', 0, 'inputParameters', 1, 'source'
+      ]);
+
+      // then
+      expect(entryId).to.eql('ServiceTask_1-input-1-source');
+      expect(domQuery(`[data-entry-id="${ entryId }"]`, propertiesContainer)).to.exist;
     });
 
   });
