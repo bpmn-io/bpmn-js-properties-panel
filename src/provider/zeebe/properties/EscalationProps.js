@@ -16,6 +16,8 @@ import {
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
@@ -41,7 +43,7 @@ export function EscalationProps(props) {
   if (escalation) {
     entries.push(
       {
-        id: 'escalationCode',
+        id: getSingletonEntryId('bpmn:Escalation', 'escalationCode'),
         component: EscalationCode,
         isEdited: isFeelEntryEdited
       }
@@ -79,7 +81,7 @@ function EscalationCode(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'escalationCode',
+    id: getSingletonEntryId('bpmn:Escalation', 'escalationCode'),
     label: translate('Code'),
     feel: 'optional',
     getValue,

@@ -23,6 +23,8 @@ import { isFeelEntryEdited } from '@bpmn-io/properties-panel';
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function ConditionProps(props) {
   const {
@@ -37,7 +39,7 @@ export function ConditionProps(props) {
 
   if (isConditionalSource(element.source)) {
     conditionProps.push({
-      id: 'conditionExpression',
+      id: getSingletonEntryId('bpmn:SequenceFlow', 'conditionExpression'),
       component: ConditionExpression,
       isEdited: isFeelEntryEdited
     });
@@ -109,7 +111,7 @@ function ConditionExpression(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'conditionExpression',
+    id: getSingletonEntryId('bpmn:SequenceFlow', 'conditionExpression'),
     label: translate('Condition expression'),
     feel: 'required',
     getValue,

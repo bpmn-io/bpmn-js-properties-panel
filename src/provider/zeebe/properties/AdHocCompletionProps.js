@@ -8,6 +8,8 @@ import { useService } from '../../../hooks';
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 import { createOrUpdateFormalExpression } from '../../../utils/FormalExpressionUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
@@ -24,7 +26,7 @@ export function AdHocCompletionProps(props) {
 
   return [
     {
-      id: 'completionCondition',
+      id: getSingletonEntryId('bpmn:AdHocSubProcess', 'completionCondition'),
       component: CompletionCondition,
       isEdited: isFeelEntryEdited,
     }
@@ -57,7 +59,7 @@ function CompletionCondition(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'completionCondition',
+    id: getSingletonEntryId('bpmn:AdHocSubProcess', 'completionCondition'),
     label: translate('Completion condition'),
     feel: 'required',
     getValue,

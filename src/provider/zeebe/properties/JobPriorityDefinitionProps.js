@@ -21,6 +21,8 @@ import { BpmnFeelNumberEntry } from '../../../entries/BpmnFeelNumberEntry';
 
 import { isZeebeServiceTask } from '../utils/ZeebeServiceTaskUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function JobPriorityDefinitionProps(props) {
   const {
@@ -33,7 +35,7 @@ export function JobPriorityDefinitionProps(props) {
 
   return [
     {
-      id: 'jobPriorityDefinitionPriority',
+      id: getSingletonEntryId('zeebe:JobPriorityDefinition', 'priority'),
       component: Priority,
       isEdited: isFeelEntryEdited
     }
@@ -121,7 +123,7 @@ function Priority(props) {
 
   return BpmnFeelNumberEntry({
     element,
-    id: 'jobPriorityDefinitionPriority',
+    id: getSingletonEntryId('zeebe:JobPriorityDefinition', 'priority'),
     label: translate('Priority'),
     feel: 'optional',
     getValue,

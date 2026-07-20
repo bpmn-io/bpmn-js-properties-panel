@@ -21,6 +21,8 @@ import {
 
 import { ToggleSwitchEntry, isToggleSwitchEntryEdited } from '@bpmn-io/properties-panel';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 
@@ -35,7 +37,7 @@ export function InputPropagationProps(props) {
 
   return [
     {
-      id: 'propagateAllParentVariables',
+      id: getSingletonEntryId('zeebe:CalledElement', 'propagateAllParentVariables'),
       component: PropagateAllParentVariables,
       isEdited: isToggleSwitchEntryEdited
     }
@@ -123,7 +125,7 @@ function PropagateAllParentVariables(props) {
   };
 
   return ToggleSwitchEntry({
-    id: 'propagateAllParentVariables',
+    id: getSingletonEntryId('zeebe:CalledElement', 'propagateAllParentVariables'),
     label: translate('Propagate all parent process variables'),
     switcherLabel: propagateAllParentVariables ?
       translate('On') :

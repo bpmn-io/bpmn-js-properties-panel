@@ -19,6 +19,8 @@ import {
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function AssignmentDefinitionProps(props) {
   const {
@@ -31,17 +33,17 @@ export function AssignmentDefinitionProps(props) {
 
   return [
     {
-      id: 'assignmentDefinitionAssignee',
+      id: getSingletonEntryId('zeebe:AssignmentDefinition', 'assignee'),
       component: Assignee,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'assignmentDefinitionCandidateGroups',
+      id: getSingletonEntryId('zeebe:AssignmentDefinition', 'candidateGroups'),
       component: CandidateGroups,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'assignmentDefinitionCandidateUsers',
+      id: getSingletonEntryId('zeebe:AssignmentDefinition', 'candidateUsers'),
       component: CandidateUsers,
       isEdited: isFeelEntryEdited
     }
@@ -127,7 +129,7 @@ function Assignee(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'assignmentDefinitionAssignee',
+    id: getSingletonEntryId('zeebe:AssignmentDefinition', 'assignee'),
     label: translate('Assignee'),
     feel: 'optional',
     getValue,
@@ -214,7 +216,7 @@ function CandidateGroups(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'assignmentDefinitionCandidateGroups',
+    id: getSingletonEntryId('zeebe:AssignmentDefinition', 'candidateGroups'),
     label: translate('Candidate groups'),
     feel: 'optional',
     getValue,
@@ -301,7 +303,7 @@ function CandidateUsers(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'assignmentDefinitionCandidateUsers',
+    id: getSingletonEntryId('zeebe:AssignmentDefinition', 'candidateUsers'),
     label: translate('Candidate users'),
     feel: 'optional',
     getValue,

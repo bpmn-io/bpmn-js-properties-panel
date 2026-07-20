@@ -13,6 +13,8 @@ import { createElement } from '../../../utils/ElementUtil';
 
 import { getExtensionElementsList } from '../../../utils/ExtensionElementsUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function VersionTagProps(props) {
   const {
@@ -28,7 +30,7 @@ export function VersionTagProps(props) {
 
   return [
     {
-      id: 'versionTag',
+      id: getSingletonEntryId('zeebe:VersionTag', 'value'),
       component: VersionTag,
       isEdited: isTextFieldEntryEdited
     },
@@ -115,7 +117,7 @@ function VersionTag(props) {
 
   return TextFieldEntry({
     element,
-    id: 'versionTag',
+    id: getSingletonEntryId('zeebe:VersionTag', 'value'),
     label: translate('Version tag'),
     getValue,
     setValue,

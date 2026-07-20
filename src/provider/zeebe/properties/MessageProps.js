@@ -25,6 +25,8 @@ import {
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function MessageProps(props) {
   const {
@@ -38,7 +40,7 @@ export function MessageProps(props) {
   if (message) {
     entries.push(
       {
-        id: 'messageName',
+        id: getSingletonEntryId('bpmn:Message', 'name'),
         component: MessageName,
         isEdited: isFeelEntryEdited
       }
@@ -47,7 +49,7 @@ export function MessageProps(props) {
 
   if (message && canHaveSubscriptionCorrelationKey(element)) {
     entries.push({
-      id: 'messageSubscriptionCorrelationKey',
+      id: getSingletonEntryId('zeebe:Subscription', 'correlationKey'),
       component: SubscriptionCorrelationKey,
       isEdited: isFeelEntryEdited
     });
@@ -85,7 +87,7 @@ function MessageName(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'messageName',
+    id: getSingletonEntryId('bpmn:Message', 'name'),
     label: translate('Name'),
     feel: 'optional',
     getValue,
@@ -176,7 +178,7 @@ function SubscriptionCorrelationKey(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'messageSubscriptionCorrelationKey',
+    id: getSingletonEntryId('zeebe:Subscription', 'correlationKey'),
     label: translate('Subscription correlation key'),
     feel: 'required',
     getValue,

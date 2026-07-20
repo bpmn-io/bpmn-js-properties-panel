@@ -24,6 +24,8 @@ import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
 
+import { SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 export const DMN_IMPLEMENTATION_OPTION = 'dmn',
@@ -42,7 +44,7 @@ export function BusinessRuleImplementationProps(props) {
 
   return [
     {
-      id: 'businessRuleImplementation',
+      id: SELECTOR_ENTRY_IDS.businessRuleImplementation,
       component: BusinessRuleImplementation,
       isEdited: () => isBusinessRuleImplementationEdited(element)
     }
