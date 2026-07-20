@@ -22,7 +22,10 @@ const DEFAULT_PRIORITY = 1000;
 /**
  * @typedef { import('@bpmn-io/properties-panel').GroupDefinition } GroupDefinition
  * @typedef { import('@bpmn-io/properties-panel').ListGroupDefinition } ListGroupDefinition
- * @typedef { { getGroups: (ModdleElement) => (Array{GroupDefinition|ListGroupDefinition}) => Array{GroupDefinition|ListGroupDefinition}) } PropertiesProvider
+ * @typedef { {
+ *   getGroups: (ModdleElement) => (Array{GroupDefinition|ListGroupDefinition}) => Array{GroupDefinition|ListGroupDefinition}),
+ *   getEntryId: ((ModdleElement, (string|number)[]) => string|null)?
+ * } } PropertiesProvider
  */
 
 export default class BpmnPropertiesPanelRenderer {
@@ -179,6 +182,35 @@ export default class BpmnPropertiesPanelRenderer {
    */
   setLayout(layout) {
     this._eventBus.fire('propertiesPanel.setLayout', { layout });
+  }
+
+  /**
+   * Resolve the id of the entry that edits the given moddle property path,
+   * asking registered providers in reverse render order (the provider whose
+   * groups render last answers first). Providers not implementing
+   * #getEntryId(element, path), or returning a falsy value, are skipped.
+   *
+   * @param {djs.model.Base} element
+   * @param {(string|number)[]} path moddle property path, relative to the element's business object
+   *
+   * @return {string|null}
+   */
+  getEntryId(element, path) {
+    const providers = this._getProviders().slice().reverse();
+
+    for (const provider of providers) {
+      if (typeof provider.getEntryId !== 'function') {
+        continue;
+      }
+
+      const entryId = provider.getEntryId(element, path);
+
+      if (entryId) {
+        return entryId;
+      }
+    }
+
+    return null;
   }
 
   _getProviders() {
