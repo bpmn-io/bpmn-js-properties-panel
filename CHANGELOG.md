@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add `propertiesPanel#getEntryId(element, path)` API to resolve a moddle property path to an entry id
+
 ## 5.61.0
 
 * `FEAT`: allow rendering the header into a separate container ([#1239](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1239))

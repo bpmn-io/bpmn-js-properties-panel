@@ -45,6 +45,8 @@ import {
   isZeebeServiceTask
 } from './utils/ZeebeServiceTaskUtil';
 
+import { getZeebeEntryId } from './utils/EntryIdUtil';
+
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
@@ -113,6 +115,18 @@ export default class ZeebePropertiesProvider {
     const groups = ZEEBE_GROUPS.map(createGroup => createGroup(element, this._injector));
 
     return groups.filter(group => group !== null);
+  }
+
+  /**
+   * Resolve the id of the entry that edits the given moddle property path.
+   *
+   * @param {djs.model.Base} element
+   * @param {(string|number)[]} path moddle property path, relative to the element's business object
+   *
+   * @return {string|null}
+   */
+  getEntryId(element, path) {
+    return getZeebeEntryId(element, path);
   }
 
 }
