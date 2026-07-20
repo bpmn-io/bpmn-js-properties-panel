@@ -23,6 +23,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 import { withProps } from '../../HOCs/withProps.js';
@@ -42,12 +44,12 @@ export function TargetProps(props) {
 
   const entries = [
     {
-      id: 'targetProcessId',
+      id: getSingletonEntryId('zeebe:CalledElement', 'processId'),
       component: TargetProcessId,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'bindingType',
+      id: getSingletonEntryId('zeebe:CalledElement', 'bindingType'),
       component: CalledElementBinding,
       isEdited: isSelectEntryEdited
     }
@@ -55,7 +57,7 @@ export function TargetProps(props) {
 
   if (getBindingType(element, 'zeebe:CalledElement') === 'versionTag') {
     entries.push({
-      id: 'versionTag',
+      id: getSingletonEntryId('zeebe:CalledElement', 'versionTag'),
       component: CalledElementVersionTag,
       isEdited: isTextFieldEntryEdited
     });

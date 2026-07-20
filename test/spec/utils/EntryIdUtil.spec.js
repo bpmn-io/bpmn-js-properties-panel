@@ -231,6 +231,34 @@ describe('provider/zeebe - EntryIdUtil', function() {
         expect(resultVariableEntryId).to.eql('resultVariable');
       });
 
+
+      it('should resolve bindingType and versionTag', function() {
+
+        // given
+        const calledDecision = createElement('zeebe:CalledDecision', {
+          bindingType: 'versionTag',
+          versionTag: 'v1'
+        });
+
+        const businessRuleTask = createElement('bpmn:BusinessRuleTask', {
+          id: 'BusinessRuleTask_1',
+          extensionElements: withExtensionElements([ calledDecision ])
+        });
+
+        // when
+        const bindingTypeEntryId = getZeebeEntryId(businessRuleTask, [
+          'extensionElements', 'values', 0, 'bindingType'
+        ]);
+
+        const versionTagEntryId = getZeebeEntryId(businessRuleTask, [
+          'extensionElements', 'values', 0, 'versionTag'
+        ]);
+
+        // then
+        expect(bindingTypeEntryId).to.eql('bindingType');
+        expect(versionTagEntryId).to.eql('versionTag');
+      });
+
     });
 
 
@@ -261,6 +289,34 @@ describe('provider/zeebe - EntryIdUtil', function() {
         // then
         expect(processIdEntryId).to.eql('targetProcessId');
         expect(propagateEntryId).to.eql('propagateAllChildVariables');
+      });
+
+
+      it('should resolve bindingType and versionTag', function() {
+
+        // given
+        const calledElement = createElement('zeebe:CalledElement', {
+          bindingType: 'versionTag',
+          versionTag: 'v1'
+        });
+
+        const callActivity = createElement('bpmn:CallActivity', {
+          id: 'CallActivity_1',
+          extensionElements: withExtensionElements([ calledElement ])
+        });
+
+        // when
+        const bindingTypeEntryId = getZeebeEntryId(callActivity, [
+          'extensionElements', 'values', 0, 'bindingType'
+        ]);
+
+        const versionTagEntryId = getZeebeEntryId(callActivity, [
+          'extensionElements', 'values', 0, 'versionTag'
+        ]);
+
+        // then
+        expect(bindingTypeEntryId).to.eql('bindingType');
+        expect(versionTagEntryId).to.eql('versionTag');
       });
 
     });

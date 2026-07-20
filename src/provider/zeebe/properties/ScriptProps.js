@@ -18,6 +18,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 
@@ -33,12 +35,12 @@ export function ScriptProps(props) {
 
   return [
     {
-      id: 'resultVariable',
+      id: getSingletonEntryId('zeebe:Script', 'resultVariable'),
       component: ResultVariable,
       isEdited: isTextFieldEntryEdited
     },
     {
-      id: 'scriptExpression',
+      id: getSingletonEntryId('zeebe:Script', 'expression'),
       component: Expression,
       isEdited: isFeelEntryEdited
     }
