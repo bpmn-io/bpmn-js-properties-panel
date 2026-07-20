@@ -18,6 +18,8 @@ import {
   isZeebeServiceTask
 } from '../utils/ZeebeServiceTaskUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 
@@ -32,12 +34,12 @@ export function TaskDefinitionProps(props) {
 
   return [
     {
-      id: 'taskDefinitionType',
+      id: getSingletonEntryId('zeebe:TaskDefinition', 'type'),
       component: TaskDefinitionType,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'taskDefinitionRetries',
+      id: getSingletonEntryId('zeebe:TaskDefinition', 'retries'),
       component: TaskDefinitionRetries,
       isEdited: isFeelEntryEdited
     }

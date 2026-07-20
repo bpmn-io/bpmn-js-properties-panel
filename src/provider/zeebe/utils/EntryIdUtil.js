@@ -12,6 +12,9 @@ const LIST_ENTRY_SCHEMES = {
   'zeebe:Input': { kind: 'input', fields: [ 'source', 'target' ] },
   'zeebe:Output': { kind: 'output', fields: [ 'source', 'target' ] },
   'zeebe:Header': { kind: 'header', fields: [ 'key', 'value' ] },
+
+  // rendered by the shared ExtensionPropertiesProps (also on the Camunda 7
+  // path), so only resolved here — not built via getListEntryId
   'zeebe:Property': { kind: 'extensionProperty', fields: [ 'name', 'value' ] }
 };
 
@@ -26,10 +29,14 @@ const SINGLETON_ENTRY_SCHEMES = {
   },
   'zeebe:CalledDecision': {
     decisionId: 'decisionId',
+    bindingType: 'bindingType',
+    versionTag: 'versionTag',
     resultVariable: 'resultVariable'
   },
   'zeebe:CalledElement': {
     processId: 'targetProcessId',
+    bindingType: 'bindingType',
+    versionTag: 'versionTag',
     propagateAllChildVariables: 'propagateAllChildVariables'
   },
   'zeebe:Script': {
@@ -37,6 +44,43 @@ const SINGLETON_ENTRY_SCHEMES = {
     resultVariable: 'resultVariable'
   }
 };
+
+/**
+ * Build the id prefix shared by the entries of a list item (e.g.
+ * `${element.id}-input-${index}`). This is the single source for the id
+ * scheme: it is used both to render the entries and to resolve them.
+ *
+ * @param {djs.model.Base} element
+ * @param {ModdleElement} node the moddle element rendered as the list item
+ * @param {number} index the item's index within its collection
+ *
+ * @return {string|null}
+ */
+export function getListEntryId(element, node, index) {
+  const scheme = LIST_ENTRY_SCHEMES[node.$type];
+
+  if (!scheme) {
+    return null;
+  }
+
+  return `${element.id}-${scheme.kind}-${index}`;
+}
+
+/**
+ * Resolve the id of a static (non-list) entry that edits the given moddle
+ * property. This is the single source for the id scheme: it is used both
+ * to render the entry and to resolve it.
+ *
+ * @param {string} type the moddle `$type` of the edited element
+ * @param {string} property the edited moddle property
+ *
+ * @return {string|null}
+ */
+export function getSingletonEntryId(type, property) {
+  const scheme = SINGLETON_ENTRY_SCHEMES[type];
+
+  return scheme && scheme[property] || null;
+}
 
 /**
  * Resolve the id of the properties panel entry that edits the given
@@ -79,16 +123,10 @@ export function getZeebeEntryId(element, path) {
       return null;
     }
 
-    return `${element.id}-${listScheme.kind}-${index}-${field}`;
+    return `${getListEntryId(element, node, index)}-${field}`;
   }
 
-  const singletonScheme = SINGLETON_ENTRY_SCHEMES[node.$type];
-
-  if (singletonScheme) {
-    return singletonScheme[field] || null;
-  }
-
-  return null;
+  return getSingletonEntryId(node.$type, field);
 }
 
 

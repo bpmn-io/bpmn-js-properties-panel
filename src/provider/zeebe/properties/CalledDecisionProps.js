@@ -23,6 +23,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 import { withProps } from '../../HOCs/withProps.js';
@@ -42,12 +44,12 @@ export function CalledDecisionProps(props) {
 
   const entries = [
     {
-      id: 'decisionId',
+      id: getSingletonEntryId('zeebe:CalledDecision', 'decisionId'),
       component: DecisionID,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'bindingType',
+      id: getSingletonEntryId('zeebe:CalledDecision', 'bindingType'),
       component: CalledDecisionBinding,
       isEdited: isSelectEntryEdited
     }
@@ -55,14 +57,14 @@ export function CalledDecisionProps(props) {
 
   if (getBindingType(element, 'zeebe:CalledDecision') === 'versionTag') {
     entries.push({
-      id: 'versionTag',
+      id: getSingletonEntryId('zeebe:CalledDecision', 'versionTag'),
       component: CalledDecisionVersionTag,
       isEdited: isFeelEntryEdited
     });
   }
 
   entries.push({
-    id: 'resultVariable',
+    id: getSingletonEntryId('zeebe:CalledDecision', 'resultVariable'),
     component: ResultVariable,
     isEdited: isTextFieldEntryEdited
   });
