@@ -17,7 +17,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
+import { BpmnFeelNumberEntry } from '../../../entries/BpmnFeelNumberEntry';
 
 import { isZeebeServiceTask } from '../utils/ZeebeServiceTaskUtil';
 
@@ -56,6 +56,8 @@ function Priority(props) {
 
   const setValue = (value) => {
     const commands = [];
+
+    const priority = typeof value === 'number' ? String(value) : value;
 
     const businessObject = getElementBusinessObject(element);
 
@@ -109,7 +111,7 @@ function Priority(props) {
       context: {
         element,
         moddleElement: jobPriorityDefinition,
-        properties: { priority: value }
+        properties: { priority }
       }
     });
 
@@ -117,7 +119,7 @@ function Priority(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return BpmnFeelEntry({
+  return BpmnFeelNumberEntry({
     element,
     id: 'jobPriorityDefinitionPriority',
     label: translate('Priority'),
