@@ -27,6 +27,8 @@ import {
   setConditionalEventConditionBody
 } from '../../../utils/ConditionUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 /**
  * Properties of a Conditional Start Event:
  *
@@ -44,7 +46,7 @@ export function EventConditionProps(props) {
 
   const entries = [
     {
-      id: 'condition',
+      id: getSingletonEntryId('bpmn:ConditionalEventDefinition', 'condition'),
       component: Condition,
       isEdited: isFeelEntryEdited
     }
@@ -56,7 +58,7 @@ export function EventConditionProps(props) {
     is(element, 'bpmn:BoundaryEvent'))
   {
     entries.push({
-      id: 'variableEvents',
+      id: getSingletonEntryId('zeebe:ConditionalFilter', 'variableEvents'),
       component: VariableEvents,
     });
   }
@@ -87,7 +89,7 @@ function Condition(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'condition',
+    id: getSingletonEntryId('bpmn:ConditionalEventDefinition', 'condition'),
     label: translate('Condition expression'),
     feel: 'required',
     getValue,
@@ -126,7 +128,7 @@ function VariableEvents(props) {
 
   return CheckboxGroup({
     element,
-    id: 'variableEvents',
+    id: getSingletonEntryId('zeebe:ConditionalFilter', 'variableEvents'),
     options: [
       { label: translate('Create'), value: VARIABLE_EVENTS.CREATE },
       { label: translate('Update'), value: VARIABLE_EVENTS.UPDATE }

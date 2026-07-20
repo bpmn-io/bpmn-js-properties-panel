@@ -11,6 +11,8 @@ import {
   isSignalSupported
 } from '../../../utils/EventDefinitionUtil';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 /**
  * @typedef { import('@bpmn-io/properties-panel').EntryDefinition } Entry
  */
@@ -38,7 +40,7 @@ export function SignalProps(props) {
     entries = [
       ...entries,
       {
-        id: 'signalName',
+        id: getSingletonEntryId('bpmn:Signal', 'name'),
         component: SignalName,
         isEdited: isFeelEntryEdited
       },
@@ -76,7 +78,7 @@ function SignalName(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'signalName',
+    id: getSingletonEntryId('bpmn:Signal', 'name'),
     label: translate('Name'),
     feel: 'optional',
     getValue,

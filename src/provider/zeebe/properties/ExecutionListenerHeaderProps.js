@@ -18,6 +18,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { getListEntryId } from '../utils/EntryIdUtil';
+
 /**
  * @typedef {import('bpmn-js/lib/model/Types').ModdleElement} ModdleElement
  */
@@ -41,7 +43,7 @@ function HeaderItem(props) {
     open
   } = props;
 
-  const headerId = `${ idPrefix }-header-${ index }`;
+  const headerId = getListEntryId(idPrefix, header, index);
 
   const HeaderEntries = Header({
     idPrefix: headerId,

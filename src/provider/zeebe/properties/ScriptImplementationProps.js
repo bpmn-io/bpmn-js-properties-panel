@@ -21,6 +21,8 @@ import { useService } from '../../../hooks';
 
 import { without } from 'min-dash';
 
+import { SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 export const SCRIPT_IMPLEMENTATION_OPTION = 'script',
@@ -39,7 +41,7 @@ export function ScriptImplementationProps(props) {
 
   return [
     {
-      id: 'scriptImplementation',
+      id: SELECTOR_ENTRY_IDS.scriptImplementation,
       component: ScriptImplementation,
       isEdited: () => isScriptImplementationEdited(element)
     }
