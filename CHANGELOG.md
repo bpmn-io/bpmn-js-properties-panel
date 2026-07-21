@@ -9,6 +9,7 @@ ___Note:__ Yet to be released changes appear here._
 ## 5.62.0
 
 * `FEAT`: add business ID group for Call Activities ([#1240](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1240))
+* `DEPS`: update to `zeebe-bpmn-moddle@1.17.0`
 
 ## 5.61.0
 
