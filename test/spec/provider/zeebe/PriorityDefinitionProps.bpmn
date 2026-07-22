@@ -26,6 +26,12 @@
         <zeebe:priorityDefinition priority="=myPriorityValue" />
       </bpmn:extensionElements>
     </bpmn:userTask>
+    <bpmn:userTask id="UserTask_5" name="UserTask_5">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:priorityDefinition priority="myPriorityValue" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_08jq0zy">
@@ -47,6 +53,10 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0zxgguv_di" bpmnElement="UserTask_4">
         <dc:Bounds x="280" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03zg0n3_di" bpmnElement="UserTask_5">
+        <dc:Bounds x="400" y="180" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
