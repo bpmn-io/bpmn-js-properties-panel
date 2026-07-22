@@ -19,6 +19,8 @@ import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 import { isTimerExpressionTypeSupported } from '../utils/TimerUtil';
 
+import { SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 
@@ -51,7 +53,7 @@ export function TimerProps(props) {
   const entries = [];
 
   entries.push({
-    id: 'timerEventDefinitionType',
+    id: SELECTOR_ENTRY_IDS.timerEventDefinitionType,
     component: TimerEventDefinitionType,
     isEdited: isSelectEntryEdited,
     options: timerOptions
@@ -59,7 +61,7 @@ export function TimerProps(props) {
 
   if (timerEventDefinitionType) {
     entries.push({
-      id: 'timerEventDefinitionValue',
+      id: SELECTOR_ENTRY_IDS.timerEventDefinitionValue,
       component: TimerEventDefinitionValue,
       isEdited: isFeelEntryEdited,
       timerEventDefinitionType: timerEventDefinitionType || timerOptions[0].value
@@ -161,7 +163,7 @@ function TimerEventDefinitionType(props) {
 
   return SelectEntry({
     element,
-    id: 'timerEventDefinitionType',
+    id: SELECTOR_ENTRY_IDS.timerEventDefinitionType,
     label: translate('Type'),
     getValue,
     setValue,
@@ -227,7 +229,7 @@ function TimerEventDefinitionValue(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'timerEventDefinitionValue',
+    id: SELECTOR_ENTRY_IDS.timerEventDefinitionValue,
     label: label || translate('Value'),
     feel: 'optional',
     getValue,

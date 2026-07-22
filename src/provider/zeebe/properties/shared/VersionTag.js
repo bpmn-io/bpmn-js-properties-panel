@@ -8,6 +8,8 @@ import { useService } from '../../../../hooks';
 
 import { getExtensionElementsList } from '../../../../utils/ExtensionElementsUtil';
 
+import { getSingletonEntryId } from '../../utils/EntryIdUtil';
+
 import { BpmnFeelEntry } from '../../../../entries/BpmnFeelEntry';
 
 export default function VersionTag(props) {
@@ -93,7 +95,7 @@ export default function VersionTag(props) {
   if (feel) {
     return BpmnFeelEntry({
       element,
-      id: 'versionTag',
+      id: getSingletonEntryId(type, 'versionTag'),
       label: translate('Version tag'),
       feel,
       getValue,
@@ -104,7 +106,7 @@ export default function VersionTag(props) {
 
   return TextFieldEntry({
     element,
-    id: 'versionTag',
+    id: getSingletonEntryId(type, 'versionTag'),
     label: translate('Version tag'),
     getValue,
     setValue,

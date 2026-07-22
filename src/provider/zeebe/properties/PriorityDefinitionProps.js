@@ -19,6 +19,8 @@ import {
 
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function PriorityDefinitionProps(props) {
   const {
@@ -31,7 +33,7 @@ export function PriorityDefinitionProps(props) {
 
   return [
     {
-      id: 'priorityDefinitionPriority',
+      id: getSingletonEntryId('zeebe:PriorityDefinition', 'priority'),
       component: Priority,
       isEdited: isFeelEntryEdited
     }
@@ -117,7 +119,7 @@ function Priority(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'priorityDefinitionPriority',
+    id: getSingletonEntryId('zeebe:PriorityDefinition', 'priority'),
     label: translate('Priority'),
     feel: 'optional',
     getValue,

@@ -18,6 +18,8 @@ import {
 
 import { isZeebeUserTask } from '../utils/FormUtil';
 
+import { getListEntryId } from '../utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 
@@ -46,7 +48,7 @@ export function TaskListenersProps({ element, injector }) {
         translate = injector.get('translate');
 
   const items = listeners.map((listener, index) => {
-    const id = element.id + '-taskListener-' + index;
+    const id = getListEntryId(element, listener, index);
     const type = listener.get('type') || '<no type>';
     const eventType = listener.get('eventType');
     const label = translate('{eventType}: {type}', {

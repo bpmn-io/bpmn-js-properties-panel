@@ -14,6 +14,8 @@ import {
   createElement
 } from '../../../utils/ElementUtil';
 
+import { getListEntryId } from '../utils/EntryIdUtil';
+
 import { without } from 'min-dash';
 
 
@@ -29,7 +31,7 @@ export function HeaderProps({ element, injector }) {
         commandStack = injector.get('commandStack');
 
   const items = headers.map((header, index) => {
-    const id = element.id + '-header-' + index;
+    const id = getListEntryId(element, header, index);
 
     return {
       id,

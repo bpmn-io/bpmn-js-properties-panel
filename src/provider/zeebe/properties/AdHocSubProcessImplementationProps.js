@@ -20,6 +20,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+
 export const BPMN_IMPLEMENTATION_OPTION = 'bpmn',
       JOB_WORKER_IMPLEMENTATION_OPTION = 'jobWorker';
 
@@ -35,7 +37,7 @@ export function AdHocSubProcessImplementationProps(props) {
 
   return [
     {
-      id: 'adHocImplementation',
+      id: SELECTOR_ENTRY_IDS.adHocImplementation,
       component: AdHocImplementation,
       isEdited: () => isAdHocImplementationEdited(element)
     }

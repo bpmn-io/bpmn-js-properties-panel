@@ -160,6 +160,19 @@ class ExamplePropertiesProvider {
 ExamplePropertiesProvider.$inject = [ 'propertiesPanel' ];
 ```
 
+#### `BpmnPropertiesPanelRenderer#getEntryId(element: djs.model.Base, path: Array<string|number>) => string|null`
+
+Resolve the id of the entry that edits the given moddle property path, relative to the element's business object. Providers may implement `getEntryId(element, path)` to resolve paths for the groups they contribute; they are asked in reverse render order, so a provider whose groups render last (e.g. one registered with a low priority to override others) is asked first.
+
+```javascript
+const propertiesPanel = modeler.get('propertiesPanel');
+
+const entryId = propertiesPanel.getEntryId(element, [
+  'extensionElements', 'values', 0, 'inputParameters', 1, 'source'
+]);
+// 'ServiceTask_1-input-1-source'
+```
+
 ## Additional Resources
 
 * [Issue tracker](https://github.com/bpmn-io/bpmn-js-properties-panel)

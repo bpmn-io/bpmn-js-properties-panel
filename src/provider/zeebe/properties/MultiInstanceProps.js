@@ -20,6 +20,8 @@ import {
 
 import { useService } from '../../../hooks';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
 
 export function MultiInstanceProps(props) {
@@ -33,27 +35,27 @@ export function MultiInstanceProps(props) {
 
   return [
     {
-      id: 'multiInstance-inputCollection',
+      id: getSingletonEntryId('zeebe:LoopCharacteristics', 'inputCollection'),
       component: InputCollection,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'multiInstance-inputElement',
+      id: getSingletonEntryId('zeebe:LoopCharacteristics', 'inputElement'),
       component: InputElement,
       isEdited: isTextFieldEntryEdited
     },
     {
-      id: 'multiInstance-outputCollection',
+      id: getSingletonEntryId('zeebe:LoopCharacteristics', 'outputCollection'),
       component: OutputCollection,
       isEdited: isTextFieldEntryEdited
     },
     {
-      id: 'multiInstance-outputElement',
+      id: getSingletonEntryId('zeebe:LoopCharacteristics', 'outputElement'),
       component: OutputElement,
       isEdited: isFeelEntryEdited
     },
     {
-      id: 'multiInstance-completionCondition',
+      id: getSingletonEntryId('bpmn:MultiInstanceLoopCharacteristics', 'completionCondition'),
       component: CompletionCondition,
       isEdited: isFeelEntryEdited
     }
@@ -80,7 +82,7 @@ function InputCollection(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'multiInstance-inputCollection',
+    id: getSingletonEntryId('zeebe:LoopCharacteristics', 'inputCollection'),
     label: translate('Input collection'),
     feel: 'required',
     getValue,
@@ -109,7 +111,7 @@ function InputElement(props) {
 
   return TextFieldEntry({
     element,
-    id: 'multiInstance-inputElement',
+    id: getSingletonEntryId('zeebe:LoopCharacteristics', 'inputElement'),
     label: translate('Input element'),
     getValue,
     setValue,
@@ -137,7 +139,7 @@ function OutputCollection(props) {
 
   return TextFieldEntry({
     element,
-    id: 'multiInstance-outputCollection',
+    id: getSingletonEntryId('zeebe:LoopCharacteristics', 'outputCollection'),
     label: translate('Output collection'),
     getValue,
     setValue,
@@ -165,7 +167,7 @@ function OutputElement(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'multiInstance-outputElement',
+    id: getSingletonEntryId('zeebe:LoopCharacteristics', 'outputElement'),
     label: translate('Output element'),
     feel: 'required',
     getValue,
@@ -202,7 +204,7 @@ function CompletionCondition(props) {
 
   return BpmnFeelEntry({
     element,
-    id: 'multiInstance-completionCondition',
+    id: getSingletonEntryId('bpmn:MultiInstanceLoopCharacteristics', 'completionCondition'),
     label: translate('Completion condition'),
     feel: 'required',
     getValue,
