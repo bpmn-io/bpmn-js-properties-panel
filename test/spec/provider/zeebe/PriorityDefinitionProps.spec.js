@@ -148,6 +148,24 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
     }));
 
 
+    it('should display empty number input for incorrect text priority', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_5');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // when
+      const input = domQuery('[data-entry-id="priorityDefinitionPriority"] input[type="number"]', container);
+
+      // then
+      expect(input).to.exist;
+      expect(input.value).to.equal('');
+    }));
+
+
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
