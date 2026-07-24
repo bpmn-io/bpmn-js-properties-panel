@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
-    "@babel/plugin-transform-react-jsx": "^7.28.6",
+    "@babel/plugin-transform-react-jsx": "^8.0.0",
     "@bpmn-io/element-template-chooser": "^3.0.0",
     "@bpmn-io/properties-panel": "^3.44.0",
     "@bpmn-io/variable-resolver": "^3.0.0",
