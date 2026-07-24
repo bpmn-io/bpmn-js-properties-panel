@@ -17,7 +17,7 @@ import {
   useService
 } from '../../../hooks';
 
-import { BpmnFeelEntry } from '../../../entries/BpmnFeelEntry';
+import { BpmnFeelNumberEntry } from '../../../entries/BpmnFeelNumberEntry';
 
 
 export function PriorityDefinitionProps(props) {
@@ -59,9 +59,11 @@ function Priority(props) {
 
     let extensionElements = businessObject.get('extensionElements');
 
+    const priority = typeof value === 'number' ? String(value) : value;
+
     // (1) ensure PriorityDefinition
     let priorityDefinition = getPriorityDefinition(element);
-    const isNullValue = value === null || value === '' || value === undefined;
+    const isNullValue = priority === null || priority === '' || priority === undefined;
 
     if (priorityDefinition && isNullValue) {
 
@@ -85,7 +87,7 @@ function Priority(props) {
         context: {
           element,
           moddleElement: priorityDefinition,
-          properties: { priority: value }
+          properties: { priority }
         }
       });
 
@@ -94,7 +96,7 @@ function Priority(props) {
       // (2c) create priority definition if it does not exist
       priorityDefinition = createElement(
         'zeebe:PriorityDefinition',
-        { priority: value },
+        { priority },
         extensionElements,
         bpmnFactory
       );
@@ -115,7 +117,7 @@ function Priority(props) {
     commandStack.execute('properties-panel.multi-command-executor', commands);
   };
 
-  return BpmnFeelEntry({
+  return BpmnFeelNumberEntry({
     element,
     id: 'priorityDefinitionPriority',
     label: translate('Priority'),

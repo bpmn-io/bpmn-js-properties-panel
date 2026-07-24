@@ -128,6 +128,44 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
     }));
 
 
+    it('should display number input for user task without FEEL expression', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_2');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // when
+      const entry = domQuery('[data-entry-id="priorityDefinitionPriority"]', container);
+
+      // then
+      expect(entry).to.exist;
+
+      const input = domQuery('input[type="number"]', entry);
+      expect(input).to.exist;
+    }));
+
+
+    it('should display empty number input for incorrect text priority', inject(async function(elementRegistry, selection) {
+
+      // given
+      const userTask = elementRegistry.get('UserTask_5');
+
+      await act(() => {
+        selection.select(userTask);
+      });
+
+      // when
+      const input = domQuery('[data-entry-id="priorityDefinitionPriority"] input[type="number"]', container);
+
+      // then
+      expect(input).to.exist;
+      expect(input.value).to.equal('');
+    }));
+
+
     it('should update', inject(async function(elementRegistry, selection) {
 
       // given
@@ -187,7 +225,7 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
 
         // when
         const priorityInput = domQuery('input[name=priorityDefinitionPriority]', container);
-        changeInput(priorityInput, 'newValue');
+        changeInput(priorityInput, '50');
 
         // then
         const priorityDefinitionElement = getExtensionElementsList(getBusinessObject(userTask), 'zeebe:PriorityDefinition')[0];
@@ -212,11 +250,11 @@ describe('provider/zeebe - PriorityDefinitionProps', function() {
 
         // when
         const priorityInput = domQuery('input[name=priorityDefinitionPriority]', container);
-        changeInput(priorityInput, 'newValue');
+        changeInput(priorityInput, '50');
 
         // then
         const extensionElements = getBusinessObject(userTask).get('extensionElements');
-        expect(getPriorityDefinition(userTask).get('priority')).to.eql('newValue');
+        expect(getPriorityDefinition(userTask).get('priority')).to.eql('50');
         expect(extensionElements.values).to.have.length(3);
       })
     );
