@@ -1,0 +1,396 @@
+/**
+ * shadcn/ui theme for bpmn-js-properties-panel
+ * ============================================
+ *
+ * A CSS-only theme that restyles the properties panel (rendered through
+ * @bpmn-io/properties-panel) to comply with the shadcn/ui visual language.
+ *
+ * Usage:
+ *
+ *   import '@bpmn-io/properties-panel/dist/assets/properties-panel.css';
+ *   import 'bpmn-js-properties-panel/assets/shadcn.css';
+ *
+ * Load this file *after* the base `properties-panel.css` so its overrides win.
+ *
+ * Dark mode is enabled by adding a `dark` class to any ancestor (e.g. `<html
+ * class="dark">`), mirroring the shadcn convention, or directly to the panel
+ * (`.bio-properties-panel.dark`).
+ *
+ * Colors follow the shadcn "zinc" default palette and are expressed as raw
+ * `H S% L%` HSL channels so they can be composed with alpha via
+ * `hsl(var(--token) / <alpha>)`, exactly like shadcn does.
+ */
+
+/**
+ * 1. Design tokens (shadcn "zinc" default) — light
+ */
+.bio-properties-panel,
+.djs-parent {
+  --shadcn-background: 0 0% 100%;
+  --shadcn-foreground: 240 10% 3.9%;
+
+  --shadcn-card: 0 0% 100%;
+  --shadcn-card-foreground: 240 10% 3.9%;
+
+  --shadcn-popover: 0 0% 100%;
+  --shadcn-popover-foreground: 240 10% 3.9%;
+
+  --shadcn-primary: 240 5.9% 10%;
+  --shadcn-primary-foreground: 0 0% 98%;
+
+  --shadcn-secondary: 240 4.8% 95.9%;
+  --shadcn-secondary-foreground: 240 5.9% 10%;
+
+  --shadcn-muted: 240 4.8% 95.9%;
+  --shadcn-muted-foreground: 240 3.8% 46.1%;
+
+  --shadcn-accent: 240 4.8% 95.9%;
+  --shadcn-accent-foreground: 240 5.9% 10%;
+
+  --shadcn-destructive: 0 84.2% 60.2%;
+  --shadcn-destructive-foreground: 0 0% 98%;
+
+  --shadcn-border: 240 5.9% 90%;
+  --shadcn-input: 240 5.9% 90%;
+  --shadcn-ring: 240 10% 3.9%;
+
+  --shadcn-radius: 0.5rem;
+
+  /* Control height — matches shadcn's "small" size (h-8 = 2rem). */
+  --shadcn-control-height: 2rem;
+
+  /*
+   * Distinguishability knobs — how strongly controls are raised off the
+   * surface. shadcn keeps inputs transparent in light mode (relying on the
+   * border) and gives them a translucent fill + stronger ring in dark mode.
+   */
+  --shadcn-input-fill: hsl(var(--shadcn-background));
+  --shadcn-ring-alpha: 0.35;
+}
+
+/**
+ * 2. Design tokens — dark
+ *
+ * Applied when a `dark` class is present on the panel or any ancestor.
+ */
+.dark .bio-properties-panel,
+.dark.bio-properties-panel,
+.bio-properties-panel.dark,
+.dark .djs-parent,
+.djs-parent.dark {
+  --shadcn-background: 240 10% 3.9%;
+  --shadcn-foreground: 0 0% 98%;
+
+  --shadcn-card: 240 10% 3.9%;
+  --shadcn-card-foreground: 0 0% 98%;
+
+  --shadcn-popover: 240 10% 3.9%;
+  --shadcn-popover-foreground: 0 0% 98%;
+
+  --shadcn-primary: 0 0% 98%;
+  --shadcn-primary-foreground: 240 5.9% 10%;
+
+  --shadcn-secondary: 240 3.7% 15.9%;
+  --shadcn-secondary-foreground: 0 0% 98%;
+
+  --shadcn-muted: 240 3.7% 15.9%;
+  --shadcn-muted-foreground: 240 5% 64.9%;
+
+  --shadcn-accent: 240 3.7% 15.9%;
+  --shadcn-accent-foreground: 0 0% 98%;
+
+  /*
+   * A brighter, more saturated destructive than the classic zinc dark value
+   * (0 62.8% 30.6%), which is too muddy to read as text or thin borders on a
+   * dark surface. Mirrors shadcn's move to a lighter dark-mode destructive.
+   */
+  --shadcn-destructive: 0 72% 55%;
+  --shadcn-destructive-foreground: 0 0% 98%;
+
+  --shadcn-border: 240 3.7% 15.9%;
+  --shadcn-input: 240 3.7% 15.9%;
+  --shadcn-ring: 240 4.9% 83.9%;
+
+  /* raise inputs off the background and strengthen the ring in dark mode */
+  --shadcn-input-fill: hsl(var(--shadcn-input) / 0.3);
+  --shadcn-ring-alpha: 0.5;
+}
+
+/**
+ * 3. Map the properties panel's semantic variables onto shadcn tokens
+ */
+.bio-properties-panel {
+  /* typography */
+  --font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+
+  --text-base-color: hsl(var(--shadcn-foreground));
+  --text-error-color: hsl(var(--shadcn-destructive));
+  --link-color: hsl(var(--shadcn-primary));
+
+  --description-color: hsl(var(--shadcn-muted-foreground));
+  --description-code-background-color: hsl(var(--shadcn-muted));
+  --description-code-border-color: hsl(var(--shadcn-border));
+  --description-list-item-color: hsl(var(--shadcn-muted-foreground));
+
+  --placeholder-color: hsl(var(--shadcn-muted-foreground));
+  --placeholder-background-color: hsl(var(--shadcn-muted));
+
+  /* header */
+  --header-background-color: hsl(var(--shadcn-card));
+  --header-icon-fill-color: hsl(var(--shadcn-foreground));
+  --header-bottom-border-color: hsl(var(--shadcn-border));
+
+  /* groups */
+  --group-background-color: hsl(var(--shadcn-card));
+  --group-bottom-border-color: hsl(var(--shadcn-border));
+
+  --sticky-group-background-color: hsl(var(--shadcn-card));
+  --sticky-group-bottom-border-color: hsl(var(--shadcn-border));
+
+  /* add / remove entry buttons */
+  --add-entry-fill-color: hsl(var(--shadcn-muted-foreground));
+  --add-entry-hover-fill-color: hsl(var(--shadcn-primary-foreground));
+  --add-entry-hover-background-color: hsl(var(--shadcn-primary));
+  --add-entry-label-color: hsl(var(--shadcn-primary-foreground));
+
+  --remove-entry-fill-color: hsl(var(--shadcn-destructive));
+  --remove-entry-hover-background-color: hsl(var(--shadcn-destructive) / 0.1);
+
+  /* arrows / dots / badges */
+  --arrow-fill-color: hsl(var(--shadcn-muted-foreground));
+  --arrow-hover-background-color: hsl(var(--shadcn-accent));
+
+  --dot-color: hsl(var(--shadcn-muted-foreground));
+  --dot-color-error: hsl(var(--shadcn-destructive));
+
+  --list-badge-color: hsl(var(--shadcn-secondary-foreground));
+  --list-badge-background-color: hsl(var(--shadcn-secondary));
+
+  /* inputs */
+  --input-background-color: var(--shadcn-input-fill);
+  --input-border-color: hsl(var(--shadcn-input));
+
+  --input-focus-background-color: var(--shadcn-input-fill);
+  --input-focus-border-color: hsl(var(--shadcn-ring));
+  --focus-outline-color: hsl(var(--shadcn-ring));
+
+  --input-error-background-color: var(--shadcn-input-fill);
+  --input-error-border-color: hsl(var(--shadcn-destructive));
+  --input-error-focus-border-color: hsl(var(--shadcn-destructive));
+
+  --input-disabled-color: hsl(var(--shadcn-muted-foreground));
+  --input-disabled-background-color: hsl(var(--shadcn-muted));
+  --input-disabled-border-color: hsl(var(--shadcn-border));
+
+  /* toggle switch */
+  --toggle-switch-on-background-color: hsl(var(--shadcn-primary));
+  --toggle-switch-off-background-color: hsl(var(--shadcn-input));
+  --toggle-switch-switcher-background-color: hsl(var(--shadcn-background));
+
+  /* side lines */
+  --side-line-background-color: hsl(var(--shadcn-border));
+  --side-line-extension-background-color: hsl(var(--shadcn-border));
+
+  /* list entries */
+  --list-entry-dot-background-color: hsl(var(--shadcn-muted-foreground));
+  --list-entry-header-button-fill-color: hsl(var(--shadcn-muted-foreground));
+  --list-entry-add-entry-empty-background-color: hsl(var(--shadcn-primary));
+  --list-entry-add-entry-empty-hover-background-color: hsl(var(--shadcn-primary) / 0.9);
+  --list-entry-add-entry-label-color: hsl(var(--shadcn-primary-foreground));
+  --list-entry-add-entry-background-color: hsl(var(--shadcn-primary));
+  --list-entry-add-entry-fill-color: hsl(var(--shadcn-primary-foreground));
+
+  /* dropdown */
+  --dropdown-item-background-color: hsl(var(--shadcn-popover));
+  --dropdown-item-hover-background-color: hsl(var(--shadcn-accent));
+  --dropdown-separator-background-color: hsl(var(--shadcn-border));
+
+  /* FEEL */
+  --feel-background-color: transparent;
+  --feel-active-color: hsl(var(--shadcn-primary));
+  --feel-inactive-color: hsl(var(--shadcn-muted-foreground));
+  --feel-hover-color: hsl(var(--shadcn-foreground));
+  --feel-hover-background-color: hsl(var(--shadcn-accent));
+  --feel-active-background-color: transparent;
+  --feel-required-color: hsl(var(--shadcn-muted-foreground));
+  --feel-open-popup-color: hsl(var(--shadcn-muted-foreground));
+  --feel-open-popup-background-color: hsl(var(--shadcn-popover));
+  --feel-open-popup-hover-color: hsl(var(--shadcn-primary));
+
+  --feel-indicator-background-color: hsl(var(--shadcn-muted));
+
+  --feelers-select-color: hsl(var(--shadcn-primary) / 0.15);
+}
+
+/**
+ * 3.1 Form control colors
+ *
+ * Native form controls do not inherit the panel text color, so set it
+ * explicitly to keep values readable — this matters most in dark mode.
+ */
+.bio-properties-panel-input,
+select.bio-properties-panel-input,
+textarea.bio-properties-panel-input {
+  color: hsl(var(--shadcn-foreground));
+}
+
+.bio-properties-panel-input::placeholder {
+  color: hsl(var(--shadcn-muted-foreground));
+}
+
+/* Checkboxes and radios adopt the shadcn primary accent */
+.bio-properties-panel-input[type="checkbox"],
+.bio-properties-panel-input[type="radio"] {
+  accent-color: hsl(var(--shadcn-primary));
+}
+
+/**
+ * 4. Structural overrides
+ *
+ * These go beyond variable remapping to match shadcn's shape and interaction
+ * language (rounded corners, focus rings, elevated surfaces).
+ */
+
+/* 4.1 Rounded corners driven by --shadcn-radius */
+.bio-properties-panel-input,
+.bio-properties-panel-feel-editor-container .bio-properties-panel-feel-editor__open-popup-placeholder,
+.bio-properties-panel-feelers-editor-container .bio-properties-panel-feelers-editor__open-popup-placeholder {
+  border-radius: calc(var(--shadcn-radius) - 2px);
+}
+
+.bio-properties-panel-list-entry-item:first-child .bio-properties-panel-simple .bio-properties-panel-input {
+  border-top-left-radius: calc(var(--shadcn-radius) - 2px);
+  border-top-right-radius: calc(var(--shadcn-radius) - 2px);
+}
+
+.bio-properties-panel-list-entry-item:last-child .bio-properties-panel-simple .bio-properties-panel-input {
+  border-bottom-left-radius: calc(var(--shadcn-radius) - 2px);
+  border-bottom-right-radius: calc(var(--shadcn-radius) - 2px);
+}
+
+.bio-properties-panel-feel-indicator {
+  border-radius: calc(var(--shadcn-radius) - 2px) 0 0 calc(var(--shadcn-radius) - 2px);
+}
+
+.bio-properties-panel-description code,
+.bio-properties-panel-feel-icon,
+.bio-properties-panel-tooltip-content code,
+.bio-properties-panel-tooltip-content pre {
+  border-radius: calc(var(--shadcn-radius) - 4px);
+}
+
+/* Icon-style buttons get a soft rounded hit area */
+.bio-properties-panel-add-entry,
+.bio-properties-panel-arrow,
+.bio-properties-panel-group-header-button,
+.bio-properties-panel-list-entry-header-buttons > button {
+  border-radius: calc(var(--shadcn-radius) - 2px);
+}
+
+/*
+ * 4.2 Control height — align text-like controls with shadcn's "small" size
+ * (h-8). The base panel sizes these at 28px; shadcn's compact control is 32px.
+ * Only text/number/select/textarea and the FEEL editor are affected — the
+ * shared `-input` class also covers checkboxes/radios, which must keep their
+ * intrinsic size. `box-sizing: border-box` (set by the base) keeps the border
+ * and padding within the height, and single-line controls center their text.
+ */
+.bio-properties-panel-input[type="text"],
+.bio-properties-panel-input[type="number"],
+select.bio-properties-panel-input,
+textarea.bio-properties-panel-input,
+.bio-properties-panel-feelers-input .cm-editor {
+  min-height: var(--shadcn-control-height);
+}
+
+/* 4.3 Focus ring — replace the tinted focus background with a shadcn ring */
+.bio-properties-panel-input:focus,
+.bio-properties-panel-input:focus-within,
+.bio-properties-panel-textfield:focus-within .bio-properties-panel-input,
+.bio-properties-panel-feel-entry:focus-within .bio-properties-panel-input {
+  outline: none;
+  box-shadow: 0 0 0 3px hsl(var(--shadcn-ring) / var(--shadcn-ring-alpha));
+}
+
+.bio-properties-panel-entry.has-error .bio-properties-panel-input:focus,
+.bio-properties-panel-entry.has-error .bio-properties-panel-input:focus-within {
+  box-shadow: 0 0 0 3px hsl(var(--shadcn-destructive) / var(--shadcn-ring-alpha));
+}
+
+.bio-properties-panel-toggle-switch .bio-properties-panel-toggle-switch__switcher:focus-within {
+  outline: none;
+  box-shadow: 0 0 0 3px hsl(var(--shadcn-ring) / var(--shadcn-ring-alpha));
+}
+
+/* 4.4 Elevated surfaces — dropdown menu */
+.bio-properties-panel-dropdown-button__menu {
+  border: 1px solid hsl(var(--shadcn-border));
+  border-radius: calc(var(--shadcn-radius) - 2px);
+  box-shadow: 0 4px 6px -1px hsl(var(--shadcn-foreground) / 0.1),
+    0 2px 4px -2px hsl(var(--shadcn-foreground) / 0.1);
+}
+
+/* 4.5 Fix hardcoded colors that ignore the theme */
+
+/* sticky list-entry header uses a hardcoded white background */
+.bio-properties-panel-list-entry-header.sticky {
+  background-color: hsl(var(--shadcn-card));
+}
+
+/* FEEL editor placeholder uses a hardcoded translucent black */
+.bio-properties-panel-feelers-editor-container .bio-properties-panel-feelers-editor__open-popup-placeholder,
+.bio-properties-panel-feel-editor-container .bio-properties-panel-feel-editor__open-popup-placeholder {
+  color: hsl(var(--shadcn-muted-foreground));
+}
+
+/**
+ * 5. Tooltip — shadcn tooltips use the primary surface (dark on light themes)
+ */
+.bio-properties-panel-tooltip {
+  --tooltip-background-color: hsl(var(--shadcn-primary));
+  --tooltip-link: hsl(var(--shadcn-primary-foreground));
+  --tooltip-code-background-color: hsl(var(--shadcn-primary) / 0.6);
+  --tooltip-code-border-color: hsl(var(--shadcn-primary-foreground) / 0.2);
+
+  color: hsl(var(--shadcn-primary-foreground));
+}
+
+.bio-properties-panel-tooltip-content {
+  border: 1px solid hsl(var(--shadcn-border));
+  border-radius: calc(var(--shadcn-radius) - 2px);
+  box-shadow: 0 4px 6px -1px hsl(var(--shadcn-foreground) / 0.1),
+    0 2px 4px -2px hsl(var(--shadcn-foreground) / 0.1);
+}
+
+.bio-properties-panel-tooltip-content code,
+.bio-properties-panel-tooltip-content pre {
+  color: hsl(var(--shadcn-primary-foreground));
+}
+
+/**
+ * 6. FEEL / editor popup surface
+ */
+.bio-properties-panel-popup {
+  --popup-background-color: hsl(var(--shadcn-background));
+  --popup-header-background-color: hsl(var(--shadcn-card));
+  --popup-font-color: hsl(var(--shadcn-foreground));
+  --popup-title-color: hsl(var(--shadcn-foreground));
+
+  --feel-popup-close-background-color: hsl(var(--shadcn-primary));
+  --feel-popup-gutters-background-color: hsl(var(--shadcn-muted));
+
+  border: 1px solid hsl(var(--shadcn-border));
+  border-radius: calc(var(--shadcn-radius) - 2px);
+  box-shadow: 0 10px 15px -3px hsl(var(--shadcn-foreground) / 0.1),
+    0 4px 6px -4px hsl(var(--shadcn-foreground) / 0.1);
+  font-family: var(--font-family);
+}
+
+.bio-properties-panel-popup .bio-properties-panel-feel-popup__close-btn {
+  color: hsl(var(--shadcn-primary-foreground));
+  border-radius: calc(var(--shadcn-radius) - 2px);
+}

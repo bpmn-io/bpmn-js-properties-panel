@@ -155,6 +155,13 @@ export function insertCoreStyles() {
     require('./test.css').default
   );
 
+  if (window.__env__ && window.__env__.SHADCN_THEME) {
+    insertCSS(
+      'shadcn.css',
+      require('../assets/shadcn.css').default
+    );
+  }
+
   insertCSS(
     'element-template-chooser.css',
     require('@bpmn-io/element-template-chooser/dist/element-template-chooser.css').default
