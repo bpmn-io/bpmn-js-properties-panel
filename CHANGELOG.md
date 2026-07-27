@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: use `number` input for `priority` and `jobPriority` ([#1241](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1241))
+
 ## 5.62.0
 
 * `FEAT`: add business ID group for Call Activities ([#1240](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1240))
