@@ -6,7 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `FEAT`: add `propertiesPanel#getEntryId(element, path)` API to resolve a moddle property path to an entry id
+## 5.63.0
+
+* `FEAT`: add `propertiesPanel#getEntryId(element, path)` API to resolve a moddle property path to an entry id ([#1242](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1242))
 * `FEAT`: use `number` input for `priority` and `jobPriority` ([#1241](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1241))
 
 ## 5.62.0
