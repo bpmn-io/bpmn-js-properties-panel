@@ -58,6 +58,31 @@ For proper styling include the necessary stylesheets:
 <link rel="stylesheet" href="https://unpkg.com/@bpmn-io/properties-panel/dist/assets/properties-panel.css">
 ```
 
+#### shadcn/ui theme
+
+A CSS-only [shadcn/ui](https://ui.shadcn.com/) theme is shipped alongside the library. Include it _after_ the base stylesheet to restyle the panel to match shadcn's visual language:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/@bpmn-io/properties-panel/dist/assets/properties-panel.css">
+<link rel="stylesheet" href="https://unpkg.com/bpmn-js-properties-panel/assets/shadcn.css">
+```
+
+Or, when bundling:
+
+```javascript
+import '@bpmn-io/properties-panel/dist/assets/properties-panel.css';
+import 'bpmn-js-properties-panel/assets/shadcn.css';
+```
+
+The theme uses the shadcn _zinc_ palette and supports dark mode via a `dark` class on any ancestor (e.g. `<html class="dark">`), mirroring the shadcn convention. Colors and radius are exposed as `--shadcn-*` custom properties on the panel, so you can override them to match your own shadcn configuration:
+
+```css
+.bio-properties-panel {
+  --shadcn-primary: 221.2 83.2% 53.3%; /* e.g. the "blue" preset */
+  --shadcn-radius: 0.75rem;
+}
+```
+
 
 ### Dynamic Attach/Detach
 
