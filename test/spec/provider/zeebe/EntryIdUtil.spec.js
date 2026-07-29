@@ -562,7 +562,7 @@ describe('provider/zeebe - EntryIdUtil', function() {
         ]);
 
         // then
-        expect(entryId).to.eql('activeElementsCollection');
+        expect(entryId).to.eql('activeElements-activeElementsCollection');
       });
 
     });

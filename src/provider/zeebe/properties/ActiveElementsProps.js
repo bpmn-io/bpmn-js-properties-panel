@@ -18,7 +18,7 @@ import {
 
 import { createElement } from '../../../utils/ElementUtil';
 
-import { getSingletonEntryId, SELECTOR_ENTRY_IDS } from '../utils/EntryIdUtil';
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
 
 export function ActiveElementsProps(props) {
   const {
@@ -60,7 +60,7 @@ function ActiveElementsCollection(props) {
 
   return BpmnFeelEntry({
     element,
-    id: SELECTOR_ENTRY_IDS.activeElementsCollectionValue,
+    id: getSingletonEntryId('zeebe:AdHoc', 'activeElementsCollection'),
     label: translate('Active elements collection'),
     feel: 'required',
     getValue,
