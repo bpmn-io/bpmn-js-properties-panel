@@ -23,6 +23,8 @@ import {
   hasBusinessId
 } from '../utils/CalledElementUtil.js';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 /**
  * Business ID configuration for a Call Activity. The child process instance
  * either inherits the parent's Business ID (default) or overrides it with a
@@ -47,7 +49,7 @@ export function BusinessIdProps(props) {
 
   if (hasBusinessId(element)) {
     entries.push({
-      id: 'businessId',
+      id: getSingletonEntryId('zeebe:CalledElement', 'businessId'),
       component: BusinessId,
       isEdited: isFeelEntryEdited
     });

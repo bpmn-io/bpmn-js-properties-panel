@@ -44,6 +44,8 @@ import {
 
 import { ExtensionPropertiesProps } from '../shared/ExtensionPropertiesProps';
 
+import { getCamundaPlatformEntryId } from './utils/EntryIdUtil';
+
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
 const LOW_PRIORITY = 500;
@@ -138,6 +140,18 @@ export default class CamundaPlatformPropertiesProvider {
 
     // contract: if a group returns null, it should not be displayed at all
     return groups.filter(group => group !== null);
+  }
+
+  /**
+   * Resolve the id of the entry that edits the given moddle property path.
+   *
+   * @param {djs.model.Base} element
+   * @param {(string|number)[]} path moddle property path, relative to the element's business object
+   *
+   * @return {string|null}
+   */
+  getEntryId(element, path) {
+    return getCamundaPlatformEntryId(element, path);
   }
 }
 
