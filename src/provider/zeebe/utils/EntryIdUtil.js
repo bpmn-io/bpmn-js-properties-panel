@@ -85,7 +85,7 @@ const SINGLETON_ENTRY_SCHEMES = {
     value: 'versionTag'
   },
   'zeebe:AdHoc': {
-    activeElementsCollection: 'activeElementsCollection',
+    activeElementsCollection: 'activeElements-activeElementsCollection',
     outputCollection: 'adHocOutputCollection',
     outputElement: 'adHocOutputElement'
   },
@@ -170,8 +170,7 @@ export const SELECTOR_ENTRY_IDS = {
   adHocImplementation: 'adHocImplementation',
   businessRuleImplementation: 'businessRuleImplementation',
   scriptImplementation: 'scriptImplementation',
-  userTaskImplementation: 'userTaskImplementation',
-  activeElementsCollectionValue: 'activeElements-activeElementsCollection'
+  userTaskImplementation: 'userTaskImplementation'
 };
 
 /**
