@@ -22,9 +22,10 @@ const DEFAULT_PRIORITY = 1000;
 /**
  * @typedef { import('@bpmn-io/properties-panel').GroupDefinition } GroupDefinition
  * @typedef { import('@bpmn-io/properties-panel').ListGroupDefinition } ListGroupDefinition
+ * @typedef { GroupDefinition | ListGroupDefinition } Group
  * @typedef { {
- *   getGroups: (ModdleElement) => (Array{GroupDefinition|ListGroupDefinition}) => Array{GroupDefinition|ListGroupDefinition}),
- *   getEntryId: ((ModdleElement, (string|number)[]) => string|null)?
+ *   getGroups: (element: djs.model.Base) => (groups: Group[]) => Group[],
+ *   getEntryId?: (element: djs.model.Base, path: (string|number)[]) => string|null
  * } } PropertiesProvider
  */
 
