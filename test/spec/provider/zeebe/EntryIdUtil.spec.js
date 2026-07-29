@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getZeebeEntryId } from '../../../src/provider/zeebe/utils/EntryIdUtil';
+import { getZeebeEntryId } from '../../../../src/provider/zeebe/utils/EntryIdUtil';
 
 import { BpmnModdle } from 'bpmn-moddle';
 
@@ -317,6 +317,26 @@ describe('provider/zeebe - EntryIdUtil', function() {
         // then
         expect(bindingTypeEntryId).to.eql('bindingType');
         expect(versionTagEntryId).to.eql('versionTag');
+      });
+
+
+      it('should resolve businessId', function() {
+
+        // given
+        const calledElement = createElement('zeebe:CalledElement', { businessId: 'foo' });
+
+        const callActivity = createElement('bpmn:CallActivity', {
+          id: 'CallActivity_1',
+          extensionElements: withExtensionElements([ calledElement ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(callActivity, [
+          'extensionElements', 'values', 0, 'businessId'
+        ]);
+
+        // then
+        expect(entryId).to.eql('businessId');
       });
 
     });
@@ -676,6 +696,375 @@ describe('provider/zeebe - EntryIdUtil', function() {
 
         // then
         expect(entryId).to.eql('signalName');
+      });
+
+    });
+
+
+    describe('zeebe:IoMapping (group)', function() {
+
+      it('should resolve inputParameters collection to the inputs group', function() {
+
+        // given
+        const ioMapping = createElement('zeebe:IoMapping', {
+          inputParameters: [ createElement('zeebe:Input', { source: '=foo', target: 'bar' }) ]
+        });
+
+        const serviceTask = createElement('bpmn:ServiceTask', {
+          id: 'ServiceTask_1',
+          extensionElements: withExtensionElements([ ioMapping ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'inputParameters'
+        ]);
+
+        // then
+        expect(entryId).to.eql('inputs');
+      });
+
+
+      it('should resolve outputParameters collection to the outputs group', function() {
+
+        // given
+        const ioMapping = createElement('zeebe:IoMapping', {
+          outputParameters: [ createElement('zeebe:Output', { source: '=foo', target: 'bar' }) ]
+        });
+
+        const serviceTask = createElement('bpmn:ServiceTask', {
+          id: 'ServiceTask_1',
+          extensionElements: withExtensionElements([ ioMapping ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'outputParameters'
+        ]);
+
+        // then
+        expect(entryId).to.eql('outputs');
+      });
+
+    });
+
+
+    describe('zeebe:ExecutionListener', function() {
+
+      function withExecutionListener(listener) {
+        const executionListeners = createElement('zeebe:ExecutionListeners', {
+          listeners: [ listener ]
+        });
+
+        return createElement('bpmn:ServiceTask', {
+          id: 'ServiceTask_1',
+          extensionElements: withExtensionElements([ executionListeners ])
+        });
+      }
+
+      it('should resolve eventType', function() {
+
+        // given
+        const listener = createElement('zeebe:ExecutionListener', {
+          eventType: 'start',
+          type: 'foo'
+        });
+
+        const serviceTask = withExecutionListener(listener);
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'listeners', 0, 'eventType'
+        ]);
+
+        // then
+        expect(entryId).to.eql('ServiceTask_1-executionListener-0-eventType');
+      });
+
+
+      it('should resolve type as the listenerType', function() {
+
+        // given
+        const listener = createElement('zeebe:ExecutionListener', {
+          eventType: 'start',
+          type: 'foo'
+        });
+
+        const serviceTask = withExecutionListener(listener);
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'listeners', 0, 'type'
+        ]);
+
+        // then
+        expect(entryId).to.eql('ServiceTask_1-executionListener-0-listenerType');
+      });
+
+
+      it('should resolve retries', function() {
+
+        // given
+        const listener = createElement('zeebe:ExecutionListener', {
+          eventType: 'start',
+          type: 'foo',
+          retries: '5'
+        });
+
+        const serviceTask = withExecutionListener(listener);
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'listeners', 0, 'retries'
+        ]);
+
+        // then
+        expect(entryId).to.eql('ServiceTask_1-executionListener-0-retries');
+      });
+
+
+      it('should resolve a nested header key', function() {
+
+        // given
+        const header = createElement('zeebe:Header', { key: 'foo', value: 'bar' });
+
+        const listener = createElement('zeebe:ExecutionListener', {
+          eventType: 'start',
+          type: 'foo',
+          headers: createElement('zeebe:TaskHeaders', { values: [ header ] })
+        });
+
+        const serviceTask = withExecutionListener(listener);
+
+        // when
+        const entryId = getZeebeEntryId(serviceTask, [
+          'extensionElements', 'values', 0, 'listeners', 0, 'headers', 'values', 0, 'key'
+        ]);
+
+        // then
+        expect(entryId).to.eql('ServiceTask_1-executionListener-0-headers-header-0-key');
+      });
+
+    });
+
+
+    describe('zeebe:TaskListener', function() {
+
+      it('should resolve eventType', function() {
+
+        // given
+        const listener = createElement('zeebe:TaskListener', {
+          eventType: 'assigning',
+          type: 'foo'
+        });
+
+        const taskListeners = createElement('zeebe:TaskListeners', {
+          listeners: [ listener ]
+        });
+
+        const userTask = createElement('bpmn:UserTask', {
+          id: 'UserTask_1',
+          extensionElements: withExtensionElements([ taskListeners ])
+        });
+
+        // when
+        const entryId = getZeebeEntryId(userTask, [
+          'extensionElements', 'values', 0, 'listeners', 0, 'eventType'
+        ]);
+
+        // then
+        expect(entryId).to.eql('UserTask_1-taskListener-0-eventType');
+      });
+
+    });
+
+
+    describe('bpmn:TimerEventDefinition', function() {
+
+      it('should resolve the value when the expression is present', function() {
+
+        // given
+        const timerEventDefinition = createElement('bpmn:TimerEventDefinition', {
+          timeDuration: createElement('bpmn:FormalExpression', { body: 'PT1H' })
+        });
+
+        const catchEvent = createElement('bpmn:IntermediateCatchEvent', {
+          id: 'IntermediateCatchEvent_1',
+          eventDefinitions: [ timerEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(catchEvent, [
+          'eventDefinitions', 0, 'timeDuration'
+        ]);
+
+        // then
+        expect(entryId).to.eql('timerEventDefinitionValue');
+      });
+
+
+      it('should return null when the expression is absent', function() {
+
+        // given
+        const timerEventDefinition = createElement('bpmn:TimerEventDefinition', {});
+
+        const catchEvent = createElement('bpmn:IntermediateCatchEvent', {
+          id: 'IntermediateCatchEvent_1',
+          eventDefinitions: [ timerEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(catchEvent, [
+          'eventDefinitions', 0, 'timeDuration'
+        ]);
+
+        // then
+        expect(entryId).to.be.null;
+      });
+
+    });
+
+
+    describe('bpmn:Process', function() {
+
+      it('should resolve isExecutable', function() {
+
+        // given
+        const process = createElement('bpmn:Process', {
+          id: 'Process_1',
+          isExecutable: true
+        });
+
+        // when
+        const entryId = getZeebeEntryId(process, [ 'isExecutable' ]);
+
+        // then
+        expect(entryId).to.eql('isExecutable');
+      });
+
+    });
+
+
+    describe('bpmn:Error (name)', function() {
+
+      it('should resolve name', function() {
+
+        // given
+        const error = createElement('bpmn:Error', { name: 'foo' });
+
+        const errorEventDefinition = createElement('bpmn:ErrorEventDefinition', { errorRef: error });
+
+        const endEvent = createElement('bpmn:EndEvent', {
+          id: 'EndEvent_1',
+          eventDefinitions: [ errorEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(endEvent, [
+          'eventDefinitions', 0, 'errorRef', 'name'
+        ]);
+
+        // then
+        expect(entryId).to.eql('errorName');
+      });
+
+    });
+
+
+    describe('bpmn:Escalation (name)', function() {
+
+      it('should resolve name', function() {
+
+        // given
+        const escalation = createElement('bpmn:Escalation', { name: 'foo' });
+
+        const escalationEventDefinition = createElement('bpmn:EscalationEventDefinition', {
+          escalationRef: escalation
+        });
+
+        const throwEvent = createElement('bpmn:IntermediateThrowEvent', {
+          id: 'IntermediateThrowEvent_1',
+          eventDefinitions: [ escalationEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(throwEvent, [
+          'eventDefinitions', 0, 'escalationRef', 'name'
+        ]);
+
+        // then
+        expect(entryId).to.eql('escalationName');
+      });
+
+    });
+
+
+    describe('bpmn:LinkEventDefinition', function() {
+
+      it('should resolve name', function() {
+
+        // given
+        const linkEventDefinition = createElement('bpmn:LinkEventDefinition', { name: 'foo' });
+
+        const throwEvent = createElement('bpmn:IntermediateThrowEvent', {
+          id: 'IntermediateThrowEvent_1',
+          eventDefinitions: [ linkEventDefinition ]
+        });
+
+        // when
+        const entryId = getZeebeEntryId(throwEvent, [
+          'eventDefinitions', 0, 'name'
+        ]);
+
+        // then
+        expect(entryId).to.eql('linkName');
+      });
+
+    });
+
+
+    describe('bpmn:CompensateEventDefinition', function() {
+
+      it('should resolve waitForCompletion and activityRef', function() {
+
+        // given
+        const compensateEventDefinition = createElement('bpmn:CompensateEventDefinition', {
+          waitForCompletion: true
+        });
+
+        const throwEvent = createElement('bpmn:IntermediateThrowEvent', {
+          id: 'IntermediateThrowEvent_1',
+          eventDefinitions: [ compensateEventDefinition ]
+        });
+
+        // then
+        expect(getZeebeEntryId(throwEvent, [
+          'eventDefinitions', 0, 'waitForCompletion'
+        ])).to.eql('waitForCompletion');
+
+        expect(getZeebeEntryId(throwEvent, [
+          'eventDefinitions', 0, 'activityRef'
+        ])).to.eql('activityRef');
+      });
+
+    });
+
+
+    describe('bpmn:AdHocSubProcess', function() {
+
+      it('should resolve cancelRemainingInstances', function() {
+
+        // given
+        const adHocSubProcess = createElement('bpmn:AdHocSubProcess', {
+          id: 'AdHocSubProcess_1',
+          cancelRemainingInstances: false
+        });
+
+        // when
+        const entryId = getZeebeEntryId(adHocSubProcess, [ 'cancelRemainingInstances' ]);
+
+        // then
+        expect(entryId).to.eql('cancelRemainingInstances');
       });
 
     });

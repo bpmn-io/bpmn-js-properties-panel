@@ -1,5 +1,7 @@
 import { Group } from '@bpmn-io/properties-panel';
 
+import { getBpmnEntryId } from './utils/EntryIdUtil';
+
 import {
   AdHocCompletionProps,
   CompensationProps,
@@ -246,6 +248,19 @@ export default class BpmnPropertiesProvider {
       groups = groups.concat(getGroups(element, this._injector));
       return groups;
     };
+  }
+
+  /**
+   * Resolve a moddle location rendered by this (standard bpmn) provider to its
+   * entry id, so consumers like linting can stay render-agnostic.
+   *
+   * @param {djs.model.Base} element
+   * @param {Array<string|number>} path moddle path, relative to the element's business object
+   *
+   * @return {string|null}
+   */
+  getEntryId(element, path) {
+    return getBpmnEntryId(element, path);
   }
 
 }

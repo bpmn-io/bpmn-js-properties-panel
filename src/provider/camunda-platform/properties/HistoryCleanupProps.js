@@ -9,6 +9,8 @@ import {
   useService
 } from '../../../hooks';
 
+import { getSingletonEntryId } from '../utils/EntryIdUtil';
+
 
 export function HistoryCleanupProps(props) {
   const {
@@ -24,7 +26,7 @@ export function HistoryCleanupProps(props) {
 
   return [
     {
-      id: 'historyTimeToLive',
+      id: getSingletonEntryId('bpmn:Process', 'historyTimeToLive'),
       component: HistoryTimeToLive,
       isEdited: isTextFieldEntryEdited
     },
@@ -56,7 +58,7 @@ function HistoryTimeToLive(props) {
 
   return TextFieldEntry({
     element,
-    id: 'historyTimeToLive',
+    id: getSingletonEntryId('bpmn:Process', 'historyTimeToLive'),
     label: translate('Time to live'),
     getValue,
     setValue,
