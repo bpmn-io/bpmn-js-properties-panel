@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.64.0
+
 * `FEAT`: add themable focus ring to inputs/controls ([bpmn-io/properties-panel#535](https://github.com/bpmn-io/properties-panel/pull/535))
 * `FEAT`: pass engine versions to editor for FEEL compatibility linting ([bpmn-io/properties-panel#533](https://github.com/bpmn-io/properties-panel/pull/533))
 * `FIX`: show input active state on actual focus only ([bpmn-io/properties-panel#538](https://github.com/bpmn-io/properties-panel/pull/538))
