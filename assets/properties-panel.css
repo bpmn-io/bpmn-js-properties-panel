@@ -1,0 +1,450 @@
+/**
+ * BPMN Properties Panel Styles
+ * Pixel-perfect implementation matching Figma design
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bpp-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --bpp-bg-primary: #ffffff;
+  --bpp-bg-secondary: #f8fafc;
+  --bpp-border-color: #CCD2E3;
+  --bpp-border-light: #CCD2E3;
+  --bpp-text-primary: #1e293b;
+  --bpp-text-secondary: #475569;
+  --bpp-text-muted: #8da0af;
+  --bpp-text-subtle: #94a3b8;
+  --bpp-primary-color: #554fe8;
+  --bpp-primary-hover: #4841d8;
+  --bpp-primary-active: #3b35c4;
+  --bpp-primary-focus-ring: rgba(85, 79, 232, 0.18);
+  --bpp-card-radius: 8px;
+  --bpp-input-radius: 6px;
+}
+
+/* ==========================================================================
+   Container & Global Panel Layout
+   ========================================================================== */
+
+.bio-properties-panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bpp-bg-primary);
+  font-family: var(--bpp-font-family);
+  color: var(--bpp-text-primary);
+  box-sizing: border-box;
+}
+
+.bio-properties-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  font-family: var(--bpp-font-family);
+  background-color: var(--bpp-bg-primary);
+  color: var(--bpp-text-primary);
+  font-size: 13px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.bio-properties-panel * {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Header Section (Matching Figma)
+   ========================================================================== */
+
+.bio-properties-panel-header,
+.bio-properties-panel-custom-header {
+  padding: 16px 16px 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--bpp-bg-primary);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: none !important;
+  align-items: stretch !important;
+}
+
+.bio-properties-panel-header-eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #525f70;
+  margin-bottom: 3px;
+}
+
+.bio-properties-panel-header-title {
+  margin: 0 0 10px 0;
+  font-size: 18.5px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bio-properties-panel-header-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bio-properties-panel-header-subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: #8da0af;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bio-properties-panel-close-btn {
+  background-color: var(--bpp-primary-color);
+  color: #ffffff;
+  font-family: var(--bpp-font-family);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: var(--bpp-input-radius);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(85, 79, 232, 0.4);
+  transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+}
+
+.bio-properties-panel-close-btn:hover {
+  background-color: var(--bpp-primary-hover);
+  box-shadow: 0 4px 12px rgba(85, 79, 232, 0.5);
+}
+
+.bio-properties-panel-close-btn:active {
+  background-color: var(--bpp-primary-active);
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   Scroll Container & Group Cards (Matching Figma)
+   ========================================================================== */
+
+.bio-properties-panel-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Custom Scrollbar */
+.bio-properties-panel-scroll-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.bio-properties-panel-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bio-properties-panel-scroll-container::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 3px;
+}
+
+.bio-properties-panel-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* Card Wrapper */
+.bio-properties-panel-group-card,
+.bio-properties-panel-group {
+  border: 1px solid #CCD2E3;
+  border-radius: var(--bpp-card-radius);
+  background-color: var(--bpp-bg-primary);
+  overflow: hidden;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: 0;
+}
+
+.bio-properties-panel-group-card:hover {
+  border-color: #b8c2cc;
+}
+
+/* Group Header */
+.bio-properties-panel-group-header {
+  padding: 10px 14px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--bpp-bg-primary);
+  transition: background-color 0.15s ease;
+}
+
+.bio-properties-panel-group-header:hover {
+  background-color: #f8fafc;
+}
+
+.bio-properties-panel-group-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.bio-properties-panel-group-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.bio-properties-panel-group-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.bio-properties-panel-group-header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bio-properties-panel-group-header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.bio-properties-panel-group-header-button.bio-properties-panel-arrow {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.bio-properties-panel-arrow-icon {
+  width: 16px;
+  height: 16px;
+  stroke: #475569;
+  stroke-width: 2;
+  transition: transform 0.15s ease;
+}
+
+/* Group Entries Body */
+.bio-properties-panel-group-entries {
+  display: none;
+  border-top: 1px solid #CCD2E3;
+  padding: 12px;
+  background-color: #FAFAFA;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bio-properties-panel-group-entries.open {
+  display: flex;
+}
+
+/* ==========================================================================
+   Form Controls (Entries, Inputs, Labels, Textareas, Selects)
+   ========================================================================== */
+
+.bio-properties-panel-entry {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0px;
+  gap: 4px;
+  width: 100%;
+}
+
+.bio-properties-panel-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bio-properties-panel-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--bpp-input-radius);
+  padding: 6px 10px;
+  font-size: 13.5px;
+  font-family: var(--bpp-font-family);
+  color: #1e293b;
+  background-color: var(--bpp-bg-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  line-height: 1.4;
+  height: 36px;
+  box-sizing: border-box;
+}
+
+.bio-properties-panel-input:focus {
+  outline: none;
+  border-color: var(--bpp-primary-color);
+  box-shadow: 0 0 0 2px var(--bpp-primary-focus-ring);
+}
+
+.bio-properties-panel-input:disabled,
+.bio-properties-panel-input[disabled],
+.bio-properties-panel-input[readonly] {
+  background-color: #ffffff;
+  color: #94a3b8;
+  cursor: default;
+}
+
+.bio-properties-panel-input::placeholder {
+  color: #94a3b8;
+}
+
+textarea.bio-properties-panel-input {
+  height: 36px;
+  min-height: 36px;
+  resize: none;
+  overflow: hidden;
+}
+
+select.bio-properties-panel-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m2 4 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+/* Checkbox Entry */
+.bio-properties-panel-checkbox-entry,
+.bio-properties-panel-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.bio-properties-panel-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--bpp-primary-color);
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.bio-properties-panel-checkbox label {
+  margin: 0;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Validation & Errors */
+.bio-properties-panel-error {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 2px;
+}
+
+.bio-properties-panel-entry.has-error .bio-properties-panel-input {
+  border-color: #ef4444;
+}
+
+.bio-properties-panel-entry.has-error .bio-properties-panel-input:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* Description / Help text */
+.bio-properties-panel-description {
+  font-size: 12px;
+  color: var(--bpp-text-muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* Placeholder Empty / Multiple State */
+.bio-properties-panel-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--bpp-text-muted);
+}
+
+.bio-properties-panel-placeholder-text {
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* Data marker dot */
+.bio-properties-panel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--bpp-primary-color);
+}
+
+.bio-properties-panel-dot--error {
+  background-color: #ef4444;
+}
+
+/* List group / items */
+.bio-properties-panel-list-entry {
+  border: 1px solid #e2e8f0;
+  border-radius: var(--bpp-input-radius);
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: var(--bpp-bg-secondary);
+}
+
+.bio-properties-panel-add-entry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px dashed var(--bpp-border-color);
+  border-radius: var(--bpp-input-radius);
+  background: transparent;
+  color: var(--bpp-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bio-properties-panel-add-entry:hover {
+  border-color: var(--bpp-primary-color);
+  color: var(--bpp-primary-color);
+}
