@@ -2,16 +2,34 @@ import {
   useState,
   useMemo,
   useEffect,
-  useCallback
+  useCallback,
+  useRef,
+  useLayoutEffect
 } from '@bpmn-io/properties-panel/preact/hooks';
+
+import {
+  createElement
+} from '@bpmn-io/properties-panel/preact';
 
 import {
   find,
   isArray,
-  reduce
+  reduce,
+  get,
+  set,
+  assign
 } from 'min-dash';
 
-import { PropertiesPanel } from '@bpmn-io/properties-panel';
+import {
+  LayoutContext,
+  DescriptionContext,
+  TooltipContext,
+  ErrorsContext,
+  EventContext,
+  Placeholder,
+  useEvent,
+  Group as DefaultGroup
+} from '@bpmn-io/properties-panel';
 
 import {
   BpmnPropertiesPanelContext
@@ -19,6 +37,12 @@ import {
 
 import { PanelHeaderProvider } from './PanelHeaderProvider';
 import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
+import CustomHeader from './CustomHeader';
+import CustomGroup from './CustomGroup';
+
+const DEFAULT_LAYOUT = {};
+const DEFAULT_DESCRIPTION = {};
+const DEFAULT_TOOLTIP = {};
 
 /**
  * @param {Object} props
@@ -225,29 +249,190 @@ export default function BpmnPropertiesPanel(props) {
     });
   };
 
-  return <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
-    <PropertiesPanel
-      element={ selectedElement }
-      headerProvider={ PanelHeaderProvider }
-      placeholderProvider={ PanelPlaceholderProvider(translate) }
-      groups={ groups }
-      layoutConfig={ layoutConfig }
-      layoutChanged={ onLayoutChanged }
-      descriptionConfig={ descriptionConfig }
-      descriptionLoaded={ onDescriptionLoaded }
-      tooltipConfig={ tooltipConfig }
-      tooltipLoaded={ onTooltipLoaded }
-      feelPopupContainer={ feelPopupContainer }
-      eventBus={ eventBus } />
-  </BpmnPropertiesPanelContext.Provider>;
+  const placeholderProvider = PanelPlaceholderProvider(translate);
+
+  return (
+    <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
+      <CustomPropertiesPanel
+        element={ selectedElement }
+        headerProvider={ PanelHeaderProvider }
+        placeholderProvider={ placeholderProvider }
+        groups={ groups }
+        layoutConfig={ layoutConfig }
+        layoutChanged={ onLayoutChanged }
+        descriptionConfig={ descriptionConfig }
+        descriptionLoaded={ onDescriptionLoaded }
+        tooltipConfig={ tooltipConfig }
+        tooltipLoaded={ onTooltipLoaded }
+        feelPopupContainer={ feelPopupContainer }
+        eventBus={ eventBus }
+      />
+    </BpmnPropertiesPanelContext.Provider>
+  );
+}
+
+
+function CustomPropertiesPanel(props) {
+  const {
+    element,
+    headerProvider,
+    placeholderProvider,
+    groups,
+    layoutConfig,
+    layoutChanged,
+    descriptionConfig,
+    descriptionLoaded,
+    tooltipConfig,
+    tooltipLoaded,
+    eventBus
+  } = props;
+
+  // set-up layout context
+  const [ layout, setLayout ] = useState(createLayout(layoutConfig));
+
+  useUpdateLayoutEffect(() => {
+    const newLayout = createLayout(layoutConfig);
+    setLayout(newLayout);
+  }, [ layoutConfig ]);
+
+  useEffect(() => {
+    if (typeof layoutChanged === 'function') {
+      layoutChanged(layout);
+    }
+  }, [ layout, layoutChanged ]);
+
+  const getLayoutForKey = (key, defaultValue) => {
+    return get(layout, key, defaultValue);
+  };
+
+  const setLayoutForKey = (key, config) => {
+    const newLayout = assign({}, layout);
+    set(newLayout, key, config);
+    setLayout(newLayout);
+  };
+
+  const layoutContext = {
+    layout,
+    setLayout,
+    getLayoutForKey,
+    setLayoutForKey
+  };
+
+  // set-up description context
+  const description = useMemo(() => createDescriptionContext(descriptionConfig), [ descriptionConfig ]);
+
+  useEffect(() => {
+    if (typeof descriptionLoaded === 'function') {
+      descriptionLoaded(description);
+    }
+  }, [ description, descriptionLoaded ]);
+
+  const getDescriptionForId = (id, element) => {
+    return description[id] && description[id](element);
+  };
+
+  const descriptionContext = {
+    description,
+    getDescriptionForId
+  };
+
+  // set-up tooltip context
+  const tooltip = useMemo(() => createTooltipContext(tooltipConfig), [ tooltipConfig ]);
+
+  useEffect(() => {
+    if (typeof tooltipLoaded === 'function') {
+      tooltipLoaded(tooltip);
+    }
+  }, [ tooltip, tooltipLoaded ]);
+
+  const getTooltipForId = (id, element) => {
+    return tooltip[id] && tooltip[id](element);
+  };
+
+  const tooltipContext = {
+    tooltip,
+    getTooltipForId
+  };
+
+  const [ errors, setErrors ] = useState({});
+
+  const onSetErrors = ({ errors: newErrors }) => setErrors(newErrors);
+
+  useEvent('propertiesPanel.setErrors', onSetErrors, eventBus);
+
+  const errorsContext = {
+    errors
+  };
+
+  const eventContext = {
+    eventBus
+  };
+
+  const propertiesPanelContext = {
+    element
+  };
+
+  // empty state
+  if (placeholderProvider && !element) {
+    return (
+      <Placeholder
+        { ...placeholderProvider.getEmpty() }
+      />
+    );
+  }
+
+  // multiple state
+  if (placeholderProvider && isArray(element)) {
+    return (
+      <Placeholder
+        { ...placeholderProvider.getMultiple() }
+      />
+    );
+  }
+
+  return (
+    <LayoutContext.Provider value={ propertiesPanelContext }>
+      <ErrorsContext.Provider value={ errorsContext }>
+        <DescriptionContext.Provider value={ descriptionContext }>
+          <TooltipContext.Provider value={ tooltipContext }>
+            <LayoutContext.Provider value={ layoutContext }>
+              <EventContext.Provider value={ eventContext }>
+                <div class="bio-properties-panel">
+                  <CustomHeader
+                    element={ element }
+                    headerProvider={ headerProvider }
+                    eventBus={ eventBus }
+                  />
+                  <div class="bio-properties-panel-scroll-container">
+                    { groups.map(group => {
+                      const {
+                        component: Component = CustomGroup,
+                        id
+                      } = group;
+
+                      const GroupComponent = (Component === DefaultGroup) ? CustomGroup : Component;
+
+                      return createElement(GroupComponent, {
+                        ...group,
+                        key: id,
+                        element: element
+                      });
+                    }) }
+                  </div>
+                </div>
+              </EventContext.Provider>
+            </LayoutContext.Provider>
+          </TooltipContext.Provider>
+        </DescriptionContext.Provider>
+      </ErrorsContext.Provider>
+    </LayoutContext.Provider>
+  );
 }
 
 
 // helpers //////////////////////////
 
 function isImplicitRoot(element) {
-
-  // Backwards compatibility for diagram-js<7.4.0, see https://github.com/bpmn-io/bpmn-properties-panel/pull/102
   return element && (element.isImplicit || element.id === '__implicitroot');
 }
 
@@ -257,4 +442,37 @@ function findElement(elements, element) {
 
 function elementExists(element, elementRegistry) {
   return element && elementRegistry.get(element.id);
+}
+
+function createLayout(overrides = {}, defaults = DEFAULT_LAYOUT) {
+  return {
+    ...defaults,
+    ...overrides
+  };
+}
+
+function createDescriptionContext(overrides = {}) {
+  return {
+    ...DEFAULT_DESCRIPTION,
+    ...overrides
+  };
+}
+
+function createTooltipContext(overrides = {}) {
+  return {
+    ...DEFAULT_TOOLTIP,
+    ...overrides
+  };
+}
+
+function useUpdateLayoutEffect(effect, deps) {
+  const isMounted = useRef(false);
+
+  useLayoutEffect(() => {
+    if (isMounted.current) {
+      return effect();
+    } else {
+      isMounted.current = true;
+    }
+  }, deps);
 }

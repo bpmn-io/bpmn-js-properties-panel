@@ -111,6 +111,11 @@ export function insertCoreStyles() {
   );
 
   insertCSS(
+    'bpmn-properties-panel-custom.css',
+    require('../assets/properties-panel.css').default
+  );
+
+  insertCSS(
     'test.css',
     require('./test.css').default
   );
