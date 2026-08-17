@@ -142,6 +142,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     const diagramXml = require('test/fixtures/simple.bpmn').default;
 
     // when
+    const CustomPropertiesProvider = require('../../src/provider/custom/CustomPropertiesProvider').default;
+    const customModdle = require('../../src/descriptors/custom.json');
     const result = await createModeler(
       diagramXml,
       {
@@ -151,9 +153,14 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
           BpmnPropertiesProvider,
           ZeebePropertiesProvider,
           CreateAppendAnythingModule,
+          {
+            __init__: [ 'customPropertiesProvider' ],
+            customPropertiesProvider: [ 'type', CustomPropertiesProvider ]
+          }
         ],
         moddleExtensions: {
-          zeebe: ZeebeModdle
+          zeebe: ZeebeModdle,
+          custom: customModdle
         },
         tooltip: TooltipProvider
       }

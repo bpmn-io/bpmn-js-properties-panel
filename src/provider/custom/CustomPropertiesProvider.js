@@ -2,10 +2,15 @@
 // The entry is a text input field with logic attached to create,
 // update and delete the "spell" property.
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
-import {AttributesProps, 
-    RelativePropertiesProps, 
-    IconTypeProps, 
-    PropertyProps
+import {
+    AttributesProps,
+    RelativePropertiesProps,
+    IconTypeProps,
+    PropertyProps,
+    ChatbotRelationProps,
+    GraphRelationProps,
+    ApiWorkflowRelationProps,
+    ApiRelationProps
 } from './properties';
 
 const LOW_PRIORITY = 400;
@@ -13,6 +18,10 @@ const LOW_PRIORITY = 400;
 const CUSTOM_GROUPS = [
     CustomGroup,
     RelativeGroup,
+    ChatbotRelationGroup,
+    GraphRelationGroup,
+    ApiWorkflowRelationGroup,
+    ApiRelationGroup,
     PropertyGroup
 ];
 
@@ -104,6 +113,62 @@ function RelativeGroup(element, injector) {
     }
 
     return null;
+}
+
+function ChatbotRelationGroup(element, injector) {
+    const translate = injector.get('translate');
+    const props = ChatbotRelationProps({ element });
+    if (!props || !props.entries || props.entries.length === 0) return null;
+
+    const group = {
+        label: translate('Chatbot Relation') + ` (${props.relationCount})`,
+        id: 'Custom__ChatbotRelation',
+        component: Group,
+        entries: props.entries
+    };
+    return group;
+}
+
+function GraphRelationGroup(element, injector) {
+    const translate = injector.get('translate');
+    const props = GraphRelationProps({ element });
+    if (!props || !props.entries || props.entries.length === 0) return null;
+
+    const group = {
+        label: translate('Graph Relation') + ` (${props.relationCount})`,
+        id: 'Custom__GraphRelation',
+        component: Group,
+        entries: props.entries
+    };
+    return group;
+}
+
+function ApiWorkflowRelationGroup(element, injector) {
+    const translate = injector.get('translate');
+    const props = ApiWorkflowRelationProps({ element });
+    if (!props || !props.entries || props.entries.length === 0) return null;
+
+    const group = {
+        label: translate('API Workflow Relation') + ` (${props.relationCount})`,
+        id: 'Custom__ApiWorkflowRelation',
+        component: Group,
+        entries: props.entries
+    };
+    return group;
+}
+
+function ApiRelationGroup(element, injector) {
+    const translate = injector.get('translate');
+    const props = ApiRelationProps({ element });
+    if (!props || !props.entries || props.entries.length === 0) return null;
+
+    const group = {
+        label: translate('API Relation') + ` (${props.relationCount})`,
+        id: 'Custom__ApiRelation',
+        component: Group,
+        entries: props.entries
+    };
+    return group;
 }
 
 function PropertyGroup(element, injector) {

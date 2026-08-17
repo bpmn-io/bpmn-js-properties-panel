@@ -100,6 +100,95 @@
           "isAttr": true
         }
       ]
+    },
+    {
+      "name": "ChatbotRelations",
+      "superClass": ["Element"],
+      "properties": [
+        {
+          "name": "values",
+          "type": "ChatbotRelation",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "ChatbotRelation",
+      "properties": [
+        {
+          "name": "callRefId",
+          "type": "String",
+          "isAttr": true
+        }
+      ]
+    },
+    {
+      "name": "GraphRelations",
+      "superClass": ["Element"],
+      "properties": [
+        {
+          "name": "values",
+          "type": "GraphRelation",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "GraphRelation",
+      "properties": [
+        {
+          "name": "docuFilId",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "nodeId",
+          "type": "String",
+          "isAttr": true
+        }
+      ]
+    },
+    {
+      "name": "ApiWorkflowRelations",
+      "superClass": ["Element"],
+      "properties": [
+        {
+          "name": "values",
+          "type": "ApiWorkflowRelation",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "ApiWorkflowRelation",
+      "properties": [
+        {
+          "name": "callRefId",
+          "type": "String",
+          "isAttr": true
+        }
+      ]
+    },
+    {
+      "name": "ApiRelations",
+      "superClass": ["Element"],
+      "properties": [
+        {
+          "name": "values",
+          "type": "ApiRelation",
+          "isMany": true
+        }
+      ]
+    },
+    {
+      "name": "ApiRelation",
+      "properties": [
+        {
+          "name": "callRefId",
+          "type": "String",
+          "isAttr": true
+        }
+      ]
     }
   ]
 }

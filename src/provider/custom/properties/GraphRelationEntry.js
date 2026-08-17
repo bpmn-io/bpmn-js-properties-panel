@@ -1,0 +1,88 @@
+import { html } from 'htm/preact';
+import { useState, useEffect, useCallback } from 'preact/hooks';
+import { useService } from '../../../hooks';
+import { getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import { getGraphRelations, subscribeRelationsUpdated, deleteGraphRelation } from './relationsHelper';
+
+/**
+ * Entry component for Graph Relation.
+ * - Reads from window.__bpmnRelations (injected by BpmnEditor.tsx)
+ * - Re-renders when 'bpmn-relations-updated' CustomEvent fires
+ * - Trash icon calls deleteGraphRelation → BpmnEditor.tsx handler → re-inject → event fires
+ */
+export default function GraphRelationEntry(props) {
+  const { element } = props;
+
+  const translate = useService('translate');
+  const businessObject = getBusinessObject(element);
+  const elementId = businessObject?.id;
+
+  const [items, setItems] = useState(() => getGraphRelations(elementId));
+  const [loading, setLoading] = useState(false);
+
+  // Re-read data whenever BpmnEditor updates window.__bpmnRelations
+  useEffect(() => {
+    const refresh = () => setItems(getGraphRelations(elementId));
+    const unsubscribe = subscribeRelationsUpdated(refresh);
+    return unsubscribe;
+  }, [elementId]);
+
+  const handleDelete = useCallback(async (docuFilId, nodeId) => {
+    setLoading(true);
+    try {
+      await deleteGraphRelation(elementId, docuFilId, nodeId);
+    } finally {
+      setLoading(false);
+    }
+  }, [elementId]);
+
+  if (!items || items.length === 0) {
+    return html`
+      <div class="bio-properties-panel-entry" style="padding: 8px 12px; color: #888; font-size: 12px;">
+        ${translate('No graph relations')}
+      </div>
+    `;
+  }
+
+  return html`
+    <div style="padding: 4px 0; opacity: ${loading ? '0.6' : '1'}; pointer-events: ${loading ? 'none' : 'auto'};">
+      ${items.map((item, idx) => html`
+        <div
+          key=${'graph-' + idx + '-' + item.nodeId}
+          style="
+            margin: 4px 8px 8px 8px;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #dfe1e6;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #172b4d;
+          "
+        >
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-weight: 600; color: #5e6c84; font-size: 11px; letter-spacing: 0.5px;">
+              RELATION ${idx + 1}
+            </div>
+            <div
+              style="cursor: pointer; color: #de350b;"
+              title=${translate('Remove')}
+              onClick=${() => handleDelete(item.docuFilId, item.nodeId)}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+              </svg>
+            </div>
+          </div>
+          <div style="margin-bottom: 4px;">
+            <span style="font-weight: 600;">${translate('Element ID')}:</span>
+            <span style="margin-left: 4px;">${item.nodeId || '-'}</span>
+          </div>
+          <div>
+            <span style="font-weight: 600;">${translate('Document ID')}:</span>
+            <span style="margin-left: 4px;">${item.docuFilId || '-'}</span>
+          </div>
+        </div>
+      `)}
+    </div>
+  `;
+}
