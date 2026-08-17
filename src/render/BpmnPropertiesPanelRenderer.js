@@ -45,6 +45,29 @@ export default class BpmnPropertiesPanelRenderer {
       '<div style="height: 100%" class="bio-properties-panel-container"></div>'
     );
 
+    this._openButton = domify(`
+      <button
+        type="button"
+        class="bio-properties-panel-open-btn"
+        title="Open Properties Panel"
+        aria-label="Open Properties Panel"
+        style="display: none;"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+          <path d="M15 3v18"></path>
+          <path d="m10 15-3-3 3-3"></path>
+        </svg>
+      </button>
+    `);
+
+    domEvent.bind(this._openButton, 'click', (e) => {
+      e.preventDefault();
+      this.open();
+    });
+
+    document.body.appendChild(this._openButton);
+
     var commandStack = injector.get('commandStack', false);
 
     commandStack && setupKeyboard(this._container, eventBus, commandStack);
@@ -57,12 +80,54 @@ export default class BpmnPropertiesPanelRenderer {
 
     eventBus.on('diagram.destroy', () => {
       this.detach();
+      this._destroy();
     });
 
     eventBus.on('root.added', (event) => {
       const { element } = event;
 
       this._render(element);
+    });
+
+    eventBus.on('propertiesPanel.close', () => {
+      this._container.classList.add('bio-properties-panel-is-closed');
+      const parentNode = this._parent || this._container.parentNode;
+      if (parentNode) {
+        parentNode.classList.add('bio-properties-panel-is-closed');
+        parentNode.style.display = 'none';
+      }
+      if (this._openButton) {
+        this._openButton.style.display = 'flex';
+      }
+      const canvas = this._injector.get('canvas', false);
+      if (canvas && typeof canvas.resized === 'function') {
+        canvas.resized();
+      }
+    });
+
+    eventBus.on('propertiesPanel.open', () => {
+      this._container.classList.remove('bio-properties-panel-is-closed');
+      const parentNode = this._parent || this._container.parentNode;
+      if (parentNode) {
+        parentNode.classList.remove('bio-properties-panel-is-closed');
+        parentNode.style.display = '';
+      }
+      if (this._openButton) {
+        this._openButton.style.display = 'none';
+      }
+      const canvas = this._injector.get('canvas', false);
+      if (canvas && typeof canvas.resized === 'function') {
+        canvas.resized();
+      }
+    });
+
+    eventBus.on('propertiesPanel.toggle', () => {
+      const isClosed = this._container.classList.contains('bio-properties-panel-is-closed');
+      if (isClosed) {
+        this.open();
+      } else {
+        this.close();
+      }
     });
   }
 
@@ -145,6 +210,27 @@ export default class BpmnPropertiesPanelRenderer {
     this._eventBus.fire('propertiesPanel.setLayout', { layout });
   }
 
+  /**
+   * Opens the properties panel.
+   */
+  open() {
+    this._eventBus.fire('propertiesPanel.open');
+  }
+
+  /**
+   * Closes the properties panel.
+   */
+  close() {
+    this._eventBus.fire('propertiesPanel.close');
+  }
+
+  /**
+   * Toggles the open/closed state of the properties panel.
+   */
+  toggle() {
+    this._eventBus.fire('propertiesPanel.toggle');
+  }
+
   _getProviders() {
     const event = this._eventBus.createEvent({
       type: 'propertiesPanel.getProviders',
@@ -184,6 +270,10 @@ export default class BpmnPropertiesPanelRenderer {
   }
 
   _destroy() {
+    if (this._openButton && this._openButton.parentNode) {
+      this._openButton.parentNode.removeChild(this._openButton);
+    }
+
     if (this._container) {
       render(null, this._container);
 

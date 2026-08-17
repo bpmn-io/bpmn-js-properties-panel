@@ -35,7 +35,6 @@ export default function CustomHeader(props) {
     e.preventDefault();
     if (eventBus) {
       eventBus.fire('propertiesPanel.close', { element });
-      eventBus.fire('propertiesPanel.detach');
     }
   };
 

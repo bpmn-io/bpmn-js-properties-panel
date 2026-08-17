@@ -448,3 +448,64 @@ select.bio-properties-panel-input {
   border-color: var(--bpp-primary-color);
   color: var(--bpp-primary-color);
 }
+
+/* ==========================================================================
+   Closed / Collapsed State & Open Toggle Button
+   ========================================================================== */
+
+.bio-properties-panel-is-closed {
+  width: 0 !important;
+  min-width: 0 !important;
+  border-left: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+
+.bio-properties-panel-open-btn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 36px;
+  height: 44px;
+  background-color: var(--bpp-primary-color, #554fe8);
+  color: #ffffff;
+  border: none;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: -2px 2px 10px rgba(85, 79, 232, 0.4), 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bio-properties-panel-open-btn:hover {
+  background-color: var(--bpp-primary-hover, #4841d8);
+  width: 42px;
+  box-shadow: -4px 4px 14px rgba(85, 79, 232, 0.5);
+}
+
+.bio-properties-panel-open-btn:active {
+  background-color: var(--bpp-primary-active, #3b35c4);
+  transform: translateY(-50%) scale(0.95);
+}
+
+.bio-properties-panel-open-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ffffff;
+  stroke-width: 2;
+  transition: transform 0.2s ease;
+}
+
+.bio-properties-panel-open-btn:hover svg {
+  transform: translateX(-2px);
+}
