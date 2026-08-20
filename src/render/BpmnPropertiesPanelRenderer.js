@@ -38,7 +38,8 @@ export default class BpmnPropertiesPanelRenderer {
       description: descriptionConfig,
       tooltip: tooltipConfig,
       feelPopupContainer,
-      getFeelPopupLinks
+      getFeelPopupLinks,
+      feelLanguageContext
     } = config || {};
 
     this._eventBus = eventBus;
@@ -48,6 +49,7 @@ export default class BpmnPropertiesPanelRenderer {
     this._tooltipConfig = tooltipConfig;
     this._feelPopupContainer = feelPopupContainer;
     this._getFeelPopupLinks = getFeelPopupLinks;
+    this._feelLanguageContext = feelLanguageContext;
 
     this._container = domify(
       '<div style="height: 100%" tabindex="-1" class="bio-properties-panel-container"></div>'
@@ -186,6 +188,17 @@ export default class BpmnPropertiesPanelRenderer {
   }
 
   /**
+   * Set the FEEL language context used by properties panel entries.
+   *
+   * @param {Object} feelLanguageContext
+   */
+  setFeelLanguageContext(feelLanguageContext) {
+    this._feelLanguageContext = feelLanguageContext;
+
+    this._rerender();
+  }
+
+  /**
    * Resolve the id of the entry that edits the given moddle property path,
    * asking registered providers in reverse render order (the provider whose
    * groups render last answers first). Providers not implementing
@@ -246,6 +259,7 @@ export default class BpmnPropertiesPanelRenderer {
         tooltipConfig={ this._tooltipConfig }
         feelPopupContainer={ this._feelPopupContainer }
         getFeelPopupLinks={ this._getFeelPopupLinks }
+        feelLanguageContext={ this._feelLanguageContext }
         headerParent={ this._separateHeader ? this._headerContainer : null }
       />,
       this._container

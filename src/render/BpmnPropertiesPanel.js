@@ -38,6 +38,7 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  * @param {Object} props.tooltipConfig
  * @param {HTMLElement} props.feelPopupContainer
  * @param {Function} props.getFeelPopupLinks
+ * @param {Object} props.feelLanguageContext
  * @param {HTMLElement} [props.headerParent]
  */
 export default function BpmnPropertiesPanel(props) {
@@ -50,6 +51,7 @@ export default function BpmnPropertiesPanel(props) {
     tooltipConfig,
     feelPopupContainer,
     getFeelPopupLinks,
+    feelLanguageContext,
     headerParent
   } = props;
 
@@ -243,10 +245,14 @@ export default function BpmnPropertiesPanel(props) {
   const renderSeparateHeader = separateHeader && selectedElement && !isArray(selectedElement);
 
   const headerProvider = PanelHeaderProvider(translate);
+  const mergedFeelLanguageContext = useMemo(() => ({
+    ...DEFAULT_FEEL_LANGUAGE_CONTEXT,
+    ...feelLanguageContext
+  }), [ feelLanguageContext ]);
 
   return (
     <BpmnPropertiesPanelContext.Provider value={ bpmnPropertiesPanelContext }>
-      <FeelLanguageContext.Provider value={ DEFAULT_FEEL_LANGUAGE_CONTEXT }>
+      <FeelLanguageContext.Provider value={ mergedFeelLanguageContext }>
         <PropertiesPanel
           element={ selectedElement }
           headerProvider={ separateHeader ? null : headerProvider }
