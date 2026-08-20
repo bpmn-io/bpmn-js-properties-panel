@@ -106,7 +106,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       },
       description = {},
       tooltip = {},
-      layout = {}
+      layout = {},
+      feelLanguageContext
     } = options;
 
     clearBpmnJS();
@@ -120,7 +121,8 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         feelTooltipContainer: container,
         description,
         tooltip,
-        layout
+        layout,
+        feelLanguageContext
       },
       ...options
     });
@@ -163,7 +165,12 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
         moddleExtensions: {
           zeebe: ZeebeModdle
         },
-        tooltip: ZeebeTooltipProvider
+        tooltip: ZeebeTooltipProvider,
+        feelLanguageContext: {
+          engines: {
+            camunda: '8.7'
+          }
+        }
       }
     );
 
@@ -311,6 +318,32 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
     // then
     expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+  });
+
+
+  it('should update FEEL language context', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+    const { modeler } = await createModeler(diagramXml);
+
+    const propertiesPanel = modeler.get('propertiesPanel');
+
+    sinon.spy(propertiesPanel, '_render');
+
+    const feelLanguageContext = {
+      engines: {
+        camunda: '8.8'
+      }
+    };
+
+    // when
+    propertiesPanel.setFeelLanguageContext(feelLanguageContext);
+
+    // then
+    expect(propertiesPanel._feelLanguageContext).to.equal(feelLanguageContext);
+    expect(propertiesPanel._render).to.have.been.calledOnce;
   });
 
 
