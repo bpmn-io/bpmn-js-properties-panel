@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.65.0
+
+* `FEAT`: allow updating FEEL language context ([#1247](https://github.com/bpmn-io/properties-panel/pull/1247))
+
 ## 5.64.0
 
 * `FEAT`: add themable focus ring to inputs/controls ([bpmn-io/properties-panel#535](https://github.com/bpmn-io/properties-panel/pull/535))
