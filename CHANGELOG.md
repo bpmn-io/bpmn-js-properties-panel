@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FIX`: force linting after engines change ([bpmn-io/feel-editor#114](https://github.com/bpmn-io/feel-editor/pull/114))
+
 ## 5.65.0
 
 * `FEAT`: allow updating FEEL language context ([#1247](https://github.com/bpmn-io/properties-panel/pull/1247))
