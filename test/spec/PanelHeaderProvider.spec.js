@@ -11,7 +11,7 @@ import {
 
 import { BpmnModdle } from 'bpmn-moddle';
 
-import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
+import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import {
   insertCoreStyles

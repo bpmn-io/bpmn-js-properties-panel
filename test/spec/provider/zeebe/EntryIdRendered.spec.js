@@ -22,7 +22,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import executionListenersXML from './ExecutionListenerProps.bpmn';
 import inputXML from './InputProps.bpmn';

@@ -33,7 +33,7 @@ import BpmnPropertiesPanel from 'src/render';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 

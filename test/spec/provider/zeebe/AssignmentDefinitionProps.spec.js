@@ -29,7 +29,7 @@ import ZeebePropertiesProvider from 'src/provider/zeebe';
 
 import BehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import {
   getExtensionElementsList

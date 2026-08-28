@@ -51,7 +51,7 @@ import ZeebeBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';
 
 import CamundaModdle from 'camunda-bpmn-moddle/resources/camunda';
 
-import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
+import ZeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import ExamplePropertiesProvider from './extension/ExamplePropertiesProvider';
 
