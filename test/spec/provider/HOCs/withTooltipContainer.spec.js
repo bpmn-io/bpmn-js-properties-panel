@@ -6,7 +6,7 @@ import { render } from '@testing-library/preact';
 import CoreModule from 'bpmn-js/lib/core';
 import { bootstrapModeler, inject } from 'bpmn-js/test/helper';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import { withTooltipContainer } from 'src/provider/HOCs';
 

@@ -10,7 +10,7 @@ import {
 
 import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import {
   ZeebeVariableResolverModule

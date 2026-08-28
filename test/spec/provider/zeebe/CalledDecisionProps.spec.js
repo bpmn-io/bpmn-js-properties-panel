@@ -29,7 +29,7 @@ import ModelingModule from 'bpmn-js/lib/features/modeling';
 import SelectionModule from 'diagram-js/lib/features/selection';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import diagramXML from './CalledDecisionProps.bpmn';
 

@@ -14,7 +14,7 @@ import BpmnPropertiesProvider from 'src/provider/bpmn';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 import TooltipProvider from 'src/contextProvider/zeebe/TooltipProvider';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import diagramXML from './AdHocSubProcessImplementationProps.bpmn';
 

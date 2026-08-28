@@ -26,7 +26,7 @@ import BpmnPropertiesProvider from 'src/provider/bpmn';
 
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import {
   getInputParameters,

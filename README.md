@@ -89,7 +89,7 @@ import {
 } from 'bpmn-js-properties-panel';
 
 // Camunda 8 moddle extension
-import zeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 // Camunda 8 behaviors
 import ZeebeBehaviorsModule from 'camunda-bpmn-js-behaviors/lib/camunda-cloud';

@@ -4,7 +4,7 @@ import { getZeebeEntryId } from '../../../../src/provider/zeebe/utils/EntryIdUti
 
 import { BpmnModdle } from 'bpmn-moddle';
 
-import ZeebeBpmnModdle from 'zeebe-bpmn-moddle/resources/zeebe';
+import ZeebeBpmnModdle from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 
 describe('provider/zeebe - EntryIdUtil', function() {

@@ -24,7 +24,7 @@ import BpmnPropertiesPanel from 'src/render';
 import ZeebePropertiesProvider from 'src/provider/zeebe';
 import BpmnPropertiesProvider from 'src/provider/bpmn';
 
-import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe';
+import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import diagramXML from './ZeebePropertiesProvider.bpmn';
 
