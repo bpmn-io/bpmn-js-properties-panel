@@ -148,7 +148,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'cloud' ? it.only : it)('should import simple process (cloud)', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     const result = await createModeler(
@@ -182,7 +182,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'platform' ? it.only : it)('should import simple process (platform)', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     const result = await createModeler(
@@ -210,7 +210,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   (singleStart === 'bpmn' ? it.only : it)('should import simple process (bpmn)', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     const result = await createModeler(
@@ -233,7 +233,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   it('should attach on diagram.init', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     await createModeler(diagramXml);
@@ -246,7 +246,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   it('should detach on diagram.destroy', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     const { modeler } = await createModeler(diagramXml);
 
@@ -263,7 +263,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   describe('keyboard bindings (undo/redo)', function() {
 
     it('should NOT bind with keyboard binding deactivated', async function() {
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(diagramXml, {
         keyboard: {
@@ -311,7 +311,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   it('should render on root.added', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     await createModeler(diagramXml);
@@ -324,7 +324,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   it('should update FEEL language context', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     const { modeler } = await createModeler(diagramXml);
 
@@ -350,7 +350,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   it('should allow providing custom entries', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/service-task.bpmn').default;
+    const diagramXml = require('test/fixtures/service-task.bpmn');
 
     const modules = [
       ZeebeBehaviorsModule,
@@ -373,7 +373,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   it('should ignore implicit root', async function() {
 
     // given
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     const { modeler } = await createModeler(diagramXml, {
@@ -399,7 +399,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   describe('providers', function() {
 
-    const diagramXML = require('test/fixtures/simple.bpmn').default;
+    const diagramXML = require('test/fixtures/simple.bpmn');
 
     function inject(fn) {
 
@@ -443,7 +443,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
   describe('#getEntryId', function() {
 
-    const diagramXML = require('test/fixtures/simple.bpmn').default;
+    const diagramXML = require('test/fixtures/simple.bpmn');
 
     function inject(fn) {
 
@@ -551,7 +551,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should ensure creating + importing -> attaching works', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       // when
       const { modeler } = await createModeler(diagramXml, {
@@ -573,7 +573,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should ensure creating + attaching -> importing works', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       // when
       const { modeler } = await createModeler(null, {
@@ -597,7 +597,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should ensure creating -> no import -> attaching -> import works', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(null, {
         shouldImport: false,
@@ -623,7 +623,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should keep state during detach and attach', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       let modeler;
       await act(async () => {
@@ -651,7 +651,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     describe('input', function() {
 
       let modeler;
-      const diagramXml = require('test/fixtures/integration.bpmn').default;
+      const diagramXml = require('test/fixtures/integration.bpmn');
 
       beforeEach(function() {
         return act(async () => {
@@ -855,7 +855,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     withPropertiesPanel('>=0.16')('should show error', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       let modeler;
 
@@ -890,7 +890,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should resolve a moddle path to an entry rendered in the DOM', async function() {
 
       // given
-      const diagramXml = require('test/spec/provider/zeebe/InputProps.bpmn').default;
+      const diagramXml = require('test/spec/provider/zeebe/InputProps.bpmn');
 
       let modeler;
 
@@ -932,7 +932,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       BpmnPropertiesProvider
     ];
 
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     const { modeler } = await createModeler(diagramXml, {
       propertiesPanel: {},
@@ -960,7 +960,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       BpmnPropertiesProvider
     ];
 
-    const diagramXml = require('test/fixtures/simple.bpmn').default;
+    const diagramXml = require('test/fixtures/simple.bpmn');
 
     // when
     const { modeler } = await createModeler(diagramXml, {
@@ -995,7 +995,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     (singleStart === 'header' ? it.only : it)('should import simple process (separate header)', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       propertiesContainer.remove();
       headerContainer.remove();
@@ -1045,7 +1045,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should render header into the separate container', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(diagramXml, {
         propertiesPanel: {}
@@ -1066,7 +1066,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should add theme selector for separate container', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(diagramXml, {
         propertiesPanel: {}
@@ -1087,7 +1087,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should render header inline without a header container', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(diagramXml, {
         propertiesPanel: {}
@@ -1107,7 +1107,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should throw if header container cannot be resolved', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(diagramXml, {
         propertiesPanel: {}
@@ -1124,7 +1124,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should update separate header on selection change', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       let modeler;
       await act(async () => {
@@ -1150,7 +1150,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should detach header container', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/simple.bpmn').default;
+      const diagramXml = require('test/fixtures/simple.bpmn');
 
       const { modeler } = await createModeler(diagramXml, {
         propertiesPanel: {}
@@ -1185,7 +1185,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     const container = domify('<div></div>');
     TestContainer.get(this).appendChild(container);
 
-    const diagramXml = require('test/fixtures/service-task.bpmn').default;
+    const diagramXml = require('test/fixtures/service-task.bpmn');
 
     const { modeler } = await createModeler(diagramXml);
 
@@ -1213,7 +1213,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       const container = domify('<div></div>');
       TestContainer.get(this).appendChild(container);
 
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       const { modeler } = await createModeler(diagramXml);
 
@@ -1235,7 +1235,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // given
       const spy = sinon.spy();
 
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       const { modeler } = await createModeler(diagramXml);
 
@@ -1257,7 +1257,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // given
       const spy = sinon.spy();
 
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       const { modeler } = await createModeler(diagramXml);
 
@@ -1282,7 +1282,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       const container = domify('<div></div>');
       TestContainer.get(this).appendChild(container);
 
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       const { modeler } = await createModeler(diagramXml);
 
@@ -1304,7 +1304,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // given
       const spy = sinon.spy();
 
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       const { modeler } = await createModeler(diagramXml);
 
@@ -1329,7 +1329,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should show and focus entry', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       let modeler;
 
@@ -1364,7 +1364,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should show and focus entry (nested)', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       let modeler;
 
@@ -1404,7 +1404,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     withPropertiesPanel('>=3.5')('should render feel popup in given container', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       let modeler;
 
@@ -1438,7 +1438,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     it('should render links', async function() {
 
       // given
-      const diagramXml = require('test/fixtures/service-task.bpmn').default;
+      const diagramXml = require('test/fixtures/service-task.bpmn');
 
       let modeler;
 
@@ -1494,7 +1494,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
       beforeEach(async function() {
 
-        const diagramXml = require('test/fixtures/service-task.bpmn').default;
+        const diagramXml = require('test/fixtures/service-task.bpmn');
 
         await act(async () => {
           ({ modeler } = await createModeler(diagramXml, {
@@ -1645,7 +1645,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // (0) this test needs some time
       this.timeout(5000);
 
-      const diagramXml = require('test/fixtures/a11y-c7.bpmn').default;
+      const diagramXml = require('test/fixtures/a11y-c7.bpmn');
 
       // (1) ensure fully opened properties panel
       let modeler;
@@ -1714,7 +1714,7 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
       // (0) this test needs some time
       this.timeout(5000);
 
-      const diagramXml = require('test/fixtures/a11y-c8.bpmn').default;
+      const diagramXml = require('test/fixtures/a11y-c8.bpmn');
 
       // (1) ensure fully opened properties panel
       let modeler;
