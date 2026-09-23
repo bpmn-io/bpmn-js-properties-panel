@@ -104,7 +104,7 @@
     "rollup-plugin-react-svg": "^3.0.3",
     "sinon": "^22.1.0",
     "sinon-chai": "^4.0.0",
-    "webpack": "^5.109.2",
+    "webpack": "^5.111.0",
     "zeebe-bpmn-moddle": "^2.0.0"
   },
   "peerDependencies": {
