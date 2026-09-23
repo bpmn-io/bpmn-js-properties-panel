@@ -56,7 +56,7 @@ export default class BpmnPropertiesPanelRenderer {
     );
 
     this._headerContainer = domify(
-      '<div style="flex: none; height: auto" class="bio-properties-panel bio-properties-panel-header-container"></div>'
+      '<div style="flex: none; height: auto" class="bio-properties-panel bio-theme-parent bio-properties-panel-header-container"></div>'
     );
 
     this._separateHeader = false;

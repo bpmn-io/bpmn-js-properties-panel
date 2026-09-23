@@ -1063,6 +1063,27 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     });
 
 
+    it('should add theme selector for separate container', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn').default;
+
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {}
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      // when
+      await act(() => propertiesPanel.attachTo(propertiesContainer, headerContainer));
+
+      // then
+      const header = domQuery('.bio-properties-panel-header', headerContainer);
+
+      expect(header.closest('.bio-theme-parent')).to.exist;
+    });
+
+
     it('should render header inline without a header container', async function() {
 
       // given
