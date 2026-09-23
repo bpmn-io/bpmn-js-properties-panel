@@ -6,6 +6,10 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.65.1
+
+* `FIX`: apply theme to separate header container ([#1253](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1253))
+
 ## 5.65.0
 
 * `FEAT`: allow updating FEEL language context ([#1247](https://github.com/bpmn-io/properties-panel/pull/1247))
