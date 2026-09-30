@@ -852,7 +852,42 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     });
 
 
-    withPropertiesPanel('>=0.16')('should show error', async function() {
+    withPropertiesPanel('>=3.56.0')('should show diagnostic', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn');
+
+      let modeler;
+
+      await act(async () => {
+        const result = await createModeler(diagramXml);
+
+        modeler = result.modeler;
+      });
+
+      const eventBus = modeler.get('eventBus');
+      const elementRegistry = modeler.get('elementRegistry');
+      const selection = modeler.get('selection');
+
+      await act(() => {
+        selection.select(elementRegistry.get('StartEvent_1'));
+
+        eventBus.fire('propertiesPanel.setDiagnostics', {
+          diagnostics: {
+            name: [ { severity: 'error', message: 'foo' } ]
+          }
+        });
+      });
+
+      // then
+      const error = domQuery('div[data-entry-id="name"] .bio-properties-panel-error', propertiesContainer);
+
+      expect(error).to.exist;
+      expect(error.textContent).to.equal('foo');
+    });
+
+
+    withPropertiesPanel('>=0.16')('should show error (legacy errors)', async function() {
 
       // given
       const diagramXml = require('test/fixtures/simple.bpmn');
