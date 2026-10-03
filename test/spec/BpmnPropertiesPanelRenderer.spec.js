@@ -397,6 +397,34 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should recover after failed import', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn');
+
+    let modeler;
+    await act(async () => {
+      const result = await createModeler(diagramXml);
+      modeler = result.modeler;
+    });
+
+    // an ID with whitespace cannot be referenced: the import fails
+    const invalidXml = diagramXml.replaceAll('Process_1', 'Process 1');
+
+    const importError = await modeler.importXML(invalidXml).then(() => null, error => error);
+
+    // assume
+    expect(importError).to.exist;
+
+    // when
+    const { warnings } = await modeler.importXML(diagramXml);
+
+    // then
+    expect(warnings).to.be.empty;
+    expect(domQuery('.bio-properties-panel', propertiesContainer)).to.exist;
+  });
+
+
   describe('providers', function() {
 
     const diagramXML = require('test/fixtures/simple.bpmn');
