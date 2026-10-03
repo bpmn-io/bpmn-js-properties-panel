@@ -146,6 +146,11 @@ export default function BpmnPropertiesPanel(props) {
     const onImportDone = () => {
       const rootElement = canvas.getRootElement();
 
+      // a failed import leaves no root; do not select the implicit one
+      if (isImplicitRoot(rootElement)) {
+        return;
+      }
+
       _update(rootElement);
     };
 
