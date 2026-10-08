@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.65.2
+
+* `FIX`: correct failed import holding implicit root ([#1256](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1256))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.56.0`
 
 ## 5.65.1
