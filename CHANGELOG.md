@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.65.3
+
 * `FIX`: link to stable Camunda docs in job priority tooltip ([#1258](https://github.com/bpmn-io/bpmn-js-properties-panel/pull/1258))
 
 ## 5.65.2
