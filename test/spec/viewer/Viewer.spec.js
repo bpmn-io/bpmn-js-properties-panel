@@ -187,6 +187,34 @@ describe('viewer', function() {
         });
 
 
+        it('should not validate', async function() {
+
+          // given
+          const selection = viewer.get('selection'),
+                elementRegistry = viewer.get('elementRegistry'),
+                element = elementRegistry.get('ServiceTask_1');
+
+          // an id that is neither a valid XML ID nor unique
+          element.businessObject.id = '1 invalid';
+
+          // when
+          await act(() => selection.select(element));
+
+          await expandAll(panelContainer);
+
+          // then
+          const idInput = domQuery('[data-entry-id="id"] input', panelContainer);
+
+          expect(idInput.value).to.eql('1 invalid');
+
+          expect(
+            domQueryAll('.has-error, .has-warning, .bio-properties-panel-error', panelContainer)
+          ).to.be.empty;
+
+          expect(consoleError).not.to.have.been.called;
+        });
+
+
         it('should render multiple selection', async function() {
 
           // given
