@@ -16,9 +16,7 @@ const ID_REGEX = /^[a-z_][\w-.]*$/i;
  * @return {String} error message
  */
 export function isIdValid(element, idValue, translate) {
-
-  // ids are not tracked in a viewer
-  const assigned = element.$model.ids?.assigned(idValue);
+  const assigned = element.$model.ids.assigned(idValue);
   const idAlreadyExists = assigned && assigned !== element;
 
   if (!idValue) {
