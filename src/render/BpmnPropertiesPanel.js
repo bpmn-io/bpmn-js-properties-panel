@@ -19,6 +19,11 @@ import {
   BpmnPropertiesPanelContext
 } from '../context';
 
+import {
+  getWriteService,
+  isWriteService
+} from '../utils/WriteServiceStub';
+
 import { PanelHeaderProvider } from './PanelHeaderProvider';
 import { PanelPlaceholderProvider } from './PanelPlaceholderProvider';
 
@@ -40,6 +45,7 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  * @param {Function} props.getFeelPopupLinks
  * @param {Object} props.feelLanguageContext
  * @param {HTMLElement} [props.headerParent]
+ * @param {boolean} [props.readOnly=false]
  */
 export default function BpmnPropertiesPanel(props) {
   const {
@@ -52,7 +58,8 @@ export default function BpmnPropertiesPanel(props) {
     feelPopupContainer,
     getFeelPopupLinks,
     feelLanguageContext,
-    headerParent
+    headerParent,
+    readOnly = false
   } = props;
 
   const canvas = injector.get('canvas');
@@ -191,7 +198,15 @@ export default function BpmnPropertiesPanel(props) {
   const bpmnPropertiesPanelContext = {
     selectedElement,
     injector,
-    getService(type, strict) { return injector.get(type, strict); }
+    getService(type, strict) {
+
+      // write services are not available in a viewer
+      if (readOnly && isWriteService(type)) {
+        return getWriteService(injector, type);
+      }
+
+      return injector.get(type, strict);
+    }
   };
 
   // (4) retrieve groups for selected element
@@ -271,7 +286,8 @@ export default function BpmnPropertiesPanel(props) {
           tooltipLoaded={ onTooltipLoaded }
           feelPopupContainer={ feelPopupContainer }
           getFeelPopupLinks={ getFeelPopupLinks }
-          eventBus={ eventBus } />
+          eventBus={ eventBus }
+          readOnly={ readOnly } />
         {
           renderSeparateHeader
             ? createPortal(

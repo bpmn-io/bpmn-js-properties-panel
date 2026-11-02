@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" name="Zeebe process" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:versionTag value="v1" />
+      <zeebe:properties>
+        <zeebe:property name="foo" value="bar" />
+      </zeebe:properties>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_1" name="Service task">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="work" retries="3" />
+        <zeebe:ioMapping>
+          <zeebe:input source="= foo" target="in1" />
+          <zeebe:input source="= bar" target="in2" />
+          <zeebe:output source="= result" target="out1" />
+        </zeebe:ioMapping>
+        <zeebe:taskHeaders>
+          <zeebe:header key="k1" value="v1" />
+          <zeebe:header key="k2" value="v2" />
+        </zeebe:taskHeaders>
+        <zeebe:executionListeners>
+          <zeebe:executionListener eventType="start" type="listener" retries="2" />
+        </zeebe:executionListeners>
+        <zeebe:properties>
+          <zeebe:property name="a" value="b" />
+        </zeebe:properties>
+        <zeebe:priorityDefinition priority="= 5" />
+      </bpmn:extensionElements>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputCollection="= items" inputElement="item" outputCollection="results" outputElement="= result" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:serviceTask>
+    <bpmn:scriptTask id="ScriptTask_1" name="Script task">
+      <bpmn:extensionElements>
+        <zeebe:script expression="= 1 + 1" resultVariable="sum" />
+        <zeebe:ioMapping>
+          <zeebe:output source="= sum" target="total" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:scriptTask>
+    <bpmn:callActivity id="CallActivity_1" name="Call activity">
+      <bpmn:extensionElements>
+        <zeebe:calledElement processId="Other_Process" propagateAllChildVariables="false" propagateAllParentVariables="false" />
+        <zeebe:ioMapping>
+          <zeebe:input source="= a" target="b" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:userTask id="UserTask_1" name="User task">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:formDefinition formId="myForm" />
+        <zeebe:assignmentDefinition assignee="= user" candidateGroups="admins" candidateUsers="a,b" />
+        <zeebe:taskSchedule dueDate="= due" followUpDate="= followUp" />
+        <zeebe:taskListeners>
+          <zeebe:taskListener eventType="completing" type="taskListener" />
+        </zeebe:taskListeners>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_2" name="User task (embedded form)">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition externalReference="https://example.com/form" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_3" name="User task (form key)">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:custom" />
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:businessRuleTask id="BusinessRuleTask_1" name="Business rule task">
+      <bpmn:extensionElements>
+        <zeebe:calledDecision decisionId="decision" resultVariable="result" />
+      </bpmn:extensionElements>
+    </bpmn:businessRuleTask>
+    <bpmn:sendTask id="SendTask_1" name="Send task">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send" />
+      </bpmn:extensionElements>
+    </bpmn:sendTask>
+    <bpmn:adHocSubProcess id="AdHoc_1" name="Ad hoc">
+      <bpmn:extensionElements>
+        <zeebe:adHoc outputCollection="results" outputElement="= x" />
+      </bpmn:extensionElements>
+      <bpmn:completionCondition>= done</bpmn:completionCondition>
+    </bpmn:adHocSubProcess>
+    <bpmn:intermediateCatchEvent id="MessageCatch_1" name="Message">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1" messageRef="Message_1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="TimerCatch_1" name="Timer">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1H</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateThrowEvent id="SignalThrow_1" name="Signal">
+      <bpmn:signalEventDefinition id="SignalEventDefinition_1" signalRef="Signal_1" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:boundaryEvent id="ErrorBoundary_1" attachedToRef="ServiceTask_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1" errorRef="Error_1" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="EscalationBoundary_1" attachedToRef="CallActivity_1">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1" escalationRef="Escalation_1" />
+    </bpmn:boundaryEvent>
+    <bpmn:exclusiveGateway id="Gateway_1" name="Gateway" />
+    <bpmn:endEvent id="EndEvent_1" name="End" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Gateway_1" />
+    <bpmn:sequenceFlow id="Flow_2" name="Conditional" sourceRef="Gateway_1" targetRef="EndEvent_1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= x &gt; 1</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmn:message id="Message_1" name="msg">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="= key" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:signal id="Signal_1" name="sig" />
+  <bpmn:error id="Error_1" name="err" errorCode="E1" />
+  <bpmn:escalation id="Escalation_1" name="esc" escalationCode="X1" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1"><dc:Bounds x="100" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1_di" bpmnElement="ServiceTask_1"><dc:Bounds x="200" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_1_di" bpmnElement="ScriptTask_1"><dc:Bounds x="200" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_1_di" bpmnElement="CallActivity_1"><dc:Bounds x="200" y="320" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1_di" bpmnElement="UserTask_1"><dc:Bounds x="360" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_2_di" bpmnElement="UserTask_2"><dc:Bounds x="360" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_3_di" bpmnElement="UserTask_3"><dc:Bounds x="360" y="320" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_1_di" bpmnElement="BusinessRuleTask_1"><dc:Bounds x="520" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_1_di" bpmnElement="SendTask_1"><dc:Bounds x="520" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="AdHoc_1_di" bpmnElement="AdHoc_1" isExpanded="true"><dc:Bounds x="520" y="320" width="200" height="120" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="MessageCatch_1_di" bpmnElement="MessageCatch_1"><dc:Bounds x="780" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TimerCatch_1_di" bpmnElement="TimerCatch_1"><dc:Bounds x="780" y="200" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SignalThrow_1_di" bpmnElement="SignalThrow_1"><dc:Bounds x="780" y="300" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ErrorBoundary_1_di" bpmnElement="ErrorBoundary_1"><dc:Bounds x="232" y="142" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EscalationBoundary_1_di" bpmnElement="EscalationBoundary_1"><dc:Bounds x="232" y="382" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1_di" bpmnElement="Gateway_1" isMarkerVisible="true"><dc:Bounds x="100" y="200" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1"><dc:Bounds x="100" y="320" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1"><di:waypoint x="118" y="136" /><di:waypoint x="125" y="200" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2"><di:waypoint x="125" y="250" /><di:waypoint x="118" y="320" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
