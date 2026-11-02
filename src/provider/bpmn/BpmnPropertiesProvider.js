@@ -1,5 +1,7 @@
 import { Group } from '@bpmn-io/properties-panel';
 
+import { withWriteServiceStubs } from '../../utils/WriteServiceStub';
+
 import { getBpmnEntryId } from './utils/EntryIdUtil';
 
 import {
@@ -240,7 +242,7 @@ export default class BpmnPropertiesProvider {
 
   constructor(propertiesPanel, injector) {
     propertiesPanel.registerProvider(this);
-    this._injector = injector;
+    this._injector = withWriteServiceStubs(injector);
   }
 
   getGroups(element) {

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_1" name="Camunda process" isExecutable="true" camunda:historyTimeToLive="P30D" camunda:versionTag="1" camunda:jobPriority="10" camunda:taskPriority="5" camunda:isStartableInTasklist="true">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="foo" value="bar" />
+      </camunda:properties>
+      <camunda:executionListener event="start" class="com.example.Listener" />
+      <camunda:executionListener event="end">
+        <camunda:script scriptFormat="groovy">println 'end'</camunda:script>
+      </camunda:executionListener>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="StartEvent_1" name="Start" camunda:initiator="starter">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="field1" label="Field 1" type="string" defaultValue="x">
+            <camunda:properties>
+              <camunda:property id="p1" value="v1" />
+            </camunda:properties>
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="field2" label="Field 2" type="enum">
+            <camunda:value id="a" name="A" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_1" name="External task" camunda:type="external" camunda:topic="topic" camunda:taskPriority="1" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="true" camunda:jobPriority="3">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R3/PT10M</camunda:failedJobRetryTimeCycle>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="in1">${foo}</camunda:inputParameter>
+          <camunda:inputParameter name="in2">
+            <camunda:list>
+              <camunda:value>a</camunda:value>
+              <camunda:value>b</camunda:value>
+            </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="in3">
+            <camunda:map>
+              <camunda:entry key="k">v</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="in4">
+            <camunda:script scriptFormat="groovy">1 + 1</camunda:script>
+          </camunda:inputParameter>
+          <camunda:outputParameter name="out1">${result}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:properties>
+          <camunda:property name="a" value="b" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="items" camunda:elementVariable="item" camunda:asyncBefore="true">
+        <bpmn:completionCondition xsi:type="bpmn:tFormalExpression">${done}</bpmn:completionCondition>
+      </bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_2" name="Class task" camunda:class="com.example.Delegate">
+      <bpmn:extensionElements>
+        <camunda:field name="f1" stringValue="s" />
+        <camunda:field name="f2">
+          <camunda:expression>${expr}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_3" name="Connector task">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://example.com</camunda:inputParameter>
+            <camunda:outputParameter name="response">${resp}</camunda:outputParameter>
+          </camunda:inputOutput>
+        </camunda:connector>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:scriptTask id="ScriptTask_1" name="Script task" scriptFormat="groovy" camunda:resultVariable="result">
+      <bpmn:script>return 1</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="ScriptTask_2" name="Script resource" scriptFormat="groovy" camunda:resource="classpath://script.groovy" />
+    <bpmn:callActivity id="CallActivity_1" name="Call activity" calledElement="other" camunda:calledElementBinding="version" camunda:calledElementVersion="2" camunda:calledElementTenantId="t1" camunda:variableMappingClass="com.example.Mapper">
+      <bpmn:extensionElements>
+        <camunda:in source="a" target="b" />
+        <camunda:in businessKey="#{key}" />
+        <camunda:in variables="all" />
+        <camunda:out source="c" target="d" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="CallActivity_2" name="Call case" camunda:caseRef="case" camunda:caseBinding="latest" />
+    <bpmn:userTask id="UserTask_1" name="User task" camunda:formKey="embedded:app:form.html" camunda:assignee="${user}" camunda:candidateUsers="a,b" camunda:candidateGroups="g" camunda:dueDate="${due}" camunda:followUpDate="${followUp}" camunda:priority="50">
+      <bpmn:extensionElements>
+        <camunda:taskListener event="create" class="com.example.TaskListener" />
+        <camunda:taskListener event="assignment" delegateExpression="${listener}" />
+        <camunda:formData>
+          <camunda:formField id="uf1" label="UF 1" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+    </bpmn:userTask>
+    <bpmn:userTask id="UserTask_2" name="Camunda form" camunda:formRef="myForm" camunda:formRefBinding="deployment" />
+    <bpmn:businessRuleTask id="BusinessRuleTask_1" name="Decision" camunda:decisionRef="decision" camunda:decisionRefBinding="latest" camunda:mapDecisionResult="singleEntry" camunda:resultVariable="res" />
+    <bpmn:sendTask id="SendTask_1" name="Send task" camunda:expression="${send}" camunda:resultVariable="r" />
+    <bpmn:subProcess id="SubProcess_1" name="Sub process" camunda:asyncBefore="true" />
+    <bpmn:intermediateCatchEvent id="MessageCatch_1" name="Message">
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1" messageRef="Message_1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="TimerCatch_1" name="Timer">
+      <bpmn:timerEventDefinition id="TimerEventDefinition_1">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R3/PT1H</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:boundaryEvent id="ErrorBoundary_1" attachedToRef="ServiceTask_1">
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_1" errorRef="Error_1" camunda:errorCodeVariable="code" camunda:errorMessageVariable="msg" />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="EscalationBoundary_1" attachedToRef="CallActivity_1">
+      <bpmn:escalationEventDefinition id="EscalationEventDefinition_1" escalationRef="Escalation_1" camunda:escalationCodeVariable="ecode" />
+    </bpmn:boundaryEvent>
+    <bpmn:exclusiveGateway id="Gateway_1" name="Gateway" />
+    <bpmn:endEvent id="EndEvent_1" name="End" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Gateway_1" />
+    <bpmn:sequenceFlow id="Flow_2" name="Script condition" sourceRef="Gateway_1" targetRef="EndEvent_1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">return true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_3" name="Expression condition" sourceRef="Gateway_1" targetRef="EndEvent_1">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${x &gt; 1}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmn:message id="Message_1" name="msg" />
+  <bpmn:error id="Error_1" name="err" errorCode="E1" camunda:errorMessage="oops" />
+  <bpmn:escalation id="Escalation_1" name="esc" escalationCode="X1" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1"><dc:Bounds x="100" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1_di" bpmnElement="ServiceTask_1"><dc:Bounds x="200" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_2_di" bpmnElement="ServiceTask_2"><dc:Bounds x="200" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_3_di" bpmnElement="ServiceTask_3"><dc:Bounds x="200" y="320" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_1_di" bpmnElement="ScriptTask_1"><dc:Bounds x="360" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_2_di" bpmnElement="ScriptTask_2"><dc:Bounds x="360" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_1_di" bpmnElement="CallActivity_1"><dc:Bounds x="360" y="320" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="CallActivity_2_di" bpmnElement="CallActivity_2"><dc:Bounds x="520" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1_di" bpmnElement="UserTask_1"><dc:Bounds x="520" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_2_di" bpmnElement="UserTask_2"><dc:Bounds x="520" y="320" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_1_di" bpmnElement="BusinessRuleTask_1"><dc:Bounds x="680" y="80" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_1_di" bpmnElement="SendTask_1"><dc:Bounds x="680" y="200" width="100" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_1_di" bpmnElement="SubProcess_1" isExpanded="true"><dc:Bounds x="680" y="320" width="200" height="120" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="MessageCatch_1_di" bpmnElement="MessageCatch_1"><dc:Bounds x="940" y="100" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TimerCatch_1_di" bpmnElement="TimerCatch_1"><dc:Bounds x="940" y="200" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ErrorBoundary_1_di" bpmnElement="ErrorBoundary_1"><dc:Bounds x="232" y="142" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EscalationBoundary_1_di" bpmnElement="EscalationBoundary_1"><dc:Bounds x="392" y="382" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1_di" bpmnElement="Gateway_1" isMarkerVisible="true"><dc:Bounds x="100" y="200" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1"><dc:Bounds x="100" y="320" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1"><di:waypoint x="118" y="136" /><di:waypoint x="125" y="200" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2"><di:waypoint x="110" y="245" /><di:waypoint x="110" y="320" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3"><di:waypoint x="140" y="245" /><di:waypoint x="125" y="320" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
