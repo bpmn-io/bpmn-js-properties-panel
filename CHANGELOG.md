@@ -6,8 +6,7 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
-* `FEAT`: add read-only properties panel for viewers via `BpmnPropertiesPanelViewerModule`, `BpmnPropertiesProviderViewerModule`, `ZeebePropertiesProviderViewerModule` and `CamundaPlatformPropertiesProviderViewerModule`
-* `FIX`: do not require `moddle.ids` to validate IDs
+* `FEAT`: add read-only properties panel for viewers via `BpmnPropertiesPanelViewerModule`, `BpmnPropertiesProviderViewerModule`, `ZeebePropertiesProviderViewerModule` and `CamundaPlatformPropertiesProviderViewerModule`; nothing is validated in read-only mode
 
 ## 5.65.3
 
