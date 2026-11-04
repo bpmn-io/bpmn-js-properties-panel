@@ -111,6 +111,39 @@ const modeler = new BpmnModeler({
 });
 ```
 
+### Inspect Properties in a Viewer
+
+To inspect properties without being able to change them, use the read-only (viewer) modules with a `NavigatedViewer`. They do not require any editing features such as the command stack:
+
+```javascript
+import NavigatedViewer from 'bpmn-js/lib/NavigatedViewer';
+import {
+  BpmnPropertiesPanelViewerModule,
+  BpmnPropertiesProviderViewerModule,
+  ZeebePropertiesProviderViewerModule
+} from 'bpmn-js-properties-panel';
+
+import zeebeModdle from 'zeebe-bpmn-moddle/resources/zeebe.json';
+
+const viewer = new NavigatedViewer({
+  container: '#canvas',
+  propertiesPanel: {
+    parent: '#properties'
+  },
+  additionalModules: [
+    BpmnPropertiesPanelViewerModule,
+    BpmnPropertiesProviderViewerModule,
+    ZeebePropertiesProviderViewerModule
+  ],
+  moddleExtensions: {
+    zeebe: zeebeModdle
+  }
+});
+```
+
+Use `CamundaPlatformPropertiesProviderViewerModule` to inspect Camunda 7 properties.
+
+
 ### API
 
 #### `BpmnPropertiesPanelRenderer#attachTo(container: HTMLElement, headerContainer?: HTMLElement) => void`
