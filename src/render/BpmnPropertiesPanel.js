@@ -2,6 +2,7 @@ import {
   useState,
   useMemo,
   useEffect,
+  useLayoutEffect,
   useCallback
 } from '@bpmn-io/properties-panel/preact/hooks';
 
@@ -96,7 +97,9 @@ export default function BpmnPropertiesPanel(props) {
   // (2) react on element changes
 
   // (2a) selection changed
-  useEffect(() => {
+  // subscribe synchronously on mount to not miss selection changes made
+  // right after the first render, e.g. after `importXML` resolves
+  useLayoutEffect(() => {
     const onSelectionChanged = (e) => {
       const { newSelection = [] } = e;
 

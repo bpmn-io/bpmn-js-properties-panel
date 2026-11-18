@@ -321,6 +321,24 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should render with correct element selected', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn');
+
+    // when
+    const { modeler } = await createModeler(diagramXml);
+
+    await act(() => {
+      const shape = modeler.get('elementRegistry').get('StartEvent_1');
+      modeler.get('selection').select(shape);
+    });
+
+    // then
+    expect(domQuery('.bio-properties-panel-header-type', propertiesContainer).textContent).to.equal('Start Event');
+  });
+
+
   it('should update FEEL language context', async function() {
 
     // given
