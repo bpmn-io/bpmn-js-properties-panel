@@ -3,7 +3,8 @@ import {
   useMemo,
   useEffect,
   useLayoutEffect,
-  useCallback
+  useCallback,
+  useRef
 } from '@bpmn-io/properties-panel/preact/hooks';
 
 import {
@@ -67,6 +68,10 @@ export default function BpmnPropertiesPanel(props) {
 
   const selectedElement = state.selectedElement;
 
+  // keep track of the latest selected element for event listeners,
+  // as the state is updated asynchronously
+  const selectedElementRef = useRef(selectedElement);
+
   /**
    * @param {djs.model.Base | Array<djs.model.Base>} element
    */
@@ -83,10 +88,12 @@ export default function BpmnPropertiesPanel(props) {
       newSelectedElement = newSelectedElement.labelTarget;
     }
 
-    setState({
+    selectedElementRef.current = newSelectedElement;
+
+    setState(state => ({
       ...state,
       selectedElement: newSelectedElement
-    });
+    }));
 
     // notify interested parties on property panel updates
     eventBus.fire('propertiesPanel.updated', {
@@ -126,11 +133,11 @@ export default function BpmnPropertiesPanel(props) {
   }, []);
 
   // (2b) selected element changed
-  useEffect(() => {
+  useLayoutEffect(() => {
     const onElementsChanged = (e) => {
       const elements = e.elements;
 
-      const updatedElement = findElement(elements, selectedElement);
+      const updatedElement = findElement(elements, selectedElementRef.current);
 
       if (updatedElement && elementExists(updatedElement, elementRegistry)) {
         _update(updatedElement);
@@ -142,7 +149,7 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('elements.changed', onElementsChanged);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (2c) import done
   useEffect(() => {
@@ -165,9 +172,9 @@ export default function BpmnPropertiesPanel(props) {
   }, []);
 
   // (2d) provided entries changed
-  useEffect(() => {
+  useLayoutEffect(() => {
     const onProvidersChanged = () => {
-      _update(selectedElement);
+      _update(selectedElementRef.current);
     };
 
     eventBus.on('propertiesPanel.providersChanged', onProvidersChanged);
@@ -175,12 +182,12 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('propertiesPanel.providersChanged', onProvidersChanged);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (2e) element templates changed
-  useEffect(() => {
+  useLayoutEffect(() => {
     const onTemplatesChanged = () => {
-      _update(selectedElement);
+      _update(selectedElementRef.current);
     };
 
     eventBus.on('elementTemplates.changed', onTemplatesChanged);
@@ -188,7 +195,7 @@ export default function BpmnPropertiesPanel(props) {
     return () => {
       eventBus.off('elementTemplates.changed', onTemplatesChanged);
     };
-  }, [ selectedElement ]);
+  }, []);
 
   // (3) create properties panel context
   const bpmnPropertiesPanelContext = {

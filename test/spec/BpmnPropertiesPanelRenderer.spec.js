@@ -339,6 +339,33 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  [
+    'elementTemplates.changed',
+    'propertiesPanel.providersChanged'
+  ].forEach(function(event) {
+
+    it(`should keep selection on <${ event }> fired right after selection change`, async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn');
+
+      const { modeler } = await createModeler(diagramXml);
+
+      const shape = modeler.get('elementRegistry').get('StartEvent_1');
+
+      // when
+      await act(() => {
+        modeler.get('selection').select(shape);
+        modeler.get('eventBus').fire(event);
+      });
+
+      // then
+      expect(domQuery('.bio-properties-panel-header-type', propertiesContainer).textContent).to.equal('Start Event');
+    });
+
+  });
+
+
   it('should update FEEL language context', async function() {
 
     // given
