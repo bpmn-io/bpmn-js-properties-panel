@@ -1,5 +1,7 @@
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
+import { withWriteServiceStubs } from '../../utils/WriteServiceStub';
+
 import { findIndex } from 'min-dash';
 
 import {
@@ -86,7 +88,7 @@ export default class ZeebePropertiesProvider {
   constructor(propertiesPanel, injector) {
     propertiesPanel.registerProvider(LOW_PRIORITY, this);
 
-    this._injector = injector;
+    this._injector = withWriteServiceStubs(injector);
   }
 
   getGroups(element) {

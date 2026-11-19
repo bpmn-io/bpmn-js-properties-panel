@@ -238,6 +238,15 @@ export default class BpmnPropertiesPanelRenderer {
     return event.providers;
   }
 
+  /**
+   * Whether the panel renders read-only. Overridden by viewer renderers.
+   *
+   * @return {boolean}
+   */
+  _isReadOnly() {
+    return false;
+  }
+
   _render(element) {
     const canvas = this._injector.get('canvas');
 
@@ -261,6 +270,7 @@ export default class BpmnPropertiesPanelRenderer {
         getFeelPopupLinks={ this._getFeelPopupLinks }
         feelLanguageContext={ this._feelLanguageContext }
         headerParent={ this._separateHeader ? this._headerContainer : null }
+        readOnly={ this._isReadOnly() }
       />,
       this._container
     );

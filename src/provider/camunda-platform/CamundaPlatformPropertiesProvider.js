@@ -1,5 +1,7 @@
 import { Group, ListGroup } from '@bpmn-io/properties-panel';
 
+import { withWriteServiceStubs } from '../../utils/WriteServiceStub';
+
 import { findIndex } from 'min-dash';
 
 import { arrayMoveMutable } from 'array-move';
@@ -112,7 +114,7 @@ export default class CamundaPlatformPropertiesProvider {
   constructor(propertiesPanel, injector) {
     propertiesPanel.registerProvider(LOW_PRIORITY, this);
 
-    this._injector = injector;
+    this._injector = withWriteServiceStubs(injector);
   }
 
   getGroups(element) {
