@@ -6,6 +6,7 @@ import {
 } from 'diagram-js/lib/features/keyboard/KeyboardUtil';
 
 import {
+  Component,
   render
 } from '@bpmn-io/properties-panel/preact';
 
@@ -14,6 +15,8 @@ import {
   query as domQuery,
   event as domEvent
 } from 'min-dom';
+
+import { find } from 'min-dash';
 
 { /* Required to break up imports, see https://github.com/babel/babel/issues/15156 */ }
 
@@ -61,6 +64,18 @@ export default class BpmnPropertiesPanelRenderer {
 
     this._separateHeader = false;
 
+    this._element = null;
+
+    this._listeners = [];
+
+    this._root = null;
+
+    this._setRoot = (root) => {
+      this._root = root;
+    };
+
+    this._getPanelProps = this._getPanelProps.bind(this);
+
     var commandStack = injector.get('commandStack', false);
 
     commandStack && setupKeyboard(this._container, eventBus, commandStack);
@@ -75,10 +90,66 @@ export default class BpmnPropertiesPanelRenderer {
       this.detach();
     });
 
-    eventBus.on('root.added', (event) => {
+    this._on('root.added', (event) => {
       const { element } = event;
 
-      this._render(element);
+      this._render(this._element || element);
+    });
+
+    this._on('selection.changed', (event) => {
+      const { newSelection = [] } = event;
+
+      if (newSelection.length > 1) {
+        return this._update(newSelection);
+      }
+
+      const newElement = newSelection[0];
+
+      const rootElement = this._injector.get('canvas').getRootElement();
+
+      if (isImplicitRoot(rootElement)) {
+        return;
+      }
+
+      this._update(newElement || rootElement);
+    });
+
+    this._on('elements.changed', (event) => {
+      const { elements } = event;
+
+      const elementRegistry = this._injector.get('elementRegistry');
+
+      const updatedElement = find(elements, (element) => element === this._element);
+
+      if (updatedElement && elementRegistry.get(updatedElement.id)) {
+        this._update(updatedElement);
+      }
+    });
+
+    this._on('import.done', () => {
+      const rootElement = this._injector.get('canvas').getRootElement();
+
+      // a failed import leaves no root; do not select the implicit one
+      if (isImplicitRoot(rootElement)) {
+        return;
+      }
+
+      this._update(rootElement);
+    });
+
+    this._on([
+      'propertiesPanel.providersChanged',
+      'elementTemplates.changed'
+    ], () => {
+      this._update(this._element);
+    });
+
+    this._on('propertiesPanel.setLayout', (event) => {
+      const { layout } = event;
+
+      this._layoutConfig = layout;
+
+      this._scheduleRender();
     });
   }
 
@@ -238,7 +309,7 @@ export default class BpmnPropertiesPanelRenderer {
     return event.providers;
   }
 
-  _render(element) {
+  _render(element = this._element) {
     const canvas = this._injector.get('canvas');
 
     if (!element) {
@@ -249,19 +320,12 @@ export default class BpmnPropertiesPanelRenderer {
       return;
     }
 
+    this._element = element;
+
     render(
-      <BpmnPropertiesPanel
-        element={ element }
-        injector={ this._injector }
-        getProviders={ this._getProviders.bind(this) }
-        layoutConfig={ this._layoutConfig }
-        descriptionConfig={ this._descriptionConfig }
-        tooltipConfig={ this._tooltipConfig }
-        feelPopupContainer={ this._feelPopupContainer }
-        getFeelPopupLinks={ this._getFeelPopupLinks }
-        feelLanguageContext={ this._feelLanguageContext }
-        headerParent={ this._separateHeader ? this._headerContainer : null }
-      />,
+      <BpmnPropertiesPanelRoot
+        ref={ this._setRoot }
+        getProps={ this._getPanelProps } />,
       this._container
     );
 
@@ -274,11 +338,67 @@ export default class BpmnPropertiesPanelRenderer {
     const rootElement = canvas.getRootElement();
 
     if (rootElement && !isImplicitRoot(rootElement)) {
-      this._render(rootElement);
+      this._render();
     }
   }
 
+  _update(element) {
+
+    if (!element) {
+      return;
+    }
+
+    // handle labels
+    if (element.type === 'label') {
+      element = element.labelTarget;
+    }
+
+    this._element = element;
+
+    this._scheduleRender();
+
+    // notify interested parties on property panel updates
+    this._eventBus.fire('propertiesPanel.updated', {
+      element
+    });
+  }
+
+  _scheduleRender() {
+    if (this._root) {
+      this._root.forceUpdate();
+    }
+  }
+
+  _getPanelProps() {
+    return {
+      element: this._element,
+      injector: this._injector,
+      getProviders: this._getProviders.bind(this),
+      layoutConfig: this._layoutConfig,
+      descriptionConfig: this._descriptionConfig,
+      tooltipConfig: this._tooltipConfig,
+      feelPopupContainer: this._feelPopupContainer,
+      getFeelPopupLinks: this._getFeelPopupLinks,
+      feelLanguageContext: this._feelLanguageContext,
+      headerParent: this._separateHeader ? this._headerContainer : null
+    };
+  }
+
+  _on(events, callback) {
+    this._eventBus.on(events, callback);
+
+    this._listeners.push({ events, callback });
+  }
+
   _destroy() {
+    this._listeners.forEach(({ events, callback }) => {
+      this._eventBus.off(events, callback);
+    });
+
+    this._listeners = [];
+
+    this._element = null;
+
     if (this._container) {
       render(null, this._container);
 
@@ -288,6 +408,15 @@ export default class BpmnPropertiesPanelRenderer {
 }
 
 BpmnPropertiesPanelRenderer.$inject = [ 'config.propertiesPanel', 'injector', 'eventBus' ];
+
+
+class BpmnPropertiesPanelRoot extends Component {
+  render() {
+    const { getProps } = this.props;
+
+    return <BpmnPropertiesPanel { ...getProps() } />;
+  }
+}
 
 
 // helpers ///////////////////////
