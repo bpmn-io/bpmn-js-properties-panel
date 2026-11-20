@@ -425,6 +425,297 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should show element selected right after import', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn');
+
+    const { modeler } = await createModeler(diagramXml);
+
+    const elementRegistry = modeler.get('elementRegistry'),
+          selection = modeler.get('selection');
+
+    // when
+    await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+    // then
+    expect(getHeaderName(propertiesContainer)).to.eql('start');
+  });
+
+
+  describe('update', function() {
+
+    const diagramXml = require('test/fixtures/simple.bpmn');
+
+    let modeler, elementRegistry, eventBus, selection, updateSpy;
+
+    beforeEach(async function() {
+      await act(async () => {
+        ({ modeler } = await createModeler(diagramXml));
+      });
+
+      elementRegistry = modeler.get('elementRegistry');
+      eventBus = modeler.get('eventBus');
+      selection = modeler.get('selection');
+
+      updateSpy = sinon.spy();
+
+      eventBus.on('propertiesPanel.updated', updateSpy);
+    });
+
+
+    it('should update on selection change', function() {
+
+      // given
+      const startEvent = elementRegistry.get('StartEvent_1');
+
+      // when
+      selection.select(startEvent);
+
+      // then
+      expect(updateSpy).to.have.been.calledOnceWith(sinon.match({ element: startEvent }));
+    });
+
+
+    it('should update on selection change - multiple', function() {
+
+      // given
+      const elements = [
+        elementRegistry.get('StartEvent_1'),
+        elementRegistry.get('Task_1')
+      ];
+
+      // when
+      selection.select(elements);
+
+      // then
+      expect(updateSpy).to.have.been.calledOnceWith(sinon.match({ element: elements }));
+    });
+
+
+    it('should update on selection change - label', function() {
+
+      // given
+      const startEvent = elementRegistry.get('StartEvent_1');
+
+      // when
+      selection.select(startEvent.label);
+
+      // then
+      expect(updateSpy).to.have.been.calledOnceWith(sinon.match({ element: startEvent }));
+    });
+
+
+    it('should update on selection change - deselect', function() {
+
+      // given
+      selection.select(elementRegistry.get('StartEvent_1'));
+
+      updateSpy.resetHistory();
+
+      // when
+      selection.select(null);
+
+      // then
+      expect(updateSpy).to.have.been.calledOnceWith(sinon.match({
+        element: modeler.get('canvas').getRootElement()
+      }));
+    });
+
+
+    it('should update on element change', function() {
+
+      // given
+      const startEvent = elementRegistry.get('StartEvent_1');
+
+      selection.select(startEvent);
+
+      updateSpy.resetHistory();
+
+      // when
+      modeler.get('modeling').updateProperties(startEvent, { name: 'foo' });
+
+      // then
+      expect(updateSpy).to.have.been.calledOnceWith(sinon.match({ element: startEvent }));
+    });
+
+
+    it('should NOT update on removed element change', function() {
+
+      // given
+      const startEvent = elementRegistry.get('StartEvent_1');
+
+      selection.select(startEvent);
+
+      sinon.stub(elementRegistry, 'get').returns(undefined);
+
+      updateSpy.resetHistory();
+
+      // when
+      eventBus.fire('elements.changed', { elements: [ startEvent ] });
+
+      // then
+      expect(updateSpy).not.to.have.been.called;
+    });
+
+
+    it('should update on import done', function() {
+
+      // given
+      selection.select(elementRegistry.get('StartEvent_1'));
+
+      updateSpy.resetHistory();
+
+      // when
+      eventBus.fire('import.done');
+
+      // then
+      expect(updateSpy).to.have.been.calledOnceWith(sinon.match({
+        element: modeler.get('canvas').getRootElement()
+      }));
+    });
+
+
+    [
+      'propertiesPanel.providersChanged',
+      'elementTemplates.changed'
+    ].forEach(function(event) {
+
+      it(`should keep selection on <${ event }> fired right after selection change`, async function() {
+
+        // when
+        await act(() => {
+          selection.select(elementRegistry.get('StartEvent_1'));
+
+          eventBus.fire(event);
+        });
+
+        // then
+        expect(getHeaderName(propertiesContainer)).to.eql('start');
+      });
+
+    });
+
+
+    it('should keep selection on <root.added>', async function() {
+
+      // given
+      const canvas = modeler.get('canvas'),
+            elementFactory = modeler.get('elementFactory');
+
+      await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+      const subProcess = elementFactory.createShape({
+        type: 'bpmn:SubProcess',
+        isExpanded: false
+      });
+
+      // when
+      await act(() => {
+        modeler.get('modeling').createShape(subProcess, { x: 500, y: 300 }, canvas.getRootElement());
+      });
+
+      // then
+      expect(getHeaderName(propertiesContainer)).to.eql('start');
+    });
+
+
+    it('should keep selection on FEEL language context change', async function() {
+
+      // given
+      await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+      // when
+      modeler.get('propertiesPanel').setFeelLanguageContext({
+        engines: {
+          camunda: '8.8'
+        }
+      });
+
+      // then
+      expect(getHeaderName(propertiesContainer)).to.eql('start');
+    });
+
+
+    it('should render provider registered after import', async function() {
+
+      // given
+      await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+      // when
+      await act(() => {
+        new LateInitProvider(modeler.get('propertiesPanel'));
+      });
+
+      // then
+      expect(getGroup(propertiesContainer, 'late-init')).to.exist;
+    });
+
+
+    it('should render once <elementTemplates.changed> is handled', async function() {
+
+      // given
+      let label = 'old';
+
+      modeler.get('propertiesPanel').registerProvider({
+        getGroups: () => (groups) => [
+          ...groups,
+          createGroup('templates', label)
+        ]
+      });
+
+      eventBus.on('elementTemplates.changed', () => {
+        label = 'new';
+      });
+
+      // when
+      await act(() => eventBus.fire('elementTemplates.changed'));
+
+      // then
+      expect(getGroupLabel(propertiesContainer, 'templates')).to.eql('new');
+    });
+
+
+    it('should NOT update after destroy', function() {
+
+      // given
+      modeler.get('propertiesPanel')._destroy();
+
+      // when
+      selection.select(elementRegistry.get('StartEvent_1'));
+
+      // then
+      expect(updateSpy).not.to.have.been.called;
+      expect(domQuery('.bio-properties-panel', propertiesContainer)).not.to.exist;
+    });
+
+
+    it('should apply layout', async function() {
+
+      // given
+      const layout = {
+        open: true,
+        groups: {
+          general: {
+            open: false
+          }
+        }
+      };
+
+      const layoutChangedSpy = sinon.spy();
+
+      eventBus.on('propertiesPanel.layoutChanged', layoutChangedSpy);
+
+      // when
+      await act(() => modeler.get('propertiesPanel').setLayout(layout));
+
+      // then
+      expect(layoutChangedSpy).to.have.been.calledWith(sinon.match({ layout: sinon.match(layout) }));
+    });
+
+  });
+
+
   describe('providers', function() {
 
     const diagramXML = require('test/fixtures/simple.bpmn');
@@ -1830,6 +2121,35 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
 
 function getGroup(container, id) {
   return domQuery(`[data-group-id="group-${id}"`, container);
+}
+
+function getGroupLabel(container, id) {
+  return domQuery('.bio-properties-panel-group-header-title', getGroup(container, id)).textContent;
+}
+
+function createGroup(id, label) {
+  return {
+    id,
+    label,
+    entries: [
+      {
+        id: `${ id }-entry`,
+        component: () => null
+      }
+    ]
+  };
+}
+
+class LateInitProvider {
+  constructor(propertiesPanel) {
+    propertiesPanel.registerProvider(this);
+
+    this._groups = [ createGroup('late-init', 'Late init') ];
+  }
+
+  getGroups() {
+    return (groups) => [ ...groups, ...this._groups ];
+  }
 }
 
 function getHeaderName(container) {

@@ -1,12 +1,9 @@
 import {
-  useState,
   useMemo,
-  useEffect,
   useCallback
 } from '@bpmn-io/properties-panel/preact/hooks';
 
 import {
-  find,
   isArray,
   reduce
 } from 'min-dash';
@@ -43,10 +40,10 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  */
 export default function BpmnPropertiesPanel(props) {
   const {
-    element,
+    element: selectedElement,
     injector,
     getProviders,
-    layoutConfig: initialLayoutConfig,
+    layoutConfig,
     descriptionConfig,
     tooltipConfig,
     feelPopupContainer,
@@ -55,137 +52,8 @@ export default function BpmnPropertiesPanel(props) {
     headerParent
   } = props;
 
-  const canvas = injector.get('canvas');
-  const elementRegistry = injector.get('elementRegistry');
   const eventBus = injector.get('eventBus');
   const translate = injector.get('translate');
-
-  const [ state, setState ] = useState({
-    selectedElement: element
-  });
-
-  const selectedElement = state.selectedElement;
-
-  /**
-   * @param {djs.model.Base | Array<djs.model.Base>} element
-   */
-  const _update = (element) => {
-
-    if (!element) {
-      return;
-    }
-
-    let newSelectedElement = element;
-
-    // handle labels
-    if (newSelectedElement && newSelectedElement.type === 'label') {
-      newSelectedElement = newSelectedElement.labelTarget;
-    }
-
-    setState({
-      ...state,
-      selectedElement: newSelectedElement
-    });
-
-    // notify interested parties on property panel updates
-    eventBus.fire('propertiesPanel.updated', {
-      element: newSelectedElement
-    });
-  };
-
-  // (2) react on element changes
-
-  // (2a) selection changed
-  useEffect(() => {
-    const onSelectionChanged = (e) => {
-      const { newSelection = [] } = e;
-
-      if (newSelection.length > 1) {
-        return _update(newSelection);
-      }
-
-      const newElement = newSelection[0];
-
-      const rootElement = canvas.getRootElement();
-
-      if (isImplicitRoot(rootElement)) {
-        return;
-      }
-
-      _update(newElement || rootElement);
-    };
-
-    eventBus.on('selection.changed', onSelectionChanged);
-
-    return () => {
-      eventBus.off('selection.changed', onSelectionChanged);
-    };
-  }, []);
-
-  // (2b) selected element changed
-  useEffect(() => {
-    const onElementsChanged = (e) => {
-      const elements = e.elements;
-
-      const updatedElement = findElement(elements, selectedElement);
-
-      if (updatedElement && elementExists(updatedElement, elementRegistry)) {
-        _update(updatedElement);
-      }
-    };
-
-    eventBus.on('elements.changed', onElementsChanged);
-
-    return () => {
-      eventBus.off('elements.changed', onElementsChanged);
-    };
-  }, [ selectedElement ]);
-
-  // (2c) import done
-  useEffect(() => {
-    const onImportDone = () => {
-      const rootElement = canvas.getRootElement();
-
-      // a failed import leaves no root; do not select the implicit one
-      if (isImplicitRoot(rootElement)) {
-        return;
-      }
-
-      _update(rootElement);
-    };
-
-    eventBus.on('import.done', onImportDone);
-
-    return () => {
-      eventBus.off('import.done', onImportDone);
-    };
-  }, []);
-
-  // (2d) provided entries changed
-  useEffect(() => {
-    const onProvidersChanged = () => {
-      _update(selectedElement);
-    };
-
-    eventBus.on('propertiesPanel.providersChanged', onProvidersChanged);
-
-    return () => {
-      eventBus.off('propertiesPanel.providersChanged', onProvidersChanged);
-    };
-  }, [ selectedElement ]);
-
-  // (2e) element templates changed
-  useEffect(() => {
-    const onTemplatesChanged = () => {
-      _update(selectedElement);
-    };
-
-    eventBus.on('elementTemplates.changed', onTemplatesChanged);
-
-    return () => {
-      eventBus.off('elementTemplates.changed', onTemplatesChanged);
-    };
-  }, [ selectedElement ]);
 
   // (3) create properties panel context
   const bpmnPropertiesPanelContext = {
@@ -212,24 +80,11 @@ export default function BpmnPropertiesPanel(props) {
   }, [ providers, selectedElement ]);
 
   // (5) notify layout changes
-  const [ layoutConfig, setLayoutConfig ] = useState(initialLayoutConfig || {});
-
   const onLayoutChanged = useCallback((newLayout) => {
     eventBus.fire('propertiesPanel.layoutChanged', {
       layout: newLayout
     });
   }, [ eventBus ]);
-
-  // React to external layout changes
-  useEffect(() => {
-    const cb = (e) => {
-      const { layout } = e;
-      setLayoutConfig(layout);
-    };
-
-    eventBus.on('propertiesPanel.setLayout', cb);
-    return () => eventBus.off('propertiesPanel.setLayout', cb);
-  }, [ eventBus, setLayoutConfig ]);
 
   // (6) notify description changes
   const onDescriptionLoaded = (description) => {
@@ -285,19 +140,4 @@ export default function BpmnPropertiesPanel(props) {
       </FeelLanguageContext.Provider>
     </BpmnPropertiesPanelContext.Provider>
   );
-}
-
-
-// helpers //////////////////////////
-
-function isImplicitRoot(element) {
-  return element && element.isImplicit;
-}
-
-function findElement(elements, element) {
-  return find(elements, (e) => e === element);
-}
-
-function elementExists(element, elementRegistry) {
-  return element && elementRegistry.get(element.id);
 }
