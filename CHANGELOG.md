@@ -6,6 +6,9 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+## 5.65.4
+
+* `FIX`: handle selections made before the properties panel's first render ([#1259](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1259))
 * `DEPS`: update to `@bpmn-io/properties-panel@3.60.2`
 
 ## 5.65.3
