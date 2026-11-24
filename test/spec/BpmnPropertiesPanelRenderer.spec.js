@@ -443,6 +443,50 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
   });
 
 
+  it('should fall back to default header provider', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn');
+
+    const { modeler } = await createModeler(diagramXml);
+
+    const elementRegistry = modeler.get('elementRegistry'),
+          selection = modeler.get('selection');
+
+    // when
+    await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+    // then
+    expect(getHeaderName(propertiesContainer)).to.eql('start');
+  });
+
+
+  it('should use custom header provider from injector', async function() {
+
+    // given
+    const diagramXml = require('test/fixtures/simple.bpmn');
+
+    const { modeler } = await createModeler(diagramXml, {
+      additionalModules: [
+        ZeebeBehaviorsModule,
+        BpmnPropertiesPanel,
+        BpmnPropertiesProvider,
+        ZeebePropertiesProvider,
+        CustomHeaderProviderModule
+      ]
+    });
+
+    const elementRegistry = modeler.get('elementRegistry'),
+          selection = modeler.get('selection');
+
+    // when
+    await act(() => selection.select(elementRegistry.get('StartEvent_1')));
+
+    // then
+    expect(getHeaderName(propertiesContainer)).to.eql('custom:StartEvent_1');
+  });
+
+
   describe('update', function() {
 
     const diagramXml = require('test/fixtures/simple.bpmn');
@@ -1417,6 +1461,33 @@ describe('<BpmnPropertiesPanelRenderer>', function() {
     });
 
 
+    it('should render custom header provider into the separate container', async function() {
+
+      // given
+      const diagramXml = require('test/fixtures/simple.bpmn');
+
+      const { modeler } = await createModeler(diagramXml, {
+        propertiesPanel: {},
+        additionalModules: [
+          ZeebeBehaviorsModule,
+          BpmnPropertiesPanel,
+          BpmnPropertiesProvider,
+          ZeebePropertiesProvider,
+          CustomHeaderProviderModule
+        ]
+      });
+
+      const propertiesPanel = modeler.get('propertiesPanel');
+
+      // when
+      await act(() => propertiesPanel.attachTo(propertiesContainer, headerContainer));
+
+      // then
+      expect(getHeaderName(headerContainer)).to.eql('custom:Process_1');
+      expect(domQuery('.bio-properties-panel-header', propertiesContainer)).to.not.exist;
+    });
+
+
     it('should add theme selector for separate container', async function() {
 
       // given
@@ -2151,6 +2222,28 @@ class LateInitProvider {
     return (groups) => [ ...groups, ...this._groups ];
   }
 }
+
+class CustomHeaderProvider {
+  constructor() {
+    this.prefix = 'custom';
+  }
+
+  getElementLabel(element) {
+    return `${ this.prefix }:${ element.id }`;
+  }
+
+  getElementIcon() {
+    return null;
+  }
+
+  getTypeLabel() {
+    return 'Custom type';
+  }
+}
+
+const CustomHeaderProviderModule = {
+  propertiesPanelHeaderProvider: [ 'type', CustomHeaderProvider ]
+};
 
 function getHeaderName(container) {
   return domQuery('.bio-properties-panel-header-label', container).innerText;

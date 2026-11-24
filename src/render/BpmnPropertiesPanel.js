@@ -104,7 +104,11 @@ export default function BpmnPropertiesPanel(props) {
   const separateHeader = !!headerParent;
   const renderSeparateHeader = separateHeader && selectedElement && !isArray(selectedElement);
 
-  const headerProvider = PanelHeaderProvider(translate);
+  const customHeaderProvider = injector.get('propertiesPanelHeaderProvider', false);
+  const defaultHeaderProvider = useMemo(() => PanelHeaderProvider(translate), [ translate ]);
+  const headerProvider = useMemo(() => {
+    return customHeaderProvider ? bindHeaderProvider(customHeaderProvider) : defaultHeaderProvider;
+  }, [ customHeaderProvider, defaultHeaderProvider ]);
   const mergedFeelLanguageContext = useMemo(() => ({
     ...DEFAULT_FEEL_LANGUAGE_CONTEXT,
     ...feelLanguageContext
@@ -140,4 +144,19 @@ export default function BpmnPropertiesPanel(props) {
       </FeelLanguageContext.Provider>
     </BpmnPropertiesPanelContext.Provider>
   );
+}
+
+function bindHeaderProvider(provider) {
+  return [
+    'getDocumentationRef',
+    'getElementLabel',
+    'getElementIcon',
+    'getTypeLabel'
+  ].reduce((boundProvider, method) => {
+    if (typeof provider[method] === 'function') {
+      boundProvider[method] = provider[method].bind(provider);
+    }
+
+    return boundProvider;
+  }, {});
 }
