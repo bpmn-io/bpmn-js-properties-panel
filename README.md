@@ -160,6 +160,44 @@ class ExamplePropertiesProvider {
 ExamplePropertiesProvider.$inject = [ 'propertiesPanel' ];
 ```
 
+#### Customizing the header
+
+Provide a `propertiesPanelHeaderProvider` service through dependency injection to customize how the panel header is rendered. The provider must implement `getElementLabel`, `getTypeLabel`, and `getElementIcon`; `getDocumentationRef` is optional. `getElementIcon` may return `null` if no icon should be rendered:
+
+```javascript
+class CustomHeaderProvider {
+  getElementLabel(element) {
+    return element.id;
+  }
+
+  getTypeLabel(element) {
+    return element.type;
+  }
+
+  getElementIcon(element) {
+    return null; // or a Preact component
+  }
+
+  getDocumentationRef(element) {
+    return 'https://example.com/docs';
+  }
+}
+
+const CustomHeaderProviderModule = {
+  propertiesPanelHeaderProvider: [ 'type', CustomHeaderProvider ]
+};
+
+const modeler = new BpmnModeler({
+  additionalModules: [
+    BpmnPropertiesPanelModule,
+    BpmnPropertiesProviderModule,
+    CustomHeaderProviderModule
+  ]
+});
+```
+
+If no custom provider is registered, the default BPMN header provider is used. The custom provider is used both for inline headers and for headers rendered into a separate container.
+
 #### `BpmnPropertiesPanelRenderer#getEntryId(element: djs.model.Base, path: Array<string|number>) => string|null`
 
 Resolve the id of the entry that edits the given moddle property path, relative to the element's business object. Providers may implement `getEntryId(element, path)` to resolve paths for the groups they contribute; they are asked in reverse render order, so a provider whose groups render last (e.g. one registered with a low priority to override others) is asked first.
