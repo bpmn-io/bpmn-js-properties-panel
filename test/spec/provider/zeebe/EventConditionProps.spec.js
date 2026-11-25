@@ -26,8 +26,11 @@ import zeebeModdleExtensions from 'zeebe-bpmn-moddle/resources/zeebe.json';
 
 import diagramXML from './EventConditionProps.bpmn';
 
+import { is } from 'bpmn-js/lib/util/ModelUtil';
+
 import { getConditionalFilter } from 'src/provider/zeebe/properties/EventConditionProps';
 import { getConditionBody } from 'src/utils/ConditionUtil';
+import { getConditionalEventDefinition } from 'src/utils/EventDefinitionUtil';
 
 
 describe('provider/zeebe - EventConditionProps', function() {
@@ -275,6 +278,147 @@ describe('provider/zeebe - EventConditionProps', function() {
         expect(getConditionalFilter(element)?.variableEvents).to.eql(originalValue);
       })
     );
+
+
+    describe('should create bpmn:ExtensionElements', function() {
+
+      let element, conditionalEventDefinition, extensionElements, conditionalFilter;
+
+      beforeEach(inject(async function(elementRegistry, selection) {
+
+        // given
+        element = elementRegistry.get('Event_3');
+        conditionalEventDefinition = getConditionalEventDefinition(element);
+
+        // assume
+        expect(conditionalEventDefinition.get('extensionElements')).not.to.exist;
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        clickInput(domQuery('input[name=variableEvents-create]', container));
+
+        extensionElements = conditionalEventDefinition.get('extensionElements');
+        conditionalFilter = getConditionalFilter(element);
+      }));
+
+
+      it('<do>', function() {
+
+        // then
+        expectExtensionElementsCreated();
+      });
+
+
+      it('<undo>', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expect(conditionalEventDefinition.get('extensionElements')).not.to.exist;
+      }));
+
+
+      it('<redo>', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expectExtensionElementsCreated();
+      }));
+
+
+      function expectExtensionElementsCreated() {
+        expect(conditionalEventDefinition.get('extensionElements')).to.equal(extensionElements);
+        expect(extensionElements.$parent).to.equal(conditionalEventDefinition);
+
+        expect(extensionElements.get('values')).to.eql([ conditionalFilter ]);
+        expect(conditionalFilter.$parent).to.equal(extensionElements);
+        expect(conditionalFilter.get('variableEvents')).to.eql('create');
+      }
+    });
+
+
+    describe('should keep existing bpmn:ExtensionElements', function() {
+
+      let element, conditionalEventDefinition, extensionElements, existingValue, conditionalFilter;
+
+      beforeEach(inject(async function(elementRegistry, selection) {
+
+        // given
+        element = elementRegistry.get('Event_5');
+        conditionalEventDefinition = getConditionalEventDefinition(element);
+        extensionElements = conditionalEventDefinition.get('extensionElements');
+        existingValue = extensionElements.get('values')[0];
+
+        // assume
+        expect(is(existingValue, 'zeebe:Properties')).to.be.true;
+        expect(existingValue.$parent).to.equal(extensionElements);
+
+        await act(() => {
+          selection.select(element);
+        });
+
+        // when
+        clickInput(domQuery('input[name=variableEvents-create]', container));
+
+        conditionalFilter = getConditionalFilter(element);
+      }));
+
+
+      it('<do>', function() {
+
+        // then
+        expectConditionalFilterAdded();
+      });
+
+
+      it('<undo>', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+
+        // then
+        expectExtensionElementsKept();
+
+        expect(extensionElements.get('values')).to.eql([ existingValue ]);
+      }));
+
+
+      it('<redo>', inject(function(commandStack) {
+
+        // when
+        commandStack.undo();
+        commandStack.redo();
+
+        // then
+        expectConditionalFilterAdded();
+      }));
+
+
+      function expectExtensionElementsKept() {
+        const currentExtensionElements = conditionalEventDefinition.get('extensionElements');
+
+        expect(currentExtensionElements).to.equal(extensionElements);
+        expect(currentExtensionElements.$parent).to.equal(conditionalEventDefinition);
+
+        expect(existingValue.$parent).to.equal(currentExtensionElements);
+      }
+
+      function expectConditionalFilterAdded() {
+        expectExtensionElementsKept();
+
+        expect(extensionElements.get('values')).to.eql([ existingValue, conditionalFilter ]);
+        expect(conditionalFilter.$parent).to.equal(extensionElements);
+        expect(conditionalFilter.get('variableEvents')).to.eql('create');
+      }
+    });
+
   });
 
 });
