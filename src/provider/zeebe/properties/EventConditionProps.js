@@ -170,27 +170,36 @@ function setConditionalFilter(element, properties, bpmnFactory, commandStack) {
 
   // (1) create zeebe:ConditionalFilter if it doesn't exist
   if (!conditionalFilter) {
+    let extensionElements = conditionalEventDefinition.get('extensionElements');
+
+    // (1.1) create bpmn:ExtensionElements if it doesn't exist
+    if (!extensionElements) {
+      extensionElements = createElement(
+        'bpmn:ExtensionElements',
+        {
+          values: []
+        },
+        conditionalEventDefinition,
+        bpmnFactory
+      );
+
+      commands.push({
+        cmd: 'element.updateModdleProperties',
+        context: {
+          element,
+          moddleElement: conditionalEventDefinition,
+          properties: {
+            extensionElements
+          }
+        }
+      });
+    }
+
+    // (1.2) add zeebe:ConditionalFilter to bpmn:ExtensionElements
     conditionalFilter = createElement(
       'zeebe:ConditionalFilter',
       {},
-      conditionalEventDefinition,
-      bpmnFactory
-    );
-
-    const extensionElements = conditionalEventDefinition.get('extensionElements');
-    let extensionElementsValues = extensionElements ? extensionElements.get('values') : [];
-
-    extensionElementsValues = [
-      ...extensionElementsValues,
-      conditionalFilter
-    ];
-
-    const updatedExtensionElements = createElement(
-      'bpmn:ExtensionElements',
-      {
-        values: extensionElementsValues
-      },
-      conditionalEventDefinition,
+      extensionElements,
       bpmnFactory
     );
 
@@ -198,9 +207,9 @@ function setConditionalFilter(element, properties, bpmnFactory, commandStack) {
       cmd: 'element.updateModdleProperties',
       context: {
         element,
-        moddleElement: conditionalEventDefinition,
+        moddleElement: extensionElements,
         properties: {
-          extensionElements: updatedExtensionElements
+          values: [ ...extensionElements.get('values'), conditionalFilter ]
         }
       }
     });
