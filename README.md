@@ -162,7 +162,7 @@ ExamplePropertiesProvider.$inject = [ 'propertiesPanel' ];
 
 #### Customizing the panel header
 
-Replace the default header of the properties panel by providing a `propertiesPanelHeaderProvider` service through dependency injection, or by passing a `headerProvider` prop to `<BpmnPropertiesPanel>` (the prop takes precedence over the service).
+Replace the default header of the properties panel by providing a `propertiesPanelHeaderProvider` service through dependency injection.
 
 ```javascript
 const CustomHeaderProviderModule = {
