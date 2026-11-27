@@ -149,6 +149,70 @@ describe('<BpmnPropertiesPanel>', function() {
   });
 
 
+  describe('header provider', function() {
+
+    const customHeaderProvider = {
+      getElementLabel: () => 'CUSTOM HEADER LABEL',
+      getTypeLabel: () => 'CUSTOM TYPE',
+      getElementIcon: () => null
+    };
+
+
+    it('should render header through a custom `headerProvider` prop', function() {
+
+      // when
+      const result = createBpmnPropertiesPanel({
+        container,
+        headerProvider: customHeaderProvider
+      });
+
+      // then
+      const header = domQuery('.bio-properties-panel-header', result.container);
+
+      expect(header).to.exist;
+      expect(header.textContent).to.contain('CUSTOM HEADER LABEL');
+    });
+
+
+    it('should render header through a `propertiesPanelHeaderProvider` service', function() {
+
+      // when
+      const result = createBpmnPropertiesPanel({
+        container,
+        propertiesPanelHeaderProvider: customHeaderProvider
+      });
+
+      // then
+      const header = domQuery('.bio-properties-panel-header', result.container);
+
+      expect(header).to.exist;
+      expect(header.textContent).to.contain('CUSTOM HEADER LABEL');
+    });
+
+
+    it('should prefer the `headerProvider` prop over the service', function() {
+
+      // when
+      const result = createBpmnPropertiesPanel({
+        container,
+        headerProvider: customHeaderProvider,
+        propertiesPanelHeaderProvider: {
+          getElementLabel: () => 'SERVICE LABEL',
+          getTypeLabel: () => 'SERVICE TYPE',
+          getElementIcon: () => null
+        }
+      });
+
+      // then
+      const header = domQuery('.bio-properties-panel-header', result.container);
+
+      expect(header.textContent).to.contain('CUSTOM HEADER LABEL');
+      expect(header.textContent).not.to.contain('SERVICE LABEL');
+    });
+
+  });
+
+
   describe('event emitting', function() {
 
     describe('layout', function() {
@@ -222,6 +286,7 @@ function createBpmnPropertiesPanel(options = {}) {
     descriptionLoaded,
     tooltipConfig,
     tooltipLoaded,
+    headerProvider,
     container
   } = options;
 
@@ -237,6 +302,7 @@ function createBpmnPropertiesPanel(options = {}) {
       descriptionLoaded={ descriptionLoaded }
       tooltipConfig={ tooltipConfig }
       tooltipLoaded={ tooltipLoaded }
+      headerProvider={ headerProvider }
     />,
     {
       container

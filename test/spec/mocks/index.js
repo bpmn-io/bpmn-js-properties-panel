@@ -62,6 +62,10 @@ export class Injector {
     if (type === 'canvas') {
       return this._options.canvas || new Canvas();
     }
+
+    if (type === 'propertiesPanelHeaderProvider') {
+      return this._options.propertiesPanelHeaderProvider;
+    }
   }
 }
 
