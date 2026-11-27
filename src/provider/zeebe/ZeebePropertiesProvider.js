@@ -10,6 +10,7 @@ import {
   BusinessIdProps,
   BusinessRuleImplementationProps,
   CalledDecisionProps,
+  CaseProps,
   ConditionProps,
   EventConditionProps,
   ErrorProps,
@@ -29,6 +30,7 @@ import {
   ScriptImplementationProps,
   ScriptProps,
   SignalProps,
+  StageProps,
   TargetProps,
   TaskDefinitionProps,
   TaskListenersProps,
@@ -67,6 +69,8 @@ const ZEEBE_GROUPS = [
   AssignmentDefinitionGroup,
   ActiveElementsGroup,
   FormGroup,
+  CaseGroup,
+  StageGroup,
   ConditionGroup,
   EventConditionGroup,
   TargetGroup,
@@ -265,6 +269,34 @@ function TargetGroup(element, injector) {
     label: translate('Called element'),
     entries: [
       ...TargetProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function CaseGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'case',
+    label: translate('Case'),
+    entries: [
+      ...CaseProps({ element })
+    ],
+    component: Group
+  };
+
+  return group.entries.length ? group : null;
+}
+
+function StageGroup(element, injector) {
+  const translate = injector.get('translate');
+  const group = {
+    id: 'stage',
+    label: translate('Stage'),
+    entries: [
+      ...StageProps({ element })
     ],
     component: Group
   };

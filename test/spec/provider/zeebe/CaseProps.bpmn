@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.11.0">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_Case" processRef="Process_Case" />
+    <bpmn:participant id="Participant_NoCase" processRef="Process_NoCase" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_Case" isExecutable="true">
+    <bpmn:extensionElements>
+      <zeebe:case title="loanTitle" caseForm="loan-case-details" />
+    </bpmn:extensionElements>
+  </bpmn:process>
+  <bpmn:process id="Process_NoCase" isExecutable="true" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Participant_Case_di" bpmnElement="Participant_Case" isHorizontal="true">
+        <dc:Bounds x="100" y="80" width="400" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_NoCase_di" bpmnElement="Participant_NoCase" isHorizontal="true">
+        <dc:Bounds x="100" y="320" width="400" height="200" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
