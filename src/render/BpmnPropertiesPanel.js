@@ -36,6 +36,7 @@ const DEFAULT_FEEL_LANGUAGE_CONTEXT = {
  * @param {HTMLElement} props.feelPopupContainer
  * @param {Function} props.getFeelPopupLinks
  * @param {Object} props.feelLanguageContext
+ * @param {Object} [props.headerProvider] custom provider for the panel header
  * @param {HTMLElement} [props.headerParent]
  */
 export default function BpmnPropertiesPanel(props) {
@@ -49,6 +50,7 @@ export default function BpmnPropertiesPanel(props) {
     feelPopupContainer,
     getFeelPopupLinks,
     feelLanguageContext,
+    headerProvider: customHeaderProvider,
     headerParent
   } = props;
 
@@ -104,7 +106,13 @@ export default function BpmnPropertiesPanel(props) {
   const separateHeader = !!headerParent;
   const renderSeparateHeader = separateHeader && selectedElement && !isArray(selectedElement);
 
-  const headerProvider = PanelHeaderProvider(translate);
+  // The header provider may be customized through the `headerProvider`
+  // prop or a `propertiesPanelHeaderProvider` service. Both take
+  // precedence over the default BPMN header provider.
+  const headerProvider =
+    customHeaderProvider ||
+    injector.get('propertiesPanelHeaderProvider', false) ||
+    PanelHeaderProvider(translate);
   const mergedFeelLanguageContext = useMemo(() => ({
     ...DEFAULT_FEEL_LANGUAGE_CONTEXT,
     ...feelLanguageContext
