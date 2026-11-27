@@ -84,6 +84,10 @@ const SINGLETON_ENTRY_SCHEMES = {
   'zeebe:VersionTag': {
     value: 'versionTag'
   },
+  'zeebe:Case': {
+    title: 'caseTitle',
+    caseForm: 'caseForm'
+  },
   'zeebe:AdHoc': {
     activeElementsCollection: 'activeElements-activeElementsCollection',
     outputCollection: 'adHocOutputCollection',

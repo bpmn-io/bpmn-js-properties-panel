@@ -6,6 +6,8 @@ All notable changes to [bpmn-js-properties-panel](https://github.com/bpmn-io/bpm
 
 ___Note:__ Yet to be released changes appear here._
 
+* `FEAT`: add `Case` group for `zeebe:Case` on processes and `Stage` group for `zeebe:Stage` on sub-processes
+
 ## 5.65.4
 
 * `FIX`: handle selections made before the properties panel's first render ([#1259](https://github.com/bpmn-io/bpmn-js-properties-panel/issues/1259))
